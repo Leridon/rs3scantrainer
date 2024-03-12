@@ -1415,7 +1415,7 @@ code: "1",
 name: "Edgeville Dungeon",
                 menu_ticks: 1,
                 animation_ticks: default_teleport_ticks
-            },  
+            },
             {
                 id: "dwarvenmine",
 target: {origin: {x: 3035, y: 9772, level: 0}},
@@ -2418,306 +2418,298 @@ name: "Goshima Docks",
                 animation_ticks: 1
             },
         ]
-    },
-    {
-        type: "teleports",
-        id: "arctabs",
-name: "Arc Journal",
-img: {url: "arcjournal.png"},
-        spots: [
-            {
-                id: "sarim",
-target: {origin: {x: 3052, y: 3247, level: 0}},
-name: "Port Sarim",
-code: "1",
-                menu_ticks: 1,
-                animation_ticks: 3
-            },
-            {
-                id: "waiko",
-target: {origin: {x: 1824, y: 11612, level: 0}},
-name: "Waiko",
-code: "2",
-                menu_ticks: 1,
-                animation_ticks: 3
-            },
-            {
-                id: "whalesmaw",
-target: {origin: {x: 2062, y: 11798, level: 0}},
-name: "Whale's Maw",
-code: "3",
-                menu_ticks: 1,
-                animation_ticks: 3
-            },
-            {
-                id: "aminishi",
-target: {origin: {x: 2088, y: 11274, level: 0}},
-name: "Aminishi",
-code: "4",
-                menu_ticks: 1,
-                animation_ticks: 3
-            },
-            {
-                id: "cyclosis",
-target: {origin: {x: 2318, y: 11225, level: 0}},
-name: "Cyclosis",
-code: "5",
-                menu_ticks: 1,
-                animation_ticks: 3
-            },
-            {
-                id: "tuaileit",
-target: {origin: {x: 1800, y: 11960, level: 0}},
-name: "Tuai Leit",
-code: "6",
-                menu_ticks: 1,
-                animation_ticks: 3
-            },
-            {
-                id: "turtleislands",
-target: {origin: {x: 2278, y: 11504, level: 0}},
-name: "Turtle Islands",
-code: "7",
-                menu_ticks: 1,
-                animation_ticks: 3
-            },
-            {
-                id: "goshima",
-target: {origin: {x: 2459, y: 11547, level: 0}},
-name: "Goshima",
-code: "8",
-                menu_ticks: 1,
-                animation_ticks: 3
-            },
-        ]
-    },
-    {
-        type: "teleports",
-        id: "quiver",
-name: "Tirannwn quiver",
-img: {url: "quiver.gif"},
-        spots: [
-            {
-                id: "lletya",
-target: {origin: {x: 2348, y: 3172, level: 0}},
-name: "Lletya",
-code: "1",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "tyras",
-target: {origin: {x: 2186, y: 3148, level: 0}},
-name: "Tyras Camp",
-code: "3",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "poisonwaste",
-target: {origin: {x: 2321, y: 3102, level: 0}},
-name: "Poison Waste",
-code: "4",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "deathaltar",
-target: { origin: {"x": 1858, "y": 4639, "level": 0} },
-name: "Death Altar",
-code: "5",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "elfcamp",
-target: {origin: {x: 2202, y: 3255, level: 0}},
-name: "Elf Camp",
-code: "6",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "mushroompatch",
-target: {origin: {x: 2227, y: 3136, level: 0}},
-name: "Mushroom Patch",
-code: "7",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "harmonypillars",
-target: {origin: {x: 2219, y: 3397, level: 0}},
-name: "Harmony Pillars",
-code: "8",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-        ]
-    },
-    {
-        type: "teleports",
-        id: "sceptreofthegods",
-name: "Sceptre of the gods",
-img: {url: "sotg.png"},
-        spots: [
-            {
-                id: "pyramidpain",
-target: {origin: {"x":1942,"y":4498,"level":0}},
-name: "Pyramid Plunder",
-code: "1",
-                menu_ticks: 1,
-                animation_ticks: 3
-            }, 
-            {
-                id: "agility",
-target: {origin: {x: 3344, y: 2832, level: 0}},
-name: "Agility Pyramid",
-code: "2",
-                menu_ticks: 1,
-                animation_ticks: 3
-            },
-            {
-                id: "ancient",
-target: {origin: {x: 3233, y: 2898, level: 0}},
-name: "Ancient Pyramid",
-code: "3",
-                menu_ticks: 1,
-                animation_ticks: 3
-            },
-            {
-                id: "palace",
-target: {origin: {x: 3169, y: 2730, level: 0}},
-name: "Golden Palace",
-code: "4",
-                menu_ticks: 1,
-                animation_ticks: 3
-            },
-        ]
     },*/
     {
         type: "teleports",
-        id: "gliders",
-        name: "Gnome gliders",
-        img: {url: "glider.png"},
+        id: "arctabs",
+        name: "Arc Journal",
+        img: {url: "arcjournal.png"},
         menu_ticks: 1,
         animation_ticks: 3,
         spots: [
             {
-                id: "grandtree",
-                target: {origin: {"x": 2465, "y": 3501, "level": 3}},
-                name: "Ta Quir Priw",
+                id: "sarim",
+                target: {"origin": {"x": 3050, "y": 3245, "level": 0}, "size": {"x": 4, "y": 4}, "data": "/64="},
+                name: "Port Sarim",
                 code: "1",
             },
             {
-                id: "whitewolfmountain",
-                target: {origin: {"x": 2850, "y": 3494, "level": 1}},
-                name: "Sindarpos",
+                id: "waiko",
+                target: {"origin": {"x": 1820, "y": 11613, "level": 0}, "size": {"x": 5, "y": 5}},
+                name: "Waiko",
                 code: "2",
             },
             {
-                id: "digside",
-                target: {origin: {"x": 3319, "y": 3438, "level": 0}},
-                name: "Lemanto Andra",
+                id: "whalesmaw",
+                target: {"origin": {"x": 2058, "y": 11797, "level": 0}, "size": {"x": 5, "y": 4}, "data": "778P"},
+                name: "Whale's Maw",
                 code: "3",
             },
             {
-                id: "alkharid",
-                target: {origin: {"x": 3284, "y": 3211, "level": 0}},
-                name: "Kar-Hewo",
+                id: "aminishi",
+                target: {"origin": {"x": 2085, "y": 11273, "level": 0}, "size": {"x": 5, "y": 5}, "data": "//83AA=="},
+                name: "Aminishi",
                 code: "4",
             },
             {
-                id: "karamja",
-                target: {origin: {"x": 2971, "y": 2969, "level": 0}},
-                name: "Gandius",
+                id: "cyclosis",
+                target: {"origin": {"x": 2314, "y": 11222, "level": 0}, "size": {"x": 5, "y": 5}},
+                name: "Cyclosis",
                 code: "5",
             },
             {
-                id: "feldiphills",
-                target: {origin: {"x": 2549, "y": 2971, "level": 0}},
-                name: "Lemantolly Undri",
+                id: "tuaileit",
+                target: {"origin": {"x": 1797, "y": 11959, "level": 0}, "size": {"x": 5, "y": 5}},
+                name: "Tuai Leit",
                 code: "6",
             },
             {
-                id: "treegnomevillage",
-                target: {origin: {"x": 2496, "y": 3191, "level": 0}},
-                name: "Priw Gnomo Andralo",
+                id: "turtleislands",
+                target: {"origin": {"x": 2277, "y": 11502, "level": 0}, "size": {"x": 3, "y": 4}, "data": "/wc="},
+                name: "Turtle Islands",
                 code: "7",
             },
             {
-                id: "prifddinas",
-                target: {origin: {x: 2208, y: 3445, level: 1}},
-                name: "Dylandra",
+                id: "goshima",
+                target: {"origin": {"x": 2459, "y": 11546, "level": 0}, "size": {"x": 4, "y": 2}, "data": "Lw=="},
+                name: "Goshima",
                 code: "8",
             },
-            {
-                id: "tualeit",
-                target: {origin: {"x": 1772, "y": 11920, "level": 0}},
-                name: "Kal-Undri",
-                code: "9",
-            },
         ],
-        access: [
+        access: [{
+            id: "journal",
+            type: "item",
+            name: {name: "Arc journal", kind: "item"},
+            action_name: "Teleport",
+        }]
+    },/*
             {
-                id: "grandtree",
-                type: "entity",
-                clickable_area: {origin: {"x": 2464, "y": 3502, "level": 3}},
-                name: {kind: "npc", name: "Captain Errdo"},
-                action_name: "Glider",
+                type: "teleports",
+                id: "quiver",
+                name: "Tirannwn quiver",
+                img: {url: "quiver.gif"},
+                spots: [
+                    {
+                        id: "lletya",
+                        target: {origin: {x: 2348, y: 3172, level: 0}},
+                        name: "Lletya",
+                        code: "1",
+                        menu_ticks: 1,
+                        animation_ticks: 5
+                    },
+                    {
+                        id: "tyras",
+                        target: {origin: {x: 2186, y: 3148, level: 0}},
+                        name: "Tyras Camp",
+                        code: "3",
+                        menu_ticks: 1,
+                        animation_ticks: 5
+                    },
+                    {
+                        id: "poisonwaste",
+                        target: {origin: {x: 2321, y: 3102, level: 0}},
+                        name: "Poison Waste",
+                        code: "4",
+                        menu_ticks: 1,
+                        animation_ticks: 5
+                    },
+                    {
+                        id: "deathaltar",
+                        target: {origin: {"x": 1858, "y": 4639, "level": 0}},
+                        name: "Death Altar",
+                        code: "5",
+                        menu_ticks: 1,
+                        animation_ticks: 5
+                    },
+                    {
+                        id: "elfcamp",
+                        target: {origin: {x: 2202, y: 3255, level: 0}},
+                        name: "Elf Camp",
+                        code: "6",
+                        menu_ticks: 1,
+                        animation_ticks: 5
+                    },
+                    {
+                        id: "mushroompatch",
+                        target: {origin: {x: 2227, y: 3136, level: 0}},
+                        name: "Mushroom Patch",
+                        code: "7",
+                        menu_ticks: 1,
+                        animation_ticks: 5
+                    },
+                    {
+                        id: "harmonypillars",
+                        target: {origin: {x: 2219, y: 3397, level: 0}},
+                        name: "Harmony Pillars",
+                        code: "8",
+                        menu_ticks: 1,
+                        animation_ticks: 5
+                    },
+                ]
             },
             {
-                id: "whitewolfmountain",
-                type: "entity",
-                clickable_area: {origin: {"x": 2850, "y": 3493, "level": 1}},
-                name: {kind: "npc", name: "Captain Bleemadge"},
-                action_name: "Glider",
-            },
-            {
-                id: "alkharid",
-                type: "entity",
-                clickable_area: {origin: {"x": 3283, "y": 3212, "level": 0}},
-                name: {kind: "npc", name: "Captain Dalbur"},
-                action_name: "Glider",
-            },
-            {
-                id: "karamja",
-                type: "entity",
-                clickable_area: {origin: {"x": 2970, "y": 2973, "level": 0}},
-                name: {kind: "npc", name: "Captain Klemfoodle"},
-                action_name: "Glider",
-            },
-            {
-                id: "feldip",
-                type: "entity",
-                clickable_area: {origin: {"x": 2545, "y": 2972, "level": 0}}, // TODO: He is not static
-                name: {kind: "npc", name: "Gnormadium Avlafrim"},
-                action_name: "Glider",
-            },
-            {
-                id: "gnomevillage",
-                type: "entity",
-                clickable_area: {origin: {"x": 2496, "y": 3190, "level": 0}}, // TODO: He is not static
-                name: {kind: "npc", name: "Captain Belmondo"},
-                action_name: "Glider",
-            },
-            {
-                id: "prifddinas",
-                type: "entity",
-                clickable_area: {origin: {"x": 2207, "y": 3452, "level": 1}},
-                name: {kind: "npc", name: "Captain Muggin"},
-                action_name: "Glider",
-            },
-            {
-                id: "tuaeileit",
-                type: "entity",
-                clickable_area: {origin: {"x": 1773, "y": 11919, "level": 0}},
-                name: {kind: "npc", name: "Azalea Oakhart"},
-                action_name: "Glider",
-            },
+                type: "teleports",
+                id: "sceptreofthegods",
+                name: "Sceptre of the gods",
+                img: {url: "sotg.png"},
+                spots: [
+                    {
+                        id: "pyramidpain",
+                        target: {origin: {"x": 1942, "y": 4498, "level": 0}},
+                        name: "Pyramid Plunder",
+                        code: "1",
+                        menu_ticks: 1,
+                        animation_ticks: 3
+                    },
+                    {
+                        id: "agility",
+                        target: {origin: {x: 3344, y: 2832, level: 0}},
+                        name: "Agility Pyramid",
+                        code: "2",
+                        menu_ticks: 1,
+                        animation_ticks: 3
+                    },
+                    {
+                        id: "ancient",
+                        target: {origin: {x: 3233, y: 2898, level: 0}},
+                        name: "Ancient Pyramid",
+                        code: "3",
+                        menu_ticks: 1,
+                        animation_ticks: 3
+                    },
+                    {
+                        id: "palace",
+                        target: {origin: {x: 3169, y: 2730, level: 0}},
+                        name: "Golden Palace",
+                        code: "4",
+                        menu_ticks: 1,
+                        animation_ticks: 3
+                    },
+                ]
+            }, * /
+        {
+            type: "teleports",
+            id: "gliders",
+            name: "Gnome gliders",
+            img: {url: "glider.png"},
+            menu_ticks: 1,
+            animation_ticks: 3,
+            spots: [
+                {
+                    id: "grandtree",
+                    target: {origin: {"x": 2465, "y": 3501, "level": 3}},
+                    name: "Ta Quir Priw",
+                    code: "1",
+                },
+                {
+                    id: "whitewolfmountain",
+                    target: {origin: {"x": 2850, "y": 3494, "level": 1}},
+                    name: "Sindarpos",
+                    code: "2",
+                },
+                {
+                    id: "digside",
+                    target: {origin: {"x": 3319, "y": 3438, "level": 0}},
+                    name: "Lemanto Andra",
+                    code: "3",
+                },
+                {
+                    id: "alkharid",
+                    target: {origin: {"x": 3284, "y": 3211, "level": 0}},
+                    name: "Kar-Hewo",
+                    code: "4",
+                },
+                {
+                    id: "karamja",
+                    target: {origin: {"x": 2971, "y": 2969, "level": 0}},
+                    name: "Gandius",
+                    code: "5",
+                },
+                {
+                    id: "feldiphills",
+                    target: {origin: {"x": 2549, "y": 2971, "level": 0}},
+                    name: "Lemantolly Undri",
+                    code: "6",
+                },
+                {
+                    id: "treegnomevillage",
+                    target: {origin: {"x": 2496, "y": 3191, "level": 0}},
+                    name: "Priw Gnomo Andralo",
+                    code: "7",
+                },
+                {
+                    id: "prifddinas",
+                    target: {origin: {x: 2208, y: 3445, level: 1}},
+                    name: "Dylandra",
+                    code: "8",
+                },
+                {
+                    id: "tualeit",
+                    target: {origin: {"x": 1772, "y": 11920, "level": 0}},
+                    name: "Kal-Undri",
+                    code: "9",
+                },
+            ],
+            access: [
+                {
+                    id: "grandtree",
+                    type: "entity",
+                    clickable_area: {origin: {"x": 2464, "y": 3502, "level": 3}},
+                    name: {kind: "npc", name: "Captain Errdo"},
+                    action_name: "Glider",
+                },
+                {
+                    id: "whitewolfmountain",
+                    type: "entity",
+                    clickable_area: {origin: {"x": 2850, "y": 3493, "level": 1}},
+                    name: {kind: "npc", name: "Captain Bleemadge"},
+                    action_name: "Glider",
+                },
+                {
+                    id: "alkharid",
+                    type: "entity",
+                    clickable_area: {origin: {"x": 3283, "y": 3212, "level": 0}},
+                    name: {kind: "npc", name: "Captain Dalbur"},
+                    action_name: "Glider",
+                },
+                {
+                    id: "karamja",
+                    type: "entity",
+                    clickable_area: {origin: {"x": 2970, "y": 2973, "level": 0}},
+                    name: {kind: "npc", name: "Captain Klemfoodle"},
+                    action_name: "Glider",
+                },
+                {
+                    id: "feldip",
+                    type: "entity",
+                    clickable_area: {origin: {"x": 2545, "y": 2972, "level": 0}}, // TODO: He is not static
+                    name: {kind: "npc", name: "Gnormadium Avlafrim"},
+                    action_name: "Glider",
+                },
+                {
+                    id: "gnomevillage",
+                    type: "entity",
+                    clickable_area: {origin: {"x": 2496, "y": 3190, "level": 0}}, // TODO: He is not static
+                    name: {kind: "npc", name: "Captain Belmondo"},
+                    action_name: "Glider",
+                },
+                {
+                    id: "prifddinas",
+                    type: "entity",
+                    clickable_area: {origin: {"x": 2207, "y": 3452, "level": 1}},
+                    name: {kind: "npc", name: "Captain Muggin"},
+                    action_name: "Glider",
+                },
+                {
+                    id: "tuaeileit",
+                    type: "entity",
+                    clickable_area: {origin: {"x": 1773, "y": 11919, "level": 0}},
+                    name: {kind: "npc", name: "Azalea Oakhart"},
+                    action_name: "Glider",
+                },
 
-        ]
-    },
+            ]
+        },
 
     /*{
 type: "teleports",
@@ -3375,267 +3367,249 @@ name: "Overgrown Idols - North of the Jadinko vine cave",
     },
 
 ]
-},
-{
-type: "teleports",
-id: "archteleport",
-name: "Archaeology teleport (or outfit)",
-img: {url: "archteleport.png"},
-spots: [
-    {
-        id: "campus",
-target: {origin: {x: 3329, y: 3379, level: 0}},
-code: "1",
-name: "Archaeology Campus",
-        menu_ticks: 1,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "kharidet",
-target: {origin: {x: 3349, y: 3195, level: 0}},
-code: "2",
-name: "Kharid-et",
-        menu_ticks: 1,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "infernal",
-target: {origin: {x: 3271, y: 3504, level: 0}},
-code: "3",
-name: "Infernal Source",
-        menu_ticks: 1,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "everlight",
-target: {origin: {x: 3695, y: 3209, level: 0}},
-code: "4",
-name: "Everlight",
-        menu_ticks: 1,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "senntisten",
-target: {origin: {x: 1784, y: 1295, level: 0}},
-code: "5",
-name: "Senntisten",
-        menu_ticks: 1,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "stormguard",
-target: {origin: {x: 2682, y: 3403, level: 0}},
-code: "6",
-name: "Stormguard Citadel",
-        menu_ticks: 1,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "warforge",
-target: {origin: {x: 2409, y: 2824, level: 0}},
-code: "7",
-name: "Warforge",
-        menu_ticks: 1,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "orthen",
-target: {origin: {x: 5456, y: 2339, level: 0}},
-code: "8",
-name: "Orthen",
-        menu_ticks: 1,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "jacques",
-target: {origin: {x: 3254, y: 3455, level: 0}},
-code: "9,1",
-name: "Collectors - Art Critic Jacques",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "tess",
-target: {origin: {x: 2550, y: 2854, level: 0}},
-code: "9,2",
-name: "Collectors - Chief Tess",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "generals",
-target: {origin: {x: 2957, y: 3510, level: 0}},
-code: "9,3",
-name: "Collectors - Generals Bentnoze & Wartface",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "isaura",
-target: {origin: {x: 2921, y: 9702, level: 0}},
-code: "9,4",
-name: "Collectors - Isaura",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "lowse",
-target: {origin: {x: 2988, y: 3269, level: 0}},
-code: "9,5",
-name: "Collectors - Lowse",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "sharrigan",
-target: {origin: {x: 5456, y: 2344, level: 0}},
-code: "9,6",
-name: "Collectors - Sharrigan",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "atcha",
-target: {origin: {x: 2962, y: 3347, level: 0}},
-code: "9,7",
-name: "Collectors - Sir Atcha",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "soran",
-target: {origin: {x: 3181, y: 3417, level: 0}},
-code: "9,8",
-name: "Collectors - Soran",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "velucia",
-target: {origin: {x: 3342, y: 3384, level: 0}},
-code: "9,9",
-name: "Collectors - Velucia",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "wiseoldman",
-target: {origin: {x: 3088, y: 3254, level: 0}},
-code: "9,0,1",
-name: "Collectors - Wise Old Man",
-        menu_ticks: 3,
-        animation_ticks: default_teleport_ticks
-    },
-]
-},
-{
-type: "teleports",
-id: "ringofkinship",
-name: "Ring of Kinship",
-img: {url: "ringofkinship.png"}, spots: [{
-    id: "daemonheim",
-    name: "Daemonheim",
-    target: {origin: {x: 3449, y: 3701, level: 0}},
-    menu_ticks: 1,
-    animation_ticks: 13
-}]
-},
-{
-type: "teleports",
-id: "witchdoctormask",
-name: "Witchdoctor mask",
-img: {url: "witchdoctormask.png"},
-spots: [{
-    id: "herblorehabitat",
-target: {origin: {x: 2950, y: 2933, level: 0}},
-name: "Herblore Habitat",
-    menu_ticks: 1,
-    animation_ticks: default_teleport_ticks
-}]
-},
-{
-type: "teleports",
-id: "ecctophial",
-name: "Ectophial",
-img: {url: "ectophial.png"}, spots: [{
-    id: "ectofunctus",
-    name: "Ectofunctus",
-    target: {origin: {x: 3660, y: 3521, level: 0}},
-    menu_ticks: 0,
-    animation_ticks: 10
-}]
-},
-{
-type: "teleports",
-id: "explorersring",
-name: "Explorer's ring",
-img: {url: "explorersring.png"},
-spots: [{
-    id: "cabbagefield",
-target: {origin: {x: 3053, y: 3290, level: 0}},
-name: "Cabbage field",
-    menu_ticks: 1,
-    animation_ticks: 5
-}]
-},
-{
-type: "teleports",
-id: "karamjagloves",
-name: "Karamja gloves",
-img: {url: "karamjagloves.gif"},
-spots: [{
-    id: "gemmine",
-    name: "Gem Mine",
-    target: {origin: {x: 2825, y: 2997, level: 0}},
-    menu_ticks: 1,
-    animation_ticks: 5
-}]
-},
-{
-type: "teleports",
-id: "theheart",
-name: "The Heart teleport",
-img: {url: "theheart.gif"},
-spots: [{
-    id: "center",
-    name: "The Heart",
-    target: {origin: {x: 3199, y: 6942, level: 0}},
-    menu_ticks: 0,
-    animation_ticks: 4
-}]
-},
-{
-type: "teleports",
-id: "fremmenikboots",
-name: "Fremmenik sea boots",
-img: {url: "fremmenikboots.gif"},
-spots: [{
-    id: "relekkamarket",
-target: {origin: {x: 2642, y: 3678, level: 0}},
-name: "Relekka Market",
-    menu_ticks: 1,
-    animation_ticks: default_teleport_ticks
-}]
 },*/
     {
         type: "teleports",
-        id: "legendscape",
-        name: "Legends Cape",
-        img: {url: "legendscape.png"},
-        spots: [{
-            id: "legendsguild",
-            target: {origin: {x: 2728, y: 3348, level: 0}},
-            name: "Legend's Guild",
-            animation_ticks: default_teleport_ticks
-        }],
+        id: "archteleport",
+        name: "Archaeology teleport (or outfit)",
+        menu_ticks: 1,
+        animation_ticks: default_teleport_ticks,
+        spots: [
+            {
+                id: "campus",
+                target: {"origin": {"x": 3336, "y": 3378, "level": 0}},
+                code: "1",
+                name: "Archaeology Campus",
+            },
+            {
+                id: "kharidet",
+                target: {"origin": {"x": 3345, "y": 3194, "level": 0}},
+                code: "2",
+                name: "Kharid-et",
+            },
+            {
+                id: "infernal",
+                target: {"origin": {"x": 3271, "y": 3504, "level": 0}},
+                code: "3",
+                name: "Infernal Source",
+            },
+            {
+                id: "everlight",
+                target: {"origin": {"x": 3697, "y": 3206, "level": 0}},
+                code: "4",
+                name: "Everlight",
+            },
+            {
+                id: "senntisten",
+                target: {"origin": {"x": 1784, "y": 1296, "level": 0}},
+                code: "5",
+                name: "Senntisten",
+            },
+            {
+                id: "stormguard",
+                target: {"origin": {"x": 2680, "y": 3403, "level": 0}},
+                code: "6",
+                name: "Stormguard Citadel",
+            },
+            {
+                id: "warforge",
+                target: {"origin": {"x": 2409, "y": 2824, "level": 0}},
+                code: "7",
+                name: "Warforge",
+            },
+            {
+                id: "orthen",
+                target: {"origin": {"x": 5457, "y": 2339, "level": 0}},
+                code: "8",
+                name: "Orthen",
+            },
+            {
+                id: "jacques",
+                target: {"origin": {"x": 3254, "y": 3453, "level": 2}},
+                code: "9,1",
+                name: "Collectors - Art Critic Jacques",
+                menu_ticks: 2,
+            },
+            {
+                id: "tess",
+                target: {"origin": {"x": 2550, "y": 2853, "level": 0}},
+                code: "9,2",
+                name: "Collectors - Chief Tess",
+                menu_ticks: 2,
+            },
+            {
+                id: "generals",
+                target: {"origin": {"x": 2956, "y": 3509, "level": 0}},
+                code: "9,3",
+                name: "Collectors - Generals Bentnoze & Wartface",
+                menu_ticks: 2,
+            },
+            {
+                id: "isaura",
+                target: {"origin": {"x": 2921, "y": 9701, "level": 0}},
+                code: "9,4",
+                name: "Collectors - Isaura",
+                menu_ticks: 2,
+            },
+            {
+                id: "lowse",
+                target: {"origin": {"x": 2985, "y": 3268, "level": 0}},
+                code: "9,5",
+                name: "Collectors - Lowse",
+                menu_ticks: 2,
+            },
+            {
+                id: "sharrigan",
+                target: {"origin": {"x": 5456, "y": 2344, "level": 0}},
+                code: "9,6",
+                name: "Collectors - Sharrigan",
+                menu_ticks: 2,
+            },
+            {
+                id: "atcha",
+                target: {"origin": {"x": 2963, "y": 3346, "level": 0}},
+                code: "9,7",
+                name: "Collectors - Sir Atcha",
+                menu_ticks: 2,
+            },
+            {
+                id: "soran",
+                target: {"origin": {"x": 3181, "y": 3417, "level": 0}},
+                code: "9,8",
+                name: "Collectors - Soran",
+                menu_ticks: 2,
+            },
+            {
+                id: "velucia",
+                target: {"origin": {"x": 3342, "y": 3382, "level": 0}},
+                code: "9,9",
+                name: "Collectors - Velucia",
+                menu_ticks: 2,
+            },
+            {
+                id: "wiseoldman",
+                target: {"origin": {"x": 3088, "y": 3254, "level": 0}},
+                code: "9,0,1",
+                name: "Collectors - Wise Old Man",
+                menu_ticks: 3,
+            },
+        ],
         access: [{
-            id: "cape",
+            id: "scrolls",
             type: "item",
-            action_name: "Teleport",
-            name: {kind: "item", name: "Cape of legends"},
-            menu_ticks: 1,
-        }]
+            img: {url: "archteleport.png"},
+            name: {name: "Archaeology teleport", kind: "item"},
+            action_name: "Teleport"
+        }] // TODO: Outfit
     },/*
+            {
+                type: "teleports",
+                id: "ringofkinship",
+                name: "Ring of Kinship",
+                img: {url: "ringofkinship.png"}, spots: [{
+                    id: "daemonheim",
+                    name: "Daemonheim",
+                    target: {origin: {x: 3449, y: 3701, level: 0}},
+                    menu_ticks: 1,
+                    animation_ticks: 13
+                }]
+            },
+            {
+                type: "teleports",
+                id: "witchdoctormask",
+                name: "Witchdoctor mask",
+                img: {url: "witchdoctormask.png"},
+                spots: [{
+                    id: "herblorehabitat",
+                    target: {origin: {x: 2950, y: 2933, level: 0}},
+                    name: "Herblore Habitat",
+                    menu_ticks: 1,
+                    animation_ticks: default_teleport_ticks
+                }]
+            },
+            {
+                type: "teleports",
+                id: "ecctophial",
+                name: "Ectophial",
+                img: {url: "ectophial.png"}, spots: [{
+                    id: "ectofunctus",
+                    name: "Ectofunctus",
+                    target: {origin: {x: 3660, y: 3521, level: 0}},
+                    menu_ticks: 0,
+                    animation_ticks: 10
+                }]
+            },
+            {
+                type: "teleports",
+                id: "explorersring",
+                name: "Explorer's ring",
+                img: {url: "explorersring.png"},
+                spots: [{
+                    id: "cabbagefield",
+                    target: {origin: {x: 3053, y: 3290, level: 0}},
+                    name: "Cabbage field",
+                    menu_ticks: 1,
+                    animation_ticks: 5
+                }]
+            },
+            {
+                type: "teleports",
+                id: "karamjagloves",
+                name: "Karamja gloves",
+                img: {url: "karamjagloves.gif"},
+                spots: [{
+                    id: "gemmine",
+                    name: "Gem Mine",
+                    target: {origin: {x: 2825, y: 2997, level: 0}},
+                    menu_ticks: 1,
+                    animation_ticks: 5
+                }]
+            },
+            {
+                type: "teleports",
+                id: "theheart",
+                name: "The Heart teleport",
+                img: {url: "theheart.gif"},
+                spots: [{
+                    id: "center",
+                    name: "The Heart",
+                    target: {origin: {x: 3199, y: 6942, level: 0}},
+                    menu_ticks: 0,
+                    animation_ticks: 4
+                }]
+            },
+            {
+                type: "teleports",
+                id: "fremmenikboots",
+                name: "Fremmenik sea boots",
+                img: {url: "fremmenikboots.gif"},
+                spots: [{
+                    id: "relekkamarket",
+                    target: {origin: {x: 2642, y: 3678, level: 0}},
+                    name: "Relekka Market",
+                    menu_ticks: 1,
+                    animation_ticks: default_teleport_ticks
+                }]
+            }, * /
+        {
+            type: "teleports",
+            id: "legendscape",
+            name: "Legends Cape",
+            img: {url: "legendscape.png"},
+            spots: [{
+                id: "legendsguild",
+                target: {origin: {x: 2728, y: 3348, level: 0}},
+                name: "Legend's Guild",
+                animation_ticks: default_teleport_ticks
+            }],
+            access: [{
+                id: "cape",
+                type: "item",
+                action_name: "Teleport",
+                name: {kind: "item", name: "Cape of legends"},
+                menu_ticks: 1,
+            }]
+        },/*
     {
         type: "teleports",
         id: "archjounal",

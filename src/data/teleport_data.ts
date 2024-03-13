@@ -3670,20 +3670,28 @@ name: "Sepulchre of Death",
                 animation_ticks: default_teleport_ticks
             },
         ]
-    },
+    },*/
     {
         type: "teleports",
         id: "dragonkinlaboratory",
         name: "Dragonkin Laboratory teleport",
-        img: {url: "dragonkin.png"},
+        menu_ticks: 1,
+        animation_ticks: default_teleport_ticks + 1,
         spots: [{
-            id: "",
-            target: {origin: {x: 3368, y: 3887, level: 0}},
+            id: "spot",
+            target: {"origin": {"x": 3367, "y": 3887, "level": 0}, "size": {"x": 5, "y": 5}, "data": "/39CAA=="},
             name: "Dragonkin Laboratory",
-            menu_ticks: 1,
-            animation_ticks: default_teleport_ticks + 1
-        }]
-    },
+        }],
+        access: [
+            {
+                type: "item",
+                img: {url: "dragonkin.png"},
+                name: {kind: "item", name: "Dragonkin Laboratory teleport"},
+                action_name: "Break",
+                id: "tablet"
+            }
+        ]
+    },/*
     {
         type: "teleports",
         id: "wildernessobelisk",

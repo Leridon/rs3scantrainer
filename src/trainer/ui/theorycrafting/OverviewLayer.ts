@@ -13,6 +13,8 @@ export default class OverviewLayer extends GameLayer {
 
     public marker_index: ClueSpotIndex<{ markers: ClueOverviewMarker[] }>
 
+    update_promise: Promise<any> = Promise.resolve()
+
     constructor(private app: Application, private edit_handler: (_: AugmentedMethod) => any) {
         super();
 
@@ -27,7 +29,9 @@ export default class OverviewLayer extends GameLayer {
     }
 
     private async updateVisibleMarkersByFilter() {
-        await Promise.all(this.marker_index.flat().map(async c => {
+        await this.update_promise
+
+        this.update_promise = Promise.all(this.marker_index.flat().map(async c => {
                 let visible = this.filter_control.index.get(ClueSpot.toId(c.for)).visible
 
                 if (!visible && c.markers.length > 0) {

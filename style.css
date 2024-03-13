@@ -10,7 +10,7 @@ html, body, #main-content {
 }
 
 html, body {
-    width: 100vh;
+    width: 100vw;
     height: 100vh;
 }
 
@@ -937,6 +937,12 @@ video {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap
+}
+
+.nisl-selectdropdown-input.disabled {
+    cursor: default;
+    background: linear-gradient(to bottom, #2C2C2C, #4A4A4A, #1c1c1c);
+    filter: grayscale(1) brightness(0.7);
 }
 
 .nisl-selectdropdown-options {

@@ -64593,115 +64593,26 @@ name: "Overgrown Idols - North of the Jadinko vine cave",
                 name: { name: "Archaeology teleport", kind: "item" },
                 action_name: "Teleport"
             }] // TODO: Outfit
-    }, /*
-            {
-                type: "teleports",
-                id: "ringofkinship",
-                name: "Ring of Kinship",
-                img: {url: "ringofkinship.png"}, spots: [{
-                    id: "daemonheim",
-                    name: "Daemonheim",
-                    target: {origin: {x: 3449, y: 3701, level: 0}},
-                    menu_ticks: 1,
-                    animation_ticks: 13
-                }]
-            },
-            {
-                type: "teleports",
-                id: "witchdoctormask",
-                name: "Witchdoctor mask",
-                img: {url: "witchdoctormask.png"},
-                spots: [{
-                    id: "herblorehabitat",
-                    target: {origin: {x: 2950, y: 2933, level: 0}},
-                    name: "Herblore Habitat",
-                    menu_ticks: 1,
-                    animation_ticks: default_teleport_ticks
-                }]
-            },
-            {
-                type: "teleports",
-                id: "ecctophial",
-                name: "Ectophial",
-                img: {url: "ectophial.png"}, spots: [{
-                    id: "ectofunctus",
-                    name: "Ectofunctus",
-                    target: {origin: {x: 3660, y: 3521, level: 0}},
-                    menu_ticks: 0,
-                    animation_ticks: 10
-                }]
-            },
-            {
-                type: "teleports",
-                id: "explorersring",
-                name: "Explorer's ring",
-                img: {url: "explorersring.png"},
-                spots: [{
-                    id: "cabbagefield",
-                    target: {origin: {x: 3053, y: 3290, level: 0}},
-                    name: "Cabbage field",
-                    menu_ticks: 1,
-                    animation_ticks: 5
-                }]
-            },
-            {
-                type: "teleports",
-                id: "karamjagloves",
-                name: "Karamja gloves",
-                img: {url: "karamjagloves.gif"},
-                spots: [{
-                    id: "gemmine",
-                    name: "Gem Mine",
-                    target: {origin: {x: 2825, y: 2997, level: 0}},
-                    menu_ticks: 1,
-                    animation_ticks: 5
-                }]
-            },
-            {
-                type: "teleports",
-                id: "theheart",
-                name: "The Heart teleport",
-                img: {url: "theheart.gif"},
-                spots: [{
-                    id: "center",
-                    name: "The Heart",
-                    target: {origin: {x: 3199, y: 6942, level: 0}},
-                    menu_ticks: 0,
-                    animation_ticks: 4
-                }]
-            },
-            {
-                type: "teleports",
-                id: "fremmenikboots",
-                name: "Fremmenik sea boots",
-                img: {url: "fremmenikboots.gif"},
-                spots: [{
-                    id: "relekkamarket",
-                    target: {origin: {x: 2642, y: 3678, level: 0}},
-                    name: "Relekka Market",
-                    menu_ticks: 1,
-                    animation_ticks: default_teleport_ticks
-                }]
-            }, * /
-        {
-            type: "teleports",
-            id: "legendscape",
-            name: "Legends Cape",
-            img: {url: "legendscape.png"},
-            spots: [{
+    },
+    {
+        type: "teleports",
+        id: "legendscape",
+        name: "Legends Cape",
+        img: { url: "legendscape.png" },
+        spots: [{
                 id: "legendsguild",
-                target: {origin: {x: 2728, y: 3348, level: 0}},
+                target: { origin: { x: 2728, y: 3348, level: 0 } },
                 name: "Legend's Guild",
                 animation_ticks: default_teleport_ticks
             }],
-            access: [{
+        access: [{
                 id: "cape",
                 type: "item",
                 action_name: "Teleport",
-                name: {kind: "item", name: "Cape of legends"},
+                name: { kind: "item", name: "Cape of legends" },
                 menu_ticks: 1,
             }]
-        },/*
+    }, /*
     {
         type: "teleports",
         id: "archjounal",
@@ -65287,9 +65198,14 @@ var TransportData;
     }
     TransportData.getAllTeleportSpots = getAllTeleportSpots;
     function resolveTeleport(id, customization = _trainer_dependencies__WEBPACK_IMPORTED_MODULE_2__["default"].instance().app.teleport_settings) {
+        var _a, _b;
         const group = TransportData.teleports.find(g => g.id == id.group);
-        const spot = group.spots.find(s => s.id == id.spot);
-        const access = id.access ? group.access.find(a => a.id == id.access) : group.access[0];
+        const spot = (_a = group === null || group === void 0 ? void 0 : group.spots) === null || _a === void 0 ? void 0 : _a.find(s => s.id == id.spot);
+        const access = id.access ? (_b = group === null || group === void 0 ? void 0 : group.access) === null || _b === void 0 ? void 0 : _b.find(a => a.id == id.access) : group === null || group === void 0 ? void 0 : group.access[0];
+        if (!group || !spot || !access) {
+            debugger;
+            return undefined;
+        }
         return new _lib_runescape_transportation__WEBPACK_IMPORTED_MODULE_1__.Transportation.TeleportGroup.Spot(group, spot, access, customization);
     }
     TransportData.resolveTeleport = resolveTeleport;
@@ -66754,7 +66670,8 @@ class GameMap extends leaflet__WEBPACK_IMPORTED_MODULE_0__.Map {
             dragging: true,
             doubleClickZoom: false,
             boxZoom: false,
-            attributionControl: true
+            attributionControl: true,
+            preferCanvas: true
         };
     }
     GameMap.gameMapOptions = gameMapOptions;
@@ -72320,6 +72237,9 @@ class Checkbox extends trainer_ui_widgets_AbstractEditWidget__WEBPACK_IMPORTED_M
         onChange(f) {
             this.value.subscribe(f);
             return this;
+        }
+        checkboxes() {
+            return this.buttons.map(b => b.button);
         }
     }
     Checkbox.Group = Group;
@@ -78053,13 +77973,19 @@ class MethodPackManager {
             MethodPackManager._instance = new MethodPackManager();
         return MethodPackManager._instance;
     }
-    async getForClue(id) {
+    async getForClue(id, pack_ids = undefined) {
         await this.index_created;
-        return this.method_index.get(id).methods;
+        const all_methods = this.method_index.get(id).methods;
+        if (pack_ids) {
+            return all_methods.filter(m => pack_ids.includes(m.pack.local_id));
+        }
+        else {
+            return all_methods;
+        }
     }
-    async get(spot) {
+    async get(spot, pack_ids = undefined) {
         // TODO: Why would I need both this method and getForClue?
-        return await this.getForClue(ClueSpot.toId(spot));
+        return await this.getForClue(ClueSpot.toId(spot), pack_ids);
     }
     async resolve(id) {
         const pack = (await this.all()).find(p => p.local_id == id.local_pack_id);
@@ -79347,6 +79273,10 @@ class ControlWithHeader extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["def
         super();
         this.header = new ControlHeader(name, close_handler).appendTo(this);
         this.body = c("<div class='ctr-map-control-body'></div>").appendTo(this);
+    }
+    setContent(content) {
+        this.body.empty().append(content);
+        return this;
     }
 }
 
@@ -82073,8 +82003,7 @@ class DirectionSelect extends _widgets_DropdownSelection__WEBPACK_IMPORTED_MODUL
                         return c().text("none");
                 }
             },
-            can_be_null: true
-        }, lib_runescape_movement__WEBPACK_IMPORTED_MODULE_1__.direction.all);
+        }, lib_runescape_movement__WEBPACK_IMPORTED_MODULE_1__.direction.all.concat(null));
     }
 }
 
@@ -85944,6 +85873,89 @@ class ClueProperties extends _widgets_Properties__WEBPACK_IMPORTED_MODULE_0__["d
 
 /***/ }),
 
+/***/ "./trainer/ui/theorycrafting/DisplayedRouteFilter.ts":
+/*!***********************************************************!*\
+  !*** ./trainer/ui/theorycrafting/DisplayedRouteFilter.ts ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   DisplayedRouteFilterEdit: () => (/* binding */ DisplayedRouteFilterEdit)
+/* harmony export */ });
+/* harmony import */ var _widgets_AbstractEditWidget__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../widgets/AbstractEditWidget */ "./trainer/ui/widgets/AbstractEditWidget.ts");
+/* harmony import */ var _lib_ui_controls_Checkbox__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../lib/ui/controls/Checkbox */ "./lib/ui/controls/Checkbox.ts");
+/* harmony import */ var _widgets_DropdownSelection__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../widgets/DropdownSelection */ "./trainer/ui/widgets/DropdownSelection.ts");
+/* harmony import */ var _model_MethodPackManager__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../model/MethodPackManager */ "./trainer/model/MethodPackManager.ts");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! lodash */ "../node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../lib/ui/constructors */ "./lib/ui/constructors.ts");
+/* harmony import */ var _lib_util_util__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../lib/util/util */ "./lib/util/util.ts");
+
+
+
+
+
+
+var span = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_5__.C.span;
+
+var copyUpdate = _lib_util_util__WEBPACK_IMPORTED_MODULE_6__.util.copyUpdate;
+class DisplayedRouteFilterEdit extends _widgets_AbstractEditWidget__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    constructor() {
+        super();
+    }
+    setValue(v) {
+        if (!v)
+            v = { type: "none" };
+        return super.setValue(v);
+    }
+    async render() {
+        this.empty();
+        const filter = this.get();
+        const group = new _lib_ui_controls_Checkbox__WEBPACK_IMPORTED_MODULE_1__.Checkbox.Group([
+            { value: "none", button: new _lib_ui_controls_Checkbox__WEBPACK_IMPORTED_MODULE_1__.Checkbox("None") },
+            { value: "favourites", button: new _lib_ui_controls_Checkbox__WEBPACK_IMPORTED_MODULE_1__.Checkbox("Preferred") },
+            { value: "pack", button: new _lib_ui_controls_Checkbox__WEBPACK_IMPORTED_MODULE_1__.Checkbox("Method Pack") },
+        ])
+            .setValue(filter.type)
+            .onChange(async (kind) => {
+            console.log("Change");
+            this.method_dropdown.setEnabled(kind == "pack");
+            const default_pack = (await _model_MethodPackManager__WEBPACK_IMPORTED_MODULE_3__.MethodPackManager.instance().all())[0];
+            this.commit(copyUpdate(this.get(), filter => {
+                var _a;
+                filter.type = kind;
+                if (kind == "pack") {
+                    (_a = filter.local_pack_id) !== null && _a !== void 0 ? _a : (filter.local_pack_id = default_pack.local_id);
+                }
+            }));
+        });
+        this.append(...group.checkboxes());
+        this.method_dropdown = new _widgets_DropdownSelection__WEBPACK_IMPORTED_MODULE_2__.DropdownSelection({
+            type_class: {
+                toHTML(v) {
+                    if (v)
+                        return span(`${lodash__WEBPACK_IMPORTED_MODULE_4__.capitalize(v.type)}: ${v.name}`);
+                    else
+                        return span("None");
+                }
+            },
+        }, await _model_MethodPackManager__WEBPACK_IMPORTED_MODULE_3__.MethodPackManager.instance().all())
+            .setValue(await _model_MethodPackManager__WEBPACK_IMPORTED_MODULE_3__.MethodPackManager.instance().getPack(filter.local_pack_id))
+            .setEnabled(filter.type == "pack")
+            .onSelection(pack => {
+            this.commit(copyUpdate(this.get(), filter => {
+                filter.local_pack_id = pack.local_id;
+            }));
+        })
+            .appendTo(this);
+    }
+}
+
+
+/***/ }),
+
 /***/ "./trainer/ui/theorycrafting/Filtering.ts":
 /*!************************************************!*\
   !*** ./trainer/ui/theorycrafting/Filtering.ts ***!
@@ -86030,23 +86042,21 @@ var ClueSpotFilter;
                 medium: true
             };
         }
-        if (!f.method_mode)
-            f.method_mode = "at_least_one";
         return f;
     }
     ClueSpotFilter.normalize = normalize;
     async function apply(f, clue, methods, prepared) {
         if (!(f.types[clue.clue.type] && f.tiers[clue.clue.tier]))
             return false;
-        if (methods && f.method_pack) {
-            let ms = await methods.getForClue(ClueSpot.toId(clue));
+        if (methods && f.method_mode) {
+            let ms = await methods.getForClue(ClueSpot.toId(clue), f.method_pack ? [f.method_pack] : undefined);
             switch (f.method_mode) {
                 case "none":
-                    if (ms.some(m => m.pack.local_id == f.method_pack))
+                    if (ms.length > 0)
                         return false;
                     break;
                 case "at_least_one":
-                    if (!ms.some(m => m.pack.local_id == f.method_pack))
+                    if (ms.length <= 0)
                         return false;
                     break;
             }
@@ -86155,39 +86165,31 @@ class FilterControl extends _lib_gamemap_GameMapControl__WEBPACK_IMPORTED_MODULE
         props.named("Tier", hbox(...buttons.tier.map(s => s.btn), spacer()).addClass("ctr-filter-control-row"));
         props.named("Type", hbox(...buttons.type.map(s => s.btn), spacer()).addClass("ctr-filter-control-row"));
         if (this.methods) {
-            let specifics_container = hbox(); //new ButtonRow({max_center_spacer_width: "100%", align: "center"})
+            let group = new _lib_ui_controls_Checkbox__WEBPACK_IMPORTED_MODULE_11__.Checkbox.Group([
+                { value: "none", button: new _lib_ui_controls_Checkbox__WEBPACK_IMPORTED_MODULE_11__.Checkbox("None") },
+                { value: "at_least_one", button: new _lib_ui_controls_Checkbox__WEBPACK_IMPORTED_MODULE_11__.Checkbox("At least one", "radio") },
+            ], true).setValue(this.filter.value().method_mode || "at_least_one")
+                .onChange(v => this.filter.update(f => f.method_mode = v));
+            const [none, at_least_one] = group.checkboxes();
+            let specifics_container = hbox(none, spacer(), at_least_one); //new ButtonRow({max_center_spacer_width: "100%", align: "center"})
             let selection = new _widgets_DropdownSelection__WEBPACK_IMPORTED_MODULE_9__.DropdownSelection({
                 type_class: {
                     toHTML(v) {
                         if (v)
                             return span(`${lodash__WEBPACK_IMPORTED_MODULE_10__.capitalize(v.type)}: ${v.name}`);
                         else
-                            return span("None");
+                            return span("Any");
                     }
                 },
-                can_be_null: true
-            }, await this.methods.all())
+            }, [null].concat(await this.methods.all()))
+                .setItems(async () => [null].concat(await this.methods.all()))
                 .setValue(this.filter.value().method_pack
                 ? await this.methods.getPack(this.filter.value().method_pack)
-                : null);
-            this.methods.pack_set_changed.on((packs) => {
-                selection.setItems(packs);
-            }).bindTo(this.handler_pool);
-            props.named("Methods", vbox(selection, specifics_container));
-            selection.onSelection(s => {
+                : null).onSelection(s => {
                 this.filter.update(f => f.method_pack = s === null || s === void 0 ? void 0 : s.local_id);
-                specifics_container.empty();
-                if (s) {
-                    let none = new _lib_ui_controls_Checkbox__WEBPACK_IMPORTED_MODULE_11__.Checkbox("None");
-                    let at_least_one = new _lib_ui_controls_Checkbox__WEBPACK_IMPORTED_MODULE_11__.Checkbox("At least one", "radio");
-                    new _lib_ui_controls_Checkbox__WEBPACK_IMPORTED_MODULE_11__.Checkbox.Group([
-                        { value: "none", button: none },
-                        { value: "at_least_one", button: at_least_one },
-                    ], false).setValue(this.filter.value().method_mode || "at_least_one")
-                        .onChange(v => this.filter.update(f => f.method_mode = v));
-                    specifics_container.append(none, spacer(), at_least_one);
-                }
             }, true);
+            props.named("Methods", specifics_container);
+            props.named("In Pack", selection);
         }
         props.named("Search", new _lib_ui_controls_TextField__WEBPACK_IMPORTED_MODULE_12__["default"]().setPlaceholder("Search")
             .setValue(this.filter.value().search_term || "")
@@ -86651,18 +86653,9 @@ class PackSelector extends _widgets_AbstractEditWidget__WEBPACK_IMPORTED_MODULE_
     constructor() {
         super();
     }
-    async updateItems() {
-        var _a, _b;
-        (_a = this.selector) === null || _a === void 0 ? void 0 : _a.setItems([
-            ...(await _model_MethodPackManager__WEBPACK_IMPORTED_MODULE_1__.MethodPackManager.instance().all()).filter(p => p.type == "local").map(p => ({ pack: p })),
-            { pack: null, create_new: true }
-        ]);
-        (_b = this.selector) === null || _b === void 0 ? void 0 : _b.setValue(this.selector.getItems().find(i => !(i === null || i === void 0 ? void 0 : i.create_new) && (i === null || i === void 0 ? void 0 : i.pack) == this.get()));
-    }
     async render() {
         this.empty();
         this.selector = new _widgets_DropdownSelection__WEBPACK_IMPORTED_MODULE_10__.DropdownSelection({
-            can_be_null: true,
             type_class: {
                 toHTML: (pack) => {
                     if (!pack)
@@ -86676,13 +86669,19 @@ class PackSelector extends _widgets_AbstractEditWidget__WEBPACK_IMPORTED_MODULE_
                 }
             }
         }, [])
+            .setItems(async () => {
+            return [
+                ...(await _model_MethodPackManager__WEBPACK_IMPORTED_MODULE_1__.MethodPackManager.instance().all()).filter(p => p.type == "local").map(p => ({ pack: p })),
+                { pack: null, create_new: true },
+                null
+            ];
+        })
             .onSelection(async (s) => {
             if (s === null || s === void 0 ? void 0 : s.create_new) {
                 this.selector.setValue(null);
                 const new_pack = await new _MethodPackModal__WEBPACK_IMPORTED_MODULE_4__.NewMethodPackModal().do();
                 if (new_pack === null || new_pack === void 0 ? void 0 : new_pack.created) {
                     this.commit(new_pack.created);
-                    await this.updateItems();
                 }
             }
             else {
@@ -86690,7 +86689,6 @@ class PackSelector extends _widgets_AbstractEditWidget__WEBPACK_IMPORTED_MODULE_
             }
         })
             .appendTo(this);
-        await this.updateItems();
     }
 }
 class NewMethodModal extends _lib_ui_controls_FormModal__WEBPACK_IMPORTED_MODULE_0__.FormModal {
@@ -86990,6 +86988,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Filtering__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Filtering */ "./trainer/ui/theorycrafting/Filtering.ts");
 /* harmony import */ var _OverviewMarker__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./OverviewMarker */ "./trainer/ui/theorycrafting/OverviewMarker.ts");
 /* harmony import */ var _lib_runescape_clues__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../lib/runescape/clues */ "./lib/runescape/clues.ts");
+/* harmony import */ var _lib_gamemap_GameMapControl__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../lib/gamemap/GameMapControl */ "./lib/gamemap/GameMapControl.ts");
+/* harmony import */ var _DisplayedRouteFilter__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./DisplayedRouteFilter */ "./trainer/ui/theorycrafting/DisplayedRouteFilter.ts");
+/* harmony import */ var _map_ControlWithHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../map/ControlWithHeader */ "./trainer/ui/map/ControlWithHeader.ts");
+/* harmony import */ var _dependencies__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../dependencies */ "./trainer/dependencies.ts");
+/* harmony import */ var _map_entities_PathStepEntity__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../map/entities/PathStepEntity */ "./trainer/ui/map/entities/PathStepEntity.ts");
+/* harmony import */ var _lib_util_storage__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../../lib/util/storage */ "./lib/util/storage.ts");
 
 
 
@@ -86997,28 +87001,75 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var ClueSpot = _lib_runescape_clues__WEBPACK_IMPORTED_MODULE_5__.Clues.ClueSpot;
+
+
+
+
+
+
 class OverviewLayer extends _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_0__.GameLayer {
-    constructor(app, edit_handler) {
+    constructor(app) {
         super();
         this.app = app;
-        this.edit_handler = edit_handler;
-        this.filter_control = new _Filtering__WEBPACK_IMPORTED_MODULE_3__.FilterControl(_model_MethodPackManager__WEBPACK_IMPORTED_MODULE_2__.MethodPackManager.instance(), this.edit_handler).addTo(this);
-        this.marker_index = _data_clues__WEBPACK_IMPORTED_MODULE_1__.clue_data.spot_index.with(() => ({ markers: [] }));
+        this.route_display_options = new _lib_util_storage__WEBPACK_IMPORTED_MODULE_11__.storage.Variable("preferences/overview_route_display", () => ({ type: "none" }));
+        this.update_promise = Promise.resolve();
+        this.filter_control = new _Filtering__WEBPACK_IMPORTED_MODULE_3__.FilterControl(_model_MethodPackManager__WEBPACK_IMPORTED_MODULE_2__.MethodPackManager.instance(), m => app.editMethod(m)).addTo(this);
+        new _lib_gamemap_GameMapControl__WEBPACK_IMPORTED_MODULE_6__.GameMapControl({
+            type: "floating", position: "top-right"
+        }, new _map_ControlWithHeader__WEBPACK_IMPORTED_MODULE_8__["default"]("Show routes")
+            .setContent(this.route_control = new _DisplayedRouteFilter__WEBPACK_IMPORTED_MODULE_7__.DisplayedRouteFilterEdit()
+            .setValue(this.route_display_options.get())
+            .onCommit((f) => {
+            this.route_display_options.set(f);
+            this.updateVisibleRoutes();
+        })).css("width", "200px")).addTo(this);
+        this.marker_index = _data_clues__WEBPACK_IMPORTED_MODULE_1__.clue_data.spot_index.with(() => ({ markers: [], route_display: null }));
         this.on("add", () => {
             this.filter_control.filtered_index_updated.on(() => this.updateVisibleMarkersByFilter());
             this.updateVisibleMarkersByFilter();
         });
     }
     async updateVisibleMarkersByFilter() {
-        await Promise.all(this.marker_index.flat().map(async (c) => {
+        await this.update_promise;
+        this.update_promise = Promise.all(this.marker_index.flat().map(async (c) => {
             let visible = this.filter_control.index.get(ClueSpot.toId(c.for)).visible;
             if (!visible && c.markers.length > 0) {
                 c.markers.forEach(c => c.remove());
                 c.markers = [];
             }
             else if (visible && c.markers.length == 0) {
-                c.markers = _OverviewMarker__WEBPACK_IMPORTED_MODULE_4__.ClueOverviewMarker.forClue(c.for, _model_MethodPackManager__WEBPACK_IMPORTED_MODULE_2__.MethodPackManager.instance(), this.edit_handler);
+                c.markers = _OverviewMarker__WEBPACK_IMPORTED_MODULE_4__.ClueOverviewMarker.forClue(c.for, _model_MethodPackManager__WEBPACK_IMPORTED_MODULE_2__.MethodPackManager.instance(), m => this.app.editMethod(m));
                 c.markers.forEach(m => m.addTo(this));
+            }
+        }));
+        this.updateVisibleRoutes();
+    }
+    async updateVisibleRoutes() {
+        await this.update_promise;
+        const filter = this.route_control.get();
+        this.update_promise = Promise.all(this.marker_index.flat().map(async (c) => {
+            var _a;
+            (_a = c.route_display) === null || _a === void 0 ? void 0 : _a.remove();
+            c.route_display = null;
+            if (c.markers.length > 0) {
+                let method = null;
+                switch (filter.type) {
+                    case "favourites":
+                        method = await (0,_dependencies__WEBPACK_IMPORTED_MODULE_9__.deps)().app.favourites.getMethod(ClueSpot.toId(c.for));
+                        break;
+                    case "pack":
+                        if (!filter.local_pack_id)
+                            break;
+                        const methods = await _model_MethodPackManager__WEBPACK_IMPORTED_MODULE_2__.MethodPackManager.instance().get(c.for, [filter.local_pack_id]);
+                        if (methods.length > 0)
+                            method = methods[0];
+                        break;
+                }
+                if (method) {
+                    if (method.method.type == "general_path") {
+                        c.route_display = _map_entities_PathStepEntity__WEBPACK_IMPORTED_MODULE_10__.PathStepEntity.renderPath(method.method.main_path).addTo(this);
+                    }
+                }
             }
         }));
     }
@@ -87182,7 +87233,8 @@ class PackWidget extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["default"] 
         body.named("Author(s)", c().text(pack.author));
         body.row(c().css("font-style", "italic").text(pack.description));
         if (customization.buttons) {
-            this.on("click", (event) => {
+            this.on("click contextmenu", (event) => {
+                event.preventDefault();
                 let menu = {
                     type: "submenu",
                     text: "",
@@ -87243,7 +87295,7 @@ class PackWidget extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["default"] 
                         }
                     });
                 }
-                new _widgets_ContextMenu__WEBPACK_IMPORTED_MODULE_7__["default"](menu).showFromEvent(event);
+                new _widgets_ContextMenu__WEBPACK_IMPORTED_MODULE_7__["default"](menu).showFromEvent2(event.originalEvent);
             });
         }
     }
@@ -87413,7 +87465,7 @@ class TheoryCrafter extends _lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_0__["defa
     }
     begin() {
         this.sidebar = new _TheoryCraftingSidebar__WEBPACK_IMPORTED_MODULE_1__["default"](this).prependTo(this.app.main_content);
-        this.layer = new _OverviewLayer__WEBPACK_IMPORTED_MODULE_2__["default"](this.app, m => this.editMethod(m)).addTo(this.app.map);
+        this.layer = new _OverviewLayer__WEBPACK_IMPORTED_MODULE_2__["default"](this).addTo(this.app.map);
     }
     end() {
         this.sidebar.remove();
@@ -88315,16 +88367,21 @@ class AbstractDropdownSelection extends lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0
         this.options = options;
         this.dropdown = null;
         this.selected = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_1__.ewent)();
-        this._selectableItems = [];
+        this.enabled = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_1__.observe)(true);
+        this._list_constructor = async () => [];
         this.selection = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_1__.observe)(inital_item);
         this.input_container = c("<div></div>").appendTo(this);
         this.selection.subscribe(item => {
             this.renderInput();
         }, true);
+        this.enabled.subscribe(enabled => {
+            var _a;
+            (_a = this.input) === null || _a === void 0 ? void 0 : _a.toggleClass("disabled", !enabled);
+        });
         this.setItems([inital_item]);
     }
     renderInput() {
-        c("<div class='nisl-selectdropdown-input' tabindex='-1'>")
+        this.input = c("<div class='nisl-selectdropdown-input' tabindex='-1'>")
             .on("click", (e) => {
             this.openDropdown();
         })
@@ -88338,19 +88395,24 @@ class AbstractDropdownSelection extends lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0
             : c(`<div>${v}</div>`);
     }
     setItems(items) {
-        this._selectableItems = items;
-        if (this.dropdown)
-            this.dropdown.setItems(items);
+        if (Array.isArray(items)) {
+            this._list_constructor = () => Promise.resolve(items);
+        }
+        else {
+            this._list_constructor = items;
+        }
         return this;
     }
-    openDropdown() {
+    async openDropdown() {
+        if (!this.enabled.value())
+            return;
         this.dropdown = new AbstractDropdownSelection.DropDown({
             dropdownClass: 'nisl-selectdropdown-options',
             renderItem: (i) => {
                 return c().append(this.construct(i));
             }
         })
-            .setItems(this._selectableItems.concat(this.options.can_be_null ? [null] : []))
+            .setItems(await this._list_constructor())
             .setHighlighted(this.selection.value())
             .onClosed(() => this.dropdown = null)
             .onSelected(i => {
@@ -88383,8 +88445,9 @@ class AbstractDropdownSelection extends lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0
             f(this.selection.value());
         return this;
     }
-    getItems() {
-        return this._selectableItems;
+    setEnabled(value) {
+        this.enabled.set(value);
+        return this;
     }
 }
 (function (AbstractDropdownSelection) {
@@ -88910,14 +88973,13 @@ __webpack_require__.r(__webpack_exports__);
  */
 class DropdownSelection extends _AbstractDropdownSelection__WEBPACK_IMPORTED_MODULE_0__.AbstractDropdownSelection {
     constructor(options, items) {
-        super(options, options.can_be_null ? null : items[0]);
-        this.items = items;
+        super(options, items[0]);
         this.setItems(items);
     }
     setItems(items) {
         super.setItems(items);
-        if (this.options.can_be_null && !items.some(p => p == this.selection.value()))
-            this.selectValue(null);
+        // TODO: What to do if current selection is not in new list?
+        //if (this.options.can_be_null && !items.some(p => p == this.selection.value())) this.selectValue(null)
         return this;
     }
 }

@@ -206,6 +206,8 @@ export class GameLayer extends leaflet.FeatureGroup {
             this.requestEntityActivation(entity)
         } else if (this.hovered_entity == entity) {
             this.hovered_entity = null
+
+            this.requestEntityActivation(null, false)
         }
     }
 

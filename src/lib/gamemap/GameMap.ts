@@ -353,7 +353,7 @@ export namespace GameMap {
             doubleClickZoom: false,
             boxZoom: false,
             attributionControl: true,
-            preferCanvas: true
+            preferCanvas: false
         }
     }
 

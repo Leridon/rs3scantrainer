@@ -3590,26 +3590,26 @@ name: "Overgrown Idols - North of the Jadinko vine cave",
                     menu_ticks: 1,
                     animation_ticks: default_teleport_ticks
                 }]
-            }, * /
-        {
-            type: "teleports",
-            id: "legendscape",
-            name: "Legends Cape",
-            img: {url: "legendscape.png"},
-            spots: [{
-                id: "legendsguild",
-                target: {origin: {x: 2728, y: 3348, level: 0}},
-                name: "Legend's Guild",
-                animation_ticks: default_teleport_ticks
-            }],
-            access: [{
-                id: "cape",
-                type: "item",
-                action_name: "Teleport",
-                name: {kind: "item", name: "Cape of legends"},
-                menu_ticks: 1,
-            }]
-        },/*
+            }, */
+    {
+        type: "teleports",
+        id: "legendscape",
+        name: "Legends Cape",
+        img: {url: "legendscape.png"},
+        spots: [{
+            id: "legendsguild",
+            target: {origin: {x: 2728, y: 3348, level: 0}},
+            name: "Legend's Guild",
+            animation_ticks: default_teleport_ticks
+        }],
+        access: [{
+            id: "cape",
+            type: "item",
+            action_name: "Teleport",
+            name: {kind: "item", name: "Cape of legends"},
+            menu_ticks: 1,
+        }]
+    },/*
     {
         type: "teleports",
         id: "archjounal",

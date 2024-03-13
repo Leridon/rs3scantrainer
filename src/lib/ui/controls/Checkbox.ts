@@ -97,6 +97,10 @@ export namespace Checkbox {
 
             return this
         }
+
+        checkboxes(): Checkbox[] {
+            return this.buttons.map(b => b.button)
+        }
     }
 
 }

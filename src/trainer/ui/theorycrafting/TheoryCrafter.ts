@@ -31,7 +31,7 @@ export default class TheoryCrafter extends Behaviour {
     protected begin() {
         this.sidebar = new TheoryCraftingSidebar(this).prependTo(this.app.main_content)
 
-        this.layer = new OverviewLayer(this.app, m => this.editMethod(m)).addTo(this.app.map)
+        this.layer = new OverviewLayer(this).addTo(this.app.map)
     }
 
     protected end() {

@@ -1,5 +1,6 @@
 import {TileCoordinates, TileRectangle} from "../../../../lib/runescape/coordinates";
 import {time} from "../../../../lib/gamemap/GameLayer";
+import {LocUtil} from "./util/LocUtil";
 
 export namespace CacheTypes {
 
@@ -257,6 +258,10 @@ export namespace CacheTypes {
 
         getById(id: number): LocWithUsages {
             return this.lookup_table[id]
+        }
+
+        get(id: number): LocInstance[] {
+            return LocUtil.getInstances(this.getById(id))
         }
 
         getAll(): LocWithUsages[] {

@@ -8,7 +8,7 @@ import {LocUtil} from "./util/LocUtil";
 import LocInstance = CacheTypes.LocInstance;
 import getInstances = LocUtil.getInstances;
 
-export abstract class TransportParser2<
+export abstract class TransportParser<
     PerLocData,
     PerInstanceData
 > {
@@ -82,24 +82,6 @@ export abstract class TransportParser2<
         }
     }
 
-    perUse(loc: number, data: PerLocData | undefined = undefined): (...instance_data: [TileCoordinates, PerInstanceData][]) => this {
-
-        return (...instance_data: [TileCoordinates, PerInstanceData][]): this => {
-            this.locs.push({
-                for: [loc],
-                data: data,
-                instance_data: instance_data.map(([instance, value]) => {
-                    return {
-                        instance: instance,
-                        data: value
-                    }
-                })
-            })
-
-            return this
-        }
-    }
-
     name(name: string): this {
         this._name = name
         return this
@@ -108,9 +90,15 @@ export abstract class TransportParser2<
     abstract apply(instance: LocInstance, data: { per_loc: PerLocData, per_instance?: PerInstanceData }): Transportation.Transportation[]
 }
 
+export abstract class TransportParser2 {
+    constructor(public readonly id: string) { }
+
+    abstract apply(instance: LocInstance, args: { per_loc: any, per_instance?: any }): Promise<Transportation.Transportation[]>
+}
+
 export namespace TransportParser {
 
-    export abstract class Simple<LocT, InstanceT, BuilderT extends EntityTransportationBuilder> extends TransportParser2<LocT & { plane_offset?: number }, InstanceT> {
+    export abstract class Simple<LocT, InstanceT, BuilderT extends EntityTransportationBuilder> extends TransportParser<LocT & { plane_offset?: number }, InstanceT> {
 
         protected constructor(private f: HandlerFunction<LocT, InstanceT, BuilderT>) {super();}
 
@@ -179,8 +167,8 @@ export namespace TransportParser {
         instance: LocInstance
     ) => void
 
-    export function ignore(name: string, ...locs: number[]): TransportParser2<any, any> {
-        return (new class extends TransportParser2<any, any> {
+    export function ignore(name: string, ...locs: number[]): TransportParser<any, any> {
+        return (new class extends TransportParser<any, any> {
 
             apply(instance: LocInstance, data: { per_loc: any; per_instance?: any }): Transportation.Transportation[] {
                 return [];

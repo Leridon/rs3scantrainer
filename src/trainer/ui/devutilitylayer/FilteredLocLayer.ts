@@ -1,4 +1,4 @@
-import {GameLayer} from "../../../lib/gamemap/GameLayer";
+import {GameLayer, time, timeSync} from "../../../lib/gamemap/GameLayer";
 import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
 import Properties from "../widgets/Properties";
 import TextArea from "../../../lib/ui/controls/TextArea";
@@ -15,14 +15,17 @@ import LocInstance = CacheTypes.LocInstance;
 import {QuadTree} from "../../../lib/QuadTree";
 import {FloorLevels, ZoomLevels} from "../../../lib/gamemap/ZoomLevels";
 import {boxPolygon} from "../polygon_helpers";
-import {Rectangle} from "lib/math";
+import {Rectangle, Vector2} from "lib/math";
 import {GameMapContextMenuEvent} from "../../../lib/gamemap/MapEvents";
 import {Menu} from "../widgets/ContextMenu";
 import Widget from "../../../lib/ui/Widget";
 import getInstances = LocUtil.getInstances;
 import LocWithUsages = CacheTypes.LocWithUsages;
-import {TransportParser2} from "./cachetools/TransportParser";
+import {TransportParser} from "./cachetools/TransportParser";
 import {TransportParsers} from "./cachetools/parsers2";
+import {TileRectangle} from "../../../lib/runescape/coordinates";
+import * as leaflet from "leaflet"
+import tr = TileRectangle.tr;
 
 export type LocFilter = {
     names?: string[],
@@ -115,11 +118,11 @@ class LocFilterControl extends GameMapControl {
     }
 }
 
-class LocInstanceEntity extends MapEntity {
+export class LocInstanceEntity extends MapEntity {
 
     constructor(public instance: LocInstance) {
         super({
-            highlightable: false,
+            highlightable: true,
             interactive: true
         })
 
@@ -133,9 +136,34 @@ class LocInstanceEntity extends MapEntity {
         const has_parser = !!TransportParsers.lookup_parser(this.instance.loc_id)
 
         boxPolygon(this.instance.box).setStyle({
-            color: has_parser ? "green" : "yellow",
+            color: has_parser ? "green" : "red",
             stroke: true
         }).addTo(this).getElement()
+
+        const rot = this.instance.rotation ?? 0
+
+        let true_west: [Vector2, Vector2]
+
+        const rect = Rectangle.extend(this.instance.box, 0.5)
+
+        switch (this.instance.rotation ?? 0) {
+            case 0:
+                true_west = [Rectangle.bottomLeft(rect), Rectangle.topLeft(rect)]
+                break
+            case 1:
+                true_west = [Rectangle.topLeft(rect), Rectangle.topRight(rect)]
+                break
+            case 2:
+                true_west = [Rectangle.topRight(rect), Rectangle.bottomRight(rect)]
+                break
+            case 3:
+                true_west = [Rectangle.bottomRight(rect), Rectangle.bottomLeft(rect)]
+                break
+        }
+
+        leaflet.polyline(true_west.map(Vector2.toLatLong), {
+            color: "blue"
+        }).addTo(this)
 
         return undefined
     }
@@ -183,7 +211,7 @@ export class FilteredLocLayer extends GameLayer {
 
     private applyFilter() {
         const pre_filter: LocFilter = {
-            actions: ["open", "use", "enter", "climb", "crawl", "scale", "pass", "jump", "leave"]
+            actions: ["open", "use", "enter", "climb", "crawl", "scale", "pass", "jump", "leave", "teleport"]
         }
 
         this.loc_entities.forEach(loc => {
@@ -196,12 +224,15 @@ export class FilteredLocLayer extends GameLayer {
     init(data: LocDataFile) {
         this.data = data
 
-        this.loc_entities = data.getAll().map((loc) => {
-            return {
-                loc: loc,
-                instances: getInstances(loc).map(i => new LocInstanceEntity(i).addTo(this))
-            }
+        timeSync("Initializing loc_entities", () => {
+            this.loc_entities = data.getAll().map((loc) => {
+                return {
+                    loc: loc,
+                    instances: getInstances(loc).map(i => new LocInstanceEntity(i))
+                }
+            })
         })
+
 
         this.applyFilter()
 

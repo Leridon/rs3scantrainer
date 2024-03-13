@@ -30,6 +30,7 @@ import cleanedJSON = util.cleanedJSON;
 import {storage} from "../../../lib/util/storage";
 import {GameMap} from "../../../lib/gamemap/GameMap";
 import {FilteredLocLayer} from "./FilteredLocLayer";
+import {ParserManagementLayer} from "./ParserManagement";
 
 class ChunkGridGraticule extends Graticule {
     constructor() {
@@ -97,61 +98,80 @@ class HoverTileDisplay extends GameMapControl {
     }
 }
 
-export default class UtilityLayer extends GameLayer {
-    view_storage = new storage.Variable<{
-        center: leaflet.LatLng,
-        zoom: number
-    }>("devutility/viewstore", () => undefined)
+class LayerToggling extends GameMapControl {
+    view_storage = new storage.Variable<string[]>("devutility/activelayers", () => [])
+    private data: {
+        persistence_id: string
+        checkbox: Checkbox,
+        layer: leaflet.Layer
+    }[]
 
-    preview: leaflet.Layer
+    constructor(private layers: {
+        constructor: () => leaflet.Layer,
+        name: string,
+        persistence_id?: string
+    }[]) {
+        super({
+            type: "floating",
+            position: "top-right"
+        }, c())
 
-    chunk_grid: leaflet.FeatureGroup = null
+        const load_now = this.view_storage.get() ?? []
 
-    cache_loc_layer: FilteredLocLayer = null
+        this.data = new Array(layers.length)
 
-    guard: InteractionGuard
+        this.data = layers.map((l, index) => {
+            return {
+                persistence_id: l.persistence_id,
+                layer: null,
+                checkbox: new Checkbox(l.name)
+                    .onCommit(v => {
+                        const entry = this.data[index]
+
+                        entry.layer?.remove()
+                        entry.layer = null
+
+                        if (l.persistence_id) {
+                            if (v) {
+                                this.view_storage.set(this.view_storage.get().concat(l.persistence_id))
+                            } else {
+                                this.view_storage.set(this.view_storage.get().filter(i => i != l.persistence_id))
+                            }
+                        }
+
+                        if (v) {
+                            entry.layer = l.constructor().addTo(this)
+                        }
+                    })
+            }
+        })
+
+        this.setContent(vbox(...this.data.map(d => d.checkbox)))
+    }
+
+    loadPersistence(): this {
+        const persist = this.view_storage.get()
+
+        this.data.forEach(e => {
+            if (e.persistence_id) e.checkbox.setValue(persist.includes(e.persistence_id))
+        })
+
+        return this
+    }
+
+
+}
+
+class GeometryDrawing extends GameLayer {
 
     output: Widget
     value: string
     chunk_in: TextField
     coords_in: TextField
+    preview: leaflet.Layer
 
-    constructor() {
+    constructor(private guard: InteractionGuard) {
         super();
-
-        // new TransportLayer(true).addTo(this)
-
-        this.add(new HoverTileDisplay())
-
-        this.guard = new InteractionGuard().setDefaultLayer(this)
-
-        let layer_control = new ControlWithHeader("Utility")
-        layer_control.append(new Checkbox("Chunks")
-            .onCommit(v => {
-                this.chunk_grid?.clearLayers()
-                this.chunk_grid?.remove()
-                this.chunk_grid = null
-
-                if (v) {
-                    this.chunk_grid = new ChunkGridGraticule().addTo(this)
-                }
-            }))
-
-        layer_control.append(new Checkbox("Cache Locs")
-            .onCommit(v => {
-                this.cache_loc_layer?.clearLayers()
-                this.cache_loc_layer?.remove()
-                this.cache_loc_layer = null
-
-                if (v) {
-                    this.cache_loc_layer = new FilteredLocLayer().addTo(this)
-                }
-            }))
-
-        new GameMapControl({
-            position: "top-right",
-            type: "floating",
-        }, layer_control).addTo(this)
 
         let bottom_control = new ControlWithHeader("Utility")
 
@@ -201,7 +221,7 @@ export default class UtilityLayer extends GameLayer {
                 hbox(
                     this.chunk_in = new TextField()
                         .onCommit((v) => {
-                            if(!v) return
+                            if (!v) return
                             let nums = this.chunk_in.get().split(new RegExp("[^0-9]"))
                                 .map(e => e.trim())
                                 .filter(e => e.length > 0)
@@ -216,7 +236,7 @@ export default class UtilityLayer extends GameLayer {
                     ,
                     spacer(),
                     new LightButton("Chunk").onClick((v) => {
-                        if(!v) return
+                        if (!v) return
                         let nums = this.chunk_in.get().split(new RegExp("[^0-9]"))
                             .map(e => e.trim())
                             .filter(e => e.length > 0)
@@ -273,44 +293,6 @@ export default class UtilityLayer extends GameLayer {
         }, bottom_control))
     }
 
-    override onAdd(map: GameMap): this {
-        super.onAdd(map)
-
-        // Restore view
-        const view = this.view_storage.get()
-
-        if (view?.center) {
-            this.map.setView(view.center, view.zoom)
-        }
-
-        return this;
-    }
-
-    eventViewChanged(event: GameMapViewChangedEvent) {
-        super.eventViewChanged(event)
-
-        event.onPre(() => {
-            this.view_storage.set({
-                center: this.map.getCenter(),
-                zoom: this.map.getZoom()
-            })
-        })
-    }
-
-    private setLayer(l: leaflet.Layer) {
-        if (this.preview) {
-            this.preview.remove()
-            this.preview = null
-        }
-
-        this.preview = l.addTo(this)
-    }
-
-    private setValue(s: object) {
-        this.value = cleanedJSON(s)
-        if (this.value) navigator.clipboard.writeText(this.value)
-        this.output.text(this.value)
-    }
 
     private startSelectTile() {
         let i = new SelectTileInteraction()
@@ -343,6 +325,71 @@ export default class UtilityLayer extends GameLayer {
             } else if (event.original.key.toLowerCase() == "a") {
                 this.startSelectArea()
             }
+        })
+    }
+
+    private setLayer(l: leaflet.Layer) {
+        if (this.preview) {
+            this.preview.remove()
+            this.preview = null
+        }
+
+        this.preview = l.addTo(this)
+    }
+
+    private setValue(s: object) {
+        this.value = cleanedJSON(s)
+        if (this.value) navigator.clipboard.writeText(this.value)
+        this.output.text(this.value)
+    }
+}
+
+export default class UtilityLayer extends GameLayer {
+    view_storage = new storage.Variable<{
+        center: leaflet.LatLng,
+        zoom: number
+    }>("devutility/viewstore", () => undefined)
+
+
+    guard: InteractionGuard
+
+    constructor() {
+        super();
+
+        this.add(new HoverTileDisplay())
+
+        this.guard = new InteractionGuard().setDefaultLayer(this)
+
+        new LayerToggling([
+            {persistence_id: "chunks", name: "Chunks", constructor: () => new ChunkGridGraticule()},
+            {persistence_id: "geometry",name: "Geometry", constructor: () => new GeometryDrawing(this.guard)},
+            {persistence_id: "locparsing",name: "Loc Parsing", constructor: () => new ParserManagementLayer()},
+        ])
+            .addTo(this)
+            .loadPersistence()
+    }
+
+    override onAdd(map: GameMap): this {
+        super.onAdd(map)
+
+        // Restore view
+        const view = this.view_storage.get()
+
+        if (view?.center) {
+            this.map.setView(view.center, view.zoom)
+        }
+
+        return this;
+    }
+
+    eventViewChanged(event: GameMapViewChangedEvent) {
+        super.eventViewChanged(event)
+
+        event.onPre(() => {
+            this.view_storage.set({
+                center: this.map.getCenter(),
+                zoom: this.map.getZoom()
+            })
         })
     }
 }

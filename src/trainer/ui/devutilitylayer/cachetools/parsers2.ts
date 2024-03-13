@@ -1,7 +1,6 @@
 import {Vector2} from "lib/math/Vector2";
 import {TileArea} from "lib/runescape/coordinates/TileArea";
 import {direction} from "lib/runescape/movement";
-import {TransportParser, TransportParser2} from "./TransportParser";
 import ignore = TransportParser.ignore;
 import {MovementBuilder} from "./util/MovementBuilder";
 import offset = MovementBuilder.offset;
@@ -11,11 +10,12 @@ import {TileCoordinates} from "../../../../lib/runescape/coordinates";
 import door = TransportParser.door;
 import {Lazy} from "../../../../lib/properties/Lazy";
 import {util} from "../../../../lib/util/util";
+import { TransportParser } from "./TransportParser";
 
 export namespace TransportParsers {
     import Order = util.Order;
 
-    function constructCustomParsers(): TransportParser2<any, any>[] {
+    function constructCustomParsers(): TransportParser<any, any>[] {
         return [
             ignore("Not a transportation")
                 .loc()(
@@ -263,19 +263,19 @@ export namespace TransportParsers {
         ]
     }
 
-    let custom_parsers: TransportParser2<any, any>[] = undefined
+    let custom_parsers: TransportParser<any, any>[] = undefined
 
-    export function getCustomParsers(): TransportParser2<any, any>[] {
+    export function getCustomParsers(): TransportParser<any, any>[] {
         if (!custom_parsers) custom_parsers = constructCustomParsers()
 
         return custom_parsers
     }
 
-    export function getAllParsers(): TransportParser2<any, any>[] {
+    export function getAllParsers(): TransportParser<any, any>[] {
         return getCustomParsers()
     }
 
-    let _parser_index_by_locid = new Lazy<TransportParser2<any, any>[]>(() => {
+    let _parser_index_by_locid = new Lazy<TransportParser<any, any>[]>(() => {
         let max_id = Math.max(...getAllParsers().flatMap(p => {
             return p.locs.flatMap(group => {
                 return group.for

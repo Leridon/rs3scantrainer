@@ -18,6 +18,8 @@ export namespace LocUtil {
     import LocInstance = CacheTypes.LocInstance;
 
     export function getInstances(loc: LocWithUsages): LocInstance[] {
+        if (!loc) return []
+
         return loc.uses
             .filter(use =>
                 !transportation_rectangle_blacklists.some(blacklist => Rectangle.contains(blacklist, use.origin)),

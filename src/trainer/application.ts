@@ -30,6 +30,7 @@ import Dependencies from "./dependencies";
 import {Transportation} from "../lib/runescape/transportation";
 import {TransportData} from "../data/transports";
 import resolveTeleport = TransportData.resolveTeleport;
+import entity = C.entity;
 
 export class SimpleLayerBehaviour extends Behaviour {
     constructor(private map: GameMap, private layer: GameLayer) {

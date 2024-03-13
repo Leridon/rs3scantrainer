@@ -137,9 +137,7 @@ export class GameMap extends leaflet.Map {
             })
 
             this.viewport.subscribe((new_value, old) => {
-                time("View Change Event", () => {
-                    this.event(new GameMapViewChangedEvent(this, old, new_value), l => e => l.eventViewChanged(e))
-                })
+                this.event(new GameMapViewChangedEvent(this, old, new_value), l => e => l.eventViewChanged(e))
             })
 
             this.on("moveend", () => this.updateView())

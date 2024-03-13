@@ -1,4 +1,5 @@
 import {TileCoordinates, TileRectangle} from "../../../../lib/runescape/coordinates";
+import {time} from "../../../../lib/gamemap/GameLayer";
 
 export namespace CacheTypes {
 
@@ -248,7 +249,9 @@ export namespace CacheTypes {
         }
 
         static async fromURL(url: string): Promise<LocDataFile> {
-            return new LocDataFile(await (await fetch("map/raw_loc_data.json")).json())
+            const data = await time("Fetching data", async () => await (await fetch("map/raw_loc_data.json")).json())
+
+            return await time("Preparing data", () => new LocDataFile(data))
         }
 
 

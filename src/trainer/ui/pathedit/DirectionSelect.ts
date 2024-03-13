@@ -13,9 +13,8 @@ export default class DirectionSelect extends DropdownSelection<direction> {
                             return c().text("none")
                     }
                 },
-                can_be_null: true
             },
-            direction.all
+            direction.all.concat(null)
         )
     }
 }

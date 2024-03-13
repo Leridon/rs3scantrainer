@@ -8,13 +8,20 @@ import {ClueOverviewMarker} from "./OverviewMarker";
 import {Clues} from "../../../lib/runescape/clues";
 import ClueSpot = Clues.ClueSpot;
 import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
-import {DisplayedRouteFilterEdit} from "./DisplayedRouteFilter";
+import {DisplayedRouteFilter, DisplayedRouteFilterEdit} from "./DisplayedRouteFilter";
 import TheoryCrafter from "./TheoryCrafter";
 import * as leaflet from "leaflet"
 import ControlWithHeader from "../map/ControlWithHeader";
+import {FavoriteIndex} from "../../favorites";
+import {deps} from "../../dependencies";
+import {PathStepEntity} from "../map/entities/PathStepEntity";
+import {storage} from "../../../lib/util/storage";
 
 export default class OverviewLayer extends GameLayer {
+    route_display_options = new storage.Variable<DisplayedRouteFilter>("preferences/overview_route_display", () => ({type: "none"}))
+
     filter_control: FilterControl
+    route_control: DisplayedRouteFilterEdit
 
     public marker_index: ClueSpotIndex<{
         markers: ClueOverviewMarker[],
@@ -32,10 +39,11 @@ export default class OverviewLayer extends GameLayer {
                 type: "floating", position: "top-right"
             }, new ControlWithHeader("Show routes")
                 .setContent(
-                    new DisplayedRouteFilterEdit()
-                        .setValue({type: "none"})
-                        .onCommit(filter => {
-
+                    this.route_control = new DisplayedRouteFilterEdit()
+                        .setValue(this.route_display_options.get())
+                        .onCommit((f) => {
+                            this.route_display_options.set(f)
+                            this.updateVisibleRoutes()
                         })
                 ).css("width", "200px")
         ).addTo(this)
@@ -63,5 +71,45 @@ export default class OverviewLayer extends GameLayer {
                 }
             })
         )
+
+        this.updateVisibleRoutes()
+    }
+
+    private async updateVisibleRoutes() {
+        await this.update_promise
+
+        const filter = this.route_control.get()
+
+        this.update_promise = Promise.all(this.marker_index.flat().map(async c => {
+            c.route_display?.remove()
+            c.route_display = null
+
+            if (c.markers.length > 0) {
+                let method: AugmentedMethod = null
+
+                switch (filter.type) {
+                    case "favourites":
+                        method = await deps().app.favourites.getMethod(ClueSpot.toId(c.for))
+
+                        break;
+                    case "pack":
+                        if (!filter.local_pack_id) break;
+
+                        const methods = await MethodPackManager.instance().get(c.for, [filter.local_pack_id])
+
+                        if (methods.length > 0) method = methods[0]
+
+                        break;
+                }
+
+                if (method) {
+
+                    if (method.method.type == "general_path") {
+
+                        c.route_display = PathStepEntity.renderPath(method.method.main_path).addTo(this)
+                    }
+                }
+            }
+        }))
     }
 }

@@ -75,16 +75,6 @@ class PackSelector extends AbstractEditWidget<Pack> {
     constructor() {
         super();
     }
-
-    private async updateItems() {
-        this.selector?.setItems([
-            ...(await MethodPackManager.instance().all()).filter(p => p.type == "local").map(p => ({pack: p})),
-            {pack: null, create_new: true}
-        ])
-
-        this.selector?.setValue(this.selector.getItems().find(i => !i?.create_new && i?.pack == this.get()))
-    }
-
     async render() {
         this.empty()
 
@@ -92,7 +82,6 @@ class PackSelector extends AbstractEditWidget<Pack> {
             pack: Pack,
             create_new?: boolean
         }>({
-            can_be_null: true,
             type_class: {
                 toHTML: (pack) => {
                     if (!pack) return c().text("None")
@@ -105,6 +94,13 @@ class PackSelector extends AbstractEditWidget<Pack> {
                 }
             }
         }, [])
+            .setItems(async () => {
+                return [
+                    ...(await MethodPackManager.instance().all()).filter(p => p.type == "local").map(p => ({pack: p})),
+                    {pack: null, create_new: true},
+                    null
+                ]
+            })
             .onSelection(async s => {
                 if (s?.create_new) {
                     this.selector.setValue(null)
@@ -113,8 +109,6 @@ class PackSelector extends AbstractEditWidget<Pack> {
 
                     if (new_pack?.created) {
                         this.commit(new_pack.created)
-
-                        await this.updateItems()
                     }
 
                 } else {
@@ -122,8 +116,6 @@ class PackSelector extends AbstractEditWidget<Pack> {
                 }
             })
             .appendTo(this)
-
-        await this.updateItems()
     }
 }
 

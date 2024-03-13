@@ -241,9 +241,8 @@ export class FilterControl extends GameMapControl<ControlWithHeader> {
                             else return span("None")
                         }
                     },
-                    can_be_null: true
                 },
-                await this.methods.all()
+                [null].concat(await this.methods.all())
             )
                 .setValue(this.filter.value().method_pack
                     ? await this.methods.getPack(this.filter.value().method_pack)

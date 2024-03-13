@@ -63,7 +63,6 @@ export class DisplayedRouteFilterEdit extends AbstractEditWidget<DisplayedRouteF
                         else return span("None")
                     }
                 },
-                can_be_null: false
             },
             await MethodPackManager.instance().all()
         )

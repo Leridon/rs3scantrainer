@@ -47,17 +47,20 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
             : c(`<div>${v}</div>`)
     }
 
-    _selectableItems: T[] = []
+    private _list_constructor: () => Promise<T[]> | T[] = async () => []
 
-    setItems(items: T[]): this {
-        this._selectableItems = items
+    setItems(items: T[] | (() => Promise<T[]> | T[])): this {
 
-        if (this.dropdown) this.dropdown.setItems(items)
+        if (Array.isArray(items)) {
+            this._list_constructor = () => Promise.resolve(items)
+        } else {
+            this._list_constructor = items
+        }
 
         return this
     }
 
-    openDropdown() {
+    async openDropdown() {
         if (!this.enabled.value()) return;
 
         this.dropdown = new AbstractDropdownSelection.DropDown<T>({
@@ -66,7 +69,7 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
                 return c().append(this.construct(i))
             }
         })
-            .setItems(this._selectableItems.concat(this.options.can_be_null ? [null] : []))
+            .setItems(await this._list_constructor())
             .setHighlighted(this.selection.value())
             .onClosed(() => this.dropdown = null)
             .onSelected(i => {
@@ -103,10 +106,6 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
 
         if (trigger_now) f(this.selection.value())
         return this
-    }
-
-    getItems(): T[] {
-        return this._selectableItems
     }
 
     setEnabled(value: boolean): this {
@@ -313,7 +312,6 @@ export namespace AbstractDropdownSelection {
     }
 
     export type options<T> = {
-        can_be_null?: boolean
         type_class?: selectable<T>
     }
 

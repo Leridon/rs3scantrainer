@@ -16,6 +16,8 @@ import {FavoriteIndex} from "../../favorites";
 import {deps} from "../../dependencies";
 import {PathStepEntity} from "../map/entities/PathStepEntity";
 import {storage} from "../../../lib/util/storage";
+import {SolvingMethods} from "../../model/methods";
+import Method = SolvingMethods.Method;
 
 export default class OverviewLayer extends GameLayer {
     route_display_options = new storage.Variable<DisplayedRouteFilter>("preferences/overview_route_display", () => ({type: "none"}))
@@ -103,11 +105,7 @@ export default class OverviewLayer extends GameLayer {
                 }
 
                 if (method) {
-
-                    if (method.method.type == "general_path") {
-
-                        c.route_display = PathStepEntity.renderPath(method.method.main_path).addTo(this)
-                    }
+                    c.route_display = PathStepEntity.renderPath(Method.allPaths(method.method)).addTo(this)
                 }
             }
         }))

@@ -43,7 +43,9 @@ export default class PackWidget extends Widget {
         body.row(c().css("font-style", "italic").text(pack.description))
 
         if (customization.buttons) {
-            this.on("click", (event) => {
+            this.on("click contextmenu", (event) => {
+                event.preventDefault()
+
                 let menu: Menu = {
                     type: "submenu",
                     text: "",
@@ -116,7 +118,7 @@ export default class PackWidget extends Widget {
                     })
                 }
 
-                new ContextMenu(menu).showFromEvent(event)
+                new ContextMenu(menu).showFromEvent2(event.originalEvent as MouseEvent)
             })
         }
     }

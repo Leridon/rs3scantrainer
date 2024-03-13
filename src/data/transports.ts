@@ -54,6 +54,7 @@ export namespace TransportData {
         const access = id.access ? group?.access?.find(a => a.id == id.access) : group?.access[0]
 
         if (!group || !spot || !access) {
+            debugger
             return undefined
         }
 

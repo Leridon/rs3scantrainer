@@ -32,7 +32,7 @@ export type ClueSpotFilter = {
     tiers?: { [P in ClueTier]: boolean },
     types?: { [P in ClueType]: boolean },
     method_pack?: string,
-    method_mode?: "none" | "at_least_one",
+    method_mode?: "none" | "at_least_one" | null,
     search_term?: string
 }
 
@@ -64,23 +64,21 @@ export namespace ClueSpotFilter {
             }
         }
 
-        if (!f.method_mode) f.method_mode = "at_least_one"
-
         return f
     }
 
     export async function apply(f: ClueSpotFilter, clue: ClueSpot, methods?: MethodPackManager, prepared?: Fuzzysort.Prepared): Promise<boolean> {
         if (!(f.types[clue.clue.type] && f.tiers[clue.clue.tier])) return false
 
-        if (methods && f.method_pack) {
-            let ms = await methods.getForClue(ClueSpot.toId(clue))
+        if (methods && f.method_mode) {
+            let ms = await methods.getForClue(ClueSpot.toId(clue), f.method_pack ? [f.method_pack] : undefined)
 
             switch (f.method_mode) {
                 case "none":
-                    if (ms.some(m => m.pack.local_id == f.method_pack)) return false
+                    if (ms.length > 0) return false
                     break
                 case "at_least_one":
-                    if (!ms.some(m => m.pack.local_id == f.method_pack)) return false
+                    if (ms.length <= 0) return false
                     break
             }
         }
@@ -232,56 +230,36 @@ export class FilterControl extends GameMapControl<ControlWithHeader> {
         props.named("Type", hbox(...buttons.type.map(s => s.btn), spacer()).addClass("ctr-filter-control-row"))
 
         if (this.methods) {
-            let specifics_container = hbox()//new ButtonRow({max_center_spacer_width: "100%", align: "center"})
+            let group = new Checkbox.Group<"none" | "at_least_one">([
+                {value: "none", button: new Checkbox("None")},
+                {value: "at_least_one", button: new Checkbox("At least one", "radio")},
+            ], true).setValue(this.filter.value().method_mode || "at_least_one")
+                .onChange(v => this.filter.update(f => f.method_mode = v))
+
+            const [none, at_least_one] = group.checkboxes()
+
+            let specifics_container = hbox(none, spacer(), at_least_one)//new ButtonRow({max_center_spacer_width: "100%", align: "center"})
 
             let selection = new DropdownSelection({
                     type_class: {
                         toHTML(v: Pack): Widget {
                             if (v) return span(`${lodash.capitalize(v.type)}: ${v.name}`)
-                            else return span("None")
+                            else return span("Any")
                         }
                     },
                 },
                 [null].concat(await this.methods.all())
             )
+                .setItems(async () => [null].concat(await this.methods.all()))
                 .setValue(this.filter.value().method_pack
                     ? await this.methods.getPack(this.filter.value().method_pack)
                     : null
-                )
+                ).onSelection(s => {
+                    this.filter.update(f => f.method_pack = s?.local_id)
+                }, true)
 
-            this.methods.pack_set_changed.on((packs) => {
-                selection.setItems(packs)
-            }).bindTo(this.handler_pool)
-
-            props.named("Methods",
-                vbox(
-                    selection,
-                    specifics_container
-                )
-            )
-
-            selection.onSelection(s => {
-                this.filter.update(f => f.method_pack = s?.local_id)
-
-                specifics_container.empty()
-
-                if (s) {
-                    let none: Checkbox = new Checkbox("None")
-                    let at_least_one: Checkbox = new Checkbox("At least one", "radio")
-
-                    new Checkbox.Group<"none" | "at_least_one">([
-                        {value: "none", button: none},
-                        {value: "at_least_one", button: at_least_one},
-                    ], false).setValue(this.filter.value().method_mode || "at_least_one")
-                        .onChange(v => this.filter.update(f => f.method_mode = v))
-
-                    specifics_container.append(
-                        none,
-                        spacer(),
-                        at_least_one
-                    )
-                }
-            }, true)
+            props.named("Methods", specifics_container)
+            props.named("In Pack", selection)
         }
 
         props.named("Search", new TextField().setPlaceholder("Search")

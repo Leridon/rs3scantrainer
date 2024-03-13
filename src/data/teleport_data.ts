@@ -2586,7 +2586,7 @@ name: "Goshima Docks",
                         animation_ticks: 3
                     },
                 ]
-            }, * /
+            }, */
         {
             type: "teleports",
             id: "gliders",

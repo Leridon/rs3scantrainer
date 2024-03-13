@@ -7,12 +7,9 @@ import {Observable, observe} from "../../../lib/reactive";
 import {CacheTypes} from "./cachetools/CacheTypes";
 import {LocUtil} from "./cachetools/util/LocUtil";
 import TextField from "../../../lib/ui/controls/TextField";
-import Checks from "../../../skillbertssolver/typecheck";
-import num = Checks.num;
 import LocDataFile = CacheTypes.LocDataFile;
 import {MapEntity} from "../../../lib/gamemap/MapEntity";
 import LocInstance = CacheTypes.LocInstance;
-import {QuadTree} from "../../../lib/QuadTree";
 import {FloorLevels, ZoomLevels} from "../../../lib/gamemap/ZoomLevels";
 import {boxPolygon} from "../polygon_helpers";
 import {Rectangle, Vector2} from "lib/math";
@@ -21,11 +18,9 @@ import {Menu} from "../widgets/ContextMenu";
 import Widget from "../../../lib/ui/Widget";
 import getInstances = LocUtil.getInstances;
 import LocWithUsages = CacheTypes.LocWithUsages;
-import {TransportParser} from "./cachetools/TransportParser";
-import {TransportParsers} from "./cachetools/parsers2";
-import {TileRectangle} from "../../../lib/runescape/coordinates";
 import * as leaflet from "leaflet"
-import tr = TileRectangle.tr;
+
+import {LocParsingTable} from "./cachetools/LocParsingAssociation";
 
 export type LocFilter = {
     names?: string[],
@@ -120,7 +115,7 @@ class LocFilterControl extends GameMapControl {
 
 export class LocInstanceEntity extends MapEntity {
 
-    constructor(public instance: LocInstance) {
+    constructor(public instance: LocInstance, private parsing_table: LocParsingTable) {
         super({
             highlightable: true,
             interactive: true
@@ -133,7 +128,7 @@ export class LocInstanceEntity extends MapEntity {
 
     protected async render_implementation(props: MapEntity.RenderProps): Promise<Element> {
 
-        const has_parser = !!TransportParsers.lookup_parser(this.instance.loc_id)
+        const has_parser = this.parsing_table.hasParser(this.instance)
 
         boxPolygon(this.instance.box).setStyle({
             color: has_parser ? "green" : "red",
@@ -192,19 +187,17 @@ export class FilteredLocLayer extends GameLayer {
 
     filter_control: LocFilterControl
 
-    data: LocDataFile = null
-
     loc_entities: {
         loc: LocWithUsages,
         instances: LocInstanceEntity[]
     }[]
 
-    constructor() {
+    constructor(private data: LocDataFile, private parsing_table: LocParsingTable) {
         super();
 
         this.add(this.filter_control = new LocFilterControl())
 
-        LocDataFile.fromURL("map/raw_loc_data.json").then(file => this.init(file))
+        this.init()
 
         this.filter_control.filter.subscribe(() => this.applyFilter())
     }
@@ -221,18 +214,15 @@ export class FilteredLocLayer extends GameLayer {
         })
     }
 
-    init(data: LocDataFile) {
-        this.data = data
-
+    init() {
         timeSync("Initializing loc_entities", () => {
-            this.loc_entities = data.getAll().map((loc) => {
+            this.loc_entities = this.data.getAll().map((loc) => {
                 return {
                     loc: loc,
-                    instances: getInstances(loc).map(i => new LocInstanceEntity(i))
+                    instances: getInstances(loc).map(i => new LocInstanceEntity(i, this.parsing_table))
                 }
             })
         })
-
 
         this.applyFilter()
 

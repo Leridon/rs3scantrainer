@@ -1,6 +1,8 @@
 import {Vector2} from "../../../../lib/math";
 import {Observable, observe} from "../../../../lib/reactive";
 import {TileCoordinates} from "../../../../lib/runescape/coordinates";
+import {CacheTypes} from "./CacheTypes";
+import LocInstance = CacheTypes.LocInstance;
 
 export type LocParsingAssociation = {
     parser_id: string,
@@ -33,7 +35,16 @@ export class LocParsingTable {
     }
 
     associateNewGroup(loc_id: number, parser_id: string, data?: any): void {
+        this.data.associations.push(this.loc_index[loc_id] = {
+            parser_id: parser_id,
+            loc_groups: [{locs_ids: [loc_id], per_group_arg: data}]
+        })
 
+        this.bumpVersion()
+    }
+
+    hasParser(instance: LocInstance): boolean {
+        return !!this.loc_index[instance.loc_id]
     }
 
     associateLocWithExistingGroup(loc_id: number, parser_id: string, existing_loc: number): void {

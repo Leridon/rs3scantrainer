@@ -13,6 +13,8 @@ import {parsers3} from "./cachetools/parsers3";
 import {LocUtil} from "./cachetools/util/LocUtil";
 import {TileCoordinates} from "../../../lib/runescape/coordinates";
 import {Parsing} from "./cachetools/Parsing";
+import {CacheTypes} from "./cachetools/CacheTypes";
+import LocDataFile = CacheTypes.LocDataFile;
 
 export class ParserManagementLayer extends GameLayer {
     loc_layer: FilteredLocLayer
@@ -21,11 +23,10 @@ export class ParserManagementLayer extends GameLayer {
     repo_version_number: number
 
     parsing_table: LocParsingTable
+    data_file: LocDataFile
 
     constructor() {
         super();
-
-        this.loc_layer = new FilteredLocLayer().addTo(this)
 
         new GameMapControl({type: "gapless", position: "bottom-center"}, c())
             .setContent(
@@ -37,7 +38,7 @@ export class ParserManagementLayer extends GameLayer {
                             }),
                         new LightButton("Apply parsers")
                             .onClick(async () => {
-                                const results = await Parsing.applyParsing(parsers3, this.loc_layer.data, this.parsing_table)
+                                const results = await Parsing.applyParsing(parsers3, this.data_file, this.parsing_table)
 
                                 new ExportStringModal(cleanedJSON(results)).show()
                             })
@@ -48,6 +49,7 @@ export class ParserManagementLayer extends GameLayer {
     }
 
     async init() {
+
         let local_data: LocParsingTableData = await KeyValueStore.instance().get<LocParsingTableData>(this.local_store_id)
         let repo_data: LocParsingTableData = await (await fetch("map/parsing_associations.json")).json().catch(() => undefined)
 
@@ -62,16 +64,29 @@ export class ParserManagementLayer extends GameLayer {
         if (repo_data?.version ?? -1 > most_current_data.version) most_current_data = repo_data
 
         this.parsing_table = new LocParsingTable(most_current_data)
+
+        this.parsing_table.version.subscribe(async () => {
+            await KeyValueStore.instance().set(this.local_store_id, this.parsing_table.data)
+        })
+
+        this.data_file = await LocDataFile.fromURL("map/raw_loc_data.json")
+
+        this.loc_layer = new FilteredLocLayer(this.data_file, this.parsing_table).addTo(this)
     }
 
     eventContextMenu(event: GameMapContextMenuEvent) {
 
         event.onPre(() => {
             if (event.active_entity instanceof LocInstanceEntity) {
+                const instance = event.active_entity.instance
+
                 event.addForEntity({
                     type: "basic",
-                    text: "Associate with parser",
-                    handler: () => {}
+                    text: "Associate with door parser",
+                    handler: () => {
+                        this.parsing_table.associateNewGroup(instance.loc_id, "west-facing-doors")
+
+                    }
                 })
             }
         })

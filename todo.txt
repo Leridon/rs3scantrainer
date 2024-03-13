@@ -12,8 +12,12 @@ Planned for next release (b0.4):
     - Dorgesh Khaan stairs
     - Swamp Cave entrance and stones
     - [Dev Tool, 5] Utility Layer for shortcut parsing
-        - Show LocUsage on map
-        - Bounding Box, rotation
+        - "Associate with parser"
+        - Update coloring on change in parser state
+        - Option to overlay parsed transports to compare to
+        - "Prototype parser"
+            - UI to create a transportation method
+
         - Quick-Copy origin and id
         - "Show unrotated"
 

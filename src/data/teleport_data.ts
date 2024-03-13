@@ -664,63 +664,63 @@ const raw_data: Transportation.TeleportGroup[] = [
             },
             {
                 id: "banditcamp",
-                target: {"origin":{"x":3168,"y":2980,"level":0},"size":{"x":5,"y":5}},
+                target: {"origin": {"x": 3168, "y": 2980, "level": 0}, "size": {"x": 5, "y": 5}},
                 img: {url: "scroll-banditcamp.png"},
                 name: "Bandit Camp",
                 code: "2",
             },
             {
                 id: "clocktower",
-                target:{"origin":{"x":2591,"y":3250,"level":0},"size":{"x":5,"y":5},"data":"/3/nAQ=="},
+                target: {"origin": {"x": 2591, "y": 3250, "level": 0}, "size": {"x": 5, "y": 5}, "data": "/3/nAQ=="},
                 img: {url: "scroll-clocktower.png"},
                 name: "Clocktower",
                 code: "3",
             },
             {
                 id: "gutanoth",
-                target: {"origin":{"x":2521,"y":3060,"level":0},"size":{"x":5,"y":5},"data":"hPz/AQ=="},
+                target: {"origin": {"x": 2521, "y": 3060, "level": 0}, "size": {"x": 5, "y": 5}, "data": "hPz/AQ=="},
                 img: {url: "scroll-gutanoth.png"},
                 name: "Gu'Tanoth",
                 code: "4",
             },
             {
                 id: "lighthouse",
-                target: {"origin":{"x":2511,"y":3627,"level":0},"size":{"x":5,"y":3},"data":"/x8="},
+                target: {"origin": {"x": 2511, "y": 3627, "level": 0}, "size": {"x": 5, "y": 3}, "data": "/x8="},
                 img: {url: "scroll-lighthouse.png"},
                 name: "Lighthouse",
                 code: "5",
             },
             {
                 id: "fortforinthry",
-                target: {"origin":{"x":3301,"y":3548,"level":0},"size":{"x":5,"y":5},"data":"UP//AQ=="},
+                target: {"origin": {"x": 3301, "y": 3548, "level": 0}, "size": {"x": 5, "y": 5}, "data": "UP//AQ=="},
                 img: {url: "scroll-fortforinthry.png"},
                 name: "Forintry Teleport",
                 code: "6",
             },
             {
                 id: "miscellania",
-                target: {"origin":{"x":2511,"y":3858,"level":0},"size":{"x":5,"y":5},"data":"//8/AQ=="},
+                target: {"origin": {"x": 2511, "y": 3858, "level": 0}, "size": {"x": 5, "y": 5}, "data": "//8/AQ=="},
                 img: {url: "scroll-miscellania.png"},
                 name: "Miscellania",
                 code: "7",
             },
             {
                 id: "phoenixlair",
-                target: {"origin":{"x":2291,"y":3620,"level":0},"size":{"x":5,"y":5},"data":"/v//AA=="},
+                target: {"origin": {"x": 2291, "y": 3620, "level": 0}, "size": {"x": 5, "y": 5}, "data": "/v//AA=="},
                 img: {url: "scroll-phoenixlair.png"},
                 name: "Phoenix Lair",
                 code: "8",
             },
             {
                 id: "pollnivneach",
-                target: {"origin":{"x":3357,"y":2967,"level":0},"size":{"x":5,"y":5},"data":"//+fAQ=="},
+                target: {"origin": {"x": 3357, "y": 2967, "level": 0}, "size": {"x": 5, "y": 5}, "data": "//+fAQ=="},
                 img: {url: "scroll-pollnivneach.png"},
                 name: "Pollnivneach",
                 code: "9",
             },
             {
                 id: "taibwowannai",
-                target: {"origin":{"x":2802,"y":3084,"level":0},"size":{"x":5,"y":5},"data":"5/9/AA=="},
+                target: {"origin": {"x": 2802, "y": 3084, "level": 0}, "size": {"x": 5, "y": 5}, "data": "5/9/AA=="},
                 img: {url: "scroll-taibwowannai.png"},
                 name: "Tai Bwo Wannai",
                 code: "0",
@@ -3493,19 +3493,26 @@ name: "Overgrown Idols - North of the Jadinko vine cave",
             name: {name: "Archaeology teleport", kind: "item"},
             action_name: "Teleport"
         }] // TODO: Outfit
+    },
+    {
+        type: "teleports",
+        id: "ringofkinship",
+        name: "Ring of Kinship",
+        spots: [{
+            id: "daemonheim",
+            name: "Daemonheim",
+            target: {"origin": {"x": 3441, "y": 3694, "level": 0}, "size": {"x": 11, "y": 11}, "data": "//////nPf/jDH/6gBzzAAA=="},
+            menu_ticks: 0,
+            animation_ticks: 8
+        }],
+        access: [{
+            id: "ring",
+            type: "item",
+            img: {url: "ringofkinship.png"},
+            name: {name: "Ring of kinship", kind: "item"},
+            action_name: "Teleport to Daemonheim"
+        }]
     },/*
-            {
-                type: "teleports",
-                id: "ringofkinship",
-                name: "Ring of Kinship",
-                img: {url: "ringofkinship.png"}, spots: [{
-                    id: "daemonheim",
-                    name: "Daemonheim",
-                    target: {origin: {x: 3449, y: 3701, level: 0}},
-                    menu_ticks: 1,
-                    animation_ticks: 13
-                }]
-            },
             {
                 type: "teleports",
                 id: "witchdoctormask",
@@ -3518,19 +3525,26 @@ name: "Overgrown Idols - North of the Jadinko vine cave",
                     menu_ticks: 1,
                     animation_ticks: default_teleport_ticks
                 }]
-            },
-            {
-                type: "teleports",
-                id: "ecctophial",
-                name: "Ectophial",
-                img: {url: "ectophial.png"}, spots: [{
-                    id: "ectofunctus",
-                    name: "Ectofunctus",
-                    target: {origin: {x: 3660, y: 3521, level: 0}},
-                    menu_ticks: 0,
-                    animation_ticks: 10
-                }]
-            },
+            },*/
+    {
+        type: "teleports",
+        id: "ecctophial",
+        name: "Ectophial",
+        spots: [{
+            id: "ectofunctus",
+            name: "Ectofunctus",
+            target: {"origin": {"x": 3657, "y": 3522, "level": 0}, "size": {"x": 5, "y": 3}, "data": "/zc="},
+            menu_ticks: 0,
+            animation_ticks: 13
+        }],
+        access: [{
+            id: "phial",
+            type: "item",
+            img: {url: "ectophial.png"},
+            name: {name: "Ectophial", kind: "item"},
+            action_name: "Empty"
+        }]
+    },/*
             {
                 type: "teleports",
                 id: "explorersring",

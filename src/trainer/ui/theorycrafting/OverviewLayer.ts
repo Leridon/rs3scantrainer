@@ -7,18 +7,48 @@ import {FilterControl} from "./Filtering";
 import {ClueOverviewMarker} from "./OverviewMarker";
 import {Clues} from "../../../lib/runescape/clues";
 import ClueSpot = Clues.ClueSpot;
+import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
+import {DisplayedRouteFilter, DisplayedRouteFilterEdit} from "./DisplayedRouteFilter";
+import TheoryCrafter from "./TheoryCrafter";
+import * as leaflet from "leaflet"
+import ControlWithHeader from "../map/ControlWithHeader";
+import {FavoriteIndex} from "../../favorites";
+import {deps} from "../../dependencies";
+import {PathStepEntity} from "../map/entities/PathStepEntity";
+import {storage} from "../../../lib/util/storage";
 
 export default class OverviewLayer extends GameLayer {
+    route_display_options = new storage.Variable<DisplayedRouteFilter>("preferences/overview_route_display", () => ({type: "none"}))
+
     filter_control: FilterControl
+    route_control: DisplayedRouteFilterEdit
 
-    public marker_index: ClueSpotIndex<{ markers: ClueOverviewMarker[] }>
+    public marker_index: ClueSpotIndex<{
+        markers: ClueOverviewMarker[],
+        route_display: leaflet.Layer
+    }>
 
-    constructor(private app: Application, private edit_handler: (_: AugmentedMethod) => any) {
+    update_promise: Promise<any> = Promise.resolve()
+
+    constructor(private app: TheoryCrafter) {
         super();
 
-        this.filter_control = new FilterControl(MethodPackManager.instance(), this.edit_handler).addTo(this)
+        this.filter_control = new FilterControl(MethodPackManager.instance(), m => app.editMethod(m)).addTo(this)
 
-        this.marker_index = clue_data.spot_index.with(() => ({markers: []}))
+        new GameMapControl({
+                type: "floating", position: "top-right"
+            }, new ControlWithHeader("Show routes")
+                .setContent(
+                    this.route_control = new DisplayedRouteFilterEdit()
+                        .setValue(this.route_display_options.get())
+                        .onCommit((f) => {
+                            this.route_display_options.set(f)
+                            this.updateVisibleRoutes()
+                        })
+                ).css("width", "200px")
+        ).addTo(this)
+
+        this.marker_index = clue_data.spot_index.with(() => ({markers: [], route_display: null}))
 
         this.on("add", () => {
             this.filter_control.filtered_index_updated.on(() => this.updateVisibleMarkersByFilter())
@@ -27,17 +57,59 @@ export default class OverviewLayer extends GameLayer {
     }
 
     private async updateVisibleMarkersByFilter() {
-        await Promise.all(this.marker_index.flat().map(async c => {
+        await this.update_promise
+
+        this.update_promise = Promise.all(this.marker_index.flat().map(async c => {
                 let visible = this.filter_control.index.get(ClueSpot.toId(c.for)).visible
 
                 if (!visible && c.markers.length > 0) {
                     c.markers.forEach(c => c.remove())
                     c.markers = []
                 } else if (visible && c.markers.length == 0) {
-                    c.markers = ClueOverviewMarker.forClue(c.for, MethodPackManager.instance(), this.edit_handler)
+                    c.markers = ClueOverviewMarker.forClue(c.for, MethodPackManager.instance(), m => this.app.editMethod(m))
                     c.markers.forEach(m => m.addTo(this))
                 }
             })
         )
+
+        this.updateVisibleRoutes()
+    }
+
+    private async updateVisibleRoutes() {
+        await this.update_promise
+
+        const filter = this.route_control.get()
+
+        this.update_promise = Promise.all(this.marker_index.flat().map(async c => {
+            c.route_display?.remove()
+            c.route_display = null
+
+            if (c.markers.length > 0) {
+                let method: AugmentedMethod = null
+
+                switch (filter.type) {
+                    case "favourites":
+                        method = await deps().app.favourites.getMethod(ClueSpot.toId(c.for))
+
+                        break;
+                    case "pack":
+                        if (!filter.local_pack_id) break;
+
+                        const methods = await MethodPackManager.instance().get(c.for, [filter.local_pack_id])
+
+                        if (methods.length > 0) method = methods[0]
+
+                        break;
+                }
+
+                if (method) {
+
+                    if (method.method.type == "general_path") {
+
+                        c.route_display = PathStepEntity.renderPath(method.method.main_path).addTo(this)
+                    }
+                }
+            }
+        }))
     }
 }

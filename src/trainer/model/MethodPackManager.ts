@@ -255,15 +255,21 @@ export class MethodPackManager {
         return MethodPackManager._instance
     }
 
-    async getForClue(id: ClueSpot.Id): Promise<AugmentedMethod[]> {
+    async getForClue(id: ClueSpot.Id, pack_ids: string[] = undefined): Promise<AugmentedMethod[]> {
         await this.index_created
 
-        return this.method_index.get(id).methods
+        const all_methods = this.method_index.get(id).methods
+
+        if (pack_ids) {
+            return all_methods.filter(m => pack_ids.includes(m.pack.local_id))
+        } else {
+            return all_methods
+        }
     }
 
-    async get(spot: ClueSpot): Promise<AugmentedMethod[]> {
+    async get(spot: ClueSpot, pack_ids: string[] = undefined): Promise<AugmentedMethod[]> {
         // TODO: Why would I need both this method and getForClue?
-        return await this.getForClue(ClueSpot.toId(spot))
+        return await this.getForClue(ClueSpot.toId(spot), pack_ids)
     }
 
     async resolve(id: LocalMethodId): Promise<AugmentedMethod> {

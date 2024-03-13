@@ -5,11 +5,14 @@ import {util} from "../../../lib/util/util";
 
 export abstract class AbstractDropdownSelection<T extends object | string | number> extends Widget {
     protected input_container: Widget
+    private input: Widget
 
     protected dropdown: AbstractDropdownSelection.DropDown<T> = null
 
     public selection: Observable.Simple<T>
     private selected = ewent<T>()
+
+    private enabled = observe(true)
 
     protected constructor(protected options: AbstractDropdownSelection.options<T>, inital_item: T) {
         super($("<div class='nisl-selectdropdown'>"));
@@ -22,11 +25,15 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
             this.renderInput()
         }, true)
 
+        this.enabled.subscribe(enabled => {
+            this.input?.toggleClass("disabled", !enabled)
+        })
+
         this.setItems([inital_item])
     }
 
     private renderInput(): void {
-        c("<div class='nisl-selectdropdown-input' tabindex='-1'>")
+        this.input = c("<div class='nisl-selectdropdown-input' tabindex='-1'>")
             .on("click", (e) => {
                 this.openDropdown()
             })
@@ -40,24 +47,29 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
             : c(`<div>${v}</div>`)
     }
 
-    _selectableItems: T[] = []
+    private _list_constructor: () => Promise<T[]> | T[] = async () => []
 
-    setItems(items: T[]): this {
-        this._selectableItems = items
+    setItems(items: T[] | (() => Promise<T[]> | T[])): this {
 
-        if (this.dropdown) this.dropdown.setItems(items)
+        if (Array.isArray(items)) {
+            this._list_constructor = () => Promise.resolve(items)
+        } else {
+            this._list_constructor = items
+        }
 
         return this
     }
 
-    openDropdown() {
+    async openDropdown() {
+        if (!this.enabled.value()) return;
+
         this.dropdown = new AbstractDropdownSelection.DropDown<T>({
             dropdownClass: 'nisl-selectdropdown-options',
             renderItem: (i) => {
                 return c().append(this.construct(i))
             }
         })
-            .setItems(this._selectableItems.concat(this.options.can_be_null ? [null] : []))
+            .setItems(await this._list_constructor())
             .setHighlighted(this.selection.value())
             .onClosed(() => this.dropdown = null)
             .onSelected(i => {
@@ -96,8 +108,10 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
         return this
     }
 
-    getItems(): T[] {
-        return this._selectableItems
+    setEnabled(value: boolean): this {
+        this.enabled.set(value)
+
+        return this
     }
 }
 
@@ -298,7 +312,6 @@ export namespace AbstractDropdownSelection {
     }
 
     export type options<T> = {
-        can_be_null?: boolean
         type_class?: selectable<T>
     }
 

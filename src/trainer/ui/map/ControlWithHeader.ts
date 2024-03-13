@@ -42,4 +42,10 @@ export default class ControlWithHeader extends Widget {
 
         this.body = c("<div class='ctr-map-control-body'></div>").appendTo(this)
     }
+
+    setContent(content: Widget): this {
+        this.body.empty().append(content)
+
+        return this
+    }
 }

@@ -78081,6 +78081,24 @@ var SolvingMethods;
             return method;
         }
         Method.setMeta = setMeta;
+        function allPaths(method) {
+            const raw = (() => {
+                switch (method.type) {
+                    case "general_path":
+                        return [method.pre_path, method.main_path, method.post_path];
+                    case "scantree":
+                        function gather(accu, node) {
+                            accu.push(node.path);
+                            node.children.forEach(c => gather(accu, c.value));
+                            return accu;
+                        }
+                        return gather([], method.tree.root);
+                }
+            })();
+            raw.filter(p => p && p.length > 0);
+            return raw.flat();
+        }
+        Method.allPaths = allPaths;
     })(Method = SolvingMethods.Method || (SolvingMethods.Method = {}));
     function init(clue) {
         // TODO: Sensible default names
@@ -86994,6 +87012,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _dependencies__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../dependencies */ "./trainer/dependencies.ts");
 /* harmony import */ var _map_entities_PathStepEntity__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../map/entities/PathStepEntity */ "./trainer/ui/map/entities/PathStepEntity.ts");
 /* harmony import */ var _lib_util_storage__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../../lib/util/storage */ "./lib/util/storage.ts");
+/* harmony import */ var _model_methods__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../model/methods */ "./trainer/model/methods.ts");
 
 
 
@@ -87007,6 +87026,8 @@ var ClueSpot = _lib_runescape_clues__WEBPACK_IMPORTED_MODULE_5__.Clues.ClueSpot;
 
 
 
+
+var Method = _model_methods__WEBPACK_IMPORTED_MODULE_12__.SolvingMethods.Method;
 class OverviewLayer extends _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_0__.GameLayer {
     constructor(app) {
         super();
@@ -87066,9 +87087,7 @@ class OverviewLayer extends _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_0__.
                         break;
                 }
                 if (method) {
-                    if (method.method.type == "general_path") {
-                        c.route_display = _map_entities_PathStepEntity__WEBPACK_IMPORTED_MODULE_10__.PathStepEntity.renderPath(method.method.main_path).addTo(this);
-                    }
+                    c.route_display = _map_entities_PathStepEntity__WEBPACK_IMPORTED_MODULE_10__.PathStepEntity.renderPath(Method.allPaths(method.method)).addTo(this);
                 }
             }
         }));

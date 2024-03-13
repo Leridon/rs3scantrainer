@@ -939,6 +939,12 @@ video {
     white-space: nowrap
 }
 
+.nisl-selectdropdown-input.disabled {
+    cursor: default;
+    background: linear-gradient(to bottom, #2C2C2C, #4A4A4A, #1c1c1c);
+    filter: grayscale(1) brightness(0.7);
+}
+
 .nisl-selectdropdown-options {
     cursor: pointer;
     /*position: absolute;

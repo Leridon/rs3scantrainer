@@ -5,11 +5,14 @@ import {util} from "../../../lib/util/util";
 
 export abstract class AbstractDropdownSelection<T extends object | string | number> extends Widget {
     protected input_container: Widget
+    private input: Widget
 
     protected dropdown: AbstractDropdownSelection.DropDown<T> = null
 
     public selection: Observable.Simple<T>
     private selected = ewent<T>()
+
+    private enabled = observe(true)
 
     protected constructor(protected options: AbstractDropdownSelection.options<T>, inital_item: T) {
         super($("<div class='nisl-selectdropdown'>"));
@@ -22,11 +25,15 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
             this.renderInput()
         }, true)
 
+        this.enabled.subscribe(enabled => {
+            this.input?.toggleClass("disabled", !enabled)
+        })
+
         this.setItems([inital_item])
     }
 
     private renderInput(): void {
-        c("<div class='nisl-selectdropdown-input' tabindex='-1'>")
+        this.input = c("<div class='nisl-selectdropdown-input' tabindex='-1'>")
             .on("click", (e) => {
                 this.openDropdown()
             })
@@ -51,6 +58,8 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
     }
 
     openDropdown() {
+        if (!this.enabled.value()) return;
+
         this.dropdown = new AbstractDropdownSelection.DropDown<T>({
             dropdownClass: 'nisl-selectdropdown-options',
             renderItem: (i) => {
@@ -98,6 +107,12 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
 
     getItems(): T[] {
         return this._selectableItems
+    }
+
+    setEnabled(value: boolean): this {
+        this.enabled.set(value)
+
+        return this
     }
 }
 

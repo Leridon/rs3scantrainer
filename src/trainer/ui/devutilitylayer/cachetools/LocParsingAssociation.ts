@@ -43,6 +43,10 @@ export class LocParsingTable {
         this.bumpVersion()
     }
 
+    getParser(instance: LocInstance): string {
+        return this.loc_index[instance.loc_id]?.parser_id
+    }
+
     hasParser(instance: LocInstance): boolean {
         return !!this.loc_index[instance.loc_id]
     }

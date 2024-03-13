@@ -21,6 +21,13 @@ import LocWithUsages = CacheTypes.LocWithUsages;
 import * as leaflet from "leaflet"
 
 import {LocParsingTable} from "./cachetools/LocParsingAssociation";
+import {C} from "../../../lib/ui/constructors";
+import staticentity = C.staticentity;
+import getActions = LocUtil.getActions;
+import {CursorType} from "../../../lib/runescape/CursorType";
+import hbox = C.hbox;
+import inlineimg = C.inlineimg;
+import vbox = C.vbox;
 
 export type LocFilter = {
     names?: string[],
@@ -168,8 +175,21 @@ export class LocInstanceEntity extends MapEntity {
     }
 
     async renderTooltip(): Promise<{ content: Widget; interactive: boolean } | null> {
+
+        const parser = this.parsing_table.getParser(this.instance)
+
+        let props = new Properties()
+
+        props.header(c().append(staticentity(this.instance.prototype.name), ` (${this.instance.loc_id})`))
+        props.named("Actions", vbox(...getActions(this.instance.prototype).map(a => {
+            return hbox(inlineimg(CursorType.meta(a.cursor).icon_url), " ", a.name)
+        })))
+        props.named("Size", `${this.instance.prototype.width ?? 1} x ${this.instance.prototype.length ?? 1}`)
+        props.named("Rotation", (this.instance.rotation ?? 0).toString())
+        props.named("Parser", parser ? parser : "-")
+
         return {
-            content: c().append(this.instance.loc_id.toString()),
+            content: props,
             interactive: false
         }
     }

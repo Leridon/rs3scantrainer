@@ -423,7 +423,6 @@ const raw_data: Transportation.TeleportGroup[] = [
             name: "Ancient Spellbook" // TODO: Tablets
         }]
     },
-
     {
         type: "teleports",
         id: "lunarspellbook",
@@ -649,106 +648,99 @@ const raw_data: Transportation.TeleportGroup[] = [
                         }
                     },
                 ]
+            },*/
+    {
+        type: "teleports",
+        id: "teleportscrolls",
+        name: "Teleport Scrolls",
+        animation_ticks: 5,
+        spots: [
+            {
+                id: "grandexchange",
+                target: {"origin": {"x": 3159, "y": 3454, "level": 0}, "size": {"x": 4, "y": 5}, "data": "7u4D"},
+                img: {url: "scroll-grandexchange.png"},
+                name: "Grand Exchange",
+                code: "1",
             },
             {
-                type: "teleports",
-                id: "teleportscrolls",  // Timings assume a menu tick from globetrotter gloves
-                name: "Teleport Scrolls",
-                img: {url: ""},
-                spots: [
-                    {
-                        id: "grandexchange",
-                        target: {origin: {x: 3160, y: 3458, level: 0}},
-                        img: {url: "scroll-grandexchange.png"},
-                        name: "Grand Exchange",
-                        code: "1",
-                        menu_ticks: 1,
-                        animation_ticks: 5
-                    },
-                    {
-                        id: "banditcamp",
-                        target: {origin: {x: 3169, y: 2981, level: 0}},
-                        img: {url: "scroll-banditcamp.png"},
-                        name: "Bandit Camp",
-                        code: "2",
-                        menu_ticks: 1,
-                        animation_ticks: 5
-                    },
-                    {
-                        id: "clocktower",
-                        target: {origin: {x: 2593, y: 3253, level: 0}},
-                        img: {url: "scroll-clocktower.png"},
-                        name: "Clocktower",
-                        code: "3",
-                        menu_ticks: 1,
-                        animation_ticks: 5
-                    },
-                    {
-                        id: "gutanoth",
-                        target: {origin: {x: 2523, y: 3062, level: 0}},
-                        img: {url: "scroll-gutanoth.png"},
-                        name: "Gu'Tanoth",
-                        code: "4",
-                        menu_ticks: 1,
-                        animation_ticks: 5
-                    },
-                    {
-                        id: "lighthouse",
-                        target: {origin: {x: 2512, y: 3632, level: 0}},
-                        img: {url: "scroll-lighthouse.png"},
-                        name: "Lighthouse",
-                        code: "5",
-                        menu_ticks: 1,
-                        animation_ticks: 5
-                    },
-                    {
-                        id: "fortforinthry",
-                        target: {origin: {x: 3302, y: 3550, level: 0}},
-                        img: {url: "scroll-fortforinthry.png"},
-                        name: "Forintry Teleport",
-                        code: "6",
-                        menu_ticks: 1,
-                        animation_ticks: 5
-                    },
-                    {
-                        id: "miscellania",
-                        target: {origin: {x: 2514, y: 3862, level: 0}},
-                        img: {url: "scroll-miscellania.png"},
-                        name: "Miscellania",
-                        code: "7",
-                        menu_ticks: 1,
-                        animation_ticks: 5
-                    },
-                    {
-                        id: "phoenixlair",
-                        target: {origin: {x: 2293, y: 3620, level: 0}},
-                        img: {url: "scroll-phoenixlair.png"},
-                        name: "Phoenix Lair",
-                        code: "8",
-                        menu_ticks: 1,
-                        animation_ticks: 5
-                    },
-                    {
-                        id: "pollnivneach",
-                        target: {origin: {"x": 3359, "y": 2968, "level": 0}},
-                        img: {url: "scroll-pollnivneach.png"},
-                        name: "Pollnivneach",
-                        code: "9",
-                        menu_ticks: 1,
-                        animation_ticks: 5
-                    },
-                    {
-                        id: "tabwowannai",
-                        target: {origin: {x: 2801, y: 3085, level: 0}},
-                        img: {url: "scroll-taibwowannai.png"},
-                        name: "Tai Bwo Wannai",
-                        code: "0",
-                        menu_ticks: 1,
-                        animation_ticks: 5
-                    },
-
-                ]
+                id: "banditcamp",
+                target: {"origin":{"x":3168,"y":2980,"level":0},"size":{"x":5,"y":5}},
+                img: {url: "scroll-banditcamp.png"},
+                name: "Bandit Camp",
+                code: "2",
             },
+            {
+                id: "clocktower",
+                target:{"origin":{"x":2591,"y":3250,"level":0},"size":{"x":5,"y":5},"data":"/3/nAQ=="},
+                img: {url: "scroll-clocktower.png"},
+                name: "Clocktower",
+                code: "3",
+            },
+            {
+                id: "gutanoth",
+                target: {"origin":{"x":2521,"y":3060,"level":0},"size":{"x":5,"y":5},"data":"hPz/AQ=="},
+                img: {url: "scroll-gutanoth.png"},
+                name: "Gu'Tanoth",
+                code: "4",
+            },
+            {
+                id: "lighthouse",
+                target: {"origin":{"x":2511,"y":3627,"level":0},"size":{"x":5,"y":3},"data":"/x8="},
+                img: {url: "scroll-lighthouse.png"},
+                name: "Lighthouse",
+                code: "5",
+            },
+            {
+                id: "fortforinthry",
+                target: {"origin":{"x":3301,"y":3548,"level":0},"size":{"x":5,"y":5},"data":"UP//AQ=="},
+                img: {url: "scroll-fortforinthry.png"},
+                name: "Forintry Teleport",
+                code: "6",
+            },
+            {
+                id: "miscellania",
+                target: {"origin":{"x":2511,"y":3858,"level":0},"size":{"x":5,"y":5},"data":"//8/AQ=="},
+                img: {url: "scroll-miscellania.png"},
+                name: "Miscellania",
+                code: "7",
+            },
+            {
+                id: "phoenixlair",
+                target: {"origin":{"x":2291,"y":3620,"level":0},"size":{"x":5,"y":5},"data":"/v//AA=="},
+                img: {url: "scroll-phoenixlair.png"},
+                name: "Phoenix Lair",
+                code: "8",
+            },
+            {
+                id: "pollnivneach",
+                target: {"origin":{"x":3357,"y":2967,"level":0},"size":{"x":5,"y":5},"data":"//+fAQ=="},
+                img: {url: "scroll-pollnivneach.png"},
+                name: "Pollnivneach",
+                code: "9",
+            },
+            {
+                id: "taibwowannai",
+                target: {"origin":{"x":2802,"y":3084,"level":0},"size":{"x":5,"y":5},"data":"5/9/AA=="},
+                img: {url: "scroll-taibwowannai.png"},
+                name: "Tai Bwo Wannai",
+                code: "0",
+            },
+
+        ],
+        access: [{
+            id: "scroll",
+            type: "item",
+            name: {name: "Scroll", kind: "item"},
+            action_name: "Teleport",
+            menu_ticks: 0,
+        }, {
+            id: "globetrotter",
+            type: "item",
+            name: {name: "Globetrotter arm guards", kind: "item"},
+            action_name: "Teleport",
+            menu_ticks: 1
+        }]
+    },/*
             {
                 type: "teleports",
                 id: "teleportseed",
@@ -2587,129 +2579,129 @@ name: "Goshima Docks",
                     },
                 ]
             }, */
-        {
-            type: "teleports",
-            id: "gliders",
-            name: "Gnome gliders",
-            img: {url: "glider.png"},
-            menu_ticks: 1,
-            animation_ticks: 3,
-            spots: [
-                {
-                    id: "grandtree",
-                    target: {origin: {"x": 2465, "y": 3501, "level": 3}},
-                    name: "Ta Quir Priw",
-                    code: "1",
-                },
-                {
-                    id: "whitewolfmountain",
-                    target: {origin: {"x": 2850, "y": 3494, "level": 1}},
-                    name: "Sindarpos",
-                    code: "2",
-                },
-                {
-                    id: "digside",
-                    target: {origin: {"x": 3319, "y": 3438, "level": 0}},
-                    name: "Lemanto Andra",
-                    code: "3",
-                },
-                {
-                    id: "alkharid",
-                    target: {origin: {"x": 3284, "y": 3211, "level": 0}},
-                    name: "Kar-Hewo",
-                    code: "4",
-                },
-                {
-                    id: "karamja",
-                    target: {origin: {"x": 2971, "y": 2969, "level": 0}},
-                    name: "Gandius",
-                    code: "5",
-                },
-                {
-                    id: "feldiphills",
-                    target: {origin: {"x": 2549, "y": 2971, "level": 0}},
-                    name: "Lemantolly Undri",
-                    code: "6",
-                },
-                {
-                    id: "treegnomevillage",
-                    target: {origin: {"x": 2496, "y": 3191, "level": 0}},
-                    name: "Priw Gnomo Andralo",
-                    code: "7",
-                },
-                {
-                    id: "prifddinas",
-                    target: {origin: {x: 2208, y: 3445, level: 1}},
-                    name: "Dylandra",
-                    code: "8",
-                },
-                {
-                    id: "tualeit",
-                    target: {origin: {"x": 1772, "y": 11920, "level": 0}},
-                    name: "Kal-Undri",
-                    code: "9",
-                },
-            ],
-            access: [
-                {
-                    id: "grandtree",
-                    type: "entity",
-                    clickable_area: {origin: {"x": 2464, "y": 3502, "level": 3}},
-                    name: {kind: "npc", name: "Captain Errdo"},
-                    action_name: "Glider",
-                },
-                {
-                    id: "whitewolfmountain",
-                    type: "entity",
-                    clickable_area: {origin: {"x": 2850, "y": 3493, "level": 1}},
-                    name: {kind: "npc", name: "Captain Bleemadge"},
-                    action_name: "Glider",
-                },
-                {
-                    id: "alkharid",
-                    type: "entity",
-                    clickable_area: {origin: {"x": 3283, "y": 3212, "level": 0}},
-                    name: {kind: "npc", name: "Captain Dalbur"},
-                    action_name: "Glider",
-                },
-                {
-                    id: "karamja",
-                    type: "entity",
-                    clickable_area: {origin: {"x": 2970, "y": 2973, "level": 0}},
-                    name: {kind: "npc", name: "Captain Klemfoodle"},
-                    action_name: "Glider",
-                },
-                {
-                    id: "feldip",
-                    type: "entity",
-                    clickable_area: {origin: {"x": 2545, "y": 2972, "level": 0}}, // TODO: He is not static
-                    name: {kind: "npc", name: "Gnormadium Avlafrim"},
-                    action_name: "Glider",
-                },
-                {
-                    id: "gnomevillage",
-                    type: "entity",
-                    clickable_area: {origin: {"x": 2496, "y": 3190, "level": 0}}, // TODO: He is not static
-                    name: {kind: "npc", name: "Captain Belmondo"},
-                    action_name: "Glider",
-                },
-                {
-                    id: "prifddinas",
-                    type: "entity",
-                    clickable_area: {origin: {"x": 2207, "y": 3452, "level": 1}},
-                    name: {kind: "npc", name: "Captain Muggin"},
-                    action_name: "Glider",
-                },
-                {
-                    id: "tuaeileit",
-                    type: "entity",
-                    clickable_area: {origin: {"x": 1773, "y": 11919, "level": 0}},
-                    name: {kind: "npc", name: "Azalea Oakhart"},
-                    action_name: "Glider",
-                },
+    {
+        type: "teleports",
+        id: "gliders",
+        name: "Gnome gliders",
+        img: {url: "glider.png"},
+        menu_ticks: 1,
+        animation_ticks: 3,
+        spots: [
+            {
+                id: "grandtree",
+                target: {origin: {"x": 2465, "y": 3501, "level": 3}},
+                name: "Ta Quir Priw",
+                code: "1",
+            },
+            {
+                id: "whitewolfmountain",
+                target: {origin: {"x": 2850, "y": 3494, "level": 1}},
+                name: "Sindarpos",
+                code: "2",
+            },
+            {
+                id: "digside",
+                target: {origin: {"x": 3319, "y": 3438, "level": 0}},
+                name: "Lemanto Andra",
+                code: "3",
+            },
+            {
+                id: "alkharid",
+                target: {origin: {"x": 3284, "y": 3211, "level": 0}},
+                name: "Kar-Hewo",
+                code: "4",
+            },
+            {
+                id: "karamja",
+                target: {origin: {"x": 2971, "y": 2969, "level": 0}},
+                name: "Gandius",
+                code: "5",
+            },
+            {
+                id: "feldiphills",
+                target: {origin: {"x": 2549, "y": 2971, "level": 0}},
+                name: "Lemantolly Undri",
+                code: "6",
+            },
+            {
+                id: "treegnomevillage",
+                target: {origin: {"x": 2496, "y": 3191, "level": 0}},
+                name: "Priw Gnomo Andralo",
+                code: "7",
+            },
+            {
+                id: "prifddinas",
+                target: {origin: {x: 2208, y: 3445, level: 1}},
+                name: "Dylandra",
+                code: "8",
+            },
+            {
+                id: "tualeit",
+                target: {origin: {"x": 1772, "y": 11920, "level": 0}},
+                name: "Kal-Undri",
+                code: "9",
+            },
+        ],
+        access: [
+            {
+                id: "grandtree",
+                type: "entity",
+                clickable_area: {origin: {"x": 2464, "y": 3502, "level": 3}},
+                name: {kind: "npc", name: "Captain Errdo"},
+                action_name: "Glider",
+            },
+            {
+                id: "whitewolfmountain",
+                type: "entity",
+                clickable_area: {origin: {"x": 2850, "y": 3493, "level": 1}},
+                name: {kind: "npc", name: "Captain Bleemadge"},
+                action_name: "Glider",
+            },
+            {
+                id: "alkharid",
+                type: "entity",
+                clickable_area: {origin: {"x": 3283, "y": 3212, "level": 0}},
+                name: {kind: "npc", name: "Captain Dalbur"},
+                action_name: "Glider",
+            },
+            {
+                id: "karamja",
+                type: "entity",
+                clickable_area: {origin: {"x": 2970, "y": 2973, "level": 0}},
+                name: {kind: "npc", name: "Captain Klemfoodle"},
+                action_name: "Glider",
+            },
+            {
+                id: "feldip",
+                type: "entity",
+                clickable_area: {origin: {"x": 2545, "y": 2972, "level": 0}}, // TODO: He is not static
+                name: {kind: "npc", name: "Gnormadium Avlafrim"},
+                action_name: "Glider",
+            },
+            {
+                id: "gnomevillage",
+                type: "entity",
+                clickable_area: {origin: {"x": 2496, "y": 3190, "level": 0}}, // TODO: He is not static
+                name: {kind: "npc", name: "Captain Belmondo"},
+                action_name: "Glider",
+            },
+            {
+                id: "prifddinas",
+                type: "entity",
+                clickable_area: {origin: {"x": 2207, "y": 3452, "level": 1}},
+                name: {kind: "npc", name: "Captain Muggin"},
+                action_name: "Glider",
+            },
+            {
+                id: "tuaeileit",
+                type: "entity",
+                clickable_area: {origin: {"x": 1773, "y": 11919, "level": 0}},
+                name: {kind: "npc", name: "Azalea Oakhart"},
+                action_name: "Glider",
+            },
 
-            ]
-        },
+        ]
+    },
 
     /*{
 type: "teleports",

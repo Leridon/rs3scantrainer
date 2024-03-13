@@ -64612,81 +64612,28 @@ name: "Overgrown Idols - North of the Jadinko vine cave",
                 name: { kind: "item", name: "Cape of legends" },
                 menu_ticks: 1,
             }]
-    }, /*
-    {
-        type: "teleports",
-        id: "archjounal",
-        name: "Archaeology journal",
-        img: {url: "archjournal.png"},
-        spots: [{
-            id: "guild",
-            name: "Archaology Guild",
-            target: {origin: {x: 3334, y: 3379, level: 0}},
-            menu_ticks: 1,
-            animation_ticks: default_teleport_ticks
-        }]
-    },
-    {
-        type: "teleports",
-        id: "skullsceptre",
-        name: "Skull Sceptre",
-        img: {url: "skullsceptre.png"},
-        spots: [
-            {
-                id: "outside",
-target: {origin: {x: 3081, y: 3422, level: 0}},
-code: "1",
-name: "Outside",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "war",
-target: {origin: {x: 1862, y: 5241, level: 0}},
-code: "2",
-name: "Vault of War",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "famine",
-target: {origin: {x: 2044, y: 5244, level: 0}},
-code: "3",
-name: "Catacomb of Famine",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "pestillence",
-target: {origin: {x: 2125, y: 5253, level: 0}},
-code: "4",
-name: "Pit of Pestilence",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "death",
-target: {origin: {x: 2359, y: 5211, level: 0}},
-code: "5",
-name: "Sepulchre of Death",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
-            },
-        ]
     },
     {
         type: "teleports",
         id: "dragonkinlaboratory",
         name: "Dragonkin Laboratory teleport",
-        img: {url: "dragonkin.png"},
+        menu_ticks: 1,
+        animation_ticks: default_teleport_ticks + 1,
         spots: [{
-            id: "",
-            target: {origin: {x: 3368, y: 3887, level: 0}},
-            name: "Dragonkin Laboratory",
-            menu_ticks: 1,
-            animation_ticks: default_teleport_ticks + 1
-        }]
-    },
+                id: "spot",
+                target: { "origin": { "x": 3367, "y": 3887, "level": 0 }, "size": { "x": 5, "y": 5 }, "data": "/39CAA==" },
+                name: "Dragonkin Laboratory",
+            }],
+        access: [
+            {
+                type: "item",
+                img: { url: "dragonkin.png" },
+                name: { kind: "item", name: "Dragonkin Laboratory teleport" },
+                action_name: "Break",
+                id: "tablet"
+            }
+        ]
+    }, /*
     {
         type: "teleports",
         id: "wildernessobelisk",

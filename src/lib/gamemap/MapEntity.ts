@@ -34,10 +34,13 @@ export abstract class MapEntity extends leaflet.FeatureGroup implements QuadTree
 
         if (entity_config.interactive) {
             this.on("mouseover", () => {
+                console.log("Over")
                 this.parent?.updateHovering(this, true)
             })
 
             this.on("mouseout", () => {
+                console.log("Out")
+
                 this.parent?.updateHovering(this, false)
             })
         }

@@ -232,5 +232,32 @@ export namespace CacheTypes {
         loc_id: number,
     }
 
-    export type LocDataFile = Record<number, LocWithUsages>
+    export class LocDataFile {
+
+        private lookup_table: LocWithUsages[]
+        private all: LocWithUsages[]
+
+        constructor(private data: Record<number, LocWithUsages>) {
+            this.lookup_table = new Array(Math.max(...Object.values(data).map(o => o.id)) + 1)
+
+            Object.values(data).forEach(o => {
+                this.lookup_table[o.id] = o
+            })
+
+            this.all = this.lookup_table.filter(i => !!i)
+        }
+
+        static async fromURL(url: string): Promise<LocDataFile> {
+            return new LocDataFile(await (await fetch("map/raw_loc_data.json")).json())
+        }
+
+
+        getById(id: number): LocWithUsages {
+            return this.lookup_table[id]
+        }
+
+        getAll(): LocWithUsages[] {
+            return this.all
+        }
+    }
 }

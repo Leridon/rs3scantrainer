@@ -151,7 +151,6 @@ export class GameLayer extends leaflet.FeatureGroup {
 
                 this.active_entity.tooltip_instance.show()
             }
-
         }
     }
 

@@ -21,6 +21,8 @@ import {Menu} from "../widgets/ContextMenu";
 import Widget from "../../../lib/ui/Widget";
 import getInstances = LocUtil.getInstances;
 import LocWithUsages = CacheTypes.LocWithUsages;
+import {TransportParser2} from "./cachetools/TransportParser";
+import {TransportParsers} from "./cachetools/parsers2";
 
 export type LocFilter = {
     names?: string[],
@@ -31,6 +33,13 @@ export type LocFilter = {
 export namespace LocFilter {
     import getActions = LocUtil.getActions;
     import LocWithUsages = CacheTypes.LocWithUsages;
+
+    export function normalize(filter: LocFilter): LocFilter {
+        if (!filter.names) filter.names = []
+        if (!filter.actions) filter.actions = []
+
+        return filter
+    }
 
     export function apply(filter: LocFilter, loc: LocWithUsages): boolean {
         if (filter.object_id != null && loc.id != filter.object_id) return false
@@ -67,7 +76,7 @@ class LocFilterControl extends GameMapControl {
         props.header("Entity Names")
         props.row(
             new TextArea()
-                .setValue(this.filter.value().names.join("\n"))
+                .setValue(this.filter.value().names ? this.filter.value().names.join("\n") : "")
                 .onCommit(v => {
 
                     const names = v.split("\n").map(l => l.trim().toLowerCase()).filter(l => l.length > 0)
@@ -80,7 +89,7 @@ class LocFilterControl extends GameMapControl {
         props.header("Action Names")
         props.row(
             new TextArea()
-                .setValue(this.filter.value().actions.join("\n"))
+                .setValue(this.filter.value().actions ? this.filter.value().actions.join("\n") : "")
                 .onCommit(v => {
                     const names = v.split("\n").map(l => l.trim().toLowerCase()).filter(l => l.length > 0)
 
@@ -90,11 +99,11 @@ class LocFilterControl extends GameMapControl {
         )
 
         props.named("Object ID", new TextField()
-            .setValue(this.filter.value().object_id.toString())
+            .setValue(this.filter.value().object_id != null ? this.filter.value().object_id.toString() : "")
             .onCommit((v) => {
                 const numeric = Number(v)
 
-                this.filter.update(f => f.object_id = isNaN(numeric) ? undefined : numeric)
+                this.filter.update(f => f.object_id = !v || isNaN(numeric) ? undefined : numeric)
             })
         )
 
@@ -110,7 +119,7 @@ class LocInstanceEntity extends MapEntity {
 
     constructor(public instance: LocInstance) {
         super({
-            highlightable: true,
+            highlightable: false,
             interactive: true
         })
 
@@ -121,10 +130,14 @@ class LocInstanceEntity extends MapEntity {
 
     protected async render_implementation(props: MapEntity.RenderProps): Promise<Element> {
 
-        return boxPolygon(this.instance.box).setStyle({
-            color: "yellow",
+        const has_parser = !!TransportParsers.lookup_parser(this.instance.loc_id)
+
+        boxPolygon(this.instance.box).setStyle({
+            color: has_parser ? "green" : "yellow",
             stroke: true
         }).addTo(this).getElement()
+
+        return undefined
     }
 
     bounds(): Rectangle {
@@ -163,10 +176,7 @@ export class FilteredLocLayer extends GameLayer {
 
         this.add(this.filter_control = new LocFilterControl())
 
-        fetch("map/raw_loc_data.json").then(async (data) => {
-                this.init(await data.json())
-            }
-        )
+        LocDataFile.fromURL("map/raw_loc_data.json").then(file => this.init(file))
 
         this.filter_control.filter.subscribe(() => this.applyFilter())
     }
@@ -186,7 +196,7 @@ export class FilteredLocLayer extends GameLayer {
     init(data: LocDataFile) {
         this.data = data
 
-        this.loc_entities = Object.entries(data).map(([index, loc]) => {
+        this.loc_entities = data.getAll().map((loc) => {
             return {
                 loc: loc,
                 instances: getInstances(loc).map(i => new LocInstanceEntity(i).addTo(this))

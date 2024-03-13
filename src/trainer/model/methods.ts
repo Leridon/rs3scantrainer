@@ -109,6 +109,32 @@ export namespace SolvingMethods {
 
             return method
         }
+
+        export function allPaths(method: Method): Path {
+
+            const raw: Path[] = (() => {
+                switch (method.type) {
+                    case  "general_path":
+                        return [method.pre_path, method.main_path, method.post_path]
+                    case "scantree":
+
+                    function gather(accu: Path[], node: ScanTree.ScanTreeNode): Path[] {
+
+                        accu.push(node.path)
+
+                        node.children.forEach(c => gather(accu, c.value))
+
+                        return accu
+                    }
+
+                        return gather([], method.tree.root)
+                }
+            })()
+
+            raw.filter(p => p && p.length > 0)
+
+            return raw.flat()
+        }
     }
 
     export function init(clue: Clues.ClueSpot): Method {

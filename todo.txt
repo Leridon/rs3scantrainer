@@ -26,9 +26,8 @@ Planned for next release (b0.4):
     - Creating context menus currently is a little annoying
 
 - Map Entities
-    - [Bug, 4] Hovering over the svg paths does something weird to active entities (mouseleave doesnt register)
-    - [Performance, 1] Remove from quadtree when removed from map!
-    - [Performance, 1] Share a quad tree for all game layers?
+    - [Performance, 3] Remove from quadtree when removed from map!
+    - [Performance, 3] Share a quad tree for all game layers?
     - [Feature, 2] Find a way to separate entities on the same tile
 
 - Theorycrafter

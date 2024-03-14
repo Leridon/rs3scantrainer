@@ -120,7 +120,7 @@ class ClueSpotFilterResult extends Widget {
 
         this.addClass("ctr-filtered-clue-result")
 
-        this.props = new ClueProperties(this.spot, this.methods, this.edit_handler, true).css2({
+        this.props = new ClueProperties(this.spot, this.methods, this.edit_handler, true, undefined, true).css2({
             "display": "none",
             "border-top": "1px dashed grey"
         })

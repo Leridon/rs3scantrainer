@@ -20,6 +20,7 @@ import {FavouriteIcon, NislIcon} from "../nisl";
 import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
 import {ClueSpotIndex} from "../../../lib/runescape/clues/ClueIndex";
 import {NewMethodModal} from "./MethodModal";
+import vbox = C.vbox;
 
 export class ClueProperties extends Properties {
     render_promise: Promise<this> = null
@@ -29,6 +30,7 @@ export class ClueProperties extends Properties {
                 private edit_handler: (_: AugmentedMethod) => any,
                 private include_header: boolean,
                 private alternative_index?: number,
+                private manage_methods_button?: boolean
     ) {
         super();
 
@@ -121,15 +123,21 @@ export class ClueProperties extends Properties {
         }
 
         if (this.clue.clue.challenge?.length > 0) {
-            this.named("Challenge", hbox(...this.clue.clue.challenge.map(render_challenge).map(s => s.css("flex-grow", "1"))))
+            this.named("Challenge", c().append(...this.clue.clue.challenge.map(render_challenge).map(s => s)))
         }
 
-        this.row(hbox(new LightButton("Methods", "rectangle")
-            .onClick(async (event) => {
-                new ContextMenu(await ClueProperties.methodMenu(this.clue, this.edit_handler))
-                    .showFromEvent(event)
-            })
-        ).addClass("ctr-button-container"))
+        const methods = await MethodPackManager.instance().get(this.clue)
+
+        this.named("Methods", c().text(`${methods.length} methods available`))
+
+        if (this.manage_methods_button) {
+            this.row(hbox(new LightButton("Manage Methods", "rectangle")
+                .onClick(async (event) => {
+                    new ContextMenu(await ClueProperties.methodMenu(this.clue, this.edit_handler))
+                        .showFromEvent(event)
+                })
+            ).addClass("ctr-button-container"))
+        }
 
         /*
         let methods = await this.methods.get(this.clue)

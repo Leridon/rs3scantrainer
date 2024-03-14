@@ -23,13 +23,13 @@ export class ClueOverviewMarker extends MapEntity {
         let self = this
 
         return {
-            content: await new ClueProperties(
+            content: (await new ClueProperties(
                 self.clue,
                 self.methods,
                 self.edit_handler,
                 true,
                 self.talk_alternative_index
-            ).rendered(),
+            ).rendered()).row(c().text("Right click marker to manage methods.").css("font-style", "italic")),
             interactive: true
         }
     }

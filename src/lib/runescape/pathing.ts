@@ -236,6 +236,15 @@ export namespace Path {
     export async function augment(path: Path.Step[],
                                   start_state: movement_state = movement_state.start({}),
                                   target: TileRectangle = null): Promise<Path.augmented> {
+
+        /** TODO:
+         *   Regarding teleports:
+         *      ""Total immobile ticks"" applies if you want to move after landing"
+         *      """Total ticks"" applies if you want to, for example, open an interface, surge, or teleport after landing"
+         *   Teleport + running can happen in the same tick. Needs to be considered for timing!
+         *   Last step in a sequence should end the tick
+         */
+
         let augmented_steps: augmented_step[] = []
 
         if (!start_state) start_state = movement_state.start({})

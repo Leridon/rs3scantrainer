@@ -353,7 +353,7 @@ export namespace Path {
 
                     // Whether powerburst is active can only be determined AFTER the real tick of the step is set
                     // To not duplicate so much code, this is used as a reusable shortcut.
-                    const powerburst = () => (state.tick - state.acceleration_activation_tick) <= 120
+                    const powerburst = () => (state.tick - state.acceleration_activation_tick) <= 10
 
                     // Check cooldowns
                     // Assumes mobile as well as double surge/escape.
@@ -384,7 +384,7 @@ export namespace Path {
                             state.cooldowns.surge[min] = state.tick + cooldown("surge", powerburst(), state.assumptions.mobile_perk)
                             // Set the antispam delay for the second charge
                             for (let j = 0; j < state.cooldowns.escape.length; j++) {
-                                state.cooldowns.surge[j] = Math.max(state.tick + 2, state.cooldowns.surge[j])
+                                state.cooldowns.surge[j] = Math.max(state.tick + (powerburst() ? 1 : 2), state.cooldowns.surge[j])
                             }
 
                             // Surge puts both escape charges on cooldown
@@ -575,7 +575,6 @@ export namespace Path {
                     state.cooldowns.dive = state.tick
 
                     state.acceleration_activation_tick = state.tick
-                    state.tick += 1
 
                     break;
             }

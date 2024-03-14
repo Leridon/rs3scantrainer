@@ -74,6 +74,8 @@ export class LocParsingTable {
                         existing.per_instance_data = existing.per_instance_data.filter(i => i.loc_id != loc.loc_id)
                     }
                 }
+
+                this.loc_index[loc.loc_id] = undefined
             }
 
             if (pairing) {
@@ -109,6 +111,8 @@ export class LocParsingTable {
                         data: pairing.instance_data
                     }]
                 }
+
+                this.loc_index[loc.loc_id] = group
             }
         } else {
             // An association exists and is in the correct group

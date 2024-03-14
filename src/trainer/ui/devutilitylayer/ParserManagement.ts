@@ -9,12 +9,14 @@ import LightButton from "../widgets/LightButton";
 import ExportStringModal from "../widgets/modals/ExportStringModal";
 import {util} from "../../../lib/util/util";
 import cleanedJSON = util.cleanedJSON;
-import {parsers3} from "./cachetools/parsers3";
-import {LocUtil} from "./cachetools/util/LocUtil";
-import {TileCoordinates} from "../../../lib/runescape/coordinates";
+import {Parsers3, parsers3} from "./cachetools/parsers3";
 import {Parsing} from "./cachetools/Parsing";
 import {CacheTypes} from "./cachetools/CacheTypes";
 import LocDataFile = CacheTypes.LocDataFile;
+import {FormModal} from "../../../lib/ui/controls/FormModal";
+import {NisModal} from "../../../lib/ui/NisModal";
+import {GameMap, GameMapWidget} from "../../../lib/gamemap/GameMap";
+import {ParserPairingModal} from "./cachetools/ParserPairingModal";
 
 export class ParserManagementLayer extends GameLayer {
     loc_layer: FilteredLocLayer
@@ -41,6 +43,22 @@ export class ParserManagementLayer extends GameLayer {
                                 const results = await Parsing.applyParsing(parsers3, this.data_file, this.parsing_table)
 
                                 new ExportStringModal(cleanedJSON(results)).show()
+                            }),
+                        new LightButton("Test")
+                            .onClick(async () => {
+
+                                (new class extends NisModal {
+
+                                    constructor() {
+                                        super()
+                                    }
+
+                                    render() {
+                                        super.render();
+
+                                        this.body.append(new GameMapWidget(c().container))
+                                    }
+                                }).show()
                             })
                     )
             ).addTo(this)
@@ -59,6 +77,8 @@ export class ParserManagementLayer extends GameLayer {
             version: 0,
             associations: []
         }
+
+        debugger
 
         if (local_data?.version ?? -1 > most_current_data.version) most_current_data = local_data
         if (repo_data?.version ?? -1 > most_current_data.version) most_current_data = repo_data
@@ -80,12 +100,32 @@ export class ParserManagementLayer extends GameLayer {
             if (event.active_entity instanceof LocInstanceEntity) {
                 const instance = event.active_entity.instance
 
+                if (this.parsing_table.getPairing(instance)) {
+                    event.addForEntity({
+                        type: "basic",
+                        text: "Remove pairing",
+                        handler: () => {
+                            new ParserPairingModal().do()
+                        }
+                    })
+                } else {
+                    event.addForEntity({
+                        type: "basic",
+                        text: "Pair as standard door",
+                        handler: () => {
+                            this.parsing_table.setPairing(instance, {
+                                parser: Parsers3.getById("west-facing-doors")
+                            })
+                        }
+                    })
+                }
+
+
                 event.addForEntity({
                     type: "basic",
-                    text: "Associate with door parser",
+                    text: "Pair",
                     handler: () => {
-                        this.parsing_table.associateNewGroup(instance.loc_id, "west-facing-doors")
-
+                        new ParserPairingModal().do()
                     }
                 })
             }

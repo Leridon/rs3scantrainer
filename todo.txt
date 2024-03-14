@@ -41,13 +41,14 @@ Planned for next release (b0.4):
 - Theorycrafter
     - Editor for generic path methods
         - Display pathing when no section is selected
+        - [QOL] Immediately enter the method editor
         - Display Target-Areas and auxiliary stuff (hidey hole) on map
             - Share with Solver!
-    - [Feature] Option to show pathing for all filtered spots
-        - Best | Best in Pack | Favorite
-        - Use Noninteractive entities
-    - [Bug] Filtering does not update properly in some situations, duplicate markers
     - Collapsible method pack sections (default|imported|local)
+    - [QOL] Improved Import Modal
+        - Paste or drop file
+        - Show metadata before import
+        - Confirm/Cancel
     - [Feature] Undo/Redo
 
 

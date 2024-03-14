@@ -15,7 +15,7 @@ function childLike(l: leaflet.Layer): l is GameLayer | MapEntity {
 }
 
 export class GameLayer extends leaflet.FeatureGroup {
-    private entity_quadtree: QuadTree<MapEntity>
+    protected entity_quadtree: QuadTree<MapEntity>
 
     public handler_pool: EwentHandlerPool = new EwentHandlerPool()
 

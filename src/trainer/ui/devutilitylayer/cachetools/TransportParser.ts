@@ -8,6 +8,14 @@ import {LocUtil} from "./util/LocUtil";
 import LocInstance = CacheTypes.LocInstance;
 import getInstances = LocUtil.getInstances;
 
+export type ParseParameterType = {
+    kind: "prototype" | "direction"
+    optional: boolean
+}
+
+
+export type ParseParameters = Record<string, ParseParameterType>
+
 export abstract class TransportParser<
     PerLocData,
     PerInstanceData
@@ -91,7 +99,10 @@ export abstract class TransportParser<
 }
 
 export abstract class TransportParser2 {
-    constructor(public readonly id: string) { }
+    per_loc_group_parameter: ParseParameters
+    per_instance_parameter: ParseParameters
+
+    constructor(public readonly id: string, public readonly name: string) { }
 
     abstract apply(instance: LocInstance, args: { per_loc: any, per_instance?: any }): Promise<Transportation.Transportation[]>
 }

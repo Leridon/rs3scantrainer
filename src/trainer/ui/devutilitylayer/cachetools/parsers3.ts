@@ -7,10 +7,10 @@ import {TileTransform} from "../../../../lib/runescape/coordinates/TileTransform
 import {Transform, Vector2} from "../../../../lib/math";
 import LocInstance = CacheTypes.LocInstance;
 
-function parse(id: string, apply: (instance: CacheTypes.LocInstance, args: { per_loc: any; per_instance?: any }) => Promise<Transportation.Transportation[]>) {
+function parse(id: string, name: string, apply: (instance: CacheTypes.LocInstance, args: { per_loc: any; per_instance?: any }) => Promise<Transportation.Transportation[]>) {
 
     return (new class extends TransportParser2 {
-        constructor() {super(id);}
+        constructor() {super(id, name);}
 
         apply(instance: CacheTypes.LocInstance, args: { per_loc: any; per_instance?: any }): Promise<Transportation.Transportation[]> {
             return apply(instance, args)
@@ -45,15 +45,22 @@ function transformWithLoc(transport: Transportation.EntityTransportation, use: L
 }
 
 export const parsers3: TransportParser2[] = [
-    parse("west-facing-doors", async (instance) => {
+    parse("west-facing-doors", "Standard West Doors", async (instance) => {
 
-        const door: Transportation.DoorTransportation = {
-            type: "door",
-            position: instance.origin,
-            direction: direction.west,
-            name: instance.prototype.name ?? "Door",
+            const door: Transportation.DoorTransportation = {
+                type: "door",
+                position: instance.origin,
+                direction: direction.west,
+                name: instance.prototype.name ?? "Door",
+            }
+
+            return [transformWithLoc(door, instance)]
         }
-
-        return [transformWithLoc(door, instance)]
-    })
+    )
 ]
+
+export namespace Parsers3 {
+    export function getById(id: string): TransportParser2 {
+        return parsers3.find(p => p.id == id)
+    }
+}

@@ -122,6 +122,7 @@ class LocFilterControl extends GameMapControl {
 }
 
 export class LocInstanceEntity extends MapEntity {
+    private rendered_with_parser: boolean = undefined
 
     constructor(public instance: LocInstance, private parsing_table: LocParsingTable) {
         super({
@@ -136,14 +137,14 @@ export class LocInstanceEntity extends MapEntity {
 
     protected async render_implementation(props: MapEntity.RenderProps): Promise<Element> {
 
-        const has_parser = this.parsing_table.hasParser(this.instance)
+        debugger
 
-        boxPolygon(this.instance.box).setStyle({
+        const has_parser = !!this.parsing_table.getPairing(this.instance)
+
+        const box = boxPolygon(this.instance.box).setStyle({
             color: has_parser ? "green" : "red",
             stroke: true
-        }).addTo(this).getElement()
-
-        const rot = this.instance.rotation ?? 0
+        }).addTo(this)
 
         let true_west: [Vector2, Vector2]
 
@@ -168,7 +169,9 @@ export class LocInstanceEntity extends MapEntity {
             color: "blue"
         }).addTo(this)
 
-        return undefined
+        this.rendered_with_parser = has_parser
+
+        return box.getElement()
     }
 
     bounds(): Rectangle {
@@ -177,7 +180,7 @@ export class LocInstanceEntity extends MapEntity {
 
     async renderTooltip(): Promise<{ content: Widget; interactive: boolean } | null> {
 
-        const parser = this.parsing_table.getParser(this.instance)
+        const parser = this.parsing_table.getPairing(this.instance)
 
         let props = new Properties()
 
@@ -187,7 +190,7 @@ export class LocInstanceEntity extends MapEntity {
         })))
         props.named("Size", `${this.instance.prototype.width ?? 1} x ${this.instance.prototype.length ?? 1}`)
         props.named("Rotation", (this.instance.rotation ?? 0).toString())
-        props.named("Parser", parser ? parser : "-")
+        props.named("Parser", parser ? parser.parser.name : "-")
 
         return {
             content: props,
@@ -200,6 +203,12 @@ export class LocInstanceEntity extends MapEntity {
             type: "submenu",
             text: this.instance.prototype.name ?? "Entity",
             children: []
+        }
+    }
+
+    checkParserRedraw() {
+        if (this.rendered_props.render_at_all && !!this.parsing_table.getPairing(this.instance) != this.rendered_with_parser) {
+            this.render(true)
         }
     }
 }
@@ -219,6 +228,14 @@ export class FilteredLocLayer extends GameLayer {
         this.add(this.filter_control = new LocFilterControl())
 
         this.init()
+
+        this.parsing_table.version.subscribe(() => {
+            this.entity_quadtree.forEachVisible(e => {
+                if (e instanceof LocInstanceEntity) {
+                    e.checkParserRedraw()
+                }
+            })
+        })
 
         this.filter_control.filter.subscribe(() => this.applyFilter())
     }

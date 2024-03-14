@@ -13,37 +13,36 @@ export namespace Parsing {
     export async function applyParsing(parsers: TransportParser2[], data: LocDataFile, parsing_table: LocParsingTable): Promise<Transportation.Transportation[]> {
         let results: Transportation.Transportation[] = []
 
-        for (const {parser_id, loc_groups} of parsing_table.data.associations) {
+        for (const association of parsing_table.data.associations) {
 
-            const parser = parsers3.find(p => p.id == parser_id)
+            const parser = parsers3.find(p => p.id == association.parser_id)
 
             if (!parser) {
-                console.error(`Parser ${parser_id} is not defined!`)
+                console.error(`Parser ${association.parser_id} is not defined!`)
                 return
             }
 
-            for (const group of loc_groups) {
-                for (const loc_id of group.locs_ids) {
-                    const instances = data.get(loc_id)
+            for (const loc_id of association.loc_ids) {
+                const instances = data.get(loc_id)
 
-                    if (instances.length == 0) {
-                        console.error(`Zero instances returned for loc ${loc_id}!`)
-                    }
+                if (instances.length == 0) {
+                    console.error(`Zero instances returned for loc ${loc_id}!`)
+                }
 
-                    for (const instance of instances) {
-                        const per_instance_arg = group.per_instance_data?.find(({origin}) => TileCoordinates.eq(origin, instance.origin))?.data
+                for (const instance of instances) {
+                    const per_instance_arg = association.per_instance_data?.find(({origin}) => TileCoordinates.eq(origin, instance.origin))?.data
 
-                        try {
-                            const res = await parser.apply(instance, {per_loc: group.per_group_arg, per_instance: per_instance_arg})
+                    try {
+                        const res = await parser.apply(instance, {per_loc: association.per_group_arg, per_instance: per_instance_arg})
 
-                            results.push(...res)
-                        } catch (e) {
-                            console.error(`Parser ${parser_id} has thrown an exception!`)
-                            console.log(e)
-                        }
+                        results.push(...res)
+                    } catch (e) {
+                        console.error(`Parser ${association.parser_id} has thrown an exception!`)
+                        console.log(e)
                     }
                 }
             }
+
         }
 
         return results

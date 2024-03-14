@@ -1,6 +1,6 @@
 import * as leaflet from "leaflet";
 import {TileCoordinates} from "../runescape/coordinates";
-import {blue_icon, green_icon, red_icon, yellow_icon} from "./GameMap";
+import {blue_icon, green_icon, red_icon, red_marker, yellow_icon} from "./GameMap";
 import {ActiveOpacityGroup} from "./layers/OpacityLayer";
 
 export class TileMarker extends ActiveOpacityGroup {
@@ -14,13 +14,13 @@ export class TileMarker extends ActiveOpacityGroup {
         this.setOpacity(1)
     }
 
-    withMarker(icon: leaflet.Icon = null) {
+    withMarker(icon: leaflet.Icon = null, scale: number = 1) {
         const level_markers = [red_icon, blue_icon, green_icon, yellow_icon]
 
         if (this.marker) this.marker.remove()
 
         this.marker = leaflet.marker([this.spot.y, this.spot.x], {
-            icon: icon || level_markers[this.spot.level],
+            icon: icon ?? level_markers[this.spot.level],
             //title: `[${this.spot.x}, ${this.spot.y}]`,
             opacity: this.options.opacity
         }).addTo(this)

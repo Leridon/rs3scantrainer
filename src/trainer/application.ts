@@ -211,6 +211,15 @@ export class Application extends Behaviour {
             }],
             ["icon", (args) => {
                 return `<img class='text-icon' src='assets/icons/${args[0]}.png'>`
+            }],
+            ["npc", (args) => {
+                return `<span class='nisl-npc'>${args[0]}</span>`
+            }],
+            ["object", (args) => {
+                return `<span class='nisl-entity'>${args[0]}</span>`
+            }],
+            ["item", (args) => {
+                return `<span class='nisl-item'>${args[0]}</span>`
             }]
         ]
     ))

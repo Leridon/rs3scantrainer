@@ -66844,12 +66844,12 @@ class TileMarker extends _layers_OpacityLayer__WEBPACK_IMPORTED_MODULE_2__.Activ
         this.spot = spot;
         this.setOpacity(1);
     }
-    withMarker(icon = null) {
+    withMarker(icon = null, scale = 1) {
         const level_markers = [_GameMap__WEBPACK_IMPORTED_MODULE_1__.red_icon, _GameMap__WEBPACK_IMPORTED_MODULE_1__.blue_icon, _GameMap__WEBPACK_IMPORTED_MODULE_1__.green_icon, _GameMap__WEBPACK_IMPORTED_MODULE_1__.yellow_icon];
         if (this.marker)
             this.marker.remove();
         this.marker = leaflet__WEBPACK_IMPORTED_MODULE_0__.marker([this.spot.y, this.spot.x], {
-            icon: icon || level_markers[this.spot.level],
+            icon: icon !== null && icon !== void 0 ? icon : level_markers[this.spot.level],
             //title: `[${this.spot.x}, ${this.spot.y}]`,
             opacity: this.options.opacity
         }).addTo(this);
@@ -77085,6 +77085,15 @@ class Application extends lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_8__["default
                 }],
             ["icon", (args) => {
                     return `<img class='text-icon' src='assets/icons/${args[0]}.png'>`;
+                }],
+            ["npc", (args) => {
+                    return `<span class='nisl-npc'>${args[0]}</span>`;
+                }],
+            ["object", (args) => {
+                    return `<span class='nisl-entity'>${args[0]}</span>`;
+                }],
+            ["item", (args) => {
+                    return `<span class='nisl-item'>${args[0]}</span>`;
                 }]
         ]));
         this.startup_settings_storage = new lib_util_storage__WEBPACK_IMPORTED_MODULE_0__.storage.Variable("preferences/startupsettings", () => ({}));
@@ -85457,13 +85466,14 @@ var natural_join = _lib_util_util__WEBPACK_IMPORTED_MODULE_6__.util.natural_join
 
 
 class ClueProperties extends _widgets_Properties__WEBPACK_IMPORTED_MODULE_0__["default"] {
-    constructor(clue, methods, edit_handler, include_header, alternative_index) {
+    constructor(clue, methods, edit_handler, include_header, alternative_index, manage_methods_button) {
         super();
         this.clue = clue;
         this.methods = methods;
         this.edit_handler = edit_handler;
         this.include_header = include_header;
         this.alternative_index = alternative_index;
+        this.manage_methods_button = manage_methods_button;
         this.render_promise = null;
         this.render_promise = this.render();
     }
@@ -85547,13 +85557,17 @@ class ClueProperties extends _widgets_Properties__WEBPACK_IMPORTED_MODULE_0__["d
             }
         }
         if (((_a = this.clue.clue.challenge) === null || _a === void 0 ? void 0 : _a.length) > 0) {
-            this.named("Challenge", hbox(...this.clue.clue.challenge.map(render_challenge).map(s => s.css("flex-grow", "1"))));
+            this.named("Challenge", c().append(...this.clue.clue.challenge.map(render_challenge).map(s => s)));
         }
-        this.row(hbox(new _widgets_LightButton__WEBPACK_IMPORTED_MODULE_4__["default"]("Methods", "rectangle")
-            .onClick(async (event) => {
-            new _widgets_ContextMenu__WEBPACK_IMPORTED_MODULE_8__["default"](await ClueProperties.methodMenu(this.clue, this.edit_handler))
-                .showFromEvent(event);
-        })).addClass("ctr-button-container"));
+        const methods = await _model_MethodPackManager__WEBPACK_IMPORTED_MODULE_7__.MethodPackManager.instance().get(this.clue);
+        this.named("Methods", c().text(`${methods.length} methods available`));
+        if (this.manage_methods_button) {
+            this.row(hbox(new _widgets_LightButton__WEBPACK_IMPORTED_MODULE_4__["default"]("Manage Methods", "rectangle")
+                .onClick(async (event) => {
+                new _widgets_ContextMenu__WEBPACK_IMPORTED_MODULE_8__["default"](await ClueProperties.methodMenu(this.clue, this.edit_handler))
+                    .showFromEvent(event);
+            })).addClass("ctr-button-container"));
+        }
         /*
         let methods = await this.methods.get(this.clue)
         this.header("Methods")
@@ -85896,7 +85910,7 @@ class ClueSpotFilterResult extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_4__["
         this.edit_handler = edit_handler;
         this.map = map;
         this.addClass("ctr-filtered-clue-result");
-        this.props = new _ClueProperties__WEBPACK_IMPORTED_MODULE_16__.ClueProperties(this.spot, this.methods, this.edit_handler, true).css2({
+        this.props = new _ClueProperties__WEBPACK_IMPORTED_MODULE_16__.ClueProperties(this.spot, this.methods, this.edit_handler, true, undefined, true).css2({
             "display": "none",
             "border-top": "1px dashed grey"
         });
@@ -86896,17 +86910,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   ClueOverviewMarker: () => (/* binding */ ClueOverviewMarker)
 /* harmony export */ });
-/* harmony import */ var _lib_gamemap_TileMarker__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../lib/gamemap/TileMarker */ "./lib/gamemap/TileMarker.ts");
-/* harmony import */ var _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../lib/runescape/coordinates */ "./lib/runescape/coordinates/index.ts");
-/* harmony import */ var _lib_math__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../lib/math */ "./lib/math/index.ts");
-/* harmony import */ var _ClueProperties__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ClueProperties */ "./trainer/ui/theorycrafting/ClueProperties.ts");
-/* harmony import */ var _lib_gamemap_MapEntity__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../lib/gamemap/MapEntity */ "./lib/gamemap/MapEntity.ts");
+/* harmony import */ var _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../lib/runescape/coordinates */ "./lib/runescape/coordinates/index.ts");
+/* harmony import */ var _lib_math__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../lib/math */ "./lib/math/index.ts");
+/* harmony import */ var _ClueProperties__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ClueProperties */ "./trainer/ui/theorycrafting/ClueProperties.ts");
+/* harmony import */ var _lib_gamemap_MapEntity__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../lib/gamemap/MapEntity */ "./lib/gamemap/MapEntity.ts");
+/* harmony import */ var _lib_gamemap_GameMap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../lib/gamemap/GameMap */ "./lib/gamemap/GameMap.ts");
+/* harmony import */ var leaflet__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! leaflet */ "../node_modules/leaflet/dist/leaflet-src.js");
+/* harmony import */ var leaflet__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(leaflet__WEBPACK_IMPORTED_MODULE_5__);
 
 
 
 
 
-class ClueOverviewMarker extends _lib_gamemap_MapEntity__WEBPACK_IMPORTED_MODULE_4__.MapEntity {
+
+class ClueOverviewMarker extends _lib_gamemap_MapEntity__WEBPACK_IMPORTED_MODULE_3__.MapEntity {
     constructor(clue, methods, edit_handler, talk_alternative_index) {
         super({ interactive: true, highlightable: true });
         this.clue = clue;
@@ -86917,20 +86934,30 @@ class ClueOverviewMarker extends _lib_gamemap_MapEntity__WEBPACK_IMPORTED_MODULE
     async renderTooltip() {
         let self = this;
         return {
-            content: await new _ClueProperties__WEBPACK_IMPORTED_MODULE_3__.ClueProperties(self.clue, self.methods, self.edit_handler, true, self.talk_alternative_index).rendered(),
+            content: (await new _ClueProperties__WEBPACK_IMPORTED_MODULE_2__.ClueProperties(self.clue, self.methods, self.edit_handler, true, self.talk_alternative_index).rendered()).row(c().text("Right click marker to manage methods.").css("font-style", "italic")),
             interactive: true
         };
     }
     bounds() {
-        return _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_1__.TileRectangle.from(ClueOverviewMarker.position(this.clue, this.talk_alternative_index));
+        return _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_0__.TileRectangle.from(ClueOverviewMarker.position(this.clue, this.talk_alternative_index));
     }
     async render_implementation(options) {
-        let marker = new _lib_gamemap_TileMarker__WEBPACK_IMPORTED_MODULE_0__.TileMarker(ClueOverviewMarker.position(this.clue, this.talk_alternative_index)).withMarker().addTo(this);
-        marker.setOpacity(options.highlight ? 0.5 : 1);
-        return marker.marker.getElement();
+        //let marker = new TileMarker(ClueOverviewMarker.position(this.clue, this.talk_alternative_index)).withMarker().addTo(this)
+        const level_markers = [_lib_gamemap_GameMap__WEBPACK_IMPORTED_MODULE_4__.red_marker, _lib_gamemap_GameMap__WEBPACK_IMPORTED_MODULE_4__.blue_marker, _lib_gamemap_GameMap__WEBPACK_IMPORTED_MODULE_4__.green_marker, _lib_gamemap_GameMap__WEBPACK_IMPORTED_MODULE_4__.yellow_marker];
+        const pos = ClueOverviewMarker.position(this.clue, this.talk_alternative_index);
+        const highlight = options.highlight;
+        let marker = leaflet__WEBPACK_IMPORTED_MODULE_5__.marker([pos.y, pos.x], {
+            icon: leaflet__WEBPACK_IMPORTED_MODULE_5__.icon({
+                iconUrl: level_markers[pos.level],
+                iconSize: highlight ? [27, 45] : [18, 30],
+                iconAnchor: highlight ? [13, 45] : [9, 30],
+                className: "marker-icon"
+            }),
+        }).addTo(this);
+        return marker.getElement();
     }
     async contextMenu(event) {
-        return await _ClueProperties__WEBPACK_IMPORTED_MODULE_3__.ClueProperties.methodMenu(this.clue, this.edit_handler);
+        return await _ClueProperties__WEBPACK_IMPORTED_MODULE_2__.ClueProperties.methodMenu(this.clue, this.edit_handler);
     }
 }
 (function (ClueOverviewMarker) {
@@ -86944,7 +86971,7 @@ class ClueOverviewMarker extends _lib_gamemap_MapEntity__WEBPACK_IMPORTED_MODULE
                 switch ((_a = clue.clue.solution) === null || _a === void 0 ? void 0 : _a.type) {
                     case "talkto":
                         let i = Math.min(alternative_index || 0, clue.clue.solution.spots.length);
-                        return _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_1__.TileRectangle.center(clue.clue.solution.spots[i].range);
+                        return _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_0__.TileRectangle.center(clue.clue.solution.spots[i].range);
                     case "dig":
                     case "search":
                         return clue.clue.solution.spot;
@@ -86953,17 +86980,17 @@ class ClueOverviewMarker extends _lib_gamemap_MapEntity__WEBPACK_IMPORTED_MODULE
             case "compass":
                 return clue.spot;
             case "coordinates":
-                return _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_1__.GieliCoordinates.toCoords(clue.clue.coordinates);
+                return _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_0__.GieliCoordinates.toCoords(clue.clue.coordinates);
             case "emote":
-                return _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_1__.TileRectangle.center(clue.clue.area);
+                return _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_0__.TileRectangle.center(clue.clue.area);
             case "scan":
-                return _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_1__.TileCoordinates.lift(_lib_math__WEBPACK_IMPORTED_MODULE_2__.Rectangle.center(_lib_math__WEBPACK_IMPORTED_MODULE_2__.Rectangle.from(...clue.clue.spots)), Math.min(...clue.clue.spots.map(s => s.level)));
+                return _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_0__.TileCoordinates.lift(_lib_math__WEBPACK_IMPORTED_MODULE_1__.Rectangle.center(_lib_math__WEBPACK_IMPORTED_MODULE_1__.Rectangle.from(...clue.clue.spots)), Math.min(...clue.clue.spots.map(s => s.level)));
             case "skilling":
                 let i = alternative_index || 0;
                 if (i >= 0 && ((_b = clue.clue.areas) === null || _b === void 0 ? void 0 : _b.length) > 0) {
                     if (i >= clue.clue.areas.length)
                         i = 0;
-                    return _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_1__.TileRectangle.center(clue.clue.areas[i]);
+                    return _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_0__.TileRectangle.center(clue.clue.areas[i]);
                 }
                 break;
         }

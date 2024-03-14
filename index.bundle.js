@@ -62108,152 +62108,69 @@ const raw_data = [
                 name: "Lunar Spellbook"
             }]
     },
-    /*
+    {
+        type: "teleports",
+        id: "greenteleport",
+        name: "Green Teleports",
+        spots: [
             {
-                type: "teleports",
-                id: "greenteleport",
-                name: "Green Teleports",
-                img: {url: ""},
-                spots: [
-                    {
-                        id: "monastery",
-                        target: {origin: {x: 2606, y: 3217, level: 0}},
-                        img: {url: "monastery.png"},
-                        name: "Kandarin Monastery",
-                        menu_ticks: 0,
-                        animation_ticks: 5
-                    },
-                    {
-                        id: "wars",
-                        target: {origin: {x: 3294, y: 10127, level: 0}},
-                        img: {url: "warsretreat.png"},
-                        name: "Wars Retreat",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "manorfarm",
-                        target: {origin: {x: 2670, y: 3372, level: 0}},
-                        img: {url: "pof.png"},
-                        name: "Manor Farm",
-                        menu_ticks: 0,
-                        animation_ticks: 5
-                    },
-                    {
-                        id: "maxguild",
-                        target: {origin: {x: 2276, y: 3313, level: 1}},
-                        img: {url: "max.png"},
-                        name: "Max guild",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "skelettalhorror",
-                        target: {origin: {x: 3362, y: 3503, level: 0}},
-                        img: {url: "skhorror.png"},
-                        name: "Skeletal Horror",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks
-                    },
-                ],
-                access: [{
-                    type: "spellbook",
-                    name: "Any"
-                }]
+                id: "monastery",
+                target: { "origin": { "x": 2604, "y": 3212, "level": 0 }, "size": { "x": 5, "y": 11 }, "data": "zjn3/yeEEA==" },
+                img: { url: "monastery.png" },
+                name: "Kandarin Monastery",
+                menu_ticks: 0,
+                animation_ticks: 5
             },
             {
-                type: "teleports",
-                id: "houseteleports", // house teleport timings assume the spell, tablets are two ticks slower
-                name: "House Teleports",
-                img: {url: "modhouse.gif"},
-                spots: [
-                    {
-                        id: "rimmington",
-                        target: {origin: {x: 2953, y: 3223, level: 0}},
-                        name: "Rimmington house",
-                        code: "1",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "taverley",
-                        target: {origin: {x: 2883, y: 3452, level: 0}},
-                        name: "Taverley house",
-                        code: "2",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "pollnivneach",
-                        target: {origin: {x: 3339, y: 3001, level: 0}},
-                        name: "Pollnivneach house",
-                        code: "3",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "relekka",
-                        target: {origin: {x: 2670, y: 3632, level: 0}},
-                        name: "Rellekka house",
-                        code: "4",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "brimhaven",
-                        target: {origin: {x: 2757, y: 3178, level: 0}},
-                        name: "Brimhaven house",
-                        code: "5",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "yanille",
-                        target: {origin: {x: 2544, y: 3095, level: 0}},
-                        name: "Yanille house",
-                        code: "6",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "trollheim",
-                        target: {origin: {x: 2890, y: 3675, level: 0}},
-                        name: "Trollheim house tablet",
-                        code: "7",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "prifddinas",
-                        target: {origin: {x: 2166, y: 3335, level: 0}},
-                        name: "Prifddinas house tablet",
-                        code: "8",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "menaphos",
-                        target: {origin: {x: 3123, y: 2632, level: 0}},
-                        name: "Menaphos house tablet",
-                        code: "0,1",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks
-                    },
-                ],
-                access: [
-                    {
-                        type: "spellbook",
-                        name: "Normal"
-                    },
-                    {
-                        type: "item",
-                        name: {
-                            kind: "item",
-                            name: "House Teleport Tablet"
-                        }
-                    },
-                ]
-            },*/
+                id: "wars",
+                target: { "origin": { "x": 3294, "y": 10127, "level": 0 } },
+                img: { url: "warsretreat.png" },
+                facing: lib_runescape_movement__WEBPACK_IMPORTED_MODULE_0__.direction.north,
+                name: "Wars Retreat",
+                menu_ticks: 0,
+                animation_ticks: default_teleport_ticks
+            },
+            {
+                id: "manorfarm",
+                target: { "origin": { "x": 2665, "y": 3369, "level": 0 }, "size": { "x": 9, "y": 11 }, "data": "+PDh+/cvX75///DjBw==" },
+                img: { url: "pof.png" },
+                name: "Manor Farm",
+                menu_ticks: 0,
+                animation_ticks: 5
+            },
+            {
+                id: "maxguild",
+                target: { "origin": { "x": 2276, "y": 3313, "level": 1 } },
+                facing: lib_runescape_movement__WEBPACK_IMPORTED_MODULE_0__.direction.south,
+                img: { url: "max.png" },
+                name: "Max guild",
+                menu_ticks: 0,
+                animation_ticks: default_teleport_ticks
+            },
+            {
+                id: "maxguild-garden",
+                target: { "origin": { "x": 2276, "y": 3327, "level": 1 } },
+                facing: lib_runescape_movement__WEBPACK_IMPORTED_MODULE_0__.direction.south,
+                img: { url: "max.png" },
+                name: "Max guild",
+                menu_ticks: 0,
+                animation_ticks: default_teleport_ticks
+            },
+            {
+                id: "skelettalhorror",
+                target: { "origin": { "x": 3362, "y": 3503, "level": 0 } },
+                img: { url: "skhorror.png" },
+                name: "Skeletal Horror",
+                menu_ticks: 0,
+                animation_ticks: default_teleport_ticks
+            },
+        ],
+        access: [{
+                id: "spellbook",
+                type: "spellbook",
+                name: "Any Spellbook"
+            }]
+    },
     {
         type: "teleports",
         id: "teleportscrolls",
@@ -64783,6 +64700,25 @@ name: "Overgrown Idols - North of the Jadinko vine cave",
     },
     {
         type: "teleports",
+        id: "karamjagloves",
+        name: "Karamja gloves",
+        img: { url: "karamjagloves.gif" },
+        spots: [{
+                id: "gemmine",
+                name: "Gem Mine",
+                target: { "origin": { "x": 2838, "y": 9385, "level": 0 }, "size": { "x": 5, "y": 5 }, "data": "/3/vAQ==" },
+                menu_ticks: 1,
+                animation_ticks: 5
+            }],
+        access: [{
+                id: "gloves",
+                type: "item",
+                name: { name: "Karamja gloves 4", kind: "item" },
+                action_name: "Teleport"
+            }]
+    },
+    {
+        type: "teleports",
         id: "legendscape",
         name: "Legends Cape",
         img: { url: "legendscape.png" },
@@ -64799,6 +64735,54 @@ name: "Overgrown Idols - North of the Jadinko vine cave",
                 name: { kind: "item", name: "Cape of legends" },
                 menu_ticks: 1,
             }]
+    },
+    {
+        type: "teleports",
+        id: "skullsceptre",
+        name: "Skull Sceptre",
+        menu_ticks: 1,
+        animation_ticks: default_teleport_ticks,
+        spots: [
+            {
+                id: "outside",
+                target: { "origin": { "x": 3081, "y": 3421, "level": 0 } },
+                code: "1",
+                name: "Outside",
+            },
+            {
+                id: "war",
+                target: { "origin": { "x": 1859, "y": 5240, "level": 0 }, "size": { "x": 5, "y": 5 }, "data": "+f/vAQ==" },
+                code: "2",
+                name: "Vault of War",
+            },
+            {
+                id: "famine",
+                target: { "origin": { "x": 2041, "y": 5241, "level": 0 }, "size": { "x": 5, "y": 5 }, "data": "//+vAA==" },
+                code: "3",
+                name: "Catacomb of Famine",
+            },
+            {
+                id: "pestillence",
+                target: { "origin": { "x": 2121, "y": 5251, "level": 0 }, "size": { "x": 5, "y": 5 }, "data": "8v//AQ==" },
+                code: "4",
+                name: "Pit of Pestilence",
+            },
+            {
+                id: "death",
+                target: { "origin": { "x": 2358, "y": 5211, "level": 0 }, "size": { "x": 5, "y": 5 }, "data": "/v//AQ==" },
+                code: "5",
+                name: "Sepulchre of Death",
+            },
+        ],
+        access: [
+            {
+                type: "item",
+                img: { url: "skullsceptre.png" },
+                name: { kind: "item", name: "Skull sceptre" },
+                action_name: "Teleport",
+                id: "tablet"
+            }
+        ]
     },
     {
         type: "teleports",
@@ -64911,62 +64895,30 @@ name: "Overgrown Idols - North of the Jadinko vine cave",
                 name: { kind: "item", name: "Amulet of nature" },
                 menu_ticks: 1,
             }]
-    }, /*
+    },
     {
         type: "teleports",
-        id: "tokkulzo",
-name: "TokKul-Zo",
-img: {url: "tokkulzo.png"},
-        spots: [
-            {
-                id: "plaza",
-target: {origin: {x: 4672, y: 5155, level: 0}},
-name: "Main Plaza",
-code: "1",
-                menu_ticks: 2,
-                animation_ticks: 5
-            },
-            {
-                id: "pit",
-target: {origin: {x: 4603, y: 5062, level: 0}},
-name: "Fight Pit",
-code: "2",
-                menu_ticks: 2,
-                animation_ticks: 5
-            },
-            {
-                id: "cave",
-target: {origin: {x: 4616, y: 5131, level: 0}},
-name: "Fight Cave",
-code: "3",
-                menu_ticks: 2,
-                animation_ticks: 5
-            },
-            {
-                id: "kiln",
-target: {origin: {x: 4744, y: 5171, level: 0}},
-name: "Fight Kiln",
-code: "4",
-                menu_ticks: 2,
-                animation_ticks: 5
-            },
-            {
-                id: "cauldron",
-target: {origin: {x: 4787, y: 5127, level: 0}},
-name: "Fight Cauldron",
-code: "5",
-                menu_ticks: 2,
-                animation_ticks: 5
-            },
-        ]
-        
-        
-    }*/
+        id: "grandseedpod",
+        name: "Grand seed pod",
+        menu_ticks: 1,
+        animation_ticks: 4,
+        spots: [{
+                id: "grandtree",
+                target: { "origin": { "x": 2465, "y": 3495, "level": 0 } },
+                name: "Grand Tree",
+            }],
+        access: [{
+                type: "item",
+                id: "pod",
+                name: { name: "Grand seed pod", kind: "item" },
+                img: { url: "Grand_seed_pod.png" },
+                action_name: "Squash"
+            }]
+    }
     //TODO: Eagle transport system
     //TODO: Canoes
     //TODO: Orthen Teleport network
     //TODO: Anachronia teleport (totems)
-    //TODO: grand seed pod
     //TODO: Boss portals
     //      - 1912 4367 Dagannoth Kings
     // TODO: Slayer masks

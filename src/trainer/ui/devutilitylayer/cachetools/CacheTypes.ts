@@ -230,6 +230,7 @@ export namespace CacheTypes {
     }
 
     export type LocInstance = LocUse & {
+        loc_with_usages: LocWithUsages,
         prototype: objects,
         loc_id: number,
     }

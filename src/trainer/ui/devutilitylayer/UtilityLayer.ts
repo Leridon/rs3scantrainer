@@ -133,7 +133,13 @@ class LayerToggling extends GameMapControl {
 
                         if (l.persistence_id) {
                             if (v) {
-                                this.view_storage.set(this.view_storage.get().concat(l.persistence_id))
+                                let old = this.view_storage.get()
+
+                                if (!old.includes(l.persistence_id)) {
+                                    old.push(l.persistence_id)
+                                }
+
+                                this.view_storage.set(old)
                             } else {
                                 this.view_storage.set(this.view_storage.get().filter(i => i != l.persistence_id))
                             }
@@ -362,8 +368,8 @@ export default class UtilityLayer extends GameLayer {
 
         new LayerToggling([
             {persistence_id: "chunks", name: "Chunks", constructor: () => new ChunkGridGraticule()},
-            {persistence_id: "geometry",name: "Geometry", constructor: () => new GeometryDrawing(this.guard)},
-            {persistence_id: "locparsing",name: "Loc Parsing", constructor: () => new ParserManagementLayer()},
+            {persistence_id: "geometry", name: "Geometry", constructor: () => new GeometryDrawing(this.guard)},
+            {persistence_id: "locparsing", name: "Loc Parsing", constructor: () => new ParserManagementLayer()},
         ])
             .addTo(this)
             .loadPersistence()

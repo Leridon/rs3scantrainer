@@ -146,6 +146,10 @@ export class LocParsingTable {
         this.bumpVersion()
     }
 
+    getGroup(loc_id: number): boolean {
+        return !!this.loc_index[loc_id]
+    }
+
     getPairing(loc: LocInstance): ParserPairing {
         const group = this.loc_index[loc.loc_id]
 

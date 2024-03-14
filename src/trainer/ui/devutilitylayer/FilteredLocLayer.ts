@@ -3,7 +3,7 @@ import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
 import Properties from "../widgets/Properties";
 import TextArea from "../../../lib/ui/controls/TextArea";
 import {storage} from "../../../lib/util/storage";
-import {Observable, observe} from "../../../lib/reactive";
+import {ewent, Ewent, Observable, observe} from "../../../lib/reactive";
 import {CacheTypes} from "./cachetools/CacheTypes";
 import {LocUtil} from "./cachetools/util/LocUtil";
 import TextField from "../../../lib/ui/controls/TextField";
@@ -29,11 +29,16 @@ import hbox = C.hbox;
 import inlineimg = C.inlineimg;
 import vbox = C.vbox;
 import hboxl = C.hboxl;
+import {Checkbox} from "../../../lib/ui/controls/Checkbox";
+import LightButton from "../widgets/LightButton";
+import {TileRectangle} from "../../../lib/runescape/coordinates";
+import * as lodash from "lodash";
 
 export type LocFilter = {
     names?: string[],
     actions?: string[],
     object_id?: number,
+    parser?: boolean | undefined
 }
 
 export namespace LocFilter {
@@ -47,7 +52,7 @@ export namespace LocFilter {
         return filter
     }
 
-    export function apply(filter: LocFilter, loc: LocWithUsages): boolean {
+    export function apply(filter: LocFilter, loc: LocWithUsages, parsing_table: LocParsingTable): boolean {
         if (filter.object_id != null && loc.id != filter.object_id) return false
 
         if (filter.names && filter.names.length > 0 && !filter.names.some(n => loc.location.name!.toLowerCase().includes(n.toLowerCase()))) return false
@@ -60,6 +65,10 @@ export namespace LocFilter {
             ))) return false
         }
 
+        if (filter.parser != null) {
+            if (filter.parser != !!parsing_table.getGroup(loc.id)) return false
+        }
+
         return true
     }
 }
@@ -67,7 +76,11 @@ export namespace LocFilter {
 class LocFilterControl extends GameMapControl {
     storage = new storage.Variable<LocFilter>("devutility/locfilter", () => ({}))
 
+    count_widget: Widget
+
     filter: Observable<LocFilter>
+
+    go_to_first = ewent<null>()
 
     constructor() {
         super({
@@ -79,32 +92,27 @@ class LocFilterControl extends GameMapControl {
 
         const props = new Properties()
 
-        props.header("Entity Names")
-        props.row(
-            new TextArea()
-                .setValue(this.filter.value().names ? this.filter.value().names.join("\n") : "")
+        props.named("Name",
+            new TextField()
+                .setValue(this.filter.value().names ? this.filter.value().names.join(";") : "")
                 .onCommit(v => {
-
-                    const names = v.split("\n").map(l => l.trim().toLowerCase()).filter(l => l.length > 0)
+                    const names = v.split(";").map(l => l.trim().toLowerCase()).filter(l => l.length > 0)
 
                     this.filter.update(f => f.names = names)
                 })
-                .css("height", "80px")
         )
 
-        props.header("Action Names")
-        props.row(
-            new TextArea()
-                .setValue(this.filter.value().actions ? this.filter.value().actions.join("\n") : "")
+        props.named("Action",
+            new TextField()
+                .setValue(this.filter.value().actions ? this.filter.value().actions.join(";") : "")
                 .onCommit(v => {
-                    const names = v.split("\n").map(l => l.trim().toLowerCase()).filter(l => l.length > 0)
+                    const names = v.split(";").map(l => l.trim().toLowerCase()).filter(l => l.length > 0)
 
                     this.filter.update(f => f.actions = names)
                 })
-                .css("height", "80px")
         )
 
-        props.named("Object ID", new TextField()
+        props.named("Loc ID", new TextField()
             .setValue(this.filter.value().object_id != null ? this.filter.value().object_id.toString() : "")
             .onCommit((v) => {
                 const numeric = Number(v)
@@ -113,11 +121,33 @@ class LocFilterControl extends GameMapControl {
             })
         )
 
+        props.header("Parser")
+
+        const group = new Checkbox.Group([
+            {value: false, button: new Checkbox("No")},
+            {value: true, button: new Checkbox("Yes")},
+        ], true)
+            .setValue(this.filter.value().parser)
+            .onChange(v => {
+                this.filter.update(f => f.parser = v)
+            })
+
+        props.row(hbox(...group.checkboxes()))
+
         this.filter.subscribe((f) => {
             this.storage.set(f)
         })
 
+        props.named("Results", this.count_widget = c())
+
+        props.row(new LightButton("Go to entity")
+            .onClick(() => this.go_to_first.trigger(null)))
+
         this.content.append(props)
+    }
+
+    setCount(count: number): void {
+        this.count_widget.text(`${count} instances match filter`)
     }
 }
 
@@ -185,6 +215,7 @@ export class LocInstanceEntity extends MapEntity {
         let props = new Properties()
 
         props.header(c().append(staticentity(this.instance.prototype.name), ` (${this.instance.loc_id})`))
+        props.named("Usages", c().text(this.instance.loc_with_usages.uses.length))
         props.named("Actions", vbox(...getActions(this.instance.prototype).map(a => {
             return hboxl(inlineimg(CursorType.meta(a.cursor).icon_url).css("margin-right", "5px"), a.name)
         })))
@@ -213,6 +244,10 @@ export class LocInstanceEntity extends MapEntity {
     }
 }
 
+const pre_filter: LocFilter = {
+    actions: ["open", "use", "enter", "climb", "crawl", "scale", "pass", "jump", "leave", "teleport", "descend", "step"]
+}
+
 export class FilteredLocLayer extends GameLayer {
 
     filter_control: LocFilterControl
@@ -235,21 +270,42 @@ export class FilteredLocLayer extends GameLayer {
                     e.checkParserRedraw()
                 }
             })
+
+            this.applyFilter()
         })
 
         this.filter_control.filter.subscribe(() => this.applyFilter())
+
+        this.filter_control.go_to_first.on(() => {
+
+            const a = lodash.maxBy(this.loc_entities, loc => {
+                const v = LocFilter.apply(pre_filter, loc.loc, this.parsing_table)
+                    && LocFilter.apply(this.filter_control.filter.value(), loc.loc, this.parsing_table)
+
+                return v ? -1 : loc.instances
+            })
+
+            if (a) this.getMap().fitView(a.instances[0].instance.box)
+        })
     }
 
     private applyFilter() {
-        const pre_filter: LocFilter = {
-            actions: ["open", "use", "enter", "climb", "crawl", "scale", "pass", "jump", "leave", "teleport", "descend", "step"]
-        }
+
+
+        let count = 0
+
+        console.log("Applying filter")
 
         this.loc_entities.forEach(loc => {
-            const visible = LocFilter.apply(pre_filter, loc.loc) && LocFilter.apply(this.filter_control.filter.value(), loc.loc)
+            const visible = LocFilter.apply(pre_filter, loc.loc, this.parsing_table)
+                && LocFilter.apply(this.filter_control.filter.value(), loc.loc, this.parsing_table)
+
+            if (visible) count += loc.instances.length
 
             loc.instances.forEach(instance => instance.setVisible(visible))
         })
+
+        this.filter_control.setCount(count)
     }
 
     init() {

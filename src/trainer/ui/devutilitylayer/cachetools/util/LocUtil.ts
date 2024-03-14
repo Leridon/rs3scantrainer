@@ -26,6 +26,7 @@ export namespace LocUtil {
             )
             .map(use => {
                 return {
+                    loc_with_usages: loc,
                     prototype: loc.location,
                     loc_id: loc.id,
                     ...use

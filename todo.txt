@@ -1,6 +1,8 @@
 Planned for next release (b0.4):
 
 - Issues
+    - [Performance, 5] Map slows down after using it for a while
+        - Probably because entities accumulate in the quad tree
     - [Bug, 4] Cloning a method is broken in multiple ways
 
 - Tile Area

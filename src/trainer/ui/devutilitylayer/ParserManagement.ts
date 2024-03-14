@@ -17,6 +17,8 @@ import {FormModal} from "../../../lib/ui/controls/FormModal";
 import {NisModal} from "../../../lib/ui/NisModal";
 import {GameMap, GameMapWidget} from "../../../lib/gamemap/GameMap";
 import {ParserPairingModal} from "./cachetools/ParserPairingModal";
+import {filedownload} from "../../../oldlib";
+import download = util.download;
 
 export class ParserManagementLayer extends GameLayer {
     loc_layer: FilteredLocLayer
@@ -36,7 +38,7 @@ export class ParserManagementLayer extends GameLayer {
                     .buttons(
                         new LightButton("Export")
                             .onClick(() => {
-                                new ExportStringModal(cleanedJSON(this.parsing_table.data)).show()
+                                download("parsingtable.json", cleanedJSON(this.parsing_table.data))
                             }),
                         new LightButton("Apply parsers")
                             .onClick(async () => {
@@ -105,7 +107,7 @@ export class ParserManagementLayer extends GameLayer {
                         type: "basic",
                         text: "Remove pairing",
                         handler: () => {
-                            new ParserPairingModal().do()
+                            this.parsing_table.setPairing(instance, null)
                         }
                     })
                 } else {

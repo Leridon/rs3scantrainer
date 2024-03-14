@@ -56,7 +56,10 @@ export const parsers3: TransportParser2[] = [
 
             return [transformWithLoc(door, instance)]
         }
-    )
+    ), parse("ignore", "Nothing Parser", async (instance) => {
+            return []
+        }
+    ),
 ]
 
 export namespace Parsers3 {

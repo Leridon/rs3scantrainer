@@ -28,6 +28,7 @@ import {CursorType} from "../../../lib/runescape/CursorType";
 import hbox = C.hbox;
 import inlineimg = C.inlineimg;
 import vbox = C.vbox;
+import hboxl = C.hboxl;
 
 export type LocFilter = {
     names?: string[],
@@ -182,7 +183,7 @@ export class LocInstanceEntity extends MapEntity {
 
         props.header(c().append(staticentity(this.instance.prototype.name), ` (${this.instance.loc_id})`))
         props.named("Actions", vbox(...getActions(this.instance.prototype).map(a => {
-            return hbox(inlineimg(CursorType.meta(a.cursor).icon_url), " ", a.name)
+            return hboxl(inlineimg(CursorType.meta(a.cursor).icon_url).css("margin-right", "5px"), a.name)
         })))
         props.named("Size", `${this.instance.prototype.width ?? 1} x ${this.instance.prototype.length ?? 1}`)
         props.named("Rotation", (this.instance.rotation ?? 0).toString())
@@ -224,7 +225,7 @@ export class FilteredLocLayer extends GameLayer {
 
     private applyFilter() {
         const pre_filter: LocFilter = {
-            actions: ["open", "use", "enter", "climb", "crawl", "scale", "pass", "jump", "leave", "teleport"]
+            actions: ["open", "use", "enter", "climb", "crawl", "scale", "pass", "jump", "leave", "teleport", "descend", "step"]
         }
 
         this.loc_entities.forEach(loc => {

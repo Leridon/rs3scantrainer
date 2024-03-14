@@ -14,12 +14,13 @@ Planned for next release (b0.4):
     - [Dev Tool, 5] Utility Layer for shortcut parsing
         - "Associate with parser"
         - Update coloring on change in parser state
-        - Option to overlay parsed transports to compare to
-        - "Prototype parser"
-            - UI to create a transportation method
-
-        - Quick-Copy origin and id
-        - "Show unrotated"
+        - Option to overlay parsed transports
+            - Dialog "Parsed <x> methods of transportation. [Export] [Show on Map]"
+        - "Go to next entity"
+        - Define parsers:
+            - "Prototype parser"
+                - UI to create a transportation method
+            - Ignoreparser
 
 - Path Editor
     - [Feature, 3] Highlight step on hover

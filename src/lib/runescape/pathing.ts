@@ -570,8 +570,8 @@ export namespace Path {
                     }
 
                     // Reset cooldowns
-                    state.cooldowns.surge = [state.tick, state.tick]
-                    state.cooldowns.escape = [state.tick, state.tick]
+                    state.cooldowns.surge = state.assumptions.double_surge ? [state.tick, state.tick] : [state.tick]
+                    state.cooldowns.escape = state.assumptions.double_surge ? [state.tick, state.tick] : [state.tick]
                     state.cooldowns.dive = state.tick
 
                     state.acceleration_activation_tick = state.tick

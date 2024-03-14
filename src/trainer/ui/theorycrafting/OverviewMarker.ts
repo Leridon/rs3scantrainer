@@ -9,6 +9,8 @@ import ClueSpot = Clues.ClueSpot;
 import {MapEntity} from "../../../lib/gamemap/MapEntity";
 import {GameMapContextMenuEvent} from "../../../lib/gamemap/MapEvents";
 import {Menu} from "../widgets/ContextMenu";
+import {blue_icon, blue_marker, green_icon, green_marker, red_icon, red_marker, yellow_icon, yellow_marker} from "../../../lib/gamemap/GameMap";
+import * as leaflet from "leaflet";
 
 export class ClueOverviewMarker extends MapEntity {
     constructor(private clue: Clues.ClueSpot,
@@ -39,11 +41,24 @@ export class ClueOverviewMarker extends MapEntity {
     }
 
     protected async render_implementation(options: MapEntity.RenderProps): Promise<Element> {
-        let marker = new TileMarker(ClueOverviewMarker.position(this.clue, this.talk_alternative_index)).withMarker().addTo(this)
+        //let marker = new TileMarker(ClueOverviewMarker.position(this.clue, this.talk_alternative_index)).withMarker().addTo(this)
 
-        marker.setOpacity(options.highlight ? 0.5 : 1)
+        const level_markers = [red_marker, blue_marker, green_marker, yellow_marker]
 
-        return marker.marker.getElement()
+        const pos = ClueOverviewMarker.position(this.clue, this.talk_alternative_index)
+
+        const highlight = options.highlight
+
+        let marker = leaflet.marker([pos.y, pos.x], {
+            icon: leaflet.icon({
+                iconUrl: level_markers[pos.level],
+                iconSize: highlight ? [27, 45] : [18, 30],
+                iconAnchor: highlight ? [13, 45] : [9, 30],
+                className: "marker-icon"
+            }),
+        }).addTo(this)
+
+        return marker.getElement()
     }
 
     override async contextMenu(event: GameMapContextMenuEvent): Promise<Menu | null> {

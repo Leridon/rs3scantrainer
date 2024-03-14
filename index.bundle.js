@@ -70539,7 +70539,7 @@ var Path;
                     }
                     // Whether powerburst is active can only be determined AFTER the real tick of the step is set
                     // To not duplicate so much code, this is used as a reusable shortcut.
-                    const powerburst = () => (state.tick - state.acceleration_activation_tick) <= 120;
+                    const powerburst = () => (state.tick - state.acceleration_activation_tick) <= 10;
                     // Check cooldowns
                     // Assumes mobile as well as double surge/escape.
                     // TODO: This entire logic is most likely riddled by off-by-one errors that need to be checked to ensure path lengths are estimated correctly.
@@ -70565,7 +70565,7 @@ var Path;
                             state.cooldowns.surge[min] = state.tick + cooldown("surge", powerburst(), state.assumptions.mobile_perk);
                             // Set the antispam delay for the second charge
                             for (let j = 0; j < state.cooldowns.escape.length; j++) {
-                                state.cooldowns.surge[j] = Math.max(state.tick + 2, state.cooldowns.surge[j]);
+                                state.cooldowns.surge[j] = Math.max(state.tick + (powerburst() ? 1 : 2), state.cooldowns.surge[j]);
                             }
                             // Surge puts both escape charges on cooldown
                             state.cooldowns.escape.fill(state.tick + cooldown("escape", powerburst(), state.assumptions.mobile_perk));
@@ -70717,11 +70717,10 @@ var Path;
                         state.tick = state.acceleration_activation_tick + 120;
                     }
                     // Reset cooldowns
-                    state.cooldowns.surge = [state.tick, state.tick];
-                    state.cooldowns.escape = [state.tick, state.tick];
+                    state.cooldowns.surge = state.assumptions.double_surge ? [state.tick, state.tick] : [state.tick];
+                    state.cooldowns.escape = state.assumptions.double_surge ? [state.tick, state.tick] : [state.tick];
                     state.cooldowns.dive = state.tick;
                     state.acceleration_activation_tick = state.tick;
-                    state.tick += 1;
                     break;
             }
             augmented.post_state = lodash__WEBPACK_IMPORTED_MODULE_2__.cloneDeep(state);

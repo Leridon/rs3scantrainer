@@ -62863,334 +62863,283 @@ const raw_data = [
             }
         ]
     },
-    /*
     {
+        /* Notes: Apparently, the area is a 7 by 7 are centered on the tile directly in front of the entrance in most cases.
+           Some that were moved in graphical updates have not been updated.
+
+         */
         type: "teleports",
         id: "dungcape",
         name: "Dungeoneering Cape",
-        img: {url: "capedung.png"},
+        animation_ticks: 4,
         spots: [
             {
                 id: "edgevilledungeon",
-target: {origin: {x: 3132, y: 9914, level: 0}},
-code: "1",
-name: "Edgeville Dungeon",
+                target: { "origin": { "x": 3130, "y": 9914, "level": 0 }, "size": { "x": 5, "y": 4 }, "data": "/z8H" },
+                code: "1",
+                name: "Edgeville Dungeon",
                 menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
             },
             {
                 id: "dwarvenmine",
-target: {origin: {x: 3035, y: 9772, level: 0}},
-code: "2",
-name: "Dwarven mine",
+                target: { "origin": { "x": 3034, "y": 9769, "level": 0 }, "size": { "x": 4, "y": 7 }, "data": "4v/vDw==" },
+                code: "2",
+                name: "Dwarven mine",
                 menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
             },
             {
                 id: "hillgiants",
-target: {origin: {x: 3104, y: 9827, level: 0}},
-code: "3",
-name: "Hill giants",
+                target: { "origin": { "x": 3101, "y": 9823, "level": 0 }, "size": { "x": 7, "y": 7 }, "data": "s9//////AQ==" },
+                code: "3",
+                name: "Hill giants",
                 menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
             },
             {
                 id: "karamjavolcano",
-target: {origin: {x: 2844, y: 9558, level: 0}},
-code: "4",
-name: "Karamja volcano",
+                target: { "origin": { "x": 2842, "y": 9554, "level": 0 }, "size": { "x": 6, "y": 7 }, "data": "huA8z/YD" },
+                code: "4",
+                name: "Karamja volcano",
                 menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
             },
             {
                 id: "daemonheimpeninsula",
-target: {origin: {x: 3511, y: 3666, level: 0}},
-code: "5",
-name: "Daemonheim Peninsula",
+                target: { "origin": { "x": 3510, "y": 3663, "level": 0 }, "size": { "x": 4, "y": 7 }, "data": "d///Dw==" },
+                code: "5",
+                name: "Daemonheim Peninsula",
                 menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
             },
             {
                 id: "firegiants",
-target: {origin: {x: 2511, y: 3464, level: 0}},
-code: "6",
-name: "Waterfall fire giants",
+                target: { "origin": { "x": 2575, "y": 9895, "level": 0 }, "size": { "x": 7, "y": 4 }, "data": "////Bw==" },
+                code: "6",
+                name: "Waterfall fire giants",
                 menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
             },
             {
                 id: "miningguild",
-target: {origin: {x: 3022, y: 9740, level: 0}},
-code: "7",
-name: "Mining guild",
+                target: { "origin": { "x": 3019, "y": 9738, "level": 0 }, "size": { "x": 7, "y": 4 }, "data": "Zr7/Dw==" },
+                code: "7",
+                name: "Mining guild",
                 menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
             },
             {
                 id: "braindeath",
-target: {origin: {x: 2127, y: 5146, level: 0}},
-code: "8",
-name: "Braindeath Island",
+                target: { "origin": { "x": 2123, "y": 5144, "level": 0 }, "size": { "x": 5, "y": 4 }, "data": "730O" },
+                code: "8",
+                name: "Braindeath Island",
                 menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
             },
             {
                 id: "hellhounds",
-target: {origin: {x: 2854, y: 9841, level: 0}},
-code: "9",
-name: "Taverley dungeon hellhounds",
+                target: { "origin": { "x": 2854, "y": 9838, "level": 0 }, "size": { "x": 4, "y": 7 }, "data": "7/+/Dw==" },
+                code: "9",
+                name: "Taverley dungeon hellhounds",
                 menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
             },
             {
                 id: "bluedragons",
-target: {origin: {x: 2911, y: 9810, level: 0}},
-code: "0,1",
-name: "Taverley dungeon blue dragons",
+                target: { "origin": { "x": 2909, "y": 9807, "level": 0 }, "size": { "x": 7, "y": 4 }, "data": "+7+fAw==" },
+                code: "0,1",
+                name: "Taverley dungeon blue dragons",
                 menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
             },
             {
                 id: "varrocksewers",
-target: {origin: {x: 3165, y: 9880, level: 0}},
-code: "0,2",
-name: "Varrock sewers",
+                target: { "origin": { "x": 3162, "y": 9877, "level": 0 }, "size": { "x": 6, "y": 5 }, "data": "kP/7Pg==" },
+                code: "0,2",
+                name: "Varrock sewers",
                 menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
             },
             {
                 id: "dragontooth",
-target: { origin: {"x": 3812, "y": 3528, "level": 0} },
-code: "0,3",
-name: "Dragontooth island",
+                target: { "origin": { "x": 3812, "y": 3528, "level": 0 } },
+                code: "0,3",
+                name: "Dragontooth island",
                 menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
             },
             {
                 id: "chaostunnels",
-target: {origin: {x: 3160, y: 5522, level: 0}},
-code: "0,4",
-name: "Chaos Tunnels",
+                target: { "origin": { "x": 3157, "y": 5521, "level": 0 }, "size": { "x": 7, "y": 4 }, "data": "vP//Dw==" },
+                code: "0,4",
+                name: "Chaos Tunnels",
                 menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
             },
             {
                 id: "alkharidmine",
-target: {origin: {x: 3297, y: 3310, level: 0}},
-code: "0,5",
-name: "Al Kharid mine",
+                target: { "origin": { "x": 3298, "y": 3304, "level": 0 }, "size": { "x": 4, "y": 7 }, "data": "7v//Dw==" },
+                code: "0,5",
+                name: "Al Kharid mine",
                 menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
             },
             {
                 id: "metaldragons",
-target: {origin: {x: 2695, y: 9440, level: 0}},
-code: "0,6",
-name: "Brimhaven metal dragons",
+                target: { "origin": { "x": 2696, "y": 9439, "level": 0 }, "size": { "x": 5, "y": 7 }, "data": "/3vv/Qc=" },
+                code: "0,6",
+                name: "Brimhaven metal dragons",
                 menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
             },
             {
                 id: "polypore",
-target: {origin: {x: 4661, y: 5490, level: 0}},
-code: "0,7",
-name: "Polypore dungeon",
+                target: { "origin": { "x": 4658, "y": 5488, "level": 3 }, "size": { "x": 5, "y": 5 }, "data": "/7/3AA==" },
+                code: "0,7",
+                name: "Polypore dungeon",
                 menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
             },
             {
                 id: "frostdragons",
-target: {origin: {x: 3033, y: 9599, level: 0}},
-code: "0,8",
-name: "Frost dragons",
+                target: { "origin": { "x": 3031, "y": 9596, "level": 0 }, "size": { "x": 5, "y": 4 }, "data": "3zkH" },
+                code: "0,8",
+                name: "Frost dragons",
                 menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
             },
             {
                 id: "kalgeriondemons",
-target: {origin: {x: 3399, y: 3665, level: 0}},
-code: "0,9",
-name: "Daemonheim demons",
+                target: { "origin": { "x": 3398, "y": 3662, "level": 0 }, "size": { "x": 5, "y": 7 }, "data": "/7333gE=" },
+                code: "0,9",
+                name: "Daemonheim demons",
                 menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
             },
             {
                 id: "gorajohoardstalker",
-target: {origin: {x: 2237, y: 3424, level: 0}},
-code: "0,0,1",
-name: "Gorajo hoardstalker",
+                target: { "origin": { "x": 2231, "y": 3419, "level": 1 }, "size": { "x": 6, "y": 6 }, "data": "3///jwM=" },
+                code: "0,0,1",
+                name: "Gorajo hoardstalker",
                 menu_ticks: 3,
-                animation_ticks: default_teleport_ticks
             },
             {
                 id: "slayertower",
-target: {origin: {x: 3434, y: 3535, level: 0}},
-code: "0,0,2",
-name: "Slayer tower dungeon",
+                target: { "origin": { "x": 3431, "y": 3528, "level": 0 }, "size": { "x": 7, "y": 5 }, "data": "////MwA=" },
+                code: "0,0,2",
+                name: "Slayer tower dungeon",
                 menu_ticks: 3,
-                animation_ticks: default_teleport_ticks
             },
             {
                 id: "edimmu",
-target: {origin: {x: 2237, y: 3397, level: 0}},
-code: "0,0,3",
-name: "Edimmu dungeon",
+                target: { "origin": { "x": 2231, "y": 3393, "level": 1 }, "size": { "x": 7, "y": 7 }, "data": "j4fDj8fhAA==" },
+                code: "0,0,3",
+                name: "Edimmu dungeon",
                 menu_ticks: 3,
-                animation_ticks: default_teleport_ticks
             },
+        ],
+        access: [
+            {
+                id: "cape",
+                type: "item",
+                name: { name: "Dungeoneering cape", kind: "item" },
+                img: { url: "capedung.png" },
+                action_name: "Teleport",
+            }
         ]
     },
     {
         type: "teleports",
         id: "questcape",
         name: "Quest Cape",
-        img: {url: "capequest.png"},
+        menu_ticks: 1,
+        animation_ticks: default_teleport_ticks,
         spots: [
             {
                 id: "guthixtemple",
-target: {origin: {x: 2540, y: 5774, level: 0}},
-code: "1",
-name: "Ancient Guthix Temple",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
+                target: { "origin": { "x": 2538, "y": 5771, "level": 0 }, "size": { "x": 5, "y": 5 } },
+                code: "1",
+                name: "Ancient Guthix Temple",
             },
             {
                 id: "behindthescenes",
-target: {origin: {x: 1182, y: 5396, level: 0}},
-code: "2",
-name: "Behind the scenes",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
+                target: { "origin": { "x": 1181, "y": 5394, "level": 1 }, "size": { "x": 5, "y": 5 }, "data": "//8/AQ==" },
+                code: "2",
+                name: "Behind the scenes",
             },
             {
                 id: "championsguild",
-target: {origin: {x: 3192, y: 3357, level: 0}},
-code: "3",
-name: "Champion's Guild",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
+                target: { "origin": { "x": 3188, "y": 3359, "level": 0 }, "size": { "x": 4, "y": 4 }, "data": "d+8=" },
+                code: "3",
+                name: "Champion's Guild",
             },
             {
                 id: "emptythroneroom",
-target: { origin: {"x": 2825, "y": 12627, "level": 2} },
-code: "4",
-name: "The empty throne room",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
+                target: { "origin": { "x": 2825, "y": 12626, "level": 2 }, "size": { "x": 5, "y": 5 }, "data": "4f9zAA==" },
+                code: "4",
+                name: "The empty throne room",
             },
             {
                 id: "glacorcavern",
-target: {origin: {x: 2912, y: 3840, level: 0}},
-code: "5",
-name: "Glacor cavern",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
+                target: { "origin": { "x": 4194, "y": 5750, "level": 0 }, "size": { "x": 5, "y": 5 } },
+                code: "5",
+                name: "Glacor cavern",
             },
             {
                 id: "heroesguild",
-target: {origin: {x: 2918, y: 9895, level: 0}},
-code: "6",
-name: "Heroes's Guild - Fountain of Heroes",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
+                target: { "origin": { "x": 2918, "y": 9892, "level": 0 }, "size": { "x": 5, "y": 5 }, "data": "x/szAA==" },
+                code: "6",
+                name: "Heroes's Guild - Fountain of Heroes",
             },
             {
                 id: "legensguild",
-target: {origin: {x: 2730, y: 3348, level: 0}},
-code: "7",
-name: "Legends' Guild",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
+                target: { "origin": { "x": 2726, "y": 3346, "level": 0 }, "size": { "x": 5, "y": 4 } },
+                code: "7",
+                name: "Legends' Guild",
             },
             {
                 id: "tearsofguthix",
-target: { origin: {x: 3250, y: 9518, level: 2} },
-code: "8",
-name: "Tears of Guthix",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
+                target: { "origin": { "x": 3249, "y": 9515, "level": 2 }, "size": { "x": 4, "y": 5 }, "data": "9/8P" },
+                code: "8",
+                name: "Tears of Guthix",
             },
             {
                 id: "museum",
-target: {origin: {x: 3255, y: 3449, level: 0}},
-code: "9",
-name: "Varrock Museum",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
+                target: { "origin": { "x": 3252, "y": 3446, "level": 0 }, "size": { "x": 5, "y": 5 }, "data": "/7//AQ==" },
+                code: "9",
+                name: "Varrock Museum",
             },
             {
                 id: "worldgate",
-target: {origin: {x: 2371, y: 3355, level: 0}},
-code: "0",
-name: "The World Gate",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
+                target: { "origin": { "x": 2365, "y": 3358, "level": 0 }, "size": { "x": 5, "y": 5 }, "data": "7v//AQ==" },
+                code: "0",
+                name: "The World Gate",
             },
-        ]
-    },
-    {
-        type: "teleports",
-        id: "sixthage",
-        name: "Sixth Age Circuit",
-        img: {url: "sixthagecircuit.png"},
-        spots: [
+        ],
+        access: [
             {
-                id: "shrine",
-target: {origin: {x: 1928, y: 5987, level: 0}},
-code: "1",
-name: "Guthix's Shrine",
-                menu_ticks: 2,
-                animation_ticks: 5
-            },
-            {
-                id: "worldgate",
-target: {origin: {x: 2367, y: 3355, level: 0}},
-code: "2",
-name: "World Gate",
-                menu_ticks: 2,
-                animation_ticks: 5
-            },
-            {
-                id: "memorial",
-target: {origin: {x: 2265, y: 3554, level: 0}},
-code: "3",
-name: "Guthix Memorial",
-                menu_ticks: 2,
-                animation_ticks: 5
-            },
-            {
-                id: "temple",
-target: {origin: {x: 2540, y: 5772, level: 0}},
-code: "4",
-name: "Guthix Memorial",
-                menu_ticks: 2,
-                animation_ticks: 5
-            },
+                id: "cape",
+                type: "item",
+                name: { name: "Quest cape", kind: "item" },
+                img: { url: "capequest.png" },
+                action_name: "Teleport",
+            }
         ]
     },
     {
         type: "teleports",
         id: "desertamulet",
-name: "Desert Amulet",
-img: {url: "desertamulet.gif"}, spots: [
+        name: "Desert Amulet",
+        menu_ticks: 2,
+        animation_ticks: 6,
+        spots: [
             {
                 id: "nardah",
-target: {origin: {x: 3434, y: 2914, level: 0}},
-code: "1",
-name: "Nardah",
-                menu_ticks: 2,
-                animation_ticks: 6
+                target: { "origin": { "x": 3427, "y": 2912, "level": 0 }, "size": { "x": 11, "y": 11 }, "data": "5z////3vf////////Of/AQ==" },
+                code: "1",
+                name: "Nardah",
             },
             {
                 id: "uzer",
-target: {origin: {x: 3479, y: 3099, level: 0}},
-code: "2",
-name: "Uzer",
-                menu_ticks: 2,
-                animation_ticks: 6
+                target: { "origin": { "x": 3475, "y": 3093, "level": 0 }, "size": { "x": 9, "y": 11 } },
+                code: "2",
+                name: "Uzer",
             },
+        ],
+        access: [
+            {
+                id: "amulet",
+                type: "item",
+                name: { name: "Desert amulet", kind: "item" },
+                img: { url: "desertamulet.gif" },
+                action_name: "Teleport",
+            }
         ]
     },
+    /*
     {
         type: "teleports",
         id: "piratebook",
@@ -63353,7 +63302,7 @@ name: "Harmony Island",
         id: "enlightenedamulet",
         name: "Enlightened amulet",
         menu_ticks: 2,
-        animation_ticks: 4,
+        animation_ticks: default_teleport_ticks,
         spots: [
             {
                 id: "nexus",
@@ -63488,7 +63437,7 @@ name: "Harmony Island",
         id: "ringofrespawn",
         name: "Ring of respawn",
         menu_ticks: 2,
-        animation_ticks: 4,
+        animation_ticks: default_teleport_ticks,
         spots: [
             {
                 id: "lumbridge",
@@ -63693,7 +63642,7 @@ name: "Harmony Island",
         id: "travellersnecklace",
         name: "Traveller's necklace",
         menu_ticks: 2,
-        animation_ticks: 4,
+        animation_ticks: default_teleport_ticks,
         spots: [
             {
                 id: "wizardstower",
@@ -63838,6 +63787,47 @@ name: "Harmony Island",
                 type: "item",
                 name: { name: "Arc journal", kind: "item" },
                 action_name: "Teleport",
+            }]
+    },
+    {
+        type: "teleports",
+        id: "sceptreofthegods",
+        name: "Sceptre of the gods",
+        img: { url: "sotg.png" },
+        menu_ticks: 1,
+        animation_ticks: 3,
+        spots: [
+            {
+                id: "pyramidpain",
+                target: { "origin": { "x": 1942, "y": 4498, "level": 0 } },
+                name: "Pyramid Plunder",
+                code: "1",
+            },
+            {
+                id: "agility",
+                target: { "origin": { "x": 3341, "y": 2827, "level": 0 } },
+                name: "Agility Pyramid",
+                code: "2",
+            },
+            {
+                id: "ancient",
+                target: { "origin": { "x": 3232, "y": 2897, "level": 0 } },
+                name: "Ancient Pyramid",
+                code: "3",
+            },
+            {
+                id: "palace",
+                target: { "origin": { "x": 3175, "y": 2729, "level": 0 } },
+                name: "Golden Palace",
+                code: "4",
+            },
+        ],
+        access: [{
+                id: "sotg",
+                type: "item",
+                name: { name: "Sceptre of the gods", kind: "item" },
+                action_name: "Teleport",
+                menu_ticks: 1,
             }]
     },
     {
@@ -64830,403 +64820,98 @@ name: "Overgrown Idols - North of the Jadinko vine cave",
                 id: "tablet"
             }
         ]
-    }, /*
+    },
     {
         type: "teleports",
         id: "wildernessobelisk",
-name: "Portable obelisk",
-img: {url: "portableobelisk.png"},
+        name: "Portable obelisk",
+        menu_ticks: 1,
+        animation_ticks: 3,
         spots: [
             {
                 id: "13",
-target: {origin: {x: 3156, y: 3620, level: 0}},
-code: "1",
-name: "Level 13",
-                menu_ticks: 1,
-                animation_ticks: 3
+                target: { "origin": { "x": 3155, "y": 3619, "level": 0 }, "size": { "x": 3, "y": 3 } },
+                code: "1",
+                name: "Level 13",
             },
             {
                 id: "18",
-target: {origin: {x: 3219, y: 3656, level: 0}},
-code: "2",
-name: "Level 18",
-                menu_ticks: 1,
-                animation_ticks: 3
+                target: { "origin": { "x": 3218, "y": 3655, "level": 0 }, "size": { "x": 3, "y": 3 } },
+                code: "2",
+                name: "Level 18",
             },
             {
                 id: "27",
-target: {origin: {x: 3035, y: 3732, level: 0}},
-code: "3",
-name: "Level 27",
-                menu_ticks: 1,
-                animation_ticks: 3
+                target: { "origin": { "x": 3034, "y": 3731, "level": 0 }, "size": { "x": 3, "y": 3 } },
+                code: "3",
+                name: "Level 27",
             },
             {
                 id: "35",
-target: {origin: {x: 3106, y: 3794, level: 0}},
-code: "4",
-name: "Level 35",
-                menu_ticks: 1,
-                animation_ticks: 3
+                target: { "origin": { "x": 3105, "y": 3793, "level": 0 }, "size": { "x": 3, "y": 3 } },
+                code: "4",
+                name: "Level 35",
             },
             {
                 id: "44",
-target: {origin: {x: 2980, y: 3866, level: 0}},
-code: "5",
-name: "Level 44",
-                menu_ticks: 1,
-                animation_ticks: 3
+                target: { "origin": { "x": 2979, "y": 3865, "level": 0 }, "size": { "x": 3, "y": 3 } },
+                code: "5",
+                name: "Level 44",
             },
             {
                 id: "50",
-target: {origin: {x: 3307, y: 3916, level: 0}},
-code: "6",
-name: "Level 50",
-                menu_ticks: 1,
-                animation_ticks: 3
+                target: { "origin": { "x": 3306, "y": 3915, "level": 0 }, "size": { "x": 3, "y": 3 } },
+                code: "6",
+                name: "Level 50",
             },
-        ]
-    },
-    {
-        type: "teleports",
-        id: "wildernesssword",
-name: "Wilderness sword",
-img: {url: "wildernesssword.png"},
-        spots: [
+        ],
+        access: [
             {
-                id: "edgeville",
-target: {origin: {x: 3086, y: 3501, level: 0}},
-code: "1,1",
-name: "Edgeville",
-                menu_ticks: 3,
-                animation_ticks: 5
-            },
-            {
-                id: "herbpatch",
-target: {origin: {x: 3143, y: 3820, level: 0}},
-code: "1,2",
-name: "Herb patch",
-                menu_ticks: 3,
-                animation_ticks: 5
-            },
-            {
-                id: "forinthry",
-target: {origin: {x: 3071, y: 3649, level: 0}},
-code: "1,3",
-name: "Forinthry Dungeon",
-                menu_ticks: 3,
-                animation_ticks: 5
-            },
-            {
-                id: "agility",
-target: {origin: {x: 2998, y: 3913, level: 0}},
-code: "1,5",
-name: "Wilderness Agility course",
-                menu_ticks: 3,
-                animation_ticks: 5
-            },
-        ]
-    },
-    {
-        type: "teleports",
-        id: "lyre",
-name: "Enchanted lyre",
-img: {url: "enchantedlyre.png"},
-        spots: [
-            {
-                id: "relekka",
-target: {origin: {x: 2651, y: 3689, level: 0}},
-code: "1",
-name: "Relekka",
-                menu_ticks: 1,
-                animation_ticks: 6
-            },
-            {
-                id: "waterbirth",
-target: {origin: {x: 2529, y: 3740, level: 0}},
-code: "2",
-name: "Waterbirth Island",
-                menu_ticks: 1,
-                animation_ticks: 6
-            },
-            {
-                id: "neitiznot",
-target: {origin: {x: 2311, y: 3787, level: 0}},
-code: "3",
-name: "Neitiznot",
-                menu_ticks: 1,
-                animation_ticks: 6
-            },
-            {
-                id: "jatizso",
-target: {origin: {x: 2403, y: 3782, level: 0}},
-code: "4",
-name: "Jatizso",
-                menu_ticks: 1,
-                animation_ticks: 6
-            },
-            {
-                id: "miscellania",
-target: {origin: {x: 2516, y: 3859, level: 0}},
-code: "5",
-name: "Miscellania",
-                menu_ticks: 1,
-                animation_ticks: 6
-            },
-            {
-                id: "etceteria",
-target: {origin: {x: 2592, y: 3879, level: 0}},
-code: "6",
-name: "Etceteria",
-                menu_ticks: 1,
-                animation_ticks: 6
-            },
-            {
-                id: "relekkamarket",
-target: {origin: {x: 2642, y: 3676, level: 0}},
-code: "7",
-name: "Relekka Market",
-                menu_ticks: 1,
-                animation_ticks: 6
-            },
-        ]
-    },
-    {
-        type: "teleports",
-        id: "charterships",
-name: "Charter Ships",
-img: {url: "sail.png"},
-        spots: [
-            {
-                id: "tyras",
-target: {origin: {x: 2142, y: 3122, level: 0}},
-name: "Port Tyras",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "brimhaven",
-target: {origin: {x: 2760, y: 3238, level: 0}},
-name: "Brimhaven",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "catherby",
-target: {origin: {x: 2796, y: 3406, level: 0}},
-name: "Catherby",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "khazard",
-target: {origin: {x: 2674, y: 3144, level: 0}},
-name: "Port Khazard",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "ooglog",
-target: {origin: {x: 2623, y: 2857, level: 0}},
-name: "Oo'glog",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "karamja",
-target: {origin: {x: 2954, y: 3158, level: 0}},
-name: "Karamja",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "shipyard",
-target: {origin: {x: 3001, y: 3032, level: 0}},
-name: "Shipyard",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "sarim",
-target: {origin: {x: 3043, y: 3191, level: 0}},
-name: "Port Sarim",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "phasmatys",
-target: {origin: {x: 3702, y: 3503, level: 0}},
-name: "Port Phasmatys",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "mosleharmless",
-target: {origin: {x: 3671, y: 2931, level: 0}},
-name: "Mos Le'Harmless",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "menaphos",
-target: {origin: {x: 3140, y: 2662, level: 0}},
-name: "Menaphos",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-        ]
-    },
-    {
-        type: "teleports",
-        id: "dragontrinkets",
-name: "Dragon Trinkets",
-img: {url: "dragontrinkets.png"},
-        spots: [
-            {
-                id: "green",
-target: {origin: {x: 3303, y: 5468, level: 0}},
-name: "Green Dragons",
-code: "1,1",
-                menu_ticks: 4,
-                animation_ticks: 3
-            },
-            {
-                id: "brutalgreen",
-target: {origin: {x: 2512, y: 3511, level: 0}},
-name: "Brutal Green Dragons",
-code: "1,2",
-                menu_ticks: 4,
-                animation_ticks: 3
-            },
-            {
-                id: "blue",
-target: {origin: {x: 2891, y: 9769, level: 0}},
-name: "Blue Dragons",
-code: "2",
-                menu_ticks: 3,
-                animation_ticks: 3
-            },
-            {
-                id: "red",
-target: {origin: {x: 2731, y: 9529, level: 0}},
-name: "Red Dragons",
-code: "3",
-                menu_ticks: 3,
-                animation_ticks: 3
-            },
-            {
-                id: "black",
-target: {origin: {x: 1565, y: 4356, level: 0}},
-name: "Black Dragons",
-code: "4,1",
-                menu_ticks: 4,
-                animation_ticks: 3
-            },
-            {
-                id: "kbd",
-target: {origin: {x: 3051, y: 3519, level: 0}},
-name: "King Black Dragon",
-code: "4,2",
-                menu_ticks: 4,
-                animation_ticks: 3
-            },
-            {
-                id: "qbd",
-target: {origin: {x: 1198, y: 6499, level: 0}},
-name: "Queen Black Dragon",
-code: "4,2",
-                menu_ticks: 4,
-                animation_ticks: 3
-            },
-        ]
-    },
-    {
-        type: "teleports",
-        id: "metallicdragontrinkets",
-name: "Metallic Dragon Trinkets",
-img: {url: "metallicdragontrinkets.png"},
-        spots: [
-            {
-                id: "bronze",
-target: {origin: {x: 2723, y: 9486, level: 0}},
-name: "Bronze Dragons",
-code: "1",
-                menu_ticks: 3,
-                animation_ticks: 3
-            },
-            {
-                id: "iron",
-target: {origin: {x: 2694, y: 9443, level: 0}},
-name: "Iron Dragons",
-code: "2",
-                menu_ticks: 3,
-                animation_ticks: 3
-            },
-            {
-                id: "steel",
-target: {origin: {x: 2708, y: 9468, level: 0}},
-name: "Steel Dragons",
-code: "3",
-                menu_ticks: 3,
-                animation_ticks: 3
-            },
-            {
-                id: "mithril",
-target: {origin: {x: 1778, y: 5346, level: 0}},
-name: "Mithril Dragons",
-code: "4",
-                menu_ticks: 3,
-                animation_ticks: 3
-            },
-            //{subid: "adamant",
-target: { origin: {x: 0, y: 0, level: 0} }, hover: "Adamant Dragons",
-code: "5,1"},
-            {
-                id: "rune",
-target: {origin: {x: 2367, y: 3353, level: 0}},
-name: "Rune Dragons",
-code: "5,2",
-                menu_ticks: 4,
-                animation_ticks: 3
-            },
+                id: "obelisk",
+                type: "item",
+                name: { name: "Portable obelisk", kind: "item" },
+                img: { url: "portableobelisk.png" },
+                action_name: "Teleport",
+            }
         ]
     },
     {
         type: "teleports",
         id: "amuletofnature",
-name: "Amulet of Nature",
-img: {url: "amuletofnature.png"},
+        name: "Amulet of Nature",
+        menu_ticks: 1,
+        animation_ticks: 4,
         spots: [
             {
                 id: "draynornightshade",
-target: {origin: {x: 3086, y: 3353, level: 0}},
-name: "Nightshade Patch",
-                menu_ticks: 5,
-                animation_ticks: 4
+                target: { "origin": { "x": 3084, "y": 3353, "level": 0 }, "size": { "x": 4, "y": 4 }, "data": "j+g=" },
+                name: "Nightshade Patch",
             },
             {
                 id: "herblorehabitat",
-target: {origin: {x: 2949, y: 2904, level: 0}},
-name: "Vine Bush Patch",
-                menu_ticks: 5,
-                animation_ticks: 4
+                target: { "origin": { "x": 2946, "y": 2904, "level": 0 }, "size": { "x": 4, "y": 4 }, "data": "nPk=" },
+                name: "Vine Bush Patch",
             },
             {
                 id: "faladortree",
-target: {origin: {x: 3006, y: 3375, level: 0}},
-name: "Falador Tree Patch",
-                menu_ticks: 5,
-                animation_ticks: 4
+                target: { "origin": { "x": 3002, "y": 3371, "level": 0 }, "size": { "x": 5, "y": 5 }, "data": "P8b4AQ==" },
+                name: "Falador Tree Patch",
             },
             {
                 id: "harmonyallotment",
-target: {origin: {x: 3793, y: 2832, level: 0}},
-name: "Harony Island Allotment Patch",
-                menu_ticks: 5,
-                animation_ticks: 4
+                target: { "origin": { "x": 3795, "y": 2833, "level": 0 }, "size": { "x": 1, "y": 6 } },
+                name: "Harmony Island Allotment Patch",
             },
-        ]
-    },
+        ],
+        access: [{
+                id: "cape",
+                type: "item",
+                action_name: "Teleport",
+                img: { url: "amuletofnature.png" },
+                name: { kind: "item", name: "Amulet of nature" },
+                menu_ticks: 1,
+            }]
+    }, /*
     {
         type: "teleports",
         id: "tokkulzo",
@@ -70805,6 +70490,13 @@ var Path;
     }
     Path.ends_up = ends_up;
     async function augment(path, start_state = movement_state.start({}), target = null) {
+        /** TODO:
+         *   Regarding teleports:
+         *      ""Total immobile ticks"" applies if you want to move after landing"
+         *      """Total ticks"" applies if you want to, for example, open an interface, surge, or teleport after landing"
+         *   Teleport + running can happen in the same tick. Needs to be considered for timing!
+         *   Last step in a sequence should end the tick
+         */
         var _a;
         let augmented_steps = [];
         if (!start_state)

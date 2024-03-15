@@ -3797,71 +3797,69 @@ name: "Wilderness Agility course",
                 animation_ticks: 5
             },
         ]
-    },
+    },*/
     {
         type: "teleports",
         id: "lyre",
-name: "Enchanted lyre",
-img: {url: "enchantedlyre.png"},
+        name: "Enchanted lyre",
+        menu_ticks: 1,
+        animation_ticks: 6,
         spots: [
             {
                 id: "relekka",
-target: {origin: {x: 2651, y: 3689, level: 0}},
-code: "1",
-name: "Relekka",
+                target: {"origin": {"x": 2651, "y": 3689, "level": 0}, "size": {"x": 5, "y": 5}, "data": "///vAQ=="},
+                code: "1",
+                name: "Relekka",
                 menu_ticks: 1,
                 animation_ticks: 6
             },
             {
                 id: "waterbirth",
-target: {origin: {x: 2529, y: 3740, level: 0}},
-code: "2",
-name: "Waterbirth Island",
-                menu_ticks: 1,
-                animation_ticks: 6
+                target: {"origin": {"x": 2525, "y": 3738, "level": 0}, "size": {"x": 5, "y": 5}, "data": "/H/OAQ=="},
+                code: "2",
+                name: "Waterbirth Island",
             },
             {
                 id: "neitiznot",
-target: {origin: {x: 2311, y: 3787, level: 0}},
-code: "3",
-name: "Neitiznot",
-                menu_ticks: 1,
-                animation_ticks: 6
+                target: {"origin": {"x": 2310, "y": 3784, "level": 0}, "size": {"x": 3, "y": 5}, "data": "22Y="},
+                code: "3",
+                name: "Neitiznot",
             },
             {
                 id: "jatizso",
-target: {origin: {x: 2403, y: 3782, level: 0}},
-code: "4",
-name: "Jatizso",
-                menu_ticks: 1,
-                animation_ticks: 6
+                target: {"origin": {"x": 2402, "y": 3780, "level": 0}, "size": {"x": 5, "y": 5}, "data": "6//3AA=="},
+                code: "4",
+                name: "Jatizso",
             },
             {
                 id: "miscellania",
-target: {origin: {x: 2516, y: 3859, level: 0}},
-code: "5",
-name: "Miscellania",
-                menu_ticks: 1,
-                animation_ticks: 6
+                target: {"origin": {"x": 2515, "y": 3858, "level": 0}, "size": {"x": 5, "y": 5}, "data": "//8/AQ=="},
+                code: "5",
+                name: "Miscellania",
             },
             {
                 id: "etceteria",
-target: {origin: {x: 2592, y: 3879, level: 0}},
-code: "6",
-name: "Etceteria",
-                menu_ticks: 1,
-                animation_ticks: 6
+                target: {"origin": {"x": 2591, "y": 3878, "level": 0}, "size": {"x": 5, "y": 5}},
+                code: "6",
+                name: "Etceteria",
             },
             {
                 id: "relekkamarket",
-target: {origin: {x: 2642, y: 3676, level: 0}},
-code: "7",
-name: "Relekka Market",
-                menu_ticks: 1,
-                animation_ticks: 6
+                target: {"origin": {"x": 2641, "y": 3675, "level": 0}, "size": {"x": 5, "y": 5}},
+                code: "7",
+                name: "Relekka Market",
             },
+        ],
+        access: [
+            {
+                id: "lyre",
+                type: "item",
+                name: {name: "Enchanted lyre", kind: "item"},
+                img: {url: "enchantedlyre.png"},
+                action_name: "Play",
+            }
         ]
-    },
+    },/*
     {
         type: "teleports",
         id: "charterships",
@@ -4064,41 +4062,48 @@ code: "5,2",
     },*/
     {
         type: "teleports",
-        id: "amuletofnature",
-        name: "Amulet of Nature",
-        menu_ticks: 1,
-        animation_ticks: 4,
-        spots: [
-            {
-                id: "draynornightshade",
-                target: {"origin": {"x": 3084, "y": 3353, "level": 0}, "size": {"x": 4, "y": 4}, "data": "j+g="},
-                name: "Nightshade Patch",
-            },
-            {
-                id: "herblorehabitat",
-                target: {"origin": {"x": 2946, "y": 2904, "level": 0}, "size": {"x": 4, "y": 4}, "data": "nPk="},
-                name: "Vine Bush Patch",
-            },
-            {
-                id: "faladortree",
-                target: {"origin": {"x": 3002, "y": 3371, "level": 0}, "size": {"x": 5, "y": 5}, "data": "P8b4AQ=="},
-                name: "Falador Tree Patch",
-            },
-            {
-                id: "harmonyallotment",
-                target: {"origin": {"x": 3795, "y": 2833, "level": 0}, "size": {"x": 1, "y": 6}},
-                name: "Harmony Island Allotment Patch",
-            },
-        ],
-        access: [{
-            id: "cape",
-            type: "item",
-            action_name: "Teleport",
-            img: {url: "amuletofnature.png"},
-            name: {kind: "item", name: "Amulet of nature"},
-            menu_ticks: 1,
-        }]
-    },/*
+        id:
+            "amuletofnature",
+        name:
+            "Amulet of Nature",
+        menu_ticks:
+            1,
+        animation_ticks:
+            4,
+        spots:
+            [
+                {
+                    id: "draynornightshade",
+                    target: {"origin": {"x": 3084, "y": 3353, "level": 0}, "size": {"x": 4, "y": 4}, "data": "j+g="},
+                    name: "Nightshade Patch",
+                },
+                {
+                    id: "herblorehabitat",
+                    target: {"origin": {"x": 2946, "y": 2904, "level": 0}, "size": {"x": 4, "y": 4}, "data": "nPk="},
+                    name: "Vine Bush Patch",
+                },
+                {
+                    id: "faladortree",
+                    target: {"origin": {"x": 3002, "y": 3371, "level": 0}, "size": {"x": 5, "y": 5}, "data": "P8b4AQ=="},
+                    name: "Falador Tree Patch",
+                },
+                {
+                    id: "harmonyallotment",
+                    target: {"origin": {"x": 3795, "y": 2833, "level": 0}, "size": {"x": 1, "y": 6}},
+                    name: "Harmony Island Allotment Patch",
+                },
+            ],
+        access:
+            [{
+                id: "cape",
+                type: "item",
+                action_name: "Teleport",
+                img: {url: "amuletofnature.png"},
+                name: {kind: "item", name: "Amulet of nature"},
+                menu_ticks: 1,
+            }]
+    }
+    ,/*
     {
         type: "teleports",
         id: "tokkulzo",
@@ -4151,22 +4156,28 @@ code: "5",
     }*/
     {
         type: "teleports",
-        id: "grandseedpod",
-        name: "Grand seed pod",
-        menu_ticks: 1,
-        animation_ticks: 4,
-        spots: [{
-            id: "grandtree",
-            target: {"origin": {"x": 2465, "y": 3495, "level": 0}},
-            name: "Grand Tree",
-        }],
-        access: [{
-            type: "item",
-            id: "pod",
-            name: {name: "Grand seed pod", kind: "item"},
-            img: {url: "Grand_seed_pod.png"},
-            action_name: "Squash"
-        }]
+        id:
+            "grandseedpod",
+        name:
+            "Grand seed pod",
+        menu_ticks:
+            1,
+        animation_ticks:
+            4,
+        spots:
+            [{
+                id: "grandtree",
+                target: {"origin": {"x": 2465, "y": 3495, "level": 0}},
+                name: "Grand Tree",
+            }],
+        access:
+            [{
+                type: "item",
+                id: "pod",
+                name: {name: "Grand seed pod", kind: "item"},
+                img: {url: "Grand_seed_pod.png"},
+                action_name: "Squash"
+            }]
 
     }
 //TODO: Eagle transport system

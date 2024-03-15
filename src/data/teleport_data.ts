@@ -4021,7 +4021,6 @@ name: "Menaphos",
             {
                 id: "adamant",
                 target: {"origin": {"x": 4516, "y": 6046, "level": 0}},
-                hover: "Adamant Dragons",
                 name: "Adamant Dragons",
                 code: "5,1",
                 menu_ticks: 4,

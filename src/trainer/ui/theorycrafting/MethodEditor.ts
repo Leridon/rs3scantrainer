@@ -139,8 +139,6 @@ export default class MethodEditor extends Behaviour {
 
     constructor(public theorycrafter: TheoryCrafter, public method: AugmentedMethod) {
         super();
-
-        this.is_dirty.set(!!method.pack)
     }
 
     registerChange(): void {

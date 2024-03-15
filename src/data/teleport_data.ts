@@ -3866,18 +3866,14 @@ name: "Wilderness Agility course",
                     name: "Relekka Market",
                 },
             ],
-        access:
-            [
-                {
-                    id: "lyre",
-                    type: "item",
-                    name: {name: "Enchanted lyre", kind: "item"},
-                    img: {url: "enchantedlyre.png"},
-                    action_name: "Play",
-                }
-            ]
-    }
-    ,/*
+        access: [{
+            id: "lyre",
+            type: "item",
+            name: {name: "Enchanted lyre", kind: "item"},
+            img: {url: "enchantedlyre.png"},
+            action_name: "Play",
+        }]
+    },/*
     {
         type: "teleports",
         id: "charterships",
@@ -3962,122 +3958,129 @@ name: "Menaphos",
                 animation_ticks: 5
             },
         ]
-    },
+    },*/
     {
         type: "teleports",
         id: "dragontrinkets",
-name: "Dragon Trinkets",
-img: {url: "dragontrinkets.png"},
+        name: "Dragon Trinkets",
+        animation_ticks: 3,
         spots: [
             {
                 id: "green",
-target: {origin: {x: 3303, y: 5468, level: 0}},
-name: "Green Dragons",
-code: "1,1",
+                target: {"origin": {"x": 3303, "y": 5468, "level": 0}},
+                name: "Green Dragons",
+                code: "1,1",
                 menu_ticks: 4,
-                animation_ticks: 3
             },
             {
                 id: "brutalgreen",
-target: {origin: {x: 2512, y: 3511, level: 0}},
-name: "Brutal Green Dragons",
-code: "1,2",
+                target: {"origin": {"x": 2512, "y": 3511, "level": 0}},
+                name: "Brutal Green Dragons",
+                code: "1,2",
                 menu_ticks: 4,
-                animation_ticks: 3
             },
             {
                 id: "blue",
-target: {origin: {x: 2891, y: 9769, level: 0}},
-name: "Blue Dragons",
-code: "2",
+                target: {"origin": {"x": 2891, "y": 9769, "level": 0}},
+                name: "Blue Dragons",
+                code: "2",
                 menu_ticks: 3,
-                animation_ticks: 3
             },
             {
                 id: "red",
-target: {origin: {x: 2731, y: 9529, level: 0}},
-name: "Red Dragons",
-code: "3",
+                target: {"origin": {"x": 2731, "y": 9529, "level": 0}},
+                name: "Red Dragons",
+                code: "3",
                 menu_ticks: 3,
-                animation_ticks: 3
             },
             {
                 id: "black",
-target: {origin: {x: 1565, y: 4356, level: 0}},
-name: "Black Dragons",
-code: "4,1",
+                target: {"origin": {"x": 1565, "y": 4356, "level": 0}},
+                name: "Black Dragons",
+                code: "4,1",
                 menu_ticks: 4,
-                animation_ticks: 3
             },
             {
                 id: "kbd",
-target: {origin: {x: 3051, y: 3519, level: 0}},
-name: "King Black Dragon",
-code: "4,2",
+                target: {"origin": {"x": 3051, "y": 3519, "level": 0}},
+                name: "King Black Dragon",
+                code: "4,2",
                 menu_ticks: 4,
-                animation_ticks: 3
             },
             {
                 id: "qbd",
-target: {origin: {x: 1198, y: 6499, level: 0}},
-name: "Queen Black Dragon",
-code: "4,2",
+                target: {"origin": {"x": 1198, "y": 6499, "level": 0}},
+                name: "Queen Black Dragon",
+                code: "4,2",
                 menu_ticks: 4,
-                animation_ticks: 3
             },
-        ]
+        ],
+        access: [{
+            id: "trinkets",
+            type: "item",
+            name: {name: "Dragon trinkets", kind: "item"},
+            img: {url: "dragontrinkets.png"},
+            action_name: "Teleport",
+        }]
     },
     {
         type: "teleports",
         id: "metallicdragontrinkets",
-name: "Metallic Dragon Trinkets",
-img: {url: "metallicdragontrinkets.png"},
+        name: "Metallic Dragon Trinkets",
+        animation_ticks: 3,
         spots: [
             {
                 id: "bronze",
-target: {origin: {x: 2723, y: 9486, level: 0}},
-name: "Bronze Dragons",
-code: "1",
+                target: {"origin": {"x": 2723, "y": 9486, "level": 0}},
+                name: "Bronze Dragons",
+                code: "1",
                 menu_ticks: 3,
-                animation_ticks: 3
             },
             {
                 id: "iron",
-target: {origin: {x: 2694, y: 9443, level: 0}},
-name: "Iron Dragons",
-code: "2",
+                target: {"origin": {"x": 2694, "y": 9443, "level": 0}},
+                name: "Iron Dragons",
+                code: "2",
                 menu_ticks: 3,
-                animation_ticks: 3
             },
             {
                 id: "steel",
-target: {origin: {x: 2708, y: 9468, level: 0}},
-name: "Steel Dragons",
-code: "3",
+                target: {"origin": {"x": 2708, "y": 9468, "level": 0}},
+                name: "Steel Dragons",
+                code: "3",
                 menu_ticks: 3,
-                animation_ticks: 3
             },
             {
                 id: "mithril",
-target: {origin: {x: 1778, y: 5346, level: 0}},
-name: "Mithril Dragons",
-code: "4",
+                target: {"origin": {"x": 1778, "y": 5346, "level": 0}},
+                name: "Mithril Dragons",
+                code: "4",
                 menu_ticks: 3,
-                animation_ticks: 3
             },
-            //{subid: "adamant",
-target: { origin: {x: 0, y: 0, level: 0} }, hover: "Adamant Dragons",
-code: "5,1"},
+            {
+                id: "adamant",
+                target: {"origin": {"x": 4516, "y": 6046, "level": 0}},
+                hover: "Adamant Dragons",
+                name: "Adamant Dragons",
+                code: "5,1",
+                menu_ticks: 4,
+            },
             {
                 id: "rune",
-target: {origin: {x: 2367, y: 3353, level: 0}},
-name: "Rune Dragons",
-code: "5,2",
+                target: {"origin": {"x": 2367, "y": 3358, "level": 0}},
+                name: "Rune Dragons",
+                code: "5,2",
                 menu_ticks: 4,
-                animation_ticks: 3
             },
-        ]
-    },*/
+        ],
+        access: [{
+            id: "trinkets",
+            type: "item",
+            name: {name: "Metallic dragon trinkets", kind: "item"},
+            img: {url: "metallicdragontrinkets.png"},
+            action_name: "Teleport",
+        }]
+    },
     {
         type: "teleports",
         id:

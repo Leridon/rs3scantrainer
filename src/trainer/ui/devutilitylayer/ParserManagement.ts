@@ -123,7 +123,7 @@ export class ParserManagementLayer extends GameLayer {
                     event.addForEntity({
                         type: "basic",
                         text: "Remove pairing",
-                        handler: () => this.commitPairing(instance, null)
+                        handler: () => this.commitPairing(instance, {group: null, instance_group: null})
                     })
                 } else {
                     event.addForEntity({

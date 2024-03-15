@@ -116,6 +116,8 @@ export class LocParsingTable {
             }
 
             // Update group data now
+            this.loc_index[loc.loc_id] = currently_in_group
+            
             currently_in_group.parser_id = pairing.group.parser.id
             currently_in_group.per_group_arg = pairing.group.argument
             currently_in_group.group_name = pairing.group.name

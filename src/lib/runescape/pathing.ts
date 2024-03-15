@@ -382,8 +382,9 @@ export namespace Path {
 
                             // Put the used charge on cooldown
                             state.cooldowns.surge[min] = state.tick + cooldown("surge", powerburst(), state.assumptions.mobile_perk)
+
                             // Set the antispam delay for the second charge
-                            for (let j = 0; j < state.cooldowns.escape.length; j++) {
+                            for (let j = 0; j < state.cooldowns.surge.length; j++) {
                                 state.cooldowns.surge[j] = Math.max(state.tick + (powerburst() ? 1 : 2), state.cooldowns.surge[j])
                             }
 

@@ -3,7 +3,7 @@ import {FilteredLocLayer, LocInstanceEntity} from "./FilteredLocLayer";
 import {GameMapContextMenuEvent} from "../../../lib/gamemap/MapEvents";
 import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
 import ButtonRow from "../../../lib/ui/ButtonRow";
-import {LocParsingTable, LocParsingTableData, ParserPairing} from "./cachetools/LocParsingAssociation";
+import {LocParsingTable, LocParsingTableData, ParserPairing} from "./cachetools/ParsingTable";
 import KeyValueStore from "../../../lib/util/KeyValueStore";
 import LightButton from "../widgets/LightButton";
 import ExportStringModal from "../widgets/modals/ExportStringModal";
@@ -119,7 +119,7 @@ export class ParserManagementLayer extends GameLayer {
                     }
                 })
 
-                if (this.parsing_table.getPairing(instance)) {
+                if (this.parsing_table.getPairing(instance).group) {
                     event.addForEntity({
                         type: "basic",
                         text: "Remove pairing",
@@ -131,7 +131,8 @@ export class ParserManagementLayer extends GameLayer {
                         text: "Pair as standard door",
                         handler: () => {
                             this.commitPairing(instance, {
-                                group: this.parsing_table.getGroup2(Parsers3.getById("west-facing-doors"),  -1)
+                                group: this.parsing_table.getGroup2(Parsers3.getById("west-facing-doors"), -1),
+                                instance_group: null
                             })
                         }
                     })

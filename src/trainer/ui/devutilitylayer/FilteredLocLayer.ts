@@ -20,7 +20,7 @@ import getInstances = LocUtil.getInstances;
 import LocWithUsages = CacheTypes.LocWithUsages;
 import * as leaflet from "leaflet"
 
-import {LocParsingTable} from "./cachetools/LocParsingAssociation";
+import {LocParsingTable} from "./cachetools/ParsingTable";
 import {C} from "../../../lib/ui/constructors";
 import staticentity = C.staticentity;
 import getActions = LocUtil.getActions;
@@ -166,7 +166,7 @@ export class LocInstanceEntity extends MapEntity {
     }
 
     protected async render_implementation(props: MapEntity.RenderProps): Promise<Element> {
-        const has_parser = !!this.parsing_table.getPairing(this.instance)
+        const has_parser = !!this.parsing_table.getPairing(this.instance).group
 
         const box = boxPolygon(this.instance.box).setStyle({
             color: has_parser ? "green" : "red",
@@ -218,7 +218,7 @@ export class LocInstanceEntity extends MapEntity {
         })))
         props.named("Size", `${this.instance.prototype.width ?? 1} x ${this.instance.prototype.length ?? 1}`)
         props.named("Rotation", (this.instance.rotation ?? 0).toString())
-        props.named("Parser", parser ? parser.group.parser.name : "-")
+        props.named("Parser", parser.group ? parser.group.parser.name : "-")
 
         return {
             content: props,
@@ -235,7 +235,7 @@ export class LocInstanceEntity extends MapEntity {
     }
 
     checkParserRedraw() {
-        if (this.rendered_props.render_at_all && !!this.parsing_table.getPairing(this.instance) != this.rendered_with_parser) {
+        if (this.rendered_props.render_at_all && !!this.parsing_table.getPairing(this.instance).group != this.rendered_with_parser) {
             this.render(true)
         }
     }

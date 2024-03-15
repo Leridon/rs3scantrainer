@@ -6,7 +6,7 @@ import Properties from "../../widgets/Properties";
 import {parsers3} from "./parsers3";
 import {DropdownSelection} from "../../widgets/DropdownSelection";
 import Widget from "../../../../lib/ui/Widget";
-import {ParserPairing} from "./LocParsingAssociation";
+import {ParserPairing} from "./ParsingTable";
 import {BigNisButton} from "../../widgets/BigNisButton";
 
 
@@ -15,7 +15,7 @@ export class ParserPairingEdit extends Widget {
     constructor(private pairing: ParserPairing) {
         super();
 
-        if (!pairing) this.pairing = {group: null}
+        if (!pairing) this.pairing = {group: null, instance_group: null}
 
         this.render()
     }
@@ -67,16 +67,16 @@ export class ParserPairingModal extends FormModal<{
 
     getButtons(): BigNisButton[] {
 
-        if (this.existing_pairing) {
+        if (this.existing_pairing.group) {
             return [
                 new BigNisButton("Remove Loc Pairing", "cancel")
                     .onClick(() => this.confirm({type: "saved", pairing: null})),
                 new BigNisButton("Remove Instance Pairing", "cancel")
-                    .setEnabled(this.existing_pairing.instance_data)
+                    .setEnabled(!!this.existing_pairing.instance_group)
                     .onClick(() => this.confirm({
                         type: "saved", pairing: {
                             group: this.existing_pairing.group,
-                            instance_data: undefined
+                            instance_group: undefined
                         }
                     })),
                 new BigNisButton("Cancel", "neutral")

@@ -3409,7 +3409,7 @@ name: "Overgrown Idols - North of the Jadinko vine cave",
             },
             {
                 id: "generals",
-                target: {"origin": {"x": 2956, "y": 3509, "level": 0}},
+                target: {"origin":{"x":2957,"y":3510,"level":0}},
                 code: "9,3",
                 name: "Collectors - Generals Bentnoze & Wartface",
                 menu_ticks: 2,

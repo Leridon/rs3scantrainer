@@ -63752,8 +63752,8 @@ name: "Harmony Island",
         id: "gliders",
         name: "Gnome gliders",
         img: { url: "glider.png" },
-        menu_ticks: 1,
-        animation_ticks: 3,
+        menu_ticks: 2,
+        animation_ticks: 6,
         spots: [
             {
                 id: "grandtree",
@@ -64856,6 +64856,68 @@ name: "Overgrown Idols - North of the Jadinko vine cave",
                 name: { name: "Portable obelisk", kind: "item" },
                 img: { url: "portableobelisk.png" },
                 action_name: "Teleport",
+            }
+        ]
+    },
+    {
+        type: "teleports",
+        id: "lyre",
+        name: "Enchanted lyre",
+        menu_ticks: 1,
+        animation_ticks: 6,
+        spots: [
+            {
+                id: "relekka",
+                target: { "origin": { "x": 2651, "y": 3689, "level": 0 }, "size": { "x": 5, "y": 5 }, "data": "///vAQ==" },
+                code: "1",
+                name: "Relekka",
+                menu_ticks: 1,
+                animation_ticks: 6
+            },
+            {
+                id: "waterbirth",
+                target: { "origin": { "x": 2525, "y": 3738, "level": 0 }, "size": { "x": 5, "y": 5 }, "data": "/H/OAQ==" },
+                code: "2",
+                name: "Waterbirth Island",
+            },
+            {
+                id: "neitiznot",
+                target: { "origin": { "x": 2310, "y": 3784, "level": 0 }, "size": { "x": 3, "y": 5 }, "data": "22Y=" },
+                code: "3",
+                name: "Neitiznot",
+            },
+            {
+                id: "jatizso",
+                target: { "origin": { "x": 2402, "y": 3780, "level": 0 }, "size": { "x": 5, "y": 5 }, "data": "6//3AA==" },
+                code: "4",
+                name: "Jatizso",
+            },
+            {
+                id: "miscellania",
+                target: { "origin": { "x": 2515, "y": 3858, "level": 0 }, "size": { "x": 5, "y": 5 }, "data": "//8/AQ==" },
+                code: "5",
+                name: "Miscellania",
+            },
+            {
+                id: "etceteria",
+                target: { "origin": { "x": 2591, "y": 3878, "level": 0 }, "size": { "x": 5, "y": 5 } },
+                code: "6",
+                name: "Etceteria",
+            },
+            {
+                id: "relekkamarket",
+                target: { "origin": { "x": 2641, "y": 3675, "level": 0 }, "size": { "x": 5, "y": 5 } },
+                code: "7",
+                name: "Relekka Market",
+            },
+        ],
+        access: [
+            {
+                id: "lyre",
+                type: "item",
+                name: { name: "Enchanted lyre", kind: "item" },
+                img: { url: "enchantedlyre.png" },
+                action_name: "Play",
             }
         ]
     },
@@ -70564,7 +70626,7 @@ var Path;
                             // Put the used charge on cooldown
                             state.cooldowns.surge[min] = state.tick + cooldown("surge", powerburst(), state.assumptions.mobile_perk);
                             // Set the antispam delay for the second charge
-                            for (let j = 0; j < state.cooldowns.escape.length; j++) {
+                            for (let j = 0; j < state.cooldowns.surge.length; j++) {
                                 state.cooldowns.surge[j] = Math.max(state.tick + (powerburst() ? 1 : 2), state.cooldowns.surge[j]);
                             }
                             // Surge puts both escape charges on cooldown
@@ -85465,6 +85527,7 @@ var natural_join = _lib_util_util__WEBPACK_IMPORTED_MODULE_6__.util.natural_join
 
 
 
+var plural = _lib_util_util__WEBPACK_IMPORTED_MODULE_6__.util.plural;
 class ClueProperties extends _widgets_Properties__WEBPACK_IMPORTED_MODULE_0__["default"] {
     constructor(clue, methods, edit_handler, include_header, alternative_index, manage_methods_button) {
         super();
@@ -85560,7 +85623,7 @@ class ClueProperties extends _widgets_Properties__WEBPACK_IMPORTED_MODULE_0__["d
             this.named("Challenge", c().append(...this.clue.clue.challenge.map(render_challenge).map(s => s)));
         }
         const methods = await _model_MethodPackManager__WEBPACK_IMPORTED_MODULE_7__.MethodPackManager.instance().get(this.clue);
-        this.named("Methods", c().text(`${methods.length} methods available`));
+        this.named("Methods", c().text(`${plural(methods.length, "method")} available`));
         if (this.manage_methods_button) {
             this.row(hbox(new _widgets_LightButton__WEBPACK_IMPORTED_MODULE_4__["default"]("Manage Methods", "rectangle")
                 .onClick(async (event) => {
@@ -85949,15 +86012,17 @@ class FilterControl extends _lib_gamemap_GameMapControl__WEBPACK_IMPORTED_MODULE
         this.filter.subscribe(f => {
             this.stored_filter.set(f);
         });
-        this.renderFilter().then(() => {
-            this.filter.subscribe(async () => {
-                await Promise.all(this.index.flat().map(async (e) => {
-                    e.visible = await ClueSpotFilter.apply(this.filter.value(), e.for, this.methods, e.prepared_search_string);
-                }));
-                this.filtered_index_updated.trigger(undefined);
-                this.renderResults();
-            }, true);
-        });
+        this.renderFilter();
+        this.filter.subscribe(async () => {
+            await this.refreshFilterIndex();
+        }, true);
+    }
+    async refreshFilterIndex() {
+        await Promise.all(this.index.flat().map(async (e) => {
+            e.visible = await ClueSpotFilter.apply(this.filter.value(), e.for, this.methods, e.prepared_search_string);
+        }));
+        this.filtered_index_updated.trigger(undefined);
+        this.renderResults();
     }
     async renderFilter() {
         this.content.body.css2({
@@ -86846,25 +86911,25 @@ class OverviewLayer extends _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_0__.
             this.updateVisibleRoutes();
         })).css("width", "200px")).addTo(this);
         this.marker_index = _data_clues__WEBPACK_IMPORTED_MODULE_1__.clue_data.spot_index.with(() => ({ markers: [], route_display: null }));
-        this.on("add", () => {
-            this.filter_control.filtered_index_updated.on(() => this.updateVisibleMarkersByFilter());
-            this.updateVisibleMarkersByFilter();
-        });
+        this.filter_control.filtered_index_updated.on(() => this.updateVisibleMarkersByFilter());
+        this.updateVisibleMarkersByFilter();
     }
     async updateVisibleMarkersByFilter() {
         await this.update_promise;
         this.update_promise = Promise.all(this.marker_index.flat().map(async (c) => {
             let visible = this.filter_control.index.get(ClueSpot.toId(c.for)).visible;
             if (!visible && c.markers.length > 0) {
-                c.markers.forEach(c => c.remove());
+                console.log("Removing markers");
+                c.markers.forEach(c => this.removeLayer(c));
                 c.markers = [];
             }
-            else if (visible && c.markers.length == 0) {
+            if (visible && c.markers.length == 0) {
+                console.log("Creating markers");
                 c.markers = _OverviewMarker__WEBPACK_IMPORTED_MODULE_4__.ClueOverviewMarker.forClue(c.for, _model_MethodPackManager__WEBPACK_IMPORTED_MODULE_2__.MethodPackManager.instance(), m => this.app.editMethod(m));
                 c.markers.forEach(m => m.addTo(this));
             }
         }));
-        this.updateVisibleRoutes();
+        await this.updateVisibleRoutes();
     }
     async updateVisibleRoutes() {
         await this.update_promise;
@@ -87271,9 +87336,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../lib/ui/Behaviour */ "./lib/ui/Behaviour.ts");
 /* harmony import */ var _TheoryCraftingSidebar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TheoryCraftingSidebar */ "./trainer/ui/theorycrafting/TheoryCraftingSidebar.ts");
 /* harmony import */ var _OverviewLayer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./OverviewLayer */ "./trainer/ui/theorycrafting/OverviewLayer.ts");
-/* harmony import */ var _MethodEditor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./MethodEditor */ "./trainer/ui/theorycrafting/MethodEditor.ts");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! lodash */ "../node_modules/lodash/lodash.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _model_MethodPackManager__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../model/MethodPackManager */ "./trainer/model/MethodPackManager.ts");
+/* harmony import */ var _MethodEditor__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./MethodEditor */ "./trainer/ui/theorycrafting/MethodEditor.ts");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lodash */ "../node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_5__);
+
 
 
 
@@ -87284,6 +87351,9 @@ class TheoryCrafter extends _lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_0__["defa
         super();
         this.app = app;
         this.method_editor = this.withSub(new _lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_0__.SingleBehaviour());
+        _model_MethodPackManager__WEBPACK_IMPORTED_MODULE_3__.MethodPackManager.instance().saved.on(async () => {
+            await this.layer.filter_control.refreshFilterIndex();
+        }).bindTo(this.handler_pool);
         this.method_editor.behaviour.subscribe((b, old_b) => {
             if (b && !old_b) {
                 this.sidebar.setVisible(false);
@@ -87294,7 +87364,9 @@ class TheoryCrafter extends _lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_0__["defa
                 this.layer.addTo(this.app.map);
             }
         });
-        this.method_editor.content_stopped.on(() => this.method_editor.set(null));
+        this.method_editor.content_stopped.on(() => {
+            this.method_editor.set(null);
+        });
     }
     begin() {
         this.sidebar = new _TheoryCraftingSidebar__WEBPACK_IMPORTED_MODULE_1__["default"](this).prependTo(this.app.main_content);
@@ -87308,7 +87380,7 @@ class TheoryCrafter extends _lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_0__["defa
         let copy = {
             clue: method.clue,
             pack: method.pack,
-            method: lodash__WEBPACK_IMPORTED_MODULE_4__.cloneDeep(method.method)
+            method: lodash__WEBPACK_IMPORTED_MODULE_5__.cloneDeep(method.method)
         };
         const really = await (async () => {
             let active_editor = this.method_editor.get();
@@ -87317,7 +87389,7 @@ class TheoryCrafter extends _lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_0__["defa
             return await active_editor.requestClosePermission();
         })();
         if (really) {
-            this.method_editor.set(new _MethodEditor__WEBPACK_IMPORTED_MODULE_3__["default"](this, copy));
+            this.method_editor.set(new _MethodEditor__WEBPACK_IMPORTED_MODULE_4__["default"](this, copy));
         }
     }
 }
@@ -87560,6 +87632,7 @@ class ScanTreeBuilder {
                 && a.double_escape == b.double_escape
                 && a.double_surge == b.double_surge;
         });
+        this.any_change = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_9__.ewent)();
         this.assumptions.subscribe((v) => {
             this.cleanTree();
         });
@@ -87584,10 +87657,12 @@ class ScanTreeBuilder {
     setRegion(node, region) {
         node.region = region;
         this.cleanTree();
+        this.any_change.trigger(null);
     }
     setPath(node, path) {
         node.path = path;
         this.cleanTree();
+        this.any_change.trigger(null);
     }
 }
 class PreviewLayerControl extends _lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_0__["default"] {
@@ -87639,6 +87714,9 @@ class ScanEditor extends _MethodSubEditor__WEBPACK_IMPORTED_MODULE_16__["default
         this.side_panel = side_panel;
         this.builder = new ScanTreeBuilder(value.clue);
         this.builder.assumptions.set(lodash__WEBPACK_IMPORTED_MODULE_17__.cloneDeep(value.method.assumptions));
+        this.builder.any_change.on(() => {
+            this.parent.registerChange();
+        });
         this.layer = new ScanEditLayerLight(this);
         this.interaction_guard = new _lib_gamemap_interaction_InteractionLayer__WEBPACK_IMPORTED_MODULE_10__.InteractionGuard().setDefaultLayer(this.layer);
         this.equivalence_classes = this.withSub(new EquivalenceClassHandling(this));

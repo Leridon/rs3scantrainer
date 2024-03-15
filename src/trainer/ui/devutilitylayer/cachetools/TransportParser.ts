@@ -13,7 +13,6 @@ export type ParseParameterType = {
     optional: boolean
 }
 
-
 export type ParseParameters = Record<string, ParseParameterType>
 
 export abstract class TransportParser<

@@ -3,7 +3,7 @@ import {FilteredLocLayer, LocInstanceEntity} from "./FilteredLocLayer";
 import {GameMapContextMenuEvent} from "../../../lib/gamemap/MapEvents";
 import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
 import ButtonRow from "../../../lib/ui/ButtonRow";
-import {LocParsingTable, LocParsingTableData} from "./cachetools/LocParsingAssociation";
+import {LocParsingTable, LocParsingTableData, ParserPairing} from "./cachetools/LocParsingAssociation";
 import KeyValueStore from "../../../lib/util/KeyValueStore";
 import LightButton from "../widgets/LightButton";
 import ExportStringModal from "../widgets/modals/ExportStringModal";
@@ -19,6 +19,7 @@ import {GameMap, GameMapWidget} from "../../../lib/gamemap/GameMap";
 import {ParserPairingModal} from "./cachetools/ParserPairingModal";
 import {filedownload} from "../../../oldlib";
 import download = util.download;
+import LocInstance = CacheTypes.LocInstance;
 
 export class ParserManagementLayer extends GameLayer {
     loc_layer: FilteredLocLayer
@@ -80,8 +81,6 @@ export class ParserManagementLayer extends GameLayer {
             associations: []
         }
 
-        debugger
-
         if (local_data?.version ?? -1 > most_current_data.version) most_current_data = local_data
         if (repo_data?.version ?? -1 > most_current_data.version) most_current_data = repo_data
 
@@ -96,40 +95,47 @@ export class ParserManagementLayer extends GameLayer {
         this.loc_layer = new FilteredLocLayer(this.data_file, this.parsing_table).addTo(this)
     }
 
+    commitPairing(loc: LocInstance, pairing: ParserPairing) {
+        this.parsing_table.setPairing(loc, pairing)
+    }
+
     eventContextMenu(event: GameMapContextMenuEvent) {
 
         event.onPre(() => {
             if (event.active_entity instanceof LocInstanceEntity) {
                 const instance = event.active_entity.instance
 
+                const pairing = this.parsing_table.getPairing(instance)
+
+                event.addForEntity({
+                    type: "basic",
+                    text: "Edit pairing",
+                    handler: async () => {
+                        let result = await new ParserPairingModal(instance, pairing).do()
+
+                        if (result.type == "saved") {
+                            this.commitPairing(instance, result.pairing)
+                        }
+                    }
+                })
+
                 if (this.parsing_table.getPairing(instance)) {
                     event.addForEntity({
                         type: "basic",
                         text: "Remove pairing",
-                        handler: () => {
-                            this.parsing_table.setPairing(instance, null)
-                        }
+                        handler: () => this.commitPairing(instance, null)
                     })
                 } else {
                     event.addForEntity({
                         type: "basic",
                         text: "Pair as standard door",
                         handler: () => {
-                            this.parsing_table.setPairing(instance, {
+                            this.commitPairing(instance, {
                                 parser: Parsers3.getById("west-facing-doors")
                             })
                         }
                     })
                 }
-
-
-                event.addForEntity({
-                    type: "basic",
-                    text: "Pair",
-                    handler: () => {
-                        new ParserPairingModal().do()
-                    }
-                })
             }
         })
     }

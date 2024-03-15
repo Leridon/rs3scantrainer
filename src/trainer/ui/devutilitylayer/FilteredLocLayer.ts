@@ -166,9 +166,6 @@ export class LocInstanceEntity extends MapEntity {
     }
 
     protected async render_implementation(props: MapEntity.RenderProps): Promise<Element> {
-
-        debugger
-
         const has_parser = !!this.parsing_table.getPairing(this.instance)
 
         const box = boxPolygon(this.instance.box).setStyle({

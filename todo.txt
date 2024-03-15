@@ -9,20 +9,15 @@ Planned for next release (b0.4):
     - [Feature, 4] Implement areaPolygon properly!
 
 - Data
-    - Gather data for non-static teleports
-    - Tirranwn Traps
-    - Dorgesh Khaan stairs
-    - Swamp Cave entrance and stones
     - [Dev Tool, 5] Utility Layer for shortcut parsing
+        - Quick-access 5 most recently used parser groups.
         - "Associate with parser"
-        - Update coloring on change in parser state
         - Option to overlay parsed transports
             - Dialog "Parsed <x> methods of transportation. [Export] [Show on Map]"
         - "Go to next entity"
         - Define parsers:
             - "Prototype parser"
                 - UI to create a transportation method
-            - Ignoreparser
 
 - Path Editor
     - [Feature, 3] Highlight step on hover

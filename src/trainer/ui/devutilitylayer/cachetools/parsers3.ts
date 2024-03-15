@@ -56,7 +56,7 @@ export const parsers3: TransportParser2[] = [
 
             return [transformWithLoc(door, instance)]
         }
-    ), parse("ignore", "Nothing Parser", async (instance) => {
+    ), parse("ignore", "Ignore", async (instance) => {
             return []
         }
     ),

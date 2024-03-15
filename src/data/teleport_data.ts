@@ -82,8 +82,7 @@ const raw_data: Transportation.TeleportGroup[] = [
                 code: "D",
                 target: {origin: {x: 3105, y: 3298, level: 0}},
                 facing: direction.south,
-                name:
-                    "Draynor",
+                name: "Draynor",
             }
             ,
             {
@@ -565,7 +564,8 @@ const raw_data: Transportation.TeleportGroup[] = [
             type: "spellbook",
             name: "Any Spellbook"
         }]
-    },/*
+    },
+    /*
             {
                 type: "teleports",
                 id: "houseteleports", // house teleport timings assume the spell, tablets are two ticks slower
@@ -2166,7 +2166,7 @@ name: "Harmony Island",
         spots: [
             {
                 id: "hazelmere",
-                target: {"origin":{"x":2422,"y":3394,"level":0},"size":{"x":5,"y":5},"data":"+v//AQ=="},
+                target: {"origin": {"x": 2422, "y": 3394, "level": 0}, "size": {"x": 5, "y": 5}, "data": "+v//AQ=="},
                 code: "4",
                 name: "Hazelmere",
             },
@@ -2528,7 +2528,7 @@ name: "Goshima Docks",
             },
             {
                 id: "deathaltar",
-                target: {"origin":{"x":1858,"y":4637,"level":0},"size":{"x":2,"y":5}},
+                target: {"origin": {"x": 1858, "y": 4637, "level": 0}, "size": {"x": 2, "y": 5}},
                 name: "Death Altar",
                 code: "5",
             },
@@ -2965,400 +2965,369 @@ spots: [{
     animation_ticks: 11
 },]
 },
-{
-type: "teleports",
-id: "naturessentinel",
-name: "Nature's sentinel outfit",
-img: {url: "sentinel.png"},
-spots: [
+*/
     {
-        id: "normalwestvarrock",
-target: {origin: {x: 3138, y: 3431, level: 0}},
-code: "1,1",
-name: "Normal Trees - West Varrock",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "normaleastvarrock",
-target: {origin: {x: 3290, y: 3476, level: 0}},
-code: "1,2",
-name: "Normal Trees - East Varrock",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "oakwestvarrock",
-target: {origin: {x: 3165, y: 3414, level: 0}},
-code: "2,1",
-name: "Oak Trees - West Varrock",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "oakeastvarrock",
-target: {origin: {x: 3278, y: 3474, level: 0}},
-code: "2,2",
-name: "Oak Trees - East Varrock",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "willowdraynor",
-target: {origin: {x: 3090, y: 3232, level: 0}},
-code: "3,1",
-name: "Willow Trees - Draynor",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "willowcathery",
-target: {origin: {x: 2783, y: 3430, level: 0}},
-code: "3,2",
-name: "Willow Trees - Catherby",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "willowbarbarianoutpost",
-target: {origin: {x: 2520, y: 3579, level: 0}},
-code: "3,3",
-name: "Willow Trees - Barbarian Outpost",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "mapleseers",
-target: {origin: {x: 2728, y: 3501, level: 0}},
-code: "4,1",
-name: "Maple Trees - Seers'",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "mapledaemonheim",
-target: {origin: {x: 3500, y: 3625, level: 0}},
-code: "4,2",
-name: "Maple Trees - Daeomonheim Peninsula Resource Dungeon'",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "yewseers",
-target: {origin: {x: 2708, y: 3462, level: 0}},
-code: "5,1",
-name: "Yew Trees - Seers' Graveyard",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "yewcathery",
-target: {origin: {x: 2755, y: 3431, level: 0}},
-code: "5,2",
-name: "Yew Trees - West Catherby",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "yewedgeville",
-target: {origin: {x: 3087, y: 3476, level: 0}},
-code: "5,3",
-name: "Yew Trees - Edgeville",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "yewvarrock",
-target: {origin: {x: 3208, y: 3502, level: 0}},
-code: "5,4",
-name: "Yew Trees - Varrock Palace",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "yewcrwys",
-target: {origin: {x: 2261, y: 3385, level: 0}},
-code: "5,5",
-name: "Yew Trees - Crwys sector",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "magicranging",
-target: {origin: {x: 2693, y: 3428, level: 0}},
-code: "6,1",
-name: "Magic Trees - East Ranging Guild",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "magicsorcerer",
-target: {origin: {x: 2702, y: 3397, level: 0}},
-code: "6,2",
-name: "Magic Trees - Sorcerer's Tower",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "magicmagetraining",
-target: {origin: {x: 3357, y: 3310, level: 0}},
-code: "6,3",
-name: "Magic Trees - Mage Training Arena",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "magictirannwn",
-target: {origin: {x: 2288, y: 3140, level: 0}},
-code: "6,4",
-name: "Magic Trees - South Tirannwn",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "magiccrwys",
-target: {origin: {x: 2250, y: 3366, level: 0}},
-code: "6,5",
-name: "Magic Trees - Crwys sector",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "eldersorcerer",
-target: {origin: {x: 2733, y: 3410, level: 0}},
-code: "7,1",
-name: "Elder Trees - East Sorcerer's Tower",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "elderyanille",
-target: {origin: {x: 2574, y: 3065, level: 0}},
-code: "7,2",
-name: "Elder Trees - South Yanille",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "eldergnomestronghold",
-target: {origin: {x: 2423, y: 3455, level: 0}},
-code: "7,3",
-name: "Elder Trees - Tree Gnome Stronghold",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "elderdraynor",
-target: {origin: {x: 3095, y: 3217, level: 0}},
-code: "7,4",
-name: "Elder Trees - South Draynor",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "elderfalador",
-target: {origin: {x: 3049, y: 3321, level: 0}},
-code: "7,5",
-name: "Elder Trees - Falador Farm",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "eldervarrock",
-target: {origin: {x: 3257, y: 3371, level: 0}},
-code: "7,6",
-name: "Elder Trees - South Varrock",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "elderlletya",
-target: {origin: {x: 2292, y: 3146, level: 0}},
-code: "7,7",
-name: "Elder Trees - West Lletya",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "elderpiscatoris",
-target: {origin: {x: 2319, y: 3596, level: 0}},
-code: "7,8",
-name: "Elder Trees - Piscatoris",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "elderedgeville",
-target: {origin: {x: 3094, y: 3451, level: 0}},
-code: "7,9,1",
-name: "Elder Trees - South Edgeville",
-        menu_ticks: 3,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "elderrimmington",
-target: {origin: {x: 2934, y: 3228, level: 0}},
-code: "7,9,2",
-name: "Elder Trees - North Rimmington",
-        menu_ticks: 3,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "elderfort",
-target: {origin: {x: 3375, y: 3545, level: 0}},
-code: "7,9,3",
-name: "Elder Trees - Fort Forinthry Grove",
-        menu_ticks: 3,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "teaktai",
-target: {origin: {x: 2814, y: 3084, level: 0}},
-code: "0,1,1",
-name: "Teak Trees - Tai Bwo Wannai",
-        menu_ticks: 3,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "teakape",
-target: {origin: {x: 2772, y: 2698, level: 0}},
-code: "0,1,2",
-name: "Teak Trees - Ape Atoll",
-        menu_ticks: 3,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "teakcastlewars",
-target: {origin: {x: 2333, y: 3048, level: 0}},
-code: "0,1,3",
-name: "Teak Trees - South-west Castle Wars",
-        menu_ticks: 3,
-        animation_ticks: default_teleport_ticks
-    },
-    // 0,2,1 magogany tai bwo wannai omitted due to same spot as teak
-    {
-        id: "mahoganyape",
-target: {origin: {x: 2715, y: 2708, level: 0}},
-code: "0,2,2",
-name: "Mahogany Trees - Ape Atoll",
-        menu_ticks: 3,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "mahoganiharazi",
-target: {origin: {x: 2934, y: 2928, level: 0}},
-code: "0,2,3",
-name: "Mahogany Trees - Kharazi Jungle",
-        menu_ticks: 3,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "arcticpine",
-target: {origin: {x: 2355, y: 3848, level: 0}},
-code: "0,3",
-name: "Arctic Pine Trees",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "acadia",
-target: {origin: {x: 3187, y: 2720, level: 0}},
-code: "0,4",
-name: "Acadia Trees",
-        menu_ticks: 2,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "ivynorthvarrock",
-target: {origin: {x: 3218, y: 3499, level: 0}},
-code: "0,5,1",
-name: "Choking Ivy - North Varrock Palace",
-        menu_ticks: 3,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "ivyeastvarrock",
-target: {origin: {x: 3232, y: 3460, level: 0}},
-code: "0,5,2",
-name: "Choking Ivy - East Varrock Palace",
-        menu_ticks: 3,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "ivynorthfalador",
-target: {origin: {x: 3015, y: 3393, level: 0}},
-code: "0,5,3",
-name: "Choking Ivy - North Falador",
-        menu_ticks: 3,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "ivysouthfalador",
-target: {origin: {x: 3044, y: 3327, level: 0}},
-code: "0,5,4",
-name: "Choking Ivy - South Falador",
-        menu_ticks: 3,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "ivytaverley",
-target: {origin: {x: 2938, y: 3429, level: 0}},
-code: "0,5,5",
-name: "Choking Ivy - South-east Taverly",
-        menu_ticks: 3,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "ivyardougne",
-target: {origin: {x: 2623, y: 3308, level: 0}},
-code: "0,5,6",
-name: "Choking Ivy - East Ardougne Church",
-        menu_ticks: 3,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "ivyyanille",
-target: {origin: {x: 2593, y: 3114, level: 0}},
-code: "0,5,7",
-name: "Choking Ivy - North Yanille",
-        menu_ticks: 3,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "ivycastlewars",
-target: {origin: {x: 2426, y: 3062, level: 0}},
-code: "0,5,8",
-name: "Choking Ivy - South Castle Wars",
-        menu_ticks: 3,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "ivycrwys",
-target: {origin: {x: 2241, y: 3377, level: 0}},
-code: "0,5,9",
-name: "Choking Ivy - Crwys sector",
-        menu_ticks: 3,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "idolsshipyard",
-target: {origin: {x: 2932, y: 3026, level: 0}},
-code: "0,6,1",
-name: "Overgrown Idols - West of the Karamja shipyard",
-        menu_ticks: 3,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "idolsjadinko",
-target: {origin: {x: 2947, y: 2976, level: 0}},
-code: "0,6,2",
-name: "Overgrown Idols - North of the Jadinko vine cave",
-        menu_ticks: 3,
-        animation_ticks: default_teleport_ticks
-    },
+        type: "teleports",
+        id: "naturessentinel",
+        name: "Nature's sentinel outfit",
+        animation_ticks: default_teleport_ticks,
+        spots: [
+            {
+                id: "normalwestvarrock",
+                target: {"origin": {"x": 3135, "y": 3430, "level": 0}},
+                code: "1,1",
+                name: "Normal Trees - West Varrock",
+                menu_ticks: 2,
+            },
+            {
+                id: "normaleastvarrock",
+                target: {"origin": {"x": 3290, "y": 3475, "level": 0}},
+                code: "1,2",
+                name: "Normal Trees - East Varrock",
+                menu_ticks: 2,
+            },
+            {
+                id: "oakwestvarrock",
+                target: {"origin": {"x": 3166, "y": 3415, "level": 0}},
+                code: "2,1",
+                name: "Oak Trees - West Varrock",
+                menu_ticks: 2,
+            },
+            {
+                id: "oakeastvarrock",
+                target: {"origin": {"x": 3277, "y": 3475, "level": 0}},
+                code: "2,2",
+                name: "Oak Trees - East Varrock",
+                menu_ticks: 2,
+            },
+            {
+                id: "willowdraynor",
+                target: {"origin": {"x": 3090, "y": 3232, "level": 0}},
+                code: "3,1",
+                name: "Willow Trees - Draynor",
+                menu_ticks: 2,
+            },
+            {
+                id: "willowcathery",
+                target: {"origin": {"x": 2783, "y": 3429, "level": 0}},
+                code: "3,2",
+                name: "Willow Trees - Catherby",
+                menu_ticks: 2,
+            },
+            {
+                id: "willowbarbarianoutpost",
+                target: {"origin": {"x": 2520, "y": 3579, "level": 0}},
+                code: "3,3",
+                name: "Willow Trees - Barbarian Outpost",
+                menu_ticks: 2,
+            },
+            {
+                id: "mapleseers",
+                target: {"origin": {"x": 2728, "y": 3501, "level": 0}},
+                code: "4,1",
+                name: "Maple Trees - Seers'",
+                menu_ticks: 2,
+            },
+            {
+                id: "mapledaemonheim",
+                target: {"origin": {"x": 3500, "y": 3626, "level": 0}},
+                code: "4,2",
+                name: "Maple Trees - Daeomonheim Peninsula Resource Dungeon'",
+                menu_ticks: 2,
+            },
+            {
+                id: "yewseers",
+                target: {"origin": {"x": 2708, "y": 3463, "level": 0}},
+                code: "5,1",
+                name: "Yew Trees - Seers' Graveyard",
+                menu_ticks: 2,
+            },
+            {
+                id: "yewcathery",
+                target: {"origin": {"x": 2757, "y": 3431, "level": 0}},
+                code: "5,2",
+                name: "Yew Trees - West Catherby",
+                menu_ticks: 2,
+            },
+            {
+                id: "yewedgeville",
+                target: {"origin": {"x": 3087, "y": 3475, "level": 0}},
+                code: "5,3",
+                name: "Yew Trees - Edgeville",
+                menu_ticks: 2,
+            },
+            {
+                id: "yewvarrock",
+                target: {"origin": {"x": 3208, "y": 3502, "level": 0}},
+                code: "5,4",
+                name: "Yew Trees - Varrock Palace",
+                menu_ticks: 2,
+            },
+            {
+                id: "yewcrwys",
+                target: {"origin": {"x": 2261, "y": 3383, "level": 1}},
+                code: "5,5",
+                name: "Yew Trees - Crwys sector",
+                menu_ticks: 2,
+            },
+            {
+                id: "magicranging",
+                target: {"origin": {"x": 2694, "y": 3425, "level": 0}},
+                code: "6,1",
+                name: "Magic Trees - East Ranging Guild",
+                menu_ticks: 2,
+            },
+            {
+                id: "magicsorcerer",
+                target: {"origin": {"x": 2702, "y": 3397, "level": 0}},
+                code: "6,2",
+                name: "Magic Trees - Sorcerer's Tower",
+                menu_ticks: 2,
+            },
+            {
+                id: "magicmagetraining",
+                target: {"origin": {"x": 3357, "y": 3310, "level": 0}},
+                code: "6,3",
+                name: "Magic Trees - Mage Training Arena",
+                menu_ticks: 2,
+            },
+            {
+                id: "magictirannwn",
+                target: {"origin": {"x": 2287, "y": 3140, "level": 0}},
+                code: "6,4",
+                name: "Magic Trees - South Tirannwn",
+                menu_ticks: 2,
+            },
+            {
+                id: "magiccrwys",
+                target: {"origin": {"x": 2249, "y": 3367, "level": 1}},
+                code: "6,5",
+                name: "Magic Trees - Crwys sector",
+                menu_ticks: 2,
+            },
+            {
+                id: "eldersorcerer",
+                target: {"origin": {"x": 2734, "y": 3401, "level": 0}},
+                code: "7,1",
+                name: "Elder Trees - East Sorcerer's Tower",
+                menu_ticks: 2,
+            },
+            {
+                id: "elderyanille",
+                target: {"origin": {"x": 2572, "y": 3063, "level": 0}},
+                code: "7,2",
+                name: "Elder Trees - South Yanille",
+                menu_ticks: 2,
+            },
+            {
+                id: "eldergnomestronghold",
+                target: {"origin": {"x": 2425, "y": 3456, "level": 0}},
+                code: "7,3",
+                name: "Elder Trees - Tree Gnome Stronghold",
+                menu_ticks: 2,
+            },
+            {
+                id: "elderdraynor",
+                target: {"origin": {"x": 3094, "y": 3215, "level": 0}},
+                code: "7,4",
+                name: "Elder Trees - South Draynor",
+                menu_ticks: 2,
+            },
+            {
+                id: "elderfalador",
+                target: {"origin": {"x": 3052, "y": 3320, "level": 0}},
+                code: "7,5",
+                name: "Elder Trees - Falador Farm",
+                menu_ticks: 2,
+            },
+            {
+                id: "eldervarrock",
+                target: {"origin": {"x": 3259, "y": 3370, "level": 0}},
+                code: "7,6",
+                name: "Elder Trees - South Varrock",
+                menu_ticks: 2,
+            },
+            {
+                id: "elderlletya",
+                target: {"origin": {"x": 2294, "y": 3147, "level": 0}},
+                code: "7,7",
+                name: "Elder Trees - West Lletya",
+                menu_ticks: 2,
+            },
+            {
+                id: "elderpiscatoris",
+                target: {"origin": {"x": 2321, "y": 3598, "level": 0}},
+                code: "7,8",
+                name: "Elder Trees - Piscatoris",
+                menu_ticks: 2,
+            },
+            {
+                id: "elderedgeville",
+                target: {"origin": {"x": 3094, "y": 3451, "level": 0}},
+                code: "7,9,1",
+                name: "Elder Trees - South Edgeville",
+                menu_ticks: 3,
+            },
+            {
+                id: "elderrimmington",
+                target: {"origin": {"x": 2933, "y": 3227, "level": 0}},
+                code: "7,9,2",
+                name: "Elder Trees - North Rimmington",
+                menu_ticks: 3,
+            },
+            {
+                id: "elderfort",
+                target: {"origin": {"x": 3375, "y": 3545, "level": 0}},
+                code: "7,9,3",
+                name: "Elder Trees - Fort Forinthry Grove",
+                menu_ticks: 3,
+            },
 
-]
-},*/
+
+            /*
+            {
+                id: "teaktai",
+                target: {origin: {x: 2814, y: 3084, level: 0}}, // TODO!
+                code: "0,1,1",
+                name: "Teak Trees - Tai Bwo Wannai",
+                menu_ticks: 3,
+            },*/
+
+
+            {
+                id: "teakape",
+                target: {"origin": {"x": 2774, "y": 2696, "level": 0}},
+                code: "0,1,2",
+                name: "Teak Trees - Ape Atoll",
+                menu_ticks: 3,
+            },
+            {
+                id: "teakcastlewars",
+                target: {"origin": {"x": 2334, "y": 3048, "level": 0}},
+                code: "0,1,3",
+                name: "Teak Trees - South-west Castle Wars",
+                menu_ticks: 3,
+            },
+            // 0,2,1 magogany tai bwo wannai omitted due to same spot as teak
+            {
+                id: "mahoganyape",
+                target: {"origin": {"x": 2716, "y": 2708, "level": 0}},
+                code: "0,2,2",
+                name: "Mahogany Trees - Ape Atoll",
+                menu_ticks: 3,
+            },
+            {
+                id: "mahoganiharazi",
+                target: {"origin": {"x": 2932, "y": 2928, "level": 0}},
+                code: "0,2,3",
+                name: "Mahogany Trees - Kharazi Jungle",
+                menu_ticks: 3,
+            },
+            {
+                id: "arcticpine",
+                target: {"origin": {"x": 2355, "y": 3848, "level": 0}},
+                code: "0,3",
+                name: "Arctic Pine Trees",
+                menu_ticks: 2,
+            },
+            {
+                id: "acadia",
+                target: {"origin": {"x": 3186, "y": 2720, "level": 0}},
+                code: "0,4",
+                name: "Acadia Trees",
+                menu_ticks: 2,
+            },
+
+            /*
+            {
+                id: "ivynorthvarrock",
+                target: {origin: {x: 3218, y: 3499, level: 0}},
+                code: "0,5,1",
+                name: "Choking Ivy - North Varrock Palace",
+                menu_ticks: 3,
+            },
+            {
+                id: "ivyeastvarrock",
+                target: {origin: {x: 3232, y: 3460, level: 0}},
+                code: "0,5,2",
+                name: "Choking Ivy - East Varrock Palace",
+                menu_ticks: 3,
+            },
+            {
+                id: "ivynorthfalador",
+                target: {origin: {x: 3015, y: 3393, level: 0}},
+                code: "0,5,3",
+                name: "Choking Ivy - North Falador",
+                menu_ticks: 3,
+            },
+            {
+                id: "ivysouthfalador",
+                target: {origin: {x: 3044, y: 3327, level: 0}},
+                code: "0,5,4",
+                name: "Choking Ivy - South Falador",
+                menu_ticks: 3,
+            },
+            {
+                id: "ivytaverley",
+                target: {origin: {x: 2938, y: 3429, level: 0}},
+                code: "0,5,5",
+                name: "Choking Ivy - South-east Taverly",
+                menu_ticks: 3,
+            },
+            {
+                id: "ivyardougne",
+                target: {origin: {x: 2623, y: 3308, level: 0}},
+                code: "0,5,6",
+                name: "Choking Ivy - East Ardougne Church",
+                menu_ticks: 3,
+            },
+            {
+                id: "ivyyanille",
+                target: {origin: {x: 2593, y: 3114, level: 0}},
+                code: "0,5,7",
+                name: "Choking Ivy - North Yanille",
+                menu_ticks: 3,
+            },
+            {
+                id: "ivycastlewars",
+                target: {origin: {x: 2426, y: 3062, level: 0}},
+                code: "0,5,8",
+                name: "Choking Ivy - South Castle Wars",
+                menu_ticks: 3,
+            },
+            {
+                id: "ivycrwys",
+                target: {origin: {x: 2241, y: 3377, level: 0}},
+                code: "0,5,9",
+                name: "Choking Ivy - Crwys sector",
+                menu_ticks: 3,
+            },
+            */
+
+
+            {
+                id: "idolsshipyard",
+                target: {"origin": {"x": 2932, "y": 3026, "level": 0}},
+                code: "0,6,1",
+                name: "Overgrown Idols - West of the Karamja shipyard",
+                menu_ticks: 3,
+            },
+            {
+                id: "idolsjadinko",
+                target: {"origin": {"x": 2949, "y": 2977, "level": 0}},
+                code: "0,6,2",
+                name: "Overgrown Idols - North of the Jadinko vine cave",
+                menu_ticks: 3,
+            },
+        ],
+        access: [{
+            id: "outfit",
+            type: "item",
+            name: {name: "Nature's sentinel helm", kind: "item"},
+            action_name: "Teleport",
+            img: {url: "sentinel.png"},
+        }]
+    },
     {
         type: "teleports",
         id: "archteleport",
@@ -3511,7 +3480,8 @@ name: "Overgrown Idols - North of the Jadinko vine cave",
             name: {name: "Ring of kinship", kind: "item"},
             action_name: "Teleport to Daemonheim"
         }]
-    },/*
+    }
+    ,/*
             {
                 type: "teleports",
                 id: "witchdoctormask",
@@ -3561,7 +3531,8 @@ name: "Overgrown Idols - North of the Jadinko vine cave",
         type: "teleports",
         id: "karamjagloves",
         name: "Karamja gloves",
-        img: {url: "karamjagloves.gif"},
+        img: {url: "karamjagloves.gif"}
+        ,
         spots: [{
             id: "gemmine",
             name: "Gem Mine",
@@ -3575,7 +3546,8 @@ name: "Overgrown Idols - North of the Jadinko vine cave",
             name: {name: "Karamja gloves 4", kind: "item"},
             action_name: "Teleport"
         }]
-    },/*
+    }
+    ,/*
             {
                 type: "teleports",
                 id: "theheart",
@@ -3606,7 +3578,8 @@ name: "Overgrown Idols - North of the Jadinko vine cave",
         type: "teleports",
         id: "legendscape",
         name: "Legends Cape",
-        img: {url: "legendscape.png"},
+        img: {url: "legendscape.png"}
+        ,
         spots: [{
             id: "legendsguild",
             target: {origin: {x: 2728, y: 3348, level: 0}},
@@ -3620,7 +3593,8 @@ name: "Overgrown Idols - North of the Jadinko vine cave",
             name: {kind: "item", name: "Cape of legends"},
             menu_ticks: 1,
         }]
-    },/*
+    }
+    ,/*
     {
         type: "teleports",
         id: "archjounal",
@@ -3681,13 +3655,15 @@ name: "Overgrown Idols - North of the Jadinko vine cave",
                 id: "tablet"
             }
         ]
-    },
+    }
+    ,
     {
         type: "teleports",
         id: "dragonkinlaboratory",
         name: "Dragonkin Laboratory teleport",
         menu_ticks: 1,
-        animation_ticks: default_teleport_ticks + 1,
+        animation_ticks: default_teleport_ticks
+            + 1,
         spots: [{
             id: "spot",
             target: {"origin": {"x": 3367, "y": 3887, "level": 0}, "size": {"x": 5, "y": 5}, "data": "/39CAA=="},
@@ -3702,7 +3678,8 @@ name: "Overgrown Idols - North of the Jadinko vine cave",
                 id: "tablet"
             }
         ]
-    },
+    }
+    ,
     {
         type: "teleports",
         id: "wildernessobelisk",
@@ -3756,7 +3733,8 @@ name: "Overgrown Idols - North of the Jadinko vine cave",
                 action_name: "Teleport",
             }
         ]
-    },/*
+    }
+    ,/*
     {
         type: "teleports",
         id: "wildernesssword",
@@ -3849,15 +3827,13 @@ name: "Wilderness Agility course",
                 name: "Relekka Market",
             },
         ],
-        access: [
-            {
-                id: "lyre",
-                type: "item",
-                name: {name: "Enchanted lyre", kind: "item"},
-                img: {url: "enchantedlyre.png"},
-                action_name: "Play",
-            }
-        ]
+        access: [{
+            id: "lyre",
+            type: "item",
+            name: {name: "Enchanted lyre", kind: "item"},
+            img: {url: "enchantedlyre.png"},
+            action_name: "Play",
+        }]
     },/*
     {
         type: "teleports",
@@ -3943,164 +3919,165 @@ name: "Menaphos",
                 animation_ticks: 5
             },
         ]
-    },
+    },*/
     {
         type: "teleports",
         id: "dragontrinkets",
-name: "Dragon Trinkets",
-img: {url: "dragontrinkets.png"},
+        name: "Dragon Trinkets",
+        animation_ticks: 3,
         spots: [
             {
                 id: "green",
-target: {origin: {x: 3303, y: 5468, level: 0}},
-name: "Green Dragons",
-code: "1,1",
+                target: {"origin": {"x": 3303, "y": 5468, "level": 0}},
+                name: "Green Dragons",
+                code: "1,1",
                 menu_ticks: 4,
-                animation_ticks: 3
             },
             {
                 id: "brutalgreen",
-target: {origin: {x: 2512, y: 3511, level: 0}},
-name: "Brutal Green Dragons",
-code: "1,2",
+                target: {"origin": {"x": 2512, "y": 3511, "level": 0}},
+                name: "Brutal Green Dragons",
+                code: "1,2",
                 menu_ticks: 4,
-                animation_ticks: 3
             },
             {
                 id: "blue",
-target: {origin: {x: 2891, y: 9769, level: 0}},
-name: "Blue Dragons",
-code: "2",
+                target: {"origin": {"x": 2891, "y": 9769, "level": 0}},
+                name: "Blue Dragons",
+                code: "2",
                 menu_ticks: 3,
-                animation_ticks: 3
             },
             {
                 id: "red",
-target: {origin: {x: 2731, y: 9529, level: 0}},
-name: "Red Dragons",
-code: "3",
+                target: {"origin": {"x": 2731, "y": 9529, "level": 0}},
+                name: "Red Dragons",
+                code: "3",
                 menu_ticks: 3,
-                animation_ticks: 3
             },
             {
                 id: "black",
-target: {origin: {x: 1565, y: 4356, level: 0}},
-name: "Black Dragons",
-code: "4,1",
+                target: {"origin": {"x": 1565, "y": 4356, "level": 0}},
+                name: "Black Dragons",
+                code: "4,1",
                 menu_ticks: 4,
-                animation_ticks: 3
             },
             {
                 id: "kbd",
-target: {origin: {x: 3051, y: 3519, level: 0}},
-name: "King Black Dragon",
-code: "4,2",
+                target: {"origin": {"x": 3051, "y": 3519, "level": 0}},
+                name: "King Black Dragon",
+                code: "4,2",
                 menu_ticks: 4,
-                animation_ticks: 3
             },
             {
                 id: "qbd",
-target: {origin: {x: 1198, y: 6499, level: 0}},
-name: "Queen Black Dragon",
-code: "4,2",
+                target: {"origin": {"x": 1198, "y": 6499, "level": 0}},
+                name: "Queen Black Dragon",
+                code: "4,2",
                 menu_ticks: 4,
-                animation_ticks: 3
             },
-        ]
+        ],
+        access: [{
+            id: "trinkets",
+            type: "item",
+            name: {name: "Dragon trinkets", kind: "item"},
+            img: {url: "dragontrinkets.png"},
+            action_name: "Teleport",
+        }]
     },
     {
         type: "teleports",
         id: "metallicdragontrinkets",
-name: "Metallic Dragon Trinkets",
-img: {url: "metallicdragontrinkets.png"},
+        name: "Metallic Dragon Trinkets",
+        animation_ticks: 3,
         spots: [
             {
                 id: "bronze",
-target: {origin: {x: 2723, y: 9486, level: 0}},
-name: "Bronze Dragons",
-code: "1",
+                target: {"origin": {"x": 2723, "y": 9486, "level": 0}},
+                name: "Bronze Dragons",
+                code: "1",
                 menu_ticks: 3,
-                animation_ticks: 3
             },
             {
                 id: "iron",
-target: {origin: {x: 2694, y: 9443, level: 0}},
-name: "Iron Dragons",
-code: "2",
+                target: {"origin": {"x": 2694, "y": 9443, "level": 0}},
+                name: "Iron Dragons",
+                code: "2",
                 menu_ticks: 3,
-                animation_ticks: 3
             },
             {
                 id: "steel",
-target: {origin: {x: 2708, y: 9468, level: 0}},
-name: "Steel Dragons",
-code: "3",
+                target: {"origin": {"x": 2708, "y": 9468, "level": 0}},
+                name: "Steel Dragons",
+                code: "3",
                 menu_ticks: 3,
-                animation_ticks: 3
             },
             {
                 id: "mithril",
-target: {origin: {x: 1778, y: 5346, level: 0}},
-name: "Mithril Dragons",
-code: "4",
+                target: {"origin": {"x": 1778, "y": 5346, "level": 0}},
+                name: "Mithril Dragons",
+                code: "4",
                 menu_ticks: 3,
-                animation_ticks: 3
             },
-            //{subid: "adamant",
-target: { origin: {x: 0, y: 0, level: 0} }, hover: "Adamant Dragons",
-code: "5,1"},
+            {
+                id: "adamant",
+                target: {"origin": {"x": 4516, "y": 6046, "level": 0}},
+                hover: "Adamant Dragons",
+                name: "Adamant Dragons",
+                code: "5,1",
+                menu_ticks: 4,
+            },
             {
                 id: "rune",
-target: {origin: {x: 2367, y: 3353, level: 0}},
-name: "Rune Dragons",
-code: "5,2",
+                target: {"origin": {"x": 2367, "y": 3358, "level": 0}},
+                name: "Rune Dragons",
+                code: "5,2",
                 menu_ticks: 4,
-                animation_ticks: 3
             },
-        ]
-    },*/
+        ],
+        access: [{
+            id: "trinkets",
+            type: "item",
+            name: {name: "Metallic dragon trinkets", kind: "item"},
+            img: {url: "metallicdragontrinkets.png"},
+            action_name: "Teleport",
+        }]
+    },
     {
         type: "teleports",
-        id:
-            "amuletofnature",
-        name:
-            "Amulet of Nature",
-        menu_ticks:
-            1,
-        animation_ticks:
-            4,
-        spots:
-            [
-                {
-                    id: "draynornightshade",
-                    target: {"origin": {"x": 3084, "y": 3353, "level": 0}, "size": {"x": 4, "y": 4}, "data": "j+g="},
-                    name: "Nightshade Patch",
-                },
-                {
-                    id: "herblorehabitat",
-                    target: {"origin": {"x": 2946, "y": 2904, "level": 0}, "size": {"x": 4, "y": 4}, "data": "nPk="},
-                    name: "Vine Bush Patch",
-                },
-                {
-                    id: "faladortree",
-                    target: {"origin": {"x": 3002, "y": 3371, "level": 0}, "size": {"x": 5, "y": 5}, "data": "P8b4AQ=="},
-                    name: "Falador Tree Patch",
-                },
-                {
-                    id: "harmonyallotment",
-                    target: {"origin": {"x": 3795, "y": 2833, "level": 0}, "size": {"x": 1, "y": 6}},
-                    name: "Harmony Island Allotment Patch",
-                },
-            ],
-        access:
-            [{
-                id: "cape",
-                type: "item",
-                action_name: "Teleport",
-                img: {url: "amuletofnature.png"},
-                name: {kind: "item", name: "Amulet of nature"},
-                menu_ticks: 1,
-            }]
+        id: "amuletofnature",
+        name: "Amulet of Nature",
+        menu_ticks: 1,
+        animation_ticks: 4,
+        spots: [
+            {
+                id: "draynornightshade",
+                target: {"origin": {"x": 3084, "y": 3353, "level": 0}, "size": {"x": 4, "y": 4}, "data": "j+g="},
+                name: "Nightshade Patch",
+            },
+            {
+                id: "herblorehabitat",
+                target: {"origin": {"x": 2946, "y": 2904, "level": 0}, "size": {"x": 4, "y": 4}, "data": "nPk="},
+                name: "Vine Bush Patch",
+            },
+            {
+                id: "faladortree",
+                target: {"origin": {"x": 3002, "y": 3371, "level": 0}, "size": {"x": 5, "y": 5}, "data": "P8b4AQ=="},
+                name: "Falador Tree Patch",
+            },
+            {
+                id: "harmonyallotment",
+                target: {"origin": {"x": 3795, "y": 2833, "level": 0}, "size": {"x": 1, "y": 6}},
+                name: "Harmony Island Allotment Patch",
+            },
+        ],
+        access: [{
+            id: "cape",
+            type: "item",
+            action_name: "Teleport",
+            img: {url: "amuletofnature.png"},
+            name: {kind: "item", name: "Amulet of nature"},
+            menu_ticks: 1,
+        }]
     }
     ,/*
     {
@@ -4150,33 +4127,27 @@ code: "5",
                 animation_ticks: 5
             },
         ]
-        
-        
+
+
     }*/
     {
         type: "teleports",
-        id:
-            "grandseedpod",
-        name:
-            "Grand seed pod",
-        menu_ticks:
-            1,
-        animation_ticks:
-            4,
-        spots:
-            [{
-                id: "grandtree",
-                target: {"origin": {"x": 2465, "y": 3495, "level": 0}},
-                name: "Grand Tree",
-            }],
-        access:
-            [{
-                type: "item",
-                id: "pod",
-                name: {name: "Grand seed pod", kind: "item"},
-                img: {url: "Grand_seed_pod.png"},
-                action_name: "Squash"
-            }]
+        id: "grandseedpod",
+        name: "Grand seed pod",
+        menu_ticks: 1,
+        animation_ticks: 4,
+        spots: [{
+            id: "grandtree",
+            target: {"origin": {"x": 2465, "y": 3495, "level": 0}},
+            name: "Grand Tree",
+        }],
+        access: [{
+            type: "item",
+            id: "pod",
+            name: {name: "Grand seed pod", kind: "item"},
+            img: {url: "Grand_seed_pod.png"},
+            action_name: "Squash"
+        }]
 
     }
 //TODO: Eagle transport system

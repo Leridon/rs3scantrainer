@@ -129,7 +129,7 @@ export class ClueProperties extends Properties {
 
         const methods = await MethodPackManager.instance().get(this.clue)
 
-        this.named("Methods", c().text(`${methods.length} ${plural(methods.length, "method")} available`))
+        this.named("Methods", c().text(`${plural(methods.length, "method")} available`))
 
         if (this.manage_methods_button) {
             this.row(hbox(new LightButton("Manage Methods", "rectangle")

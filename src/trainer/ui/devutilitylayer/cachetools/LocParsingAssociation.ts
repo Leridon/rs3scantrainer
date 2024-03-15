@@ -6,10 +6,12 @@ import LocInstance = CacheTypes.LocInstance;
 import {TransportParser2} from "./TransportParser";
 import {util} from "../../../../lib/util/util";
 import todo = util.todo;
-import {parsers3} from "./parsers3";
+import {Parsers3, parsers3} from "./parsers3";
 
 export type LocParsingAssociation = {
     parser_id: string,
+    group_id: number,
+    group_name: string,
     loc_ids: number[],
     per_group_arg?: any,
     per_instance_data?: {
@@ -26,9 +28,12 @@ export type LocParsingTableData = {
 
 
 export type ParserPairing = {
-    parser: TransportParser2,
-    same_group_as_loc?: number,
-    group_data?: any,
+    group: {
+        parser: TransportParser2,
+        id: number,
+        name: string,
+        argument: any
+    },
     instance_data?: any,
 } | null
 
@@ -56,7 +61,7 @@ export class LocParsingTable {
 
         const existing = this.loc_index[loc.loc_id]
 
-        if (!existing || existing.parser_id != pairing?.parser?.id || !existing.loc_ids.includes(pairing?.same_group_as_loc)) {
+        if (!existing || existing.parser_id != pairing?.group?.parser?.id || (existing.group_id != pairing.group.id)) {
             // Either the loc has no association at all, or its association is with the wrong parser group
 
             if (existing) {
@@ -83,15 +88,17 @@ export class LocParsingTable {
 
                 // Find a fitting group
                 let group = this.data.associations.find(g =>
-                    g.parser_id == pairing.parser.id &&
-                    (!pairing.parser.per_loc_group_parameter || g.loc_ids.includes(pairing.same_group_as_loc))
+                    g.parser_id == pairing.group.parser.id &&
+                    g.group_id == pairing.group.id
                 )
 
                 if (!group) {
                     // No group exists, create one
 
                     group = {
-                        parser_id: pairing.parser.id,
+                        group_id: this.data.version++,
+                        parser_id: pairing.group.parser.id,
+                        group_name: pairing.group.name,
                         loc_ids: [],
                     }
 
@@ -99,12 +106,9 @@ export class LocParsingTable {
                 }
 
                 group.loc_ids.push(loc.loc_id)
+                group.per_group_arg = pairing.group.argument
 
-                if (pairing.group_data) {
-                    group.per_group_arg = pairing.group_data
-                }
-
-                if (pairing.parser.per_instance_parameter && pairing.instance_data) {
+                if (pairing.group.parser.per_instance_parameter && pairing.instance_data) {
                     group.per_instance_data = [{
                         loc_id: loc.loc_id,
                         origin: loc.origin,
@@ -117,12 +121,10 @@ export class LocParsingTable {
         } else {
             // An association exists and is in the correct group
 
-            if (pairing.parser.per_loc_group_parameter) {
-                // Set the group arg to the new value
-                existing.per_group_arg = pairing.group_data ?? existing.per_group_arg
-            }
+            // Set the group arg to the new value
+            existing.per_group_arg = pairing.group.argument
 
-            if (pairing.parser.per_instance_parameter) {
+            if (pairing.group.parser.per_instance_parameter) {
                 if (!existing.per_instance_data) {
                     existing.per_instance_data = []
                 }
@@ -150,15 +152,41 @@ export class LocParsingTable {
         return !!this.loc_index[loc_id]
     }
 
+    getGroup2(parser: TransportParser2, id: number): ParserPairing["group"] {
+        const a = this.data.associations.find(a => a.parser_id == parser.id && (id < 0 || a.group_id == id))
+
+
+        if (a) {
+            return {
+                parser: parser,
+                id: a.group_id,
+                name: a.group_name,
+                argument: a.per_group_arg
+            }
+        } else {
+            return {
+                parser: parser,
+                id: -1,
+                name: "",
+                argument: undefined
+            }
+        }
+
+    }
+
     getPairing(loc: LocInstance): ParserPairing {
         const group = this.loc_index[loc.loc_id]
 
         if (!group) return null
 
         return {
-            parser: parsers3.find(p => p.id == group.parser_id),
-            same_group_as_loc: group.loc_ids.find(i => i != loc.loc_id),
-            group_data: group.per_group_arg,
+            group: {
+
+                parser: parsers3.find(p => p.id == group.parser_id),
+                id: group.group_id,
+                name: group.group_name,
+                argument: group.per_group_arg
+            },
             instance_data: group.per_instance_data?.find(i =>
                 i.loc_id == loc.loc_id && TileCoordinates.eq(i.origin, loc.origin)
             )?.data

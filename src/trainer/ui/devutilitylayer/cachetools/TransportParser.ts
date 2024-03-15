@@ -9,8 +9,7 @@ import LocInstance = CacheTypes.LocInstance;
 import getInstances = LocUtil.getInstances;
 
 export type ParseParameterType = {
-    kind: "prototype" | "direction"
-    optional: boolean
+    type: "tilearea"
 }
 
 export type ParseParameters = Record<string, ParseParameterType>

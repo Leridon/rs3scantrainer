@@ -131,7 +131,7 @@ export class ParserManagementLayer extends GameLayer {
                         text: "Pair as standard door",
                         handler: () => {
                             this.commitPairing(instance, {
-                                parser: Parsers3.getById("west-facing-doors")
+                                group: this.parsing_table.getGroup2(Parsers3.getById("west-facing-doors"),  -1)
                             })
                         }
                     })

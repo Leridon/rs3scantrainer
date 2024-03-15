@@ -218,7 +218,7 @@ export class LocInstanceEntity extends MapEntity {
         })))
         props.named("Size", `${this.instance.prototype.width ?? 1} x ${this.instance.prototype.length ?? 1}`)
         props.named("Rotation", (this.instance.rotation ?? 0).toString())
-        props.named("Parser", parser ? parser.parser.name : "-")
+        props.named("Parser", parser ? parser.group.parser.name : "-")
 
         return {
             content: props,

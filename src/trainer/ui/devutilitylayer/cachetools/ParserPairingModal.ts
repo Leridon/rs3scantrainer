@@ -15,7 +15,7 @@ export class ParserPairingEdit extends Widget {
     constructor(private pairing: ParserPairing) {
         super();
 
-        if (!pairing) this.pairing = {parser: null}
+        if (!pairing) this.pairing = {group: null}
 
         this.render()
     }
@@ -31,7 +31,7 @@ export class ParserPairingEdit extends Widget {
                 }
             }, [null].concat(parsers3))
                 .onSelection(parser => {
-                    this.pairing.parser = parser
+                    this.pairing.group.parser = parser
                 })
         )
 
@@ -75,8 +75,7 @@ export class ParserPairingModal extends FormModal<{
                     .setEnabled(this.existing_pairing.instance_data)
                     .onClick(() => this.confirm({
                         type: "saved", pairing: {
-                            parser: this.existing_pairing.parser,
-                            group_data: this.existing_pairing.group_data,
+                            group: this.existing_pairing.group,
                             instance_data: undefined
                         }
                     })),

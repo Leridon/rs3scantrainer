@@ -1,4 +1,3 @@
-import {Application} from "../../application";
 import {GameLayer} from "../../../lib/gamemap/GameLayer";
 import {ClueSpotIndex} from "../../../lib/runescape/clues/ClueIndex";
 import {clue_data} from "../../../data/clues";
@@ -12,7 +11,6 @@ import {DisplayedRouteFilter, DisplayedRouteFilterEdit} from "./DisplayedRouteFi
 import TheoryCrafter from "./TheoryCrafter";
 import * as leaflet from "leaflet"
 import ControlWithHeader from "../map/ControlWithHeader";
-import {FavoriteIndex} from "../../favorites";
 import {deps} from "../../dependencies";
 import {PathStepEntity} from "../map/entities/PathStepEntity";
 import {storage} from "../../../lib/util/storage";
@@ -52,29 +50,31 @@ export default class OverviewLayer extends GameLayer {
 
         this.marker_index = clue_data.spot_index.with(() => ({markers: [], route_display: null}))
 
-        this.on("add", () => {
-            this.filter_control.filtered_index_updated.on(() => this.updateVisibleMarkersByFilter())
-            this.updateVisibleMarkersByFilter()
-        })
+        this.filter_control.filtered_index_updated.on(() => this.updateVisibleMarkersByFilter())
+        this.updateVisibleMarkersByFilter()
     }
 
-    private async updateVisibleMarkersByFilter() {
+    async updateVisibleMarkersByFilter() {
         await this.update_promise
 
         this.update_promise = Promise.all(this.marker_index.flat().map(async c => {
                 let visible = this.filter_control.index.get(ClueSpot.toId(c.for)).visible
 
                 if (!visible && c.markers.length > 0) {
-                    c.markers.forEach(c => c.remove())
+                    console.log("Removing markers")
+                    c.markers.forEach(c => this.removeLayer(c))
                     c.markers = []
-                } else if (visible && c.markers.length == 0) {
+                }
+
+                if (visible && c.markers.length == 0) {
+                    console.log("Creating markers")
                     c.markers = ClueOverviewMarker.forClue(c.for, MethodPackManager.instance(), m => this.app.editMethod(m))
                     c.markers.forEach(m => m.addTo(this))
                 }
             })
         )
 
-        this.updateVisibleRoutes()
+        await this.updateVisibleRoutes()
     }
 
     private async updateVisibleRoutes() {

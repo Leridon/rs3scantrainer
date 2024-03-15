@@ -2,7 +2,7 @@ import Behaviour, {SingleBehaviour} from "../../../lib/ui/Behaviour";
 import {Application} from "../../application";
 import TheoryCraftingSidebar from "./TheoryCraftingSidebar";
 import OverviewLayer from "./OverviewLayer";
-import {AugmentedMethod} from "../../model/MethodPackManager";
+import {AugmentedMethod, MethodPackManager} from "../../model/MethodPackManager";
 import MethodEditor from "./MethodEditor";
 import * as lodash from "lodash";
 
@@ -15,6 +15,10 @@ export default class TheoryCrafter extends Behaviour {
     constructor(public app: Application) {
         super();
 
+        MethodPackManager.instance().saved.on(async () => {
+            await this.layer.filter_control.refreshFilterIndex()
+        }).bindTo(this.handler_pool)
+
         this.method_editor.behaviour.subscribe((b, old_b) => {
             if (b && !old_b) {
                 this.sidebar.setVisible(false)
@@ -25,7 +29,9 @@ export default class TheoryCrafter extends Behaviour {
             }
         })
 
-        this.method_editor.content_stopped.on(() => this.method_editor.set(null))
+        this.method_editor.content_stopped.on(() => {
+            this.method_editor.set(null)
+        })
     }
 
     protected begin() {

@@ -159,6 +159,8 @@ export class ScanTreeBuilder {
                 && a.double_surge == b.double_surge
         })
 
+    any_change = ewent<null>()
+
     constructor(private clue: Clues.Scan) {
         this.assumptions.subscribe((v) => {
             this.cleanTree()
@@ -193,12 +195,16 @@ export class ScanTreeBuilder {
         node.region = region
 
         this.cleanTree()
+
+        this.any_change.trigger(null)
     }
 
     setPath(node: ScanTreeNode, path: Path.raw) {
         node.path = path
 
         this.cleanTree()
+
+        this.any_change.trigger(null)
     }
 }
 
@@ -279,6 +285,10 @@ export default class ScanEditor extends MethodSubEditor {
 
         this.builder = new ScanTreeBuilder(value.clue)
         this.builder.assumptions.set(lodash.cloneDeep(value.method.assumptions))
+
+        this.builder.any_change.on(() => {
+            this.parent.registerChange()
+        })
 
         this.layer = new ScanEditLayerLight(this)
         this.interaction_guard = new InteractionGuard().setDefaultLayer(this.layer)

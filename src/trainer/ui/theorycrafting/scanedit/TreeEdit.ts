@@ -310,7 +310,6 @@ class TreeNodeEdit extends Widget {
                 )
             )
 
-
         this.children.forEach(c => c.appendTo(this.child_content))
     }
 

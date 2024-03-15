@@ -184,17 +184,21 @@ export class FilterControl extends GameMapControl<ControlWithHeader> {
             this.stored_filter.set(f)
         })
 
-        this.renderFilter().then(() => {
-            this.filter.subscribe(async () => {
-                await Promise.all(this.index.flat().map(async e => {
-                    e.visible = await ClueSpotFilter.apply(this.filter.value(), e.for, this.methods, e.prepared_search_string)
-                }))
+        this.renderFilter()
 
-                this.filtered_index_updated.trigger(undefined)
+        this.filter.subscribe(async () => {
+            await this.refreshFilterIndex()
+        }, true)
+    }
 
-                this.renderResults()
-            }, true)
-        })
+    public async refreshFilterIndex() {
+        await Promise.all(this.index.flat().map(async e => {
+            e.visible = await ClueSpotFilter.apply(this.filter.value(), e.for, this.methods, e.prepared_search_string)
+        }))
+
+        this.filtered_index_updated.trigger(undefined)
+
+        this.renderResults()
     }
 
     private async renderFilter(): Promise<void> {

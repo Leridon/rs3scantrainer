@@ -1,4 +1,3 @@
-import {Application} from "../../application";
 import {GameLayer} from "../../../lib/gamemap/GameLayer";
 import {ClueSpotIndex} from "../../../lib/runescape/clues/ClueIndex";
 import {clue_data} from "../../../data/clues";
@@ -12,7 +11,6 @@ import {DisplayedRouteFilter, DisplayedRouteFilterEdit} from "./DisplayedRouteFi
 import TheoryCrafter from "./TheoryCrafter";
 import * as leaflet from "leaflet"
 import ControlWithHeader from "../map/ControlWithHeader";
-import {FavoriteIndex} from "../../favorites";
 import {deps} from "../../dependencies";
 import {PathStepEntity} from "../map/entities/PathStepEntity";
 import {storage} from "../../../lib/util/storage";
@@ -52,13 +50,11 @@ export default class OverviewLayer extends GameLayer {
 
         this.marker_index = clue_data.spot_index.with(() => ({markers: [], route_display: null}))
 
-        this.on("add", () => {
-            this.filter_control.filtered_index_updated.on(() => this.updateVisibleMarkersByFilter())
-            this.updateVisibleMarkersByFilter()
-        })
+        this.filter_control.filtered_index_updated.on(() => this.updateVisibleMarkersByFilter())
+        this.updateVisibleMarkersByFilter()
     }
 
-    private async updateVisibleMarkersByFilter() {
+    async updateVisibleMarkersByFilter() {
         await this.update_promise
 
         this.update_promise = Promise.all(this.marker_index.flat().map(async c => {
@@ -74,7 +70,7 @@ export default class OverviewLayer extends GameLayer {
             })
         )
 
-        this.updateVisibleRoutes()
+        await this.updateVisibleRoutes()
     }
 
     private async updateVisibleRoutes() {

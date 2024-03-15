@@ -21,6 +21,7 @@ import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
 import {ClueSpotIndex} from "../../../lib/runescape/clues/ClueIndex";
 import {NewMethodModal} from "./MethodModal";
 import vbox = C.vbox;
+import plural = util.plural;
 
 export class ClueProperties extends Properties {
     render_promise: Promise<this> = null
@@ -128,7 +129,7 @@ export class ClueProperties extends Properties {
 
         const methods = await MethodPackManager.instance().get(this.clue)
 
-        this.named("Methods", c().text(`${methods.length} methods available`))
+        this.named("Methods", c().text(`${methods.length} ${plural(methods.length, "method")} available`))
 
         if (this.manage_methods_button) {
             this.row(hbox(new LightButton("Manage Methods", "rectangle")

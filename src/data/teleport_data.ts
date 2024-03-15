@@ -2702,135 +2702,113 @@ name: "Goshima Docks",
 
         ]
     },
-
-    /*{
-type: "teleports",
-id: "wickedhood",
-name: "Wicked hood",
-img: {url: "wicked.gif"},
-spots: [
     {
-        id: "guild",
-target: { origin: {x: 3109, y: 3156, level: 3} },
-name: "Runecrafting Guild",
+        type: "teleports",
+        id: "wickedhood",
+        name: "Wicked hood",
+        img: {url: "wicked.gif"},
         menu_ticks: 2,
-        animation_ticks: 3
+        animation_ticks: 3,
+        spots: [
+            {
+                id: "guild",
+                target: {"origin":{"x":3109,"y":3156,"level":3}},
+                name: "Runecrafting Guild",
+                menu_ticks: 1,
+            },
+            {
+                id: "soul",
+                target: {"origin":{"x":2016,"y":6878,"level":0}},
+                name: "Soul",
+                code: "Soul",
+            },
+            {
+                id: "cosmic",
+                target: {"origin":{"x":2405,"y":4381,"level":0}},
+                name: "Cosmic",
+                code: "Cosmic",
+            },
+            {
+                id: "air",
+                target: {"origin":{"x":3128,"y":3407,"level":0}},
+                name: "Air",
+                code: "Air",
+            },
+            {
+                id: "body",
+                target: {"origin":{"x":3050,"y":3442,"level":0}},
+                name: "Body",
+                code: "Body",
+            },
+            {
+                id: "mind",
+                target: {"origin":{"x":2980,"y":3511,"level":0}},
+                name: "Mind",
+                code: "Mind",
+            },
+            {
+                id: "fire",
+                target: {"origin":{"x":3310,"y":3252,"level":0}},
+                name: "Fire",
+                code: "Fire",
+            },
+            {
+                id: "earth",
+                target: {"origin":{"x":3302,"y":3477,"level":0}},
+                name: "Earth",
+                code: "Earth",
+            },
+            {
+                id: "water",
+                target: {"origin":{"x":3165,"y":3183,"level":0}},
+                name: "Water",
+                code: "Water",
+            },
+            {
+                id: "nature",
+                target: {"origin":{"x":2865,"y":3022,"level":0}},
+                name: "Nature",
+                code: "Nature",
+            },
+            {
+                id: "astral",
+                target: {"origin":{"x":2156,"y":3866,"level":0}},
+                name: "Astral",
+                code: "Astral",
+            },
+            {
+                id: "chaos",
+                target: {"origin":{"x":2269,"y":4844,"level":0}},
+                name: "Chaos",
+                code: "Chaos",
+            },
+            {
+                id: "law",
+                target:{"origin":{"x":2858,"y":3378,"level":0}},
+                name: "Law",
+                code: "Law",
+            },
+            {
+                id: "blood",
+                target: {"origin":{"x":3560,"y":9779,"level":0}},
+                name: "Blood",
+                code: "Blood",
+            },
+            {
+                id: "death",
+                target: {"origin":{"x":1863,"y":4637,"level":0}},
+                name: "Death",
+                code: "Death",
+            },
+        ],
+        access: [{
+            id: "wickedhood",
+            type: "item",
+            name: {name: "Wicked hood", kind: "item"},
+            action_name: "Teleport",
+        }]
     },
-    {
-        id: "soul",
-target: {origin: {x: 3087, y: 2697, level: 0}},
-name: "Soul",
-code: "Soul",
-        menu_ticks: 2,
-        animation_ticks: 3
-    },
-    {
-        id: "cosmic",
-target: {origin: {x: 2405, y: 4381, level: 0}},
-name: "Cosmic",
-code: "Cosmic",
-        menu_ticks: 2,
-        animation_ticks: 3
-    },
-    {
-        id: "air",
-target: {origin: {x: 3127, y: 3403, level: 0}},
-name: "Air",
-code: "Air",
-        menu_ticks: 2,
-        animation_ticks: 3
-    },
-    {
-        id: "body",
-target: {origin: {x: 3053, y: 3443, level: 0}},
-name: "Body",
-code: "Body",
-        menu_ticks: 2,
-        animation_ticks: 3
-    },
-    {
-        id: "mind",
-target: {origin: {x: 2982, y: 3514, level: 0}},
-name: "Mind",
-code: "Mind",
-        menu_ticks: 2,
-        animation_ticks: 3
-    },
-    {
-        id: "fire",
-target: {origin: {x: 3314, y: 3256, level: 0}},
-name: "Fire",
-code: "Fire",
-        menu_ticks: 2,
-        animation_ticks: 3
-    },
-    {
-        id: "earth",
-target: {origin: {x: 3305, y: 3475, level: 0}},
-name: "Earth",
-code: "Earth",
-        menu_ticks: 2,
-        animation_ticks: 3
-    },
-    {
-        id: "water",
-target: {origin: {x: 3165, y: 3185, level: 0}},
-name: "Water",
-code: "Water",
-        menu_ticks: 2,
-        animation_ticks: 3
-    },
-    {
-        id: "nature",
-target: {origin: {x: 2870, y: 3023, level: 0}},
-name: "Nature",
-code: "Nature",
-        menu_ticks: 2,
-        animation_ticks: 3
-    },
-    {
-        id: "astral",
-target: {origin: {x: 2158, y: 3866, level: 0}},
-name: "Astral",
-code: "Astral",
-        menu_ticks: 2,
-        animation_ticks: 3
-    },
-    {
-        id: "chaos",
-target: {origin: {x: 3059, y: 3593, level: 0}},
-name: "Chaos",
-code: "Chaos",
-        menu_ticks: 2,
-        animation_ticks: 3
-    },
-    {
-        id: "law",
-target: {origin: {x: 2857, y: 3382, level: 0}},
-name: "Law",
-code: "Law",
-        menu_ticks: 2,
-        animation_ticks: 3
-    },
-    {
-        id: "blood",
-target: { origin: {"x": 3560, "y": 9779, "level": 0} },
-name: "Blood",
-code: "Blood",
-        menu_ticks: 2,
-        animation_ticks: 3
-    },
-    {
-        id: "death",
-target: { origin: {"x": 1863, "y": 4637, "level": 0} },
-name: "Death",
-code: "Death",
-        menu_ticks: 2,
-        animation_ticks: 3
-    },
-
-]
-},
+    /*
 {
 type: "teleports",
 id: "balloon",

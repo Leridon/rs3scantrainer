@@ -2584,8 +2584,8 @@ name: "Goshima Docks",
         id: "gliders",
         name: "Gnome gliders",
         img: {url: "glider.png"},
-        menu_ticks: 1,
-        animation_ticks: 3,
+        menu_ticks: 2,
+        animation_ticks: 6,
         spots: [
             {
                 id: "grandtree",

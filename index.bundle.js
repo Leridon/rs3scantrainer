@@ -86352,7 +86352,6 @@ class MethodEditor extends _lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_0__["defau
         this.theorycrafter = theorycrafter;
         this.method = method;
         this.is_dirty = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_11__.observe)(false);
-        this.is_dirty.set(!!method.pack);
     }
     registerChange() {
         this.is_dirty.set(true);

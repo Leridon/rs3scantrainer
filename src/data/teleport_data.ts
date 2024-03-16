@@ -3182,18 +3182,13 @@ spots: [{
                 name: "Elder Trees - Fort Forinthry Grove",
                 menu_ticks: 3,
             },
-
-
-            /*
             {
                 id: "teaktai",
-                target: {origin: {x: 2814, y: 3084, level: 0}}, // TODO!
+                target: {"origin": {"x": 2815, "y": 3084, "level": 0}},
                 code: "0,1,1",
                 name: "Teak Trees - Tai Bwo Wannai",
                 menu_ticks: 3,
-            },*/
-
-
+            },
             {
                 id: "teakape",
                 target: {"origin": {"x": 2774, "y": 2696, "level": 0}},
@@ -3237,74 +3232,69 @@ spots: [{
                 name: "Acadia Trees",
                 menu_ticks: 2,
             },
-
-            /*
             {
                 id: "ivynorthvarrock",
-                target: {origin: {x: 3218, y: 3499, level: 0}},
+                target: {"origin": {"x": 3217, "y": 3499, "level": 0}},
                 code: "0,5,1",
                 name: "Choking Ivy - North Varrock Palace",
                 menu_ticks: 3,
             },
             {
                 id: "ivyeastvarrock",
-                target: {origin: {x: 3232, y: 3460, level: 0}},
+                target: {"origin": {"x": 3232, "y": 3460, "level": 0}},
                 code: "0,5,2",
                 name: "Choking Ivy - East Varrock Palace",
                 menu_ticks: 3,
             },
             {
                 id: "ivynorthfalador",
-                target: {origin: {x: 3015, y: 3393, level: 0}},
+                target: {"origin": {"x": 3015, "y": 3394, "level": 0}},
                 code: "0,5,3",
                 name: "Choking Ivy - North Falador",
                 menu_ticks: 3,
             },
             {
                 id: "ivysouthfalador",
-                target: {origin: {x: 3044, y: 3327, level: 0}},
+                target: {"origin": {"x": 3047, "y": 3326, "level": 0}},
                 code: "0,5,4",
                 name: "Choking Ivy - South Falador",
                 menu_ticks: 3,
             },
             {
                 id: "ivytaverley",
-                target: {origin: {x: 2938, y: 3429, level: 0}},
+                target: {"origin": {"x": 2938, "y": 3428, "level": 0}},
                 code: "0,5,5",
                 name: "Choking Ivy - South-east Taverly",
                 menu_ticks: 3,
             },
             {
                 id: "ivyardougne",
-                target: {origin: {x: 2623, y: 3308, level: 0}},
+                target: {"origin": {"x": 2623, "y": 3307, "level": 0}},
                 code: "0,5,6",
                 name: "Choking Ivy - East Ardougne Church",
                 menu_ticks: 3,
             },
             {
                 id: "ivyyanille",
-                target: {origin: {x: 2593, y: 3114, level: 0}},
+                target: {"origin": {"x": 2594, "y": 3112, "level": 0}},
                 code: "0,5,7",
                 name: "Choking Ivy - North Yanille",
                 menu_ticks: 3,
             },
             {
                 id: "ivycastlewars",
-                target: {origin: {x: 2426, y: 3062, level: 0}},
+                target: {"origin": {"x": 2429, "y": 3062, "level": 0}},
                 code: "0,5,8",
                 name: "Choking Ivy - South Castle Wars",
                 menu_ticks: 3,
             },
             {
                 id: "ivycrwys",
-                target: {origin: {x: 2241, y: 3377, level: 0}},
+                target: {"origin": {"x": 2241, "y": 3375, "level": 1}},
                 code: "0,5,9",
                 name: "Choking Ivy - Crwys sector",
                 menu_ticks: 3,
             },
-            */
-
-
             {
                 id: "idolsshipyard",
                 target: {"origin": {"x": 2932, "y": 3026, "level": 0}},

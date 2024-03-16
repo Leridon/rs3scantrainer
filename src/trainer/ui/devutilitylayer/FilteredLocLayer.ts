@@ -33,6 +33,7 @@ import {Checkbox} from "../../../lib/ui/controls/Checkbox";
 import LightButton from "../widgets/LightButton";
 import {TileRectangle} from "../../../lib/runescape/coordinates";
 import * as lodash from "lodash";
+import {LocInstanceProperties} from "./cachetools/LocInstanceProperties";
 
 export type LocFilter = {
     names?: string[],
@@ -206,22 +207,8 @@ export class LocInstanceEntity extends MapEntity {
     }
 
     async renderTooltip(): Promise<{ content: Widget; interactive: boolean } | null> {
-
-        const parser = this.parsing_table.getPairing(this.instance)
-
-        let props = new Properties()
-
-        props.header(c().append(staticentity(this.instance.prototype.name), ` (${this.instance.loc_id})`))
-        props.named("Usages", c().text(this.instance.loc_with_usages.uses.length))
-        props.named("Actions", vbox(...getActions(this.instance.prototype).map(a => {
-            return hboxl(inlineimg(CursorType.meta(a.cursor).icon_url).css("margin-right", "5px"), a.name)
-        })))
-        props.named("Size", `${this.instance.prototype.width ?? 1} x ${this.instance.prototype.length ?? 1}`)
-        props.named("Rotation", (this.instance.rotation ?? 0).toString())
-        props.named("Parser", parser.group ? parser.group.parser.name : "-")
-
         return {
-            content: props,
+            content: new LocInstanceProperties(this.instance, this.parsing_table),
             interactive: false
         }
     }

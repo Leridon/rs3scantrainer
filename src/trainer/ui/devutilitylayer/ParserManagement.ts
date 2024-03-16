@@ -111,7 +111,7 @@ export class ParserManagementLayer extends GameLayer {
                     type: "basic",
                     text: "Edit pairing",
                     handler: async () => {
-                        let result = await new ParserPairingModal(instance, pairing).do()
+                        let result = await new ParserPairingModal(instance, this.parsing_table, pairing).do()
 
                         if (result.type == "saved") {
                             this.commitPairing(instance, result.pairing)

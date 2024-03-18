@@ -75,6 +75,7 @@ class PackSelector extends AbstractEditWidget<Pack> {
     constructor() {
         super();
     }
+
     async render() {
         this.empty()
 

@@ -61,13 +61,11 @@ export default class OverviewLayer extends GameLayer {
                 let visible = this.filter_control.index.get(ClueSpot.toId(c.for)).visible
 
                 if (!visible && c.markers.length > 0) {
-                    console.log("Removing markers")
                     c.markers.forEach(c => this.removeLayer(c))
                     c.markers = []
                 }
 
                 if (visible && c.markers.length == 0) {
-                    console.log("Creating markers")
                     c.markers = ClueOverviewMarker.forClue(c.for, MethodPackManager.instance(), m => this.app.editMethod(m))
                     c.markers.forEach(m => m.addTo(this))
                 }

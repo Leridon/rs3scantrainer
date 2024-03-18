@@ -62171,100 +62171,100 @@ const raw_data = [
                 name: "Any Spellbook"
             }]
     },
-    /*
+    {
+        type: "teleports",
+        id: "houseteleports",
+        name: "House Teleports",
+        img: { url: "modhouse.gif" },
+        spots: [
             {
-                type: "teleports",
-                id: "houseteleports", // house teleport timings assume the spell, tablets are two ticks slower
-                name: "House Teleports",
-                img: {url: "modhouse.gif"},
-                spots: [
-                    {
-                        id: "rimmington",
-                        target: {origin: {x: 2953, y: 3223, level: 0}},
-                        name: "Rimmington house",
-                        code: "1",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "taverley",
-                        target: {origin: {x: 2883, y: 3452, level: 0}},
-                        name: "Taverley house",
-                        code: "2",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "pollnivneach",
-                        target: {origin: {x: 3339, y: 3001, level: 0}},
-                        name: "Pollnivneach house",
-                        code: "3",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "relekka",
-                        target: {origin: {x: 2670, y: 3632, level: 0}},
-                        name: "Rellekka house",
-                        code: "4",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "brimhaven",
-                        target: {origin: {x: 2757, y: 3178, level: 0}},
-                        name: "Brimhaven house",
-                        code: "5",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "yanille",
-                        target: {origin: {x: 2544, y: 3095, level: 0}},
-                        name: "Yanille house",
-                        code: "6",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "trollheim",
-                        target: {origin: {x: 2890, y: 3675, level: 0}},
-                        name: "Trollheim house tablet",
-                        code: "7",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "prifddinas",
-                        target: {origin: {x: 2166, y: 3335, level: 0}},
-                        name: "Prifddinas house tablet",
-                        code: "8",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "menaphos",
-                        target: {origin: {x: 3123, y: 2632, level: 0}},
-                        name: "Menaphos house tablet",
-                        code: "0,1",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks
-                    },
-                ],
-                access: [
-                    {
-                        type: "spellbook",
-                        name: "Normal"
-                    },
-                    {
-                        type: "item",
-                        name: {
-                            kind: "item",
-                            name: "House Teleport Tablet"
-                        }
-                    },
-                ]
-            },*/
+                id: "rimmington",
+                target: { "origin": { "x": 2953, "y": 3222, "level": 0 }, "size": { "x": 4, "y": 5 } },
+                name: "Rimmington",
+                code: "1",
+            },
+            {
+                id: "taverley",
+                target: { "origin": { "x": 2882, "y": 3450, "level": 0 }, "size": { "x": 4, "y": 5 } },
+                name: "Taverley",
+                code: "2",
+            },
+            {
+                id: "pollnivneach",
+                target: { "origin": { "x": 3338, "y": 3003, "level": 0 }, "size": { "x": 5, "y": 4 } },
+                name: "Pollnivneach",
+                code: "3",
+            },
+            {
+                id: "relekka",
+                target: { "origin": { "x": 2668, "y": 3631, "level": 0 }, "size": { "x": 5, "y": 4 }, "data": "//8H" },
+                name: "Rellekka",
+                code: "4",
+            },
+            {
+                id: "brimhaven",
+                target: { "origin": { "x": 2757, "y": 3176, "level": 0 }, "size": { "x": 4, "y": 5 } },
+                name: "Brimhaven",
+                code: "5",
+            },
+            {
+                id: "yanille",
+                target: { "origin": { "x": 2542, "y": 3093, "level": 0 }, "size": { "x": 5, "y": 4 } },
+                name: "Yanille",
+                code: "6",
+            },
+            {
+                id: "trollheim",
+                target: { "origin": { "x": 2889, "y": 3672, "level": 0 }, "size": { "x": 5, "y": 5 }, "data": "zv//AQ==" },
+                name: "Trollheim",
+                code: "7",
+            },
+            {
+                id: "prifddinas",
+                target: { "origin": { "x": 2166, "y": 3333, "level": 1 }, "size": { "x": 5, "y": 5 }, "data": "f///AQ==" },
+                name: "Prifddinas",
+                code: "8",
+            },
+            {
+                id: "otot",
+                target: { "origin": { "x": 4193, "y": 919, "level": 0 }, "size": { "x": 5, "y": 3 } },
+                name: "Otot (Mazcab)",
+                code: "9",
+            },
+            {
+                id: "menaphos",
+                target: { "origin": { "x": 3123, "y": 2633, "level": 0 }, "size": { "x": 3, "y": 3 }, "data": "vwA=" },
+                name: "Menaphos",
+                code: "0,1",
+            },
+            {
+                id: "anachronia",
+                target: { "origin": { "x": 5434, "y": 2374, "level": 0 }, "size": { "x": 5, "y": 5 }, "data": "5PyPAA==" },
+                name: "Anachronia",
+                code: "0,2",
+            },
+        ],
+        access: [
+            {
+                id: "spellbook",
+                type: "spellbook",
+                name: "Normal Spellbook",
+                menu_ticks: 0,
+                animation_ticks: default_teleport_ticks
+            },
+            {
+                id: "tablets",
+                type: "item",
+                name: {
+                    kind: "item",
+                    name: "House Teleport Tablet",
+                },
+                action_name: "Break",
+                menu_ticks: 0,
+                animation_ticks: default_teleport_ticks + 2
+            },
+        ]
+    },
     {
         type: "teleports",
         id: "teleportscrolls",

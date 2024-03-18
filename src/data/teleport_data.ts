@@ -573,67 +573,67 @@ const raw_data: Transportation.TeleportGroup[] = [
         spots: [
             {
                 id: "rimmington",
-                target: {"origin":{"x":2953,"y":3222,"level":0},"size":{"x":4,"y":5}},
+                target: {"origin": {"x": 2953, "y": 3222, "level": 0}, "size": {"x": 4, "y": 5}},
                 name: "Rimmington",
                 code: "1",
             },
             {
                 id: "taverley",
-                target: {"origin":{"x":2882,"y":3450,"level":0},"size":{"x":4,"y":5}},
+                target: {"origin": {"x": 2882, "y": 3450, "level": 0}, "size": {"x": 4, "y": 5}},
                 name: "Taverley",
                 code: "2",
             },
             {
                 id: "pollnivneach",
-                target:{"origin":{"x":3338,"y":3003,"level":0},"size":{"x":5,"y":4}},
+                target: {"origin": {"x": 3338, "y": 3003, "level": 0}, "size": {"x": 5, "y": 4}},
                 name: "Pollnivneach",
                 code: "3",
             },
             {
                 id: "relekka",
-                target: {"origin":{"x":2668,"y":3631,"level":0},"size":{"x":5,"y":4},"data":"//8H"},
+                target: {"origin": {"x": 2668, "y": 3631, "level": 0}, "size": {"x": 5, "y": 4}, "data": "//8H"},
                 name: "Rellekka",
                 code: "4",
             },
             {
                 id: "brimhaven",
-                target: {"origin":{"x":2757,"y":3176,"level":0},"size":{"x":4,"y":5}},
+                target: {"origin": {"x": 2757, "y": 3176, "level": 0}, "size": {"x": 4, "y": 5}},
                 name: "Brimhaven",
                 code: "5",
             },
             {
                 id: "yanille",
-                target: {"origin":{"x":2542,"y":3093,"level":0},"size":{"x":5,"y":4}},
+                target: {"origin": {"x": 2542, "y": 3093, "level": 0}, "size": {"x": 5, "y": 4}},
                 name: "Yanille",
                 code: "6",
             },
             {
                 id: "trollheim",
-                target: {"origin":{"x":2889,"y":3672,"level":0},"size":{"x":5,"y":5},"data":"zv//AQ=="},
+                target: {"origin": {"x": 2889, "y": 3672, "level": 0}, "size": {"x": 5, "y": 5}, "data": "zv//AQ=="},
                 name: "Trollheim",
                 code: "7",
             },
             {
                 id: "prifddinas",
-                target: {"origin":{"x":2166,"y":3333,"level":1},"size":{"x":5,"y":5},"data":"f///AQ=="},
+                target: {"origin": {"x": 2166, "y": 3333, "level": 1}, "size": {"x": 5, "y": 5}, "data": "f///AQ=="},
                 name: "Prifddinas",
                 code: "8",
             },
             {
                 id: "otot",
-                target: {"origin":{"x":4193,"y":919,"level":0},"size":{"x":5,"y":3}},
+                target: {"origin": {"x": 4193, "y": 919, "level": 0}, "size": {"x": 5, "y": 3}},
                 name: "Otot (Mazcab)",
                 code: "9",
             },
             {
                 id: "menaphos",
-                target: {"origin":{"x":3123,"y":2633,"level":0},"size":{"x":3,"y":3},"data":"vwA="},
+                target: {"origin": {"x": 3123, "y": 2633, "level": 0}, "size": {"x": 3, "y": 3}, "data": "vwA="},
                 name: "Menaphos",
                 code: "0,1",
             },
             {
                 id: "anachronia",
-                target: {"origin":{"x":5434,"y":2374,"level":0},"size":{"x":5,"y":5},"data":"5PyPAA=="},
+                target: {"origin": {"x": 5434, "y": 2374, "level": 0}, "size": {"x": 5, "y": 5}, "data": "5PyPAA=="},
                 name: "Anachronia",
                 code: "0,2",
             },
@@ -750,87 +750,83 @@ const raw_data: Transportation.TeleportGroup[] = [
             action_name: "Teleport",
             menu_ticks: 1
         }]
-    },/*
+    },
+    {
+        type: "teleports",
+        id: "teleportseed",
+        name: "Teleport Seed",
+        img: {url: "crystal.gif"},
+        menu_ticks: 1,
+        animation_ticks: default_teleport_ticks,
+        spots: [
             {
-                type: "teleports",
-                id: "teleportseed",
-                name: "Teleport Seed",
-                img: {url: "crystal.gif"},
-                spots: [
-                    {
-                        id: "lletya",
-                        target: {origin: {x: 2335, y: 3171, level: 0}},
-                        name: "Lletya",
-                        code: "1",
-                        menu_ticks: 1,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "amlodd",
-                        target: {origin: {x: 2155, y: 3383, level: 1}},
-                        name: "Amlodd",
-                        code: "3",
-                        menu_ticks: 1,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "cadarn",
-                        target: {origin: {x: 2261, y: 3339, level: 1}},
-                        name: "Cadarn",
-                        code: "4",
-                        menu_ticks: 1,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "crwys",
-                        target: {origin: {x: 2261, y: 3383, level: 1}},
-                        name: "Crwys",
-                        code: "5",
-                        menu_ticks: 1,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "hefin",
-                        target: {origin: {x: 2186, y: 3411, level: 1}},
-                        name: "Hefin",
-                        code: "6",
-                        menu_ticks: 1,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "iorwerth",
-                        target: {origin: {x: 2185, y: 3311, level: 1}},
-                        name: "Iorwerth",
-                        code: "7",
-                        menu_ticks: 1,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "Ithell",
-                        target: {origin: {x: 2155, y: 3339, level: 1}},
-                        name: "Ithell",
-                        code: "8",
-                        menu_ticks: 1,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "Meilyr",
-                        target: {origin: {x: 2230, y: 3411, level: 1}},
-                        name: "Meilyr",
-                        code: "9",
-                        menu_ticks: 1,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "Trahaearn",
-                        target: {origin: {x: 2231, y: 3311, level: 1}},
-                        name: "Trahaearn",
-                        code: "0",
-                        menu_ticks: 1,
-                        animation_ticks: default_teleport_ticks
-                    },
-                ]
+                id: "lletya",
+                target: {"origin":{"x":2328,"y":3169,"level":0},"size":{"x":5,"y":5},"data":"EP+PAQ=="},
+                name: "Lletya",
+                code: "1",
             },
+            {
+                id: "templeoflight",
+                target: {"origin":{"x":1938,"y":4639,"level":0},"size":{"x":5,"y":5}},
+                name: "Temple of Light",
+                code: "2",
+            },
+            {
+                id: "amlodd",
+                target: {"origin":{"x":2153,"y":3381,"level":1},"size":{"x":5,"y":5}},
+                name: "Amlodd",
+                code: "3",
+            },
+            {
+                id: "cadarn",
+                target: {"origin":{"x":2259,"y":3337,"level":1},"size":{"x":5,"y":5}},
+                name: "Cadarn",
+                code: "4",
+            },
+            {
+                id: "crwys",
+                target: {"origin":{"x":2259,"y":3381,"level":1},"size":{"x":5,"y":5}},
+                name: "Crwys",
+                code: "5",
+            },
+            {
+                id: "hefin",
+                target: {"origin":{"x":2184,"y":3409,"level":1},"size":{"x":5,"y":5}},
+                name: "Hefin",
+                code: "6",
+            },
+            {
+                id: "iorwerth",
+                target: {"origin":{"x":2183,"y":3309,"level":1},"size":{"x":5,"y":5}},
+                name: "Iorwerth",
+                code: "7",
+            },
+            {
+                id: "Ithell",
+                target: {"origin":{"x":2153,"y":3337,"level":1},"size":{"x":5,"y":5},"data":"///vAQ=="},
+                name: "Ithell",
+                code: "8",
+            },
+            {
+                id: "Meilyr",
+                target: {"origin":{"x":2228,"y":3409,"level":1},"size":{"x":5,"y":5}},
+                name: "Meilyr",
+                code: "9",
+            },
+            {
+                id: "Trahaearn",
+                target: {"origin":{"x":2229,"y":3309,"level":1},"size":{"x":5,"y":5},"data":"7///AA=="},
+                name: "Trahaearn",
+                code: "0",
+            },
+        ],
+        access: [{
+            id: "attunedseed",
+            type: "item",
+            name: {name: "Attuned crystal teleport seed", kind: "item"},
+            action_name: "Activate"
+        }]
+    },/*
             {
                 type: "teleports",
                 id: "menaphostablets",

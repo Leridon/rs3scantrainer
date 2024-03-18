@@ -67,7 +67,7 @@ export namespace LocFilter {
         }
 
         if (filter.parser != null) {
-            if (filter.parser != !!parsing_table.getGroup(loc.id)) return false
+            if (filter.parser != !!parsing_table.getGroupForLoc(loc.id)) return false
         }
 
         return true
@@ -167,7 +167,7 @@ export class LocInstanceEntity extends MapEntity {
     }
 
     protected async render_implementation(props: MapEntity.RenderProps): Promise<Element> {
-        const has_parser = !!this.parsing_table.getPairing(this.instance).group
+        const has_parser = this.parsing_table && !!this.parsing_table.getPairing(this.instance).group
 
         const box = boxPolygon(this.instance.box).setStyle({
             color: has_parser ? "green" : "red",
@@ -222,7 +222,7 @@ export class LocInstanceEntity extends MapEntity {
     }
 
     checkParserRedraw() {
-        if (this.rendered_props.render_at_all && (!!this.parsing_table.getPairing(this.instance).group) != this.rendered_with_parser) {
+        if (this.rendered_props.render_at_all && (this.parsing_table && !!this.parsing_table.getPairing(this.instance).group) != this.rendered_with_parser) {
             this.render(true)
         }
     }

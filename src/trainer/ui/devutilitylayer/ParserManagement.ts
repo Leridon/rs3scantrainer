@@ -3,7 +3,7 @@ import {FilteredLocLayer, LocInstanceEntity} from "./FilteredLocLayer";
 import {GameMapContextMenuEvent} from "../../../lib/gamemap/MapEvents";
 import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
 import ButtonRow from "../../../lib/ui/ButtonRow";
-import {LocParsingTable, LocParsingTableData, ParserPairing} from "./cachetools/ParsingTable";
+import {LocParsingTable, LocParsingTableData, ParserPairing, ParsingAssociationGroup} from "./cachetools/ParsingTable";
 import KeyValueStore from "../../../lib/util/KeyValueStore";
 import LightButton from "../widgets/LightButton";
 import ExportStringModal from "../widgets/modals/ExportStringModal";
@@ -20,15 +20,34 @@ import {ParserPairingModal} from "./cachetools/ParserPairingModal";
 import {filedownload} from "../../../oldlib";
 import download = util.download;
 import LocInstance = CacheTypes.LocInstance;
+import {storage} from "../../../lib/util/storage";
+
+class RecentlyUsedParserGroups {
+    last_used_groups = new storage.Variable<number[]>("devutility/locparsing/recentgroups", () => [])
+
+    constructor(private table: LocParsingTable) {
+
+    }
+
+    use(group: number) {
+        this.last_used_groups.set(this.last_used_groups.get().concat([group]))
+    }
+
+    get(): ParsingAssociationGroup[] {
+        const ids = this.last_used_groups.get()
+    }
+}
 
 export class ParserManagementLayer extends GameLayer {
     loc_layer: FilteredLocLayer
 
-    local_store_id = "devutility/locparsing/parserassociations"
+    local_store = KeyValueStore.instance().variable<LocParsingTableData>("devutility/locparsing/parserassociations")
+
     repo_version_number: number
 
     parsing_table: LocParsingTable
     data_file: LocDataFile
+
 
     constructor() {
         super();
@@ -47,22 +66,6 @@ export class ParserManagementLayer extends GameLayer {
 
                                 new ExportStringModal(cleanedJSON(results)).show()
                             }),
-                        new LightButton("Test")
-                            .onClick(async () => {
-
-                                (new class extends NisModal {
-
-                                    constructor() {
-                                        super()
-                                    }
-
-                                    render() {
-                                        super.render();
-
-                                        this.body.append(new GameMapWidget(c().container))
-                                    }
-                                }).show()
-                            })
                     )
             ).addTo(this)
 
@@ -71,7 +74,7 @@ export class ParserManagementLayer extends GameLayer {
 
     async init() {
 
-        let local_data: LocParsingTableData = await KeyValueStore.instance().get<LocParsingTableData>(this.local_store_id)
+        let local_data: LocParsingTableData = await this.local_store.get()
         let repo_data: LocParsingTableData = await (await fetch("map/parsing_associations.json")).json().catch(() => undefined)
 
         this.repo_version_number = repo_data?.version ?? -1
@@ -87,7 +90,7 @@ export class ParserManagementLayer extends GameLayer {
         this.parsing_table = new LocParsingTable(most_current_data)
 
         this.parsing_table.version.subscribe(async () => {
-            await KeyValueStore.instance().set(this.local_store_id, this.parsing_table.data)
+            await this.local_store.set(this.parsing_table.data)
         })
 
         this.data_file = await LocDataFile.fromURL("map/raw_loc_data.json")
@@ -97,6 +100,8 @@ export class ParserManagementLayer extends GameLayer {
 
     commitPairing(loc: LocInstance, pairing: ParserPairing) {
         this.parsing_table.setPairing(loc, pairing)
+
+        t
     }
 
     eventContextMenu(event: GameMapContextMenuEvent) {

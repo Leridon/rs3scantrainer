@@ -382,7 +382,7 @@ export namespace GameMap {
 export class GameMapWidget extends Widget {
     map: GameMap
 
-    constructor(container: JQuery) {
+    constructor(container: JQuery = $("<div>")) {
         super(container)
 
         this.map = new GameMap(container.get()[0])

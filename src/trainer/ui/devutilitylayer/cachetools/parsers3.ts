@@ -74,10 +74,7 @@ export const parsers3: TransportParser2[] = [
     ),
     parse("ladders", "Ladders", PP.rec()
             .element("Across", "across", PP.bool(), false)
-        , null, async (instance, args: {
-            per_instance?: { across: boolean },
-
-        }) => {
+        , null, async (instance) => {
 
 
             return []

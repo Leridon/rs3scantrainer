@@ -8,32 +8,54 @@ import {DropdownSelection} from "../../widgets/DropdownSelection";
 import Widget from "../../../../lib/ui/Widget";
 import {LocParsingTable, ParserPairing, ParsingAssociationGroup} from "./ParsingTable";
 import {BigNisButton} from "../../widgets/BigNisButton";
-import {LocInstanceProperties} from "./LocInstanceProperties";
 import {SearchSelection} from "../../widgets/SearchSelection";
 import {Checkbox} from "../../../../lib/ui/controls/Checkbox";
-import {exit} from "process";
 import TextField from "../../../../lib/ui/controls/TextField";
-import {ParsingParameter as PP} from "./ParsingParameters";
+import {GameMap, GameMapWidget} from "../../../../lib/gamemap/GameMap";
+import {LocInstanceEntity} from "../FilteredLocLayer";
+import {GameLayer} from "../../../../lib/gamemap/GameLayer";
 
 export class ParserPairingEdit extends Widget {
+    map: GameMap
+    layer: GameLayer
+
+    properties: Properties
 
     constructor(private loc: LocInstance, private parsing_table: LocParsingTable, private pairing: ParserPairing) {
         super();
 
         if (!pairing) this.pairing = {group: null, instance_group: null}
 
-        this.render()
+        this.map = new GameMapWidget()
+            .css("width", "100%")
+            .css("height", "200px")
+            .appendTo(this).map
+
+        setTimeout(() => {
+            this.map.invalidateSize(true)
+
+            this.map.fitView(this.loc.box, {maxZoom: 3})
+        }, 1000)
+
+        this.layer = new GameLayer().addTo(this.map)
+
+        new LocInstanceEntity(this.loc, null)
+            .addTo(this.layer)
+
+        this.properties = new Properties()
+
+        this.renderProps()
     }
 
-    protected render() {
-        this.empty()
+    protected renderProps() {
+        this.properties.empty()
 
-        c().css("border", "1px dashed white")
-            .append(new LocInstanceProperties(this.loc, this.parsing_table))
-            .appendTo(this)
+        /*        c().css("border", "1px dashed white")
+                    .append(new LocInstanceProperties(this.loc, this.parsing_table))
+                    .appendTo(this)
+        */
 
-
-        const props = new Properties()
+        const props = this.properties
 
         props.header(new Checkbox("Pair with LOC-group")
             .setValue(!!this.pairing.group)
@@ -43,14 +65,14 @@ export class ParserPairingEdit extends Widget {
                         id: -1,
                         name: "New group",
                         parser: Parsers3.getById("ignore"),
-                        argument: undefined // TODO: Default argument?
+                        argument: undefined
                     }
                 } else {
                     this.pairing.group = undefined
                     this.pairing.instance_group = undefined
                 }
 
-                this.render()
+                this.renderProps()
             })
         )
 
@@ -66,6 +88,7 @@ export class ParserPairingEdit extends Widget {
                     return item ? item.group_name : "Create new group"
                 }
             }, []))
+                .setItems(() => [null].concat(this.parsing_table.data.associations))
                 .setValue(null)
                 .onSelection(group => {
                     if (group) {
@@ -80,7 +103,7 @@ export class ParserPairingEdit extends Widget {
                         this.pairing.group.argument = undefined // TODO: default arg by type
                     }
 
-                    this.render()
+                    this.renderProps()
                 })
 
             props.named("Parser", new DropdownSelection<TransportParser2>({
@@ -110,6 +133,7 @@ export class ParserPairingEdit extends Widget {
                 props.header("Group Parameter")
 
                 const test_par = this.pairing.group.parser.per_loc_group_parameter.renderForm(0)
+                    .onChange(v => this.pairing.group.argument = v)
 
                 props.row(test_par.control)
                 props.row(test_par.additional)
@@ -133,7 +157,7 @@ export class ParserPairingModal extends FormModal<{
 
     constructor(private loc: LocInstance, private parsing_table: LocParsingTable, private existing_pairing: ParserPairing) {
         super({
-            size: "small"
+            size: "medium"
         });
 
         this.title.set("Edit Parser Pairing")
@@ -146,34 +170,12 @@ export class ParserPairingModal extends FormModal<{
     }
 
     getButtons(): BigNisButton[] {
-
-        if (this.existing_pairing.group) {
-            return [
-                new BigNisButton("Remove Loc Pairing", "cancel")
-                    .onClick(() => this.confirm({type: "saved", pairing: null})),
-                new BigNisButton("Remove Instance Pairing", "cancel")
-                    .setEnabled(!!this.existing_pairing.instance_group)
-                    .onClick(() => this.confirm({
-                        type: "saved", pairing: {
-                            group: this.existing_pairing.group,
-                            instance_group: undefined
-                        }
-                    })),
-                new BigNisButton("Cancel", "neutral")
-                    .onClick(() => this.confirm({type: "cancelled"})),
-                new BigNisButton("Save", "confirm")
-                    .onClick(() => this.confirm({type: "saved", pairing: this.edit.get()})),
-            ]
-        } else {
-            return [
-                new BigNisButton("Cancel", "neutral")
-                    .onClick(() => this.confirm({type: "cancelled"})),
-                new BigNisButton("Save", "confirm")
-                    .onClick(() => this.confirm({type: "saved", pairing: this.edit.get()})),
-            ]
-        }
-
-
+        return [
+            new BigNisButton("Cancel", "neutral")
+                .onClick(() => this.confirm({type: "cancelled"})),
+            new BigNisButton("Save", "confirm")
+                .onClick(() => this.confirm({type: "saved", pairing: this.edit.get()})),
+        ]
     }
 
     protected getValueForCancel(): { type: "cancelled" | "saved"; pairing: ParserPairing } {

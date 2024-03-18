@@ -69,8 +69,6 @@ export class LocParsingTable {
             let currently_in_group: ParsingAssociationGroup = this.loc_index[loc.loc_id]
 
             if (currently_in_group && currently_in_group.group_id != pairing.group?.id) {
-                console.log("Removing from group")
-
                 // There already is a pairing for that loc in the wrong group, remove it entirely
 
                 // The loc is in the wrong group, remove it entirely
@@ -95,14 +93,10 @@ export class LocParsingTable {
                 const correct_group = this.data.associations.find(group => group.group_id == pairing.group.id)
 
                 if (correct_group) {
-                    console.log("Adding to group")
-
                     // there already is a group with the desired id
                     correct_group.loc_ids.push(loc.loc_id)
                     currently_in_group = correct_group
                 } else {
-                    console.log("Creating group")
-
                     // there is no correct group, create it
                     this.data.associations.push(currently_in_group = {
                         group_id: this.data.version,
@@ -115,9 +109,11 @@ export class LocParsingTable {
                 }
             }
 
+            pairing.group.id = currently_in_group.group_id
+
             // Update group data now
             this.loc_index[loc.loc_id] = currently_in_group
-            
+
             currently_in_group.parser_id = pairing.group.parser.id
             currently_in_group.per_group_arg = pairing.group.argument
             currently_in_group.group_name = pairing.group.name
@@ -127,8 +123,6 @@ export class LocParsingTable {
             )
 
             if (currently_in_igroup && currently_in_igroup.id != pairing.instance_group?.id) {
-                console.log("Remove from igroup")
-
                 // this instance is already in an instance group, remove it
 
                 const i = currently_in_igroup.instances.findIndex(i => i.loc == loc.loc_id && TileCoordinates.eq(i.origin, loc.origin))
@@ -158,6 +152,8 @@ export class LocParsingTable {
                 }
             }
 
+            pairing.instance_group.id = currently_in_igroup.id
+
             // Finally set the instance group data
             currently_in_igroup.per_instance_argument = pairing.instance_group.argument
             currently_in_igroup.name = pairing.instance_group.name
@@ -166,9 +162,12 @@ export class LocParsingTable {
         this.bumpVersion()
     }
 
-    getGroup(loc_id: number):
-        boolean {
-        return !!this.loc_index[loc_id]
+    getGroupForLoc(loc_id: number): ParsingAssociationGroup {
+        return this.loc_index[loc_id]
+    }
+
+    getGroup(group_id: number): ParsingAssociationGroup {
+        return this.data.associations.find(g => g.group_id == group_id)
     }
 
     getGroup2(parser: TransportParser2, id: number): ParserPairing["group"] {

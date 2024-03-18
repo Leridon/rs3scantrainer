@@ -1075,7 +1075,7 @@ const raw_data: Transportation.TeleportGroup[] = [
             },
             {
                 id: "BJP",
-                target: {origin: {x: 3342, y: 3539, level: 0}},
+                target: {"origin": {"x": 3347, "y": 3540, "level": 0}},
                 code: "BJP",
                 name: "Fort Forinthry",
             },

@@ -62358,6 +62358,82 @@ const raw_data = [
     },
     {
         type: "teleports",
+        id: "teleportseed",
+        name: "Teleport Seed",
+        img: { url: "crystal.gif" },
+        menu_ticks: 1,
+        animation_ticks: default_teleport_ticks,
+        spots: [
+            {
+                id: "lletya",
+                target: { "origin": { "x": 2328, "y": 3169, "level": 0 }, "size": { "x": 5, "y": 5 }, "data": "EP+PAQ==" },
+                name: "Lletya",
+                code: "1",
+            },
+            {
+                id: "templeoflight",
+                target: { "origin": { "x": 1938, "y": 4639, "level": 0 }, "size": { "x": 5, "y": 5 } },
+                name: "Temple of Light",
+                code: "2",
+            },
+            {
+                id: "amlodd",
+                target: { "origin": { "x": 2153, "y": 3381, "level": 1 }, "size": { "x": 5, "y": 5 } },
+                name: "Amlodd",
+                code: "3",
+            },
+            {
+                id: "cadarn",
+                target: { "origin": { "x": 2259, "y": 3337, "level": 1 }, "size": { "x": 5, "y": 5 } },
+                name: "Cadarn",
+                code: "4",
+            },
+            {
+                id: "crwys",
+                target: { "origin": { "x": 2259, "y": 3381, "level": 1 }, "size": { "x": 5, "y": 5 } },
+                name: "Crwys",
+                code: "5",
+            },
+            {
+                id: "hefin",
+                target: { "origin": { "x": 2184, "y": 3409, "level": 1 }, "size": { "x": 5, "y": 5 } },
+                name: "Hefin",
+                code: "6",
+            },
+            {
+                id: "iorwerth",
+                target: { "origin": { "x": 2183, "y": 3309, "level": 1 }, "size": { "x": 5, "y": 5 } },
+                name: "Iorwerth",
+                code: "7",
+            },
+            {
+                id: "Ithell",
+                target: { "origin": { "x": 2153, "y": 3337, "level": 1 }, "size": { "x": 5, "y": 5 }, "data": "///vAQ==" },
+                name: "Ithell",
+                code: "8",
+            },
+            {
+                id: "Meilyr",
+                target: { "origin": { "x": 2228, "y": 3409, "level": 1 }, "size": { "x": 5, "y": 5 } },
+                name: "Meilyr",
+                code: "9",
+            },
+            {
+                id: "Trahaearn",
+                target: { "origin": { "x": 2229, "y": 3309, "level": 1 }, "size": { "x": 5, "y": 5 }, "data": "7///AA==" },
+                name: "Trahaearn",
+                code: "0",
+            },
+        ],
+        access: [{
+                id: "attunedseed",
+                type: "item",
+                name: { name: "Attuned crystal teleport seed", kind: "item" },
+                action_name: "Activate"
+            }]
+    },
+    {
+        type: "teleports",
         id: "spirittree",
         name: "Spirit Tree",
         img: { url: "spirittree.png" },

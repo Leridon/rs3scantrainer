@@ -7,12 +7,7 @@ import {direction} from "../../../../lib/runescape/movement";
 import {LocUtil} from "./util/LocUtil";
 import LocInstance = CacheTypes.LocInstance;
 import getInstances = LocUtil.getInstances;
-
-export type ParseParameterType = {
-    type: "tilearea"
-}
-
-export type ParseParameters = Record<string, ParseParameterType>
+import {ParsingParameter} from "./ParsingParameters";
 
 export abstract class TransportParser<
     PerLocData,
@@ -97,8 +92,8 @@ export abstract class TransportParser<
 }
 
 export abstract class TransportParser2 {
-    per_loc_group_parameter: ParseParameters
-    per_instance_parameter: ParseParameters
+    per_loc_group_parameter: ParsingParameter
+    per_instance_parameter: ParsingParameter
 
     constructor(public readonly id: string, public readonly name: string) { }
 

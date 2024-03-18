@@ -6,13 +6,24 @@ import {direction} from "../../../../lib/runescape/movement";
 import {TileTransform} from "../../../../lib/runescape/coordinates/TileTransform";
 import {Transform, Vector2} from "../../../../lib/math";
 import LocInstance = CacheTypes.LocInstance;
+import {ParsingParameter} from "./ParsingParameters";
+import PP = ParsingParameter
 
-function parse(id: string, name: string, apply: (instance: CacheTypes.LocInstance, args: { per_loc: any; per_instance?: any }) => Promise<Transportation.Transportation[]>) {
+function parse<GroupT, InstanceT>(id: string,
+                                  name: string,
+                                  groupPar: ParsingParameter<GroupT>,
+                                  instancePar: ParsingParameter<InstanceT>,
+                                  apply: (instance: CacheTypes.LocInstance, args: { per_loc: unknown; per_instance?: unknown }) => Promise<Transportation.Transportation[]>) {
 
     return (new class extends TransportParser2 {
-        constructor() {super(id, name);}
+        constructor() {
+            super(id, name);
 
-        apply(instance: CacheTypes.LocInstance, args: { per_loc: any; per_instance?: any }): Promise<Transportation.Transportation[]> {
+            this.per_loc_group_parameter = groupPar
+            this.per_instance_parameter = instancePar
+        }
+
+        apply(instance: CacheTypes.LocInstance, args: { per_loc: GroupT; per_instance?: InstanceT }): Promise<Transportation.Transportation[]> {
             return apply(instance, args)
         }
     })
@@ -45,7 +56,7 @@ function transformWithLoc(transport: Transportation.EntityTransportation, use: L
 }
 
 export const parsers3: TransportParser2[] = [
-    parse("west-facing-doors", "Standard West Doors", async (instance) => {
+    parse("west-facing-doors", "Standard West Doors", null, null, async (instance) => {
 
             const door: Transportation.DoorTransportation = {
                 type: "door",
@@ -56,10 +67,21 @@ export const parsers3: TransportParser2[] = [
 
             return [transformWithLoc(door, instance)]
         }
-    ), parse("ignore", "Ignore", async (instance) => {
+    ),
+    parse("ignore", "Ignore", null, null, async (instance) => {
             return []
         }
     ),
+    parse("ladders", "Ladders", PP.rec()
+            .element("Across", "across", PP.bool(), false)
+        , null, async (instance, args: {
+            per_instance?: { across: boolean },
+
+        }) => {
+
+
+            return []
+        })
 ]
 
 export namespace Parsers3 {

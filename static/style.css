@@ -1956,3 +1956,48 @@ input[type=checkbox] + span {
 .leaflet-container:focus {
     outline: none;
 }
+
+/* */
+
+.nisl-properties2 {
+    /*margin: 5px 3px;*/
+    display: grid;
+    column-gap: 5px;
+    row-gap: 2px;
+    grid-template-columns: [check] 50px [name] min-content [content] minmax(0, 1fr);
+}
+
+.nisl-property-header {
+    text-align: center;
+    font-weight: bold;
+    padding: 2px 3px;
+    width: 100%;
+}
+
+.nisl-property-row {
+    grid-column: 1 / span 2;
+    grid-row: auto;
+    justify-self: center;
+    width: 100%;
+}
+
+.nisl-property-row > * {
+    width: 100%;
+}
+
+.nisl-property-name {
+    grid-column: 1;
+    grid-row: auto;
+    font-weight: bold;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.nisl-property-content {
+    grid-column: 2;
+    grid-row: auto;
+}
+
+.nisl-property-content > * {
+    width: 100%;
+}

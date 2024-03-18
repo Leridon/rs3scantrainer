@@ -13,7 +13,7 @@ import {SearchSelection} from "../../widgets/SearchSelection";
 import {Checkbox} from "../../../../lib/ui/controls/Checkbox";
 import {exit} from "process";
 import TextField from "../../../../lib/ui/controls/TextField";
-
+import {ParsingParameter as PP} from "./ParsingParameters";
 
 export class ParserPairingEdit extends Widget {
 
@@ -35,7 +35,7 @@ export class ParserPairingEdit extends Widget {
 
         const props = new Properties()
 
-        props.row(new Checkbox("Associate with parsing group")
+        props.header(new Checkbox("Pair with LOC-group")
             .setValue(!!this.pairing.group)
             .onCommit(v => {
                 if (v) {
@@ -55,8 +55,6 @@ export class ParserPairingEdit extends Widget {
         )
 
         if (this.pairing.group) {
-            props.header("Loc Group")
-
             props.named("Group", new SearchSelection<ParsingAssociationGroup>({
                 type_class: {
                     toHTML: item => {
@@ -103,6 +101,19 @@ export class ParserPairingEdit extends Widget {
                 })
             )
 
+            if (this.pairing.group.parser.per_loc_group_parameter) {
+                props.header("Loc ")
+            }
+
+
+            if (this.pairing.group.parser.per_loc_group_parameter) {
+                props.header("Group Parameter")
+
+                const test_par = this.pairing.group.parser.per_loc_group_parameter.renderForm(0)
+
+                props.row(test_par.control)
+                props.row(test_par.additional)
+            }
         }
 
         props.appendTo(this)

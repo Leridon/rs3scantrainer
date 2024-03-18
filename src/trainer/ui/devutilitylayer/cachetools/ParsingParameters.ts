@@ -1,13 +1,15 @@
 import {Checkbox} from "../../../../lib/ui/controls/Checkbox";
 import {C} from "../../../../lib/ui/constructors";
-import {ewent} from "../../../../lib/reactive";
+import {ewent, Observable} from "../../../../lib/reactive";
 import {util} from "../../../../lib/util/util";
+import TextField from "../../../../lib/ui/controls/TextField";
 
 export abstract class ParsingParameter<T = any> {
 
     abstract renderForm(depth: number): ParsingParameter.Editor<T>
 }
 
+export type ParType<T> = T extends ParsingParameter<infer Q> ? Q : undefined
 
 export namespace ParsingParameter {
     import copyUpdate2 = util.copyUpdate2;
@@ -16,7 +18,11 @@ export namespace ParsingParameter {
         return new ParsingParameter.Boolean()
     }
 
-    export function rec(): ParsingParameter.Rec {
+    export function string(): ParsingParameter<string> {
+        return new ParsingParameter.String()
+    }
+
+    export function rec<T extends Record<string, RecordElement<any>>>(): ParsingParameter.Rec<T> {
         return new ParsingParameter.Rec([])
     }
 
@@ -65,31 +71,47 @@ export namespace ParsingParameter {
 
     }
 
-    export class Boolean extends ParsingParameter {
+    export class Boolean extends ParsingParameter<boolean> {
         override renderForm(depth: number): Editor<boolean> {
             const self = this
 
             return new class extends ParsingParameter.Editor<boolean> {
-                private checkbox: Checkbox
-
                 constructor() {
                     super(self)
                 }
 
                 render_implementation(value: boolean) {
-                    this.control.append(this.checkbox = new Checkbox()
+                    this.control.append(new Checkbox()
                         .onCommit(v => this.commit(v))
                         .setValue(value))
-                }
-
-                get(): boolean {
-                    return this.checkbox.get()
                 }
             }
         }
     }
 
-    export class Rec extends ParsingParameter {
+    export class String extends ParsingParameter<string> {
+        override renderForm(depth: number): ParsingParameter.Editor<string> {
+            const self = this
+
+            return new class extends ParsingParameter.Editor<string> {
+                constructor() {
+                    super(self)
+                }
+
+                render_implementation(value: string) {
+                    this.control.append(new TextField()
+                        .onCommit(v => this.commit(v))
+                        .setValue(value))
+                }
+            }
+        }
+    }
+
+    export type RecordElement<T> = {}
+
+    type extr<T> = T extends RecordElement<infer Q> ? Q : unknown
+
+    export class Rec<T extends Record<string, RecordElement<any>>> extends ParsingParameter<{ [key in keyof T]?: extr<T[key]> }> {
         constructor(public elements: Rec.Element[]) {
             super();
         }
@@ -114,10 +136,6 @@ export namespace ParsingParameter {
                     )
 
                     this.additional.append(...this.elements.map(e => e.additional))
-                }
-
-                get(): Record<string, any> {
-                    return Object.fromEntries(this.elements.map(e => [e.element.name, e.get()]))
                 }
             }
         }
@@ -147,8 +165,6 @@ export namespace ParsingParameter {
 
             constructor(public element: Element, public cb_type: "none" | "check" | "radio", public depth: number) {
                 super(element.type)
-
-
             }
 
             render_implementation(value: T | undefined) {
@@ -195,14 +211,12 @@ export namespace ParsingParameter {
                     el_content.append(this.sub.additional)
                 }
             }
+        }
+    }
 
-            get(): any | undefined {
-                if (this.checkbox && !this.checkbox.get()) return undefined
-
-                if (!this.sub) return undefined
-
-                return this.sub.get()
-            }
+    export class Either<T, U> extends ParsingParameter<T | U> {
+        renderForm(depth: number): ParsingParameter.Editor<T | U> {
+            return undefined;
         }
     }
 

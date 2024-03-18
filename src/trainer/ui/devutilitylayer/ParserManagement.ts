@@ -30,11 +30,11 @@ class RecentlyUsedParserGroups {
     }
 
     use(group: number) {
-        this.last_used_groups.set(this.last_used_groups.get().concat([group]))
+        this.last_used_groups.set([group].concat(this.last_used_groups.get().filter(i => i != group)).slice(0, 5))
     }
 
     get(): ParsingAssociationGroup[] {
-        const ids = this.last_used_groups.get()
+        return this.last_used_groups.get().map(i => this.table.getGroup(i)).filter(g => !!g)
     }
 }
 
@@ -42,6 +42,7 @@ export class ParserManagementLayer extends GameLayer {
     loc_layer: FilteredLocLayer
 
     local_store = KeyValueStore.instance().variable<LocParsingTableData>("devutility/locparsing/parserassociations")
+    recents: RecentlyUsedParserGroups
 
     repo_version_number: number
 
@@ -89,6 +90,8 @@ export class ParserManagementLayer extends GameLayer {
 
         this.parsing_table = new LocParsingTable(most_current_data)
 
+        this.recents = new RecentlyUsedParserGroups(this.parsing_table)
+
         this.parsing_table.version.subscribe(async () => {
             await this.local_store.set(this.parsing_table.data)
         })
@@ -99,9 +102,8 @@ export class ParserManagementLayer extends GameLayer {
     }
 
     commitPairing(loc: LocInstance, pairing: ParserPairing) {
-        this.parsing_table.setPairing(loc, pairing)
-
-        t
+        const resultpair = this.parsing_table.setPairing(loc, pairing)
+        this.recents.use(resultpair.group.id)
     }
 
     eventContextMenu(event: GameMapContextMenuEvent) {
@@ -111,6 +113,8 @@ export class ParserManagementLayer extends GameLayer {
                 const instance = event.active_entity.instance
 
                 const pairing = this.parsing_table.getPairing(instance)
+
+                const recently_used = this.recents.get()
 
                 event.addForEntity({
                     type: "basic",
@@ -131,6 +135,36 @@ export class ParserManagementLayer extends GameLayer {
                         handler: () => this.commitPairing(instance, {group: null, instance_group: null})
                     })
                 } else {
+
+                    recently_used.forEach(g => {
+                        event.addForEntity({
+                            type: "basic",
+                            text: `Pair with '${g.group_name}'`,
+                            handler: async () => {
+                                const pair: ParserPairing = {
+                                    group: {
+                                        parser: Parsers3.getById(g.parser_id),
+                                        id: g.group_id,
+                                        name: g.group_name,
+                                        argument: g.per_group_arg
+                                    },
+                                    instance_group: undefined
+                                }
+
+                                if (pair.group.parser.per_instance_parameter) {
+                                    let result = await new ParserPairingModal(instance, this.parsing_table, pair).do()
+
+                                    if (result.type == "saved") {
+                                        this.commitPairing(instance, result.pairing)
+                                    }
+                                } else {
+                                    this.commitPairing(instance, pair)
+                                }
+                            }
+                        })
+                    })
+
+                    /*
                     event.addForEntity({
                         type: "basic",
                         text: "Pair as standard door",
@@ -140,7 +174,7 @@ export class ParserManagementLayer extends GameLayer {
                                 instance_group: null
                             })
                         }
-                    })
+                    })*/
                 }
             }
         })

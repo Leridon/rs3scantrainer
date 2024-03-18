@@ -63,7 +63,7 @@ export class LocParsingTable {
         })
     }
 
-    setPairing(loc: LocInstance, pairing: ParserPairing): void {
+    setPairing(loc: LocInstance, pairing: ParserPairing): ParserPairing {
 
         (() => {
             let currently_in_group: ParsingAssociationGroup = this.loc_index[loc.loc_id]
@@ -160,6 +160,8 @@ export class LocParsingTable {
         })()
 
         this.bumpVersion()
+
+        return pairing
     }
 
     getGroupForLoc(loc_id: number): ParsingAssociationGroup {

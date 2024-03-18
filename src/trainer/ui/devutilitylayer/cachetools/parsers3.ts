@@ -8,12 +8,13 @@ import {Transform, Vector2} from "../../../../lib/math";
 import LocInstance = CacheTypes.LocInstance;
 import {ParsingParameter} from "./ParsingParameters";
 import PP = ParsingParameter
+import rec = ParsingParameter.rec;
 
 function parse<GroupT, InstanceT>(id: string,
                                   name: string,
                                   groupPar: ParsingParameter<GroupT>,
                                   instancePar: ParsingParameter<InstanceT>,
-                                  apply: (instance: CacheTypes.LocInstance, args: { per_loc: unknown; per_instance?: unknown }) => Promise<Transportation.Transportation[]>) {
+                                  apply: (instance: CacheTypes.LocInstance, args: { per_loc: GroupT; per_instance?: InstanceT }) => Promise<Transportation.Transportation[]>) {
 
     return (new class extends TransportParser2 {
         constructor() {
@@ -72,13 +73,21 @@ export const parsers3: TransportParser2[] = [
             return []
         }
     ),
-    parse("ladders", "Ladders", PP.rec()
+    parse("ladders", "Ladders", PP.rec<{ across: PP.RecordElement<boolean> }>()
             .element("Across", "across", PP.bool(), false)
-        , null, async (instance) => {
-
+        , null, async (instance, args) => {
+            args.per_loc.across
+            return []
+        }),
+    parse("prototypecopyloc", "Prototype",
+        rec()
+            .element("Name", "name", PP.string(), "New Group", false)
+        , null,
+        async (instance) => {
 
             return []
-        })
+        }
+    )
 ]
 
 export namespace Parsers3 {

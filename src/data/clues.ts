@@ -7237,7 +7237,7 @@ export namespace clue_data {
             "type": "emote",
             "tier": "easy",
             "text": ["Jump for joy at the beehives. Equip iron boots, an unholy symbol and a steel hatchet."],
-            "area": {"topleft": {"x": 2752, "y": 3451}, "botright": {"x": 2766, "y": 3436}, "level": 0},
+            "area": {"topleft": {"x": 2752, "y": 3450}, "botright": {"x": 2766, "y": 3437}, "level": 0},
             "items": ["Iron boots", "Unholy smybol", "Steel hatchet"],
             "emotes": ["Jump for Joy"],
             "double_agent": false,
@@ -7873,7 +7873,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "description": "east of the rock",
-                "spot": {"x": 3102, "y": 3133, "level": 0},
+                "spot": {"x": 3103, "y": 3133, "level": 0},
             }
         },
         {

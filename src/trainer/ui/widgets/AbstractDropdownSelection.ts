@@ -3,7 +3,7 @@ import * as popper from "@popperjs/core"
 import {ewent, Observable, observe} from "../../../lib/reactive";
 import {util} from "../../../lib/util/util";
 
-export abstract class AbstractDropdownSelection<T extends object | string | number> extends Widget {
+export abstract class AbstractDropdownSelection<T> extends Widget {
     protected input_container: Widget
     private input: Widget
 

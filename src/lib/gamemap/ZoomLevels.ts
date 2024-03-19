@@ -55,4 +55,11 @@ export namespace FloorLevels {
     }
 
     export const none = new FloorLevels<null>([{floors: [0, 1, 2, 3], value: null}])
+
+    export function single<T>(floor: floor_t, value: T = undefined): FloorLevels<T> {
+        return new FloorLevels<T>([
+            {floors: [floor], value: value},
+            {floors: [0, 1, 2, 3], hidden_here: true},
+        ])
+    }
 }

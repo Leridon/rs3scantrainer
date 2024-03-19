@@ -1,5 +1,4 @@
 import {storage} from "lib/util/storage";
-import MenuBarControl from "trainer/ui/MenuBarControl";
 import {Modal} from "trainer/ui/widgets/modal";
 import TemplateResolver from "lib/util/TemplateResolver";
 import {ClueTier, ClueType} from "lib/runescape/clues";
@@ -30,6 +29,7 @@ import Dependencies from "./dependencies";
 import {Transportation} from "../lib/runescape/transportation";
 import {TransportData} from "../data/transports";
 import resolveTeleport = TransportData.resolveTeleport;
+import entity = C.entity;
 
 export class SimpleLayerBehaviour extends Behaviour {
     constructor(private map: GameMap, private layer: GameLayer) {
@@ -179,7 +179,6 @@ export class Application extends Behaviour {
     in_alt1: boolean = !!window.alt1
 
     main_content: Widget = null
-    menubar = new MenuBarControl(this)
     map_widget: GameMapWidget
     map: GameMap
 

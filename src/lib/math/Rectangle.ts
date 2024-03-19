@@ -100,6 +100,14 @@ export namespace Rectangle {
         return {x: rect.topleft.x, y: rect.botright.y}
     }
 
+    export function topLeft(rect: Rectangle): Vector2 {
+        return {x: rect.topleft.x, y: rect.topleft.y}
+    }
+
+    export function bottomRight(rect: Rectangle): Vector2 {
+        return {x: rect.botright.x, y: rect.botright.y}
+    }
+
     export function tileWidth(rect: Rectangle): number {
         return rect.botright.x - rect.topleft.x + 1
     }

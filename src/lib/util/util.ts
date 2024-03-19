@@ -190,9 +190,16 @@ export namespace util {
         throw new Error("Not implemented.")
     }
 
-
     export function copyUpdate<T>(value: T, updater: (_: T) => void): T {
         const copy = lodash.cloneDeep(value)
+
+        updater(copy)
+
+        return copy
+    }
+
+    export function copyUpdate2<T>(value: T, updater: (_: T) => void): T {
+        const copy = lodash.clone(value)
 
         updater(copy)
 
@@ -208,5 +215,18 @@ export namespace util {
 
     export function eqWithNull<T>(f: (a: T, b: T) => boolean): (a: T, b: T) => boolean {
         return (a, b) => (a == b) || (a != null && b != null && f(a, b))
+    }
+
+    export function download(filename: string, text: string) {
+        const element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        element.setAttribute('download', filename);
+
+        element.style.display = 'none';
+        document.body.appendChild(element);
+
+        element.click();
+
+        document.body.removeChild(element);
     }
 }

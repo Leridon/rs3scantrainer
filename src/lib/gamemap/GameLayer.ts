@@ -15,7 +15,7 @@ function childLike(l: leaflet.Layer): l is GameLayer | MapEntity {
 }
 
 export class GameLayer extends leaflet.FeatureGroup {
-    private entity_quadtree: QuadTree<MapEntity>
+    protected entity_quadtree: QuadTree<MapEntity>
 
     public handler_pool: EwentHandlerPool = new EwentHandlerPool()
 
@@ -151,7 +151,6 @@ export class GameLayer extends leaflet.FeatureGroup {
 
                 this.active_entity.tooltip_instance.show()
             }
-
         }
     }
 
@@ -272,20 +271,6 @@ export class GameLayer extends leaflet.FeatureGroup {
 
             this.rendering.unlock()
         })
-
-        /*
-        this.entity_quadtree.iterate(event.new_view.rect, e => {
-
-            const render = (() => {
-                if (e.floor_sensitive && event.floor_changed) return true
-
-                if (e.zoom_sensitive && e.zoom_sensitivity_layers.getIndex(event.old_view.zoom) != e.zoom_sensitivity_layers.get(event.new_view.zoom)) return true
-
-                return false
-            })()
-
-            if (render) e.render()
-        })*/
     }
 
 }

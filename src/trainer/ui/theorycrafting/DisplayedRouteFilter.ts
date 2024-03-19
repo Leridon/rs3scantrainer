@@ -67,6 +67,7 @@ export class DisplayedRouteFilterEdit extends AbstractEditWidget<DisplayedRouteF
             await MethodPackManager.instance().all()
         )
             .setValue(await MethodPackManager.instance().getPack(filter.local_pack_id))
+            .setItems(async () => await MethodPackManager.instance().all())
             .setEnabled(filter.type == "pack")
             .onSelection(pack => {
                 this.commit(copyUpdate(this.get(), filter => {

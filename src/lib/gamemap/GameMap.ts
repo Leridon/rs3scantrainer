@@ -137,9 +137,7 @@ export class GameMap extends leaflet.Map {
             })
 
             this.viewport.subscribe((new_value, old) => {
-                time("View Change Event", () => {
-                    this.event(new GameMapViewChangedEvent(this, old, new_value), l => e => l.eventViewChanged(e))
-                })
+                this.event(new GameMapViewChangedEvent(this, old, new_value), l => e => l.eventViewChanged(e))
             })
 
             this.on("moveend", () => this.updateView())
@@ -384,7 +382,7 @@ export namespace GameMap {
 export class GameMapWidget extends Widget {
     map: GameMap
 
-    constructor(container: JQuery) {
+    constructor(container: JQuery = $("<div>")) {
         super(container)
 
         this.map = new GameMap(container.get()[0])

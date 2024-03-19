@@ -44,6 +44,7 @@ export default class SpotOverview extends Widget {
             .append(c("<div class='col-4' style='text-align: center'>").text("Timing"))
             .appendTo(this.list)
 
+        /*
         vbox(
             ...tree.raw.ordered_spots.map((v, i) => {
                 let timing = c("<div class='col-4' style='text-align: center'>")
@@ -69,6 +70,7 @@ export default class SpotOverview extends Widget {
             "max-height": "50vh"
         })
             .appendTo(this.list)
+*/
 
         c("<div class='row'>")
             .append(c("<div class='col-2' style='text-align: center'>"))

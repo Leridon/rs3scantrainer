@@ -48,6 +48,25 @@ export const yellow_icon = leaflet.icon({
     className: "marker-icon"
 })
 
+export function levelIcon(floor: floor_t, scale: number = 1) {
+    const levels = [
+        "assets/icons/marker_red.png",
+        "assets/icons/marker_blue.png",
+        "assets/icons/marker_green.png",
+        "assets/icons/marker_yellow.png",
+    ]
+
+    // Original size: 46 x 62
+    // 23 x 31
+
+    return leaflet.icon({
+        iconUrl: levels[floor],
+        iconSize: [scale * 18, scale * 24],
+        iconAnchor: [scale * 9, scale * 24],
+        className: "marker-icon"
+    })
+}
+
 /**
  * This map class wraps a leaflet map view and provides features needed for the solver.
  * Map data is sourced from Skillbert's amazing runeapps.org.

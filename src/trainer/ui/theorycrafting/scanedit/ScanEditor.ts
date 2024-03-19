@@ -1,11 +1,11 @@
-import {TileCoordinates} from "../../../../lib/runescape/coordinates/TileCoordinates";
+import {TileCoordinates} from "../../../../lib/runescape/coordinates";
 import Behaviour, {SingleBehaviour} from "../../../../lib/ui/Behaviour";
 import {lazy, Lazy} from "../../../../lib/properties/Lazy";
 import * as leaflet from "leaflet";
 import {EquivalenceClass, ScanEquivalenceClasses, ScanEquivalenceClassOptions} from "../../../../lib/cluetheory/scans/EquivalenceClasses";
 import {areaToPolygon} from "../../polygon_helpers";
 import {type Application} from "../../../application";
-import {ScanLayer, ScanRegionPolygon} from "../../neosolving/ScanLayer";
+import {ScanRegionPolygon} from "../../neosolving/ScanLayer";
 import {PathEditor} from "../../pathedit/PathEditor";
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
 import {OpacityGroup} from "../../../../lib/gamemap/layers/OpacityLayer";
@@ -33,11 +33,228 @@ import ClueAssumptions = SolvingMethods.ClueAssumptions;
 import * as lodash from "lodash";
 import MethodEditor from "../MethodEditor";
 import {PathStepEntity} from "../../map/entities/PathStepEntity";
+import {GameLayer} from "../../../../lib/gamemap/GameLayer";
+import {MapEntity} from "../../../../lib/gamemap/MapEntity";
+import {Rectangle, Vector2} from "../../../../lib/math";
+import {Scans} from "../../../../lib/runescape/clues/scans";
+import {levelIcon} from "../../../../lib/gamemap/GameMap";
+import Properties from "../../widgets/Properties";
+import {TextRendering} from "../../TextRendering";
+import {GameMapContextMenuEvent} from "../../../../lib/gamemap/MapEvents";
+import {FormModal} from "../../../../lib/ui/controls/FormModal";
+import NumberInput from "../../../../lib/ui/controls/NumberInput";
+import {BigNisButton} from "../../widgets/BigNisButton";
+import {util} from "../../../../lib/util/util";
+import {Menu} from "../../widgets/ContextMenu";
+import {ConfirmationModal} from "../../widgets/modals/ConfirmationModal";
+import {NisModal} from "../../../../lib/ui/NisModal";
+import span = C.span;
+import ControlWithHeader from "../../map/ControlWithHeader";
 
-class ScanEditLayerLight extends ScanLayer {
+class ScanEditLayer extends GameLayer {
+    private markers: ScanEditLayer.MarkerPair[]
 
-    constructor(private editor: ScanEditor) {
+    constructor(private editor: ScanEditor,
+                private spots: TileCoordinates[]
+    ) {
         super();
+
+        this.markers = spots.map(s => new ScanEditLayer.MarkerPair(s))
+
+        this.markers.forEach((m, i) => {
+            m.setNumber(i + 1)
+
+            m.regular.addTo(this)
+            m.complement.addTo(this)
+        })
+    }
+
+    setActiveCandidates(coords: TileCoordinates[]) {
+        this.markers.forEach(m => m.setActive(coords.some(c => TileCoordinates.eq2(c, m.spot))))
+    }
+
+    getMarker(coords: TileCoordinates): ScanEditLayer.MarkerPair {
+        return this.markers.find(m => TileCoordinates.eq2(m.spot, coords))
+    }
+
+    setSpotOrder(order: TileCoordinates[]) {
+        order.forEach((spot, i) => {
+            this.getMarker(spot)?.setNumber(i + 1)
+        })
+    }
+
+    setTiming(timing: AugmentedScanTree["state"]["timing_analysis"]) {
+        this.markers.forEach(m => {
+            m.setTiming(timing.spots.find(t => TileCoordinates.eq(t.spot, m.spot)))
+        })
+    }
+}
+
+namespace ScanEditLayer {
+
+    import render_digspot = TextRendering.render_digspot;
+
+    export class MarkerPair {
+        regular: SpotMarker
+        complement: SpotMarker
+
+        constructor(public spot: TileCoordinates) {
+            this.regular = new ScanEditLayer.SpotMarker(spot, false)
+            this.complement = new ScanEditLayer.SpotMarker(spot, true)
+        }
+
+        setNumber(n: number) {
+            this.regular.setNumber(n)
+            this.complement.setNumber(n)
+        }
+
+        setActive(v: boolean) {
+            const opacity = v ? 1 : 0.2
+
+            this.regular.opacity.set(opacity)
+            this.complement.opacity.set(opacity)
+        }
+
+
+        setTiming(timing: AugmentedScanTree["state"]["timing_analysis"]["spots"][number]) {
+            this.regular.setTiming(timing)
+            this.complement.setTiming(timing)
+        }
+    }
+
+    import complementSpot = Scans.complementSpot;
+    import span = C.span;
+    import inlineimg = C.inlineimg;
+
+    export class SpotMarker extends MapEntity {
+        spot_on_map: TileCoordinates = null
+        private number: number = undefined
+        timing_information: AugmentedScanTree["state"]["timing_analysis"]["spots"][number]
+
+        constructor(public spot: TileCoordinates,
+                    public is_complement: boolean
+        ) {
+            super({
+                interactive: true,
+                highlightable: true
+            });
+
+            this.spot_on_map = is_complement ? complementSpot(spot) : spot
+        }
+
+        bounds(): Rectangle {
+            return Rectangle.from(this.spot_on_map)
+        }
+
+        protected async render_implementation(props: MapEntity.RenderProps): Promise<Element> {
+            const marker = leaflet.marker(Vector2.toLatLong(this.spot_on_map), {
+                icon: levelIcon(this.spot.level, props.highlight ? 1.5 : 1),
+                opacity: props.opacity
+            }).addTo(this)
+
+            if (this.number) {
+
+                marker.bindTooltip(leaflet.tooltip({
+                        content: this.number.toString(),
+                        className: "spot-number-on-map",
+                        offset: [0, 10],
+                        permanent: true,
+                        direction: "center",
+                        opacity: props.opacity
+                    })
+                )
+            }
+
+            return marker.getElement()
+        }
+
+        setNumber(n: number) {
+            this.number = n
+
+            this.render(true)
+        }
+
+        async renderTooltip(): Promise<{ content: Widget; interactive: boolean } | null> {
+
+            const props = new Properties()
+
+            if (this.is_complement) {
+                props.header(c().append("Complement of Spot ", render_digspot(this.number)))
+            } else {
+                props.header(c().append("Spot ", render_digspot(this.number)))
+            }
+
+            if (this.is_complement) {
+                props.row(c().addClass("ctr-step-properties-explanation")
+                    .append(
+                        inlineimg("assets/icons/info.png"),
+                        " This is the complement of a dig spot. Right click to learn more about complement spots.",
+                    ))
+            }
+
+            if (this.timing_information) {
+                let timing = c()
+
+                this.timing_information.timings.forEach((t, i) => {
+                    if (i != 0) timing.append(" | ")
+
+                    let s = span(t.ticks.toString() + "t")
+
+                    if (t.incomplete) s.css("color", "yellow").tooltip("Incomplete path")
+
+                    timing.append(s)
+                })
+
+                const any_incomplete = this.timing_information.timings.some(t => t.incomplete)
+
+                if (this.timing_information.timings.length > 1) {
+                    const avg = span(this.timing_information.average.toFixed(2) + "t")
+
+                    if (any_incomplete) avg.css("color", "yellow").tooltip("Incomplete path")
+
+                    timing.append(", Average ", avg)
+                }
+
+                props.named("Expected time", timing)
+
+                if (any_incomplete) {
+                    props.row(c().css("font-style", "italic").text("Timings in yellow are from incomplete branches."))
+                }
+            }
+
+            return {
+                content: props,
+                interactive: true
+            }
+        }
+
+        setTiming(timing: AugmentedScanTree["state"]["timing_analysis"]["spots"][number]) {
+            this.timing_information = timing
+        }
+
+        async contextMenu(event: GameMapContextMenuEvent): Promise<Menu | null> {
+            if (this.is_complement) {
+                event.addForEntity({
+                    type: "basic",
+                    text: "About complement spots",
+                    handler: () => {
+                        (new class extends NisModal {
+                            override render() {
+                                super.render();
+
+                                this.body.text("Sorry, this explanation is still missing.")
+                            }
+                        }).show()
+                    }
+                })
+            }
+
+            return {
+                type: "submenu",
+                text: () => c().append("Spot ", render_digspot(this.number)),
+                children: []
+            }
+        }
     }
 }
 
@@ -159,6 +376,8 @@ export class ScanTreeBuilder {
                 && a.double_surge == b.double_surge
         })
 
+    order_changed = ewent<TileCoordinates[]>()
+
     any_change = ewent<null>()
 
     constructor(private clue: Clues.Scan) {
@@ -205,6 +424,12 @@ export class ScanTreeBuilder {
         this.cleanTree()
 
         this.any_change.trigger(null)
+    }
+
+    setOrder(order: TileCoordinates[]) {
+        this.tree.ordered_spots = order
+
+        this.order_changed.trigger(order)
     }
 }
 
@@ -256,7 +481,6 @@ class PreviewLayerControl extends Behaviour {
     }
 
     protected end() { }
-
 }
 
 export default class ScanEditor extends MethodSubEditor {
@@ -264,11 +488,10 @@ export default class ScanEditor extends MethodSubEditor {
     public builder: ScanTreeBuilder
     candidates_at_active_node: Observable<TileCoordinates[]>
 
-    layer: ScanEditLayerLight
+    layer: ScanEditLayer
     interaction_guard: InteractionGuard
     tree_edit: TreeEdit
     tools: ScanTools
-    overview: SpotOverview
 
     equivalence_classes: EquivalenceClassHandling
     preview_layer: PreviewLayerControl
@@ -286,11 +509,83 @@ export default class ScanEditor extends MethodSubEditor {
         this.builder = new ScanTreeBuilder(value.clue)
         this.builder.assumptions.set(lodash.cloneDeep(value.method.assumptions))
 
+        this.builder.augmented.subscribe((t) => {
+            this.layer.setTiming(t.state.timing_analysis)
+        })
+
         this.builder.any_change.on(() => {
             this.parent.registerChange()
         })
 
-        this.layer = new ScanEditLayerLight(this)
+        this.builder.order_changed.on((order) => {
+            this.layer.setSpotOrder(order)
+        })
+
+        this.layer = new ScanEditLayer(this, value.clue.spots)
+
+        const self = this
+
+        this.layer.add(new class extends GameLayer {
+            eventContextMenu(event: GameMapContextMenuEvent) {
+                event.onPre(() => {
+                    if (event.active_entity instanceof ScanEditLayer.SpotMarker) {
+                        const spot = event.active_entity.spot
+
+                        event.addForEntity({
+                            type: "basic",
+                            text: "Set spot number",
+                            handler: async () => {
+                                const id = await (new class extends FormModal<number> {
+                                    input: NumberInput
+
+                                    constructor() {
+                                        super({size: "small"});
+
+                                        this.title.set("Set spot number")
+                                    }
+
+                                    render() {
+                                        super.render();
+
+                                        const props = new Properties().appendTo(this.body)
+
+                                        props.named("New Spot Number", this.input = new NumberInput(1, self.value.clue.spots.length)
+                                            .setValue(self.builder.tree.ordered_spots.findIndex(c => TileCoordinates.eq(c, spot)) + 1)
+                                        )
+
+                                        this.input.raw().focus()
+                                    }
+
+                                    getButtons(): BigNisButton[] {
+                                        return [
+                                            new BigNisButton("Cancel", "cancel").onClick(() => this.cancel()),
+                                            new BigNisButton("Save", "confirm").onClick(() => this.confirm(this.input.get() - 1)),
+                                        ]
+                                    }
+
+                                    protected getValueForCancel(): number {
+                                        return undefined
+                                    }
+                                }).do()
+
+                                if (id !== undefined) {
+
+                                    const old = lodash.clone(self.builder.tree.ordered_spots)
+                                    const old_id = old.findIndex(c => TileCoordinates.eq(spot, c))
+
+                                    const tmp = old[id]
+                                    old[id] = old[old_id]
+                                    old[old_id] = tmp
+
+                                    self.builder.setOrder(old)
+                                }
+                            }
+                        })
+                    }
+                })
+            }
+        })
+
         this.interaction_guard = new InteractionGuard().setDefaultLayer(this.layer)
 
         this.equivalence_classes = this.withSub(new EquivalenceClassHandling(this))
@@ -329,6 +624,17 @@ export default class ScanEditor extends MethodSubEditor {
     }
 
     begin() {
+
+        new GameMapControl({
+                position: "top-right",
+                type: "floating"
+            },
+            new ControlWithHeader("Scan Tools")
+                .setContent(
+                    this.tools = new ScanTools(this),
+                )
+        ).addTo(this.layer)
+
         this.builder.set(this.value.method.tree)
 
         c("<div style='font-weight: bold; text-align: center'>Scan Tree</div>").appendTo(this.side_panel)
@@ -336,31 +642,13 @@ export default class ScanEditor extends MethodSubEditor {
         this.tree_edit = new TreeEdit(this, this.builder.tree.root)
             .css("overflow-y", "auto").appendTo(this.side_panel)
 
-        new GameMapControl({
-                position: "top-right",
-                type: "floating"
-            }, vbox(
-                c("<div class='ctr-interaction-control-header'></div>")
-                    .append(c().text(`Scan Tools`))
-                    .append(spacer()),
-                this.tools = new ScanTools(this),
-                c("<div style='text-align: center; font-weight: bold'>Spot Overview</div>"),
-                this.overview = new SpotOverview(this.builder)
-            ).css2({
-                "min-width": "300px",
-                "max-height": "80vh",
-                "padding": "5px"
-            })
-        ).addTo(this.layer)
-
         this.candidates_at_active_node = this.tree_edit.active
             .map(n => n ? n.node.remaining_candidates : this.value.clue.spots)
 
-        // Initialize and set the main game layer
-        this.layer.spots.set(this.value.clue.spots)
-        this.layer.spot_order.set(this.builder.tree.ordered_spots)
-        this.layer.active_spots.bindTo(this.candidates_at_active_node)
-        this.layer.scan_range.set(this.builder.tree.assumed_range)
+        this.candidates_at_active_node.subscribe(n => {
+            this.layer.setActiveCandidates(n)
+        })
+
         this.app.map.addGameLayer(this.layer)
 
         this.tree_edit.active_node.subscribe(async node => {
@@ -372,5 +660,10 @@ export default class ScanEditor extends MethodSubEditor {
     end() {
         this.layer.remove()
         this.tree_edit.remove()
+    }
+
+    setSpotOrder(order: TileCoordinates[]) {
+
+        this.value.method.tree.ordered_spots
     }
 }

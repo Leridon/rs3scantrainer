@@ -58739,7 +58739,7 @@ var clue_data;
             "type": "emote",
             "tier": "easy",
             "text": ["Jump for joy at the beehives. Equip iron boots, an unholy symbol and a steel hatchet."],
-            "area": { "topleft": { "x": 2752, "y": 3451 }, "botright": { "x": 2766, "y": 3436 }, "level": 0 },
+            "area": { "topleft": { "x": 2752, "y": 3450 }, "botright": { "x": 2766, "y": 3437 }, "level": 0 },
             "items": ["Iron boots", "Unholy smybol", "Steel hatchet"],
             "emotes": ["Jump for Joy"],
             "double_agent": false,
@@ -59372,7 +59372,7 @@ var clue_data;
             "solution": {
                 "type": "dig",
                 "description": "east of the rock",
-                "spot": { "x": 3102, "y": 3133, "level": 0 },
+                "spot": { "x": 3103, "y": 3133, "level": 0 },
             }
         },
         {
@@ -61620,7 +61620,8 @@ const raw_data = [
         type: "teleports",
         id: "home",
         name: "Lodestone Network",
-        img: { url: "homeport.png" }, animation_ticks: default_teleport_ticks,
+        img: { url: "homeport.png" },
+        animation_ticks: 7,
         spots: [
             {
                 id: "alkharid",
@@ -82925,7 +82926,7 @@ class PathBuilder {
         return this;
     }
     delete(index) {
-        if (index < 0 || index > this.path.length)
+        if (index < 0 || index >= this.path.length)
             return this;
         const isBeforeCursor = index <= this.cursor;
         this.commit(isBeforeCursor ? this.cursor - 1 : this.cursor, copyUpdate(this.path, path => {
@@ -87232,12 +87233,10 @@ class OverviewLayer extends _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_0__.
         this.update_promise = Promise.all(this.marker_index.flat().map(async (c) => {
             let visible = this.filter_control.index.get(ClueSpot.toId(c.for)).visible;
             if (!visible && c.markers.length > 0) {
-                console.log("Removing markers");
                 c.markers.forEach(c => this.removeLayer(c));
                 c.markers = [];
             }
             if (visible && c.markers.length == 0) {
-                console.log("Creating markers");
                 c.markers = _OverviewMarker__WEBPACK_IMPORTED_MODULE_4__.ClueOverviewMarker.forClue(c.for, _model_MethodPackManager__WEBPACK_IMPORTED_MODULE_2__.MethodPackManager.instance(), m => this.app.editMethod(m));
                 c.markers.forEach(m => m.addTo(this));
             }

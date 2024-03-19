@@ -69722,7 +69722,10 @@ var TileArea;
     TileArea.ActiveTileArea = ActiveTileArea;
     function activate(area) {
         var _a;
-        return (_a = (area._active)) !== null && _a !== void 0 ? _a : (area._active = new ActiveTileArea(area));
+        if ((_a = area._active) === null || _a === void 0 ? void 0 : _a.query)
+            return area._active;
+        else
+            return area._active = new ActiveTileArea(area);
     }
     TileArea.activate = activate;
     function init(origin, size = { x: 1, y: 1 }, filled = true) {

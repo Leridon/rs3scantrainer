@@ -13,6 +13,7 @@ import {TileArea} from "../../../../../lib/runescape/coordinates/TileArea";
 import getAction = LocUtil.getAction;
 import getActions = LocUtil.getActions;
 import LocInstance = CacheTypes.LocInstance;
+import getNthAction = LocUtil.getNthAction;
 
 export class EntityActionBuilder {
 
@@ -39,7 +40,7 @@ export class EntityTransportationBuilder {
         return this
     }
 
-    finish() {
+    finish(): EntityTransportation {
         let transport = this.value
         let use = this.underlying
 
@@ -61,7 +62,8 @@ export class EntityTransportationBuilder {
         if (transport.type == "entity") {
             transport.clickable_area = TileRectangle.extend(transport.clickable_area, 0.5)
         }
-        this.value = transport
+
+        return this.value = transport
     }
 }
 
@@ -83,7 +85,7 @@ export class GeneralEntityTransportationBuilder extends EntityTransportationBuil
         const action =
             override.index != null
                 ? getAction(this.underlying.prototype, override.index)!
-                : getActions(this.underlying.prototype)[0]
+                : getNthAction(this.underlying.prototype, 0)
 
         const a = new EntityActionBuilder({
             name: override.name ?? action?.name ?? "Unnamed Action",

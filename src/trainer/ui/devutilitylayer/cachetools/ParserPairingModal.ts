@@ -14,6 +14,12 @@ import TextField from "../../../../lib/ui/controls/TextField";
 import {GameMap, GameMapWidget} from "../../../../lib/gamemap/GameMap";
 import {LocInstanceEntity} from "../FilteredLocLayer";
 import {GameLayer} from "../../../../lib/gamemap/GameLayer";
+import {TileRectangle} from "../../../../lib/runescape/coordinates";
+import * as leaflet from "leaflet"
+import {C} from "../../../../lib/ui/constructors";
+import img = C.img;
+import {Transform, Vector2} from "../../../../lib/math";
+import rotation = Transform.rotation;
 
 export class ParserPairingEdit extends Widget {
     map: GameMap
@@ -34,13 +40,25 @@ export class ParserPairingEdit extends Widget {
         setTimeout(() => {
             this.map.invalidateSize(true)
 
-            this.map.fitView(this.loc.box, {maxZoom: 3})
+            this.map.fitView(TileRectangle.extend(this.loc.box, 3), {maxZoom: 20})
         }, 0)
 
         this.layer = new GameLayer().addTo(this.map)
 
         new LocInstanceEntity(this.loc, null)
             .addTo(this.layer)
+
+        leaflet.marker(Vector2.toLatLong(TileRectangle.center(this.loc.box, false)), {
+            icon: leaflet.divIcon({
+                iconSize: [33, 33],
+                iconAnchor: [16, 16],
+                className: "",
+                html: img(`./assets/icons/alignedcompass.png`)
+                    .css("rotate", `${(this.loc.rotation ?? 0) * 90}deg`)
+                    .css("scale", "0.9")
+                    .raw()
+            }),
+        }).addTo(this.layer)
 
         this.properties = new Properties()
 
@@ -117,7 +135,7 @@ export class ParserPairingEdit extends Widget {
                         this.pairing.group.argument = undefined
 
                         if (parser.per_loc_group_parameter) {
-                            this.pairing.group.argument = parser.per_loc_group_parameter.getDefault()
+                            this.pairing.group.argument = parser.per_loc_group_parameter.getDefault(this.loc)
                         }
 
                         this.renderProps()
@@ -139,7 +157,7 @@ export class ParserPairingEdit extends Widget {
             if (this.pairing.group.parser.per_loc_group_parameter) {
                 props.header("Group Parameter")
 
-                const test_par = this.pairing.group.parser.per_loc_group_parameter.renderForm(0)
+                const test_par = this.pairing.group.parser.per_loc_group_parameter.renderForm(0, this.loc)
                     .set(this.pairing.group.argument)
                     .onChange(v => this.pairing.group.argument = v)
 

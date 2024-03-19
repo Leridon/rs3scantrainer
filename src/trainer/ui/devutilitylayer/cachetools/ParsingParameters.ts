@@ -1,34 +1,50 @@
 import {Checkbox} from "../../../../lib/ui/controls/Checkbox";
 import {C} from "../../../../lib/ui/constructors";
-import {ewent, Observable} from "../../../../lib/reactive";
+import {ewent} from "../../../../lib/reactive";
 import {util} from "../../../../lib/util/util";
 import TextField from "../../../../lib/ui/controls/TextField";
 import {AbstractDropdownSelection} from "../../widgets/AbstractDropdownSelection";
 import {DropdownSelection} from "../../widgets/DropdownSelection";
-import {Path} from "../../../../lib/runescape/pathing";
 import {Transportation} from "../../../../lib/runescape/transportation";
 import {direction} from "../../../../lib/runescape/movement";
 import Widget from "../../../../lib/ui/Widget";
+import {CacheTypes} from "./CacheTypes";
+import LocInstance = CacheTypes.LocInstance;
+import {LocUtil} from "./util/LocUtil";
+import {CursorType} from "../../../../lib/runescape/CursorType";
+import NumberInput from "../../../../lib/ui/controls/NumberInput";
+import {floor_t} from "../../../../lib/runescape/coordinates";
 
 export abstract class ParsingParameter<T = any> {
-    constructor(private _default_value: () => T) {}
+    constructor(private _default_value: ParsingParameter.P<T>) {}
 
-    default(f: () => T) {
+    default(f: ParsingParameter.P<T>) {
         this._default_value = f
     }
 
-    getDefault(): T {
-        return this._default_value()
+    getDefault(loc: LocInstance): T {
+        return ParsingParameter.P.apply(this._default_value, loc)
     }
 
-    abstract renderForm(depth: number): ParsingParameter.Editor<T>
+    abstract renderForm(depth: number, loc: LocInstance): ParsingParameter.Editor<T>
 }
-
-export type ParType<T> = T extends ParsingParameter<infer Q> ? Q : undefined
 
 export namespace ParsingParameter {
     import copyUpdate2 = util.copyUpdate2;
     import Movement = Transportation.EntityTransportation.Movement;
+    import getNthAction = LocUtil.getNthAction;
+    import hboxl = C.hboxl;
+    import inlineimg = C.inlineimg;
+    import getActions = LocUtil.getActions;
+
+    export type P<T> = T | ((loc: LocInstance) => T)
+
+    export namespace P {
+        export function apply<T>(p: P<T>, loc: LocInstance): T {
+            if (typeof p == "function") return (p as ((loc: LocInstance) => T))(loc)
+            else return p
+        }
+    }
 
     export function bool(): ParsingParameter<boolean> {
         return new class extends ParsingParameter<boolean> {
@@ -52,6 +68,37 @@ export namespace ParsingParameter {
                 }
             }
         }
+    }
+
+
+    export function int(bounds: P<[number, number]> = [Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]): ParsingParameter<number> {
+        return new class extends ParsingParameter<number> {
+            constructor() {
+                super((loc) => Math.max(P.apply(bounds, loc)[0], 0))
+            }
+
+            override renderForm(depth: number, loc: LocInstance): Editor<number> {
+                const self = this
+
+                return new class extends ParsingParameter.Editor<number> {
+                    constructor() {
+                        super(self)
+                    }
+
+                    render_implementation(value: number) {
+                        const [min, max] = P.apply(bounds, loc)
+
+                        this.control.append(new NumberInput(min, max)
+                            .onCommit(v => this.commit(v))
+                            .setValue(value))
+                    }
+                }
+            }
+        }
+    }
+
+    export function floor(): ParsingParameter<floor_t> {
+        return int([0, 3]) as ParsingParameter<floor_t>
     }
 
     export function string(): ParsingParameter<string> {
@@ -79,25 +126,25 @@ export namespace ParsingParameter {
         }
     }
 
-    export function choose<T>(type_class: AbstractDropdownSelection.selectable<T>, choices: T[]): ParsingParameter<T> {
+    export function choose<T>(type_class: P<AbstractDropdownSelection.selectable<T>>, choices: P<T[]>): ParsingParameter<T> {
 
         return new class extends ParsingParameter<T> {
             constructor() {
-                super(() => choices[0])
+                super((loc) => P.apply(choices, loc)[0])
             }
 
-            override renderForm(depth: number): Editor<T> {
+            override renderForm(depth: number, loc: LocInstance): Editor<T> {
                 const self = this
 
                 return new class extends ParsingParameter.Editor<T> {
-                    constructor() {
-                        super(self)
-                    }
-
                     render_implementation(value: T) {
-                        this.control.append(new DropdownSelection({type_class: type_class}, choices)
+                        this.control.append(new DropdownSelection({type_class: P.apply(type_class, loc)}, P.apply(choices, loc))
                             .onSelection(v => this.commit(v))
                             .setValue(value))
+                    }
+
+                    constructor() {
+                        super(self)
                     }
                 }
             }
@@ -107,7 +154,7 @@ export namespace ParsingParameter {
     export function dir(): ParsingParameter<direction> {
         return choose<direction>({
             toHTML: (v: direction): Widget => c().text(direction.toString(v))
-        }, direction.all)
+        }, () => direction.all)
     }
 
     export function rec<T extends Record<string, Rec.Element<any>>>(
@@ -122,6 +169,21 @@ export namespace ParsingParameter {
             type: type,
             optional: optional,
         }
+    }
+
+    export function locAction(): ParsingParameter<{
+        id: number
+    }> {
+
+        return choose<{ id: number }>((loc) => ({
+            toHTML: (v: { id: number }) => {
+                const a = getNthAction(loc.prototype, v.id)
+
+                if (!a) return c().text("undefined")
+
+                return hboxl(inlineimg(CursorType.meta(a.cursor).icon_url), " ", a.name)
+            }
+        }), (loc) => getActions(loc.prototype).map(a => ({id: a.cache_id})))
     }
 
 
@@ -171,15 +233,15 @@ export namespace ParsingParameter {
 
     export class Rec<T extends Record<string, Rec.Element<any>>> extends ParsingParameter<{ [key in keyof T]?: Rec.Element.extr<T[key]> }> {
         constructor(public elements: T) {
-            super(() => {
+            super((loc) => {
 
                 return Object.fromEntries(
-                    Object.entries(elements).map(([key, value]) => [key, value.optional ? undefined : value.type.getDefault()])
+                    Object.entries(elements).map(([key, value]) => [key, value.optional ? undefined : value.type.getDefault(loc)])
                 ) as { [key in keyof T]?: Rec.Element.extr<T[key]> } // There's probably an idiomatic way to get this to typecheck without this cast
             });
         }
 
-        override renderForm(depth: number): ParsingParameter.Editor<Record<string, any>> {
+        override renderForm(depth: number, loc: LocInstance): ParsingParameter.Editor<Record<string, any>> {
             const self = this
 
             return new class extends ParsingParameter.Editor {
@@ -191,7 +253,7 @@ export namespace ParsingParameter {
 
                 render_implementation(value: any) {
                     this.elements = Object.entries(self.elements).map(([id, element]) =>
-                        new Rec.ElementWidget(element, element.optional ? "check" : "none", depth + 1)
+                        new Rec.ElementWidget(element, element.optional ? "check" : "none", depth + 1, loc)
                             .set(value?.[id])
                             .onChange(v => {
                                 this.commit(copyUpdate2(this.get(), e => e[id] = v))
@@ -222,7 +284,7 @@ export namespace ParsingParameter {
             checkbox: Checkbox
             sub: Editor<T> = null
 
-            constructor(public element: Element<T>, public cb_type: "none" | "check" | "radio", public depth: number) {
+            constructor(public element: Element<T>, public cb_type: "none" | "check" | "radio", public depth: number, private loc: LocInstance) {
                 super(element.type)
             }
 
@@ -245,7 +307,7 @@ export namespace ParsingParameter {
                     this.checkbox
                         .setValue(value !== undefined)
                         .onCommit(v => {
-                            const value = v ? this.element.type.getDefault() : undefined
+                            const value = v ? this.element.type.getDefault(this.loc) : undefined
 
                             this.commit(value)
                             this.render()
@@ -264,7 +326,7 @@ export namespace ParsingParameter {
 
                 if (value !== undefined) {
                     this.sub = this.element.type
-                        .renderForm(this.depth + 1)
+                        .renderForm(this.depth + 1, this.loc)
                         .onChange(v => this.commit(v))
                         .set(value)
 

@@ -9,6 +9,10 @@ import LocInstance = CacheTypes.LocInstance;
 import {ParsingParameter} from "./ParsingParameters";
 import PP = ParsingParameter
 import rec = ParsingParameter.rec;
+import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
+import {EntityTransportationBuilder} from "./util/GeneralEntityTransportationBuilder";
+import {MovementBuilder} from "./util/MovementBuilder";
+import offset = MovementBuilder.offset;
 
 function parse<GroupT, InstanceT>(id: string,
                                   name: string,
@@ -74,18 +78,53 @@ export const parsers3: TransportParser2[] = [
         }
     ),
     parse("ladders", "Ladders", PP.rec({
-            singletiledirection: PP.element("Side", PP.dir(), true),
             across: PP.element("Across", PP.bool()),
-            up: PP.element("Up", PP.rec(
-                {
-
-                }
-            ), true)
+            single_side: PP.element("Side", PP.dir(), true),
+            up: PP.element("Up", PP.locAction(), true),
+            down: PP.element("Down", PP.locAction(), true),
+            top: PP.element("Top", PP.rec({
+                action: PP.element("Action", PP.locAction()),
+                level: PP.element("Floor", PP.floor())
+            }), true),
+            bottom: PP.element("Bottom", PP.rec({
+                action: PP.element("Action", PP.locAction()),
+                level: PP.element("Floor", PP.floor())
+            }), true),
         })
-        , null, async (instance, args) => {
+        , null, async (instance, {per_loc}) => {
+            const builder = EntityTransportationBuilder.from(instance)
 
+            const off = per_loc.single_side && per_loc.across
+                ? Vector2.scale(-2, direction.toVector(per_loc.single_side))
+                : {x: 0, y: 0}
 
-            return []
+            const interactive = per_loc.single_side
+                ? TileArea.init({...direction.toVector(per_loc.single_side), level: 0})
+                : undefined
+
+            if (per_loc.up != null) {
+                builder.action({
+                        index: per_loc.up.id,
+                        interactive_area: interactive
+                    },
+                    offset({...off, level: 1})
+                        .orientation("toentitybefore")
+                        .time(3)
+                )
+            }
+
+            if (per_loc.down != null) {
+                builder.action({
+                        index: per_loc.down.id,
+                        interactive_area: interactive
+                    },
+                    offset({...off, level: -1})
+                        .orientation("toentitybefore")
+                        .time(3)
+                )
+            }
+
+            return [builder.finish()]
         }),
     parse("prototypecopyloc", "Prototype",
         rec({

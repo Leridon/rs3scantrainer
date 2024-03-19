@@ -13,11 +13,7 @@ import {Parsers3, parsers3} from "./cachetools/parsers3";
 import {Parsing} from "./cachetools/Parsing";
 import {CacheTypes} from "./cachetools/CacheTypes";
 import LocDataFile = CacheTypes.LocDataFile;
-import {FormModal} from "../../../lib/ui/controls/FormModal";
-import {NisModal} from "../../../lib/ui/NisModal";
-import {GameMap, GameMapWidget} from "../../../lib/gamemap/GameMap";
 import {ParserPairingModal} from "./cachetools/ParserPairingModal";
-import {filedownload} from "../../../oldlib";
 import download = util.download;
 import LocInstance = CacheTypes.LocInstance;
 import {storage} from "../../../lib/util/storage";
@@ -103,7 +99,8 @@ export class ParserManagementLayer extends GameLayer {
 
     commitPairing(loc: LocInstance, pairing: ParserPairing) {
         const resultpair = this.parsing_table.setPairing(loc, pairing)
-        this.recents.use(resultpair.group.id)
+
+        if (resultpair.group) this.recents.use(resultpair.group.id)
     }
 
     eventContextMenu(event: GameMapContextMenuEvent) {

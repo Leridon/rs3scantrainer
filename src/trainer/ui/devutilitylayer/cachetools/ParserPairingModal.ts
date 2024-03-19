@@ -89,7 +89,7 @@ export class ParserPairingEdit extends Widget {
                 }
             }, []))
                 .setItems(() => [null].concat(this.parsing_table.data.associations))
-                .setValue(null)
+                .setValue(this.parsing_table.getGroup(this.pairing.group.id))
                 .onSelection(group => {
                     if (group) {
                         this.pairing.group.id = group.group_id
@@ -114,6 +114,7 @@ export class ParserPairingEdit extends Widget {
                     .setValue(this.pairing.group.parser)
                     .onSelection(parser => {
                         this.pairing.group.parser = parser
+                        this.renderProps()
                     })
             )
 

@@ -51,6 +51,10 @@ Planned for next release (b0.4):
 
 
 - Solving Behaviour
+    - [Feature, 5] Clue Reader
+        - Text Clues
+        - Scan Clues
+        - Hook up to interface
     - Path Panel
         - Neat step styling
         - Add icon for orientation step
@@ -94,17 +98,13 @@ Planned for next release (b0.4):
         - Run graphics are bad on snow background
         - Spacing in the tree view is bad
         - Don't fit to origin of teleport
-    - Clue Reader
-        - Text Clues
-        - Scan Clues
-        - Hook up to interface
 
 - Menu Bar
     - Highlight currently active
     - Add to Alt 1 entry when not in Alt1
     - Regular Map mode as default when not in Alt1
 
-- Settings Modal
+- [5] Settings Modal
     - Map Settings: Teleport Preferences
 
 - General

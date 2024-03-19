@@ -80,32 +80,38 @@ export default class OverviewLayer extends GameLayer {
 
         const filter = this.route_control.get()
 
-        this.update_promise = Promise.all(this.marker_index.flat().map(async c => {
-            c.route_display?.remove()
-            c.route_display = null
-
-            if (c.markers.length > 0) {
+        this.update_promise = (async () => {
+            for (const c of this.marker_index.flat()) {
                 let method: AugmentedMethod = null
 
-                switch (filter.type) {
-                    case "favourites":
-                        method = await deps().app.favourites.getMethod(ClueSpot.toId(c.for))
+                if (c.markers.length > 0) {
+                    switch (filter.type) {
+                        case "favourites":
+                            method = await deps().app.favourites.getMethod(ClueSpot.toId(c.for))
 
-                        break;
-                    case "pack":
-                        if (!filter.local_pack_id) break;
+                            break;
+                        case "pack":
+                            if (!filter.local_pack_id) break;
 
-                        const methods = await MethodPackManager.instance().get(c.for, [filter.local_pack_id])
+                            const methods = await MethodPackManager.instance().get(c.for, [filter.local_pack_id])
 
-                        if (methods.length > 0) method = methods[0]
+                            if (methods.length > 0) method = methods[0]
 
-                        break;
+                            break;
+                    }
+                }
+
+                if (c.route_display) {
+                    c.route_display.remove()
+                    c.route_display = null
                 }
 
                 if (method) {
                     c.route_display = PathStepEntity.renderPath(Method.allPaths(method.method)).addTo(this)
                 }
             }
-        }))
+        })()
+
+        await this.update_promise
     }
 }

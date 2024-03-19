@@ -87249,29 +87249,33 @@ class OverviewLayer extends _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_0__.
     async updateVisibleRoutes() {
         await this.update_promise;
         const filter = this.route_control.get();
-        this.update_promise = Promise.all(this.marker_index.flat().map(async (c) => {
-            var _a;
-            (_a = c.route_display) === null || _a === void 0 ? void 0 : _a.remove();
-            c.route_display = null;
-            if (c.markers.length > 0) {
+        this.update_promise = (async () => {
+            for (const c of this.marker_index.flat()) {
                 let method = null;
-                switch (filter.type) {
-                    case "favourites":
-                        method = await (0,_dependencies__WEBPACK_IMPORTED_MODULE_9__.deps)().app.favourites.getMethod(ClueSpot.toId(c.for));
-                        break;
-                    case "pack":
-                        if (!filter.local_pack_id)
+                if (c.markers.length > 0) {
+                    switch (filter.type) {
+                        case "favourites":
+                            method = await (0,_dependencies__WEBPACK_IMPORTED_MODULE_9__.deps)().app.favourites.getMethod(ClueSpot.toId(c.for));
                             break;
-                        const methods = await _model_MethodPackManager__WEBPACK_IMPORTED_MODULE_2__.MethodPackManager.instance().get(c.for, [filter.local_pack_id]);
-                        if (methods.length > 0)
-                            method = methods[0];
-                        break;
+                        case "pack":
+                            if (!filter.local_pack_id)
+                                break;
+                            const methods = await _model_MethodPackManager__WEBPACK_IMPORTED_MODULE_2__.MethodPackManager.instance().get(c.for, [filter.local_pack_id]);
+                            if (methods.length > 0)
+                                method = methods[0];
+                            break;
+                    }
+                }
+                if (c.route_display) {
+                    c.route_display.remove();
+                    c.route_display = null;
                 }
                 if (method) {
                     c.route_display = _map_entities_PathStepEntity__WEBPACK_IMPORTED_MODULE_10__.PathStepEntity.renderPath(Method.allPaths(method.method)).addTo(this);
                 }
             }
-        }));
+        })();
+        await this.update_promise;
     }
 }
 

@@ -8,7 +8,8 @@ const raw_data: Transportation.TeleportGroup[] = [
         type: "teleports",
         id: "home",
         name: "Lodestone Network",
-        img: {url: "homeport.png"}, animation_ticks: default_teleport_ticks,
+        img: {url: "homeport.png"},
+        animation_ticks: 7,
         spots: [
             {
                 id: "alkharid",

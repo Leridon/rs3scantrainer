@@ -1,0 +1,398 @@
+{
+  "version": 131,
+  "associations": [
+    {
+      "group_id": 0,
+      "loc_ids": [
+        24361
+      ],
+      "per_group_arg": {
+        "across": true,
+        "up": {
+          "id": 0
+        },
+        "single_side": 2
+      },
+      "group_name": "Ladders (UP/ST/Across)",
+      "instance_groups": [],
+      "parser_id": "ladders"
+    },
+    {
+      "group_id": 6,
+      "loc_ids": [
+        24376,
+        24381,
+        24384,
+        15536,
+        2399,
+        45966,
+        45964,
+        45210,
+        45212,
+        45206,
+        45208,
+        45476,
+        1533,
+        2626,
+        2627,
+        1530,
+        1591,
+        2628,
+        24370,
+        24369,
+        126965,
+        41133,
+        41522,
+        41131,
+        41524,
+        21399,
+        1601,
+        1600,
+        17089,
+        34807,
+        34811,
+        34822,
+        34819,
+        34825,
+        34827,
+        9330,
+        9738,
+        34354,
+        36022,
+        2546,
+        2548,
+        2537,
+        34809,
+        166,
+        167,
+        49014,
+        49016,
+        48961,
+        48,
+        47,
+        26082,
+        26081,
+        25640,
+        25638,
+        25642,
+        26131,
+        26130,
+        25748,
+        25750,
+        25718,
+        25716,
+        4166,
+        4165,
+        4250,
+        4247,
+        4148,
+        4312,
+        4311,
+        21600,
+        21507,
+        21505,
+        21340,
+        21341,
+        21405,
+        21403,
+        21400,
+        4696,
+        1512,
+        3726,
+        3725,
+        67638,
+        15653,
+        67138,
+        2625,
+        2624,
+        77972,
+        77969,
+        11707,
+        11714,
+        11716,
+        11721,
+        85077,
+        85076,
+        85010,
+        85008,
+        2320,
+        2306,
+        1239,
+        3434,
+        34812
+      ],
+      "group_name": "Doors",
+      "instance_groups": [],
+      "parser_id": "west-facing-doors"
+    },
+    {
+      "group_id": 12,
+      "loc_ids": [
+        24355,
+        24362
+      ],
+      "per_group_arg": {
+        "across": true,
+        "single_side": 4,
+        "down": {
+          "id": 0
+        }
+      },
+      "group_name": "Ladders (Down/ST/Across)",
+      "instance_groups": [],
+      "parser_id": "ladders"
+    },
+    {
+      "group_id": 14,
+      "loc_ids": [
+        24354
+      ],
+      "per_group_arg": {
+        "across": false,
+        "single_side": 2,
+        "up": {
+          "id": 0
+        }
+      },
+      "group_name": "Ladder (Up/ST)",
+      "instance_groups": [],
+      "parser_id": "ladders"
+    },
+    {
+      "group_id": 15,
+      "loc_ids": [
+        37116
+      ],
+      "per_group_arg": {
+        "across": false,
+        "single_side": 2,
+        "down": {
+          "id": 0
+        }
+      },
+      "group_name": "Ladder (Down/ST)",
+      "instance_groups": [],
+      "parser_id": "ladders"
+    },
+    {
+      "group_id": 23,
+      "loc_ids": [
+        36795
+      ],
+      "per_group_arg": {
+        "across": false,
+        "single_side": 4,
+        "up": {
+          "id": 0
+        },
+        "top": {
+          "action": {
+            "id": 1
+          },
+          "level": 2
+        }
+      },
+      "group_name": "",
+      "instance_groups": [],
+      "parser_id": "ladders"
+    },
+    {
+      "group_id": 24,
+      "loc_ids": [
+        36796
+      ],
+      "per_group_arg": {
+        "across": false,
+        "single_side": 4,
+        "up": {
+          "id": 1
+        },
+        "down": {
+          "id": 2
+        }
+      },
+      "group_name": "",
+      "instance_groups": [],
+      "parser_id": "ladders"
+    },
+    {
+      "group_id": 25,
+      "loc_ids": [
+        36797
+      ],
+      "per_group_arg": {
+        "across": false,
+        "single_side": 4,
+        "down": {
+          "id": 0
+        },
+        "top": {
+          "action": {
+            "id": 1
+          },
+          "level": 0
+        }
+      },
+      "group_name": "",
+      "instance_groups": [],
+      "parser_id": "ladders"
+    },
+    {
+      "group_id": 46,
+      "loc_ids": [
+        69499
+      ],
+      "per_group_arg": {
+        "across": false,
+        "single_side": 2,
+        "up": {
+          "id": 0
+        }
+      },
+      "group_name": "",
+      "instance_groups": [],
+      "parser_id": "ladders"
+    },
+    {
+      "group_id": 47,
+      "loc_ids": [
+        69501,
+        69502,
+        69500
+      ],
+      "per_group_arg": {
+        "across": false,
+        "single_side": 2,
+        "down": {
+          "id": 0
+        }
+      },
+      "group_name": "",
+      "instance_groups": [],
+      "parser_id": "ladders"
+    },
+    {
+      "group_id": 69,
+      "loc_ids": [
+        112414
+      ],
+      "per_group_arg": {
+        "across": false,
+        "single_side": 2,
+        "up": {
+          "id": 0
+        },
+        "top": {
+          "action": {
+            "id": 1
+          },
+          "level": 2
+        }
+      },
+      "group_name": "",
+      "instance_groups": [],
+      "parser_id": "ladders"
+    },
+    {
+      "group_id": 70,
+      "loc_ids": [
+        49089
+      ],
+      "group_name": "Ignore",
+      "instance_groups": [],
+      "parser_id": "ignore"
+    },
+    {
+      "group_id": 71,
+      "loc_ids": [
+        1751
+      ],
+      "per_group_arg": {
+        "across": false,
+        "single_side": 2,
+        "up": {
+          "id": 1
+        },
+        "down": {
+          "id": 2
+        }
+      },
+      "group_name": "",
+      "instance_groups": [],
+      "parser_id": "ladders"
+    },
+    {
+      "group_id": 72,
+      "loc_ids": [
+        112413
+      ],
+      "per_group_arg": {
+        "across": false,
+        "single_side": 2,
+        "down": {
+          "id": 0
+        },
+        "top": {
+          "action": {
+            "id": 1
+          },
+          "level": 0
+        }
+      },
+      "group_name": "",
+      "instance_groups": [],
+      "parser_id": "ladders"
+    },
+    {
+      "group_id": 126,
+      "loc_ids": [
+        36768
+      ],
+      "per_group_arg": {
+        "across": false,
+        "single_side": 2,
+        "up": {
+          "id": 0
+        }
+      },
+      "group_name": "",
+      "instance_groups": [],
+      "parser_id": "ladders"
+    },
+    {
+      "group_id": 127,
+      "loc_ids": [
+        36769
+      ],
+      "per_group_arg": {
+        "across": false,
+        "single_side": 2,
+        "up": {
+          "id": 1
+        },
+        "down": {
+          "id": 2
+        }
+      },
+      "group_name": "",
+      "instance_groups": [],
+      "parser_id": "ladders"
+    },
+    {
+      "group_id": 128,
+      "loc_ids": [
+        36770
+      ],
+      "per_group_arg": {
+        "across": false,
+        "single_side": 2,
+        "down": {
+          "id": 0
+        }
+      },
+      "group_name": "",
+      "instance_groups": [],
+      "parser_id": "ladders"
+    }
+  ]
+}

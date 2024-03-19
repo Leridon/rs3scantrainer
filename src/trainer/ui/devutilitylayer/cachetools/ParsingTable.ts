@@ -164,6 +164,13 @@ export class LocParsingTable {
         return pairing
     }
 
+    reset() {
+        this.data.version = -1
+        this.data.associations = []
+
+        this.bumpVersion()
+    }
+
     getGroupForLoc(loc_id: number): ParsingAssociationGroup {
         return this.loc_index[loc_id]
     }

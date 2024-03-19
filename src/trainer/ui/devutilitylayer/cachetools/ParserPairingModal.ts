@@ -81,7 +81,7 @@ export class ParserPairingEdit extends Widget {
                 if (v) {
                     this.pairing.group = {
                         id: -1,
-                        name: "New group",
+                        name: "",
                         parser: Parsers3.getById("ignore"),
                         argument: undefined
                     }
@@ -116,7 +116,7 @@ export class ParserPairingEdit extends Widget {
                         this.pairing.group.argument = group.per_group_arg
                     } else {
                         this.pairing.group.id = -1
-                        this.pairing.group.name = "New group"
+                        this.pairing.group.name = ""
                         this.pairing.group.parser = Parsers3.getById("ignore")
                         this.pairing.group.argument = undefined
                     }

@@ -82,11 +82,7 @@ export const parsers3: TransportParser2[] = [
             single_side: PP.element("Side", PP.dir(), true),
             up: PP.element("Up", PP.locAction(), true),
             down: PP.element("Down", PP.locAction(), true),
-            top: PP.element("Top", PP.rec({
-                action: PP.element("Action", PP.locAction()),
-                level: PP.element("Floor", PP.floor())
-            }), true),
-            bottom: PP.element("Bottom", PP.rec({
+            top: PP.element("Top/Bottom", PP.rec({
                 action: PP.element("Action", PP.locAction()),
                 level: PP.element("Floor", PP.floor())
             }), true),
@@ -119,6 +115,17 @@ export const parsers3: TransportParser2[] = [
                         interactive_area: interactive
                     },
                     offset({...off, level: -1})
+                        .orientation("toentitybefore")
+                        .time(3)
+                )
+            }
+
+            if (per_loc.top != null) {
+                builder.action({
+                        index: per_loc.top.action.id,
+                        interactive_area: interactive
+                    },
+                    offset({...off, level: per_loc.top.level - instance.box.level })
                         .orientation("toentitybefore")
                         .time(3)
                 )

@@ -17,6 +17,7 @@ import {ParserPairingModal} from "./cachetools/ParserPairingModal";
 import download = util.download;
 import LocInstance = CacheTypes.LocInstance;
 import {storage} from "../../../lib/util/storage";
+import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
 
 class RecentlyUsedParserGroups {
     last_used_groups = new storage.Variable<number[]>("devutility/locparsing/recentgroups", () => [])
@@ -30,7 +31,7 @@ class RecentlyUsedParserGroups {
     }
 
     get(): ParsingAssociationGroup[] {
-        return this.last_used_groups.get().map(i => this.table.getGroup(i)).filter(g => !!g)
+        return this.last_used_groups.get().map(i => this.table.getGroup(i)).filter(g => !!g && g.group_name.length > 0)
     }
 }
 
@@ -45,7 +46,6 @@ export class ParserManagementLayer extends GameLayer {
     parsing_table: LocParsingTable
     data_file: LocDataFile
 
-
     constructor() {
         super();
 
@@ -56,6 +56,18 @@ export class ParserManagementLayer extends GameLayer {
                         new LightButton("Export")
                             .onClick(() => {
                                 download("parsingtable.json", cleanedJSON(this.parsing_table.data))
+                            }),
+                        new LightButton("Delete local table")
+                            .onClick(async () => {
+                                const really = await new ConfirmationModal({
+                                    body: "Do you really want to delete local parsing associations?",
+                                    options: [
+                                        {value: true, kind: "neutral", text: "Cancel"},
+                                        {value: true, kind: "cancel", text: "Delete"}
+                                    ]
+                                }).do()
+
+                                if(really) this.parsing_table.reset()
                             }),
                         new LightButton("Apply parsers")
                             .onClick(async () => {
@@ -81,8 +93,8 @@ export class ParserManagementLayer extends GameLayer {
             associations: []
         }
 
-        if (local_data?.version ?? -1 > most_current_data.version) most_current_data = local_data
-        if (repo_data?.version ?? -1 > most_current_data.version) most_current_data = repo_data
+        if ((local_data?.version ?? -1) > most_current_data.version) most_current_data = local_data
+        if ((repo_data?.version ?? -1) > most_current_data.version) most_current_data = repo_data
 
         this.parsing_table = new LocParsingTable(most_current_data)
 
@@ -100,7 +112,7 @@ export class ParserManagementLayer extends GameLayer {
     commitPairing(loc: LocInstance, pairing: ParserPairing) {
         const resultpair = this.parsing_table.setPairing(loc, pairing)
 
-        if (resultpair.group) this.recents.use(resultpair.group.id)
+        if (resultpair.group && resultpair.group.name != "") this.recents.use(resultpair.group.id)
     }
 
     eventContextMenu(event: GameMapContextMenuEvent) {

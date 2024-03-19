@@ -9,8 +9,6 @@ export type TileRectangle = Rectangle & {
 }
 
 export namespace TileRectangle {
-    import lift_tile = TileCoordinates.lift
-
     export function contains(box: TileRectangle, tile: TileCoordinates) {
         return tile.level == box.level && Rectangle.containsTile(box, tile)
     }
@@ -20,7 +18,7 @@ export namespace TileRectangle {
     }
 
     export function clampInto(pos: TileCoordinates, area: TileRectangle): TileCoordinates {
-        return lift_tile(Rectangle.clampInto(pos, area), pos.level)
+        return TileCoordinates.lift(Rectangle.clampInto(pos, area), pos.level)
     }
 
     export function extend(box: TileRectangle, padding: number): TileRectangle {
@@ -28,23 +26,23 @@ export namespace TileRectangle {
     }
 
     export function tl(rect: TileRectangle): TileCoordinates {
-        return lift_tile(rect.topleft, rect.level)
+        return TileCoordinates.lift(rect.topleft, rect.level)
     }
 
     export function br(rect: TileRectangle): TileCoordinates {
-        return lift_tile(rect.botright, rect.level)
+        return TileCoordinates.lift(rect.botright, rect.level)
     }
 
     export function tr(rect: TileRectangle): TileCoordinates {
-        return lift_tile(Rectangle.topRight(rect), rect.level)
+        return TileCoordinates.lift(Rectangle.topRight(rect), rect.level)
     }
 
     export function bl(rect: TileRectangle): TileCoordinates {
-        return lift_tile(Rectangle.bottomLeft(rect), rect.level)
+        return TileCoordinates.lift(Rectangle.bottomLeft(rect), rect.level)
     }
 
     export function center(rect: TileRectangle, snap: boolean = true): TileCoordinates {
-        return lift_tile(Rectangle.center(rect, snap), rect.level)
+        return TileCoordinates.lift(Rectangle.center(rect, snap), rect.level)
     }
 
     export function fromTile(tile: TileCoordinates): TileRectangle {

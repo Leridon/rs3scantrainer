@@ -4,7 +4,7 @@ import {AbstractDropdownSelection} from "./AbstractDropdownSelection";
     - Styling pass over dropdown
     - Add arrow indicating that it's a dropdown
  */
-export class DropdownSelection<T extends object | string | number> extends AbstractDropdownSelection<T> {
+export class DropdownSelection<T> extends AbstractDropdownSelection<T> {
     constructor(options: AbstractDropdownSelection.options<T>, items: T[]) {
         super(options, items[0]);
 

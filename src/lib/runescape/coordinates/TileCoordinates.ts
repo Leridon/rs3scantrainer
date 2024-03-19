@@ -9,8 +9,6 @@ export type TileCoordinates = Vector2 & {
 }
 
 export namespace TileCoordinates {
-    import retina = Browser.retina;
-
     export function eq(a: TileCoordinates, b: TileCoordinates) {
         return Vector2.eq(a, b) && a.level == b.level
     }

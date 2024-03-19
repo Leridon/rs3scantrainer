@@ -8,7 +8,7 @@ import {observe} from "../../../../lib/reactive";
 
 export class DrawGeneralEntity extends InteractionLayer {
     constructor(public config: {
-        done_handler: (_: Transportation.Transportation) => void
+        done_handler: (_: Transportation.EntityTransportation) => void
     }) {
         super();
 

@@ -26,7 +26,7 @@ export abstract class MapEntity extends leaflet.FeatureGroup implements QuadTree
     culled = observe(false)
 
     private rendering_requested: boolean = false
-    private rendered_props: MapEntity.RenderProps = null
+    protected rendered_props: MapEntity.RenderProps = null
     private desired_render_props: Observable<MapEntity.RenderProps> = observe(null).equality(MapEntity.RenderProps.equals)
 
     protected constructor(protected entity_config: MapEntity.SetupOptions) {
@@ -99,8 +99,8 @@ export abstract class MapEntity extends leaflet.FeatureGroup implements QuadTree
         }
     }
 
-    render() {
-        if (!this.rendering_requested) return
+    render(force: boolean = false) {
+        if (!force && !this.rendering_requested) return
 
         this.rendering_requested = false
 
@@ -108,7 +108,7 @@ export abstract class MapEntity extends leaflet.FeatureGroup implements QuadTree
 
         if (!this.parent?.getMap()) return
 
-        if (MapEntity.RenderProps.equals(this.rendered_props, props)) return
+        if (!force && MapEntity.RenderProps.equals(this.rendered_props, props)) return
         this.rendered_props = props
 
         this.clearLayers()

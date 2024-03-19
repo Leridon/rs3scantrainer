@@ -131,7 +131,7 @@ export class ShortcutEditGameLayer extends GameLayer {
         )
     }
 
-    startPlacement(s: Transportation.Transportation, origin: TileCoordinates = null) {
+    startPlacement(s: Transportation.EntityTransportation, origin: TileCoordinates = null) {
         if (!origin) origin = TileRectangle.center(Transportation.bounds(s))
 
         this.interactionGuard.set(new PlaceShortcut(s, origin, n => this.editor.data.add(Object.assign(n, {is_builtin: false})))
@@ -194,13 +194,13 @@ export class ShortcutEditor extends Behaviour {
         this.sidebar.remove()
     }
 
-    public createNew(shortcut: Transportation.Transportation) {
+    public createNew(shortcut: Transportation.EntityTransportation) {
         this.editControl.shortcut.set(this.data.add(Object.assign(lodash.cloneDeep(shortcut), {is_builtin: false})))
     }
 }
 
 export namespace ShortcutEditor {
-    export type Value = Transportation.Transportation & { is_builtin: boolean }
+    export type Value = Transportation.EntityTransportation & { is_builtin: boolean }
     export type OValue = ObservableArrayValue<Value>
     export type Data = ObservableArray<Value>
 

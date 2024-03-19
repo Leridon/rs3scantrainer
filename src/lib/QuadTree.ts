@@ -53,14 +53,12 @@ export class QuadTree<T extends QuadTree.Element<T>> {
 
         const center = Rectangle.center(this.rect)
 
-        const sub: Rectangle[] = [
+        this.subdivisions = [
             Rectangle.from(this.rect.topleft, Vector2.add(center, {x: 0, y: 1})),
             Rectangle.from(Rectangle.topRight(this.rect), Vector2.add(center, {x: 1, y: 1})),
             Rectangle.from(this.rect.botright, Vector2.add(center, {x: 1, y: 0})),
             Rectangle.from(Rectangle.bottomLeft(this.rect), center),
-        ]
-
-        this.subdivisions = sub.map(s => new QuadTree<T>(this, s))
+        ].map(s => new QuadTree<T>(this, s))
 
         // Resort elements
         const elements = this.elements

@@ -7,6 +7,7 @@ import {fill} from "lodash";
 import * as lodash from "lodash";
 import {util} from "../../util/util";
 import {direction} from "../movement";
+import {TileTransform} from "./TileTransform";
 
 export type TileArea = {
     origin: TileCoordinates,
@@ -204,5 +205,15 @@ export namespace TileArea {
 
     export function isRectangle(area: TileArea): boolean {
         return !area.data
+    }
+
+    export function transform(area: TileArea, transform: TileTransform): TileArea {
+
+        return {
+            origin: TileCoordinates.transform(area.origin, transform),
+            size: area.size ? Vector2.abs(Vector2.snap(Vector2.transform(area.size, transform.matrix))) : undefined,
+        }
+
+        // TODO: Transform actual tiles!
     }
 }

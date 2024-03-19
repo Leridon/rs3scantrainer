@@ -28,9 +28,9 @@ export default class ShortcutEditSidePanel extends MapSideBar {
     result_container: Widget
     viewport_checkbox: Checkbox
 
-    centered = ewent<Transportation.Transportation>()
+    centered = ewent<Transportation.EntityTransportation>()
 
-    private visible_data_view: Observable<ObservableArrayValue<Transportation.Transportation & { is_builtin: boolean }>[]>
+    private visible_data_view: Observable<ObservableArrayValue<Transportation.EntityTransportation & { is_builtin: boolean }>[]>
     private search_term = observe("")
 
     widgets: ShortcutEdit[] = []

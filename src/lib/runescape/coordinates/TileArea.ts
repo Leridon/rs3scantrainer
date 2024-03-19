@@ -160,7 +160,8 @@ export namespace TileArea {
     }
 
     export function activate(area: TileArea): ActiveTileArea {
-        return (area._active) ?? (area._active = new ActiveTileArea(area))
+        if(area._active?.query) return area._active
+        else return area._active = new ActiveTileArea(area)
     }
 
     export function init(origin: TileCoordinates, size: Vector2 = {x: 1, y: 1}, filled: boolean = true): TileArea {

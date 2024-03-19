@@ -35,7 +35,7 @@ export class ParserPairingEdit extends Widget {
             this.map.invalidateSize(true)
 
             this.map.fitView(this.loc.box, {maxZoom: 3})
-        }, 1000)
+        }, 0)
 
         this.layer = new GameLayer().addTo(this.map)
 
@@ -100,7 +100,7 @@ export class ParserPairingEdit extends Widget {
                         this.pairing.group.id = -1
                         this.pairing.group.name = "New group"
                         this.pairing.group.parser = Parsers3.getById("ignore")
-                        this.pairing.group.argument = undefined // TODO: default arg by type
+                        this.pairing.group.argument = undefined
                     }
 
                     this.renderProps()
@@ -114,6 +114,12 @@ export class ParserPairingEdit extends Widget {
                     .setValue(this.pairing.group.parser)
                     .onSelection(parser => {
                         this.pairing.group.parser = parser
+                        this.pairing.group.argument = undefined
+
+                        if (parser.per_loc_group_parameter) {
+                            this.pairing.group.argument = parser.per_loc_group_parameter.getDefault()
+                        }
+
                         this.renderProps()
                     })
             )
@@ -134,6 +140,7 @@ export class ParserPairingEdit extends Widget {
                 props.header("Group Parameter")
 
                 const test_par = this.pairing.group.parser.per_loc_group_parameter.renderForm(0)
+                    .set(this.pairing.group.argument)
                     .onChange(v => this.pairing.group.argument = v)
 
                 props.row(test_par.control)

@@ -73,17 +73,27 @@ export const parsers3: TransportParser2[] = [
             return []
         }
     ),
-    parse("ladders", "Ladders", PP.rec<{ across: PP.RecordElement<boolean> }>()
-            .element("Across", "across", PP.bool(), false)
+    parse("ladders", "Ladders", PP.rec({
+            singletiledirection: PP.element("Side", PP.dir(), true),
+            across: PP.element("Across", PP.bool()),
+            up: PP.element("Up", PP.rec(
+                {
+
+                }
+            ), true)
+        })
         , null, async (instance, args) => {
+
 
             return []
         }),
     parse("prototypecopyloc", "Prototype",
-        rec()
-            .element("Name", "name", PP.string(), "New Group", false)
+        rec({
+            name: PP.element("Name", PP.string(), true)
+        })
         , null,
         async (instance) => {
+
 
             return []
         }

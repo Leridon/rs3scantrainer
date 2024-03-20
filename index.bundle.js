@@ -72917,7 +72917,7 @@ class LocInstanceEntity extends _lib_gamemap_MapEntity__WEBPACK_IMPORTED_MODULE_
     }
 }
 const pre_filter = {
-    actions: ["open", "use", "enter", "climb", "crawl", "scale", "pass", "jump", "leave", "teleport", "descend", "step"]
+    actions: ["open", "use", "enter", "climb", "crawl", "scale", "pass", "jump", "leave", "teleport", "descend", "step", "walk"]
 };
 class FilteredLocLayer extends _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_0__.GameLayer {
     constructor(data, parsing_table) {
@@ -72939,7 +72939,7 @@ class FilteredLocLayer extends _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_0
             const a = lodash__WEBPACK_IMPORTED_MODULE_15__.maxBy(this.loc_entities, loc => {
                 const v = LocFilter.apply(pre_filter, loc.loc, this.parsing_table)
                     && LocFilter.apply(this.filter_control.filter.value(), loc.loc, this.parsing_table);
-                return v ? -1 : loc.instances;
+                return v ? loc.instances.length : -1;
             });
             if (a)
                 this.getMap().fitView(a.instances[0].instance.box);

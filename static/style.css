@@ -626,7 +626,11 @@ video {
 /* Scan Tree Edit */
 
 .ctr-scantreeedit-node {
-    border-radius: 5px;
+    cursor: pointer;
+}
+
+.ctr-scantreeedit-node:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .ctr-scantreeedit-node.active {
@@ -641,7 +645,15 @@ video {
     background-position: center;
 }
 
-.ctr-scantreeedit-node.active > * > .ctr-scantreeedit-youarehere {
+.ctr-scantreeedit-node-path {
+    color: #3b83ee;
+    font-size: 0.8em;
+    text-wrap: none;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.ctr-scantreeedit-node.active .ctr-scantreeedit-youarehere {
     background-image: url("assets/icons/youarehere.png");
     background-size: contain;
 }

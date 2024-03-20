@@ -60,7 +60,7 @@ export default class Widget<T extends HTMLElement = HTMLElement> {
         return this
     }
 
-    css(key: string, value: string): this {
+    css(key: string, value: string | number): this {
         this.container.css(key, value)
 
         return this

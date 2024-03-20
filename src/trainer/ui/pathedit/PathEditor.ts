@@ -48,6 +48,7 @@ import TeleportGroup = Transportation.TeleportGroup;
 import {TransportData} from "../../../data/transports";
 import resolveTeleport = TransportData.resolveTeleport;
 import {RemoteEntityTransportTarget} from "../map/entities/RemoteEntityTransportTarget";
+import {DrawCheatInteraction} from "./interactions/DrawCheatInteraction";
 
 function needRepairing(state: movement_state, shortcut: Path.step_transportation): boolean {
     return state.position.tile
@@ -71,6 +72,7 @@ class PathEditorGameLayer extends GameLayer {
 
         event.onPost(() => {
             if (this.editor.isActive()) {
+                event.setTitle(`${event.tile().x} | ${event.tile().y} | ${event.tile().level}`)
 
                 if (!event.active_entity) {
 
@@ -466,6 +468,11 @@ export class PathEditor extends Behaviour {
                 new DrawRunInteraction()
                     .setStartPosition(v.waypoints[0])
                     .onCommit(new_s => value.update(v => Object.assign(v, new_s))))
+        } else if (v.type == "cheat") {
+            this.editStep(value,
+                new DrawCheatInteraction(v.assumed_start)
+                    .onCommit(new_s => value.update(v => Object.assign(v, new_s)))
+            )
         }
     }
 

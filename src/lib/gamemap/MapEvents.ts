@@ -70,6 +70,7 @@ export class GameMapKeyboardEvent extends GameMapEvent<leaflet.LeafletKeyboardEv
 
 export class GameMapContextMenuEvent extends GameMapEvent<leaflet.LeafletMouseEvent, MouseEvent> {
     private entries: MenuEntry[] = []
+    private title = ""
 
     private for_entity_entries: MenuEntry[] = []
 
@@ -106,7 +107,7 @@ export class GameMapContextMenuEvent extends GameMapEvent<leaflet.LeafletMouseEv
 
             return {
                 type: "submenu",
-                text: "",
+                text: this.title,
                 children: this.entries.concat({
                     type: "submenu",
                     text: for_entity.text,
@@ -117,9 +118,13 @@ export class GameMapContextMenuEvent extends GameMapEvent<leaflet.LeafletMouseEv
 
         return {
             type: "submenu",
-            text: "",
+            text: this.title,
             children: this.entries
         }
+    }
+
+    setTitle(title: string) {
+        this.title = title
     }
 }
 

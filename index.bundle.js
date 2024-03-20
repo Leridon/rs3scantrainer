@@ -72917,7 +72917,7 @@ class LocInstanceEntity extends _lib_gamemap_MapEntity__WEBPACK_IMPORTED_MODULE_
     }
 }
 const pre_filter = {
-    actions: ["open", "use", "enter", "climb", "crawl", "scale", "pass", "jump", "leave", "teleport", "descend", "step", "walk"]
+    actions: ["open", "use", "enter", "climb", "crawl", "scale", "pass", "jump", "leave", "teleport", "descend", "step", "walk", "cross"]
 };
 class FilteredLocLayer extends _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_0__.GameLayer {
     constructor(data, parsing_table) {

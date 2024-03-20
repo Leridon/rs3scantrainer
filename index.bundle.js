@@ -11,3119 +11,6 @@
 return /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "../node_modules/@alt1/base/dist/alt1api.js":
-/*!**************************************************!*\
-  !*** ../node_modules/@alt1/base/dist/alt1api.js ***!
-  \**************************************************/
-/***/ (() => {
-
-"use strict";
-
-
-
-/***/ }),
-
-/***/ "../node_modules/@alt1/base/dist/declarations.js":
-/*!*******************************************************!*\
-  !*** ../node_modules/@alt1/base/dist/declarations.js ***!
-  \*******************************************************/
-/***/ (() => {
-
-"use strict";
-
-
-
-/***/ }),
-
-/***/ "../node_modules/@alt1/base/dist/imagedata-extensions.js":
-/*!***************************************************************!*\
-  !*** ../node_modules/@alt1/base/dist/imagedata-extensions.js ***!
-  \***************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   ImageData: () => (/* binding */ ImageData)
-/* harmony export */ });
-/* harmony import */ var _index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.js */ "../node_modules/@alt1/base/dist/index.js");
-/* harmony import */ var _nodepolyfill_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nodepolyfill.js */ "../node_modules/@alt1/base/dist/nodepolyfill.js");
-
-
-//export this so node.js can also use it
-var ImageData;
-// //TODO revamp this madness a bit?
-// (function () {
-// 	var globalvar = (typeof self != "undefined" ? self : (typeof (global as any) != "undefined" ? (global as any) : null)) as any;
-// 	//use the node-canvas version when on node
-// 	if (typeof globalvar.ImageData == "undefined") {
-// 		let nodecnv = requireNodeCanvas();
-// 		globalvar.ImageData = nodecnv.ImageData;
-// 	}
-// 	var fill = typeof globalvar.ImageData == "undefined";
-// 	//should never be reach anymore
-// 	var constr = function (this: any) {
-// 		var i = 0;
-// 		var data = (arguments[i] instanceof Uint8ClampedArray ? arguments[i++] : null);
-// 		var width = arguments[i++];
-// 		var height = arguments[i++];
-// 		if (fill) {
-// 			if (!data) { data = new Uint8ClampedArray(width * height * 4); }
-// 			this.width = width;
-// 			this.height = height;
-// 			this.data = data;
-// 		}
-// 		else if (oldconstr) {
-// 			return (data ? new oldconstr(data, width, height) : new oldconstr(width, height));
-// 		} else {
-// 			var canvas = document.createElement('canvas');
-// 			canvas.width = width;
-// 			canvas.height = height;
-// 			var ctx = canvas.getContext("2d")!;
-// 			var imageData = ctx.createImageData(width, height);
-// 			if (data) { imageData.data.set(data); }
-// 			return imageData;
-// 		}
-// 	}
-// 	var oldconstr = globalvar.ImageData;
-// 	if (typeof document != "undefined") {
-// 		try {
-// 			new oldconstr(1, 1);
-// 		} catch (e) {
-// 			//direct constructor call not allowed in ie
-// 			oldconstr = null;
-// 		}
-// 	}
-// 	if (!fill) { constr.prototype = globalvar.ImageData.prototype; }
-// 	globalvar.ImageData = constr;
-// 	ImageData = constr as any;
-// })();
-(function () {
-    var globalvar = (typeof self != "undefined" ? self : (typeof global != "undefined" ? global : null));
-    var filltype = typeof globalvar.ImageData == "undefined" || typeof globalvar.document == "undefined";
-    var fillconstr = filltype;
-    if (!filltype) {
-        var oldconstr = globalvar.ImageData;
-        try {
-            let data = new Uint8ClampedArray(4);
-            data[0] = 1;
-            let a = new globalvar.ImageData(data, 1, 1);
-            fillconstr = a.data[0] != 1;
-        }
-        catch (e) {
-            fillconstr = true;
-        }
-    }
-    if (fillconstr) {
-        var constr = function ImageDataShim() {
-            var i = 0;
-            var data = (arguments[i] instanceof Uint8ClampedArray ? arguments[i++] : null);
-            var width = arguments[i++];
-            var height = arguments[i++];
-            if (filltype) {
-                if (!data) {
-                    data = new Uint8ClampedArray(width * height * 4);
-                }
-                this.width = width;
-                this.height = height;
-                this.data = data;
-            }
-            else if (fillconstr) {
-                //WARNING This branch of code does not use the same pixel data backing store
-                //(problem with wasm, however all wasm browser have a native constructor (unless asm.js is used))
-                var canvas = document.createElement('canvas');
-                canvas.width = width;
-                canvas.height = height;
-                var ctx = canvas.getContext("2d");
-                var imageData = ctx.createImageData(width, height);
-                if (data) {
-                    imageData.data.set(data);
-                }
-                return imageData;
-            }
-            // else {
-            // 	//oh no...
-            // 	//we need this monstrocity in order to call the native constructor with variable number of args
-            // 	//when es5 transpile is enable (that strips the spread operator)
-            // 	return new (Function.prototype.bind.apply(oldconstr, [null,...arguments]));
-            // }
-        };
-        if (!filltype) {
-            constr.prototype = globalvar.ImageData.prototype;
-        }
-        globalvar.ImageData = constr;
-        ImageData = constr;
-    }
-    else {
-        ImageData = globalvar.ImageData;
-    }
-})();
-//Recast into a drawable imagedata class on all platforms, into a normal browser ImageData on browsers or a node-canvas imagedata on nodejs
-ImageData.prototype.toDrawableData = function () {
-    if (typeof document == "undefined") {
-        return _nodepolyfill_js__WEBPACK_IMPORTED_MODULE_1__.imageDataToDrawable(this);
-    }
-    else {
-        return this;
-    }
-};
-ImageData.prototype.putImageData = function (buf, cx, cy) {
-    for (var dx = 0; dx < buf.width; dx++) {
-        for (var dy = 0; dy < buf.height; dy++) {
-            var i1 = (dx + cx) * 4 + (dy + cy) * 4 * this.width;
-            var i2 = dx * 4 + dy * 4 * buf.width;
-            this.data[i1] = buf.data[i2];
-            this.data[i1 + 1] = buf.data[i2 + 1];
-            this.data[i1 + 2] = buf.data[i2 + 2];
-            this.data[i1 + 3] = buf.data[i2 + 3];
-        }
-    }
-};
-ImageData.prototype.pixelOffset = function (x, y) {
-    return x * 4 + y * this.width * 4;
-};
-//creates a hash of a portion of the buffer used to check for changes
-ImageData.prototype.getPixelHash = function (rect) {
-    if (!rect) {
-        rect = new _index_js__WEBPACK_IMPORTED_MODULE_0__.Rect(0, 0, this.width, this.height);
-    }
-    var hash = 0;
-    for (var x = rect.x; x < rect.x + rect.width; x++) {
-        for (var y = rect.y; y < rect.y + rect.height; y++) {
-            var i = x * 4 + y * 4 * this.width;
-            hash = (((hash << 5) - hash) + this.data[i]) | 0;
-            hash = (((hash << 5) - hash) + this.data[i + 1]) | 0;
-            hash = (((hash << 5) - hash) + this.data[i + 2]) | 0;
-            hash = (((hash << 5) - hash) + this.data[i + 3]) | 0;
-        }
-    }
-    return hash;
-};
-ImageData.prototype.clone = function (rect) {
-    return this.toImage(rect).getContext("2d").getImageData(0, 0, rect.width, rect.height);
-};
-ImageData.prototype.show = function (x = 5, y = 5, zoom = 1) {
-    if (typeof document == "undefined") {
-        console.error("need a document to show an imagedata object");
-        return;
-    }
-    var imgs = document.getElementsByClassName("debugimage");
-    while (imgs.length > ImageData.prototype.show.maxImages) {
-        imgs[0].remove();
-    }
-    var el = this.toImage();
-    el.classList.add("debugimage");
-    el.style.position = "absolute";
-    el.style.zIndex = "1000";
-    el.style.left = x / zoom + "px";
-    el.style.top = y / zoom + "px";
-    el.style.background = "purple";
-    el.style.cursor = "pointer";
-    el.style.imageRendering = "pixelated";
-    el.style.outline = "1px solid #0f0";
-    el.style.width = (this.width == 1 ? 100 : this.width) * zoom + "px";
-    el.style.height = (this.height == 1 ? 100 : this.height) * zoom + "px";
-    el.onclick = function () { el.remove(); };
-    document.body.appendChild(el);
-    return el;
-};
-ImageData.prototype.show.maxImages = 10;
-ImageData.prototype.toImage = function (rect) {
-    if (!rect) {
-        rect = new _index_js__WEBPACK_IMPORTED_MODULE_0__.Rect(0, 0, this.width, this.height);
-    }
-    if (typeof document != "undefined") {
-        var el = document.createElement("canvas");
-        el.width = rect.width;
-        el.height = rect.height;
-    }
-    else {
-        el = _nodepolyfill_js__WEBPACK_IMPORTED_MODULE_1__.createCanvas(rect.width, rect.height);
-    }
-    var ctx = el.getContext("2d");
-    ctx.putImageData(this.toDrawableData(), -rect.x, -rect.y);
-    return el;
-};
-ImageData.prototype.getPixel = function (x, y) {
-    var i = x * 4 + y * 4 * this.width;
-    return [this.data[i], this.data[i + 1], this.data[i + 2], this.data[i + 3]];
-};
-ImageData.prototype.getPixelValueSum = function (x, y) {
-    var i = x * 4 + y * 4 * this.width;
-    return this.data[i] + this.data[i + 1] + this.data[i + 2];
-};
-ImageData.prototype.getPixelInt = function (x, y) {
-    var i = x * 4 + y * 4 * this.width;
-    return (this.data[i + 3] << 24) + (this.data[i + 0] << 16) + (this.data[i + 1] << 8) + (this.data[i + 2] << 0);
-};
-ImageData.prototype.getColorDifference = function (x, y, r, g, b, a = 255) {
-    var i = x * 4 + y * 4 * this.width;
-    return Math.abs(this.data[i] - r) + Math.abs(this.data[i + 1] - g) + Math.abs(this.data[i + 2] - b) * a / 255;
-};
-ImageData.prototype.setPixel = function (x, y, ...color) {
-    var r, g, b, a;
-    var [r, g, b, a] = (Array.isArray(color[0]) ? color[0] : color);
-    var i = x * 4 + y * 4 * this.width;
-    this.data[i] = r;
-    this.data[i + 1] = g;
-    this.data[i + 2] = b;
-    this.data[i + 3] = a == undefined ? 255 : a;
-};
-ImageData.prototype.setPixelInt = function (x, y, color) {
-    var i = x * 4 + y * 4 * this.width;
-    this.data[i] = (color >> 24) & 0xff;
-    this.data[i + 1] = (color >> 16) & 0xff;
-    this.data[i + 2] = (color >> 8) & 0xff;
-    this.data[i + 3] = (color >> 0) & 0xff;
-};
-ImageData.prototype.toFileBytes = function (format, quality) {
-    if (typeof HTMLCanvasElement != "undefined") {
-        return new Promise(d => this.toImage().toBlob(b => {
-            var r = new FileReader();
-            r.readAsArrayBuffer(b);
-            r.onload = () => d(new Uint8Array(r.result));
-        }, format, quality));
-    }
-    else {
-        return _nodepolyfill_js__WEBPACK_IMPORTED_MODULE_1__.imageDataToFileBytes(this, format, quality);
-    }
-};
-ImageData.prototype.toPngBase64 = function () {
-    if (typeof HTMLCanvasElement != "undefined") {
-        var str = this.toImage().toDataURL("image/png");
-        return str.slice(str.indexOf(",") + 1);
-    }
-    else {
-        throw new Error("synchronous image conversion not supported in nodejs, try using ImageData.prototype.toFileBytes");
-    }
-};
-ImageData.prototype.pixelCompare = function (buf, x = 0, y = 0, max) {
-    return _index_js__WEBPACK_IMPORTED_MODULE_0__.ImageDetect.simpleCompare(this, buf, x, y, max);
-};
-ImageData.prototype.copyTo = function (target, sourcex, sourcey, width, height, targetx, targety) {
-    //convince v8 that these are 31bit uints
-    const targetwidth = target.width | 0;
-    const thiswidth = this.width | 0;
-    const copywidth = width | 0;
-    const fastwidth = Math.floor(width / 4) * 4;
-    const thisdata = new Int32Array(this.data.buffer, this.data.byteOffset, this.data.byteLength / 4);
-    const targetdata = new Int32Array(target.data.buffer, target.data.byteOffset, target.data.byteLength / 4);
-    for (let cy = 0; cy < height; cy++) {
-        let cx = 0;
-        let it = (cx + targetx) + (cy + targety) * targetwidth;
-        let is = (cx + sourcex) + (cy + sourcey) * thiswidth;
-        //copy 4 pixels per iter (xmm)
-        for (; cx < fastwidth; cx += 4) {
-            targetdata[it] = thisdata[is];
-            targetdata[it + 1] = thisdata[is + 1];
-            targetdata[it + 2] = thisdata[is + 2];
-            targetdata[it + 3] = thisdata[is + 3];
-            it += 4;
-            is += 4;
-        }
-        //copy remainder per pixel
-        for (; cx < copywidth; cx++) {
-            targetdata[it] = thisdata[is];
-            it += 1;
-            is += 1;
-        }
-    }
-};
-if (typeof HTMLImageElement != "undefined") {
-    HTMLImageElement.prototype.toBuffer = function (x = 0, y = 0, w = this.width, h = this.height) {
-        var cnv = document.createElement("canvas");
-        cnv.width = w;
-        cnv.height = h;
-        var ctx = cnv.getContext("2d");
-        ctx.drawImage(this, -x, -y);
-        return ctx.getImageData(0, 0, w, h);
-    };
-    HTMLImageElement.prototype.toCanvas = function (x = 0, y = 0, w = this.width, h = this.height) {
-        var cnv = document.createElement("canvas");
-        cnv.width = w;
-        cnv.height = h;
-        var ctx = cnv.getContext("2d");
-        ctx.drawImage(this, -x, -y);
-        return cnv;
-    };
-}
-
-
-/***/ }),
-
-/***/ "../node_modules/@alt1/base/dist/imagedetect.js":
-/*!******************************************************!*\
-  !*** ../node_modules/@alt1/base/dist/imagedetect.js ***!
-  \******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   ImageDataSet: () => (/* binding */ ImageDataSet),
-/* harmony export */   asyncMap: () => (/* binding */ asyncMap),
-/* harmony export */   clearPngColorspace: () => (/* binding */ clearPngColorspace),
-/* harmony export */   coldif: () => (/* binding */ coldif),
-/* harmony export */   findSubbuffer: () => (/* binding */ findSubbuffer),
-/* harmony export */   findSubimage: () => (/* binding */ findSubimage),
-/* harmony export */   imageDataFromBase64: () => (/* binding */ imageDataFromBase64),
-/* harmony export */   imageDataFromFileBuffer: () => (/* binding */ imageDataFromFileBuffer),
-/* harmony export */   imageDataFromUrl: () => (/* binding */ imageDataFromUrl),
-/* harmony export */   isPngBuffer: () => (/* binding */ isPngBuffer),
-/* harmony export */   simpleCompare: () => (/* binding */ simpleCompare),
-/* harmony export */   simpleCompareRMSE: () => (/* binding */ simpleCompareRMSE),
-/* harmony export */   webpackImages: () => (/* binding */ webpackImages)
-/* harmony export */ });
-/* harmony import */ var _imgref_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./imgref.js */ "../node_modules/@alt1/base/dist/imgref.js");
-/* harmony import */ var _wrapper_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./wrapper.js */ "../node_modules/@alt1/base/dist/wrapper.js");
-/* harmony import */ var _nodepolyfill_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nodepolyfill.js */ "../node_modules/@alt1/base/dist/nodepolyfill.js");
-/* harmony import */ var _index_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./index.js */ "../node_modules/@alt1/base/dist/index.js");
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-
-
-
-
-/**
-* Downloads an image and returns the ImageData
-* Make sure the png image does not have a sRGB chunk or the resulting pixels will differ for different users!!!
-* @param url http(s) or data url to the image
-*/
-function imageDataFromUrl(url) {
-    return __awaiter(this, void 0, void 0, function* () {
-        if (typeof Image != "undefined") {
-            var img = new Image();
-            img.crossOrigin = "crossorigin";
-            return yield new Promise((done, fail) => {
-                img.onload = function () { done(img.toBuffer()); };
-                img.onerror = fail;
-                img.src = url;
-            });
-        }
-        else {
-            var hdr = "data:image/png;base64,";
-            if (url.startsWith(hdr)) {
-                return imageDataFromBase64(url.slice(hdr.length));
-            }
-            throw new Error("loading remote images in nodejs has been disabled, load the raw bytes and use imageDataFromNodeBuffer instead");
-        }
-    });
-}
-/**
-* Loads an ImageData object from a base64 encoded png image
-* Make sure the png image does not have a sRGB chunk or the resulting pixels will differ for different users!!!
-* @param data a base64 encoded png image
-*/
-function imageDataFromBase64(data) {
-    return __awaiter(this, void 0, void 0, function* () {
-        if (typeof Image != "undefined") {
-            return imageDataFromUrl("data:image/png;base64," + data);
-        }
-        else {
-            return _nodepolyfill_js__WEBPACK_IMPORTED_MODULE_2__.imageDataFromBase64(data);
-        }
-    });
-}
-/**
- * Loads an ImageData object directly from a png encoded file buffer
- * This method ensures that png color space headers are taken care off
- * @param data The bytes of a png file
- */
-function imageDataFromFileBuffer(data) {
-    return __awaiter(this, void 0, void 0, function* () {
-        clearPngColorspace(data);
-        if (typeof Image != "undefined") {
-            let blob = new Blob([data], { type: "image/png" });
-            let url = URL.createObjectURL(blob);
-            let r = yield imageDataFromUrl(url);
-            URL.revokeObjectURL(url);
-            return r;
-        }
-        else {
-            return _nodepolyfill_js__WEBPACK_IMPORTED_MODULE_2__.imageDataFromBuffer(data);
-        }
-    });
-}
-/**
-* Checks if a given byte array is a png file (by checking for ?PNG as first 4 bytes)
-* @param bytes Raw bytes of the png file
-*/
-function isPngBuffer(bytes) {
-    return bytes[0] == 137 && bytes[1] == 80 && bytes[2] == 78 && bytes[3] == 71;
-}
-/**
-* Resets the colorspace data in the png file.
-* This makes sure the browser renders the exact colors in the file instead of filtering it in order to obtain the best real life representation of
-* what it looked like on the authors screen. (this feature is often broken and not supported)
-* For example a round trip printscreen -> open in browser results in different colors than the original
-* @param data Raw bytes of the png file
-*/
-function clearPngColorspace(data) {
-    if (!isPngBuffer(data)) {
-        throw new Error("non-png image received");
-    }
-    var i = 8;
-    while (i < data.length) {
-        var length = data[i++] * 0x1000000 + data[i++] * 0x10000 + data[i++] * 0x100 + data[i++];
-        var ancillary = !!((data[i] >> 5) & 1);
-        var chunkname = String.fromCharCode(data[i], data[i + 1], data[i + 2], data[i + 3]);
-        var chunkid = chunkname.toLowerCase();
-        if (chunkid != "trns" && ancillary) {
-            data[i + 0] = "n".charCodeAt(0);
-            data[i + 1] = "o".charCodeAt(0);
-            data[i + 2] = "P".charCodeAt(0);
-            data[i + 3] = "E".charCodeAt(0);
-            //calculate new chunk checksum
-            //http://www.libpng.org/pub/png/spec/1.2/PNG-CRCAppendix.html
-            var end = i + 4 + length;
-            var crc = 0xffffffff;
-            //should be fast enough like this
-            var bitcrc = function (bit) {
-                for (var k = 0; k < 8; k++) {
-                    if (bit & 1) {
-                        bit = 0xedb88320 ^ (bit >>> 1);
-                    }
-                    else {
-                        bit = bit >>> 1;
-                    }
-                }
-                return bit;
-            };
-            for (var a = i; a < end; a++) {
-                if (a >= i + 4) {
-                    data[a] = 0;
-                }
-                var bit = data[a];
-                crc = bitcrc((crc ^ bit) & 0xff) ^ (crc >>> 8);
-            }
-            crc = crc ^ 0xffffffff;
-            //new chunk checksum
-            data[i + 4 + length + 0] = (crc >> 24) & 0xff;
-            data[i + 4 + length + 1] = (crc >> 16) & 0xff;
-            data[i + 4 + length + 2] = (crc >> 8) & 0xff;
-            data[i + 4 + length + 3] = (crc >> 0) & 0xff;
-        }
-        if (chunkname == "IEND") {
-            break;
-        }
-        i += 4; //type
-        i += length; //data
-        i += 4; //crc
-    }
-}
-/**
-* finds the given needle ImageBuffer in the given haystack ImgRef this function uses the best optimized available
-* code depending on the type of the haystack. It will use fast c# searching if the haystack is an ImgRefBind, js searching
-* is used otherwise.
-* the checklist argument is no longer used and should ignored or null/undefined
-* The optional sx,sy,sw,sh arguments indicate a bounding rectangle in which to search the needle. The rectangle should be bigger than the needle
-* @returns An array of points where the needle is found. The array is empty if none are found
-*/
-function findSubimage(haystackImgref, needleBuffer, sx = 0, sy = 0, sw = haystackImgref.width, sh = haystackImgref.height) {
-    if (!haystackImgref) {
-        throw new TypeError();
-    }
-    if (!needleBuffer) {
-        throw new TypeError();
-    }
-    var max = 30;
-    //check if we can do this in alt1
-    if (haystackImgref instanceof _imgref_js__WEBPACK_IMPORTED_MODULE_0__.ImgRefBind && _wrapper_js__WEBPACK_IMPORTED_MODULE_1__.hasAlt1 && alt1.bindFindSubImg) {
-        var needlestr = _wrapper_js__WEBPACK_IMPORTED_MODULE_1__.encodeImageString(needleBuffer);
-        var r = alt1.bindFindSubImg(haystackImgref.handle, needlestr, needleBuffer.width, sx, sy, sw, sh);
-        if (!r) {
-            throw new _wrapper_js__WEBPACK_IMPORTED_MODULE_1__.Alt1Error();
-        }
-        return JSON.parse(r);
-    }
-    return findSubbuffer(haystackImgref.read(), needleBuffer, sx, sy, sw, sh);
-}
-/**
-* Uses js to find the given needle ImageBuffer in the given haystack ImageBuffer. It is better to use the alt1.bind- functions in
-* combination with a1nxt.findsubimg.
-* the optional sx,sy,sw,sh arguments indicate a bounding rectangle in which to search.
-* @returns An array of points where the needle is found. The array is empty if none are found
-*/
-function findSubbuffer(haystack, needle, sx = 0, sy = 0, sw = haystack.width, sh = haystack.height) {
-    var r = [];
-    var maxdif = 30;
-    var maxresults = 50;
-    var needlestride = needle.width * 4;
-    var heystackstride = haystack.width * 4;
-    //built list of non trans pixel to check
-    var checkList = [];
-    for (var y = 0; y < needle.height; y++) {
-        for (var x = 0; x < needle.width; x++) {
-            var i = x * 4 + y * needlestride;
-            if (needle.data[i + 3] == 255) {
-                checkList.push({ x: x, y: y });
-            }
-            if (checkList.length == 10) {
-                break;
-            }
-        }
-        if (checkList.length == 10) {
-            break;
-        }
-    }
-    var cw = (sx + sw) - needle.width;
-    var ch = (sy + sh) - needle.height;
-    var checklength = checkList.length;
-    for (var y = sy; y <= ch; y++) {
-        outer: for (var x = sx; x <= cw; x++) {
-            for (var a = 0; a < checklength; a++) {
-                var i1 = (x + checkList[a].x) * 4 + (y + checkList[a].y) * heystackstride;
-                var i2 = checkList[a].x * 4 + checkList[a].y * needlestride;
-                var d = 0;
-                d = d + Math.abs(haystack.data[i1 + 0] - needle.data[i2 + 0]) | 0;
-                d = d + Math.abs(haystack.data[i1 + 1] - needle.data[i2 + 1]) | 0;
-                d = d + Math.abs(haystack.data[i1 + 2] - needle.data[i2 + 2]) | 0;
-                d *= 255 / needle.data[i2 + 3];
-                if (d > maxdif) {
-                    continue outer;
-                }
-            }
-            if (simpleCompare(haystack, needle, x, y, maxdif) != Infinity) {
-                r.push({ x, y });
-                if (r.length > maxresults) {
-                    return r;
-                }
-            }
-        }
-    }
-    return r;
-}
-/**
-* Compares two images and returns the average color difference per pixel between them
-* @param max The max color difference at any point in the image before short circuiting the function and returning Infinity. set to -1 to always continue.
-* @returns The average color difference per pixel or Infinity if the difference is more than max at any point in the image
-*/
-function simpleCompare(bigbuf, checkbuf, x, y, max = 30) {
-    if (x < 0 || y < 0) {
-        throw new RangeError();
-    }
-    if (x + checkbuf.width > bigbuf.width || y + checkbuf.height > bigbuf.height) {
-        throw new RangeError();
-    }
-    if (max == -1) {
-        max = 255 * 4;
-    }
-    var dif = 0;
-    for (var step = 8; step >= 1; step /= 2) {
-        for (var cx = 0; cx < checkbuf.width; cx += step) {
-            for (var cy = 0; cy < checkbuf.height; cy += step) {
-                var i1 = (x + cx) * 4 + (y + cy) * bigbuf.width * 4;
-                var i2 = cx * 4 + cy * checkbuf.width * 4;
-                var d = 0;
-                d = d + Math.abs(bigbuf.data[i1 + 0] - checkbuf.data[i2 + 0]) | 0;
-                d = d + Math.abs(bigbuf.data[i1 + 1] - checkbuf.data[i2 + 1]) | 0;
-                d = d + Math.abs(bigbuf.data[i1 + 2] - checkbuf.data[i2 + 2]) | 0;
-                d *= checkbuf.data[i2 + 3] / 255;
-                if (step == 1) {
-                    dif += d;
-                }
-                if (d > max) {
-                    return Infinity;
-                }
-            }
-        }
-    }
-    return dif / checkbuf.width / checkbuf.height;
-}
-/**
-* Calculates the root mean square error between the two buffers at the given coordinate, this method can be used in situations with significant blur or
-* transparency, it does not bail early on non-matching images like simpleCompare does so it can be expected to be much slower when called often.
-* @returns The root mean square error beteen the images, high single pixel errors are penalized more than consisten low errors. return of 0 means perfect match.
-*/
-function simpleCompareRMSE(bigbuf, checkbuf, x, y) {
-    if (x < 0 || y < 0) {
-        throw new RangeError();
-    }
-    if (x + checkbuf.width > bigbuf.width || y + checkbuf.height > bigbuf.height) {
-        throw new RangeError();
-    }
-    var dif = 0;
-    var numpix = 0;
-    for (var cx = 0; cx < checkbuf.width; cx++) {
-        for (var cy = 0; cy < checkbuf.height; cy++) {
-            var i1 = (x + cx) * 4 + (y + cy) * bigbuf.width * 4;
-            var i2 = cx * 4 + cy * checkbuf.width * 4;
-            var d = 0;
-            d = d + Math.abs(bigbuf.data[i1 + 0] - checkbuf.data[i2 + 0]) | 0;
-            d = d + Math.abs(bigbuf.data[i1 + 1] - checkbuf.data[i2 + 1]) | 0;
-            d = d + Math.abs(bigbuf.data[i1 + 2] - checkbuf.data[i2 + 2]) | 0;
-            var weight = checkbuf.data[i2 + 3] / 255;
-            numpix += weight;
-            dif += d * d * weight;
-        }
-    }
-    return Math.sqrt(dif / numpix);
-}
-/**
-* Returns the difference between two colors (scaled to the alpha of the second color)
-*/
-function coldif(r1, g1, b1, r2, g2, b2, a2) {
-    return (Math.abs(r1 - r2) + Math.abs(g1 - g2) + Math.abs(b1 - b2)) * a2 / 255; //only applies alpha for 2nd buffer!
-}
-/**
- * Turns map of promises into a map that contains the resolved values after loading.
- * @param input
- */
-function asyncMap(input) {
-    var raw = {};
-    var promises = [];
-    for (var a in input) {
-        if (input.hasOwnProperty(a)) {
-            raw[a] = null;
-            promises.push(input[a].then(function (a, i) { raw[a] = i; r[a] = i; }.bind(null, a)));
-        }
-    }
-    var r = {};
-    var promise = Promise.all(promises).then(() => { r.loaded = true; return r; });
-    Object.defineProperty(r, "loaded", { enumerable: false, value: false, writable: true });
-    Object.defineProperty(r, "promise", { enumerable: false, value: promise });
-    Object.defineProperty(r, "raw", { enumerable: false, value: raw });
-    return Object.assign(r, raw);
-}
-/**
-* Same as asyncMap, but casts the properties to ImageData in typescript
-*/
-function webpackImages(input) {
-    return asyncMap(input);
-}
-class ImageDataSet {
-    constructor() {
-        this.buffers = [];
-    }
-    matchBest(img, x, y, max) {
-        let best = null;
-        let bestscore = max;
-        for (let a = 0; a < this.buffers.length; a++) {
-            let score = img.pixelCompare(this.buffers[a], x, y, bestscore);
-            if (isFinite(score) && (bestscore == undefined || score < bestscore)) {
-                bestscore = score;
-                best = a;
-            }
-        }
-        if (best == null) {
-            return null;
-        }
-        return { index: best, score: bestscore };
-    }
-    static fromFilmStrip(baseimg, width) {
-        if ((baseimg.width % width) != 0) {
-            throw new Error("slice size does not fit in base img");
-        }
-        let r = new ImageDataSet();
-        for (let x = 0; x < baseimg.width; x += width) {
-            r.buffers.push(baseimg.clone(new _index_js__WEBPACK_IMPORTED_MODULE_3__.Rect(x, 0, width, baseimg.height)));
-        }
-        return r;
-    }
-    static fromFilmStripUneven(baseimg, widths) {
-        let r = new ImageDataSet();
-        let x = 0;
-        for (let w of widths) {
-            r.buffers.push(baseimg.clone(new _index_js__WEBPACK_IMPORTED_MODULE_3__.Rect(x, 0, w, baseimg.height)));
-            x += w;
-            if (x > baseimg.width) {
-                throw new Error("sampling filmstrip outside bounds");
-            }
-        }
-        if (x != baseimg.width) {
-            throw new Error("unconsumed pixels left in film strip imagedata");
-        }
-        return r;
-    }
-    static fromAtlas(baseimg, slices) {
-        let r = new ImageDataSet();
-        for (let slice of slices) {
-            r.buffers.push(baseimg.clone(slice));
-        }
-        return r;
-    }
-}
-
-
-/***/ }),
-
-/***/ "../node_modules/@alt1/base/dist/imgref.js":
-/*!*************************************************!*\
-  !*** ../node_modules/@alt1/base/dist/imgref.js ***!
-  \*************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   ImgRef: () => (/* binding */ ImgRef),
-/* harmony export */   ImgRefBind: () => (/* binding */ ImgRefBind),
-/* harmony export */   ImgRefCtx: () => (/* binding */ ImgRefCtx),
-/* harmony export */   ImgRefData: () => (/* binding */ ImgRefData)
-/* harmony export */ });
-/* harmony import */ var _index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.js */ "../node_modules/@alt1/base/dist/index.js");
-
-/**
- * Represents an image that might be in different types of memory
- * This is mostly used to represent images still in Alt1 memory that have
- * not been transfered to js yet. Various a1lib api's use this type and
- * choose the most efficient approach based on the memory type
- */
-class ImgRef {
-    constructor(x, y, w, h) {
-        this.t = "none";
-        this.x = x;
-        this.y = y;
-        this.width = w;
-        this.height = h;
-    }
-    read(x = 0, y = 0, w = this.width, h = this.height) {
-        throw new Error("This imgref (" + this.t + ") does not support toData");
-    }
-    findSubimage(needle, sx = 0, sy = 0, w = this.width, h = this.height) {
-        return _index_js__WEBPACK_IMPORTED_MODULE_0__.ImageDetect.findSubimage(this, needle, sx, sy, w, h);
-    }
-    toData(x = this.x, y = this.y, w = this.width, h = this.height) {
-        return this.read(x - this.x, y - this.y, w, h);
-    }
-    ;
-    containsArea(rect) {
-        return this.x <= rect.x && this.y <= rect.y && this.x + this.width >= rect.x + rect.width && this.y + this.height >= rect.y + rect.height;
-    }
-}
-/**
- * Represents an image in js render memory (canvas/image tag)
- */
-class ImgRefCtx extends ImgRef {
-    constructor(img, x = 0, y = 0) {
-        if (img instanceof CanvasRenderingContext2D) {
-            super(x, y, img.canvas.width, img.canvas.height);
-            this.ctx = img;
-        }
-        else {
-            super(x, y, img.width, img.height);
-            var cnv = (img instanceof HTMLCanvasElement ? img : img.toCanvas());
-            this.ctx = cnv.getContext("2d");
-        }
-        this.t = "ctx";
-    }
-    read(x = 0, y = 0, w = this.width, h = this.height) {
-        return this.ctx.getImageData(x, y, w, h);
-    }
-}
-/**
- * Represents in image in Alt1 memory, This type of image can be searched for subimages
- * very efficiently and transfering the full image to js can be avoided this way
- */
-class ImgRefBind extends ImgRef {
-    constructor(handle, x = 0, y = 0, w = 0, h = 0) {
-        super(x, y, w, h);
-        this.handle = handle;
-        this.t = "bind";
-    }
-    read(x = 0, y = 0, w = this.width, h = this.height) {
-        return (0,_index_js__WEBPACK_IMPORTED_MODULE_0__.transferImageData)(this.handle, x, y, w, h);
-    }
-}
-/**
- * Represents an image in js memory
- */
-class ImgRefData extends ImgRef {
-    constructor(buf, x = 0, y = 0) {
-        super(x, y, buf.width, buf.height);
-        this.buf = buf;
-        this.t = "data";
-    }
-    read(x = 0, y = 0, w = this.width, h = this.height) {
-        if (x == 0 && y == 0 && w == this.width && h == this.height) {
-            return this.buf;
-        }
-        var r = new ImageData(w, h);
-        for (var b = y; b < y + h; b++) {
-            for (var a = x; a < x + w; a++) {
-                var i1 = (a - x) * 4 + (b - y) * w * 4;
-                var i2 = a * 4 + b * 4 * this.buf.width;
-                r.data[i1] = this.buf.data[i2];
-                r.data[i1 + 1] = this.buf.data[i2 + 1];
-                r.data[i1 + 2] = this.buf.data[i2 + 2];
-                r.data[i1 + 3] = this.buf.data[i2 + 3];
-            }
-        }
-        return r;
-    }
-}
-
-
-/***/ }),
-
-/***/ "../node_modules/@alt1/base/dist/index.js":
-/*!************************************************!*\
-  !*** ../node_modules/@alt1/base/dist/index.js ***!
-  \************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   Alt1Error: () => (/* reexport safe */ _wrapper_js__WEBPACK_IMPORTED_MODULE_7__.Alt1Error),
-/* harmony export */   ImageData: () => (/* reexport safe */ _imagedata_extensions_js__WEBPACK_IMPORTED_MODULE_4__.ImageData),
-/* harmony export */   ImageDetect: () => (/* reexport module object */ _imagedetect_js__WEBPACK_IMPORTED_MODULE_1__),
-/* harmony export */   ImageStreamReader: () => (/* reexport safe */ _wrapper_js__WEBPACK_IMPORTED_MODULE_7__.ImageStreamReader),
-/* harmony export */   ImgRef: () => (/* reexport safe */ _imgref_js__WEBPACK_IMPORTED_MODULE_6__.ImgRef),
-/* harmony export */   ImgRefBind: () => (/* reexport safe */ _imgref_js__WEBPACK_IMPORTED_MODULE_6__.ImgRefBind),
-/* harmony export */   ImgRefCtx: () => (/* reexport safe */ _imgref_js__WEBPACK_IMPORTED_MODULE_6__.ImgRefCtx),
-/* harmony export */   ImgRefData: () => (/* reexport safe */ _imgref_js__WEBPACK_IMPORTED_MODULE_6__.ImgRefData),
-/* harmony export */   NoAlt1Error: () => (/* reexport safe */ _wrapper_js__WEBPACK_IMPORTED_MODULE_7__.NoAlt1Error),
-/* harmony export */   NodePolyfill: () => (/* reexport module object */ _nodepolyfill_js__WEBPACK_IMPORTED_MODULE_5__),
-/* harmony export */   PasteInput: () => (/* reexport module object */ _pasteinput_js__WEBPACK_IMPORTED_MODULE_2__),
-/* harmony export */   Rect: () => (/* reexport safe */ _rect_js__WEBPACK_IMPORTED_MODULE_3__["default"]),
-/* harmony export */   addResizeElement: () => (/* reexport safe */ _wrapper_js__WEBPACK_IMPORTED_MODULE_7__.addResizeElement),
-/* harmony export */   capture: () => (/* reexport safe */ _wrapper_js__WEBPACK_IMPORTED_MODULE_7__.capture),
-/* harmony export */   captureAsync: () => (/* reexport safe */ _wrapper_js__WEBPACK_IMPORTED_MODULE_7__.captureAsync),
-/* harmony export */   captureHold: () => (/* reexport safe */ _wrapper_js__WEBPACK_IMPORTED_MODULE_7__.captureHold),
-/* harmony export */   captureHoldFullRs: () => (/* reexport safe */ _wrapper_js__WEBPACK_IMPORTED_MODULE_7__.captureHoldFullRs),
-/* harmony export */   captureHoldScreen: () => (/* reexport safe */ _wrapper_js__WEBPACK_IMPORTED_MODULE_7__.captureHoldScreen),
-/* harmony export */   captureMultiAsync: () => (/* reexport safe */ _wrapper_js__WEBPACK_IMPORTED_MODULE_7__.captureMultiAsync),
-/* harmony export */   captureStream: () => (/* reexport safe */ _wrapper_js__WEBPACK_IMPORTED_MODULE_7__.captureStream),
-/* harmony export */   decodeImageString: () => (/* reexport safe */ _wrapper_js__WEBPACK_IMPORTED_MODULE_7__.decodeImageString),
-/* harmony export */   encodeImageString: () => (/* reexport safe */ _wrapper_js__WEBPACK_IMPORTED_MODULE_7__.encodeImageString),
-/* harmony export */   getMousePosition: () => (/* reexport safe */ _wrapper_js__WEBPACK_IMPORTED_MODULE_7__.getMousePosition),
-/* harmony export */   getdisplaybounds: () => (/* reexport safe */ _wrapper_js__WEBPACK_IMPORTED_MODULE_7__.getdisplaybounds),
-/* harmony export */   hasAlt1: () => (/* reexport safe */ _wrapper_js__WEBPACK_IMPORTED_MODULE_7__.hasAlt1),
-/* harmony export */   hasAlt1Version: () => (/* reexport safe */ _wrapper_js__WEBPACK_IMPORTED_MODULE_7__.hasAlt1Version),
-/* harmony export */   identifyApp: () => (/* reexport safe */ _wrapper_js__WEBPACK_IMPORTED_MODULE_7__.identifyApp),
-/* harmony export */   mixColor: () => (/* reexport safe */ _wrapper_js__WEBPACK_IMPORTED_MODULE_7__.mixColor),
-/* harmony export */   newestversion: () => (/* reexport safe */ _wrapper_js__WEBPACK_IMPORTED_MODULE_7__.newestversion),
-/* harmony export */   on: () => (/* reexport safe */ _wrapper_js__WEBPACK_IMPORTED_MODULE_7__.on),
-/* harmony export */   once: () => (/* reexport safe */ _wrapper_js__WEBPACK_IMPORTED_MODULE_7__.once),
-/* harmony export */   openbrowser: () => (/* reexport safe */ _wrapper_js__WEBPACK_IMPORTED_MODULE_7__.openbrowser),
-/* harmony export */   removeListener: () => (/* reexport safe */ _wrapper_js__WEBPACK_IMPORTED_MODULE_7__.removeListener),
-/* harmony export */   requireAlt1: () => (/* reexport safe */ _wrapper_js__WEBPACK_IMPORTED_MODULE_7__.requireAlt1),
-/* harmony export */   resetEnvironment: () => (/* reexport safe */ _wrapper_js__WEBPACK_IMPORTED_MODULE_7__.resetEnvironment),
-/* harmony export */   skinName: () => (/* reexport safe */ _wrapper_js__WEBPACK_IMPORTED_MODULE_7__.skinName),
-/* harmony export */   transferImageData: () => (/* reexport safe */ _wrapper_js__WEBPACK_IMPORTED_MODULE_7__.transferImageData),
-/* harmony export */   unmixColor: () => (/* reexport safe */ _wrapper_js__WEBPACK_IMPORTED_MODULE_7__.unmixColor)
-/* harmony export */ });
-/* harmony import */ var _declarations_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./declarations.js */ "../node_modules/@alt1/base/dist/declarations.js");
-/* harmony import */ var _declarations_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_declarations_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _imagedetect_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./imagedetect.js */ "../node_modules/@alt1/base/dist/imagedetect.js");
-/* harmony import */ var _pasteinput_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pasteinput.js */ "../node_modules/@alt1/base/dist/pasteinput.js");
-/* harmony import */ var _rect_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./rect.js */ "../node_modules/@alt1/base/dist/rect.js");
-/* harmony import */ var _imagedata_extensions_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./imagedata-extensions.js */ "../node_modules/@alt1/base/dist/imagedata-extensions.js");
-/* harmony import */ var _nodepolyfill_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./nodepolyfill.js */ "../node_modules/@alt1/base/dist/nodepolyfill.js");
-/* harmony import */ var _imgref_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./imgref.js */ "../node_modules/@alt1/base/dist/imgref.js");
-/* harmony import */ var _wrapper_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./wrapper.js */ "../node_modules/@alt1/base/dist/wrapper.js");
-
-
-
-
-
-
-
-
-
-
-/***/ }),
-
-/***/ "../node_modules/@alt1/base/dist/nodepolyfill.js":
-/*!*******************************************************!*\
-  !*** ../node_modules/@alt1/base/dist/nodepolyfill.js ***!
-  \*******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   createCanvas: () => (/* binding */ createCanvas),
-/* harmony export */   imageDataFromBase64: () => (/* binding */ imageDataFromBase64),
-/* harmony export */   imageDataFromBuffer: () => (/* binding */ imageDataFromBuffer),
-/* harmony export */   imageDataToDrawable: () => (/* binding */ imageDataToDrawable),
-/* harmony export */   imageDataToFileBytes: () => (/* binding */ imageDataToFileBytes),
-/* harmony export */   polyfillRequire: () => (/* binding */ polyfillRequire),
-/* harmony export */   requireElectronCommon: () => (/* binding */ requireElectronCommon),
-/* harmony export */   requireNodeCanvas: () => (/* binding */ requireNodeCanvas),
-/* harmony export */   requireSharp: () => (/* binding */ requireSharp)
-/* harmony export */ });
-/* harmony import */ var _index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.js */ "../node_modules/@alt1/base/dist/index.js");
-/* harmony import */ var _imagedetect_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./imagedetect.js */ "../node_modules/@alt1/base/dist/imagedetect.js");
-/* provided dependency */ var Buffer = __webpack_require__(/*! buffer */ "../node_modules/buffer/index.js")["Buffer"];
-//nodejs and electron polyfills for web api's
-//commented out type info as that breaks webpack with optional dependencies
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-
-
-var requirefunction = null;
-/**
- * Call this function to let the libs require extra dependencies on nodejs in order
- * to polyfill some browser api's (mostly image compression/decompression)
- * `NodePolifill.polyfillRequire(require);` should solve most cases
- */
-function polyfillRequire(requirefn) {
-    requirefunction = requirefn;
-}
-function requireSharp() {
-    try {
-        if (requirefunction) {
-            return requirefunction("sharp");
-        }
-        else {
-            return require(/* webpackIgnore: true */ "sharp"); // as typeof import("sharp");
-        }
-    }
-    catch (e) { }
-    return null;
-}
-function requireNodeCanvas() {
-    //attempt to require sharp first, after loading canvas the module sharp fails to load
-    requireSharp();
-    try {
-        if (requirefunction) {
-            return requirefunction("canvas");
-        }
-        else {
-            return require(/* webpackIgnore: true */ "canvas"); // as typeof import("sharp");
-        }
-    }
-    catch (e) { }
-    return null;
-}
-function requireElectronCommon() {
-    try {
-        if (requirefunction) {
-            return requirefunction("electron/common");
-        }
-        else {
-            return require(/* webpackIgnore: true */ "electron/common");
-        }
-    }
-    catch (e) { }
-    return null;
-}
-function imageDataToDrawable(buf) {
-    let nodecnv = requireNodeCanvas();
-    if (!nodecnv) {
-        throw new Error("couldn't find built-in canvas or the module 'canvas'");
-    }
-    return new nodecnv.ImageData(buf.data, buf.width, buf.height);
-}
-function createCanvas(w, h) {
-    let nodecnv = requireNodeCanvas();
-    if (!nodecnv) {
-        throw new Error("couldn't find built-in canvas or the module 'canvas'");
-    }
-    return nodecnv.createCanvas(w, h);
-}
-function flipBGRAtoRGBA(data) {
-    for (let i = 0; i < data.length; i += 4) {
-        let tmp = data[i + 2];
-        data[i + 2] = data[i + 0];
-        data[i + 0] = tmp;
-    }
-}
-function imageDataToFileBytes(buf, format, quality) {
-    return __awaiter(this, void 0, void 0, function* () {
-        //use the electron API if we're in electron
-        var electronCommon;
-        var sharp;
-        if (electronCommon = requireElectronCommon()) {
-            let nativeImage = electronCommon.nativeImage;
-            //need to copy the buffer in order to flip it without destroying the original
-            let bufcpy = Buffer.from(buf.data.slice(buf.data.byteOffset, buf.data.byteLength));
-            flipBGRAtoRGBA(bufcpy);
-            let nativeimg = nativeImage.createFromBitmap(bufcpy, { width: buf.width, height: buf.height });
-            return nativeimg.toPNG();
-        }
-        else if (sharp = requireSharp()) {
-            let img = sharp(Buffer.from(buf.data.buffer), { raw: { width: buf.width, height: buf.height, channels: 4 } });
-            if (format == "image/png") {
-                img.png();
-            }
-            else if (format == "image/webp") {
-                var opts = { quality: 80 };
-                if (typeof quality == "number") {
-                    opts.quality = quality * 100;
-                }
-                img.webp(opts);
-            }
-            else {
-                throw new Error("unknown image format: " + format);
-            }
-            return yield img.toBuffer({ resolveWithObject: false }).buffer;
-        }
-        throw new Error("coulnd't find build-in image compression methods or the module 'electron/common' or 'sharp'");
-    });
-}
-function imageDataFromBase64(base64) {
-    return imageDataFromBuffer(Buffer.from(base64, "base64"));
-}
-function imageDataFromBuffer(buffer) {
-    return __awaiter(this, void 0, void 0, function* () {
-        (0,_imagedetect_js__WEBPACK_IMPORTED_MODULE_1__.clearPngColorspace)(buffer);
-        //use the electron API if we're in electron
-        var electronCommon;
-        var nodecnv;
-        if (electronCommon = requireElectronCommon()) {
-            let nativeImage = electronCommon.nativeImage;
-            let img = nativeImage.createFromBuffer(buffer);
-            let pixels = img.toBitmap();
-            let size = img.getSize();
-            let pixbuf = new Uint8ClampedArray(pixels.buffer, pixels.byteOffset, pixels.byteLength);
-            flipBGRAtoRGBA(pixbuf);
-            return new _index_js__WEBPACK_IMPORTED_MODULE_0__.ImageData(pixbuf, size.width, size.height);
-        }
-        else if (nodecnv = requireNodeCanvas()) {
-            return new Promise((done, err) => {
-                let img = new nodecnv.Image();
-                img.onerror = err;
-                img.onload = () => {
-                    var cnv = nodecnv.createCanvas(img.naturalWidth, img.naturalHeight);
-                    var ctx = cnv.getContext("2d");
-                    ctx.drawImage(img, 0, 0);
-                    var data = ctx.getImageData(0, 0, img.naturalWidth, img.naturalHeight);
-                    //use our own class
-                    done(new _index_js__WEBPACK_IMPORTED_MODULE_0__.ImageData(data.data, data.width, data.height));
-                };
-                img.src = Buffer.from(buffer.buffer, buffer.byteOffset, buffer.byteLength);
-            });
-        }
-        throw new Error("couldn't find built-in canvas, module 'electron/common' or the module 'canvas'");
-    });
-}
-
-
-/***/ }),
-
-/***/ "../node_modules/@alt1/base/dist/pasteinput.js":
-/*!*****************************************************!*\
-  !*** ../node_modules/@alt1/base/dist/pasteinput.js ***!
-  \*****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   fileDialog: () => (/* binding */ fileDialog),
-/* harmony export */   lastref: () => (/* binding */ lastref),
-/* harmony export */   listen: () => (/* binding */ listen),
-/* harmony export */   start: () => (/* binding */ start),
-/* harmony export */   startDragNDrop: () => (/* binding */ startDragNDrop),
-/* harmony export */   triggerPaste: () => (/* binding */ triggerPaste),
-/* harmony export */   unlisten: () => (/* binding */ unlisten)
-/* harmony export */ });
-/* harmony import */ var _index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.js */ "../node_modules/@alt1/base/dist/index.js");
-/* harmony import */ var _imagedetect_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./imagedetect.js */ "../node_modules/@alt1/base/dist/imagedetect.js");
-
-
-var listeners = [];
-var started = false;
-var dndStarted = false;
-var pasting = false;
-var lastref = null;
-function listen(func, errorfunc, dragndrop) {
-    listeners.push({ cb: func, error: errorfunc });
-    if (!started) {
-        start();
-    }
-    if (dragndrop && !dndStarted) {
-        startDragNDrop();
-    }
-}
-function unlisten(func) {
-    let i = listeners.findIndex(c => c.cb == func);
-    if (i != -1) {
-        listeners.splice(i, 1);
-    }
-}
-/**
- * currently used in multiple document situations (iframe), might be removed in the future
- */
-function triggerPaste(img) {
-    lastref = img;
-    for (var a in listeners) {
-        listeners[a].cb(lastref);
-    }
-}
-function pasted(img) {
-    pasting = false;
-    let cnv = img instanceof HTMLCanvasElement ? img : img.toCanvas();
-    triggerPaste(new _index_js__WEBPACK_IMPORTED_MODULE_0__.ImgRefCtx(cnv));
-}
-function error(error, mes) {
-    var _a, _b;
-    pasting = false;
-    for (var a in listeners) {
-        (_b = (_a = listeners[a]).error) === null || _b === void 0 ? void 0 : _b.call(_a, mes, error);
-    }
-}
-function startDragNDrop() {
-    var getitem = function (items) {
-        var foundimage = "";
-        for (var a = 0; a < items.length; a++) {
-            var item = items[a];
-            var m = item.type.match(/^image\/(\w+)$/);
-            if (m) {
-                if (m[1] == "png") {
-                    return item;
-                }
-                else {
-                    foundimage = m[1];
-                }
-            }
-        }
-        if (foundimage) {
-            error("notpng", "The image you uploaded is not a .png image. Other image type have compression noise and can't be used for image detection.");
-        }
-        return null;
-    };
-    window.addEventListener("dragover", function (e) {
-        e.preventDefault();
-    });
-    window.addEventListener("drop", function (e) {
-        if (!e.dataTransfer) {
-            return;
-        }
-        var item = getitem(e.dataTransfer.items);
-        e.preventDefault();
-        if (!item) {
-            return;
-        }
-        fromFile(item.getAsFile());
-    });
-}
-function start() {
-    if (started) {
-        return;
-    }
-    started = true;
-    //determine if we have a clipboard api
-    //try{a=new Event("clipboard"); a="clipboardData" in a;}
-    //catch(e){a=false;}
-    var ischrome = !!navigator.userAgent.match(/Chrome/) && !navigator.userAgent.match(/Edge/);
-    //old method breaks after chrome 41, revert to good old user agent sniffing
-    //nvm, internet explorer (edge) decided that it wants to be chrome, however fails at delivering
-    //turns out this one is interesting, edge is a hybrid between the paste api's
-    var apipasted = function (e) {
-        if (!e.clipboardData) {
-            return;
-        }
-        for (var a = 0; a < e.clipboardData.items.length; a++) { //loop all data types
-            if (e.clipboardData.items[a].type.indexOf("image") != -1) {
-                var file = e.clipboardData.items[a].getAsFile();
-                var img = new Image();
-                img.src = (window.URL || window.webkitURL).createObjectURL(file);
-                if (img.width > 0) {
-                    pasted(img);
-                }
-                else {
-                    img.onload = function () { pasted(img); };
-                }
-            }
-        }
-    };
-    if (ischrome) {
-        document.addEventListener("paste", apipasted);
-    }
-    else {
-        var catcher = document.createElement("div");
-        catcher.setAttribute("contenteditable", "");
-        catcher.className = "forcehidden"; //retarded ie safety/bug, cant apply styles using js//TODO i don't even know what's going on
-        catcher.onpaste = function (e) {
-            if (e.clipboardData && e.clipboardData.items) {
-                apipasted(e);
-                return;
-            }
-            setTimeout(function () {
-                var b = catcher.children[0];
-                if (!b || b.tagName != "IMG") {
-                    return;
-                }
-                var img = new Image();
-                img.src = b.src;
-                var a = img.src.match(/^data:([\w\/]+);/);
-                if (img.width > 0) {
-                    pasted(img);
-                }
-                else {
-                    img.onload = function () { pasted(img); };
-                }
-                catcher.innerHTML = "";
-            }, 1);
-        };
-        document.body.appendChild(catcher);
-    }
-    //detect if ctrl-v is pressed and focus catcher if needed
-    document.addEventListener("keydown", function (e) {
-        if (e.target.tagName == "INPUT") {
-            return;
-        }
-        if (e.keyCode != "V".charCodeAt(0) || !e.ctrlKey) {
-            return;
-        }
-        pasting = true;
-        setTimeout(function () {
-            if (pasting) {
-                error("noimg", "You pressed Ctrl+V, but no image was pasted by your browser, make sure your clipboard contains an image, and not a link to an image.");
-            }
-        }, 1000);
-        if (catcher) {
-            catcher.focus();
-        }
-    });
-}
-function fileDialog() {
-    var fileinput = document.createElement("input");
-    fileinput.type = "file";
-    fileinput.accept = "image/png";
-    fileinput.onchange = function () { if (fileinput.files && fileinput.files[0]) {
-        fromFile(fileinput.files[0]);
-    } };
-    fileinput.click();
-    return fileinput;
-}
-function fromFile(file) {
-    if (!file) {
-        return;
-    }
-    var reader = new FileReader();
-    reader.onload = function () {
-        var bytearray = new Uint8Array(reader.result);
-        if (_imagedetect_js__WEBPACK_IMPORTED_MODULE_1__.isPngBuffer(bytearray)) {
-            _imagedetect_js__WEBPACK_IMPORTED_MODULE_1__.clearPngColorspace(bytearray);
-        }
-        var blob = new Blob([bytearray], { type: "image/png" });
-        var img = new Image();
-        img.onerror = () => error("invalidfile", "The file you uploaded could not be opened as an image.");
-        var bloburl = URL.createObjectURL(blob);
-        img.src = bloburl;
-        if (img.width > 0) {
-            pasted(img);
-            URL.revokeObjectURL(bloburl);
-        }
-        else {
-            img.onload = function () { pasted(img); URL.revokeObjectURL(bloburl); };
-        }
-    };
-    reader.readAsArrayBuffer(file);
-}
-
-
-/***/ }),
-
-/***/ "../node_modules/@alt1/base/dist/rect.js":
-/*!***********************************************!*\
-  !*** ../node_modules/@alt1/base/dist/rect.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ Rect)
-/* harmony export */ });
-//util class for rectangle maths
-//TODO shit this sucks can we remove it again?
-//more of a shorthand to get {x,y,width,height} than a class
-//kinda starting to like it again
-//TODO remove rant
-;
-/**
- * Simple rectangle class with some util functions
- */
-class Rect {
-    constructor(x, y, w, h) {
-        this.x = x;
-        this.y = y;
-        this.width = w;
-        this.height = h;
-    }
-    static fromArgs(...args) {
-        if (typeof args[0] == "object") {
-            return new Rect(args[0].x, args[0].y, args[0].width, args[0].height);
-        }
-        else if (typeof args[0] == "number" && args.length >= 4) {
-            return new Rect(args[0], args[1], args[2], args[3]);
-        }
-        else {
-            throw new Error("invalid rect args");
-        }
-    }
-    /**
-     * Resizes this Rect to include the full size of a given second rectangle
-     */
-    union(r2) {
-        var x = Math.min(this.x, r2.x);
-        var y = Math.min(this.y, r2.y);
-        this.width = Math.max(this.x + this.width, r2.x + r2.width) - x;
-        this.height = Math.max(this.y + this.height, r2.y + r2.height) - y;
-        this.x = x;
-        this.y = y;
-        return this;
-    }
-    /**
-     * Resizes this Rect to include a given point
-     */
-    includePoint(x, y) {
-        this.union(new Rect(x, y, 0, 0));
-    }
-    /**
-     * Grows the rectangle with the given dimensions
-     */
-    inflate(w, h) {
-        this.x -= w;
-        this.y -= h;
-        this.width += 2 * w;
-        this.height += 2 * h;
-    }
-    /**
-     * Resizes this Rect to the area that overlaps a given Rect
-     * width and height will be set to 0 if the intersection does not exist
-     */
-    intersect(r2) {
-        if (this.x < r2.x) {
-            this.width -= r2.x - this.x;
-            this.x = r2.x;
-        }
-        if (this.y < r2.y) {
-            this.height -= r2.y - this.y;
-            this.y = r2.y;
-        }
-        this.width = Math.min(this.x + this.width, r2.x + r2.width) - this.x;
-        this.height = Math.min(this.y + this.height, r2.y + r2.height) - this.y;
-        if (this.width <= 0 || this.height <= 0) {
-            this.width = 0;
-            this.height = 0;
-        }
-    }
-    /**
-     * Returns wether this Rect has at least one pixel overlap with a given Rect
-     */
-    overlaps(r2) {
-        return this.x < r2.x + r2.width && this.x + this.width > r2.x && this.y < r2.y + r2.height && this.y + this.height > r2.y;
-    }
-    /**
-     * Returns wether a given Rect fits completely inside this Rect
-     * @param r2
-     */
-    contains(r2) {
-        return this.x <= r2.x && this.x + this.width >= r2.x + r2.width && this.y <= r2.y && this.y + this.height >= r2.y + r2.height;
-    }
-    /**
-     * Returns wether a given point lies inside this Rect
-     */
-    containsPoint(x, y) {
-        return this.x <= x && this.x + this.width > x && this.y <= y && this.y + this.height > y;
-    }
-}
-
-
-/***/ }),
-
-/***/ "../node_modules/@alt1/base/dist/wrapper.js":
-/*!**************************************************!*\
-  !*** ../node_modules/@alt1/base/dist/wrapper.js ***!
-  \**************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   Alt1Error: () => (/* binding */ Alt1Error),
-/* harmony export */   ImageStreamReader: () => (/* binding */ ImageStreamReader),
-/* harmony export */   NoAlt1Error: () => (/* binding */ NoAlt1Error),
-/* harmony export */   addResizeElement: () => (/* binding */ addResizeElement),
-/* harmony export */   capture: () => (/* binding */ capture),
-/* harmony export */   captureAsync: () => (/* binding */ captureAsync),
-/* harmony export */   captureHold: () => (/* binding */ captureHold),
-/* harmony export */   captureHoldFullRs: () => (/* binding */ captureHoldFullRs),
-/* harmony export */   captureHoldScreen: () => (/* binding */ captureHoldScreen),
-/* harmony export */   captureMultiAsync: () => (/* binding */ captureMultiAsync),
-/* harmony export */   captureStream: () => (/* binding */ captureStream),
-/* harmony export */   decodeImageString: () => (/* binding */ decodeImageString),
-/* harmony export */   encodeImageString: () => (/* binding */ encodeImageString),
-/* harmony export */   getMousePosition: () => (/* binding */ getMousePosition),
-/* harmony export */   getdisplaybounds: () => (/* binding */ getdisplaybounds),
-/* harmony export */   hasAlt1: () => (/* binding */ hasAlt1),
-/* harmony export */   hasAlt1Version: () => (/* binding */ hasAlt1Version),
-/* harmony export */   identifyApp: () => (/* binding */ identifyApp),
-/* harmony export */   mixColor: () => (/* binding */ mixColor),
-/* harmony export */   newestversion: () => (/* binding */ newestversion),
-/* harmony export */   on: () => (/* binding */ on),
-/* harmony export */   once: () => (/* binding */ once),
-/* harmony export */   openbrowser: () => (/* binding */ openbrowser),
-/* harmony export */   removeListener: () => (/* binding */ removeListener),
-/* harmony export */   requireAlt1: () => (/* binding */ requireAlt1),
-/* harmony export */   resetEnvironment: () => (/* binding */ resetEnvironment),
-/* harmony export */   skinName: () => (/* binding */ skinName),
-/* harmony export */   transferImageData: () => (/* binding */ transferImageData),
-/* harmony export */   unmixColor: () => (/* binding */ unmixColor)
-/* harmony export */ });
-/* harmony import */ var _rect_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./rect.js */ "../node_modules/@alt1/base/dist/rect.js");
-/* harmony import */ var _imgref_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./imgref.js */ "../node_modules/@alt1/base/dist/imgref.js");
-/* harmony import */ var _imagedata_extensions_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./imagedata-extensions.js */ "../node_modules/@alt1/base/dist/imagedata-extensions.js");
-/* harmony import */ var _alt1api_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./alt1api.js */ "../node_modules/@alt1/base/dist/alt1api.js");
-/* harmony import */ var _alt1api_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_alt1api_js__WEBPACK_IMPORTED_MODULE_3__);
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-
-
-
-
-/**
- * Thrown when a method is called that can not be used outside of Alt1
- */
-class NoAlt1Error extends Error {
-    constructor() {
-        super();
-        this.message = "This method can not be ran outside of Alt1";
-    }
-}
-;
-/**
- * Thrown when the Alt1 API returns an invalid result
- * Errors of a different type are throw when internal Alt1 errors occur
- */
-class Alt1Error extends Error {
-}
-/**
- * The latest Alt1 version
- */
-var newestversion = "1.5.5";
-/**
- * Whether the Alt1 API is available
- */
-var hasAlt1 = (typeof alt1 != "undefined");
-/**
- * The name of the Alt1 interface skin. (Always "default" if running in a browser)
- */
-var skinName = hasAlt1 ? alt1.skinName : "default";
-/**
- * Max number of bytes that can be sent by alt1 in one function
- * Not completely sure why this number is different than window.alt1.maxtranfer
- */
-var maxtransfer = 4000000;
-/**
- * Open a link in the default browser
- * @deprecated use window.open instead
- */
-function openbrowser(url) {
-    if (hasAlt1) {
-        alt1.openBrowser(url);
-    }
-    else {
-        window.open(url, '_blank');
-    }
-}
-/**
- * Throw if Alt1 API is not available
- */
-function requireAlt1() {
-    if (!hasAlt1) {
-        throw new NoAlt1Error();
-    }
-}
-/**
- * Returns an object with a rectangle that spans all screens
- */
-function getdisplaybounds() {
-    if (!hasAlt1) {
-        return false;
-    }
-    return new _rect_js__WEBPACK_IMPORTED_MODULE_0__["default"](alt1.screenX, alt1.screenY, alt1.screenWidth, alt1.screenHeight);
-}
-/**
- * gets an imagebuffer with pixel data about the requested region
- */
-function capture(...args) {
-    //TODO change null return on error into throw instead (x3)
-    if (!hasAlt1) {
-        throw new NoAlt1Error();
-    }
-    var rect = _rect_js__WEBPACK_IMPORTED_MODULE_0__["default"].fromArgs(...args);
-    if (alt1.capture) {
-        return new _imagedata_extensions_js__WEBPACK_IMPORTED_MODULE_2__.ImageData(alt1.capture(rect.x, rect.y, rect.width, rect.height), rect.width, rect.height);
-    }
-    var buf = new _imagedata_extensions_js__WEBPACK_IMPORTED_MODULE_2__.ImageData(rect.width, rect.height);
-    if (rect.width * rect.height * 4 <= maxtransfer) {
-        var data = alt1.getRegion(rect.x, rect.y, rect.width, rect.height);
-        if (!data) {
-            return null;
-        }
-        decodeImageString(data, buf, 0, 0, rect.width, rect.height);
-    }
-    else {
-        //split up the request to to exceed the single transfer limit (for now)
-        var x1 = rect.x;
-        var ref = alt1.bindRegion(rect.x, rect.y, rect.width, rect.height);
-        if (ref <= 0) {
-            return null;
-        }
-        while (x1 < rect.x + rect.width) {
-            var x2 = Math.min(rect.x + rect.width, Math.floor(x1 + (maxtransfer / 4 / rect.height)));
-            var data = alt1.bindGetRegion(ref, x1, rect.y, x2 - x1, rect.height);
-            if (!data) {
-                return null;
-            }
-            decodeImageString(data, buf, x1 - rect.x, 0, x2 - x1, rect.height);
-            x1 = x2;
-        }
-    }
-    return buf;
-}
-/**
- * Makes alt1 bind an area of the rs client in memory without sending it to the js client
- * returns an imgref object which can be used to get pixel data using the imgreftobuf function
- * currently only one bind can exist per app and the ref in (v) will always be 1
- */
-function captureHold(x, y, w, h) {
-    x = Math.round(x);
-    y = Math.round(y);
-    w = Math.round(w);
-    h = Math.round(h);
-    requireAlt1();
-    var r = alt1.bindRegion(x, y, w, h);
-    if (r <= 0) {
-        throw new Alt1Error("capturehold failed");
-    }
-    return new _imgref_js__WEBPACK_IMPORTED_MODULE_1__.ImgRefBind(r, x, y, w, h);
-}
-/**
- * Same as captureHoldRegion, but captures the screen instead of the rs client. it also uses screen coordinates instead and can capture outside of the rs client
- */
-function captureHoldScreen(x, y, w, h) {
-    x = Math.round(x);
-    y = Math.round(y);
-    w = Math.round(w);
-    h = Math.round(h);
-    requireAlt1();
-    var r = alt1.bindScreenRegion(x, y, w, h);
-    if (r <= 0) {
-        return false;
-    }
-    return new _imgref_js__WEBPACK_IMPORTED_MODULE_1__.ImgRefBind(r, x, y, w, h);
-}
-/**
- * bind the full rs window if the rs window can be detected by alt1, otherwise return the full screen
- */
-function captureHoldFullRs() {
-    return captureHold(0, 0, alt1.rsWidth, alt1.rsHeight);
-}
-/**
- * returns a subregion from a bound image
- * used internally in imgreftobuf if imgref is a bound image
- * @deprecated This should be handled internall by the imgrefbind.toData method
- */
-function transferImageData(handle, x, y, w, h) {
-    x = Math.round(x);
-    y = Math.round(y);
-    w = Math.round(w);
-    h = Math.round(h);
-    requireAlt1();
-    if (alt1.bindGetRegionBuffer) {
-        return new _imagedata_extensions_js__WEBPACK_IMPORTED_MODULE_2__.ImageData(alt1.bindGetRegionBuffer(handle, x, y, w, h), w, h);
-    }
-    var r = new _imagedata_extensions_js__WEBPACK_IMPORTED_MODULE_2__.ImageData(w, h);
-    var x1 = x;
-    while (true) { //split up the request to to exceed the single transfer limit (for now)
-        var x2 = Math.min(x + w, Math.floor(x1 + (maxtransfer / 4 / h)));
-        var a = alt1.bindGetRegion(handle, x1, y, x2 - x1, h);
-        if (!a) {
-            throw new Alt1Error();
-        }
-        decodeImageString(a, r, x1 - x, 0, x2 - x1, h);
-        x1 = x2;
-        if (x1 == x + w) {
-            break;
-        }
-        ;
-    }
-    return r;
-}
-/**
- * decodes a returned string from alt1 to an imagebuffer
- */
-function decodeImageString(imagestring, target, x, y, w, h) {
-    var bin = atob(imagestring);
-    var bytes = target.data;
-    w |= 0;
-    h |= 0;
-    var offset = 4 * x + 4 * y * target.width;
-    var target_width = target.width | 0;
-    for (var a = 0; a < w; a++) {
-        for (var b = 0; b < h; b++) {
-            var i1 = (offset + (a * 4 | 0) + (b * target_width * 4 | 0)) | 0;
-            var i2 = ((a * 4 | 0) + (b * 4 * w | 0)) | 0;
-            bytes[i1 + 0 | 0] = bin.charCodeAt(i2 + 2 | 0); //fix weird red/blue swap in c#
-            bytes[i1 + 1 | 0] = bin.charCodeAt(i2 + 1 | 0);
-            bytes[i1 + 2 | 0] = bin.charCodeAt(i2 + 0 | 0);
-            bytes[i1 + 3 | 0] = bin.charCodeAt(i2 + 3 | 0);
-        }
-    }
-    return target;
-}
-/**
- * encodes an imagebuffer to a string
- */
-function encodeImageString(buf, sx = 0, sy = 0, sw = buf.width, sh = buf.height) {
-    var raw = "";
-    for (var y = sy; y < sy + sh; y++) {
-        for (var x = sx; x < sx + sw; x++) {
-            var i = 4 * x + 4 * buf.width * y | 0;
-            raw += String.fromCharCode(buf.data[i + 2 | 0]);
-            raw += String.fromCharCode(buf.data[i + 1 | 0]);
-            raw += String.fromCharCode(buf.data[i + 0 | 0]);
-            raw += String.fromCharCode(buf.data[i + 3 | 0]);
-        }
-    }
-    return btoa(raw);
-}
-/**
- * mixes the given color into a single int. This format is used by alt1
- */
-function mixColor(r, g, b, a = 255) {
-    return (b << 0) + (g << 8) + (r << 16) + (a << 24);
-}
-function unmixColor(col) {
-    var r = (col >> 16) & 0xff;
-    var g = (col >> 8) & 0xff;
-    var b = (col >> 0) & 0xff;
-    return [r, g, b];
-}
-function identifyApp(url) {
-    if (hasAlt1) {
-        alt1.identifyAppUrl(url);
-    }
-}
-function resetEnvironment() {
-    hasAlt1 = (typeof alt1 != "undefined");
-    skinName = hasAlt1 ? alt1.skinName : "default";
-}
-function convertAlt1Version(str) {
-    var a = str.match(/^(\d+)\.(\d+)\.(\d+)$/);
-    if (!a) {
-        throw new RangeError("Invalid version string");
-    }
-    return (+a[1]) * 1000 * 1000 + (+a[2]) * 1000 + (+a[3]) * 1;
-}
-var cachedVersionInt = -1;
-/**
- * checks if alt1 is running and at least the given version. versionstr should be a string with the version eg: 1.3.2
- * @param versionstr
- */
-function hasAlt1Version(versionstr) {
-    if (!hasAlt1) {
-        return false;
-    }
-    if (cachedVersionInt == -1) {
-        cachedVersionInt = alt1.versionint;
-    }
-    return cachedVersionInt >= convertAlt1Version(versionstr);
-}
-/**
- * Gets the current cursor position in the game, returns null if the rs window is not active (alt1.rsActive)
- */
-function getMousePosition() {
-    var pos = alt1.mousePosition;
-    if (pos == -1) {
-        return null;
-    }
-    return { x: pos >>> 16, y: pos & 0xFFFF };
-}
-/**
- * Registers a given HTML element as a frame border, when this element is dragged by the user the Alt1 frame will resize accordingly
- * Use the direction arguements to make a given direction stick to the mouse. eg. Only set left to true to make the element behave as the left border
- * Or set all to true to move the whole window. Not all combinations are permitted
- */
-function addResizeElement(el, left, top, right, bot) {
-    if (!hasAlt1 || !alt1.userResize) {
-        return;
-    }
-    el.addEventListener("mousedown", function (e) {
-        alt1.userResize(left, top, right, bot);
-        e.preventDefault();
-    });
-}
-/**
- * Add an event listener
- */
-function on(type, listener) {
-    if (!hasAlt1) {
-        return;
-    }
-    if (!alt1.events) {
-        alt1.events = {};
-    }
-    if (!alt1.events[type]) {
-        alt1.events[type] = [];
-    }
-    alt1.events[type].push(listener);
-}
-/**
- * Removes an event listener
- */
-function removeListener(type, listener) {
-    var elist = hasAlt1 && alt1.events && alt1.events[type];
-    if (!elist) {
-        return;
-    }
-    var i = elist.indexOf(listener);
-    if (i == -1) {
-        return;
-    }
-    elist.splice(i, 1);
-}
-/**
- * Listens for the event to fire once and then stops listening
- * @param event
- * @param cb
- */
-function once(type, listener) {
-    var fn = (e) => {
-        removeListener(type, fn);
-        listener(e);
-    };
-    on(type, fn);
-}
-;
-/**
- * Used to read a set of images from a binary stream returned by the Alt1 API
- */
-class ImageStreamReader {
-    constructor(reader, ...args) {
-        this.framebuffer = null;
-        this.pos = 0;
-        this.reading = false;
-        this.closed = false;
-        //paused state
-        this.pausedindex = -1;
-        this.pausedbuffer = null;
-        this.streamreader = reader;
-        if (args[0] instanceof _imagedata_extensions_js__WEBPACK_IMPORTED_MODULE_2__.ImageData) {
-            this.setFrameBuffer(args[0]);
-        }
-        else if (typeof args[0] == "number") {
-            this.setFrameBuffer(new _imagedata_extensions_js__WEBPACK_IMPORTED_MODULE_2__.ImageData(args[0], args[1]));
-        }
-    }
-    /**
-     *
-     */
-    setFrameBuffer(buffer) {
-        if (this.reading) {
-            throw new Error("can't change framebuffer while reading");
-        }
-        this.framebuffer = buffer;
-    }
-    /**
-     * Closes the underlying stream and ends reading
-     */
-    close() {
-        this.streamreader.cancel();
-    }
-    /**
-     * Reads a single image from the stream
-     */
-    nextImage() {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (this.reading) {
-                throw new Error("already reading from this stream");
-            }
-            if (!this.framebuffer) {
-                throw new Error("framebuffer not set");
-            }
-            this.reading = true;
-            var synctime = -Date.now();
-            var starttime = Date.now();
-            var r = false;
-            while (!r) {
-                if (this.pausedindex != -1 && this.pausedbuffer) {
-                    r = this.readChunk(this.pausedindex, this.framebuffer.data, this.pausedbuffer);
-                }
-                else {
-                    synctime += Date.now();
-                    var res = yield this.streamreader.read();
-                    synctime -= Date.now();
-                    if (res.done) {
-                        throw new Error("Stream closed while reading");
-                    }
-                    var data = res.value;
-                    r = this.readChunk(0, this.framebuffer.data, data);
-                }
-            }
-            synctime += Date.now();
-            //console.log("Decoded async image, " + this.framebuffer.width + "x" + this.framebuffer.height + " time: " + (Date.now() - starttime) + "ms (" + synctime + "ms main thread)");
-            this.reading = false;
-            return this.framebuffer;
-        });
-    }
-    readChunk(i, framedata, buffer) {
-        //very hot code, explicit int32 casting with |0 speeds it up by ~ x2
-        i = i | 0;
-        var framesize = framedata.length | 0;
-        var pos = this.pos;
-        var datalen = buffer.length | 0;
-        //var data32 = new Float64Array(buffer.buffer);
-        //var framedata32 = new Float64Array(framedata.buffer);
-        //fix possible buffer misalignment
-        //align to 16 for extra loop unrolling
-        while (i < datalen) {
-            //slow loop, fix alignment and other issues
-            while (i < datalen && pos < framesize && (pos % 16 != 0 || !((i + 16 | 0) <= datalen && (pos + 16 | 0) <= framesize))) {
-                var rel = pos;
-                if (pos % 4 == 0) {
-                    rel = rel + 2 | 0;
-                }
-                if (pos % 4 == 2) {
-                    rel = rel - 2 | 0;
-                }
-                framedata[rel | 0] = buffer[i | 0];
-                i = i + 1 | 0;
-                pos = pos + 1 | 0;
-            }
-            //fast unrolled loop for large chunks i wish js had some sort of memcpy
-            if (pos % 16 == 0) {
-                while ((i + 16 | 0) <= datalen && (pos + 16 | 0) <= framesize) {
-                    framedata[pos + 0 | 0] = buffer[i + 2 | 0];
-                    framedata[pos + 1 | 0] = buffer[i + 1 | 0];
-                    framedata[pos + 2 | 0] = buffer[i + 0 | 0];
-                    framedata[pos + 3 | 0] = buffer[i + 3 | 0];
-                    framedata[pos + 4 | 0] = buffer[i + 6 | 0];
-                    framedata[pos + 5 | 0] = buffer[i + 5 | 0];
-                    framedata[pos + 6 | 0] = buffer[i + 4 | 0];
-                    framedata[pos + 7 | 0] = buffer[i + 7 | 0];
-                    framedata[pos + 8 | 0] = buffer[i + 10 | 0];
-                    framedata[pos + 9 | 0] = buffer[i + 9 | 0];
-                    framedata[pos + 10 | 0] = buffer[i + 8 | 0];
-                    framedata[pos + 11 | 0] = buffer[i + 11 | 0];
-                    framedata[pos + 12 | 0] = buffer[i + 14 | 0];
-                    framedata[pos + 13 | 0] = buffer[i + 13 | 0];
-                    framedata[pos + 14 | 0] = buffer[i + 12 | 0];
-                    framedata[pos + 15 | 0] = buffer[i + 15 | 0];
-                    //could speed it up another x2 but wouldn't be able to swap r/b swap and possible alignment issues
-                    //framedata32[pos / 8 + 0 | 0] = data32[i / 8 + 0 | 0];
-                    //framedata32[pos / 8 + 1 | 0] = data32[i / 8 + 1 | 0];
-                    //framedata32[pos / 4 + 2 | 0] = data32[i / 4 + 2 | 0];
-                    //framedata32[pos / 4 + 3 | 0] = data32[i / 4 + 3 | 0];
-                    pos = pos + 16 | 0;
-                    i = i + 16 | 0;
-                }
-            }
-            if (pos >= framesize) {
-                this.pausedbuffer = null;
-                this.pausedindex = -1;
-                this.pos = 0;
-                if (i != buffer.length - 1) {
-                    this.pausedbuffer = buffer;
-                    this.pausedindex = i;
-                }
-                return true;
-            }
-        }
-        this.pos = pos;
-        this.pausedbuffer = null;
-        this.pausedindex = -1;
-        return false;
-    }
-}
-/**
- * Asynchronously captures a section of the game screen
- */
-function captureAsync(...args) {
-    return __awaiter(this, void 0, void 0, function* () {
-        requireAlt1();
-        var rect = _rect_js__WEBPACK_IMPORTED_MODULE_0__["default"].fromArgs(...args);
-        if (alt1.captureAsync) {
-            let img = yield alt1.captureAsync(rect.x, rect.y, rect.width, rect.height);
-            return new _imagedata_extensions_js__WEBPACK_IMPORTED_MODULE_2__.ImageData(img, rect.width, rect.height);
-        }
-        if (!hasAlt1Version("1.4.6")) {
-            return capture(rect.x, rect.y, rect.width, rect.height);
-        }
-        var url = "https://alt1api/pixel/getregion/" + encodeURIComponent(JSON.stringify(Object.assign(Object.assign({}, rect), { format: "raw", quality: 1 })));
-        var res = yield fetch(url);
-        var imgreader = new ImageStreamReader(res.body.getReader(), rect.width, rect.height);
-        return imgreader.nextImage();
-    });
-}
-/**
- * Asynchronously captures multple area's. This method captures the images in the same render frame if possible
- * @param areas
- */
-function captureMultiAsync(areas) {
-    return __awaiter(this, void 0, void 0, function* () {
-        requireAlt1();
-        var r = {};
-        if (alt1.captureMultiAsync) {
-            let bufs = yield alt1.captureMultiAsync(areas);
-            for (let a in areas) {
-                if (!bufs[a]) {
-                    r[a] = null;
-                }
-                r[a] = new _imagedata_extensions_js__WEBPACK_IMPORTED_MODULE_2__.ImageData(bufs[a], areas[a].width, areas[a].height);
-            }
-            return r;
-        }
-        var capts = [];
-        var captids = [];
-        for (var id in areas) {
-            if (areas[id]) {
-                capts.push(areas[id]);
-                captids.push(id);
-            }
-            else {
-                r[id] = null;
-            }
-        }
-        if (capts.length == 0) {
-            return r;
-        }
-        if (!hasAlt1Version("1.5.1")) {
-            var proms = [];
-            for (var a = 0; a < capts.length; a++) {
-                proms.push(captureAsync(capts[a]));
-            }
-            var results = yield Promise.all(proms);
-            for (var a = 0; a < capts.length; a++) {
-                r[captids[a]] = results[a];
-            }
-        }
-        else {
-            var res = yield fetch("https://alt1api/pixel/getregionmulti/" + encodeURIComponent(JSON.stringify({ areas: capts, format: "raw", quality: 1 })));
-            var imgreader = new ImageStreamReader(res.body.getReader());
-            for (var a = 0; a < capts.length; a++) {
-                var capt = capts[a];
-                imgreader.setFrameBuffer(new _imagedata_extensions_js__WEBPACK_IMPORTED_MODULE_2__.ImageData(capt.width, capt.height));
-                r[captids[a]] = yield imgreader.nextImage();
-            }
-        }
-        return r;
-    });
-}
-/**
- * Starts capturing a realtime stream of the game. Make sure you keep reading the stream and close it when you're done or Alt1 WILL crash
- * @param framecb Called whenever a new frame is decoded
- * @param errorcb Called whenever an error occurs, the error is rethrown if not defined
- * @param fps Maximum fps of the stream
- */
-function captureStream(x, y, width, height, fps, framecb, errorcb) {
-    requireAlt1();
-    if (!hasAlt1Version("1.4.6")) {
-        throw new Alt1Error("This function is not supported in this version of Alt1");
-    }
-    var url = "https://alt1api/pixel/streamregion/" + encodeURIComponent(JSON.stringify({ x, y, width, height, fps, format: "raw" }));
-    var res = fetch(url).then((res) => __awaiter(this, void 0, void 0, function* () {
-        var reader = new ImageStreamReader(res.body.getReader(), width, height);
-        try {
-            while (!reader.closed && !state.closed) {
-                var img = yield reader.nextImage();
-                if (!state.closed) {
-                    framecb(img);
-                    state.framenr++;
-                }
-            }
-        }
-        catch (e) {
-            if (!state.closed) {
-                reader.close();
-                if (errorcb) {
-                    errorcb(e);
-                }
-                else {
-                    throw e;
-                }
-            }
-        }
-        if (!reader.closed && state.closed) {
-            reader.close();
-        }
-    }));
-    var state = {
-        x, y, width, height,
-        framenr: 0,
-        close: () => { state.closed = true; },
-        closed: false,
-    };
-    return state;
-}
-
-
-/***/ }),
-
-/***/ "../node_modules/@alt1/ocr/dist/index.js":
-/*!***********************************************!*\
-  !*** ../node_modules/@alt1/ocr/dist/index.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   GetChatColorMono: () => (/* binding */ GetChatColorMono),
-/* harmony export */   canblend: () => (/* binding */ canblend),
-/* harmony export */   debug: () => (/* binding */ debug),
-/* harmony export */   debugFont: () => (/* binding */ debugFont),
-/* harmony export */   debugout: () => (/* binding */ debugout),
-/* harmony export */   decompose2col: () => (/* binding */ decompose2col),
-/* harmony export */   decompose3col: () => (/* binding */ decompose3col),
-/* harmony export */   decomposeblack: () => (/* binding */ decomposeblack),
-/* harmony export */   findChar: () => (/* binding */ findChar),
-/* harmony export */   findReadLine: () => (/* binding */ findReadLine),
-/* harmony export */   generatefont: () => (/* binding */ generatefont),
-/* harmony export */   getChatColor: () => (/* binding */ getChatColor),
-/* harmony export */   readChar: () => (/* binding */ readChar),
-/* harmony export */   readLine: () => (/* binding */ readLine),
-/* harmony export */   readSmallCapsBackwards: () => (/* binding */ readSmallCapsBackwards),
-/* harmony export */   unblendBlackBackground: () => (/* binding */ unblendBlackBackground),
-/* harmony export */   unblendKnownBg: () => (/* binding */ unblendKnownBg),
-/* harmony export */   unblendTrans: () => (/* binding */ unblendTrans)
-/* harmony export */ });
-/* harmony import */ var _alt1_base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js");
-
-var debug = {
-    printcharscores: false,
-    trackread: false
-};
-var debugout = {};
-/**
- * draws the font definition to a buffer and displays it in the dom for debugging purposes
- * @param font
- */
-function debugFont(font) {
-    var spacing = font.width + 2;
-    var buf = new _alt1_base__WEBPACK_IMPORTED_MODULE_0__.ImageData(spacing * font.chars.length, font.height + 1);
-    for (var a = 0; a < buf.data.length; a += 4) {
-        buf.data[a] = buf.data[a + 1] = buf.data[a + 2] = 0;
-        buf.data[a + 3] = 255;
-    }
-    for (var a = 0; a < font.chars.length; a++) {
-        var bx = a * spacing;
-        var chr = font.chars[a];
-        for (var b = 0; b < chr.pixels.length; b += (font.shadow ? 4 : 3)) {
-            buf.setPixel(bx + chr.pixels[b], chr.pixels[b + 1], [chr.pixels[b + 2], chr.pixels[b + 2], chr.pixels[b + 2], 255]);
-            if (font.shadow) {
-                buf.setPixel(bx + chr.pixels[b], chr.pixels[b + 1], [chr.pixels[b + 3], 0, 0, 255]);
-            }
-        }
-    }
-    buf.show();
-}
-function unblendBlackBackground(img, r, g, b) {
-    var rimg = new _alt1_base__WEBPACK_IMPORTED_MODULE_0__.ImageData(img.width, img.height);
-    for (var i = 0; i < img.data.length; i += 4) {
-        var col = decomposeblack(img.data[i], img.data[i + 1], img.data[i + 2], r, g, b);
-        rimg.data[i + 0] = col[0] * 255;
-        rimg.data[i + 1] = rimg.data[i + 0];
-        rimg.data[i + 2] = rimg.data[i + 0];
-        rimg.data[i + 3] = 255;
-    }
-    return rimg;
-}
-/**
- * unblends a imagebuffer into match strength with given color
- * the bgimg argument should contain a second image with pixel occluded by the font visible.
- * @param img
- * @param shadow detect black as second color
- * @param bgimg optional second image to
- */
-function unblendKnownBg(img, bgimg, shadow, r, g, b) {
-    if (bgimg && (img.width != bgimg.width || img.height != bgimg.height)) {
-        throw "bgimg size doesn't match";
-    }
-    var rimg = new _alt1_base__WEBPACK_IMPORTED_MODULE_0__.ImageData(img.width, img.height);
-    var totalerror = 0;
-    for (var i = 0; i < img.data.length; i += 4) {
-        var col = decompose2col(img.data[i], img.data[i + 1], img.data[i + 2], r, g, b, bgimg.data[i + 0], bgimg.data[i + 1], bgimg.data[i + 2]);
-        if (shadow) {
-            if (col[2] > 0.01) {
-                console.log("high error component: " + (col[2] * 100).toFixed(1) + "%");
-            }
-            totalerror += col[2];
-            var m = 1 - col[1] - Math.abs(col[2]); //main color+black=100%-bg-error
-            rimg.data[i + 0] = m * 255;
-            rimg.data[i + 1] = col[0] / m * 255;
-            rimg.data[i + 2] = rimg.data[i + 0];
-        }
-        else {
-            rimg.data[i + 0] = col[0] * 255;
-            rimg.data[i + 1] = rimg.data[i + 0];
-            rimg.data[i + 2] = rimg.data[i + 0];
-        }
-        rimg.data[i + 3] = 255;
-    }
-    return rimg;
-}
-/**
- * Unblends a font image that is already conpletely isolated to the raw image used ingame. This is the easiest mode for pixel fonts where alpha is 0 or 255, or for extracted font files.
- * @param img
- * @param r
- * @param g
- * @param b
- * @param shadow whether the font has a black shadow
- */
-function unblendTrans(img, shadow, r, g, b) {
-    var rimg = new _alt1_base__WEBPACK_IMPORTED_MODULE_0__.ImageData(img.width, img.height);
-    var pxlum = r + g + b;
-    for (var i = 0; i < img.data.length; i += 4) {
-        if (shadow) {
-            var lum = img.data[i + 0] + img.data[i + 1] + img.data[i + 2];
-            rimg.data[i + 0] = img.data[i + 3];
-            rimg.data[i + 1] = lum / pxlum * 255;
-            rimg.data[i + 2] = rimg.data[i + 0];
-        }
-        else {
-            rimg.data[i + 0] = img.data[i + 3];
-            rimg.data[i + 1] = rimg.data[i + 0];
-            rimg.data[i + 2] = rimg.data[i + 0];
-        }
-        rimg.data[i + 3] = 255;
-    }
-    return rimg;
-}
-/**
- * Determised wether color [rgb]m can be a result of a blend with color [rgb]1 that is p (0-1) of the mix
- * It returns the number that the second color has to lie outside of the possible color ranges
- * @param rm resulting color
- * @param r1 first color of the mix (the other color is unknown)
- * @param p the portion of the [rgb]1 in the mix (0-1)
- */
-function canblend(rm, gm, bm, r1, g1, b1, p) {
-    var m = Math.min(50, p / (1 - p));
-    var r = rm + (rm - r1) * m;
-    var g = gm + (gm - g1) * m;
-    var b = bm + (bm - b1) * m;
-    return Math.max(0, -r, -g, -b, r - 255, g - 255, b - 255);
-}
-/**
- * decomposes a color in 2 given component colors and returns the amount of each color present
- * also return a third (noise) component which is the the amount leftover orthagonal from the 2 given colors
- */
-function decompose2col(rp, gp, bp, r1, g1, b1, r2, g2, b2) {
-    //get the normal of the error (cross-product of both colors)
-    var r3 = g1 * b2 - g2 * b1;
-    var g3 = b1 * r2 - b2 * r1;
-    var b3 = r1 * g2 - r2 * g1;
-    //normalize to length 255
-    var norm = 255 / Math.sqrt(r3 * r3 + g3 * g3 + b3 * b3);
-    r3 *= norm;
-    g3 *= norm;
-    b3 *= norm;
-    return decompose3col(rp, gp, bp, r1, g1, b1, r2, g2, b2, r3, g3, b3);
-}
-/**
- * decomposes a pixel in a given color component and black and returns what proportion of the second color it contains
- * this is not as formal as decompose 2/3 and only give a "good enough" number
- */
-function decomposeblack(rp, gp, bp, r1, g1, b1) {
-    var dr = Math.abs(rp - r1);
-    var dg = Math.abs(gp - g1);
-    var db = Math.abs(bp - b1);
-    var maxdif = Math.max(dr, dg, db);
-    return [1 - maxdif / 255];
-}
-/**
- * decomposes a color in 3 given component colors and returns the amount of each color present
- */
-function decompose3col(rp, gp, bp, r1, g1, b1, r2, g2, b2, r3, g3, b3) {
-    //P=x*C1+y*C2+z*C3
-    //assemble as matrix 
-    //M*w=p
-    //get inverse of M
-    //dirty written out version of cramer's rule
-    var A = g2 * b3 - b2 * g3;
-    var B = g3 * b1 - b3 * g1;
-    var C = g1 * b2 - b1 * g2;
-    var D = b2 * r3 - r2 * b3;
-    var E = b3 * r1 - r3 * b1;
-    var F = b1 * r2 - r1 * b2;
-    var G = r2 * g3 - g2 * r3;
-    var H = r3 * g1 - g3 * r1;
-    var I = r1 * g2 - g1 * r2;
-    var det = r1 * A + g1 * D + b1 * G;
-    //M^-1*p=w
-    var x = (A * rp + D * gp + G * bp) / det;
-    var y = (B * rp + E * gp + H * bp) / det;
-    var z = (C * rp + F * gp + I * bp) / det;
-    return [x, y, z];
-}
-/**
- * brute force to the exact position of the text
- */
-function findChar(buffer, font, col, x, y, w, h) {
-    if (x < 0) {
-        return null;
-    }
-    if (y - font.basey < 0) {
-        return null;
-    }
-    if (x + w + font.width > buffer.width) {
-        return null;
-    }
-    if (y + h - font.basey + font.height > buffer.height) {
-        return null;
-    }
-    var best = 1000; //TODO finetune score constants
-    var bestchar = null;
-    for (var cx = x; cx < x + w; cx++) {
-        for (var cy = y; cy < y + h; cy++) {
-            var chr = readChar(buffer, font, col, cx, cy, false, false);
-            if (chr != null && chr.sizescore < best) {
-                best = chr.sizescore;
-                bestchar = chr;
-            }
-        }
-    }
-    return bestchar;
-}
-/**
- * reads text with unknown exact coord or color. The given coord should be inside the text
- * color selection not implemented yet
- */
-function findReadLine(buffer, font, cols, x, y, w = -1, h = -1) {
-    if (w == -1) {
-        w = font.width + font.spacewidth;
-        x -= Math.ceil(w / 2);
-    }
-    if (h == -1) {
-        h = 7;
-        y -= 1;
-    }
-    var chr = null;
-    if (cols.length > 1) {
-        //TODO use getChatColor() instead for non-mono?
-        var sorted = GetChatColorMono(buffer, new _alt1_base__WEBPACK_IMPORTED_MODULE_0__.Rect(x, y - font.basey, w, h), cols);
-        //loop until we have a match (max 2 cols)
-        for (var a = 0; a < 2 && a < sorted.length && chr == null; a++) {
-            chr = findChar(buffer, font, sorted[a].col, x, y, w, h);
-        }
-    }
-    else {
-        chr = findChar(buffer, font, cols[0], x, y, w, h);
-    }
-    if (chr == null) {
-        return { debugArea: { x, y, w, h }, text: "", fragments: [] };
-    }
-    return readLine(buffer, font, cols, chr.x, chr.y, true, true);
-}
-function GetChatColorMono(buf, rect, colors) {
-    var colormap = colors.map(c => ({ col: c, score: 0 }));
-    if (rect.x < 0 || rect.y < 0 || rect.x + rect.width > buf.width || rect.y + rect.height > buf.height) {
-        return colormap;
-    }
-    var data = buf.data;
-    var maxd = 50;
-    for (var colobj of colormap) {
-        var score = 0;
-        var col = colobj.col;
-        for (var y = rect.y; y < rect.y + rect.height; y++) {
-            for (var x = rect.x; x < rect.x + rect.width; x++) {
-                var i = x * 4 + y * 4 * buf.width;
-                var d = Math.abs(data[i] - col[0]) + Math.abs(data[i + 1] - col[1]) + Math.abs(data[i + 2] - col[2]);
-                if (d < maxd) {
-                    score += maxd - d;
-                }
-            }
-        }
-        colobj.score = score;
-    }
-    return colormap.sort((a, b) => b.score - a.score);
-}
-function unblend(r, g, b, R, G, B) {
-    var m = Math.sqrt(r * r + g * g + b * b);
-    var n = Math.sqrt(R * R + G * G + B * B);
-    var x = (r * R + g * G + b * B) / n;
-    var y = Math.sqrt(Math.max(0, m * m - x * x));
-    var r1 = Math.max(0, (63.75 - y) * 4);
-    var r2 = x / n * 255;
-    if (r2 > 255) //brighter than refcol
-     {
-        r1 = Math.max(0, r1 - r2 + 255);
-        r2 = 255;
-    }
-    return [r1, r2];
-}
-function getChatColor(buf, rect, colors) {
-    var bestscore = -1.0;
-    var best = null;
-    var b2 = 0.0;
-    var data = buf.data;
-    for (let col of colors) {
-        var score = 0.0;
-        for (var y = rect.y; y < rect.y + rect.height; y++) {
-            for (var x = rect.x; x < rect.x + rect.width; x++) {
-                if (x < 0 || x + 1 >= buf.width) {
-                    continue;
-                }
-                if (y < 0 || y + 1 >= buf.width) {
-                    continue;
-                }
-                let i1 = buf.pixelOffset(x, y);
-                let i2 = buf.pixelOffset(x + 1, y + 1);
-                var pixel1 = unblend(data[i1 + 0], data[i1 + 1], data[i1 + 2], col[0], col[1], col[2]);
-                var pixel2 = unblend(data[i2 + 0], data[i2 + 1], data[i2 + 2], col[0], col[1], col[2]);
-                //TODO this is from c# can simplify a bit
-                var s = (pixel1[0] / 255 * pixel1[1] / 255) * (pixel2[0] / 255 * (255.0 - pixel2[1]) / 255);
-                score += s;
-            }
-        }
-        if (score > bestscore) {
-            b2 = bestscore;
-            bestscore = score;
-            best = col;
-        }
-        else if (score > b2) {
-            b2 = score;
-        }
-    }
-    //Console.WriteLine("color: " + bestcol + " - " + (bestscore - b2));
-    //bestscore /= rect.width * rect.height;
-    return best;
-}
-/**
- * reads a line of text with exactly known position and color. y should be the y coord of the text base line, x should be the first pixel of a new character
- */
-function readLine(buffer, font, colors, x, y, forward, backward = false) {
-    if (typeof colors[0] != "number" && colors.length == 1) {
-        colors = colors[0];
-    }
-    var multicol = typeof colors[0] != "number";
-    var allcolors = multicol ? colors : [colors];
-    var detectcolor = function (sx, sy, backward) {
-        var w = Math.floor(font.width * 1.5);
-        if (backward) {
-            sx -= w;
-        }
-        sy -= font.basey;
-        return getChatColor(buffer, { x: sx, y: sy, width: w, height: font.height }, allcolors);
-    };
-    var fragments = [];
-    var x1 = x;
-    var x2 = x;
-    var maxspaces = (typeof font.maxspaces == "number" ? font.maxspaces : 1);
-    let fragtext = "";
-    let fraghadprimary = false;
-    var lastcol = null;
-    let addfrag = (forward) => {
-        if (!fragtext) {
-            return;
-        }
-        let frag = {
-            text: fragtext,
-            color: lastcol,
-            index: 0,
-            xstart: x + (forward ? fragstartdx : fragenddx),
-            xend: x + (forward ? fragenddx : fragstartdx)
-        };
-        if (forward) {
-            fragments.push(frag);
-        }
-        else {
-            fragments.unshift(frag);
-        }
-        fragtext = "";
-        fragstartdx = dx;
-        fraghadprimary = false;
-    };
-    for (var dirforward of [true, false]) {
-        //init vars
-        if (dirforward && !forward) {
-            continue;
-        }
-        if (!dirforward && !backward) {
-            continue;
-        }
-        var dx = 0;
-        var fragstartdx = dx;
-        var fragenddx = dx;
-        var triedspaces = 0;
-        var triedrecol = false;
-        var col = multicol ? null : colors;
-        while (true) {
-            col = col || detectcolor(x + dx, y, !dirforward);
-            var chr = (col ? readChar(buffer, font, col, x + dx, y, !dirforward, true) : null);
-            if (col == null || chr == null) {
-                if (triedspaces < maxspaces) {
-                    dx += (dirforward ? 1 : -1) * font.spacewidth;
-                    triedspaces++;
-                    continue;
-                }
-                if (multicol && !triedrecol && fraghadprimary) {
-                    dx -= (dirforward ? 1 : -1) * triedspaces * font.spacewidth;
-                    triedspaces = 0;
-                    col = null;
-                    triedrecol = true;
-                    continue;
-                }
-                if (dirforward) {
-                    x2 = x + dx - font.spacewidth;
-                }
-                else {
-                    x1 = x + dx + font.spacewidth;
-                }
-                break;
-            }
-            else {
-                if (lastcol && (col[0] != lastcol[0] || col[1] != lastcol[1] || col[2] != lastcol[2])) {
-                    addfrag(dirforward);
-                }
-                var spaces = "";
-                for (var a = 0; a < triedspaces; a++) {
-                    spaces += " ";
-                }
-                if (dirforward) {
-                    fragtext += spaces + chr.chr;
-                }
-                else {
-                    fragtext = chr.chr + spaces + fragtext;
-                }
-                if (!chr.basechar.secondary) {
-                    fraghadprimary = true;
-                }
-                triedspaces = 0;
-                triedrecol = false;
-                dx += (dirforward ? 1 : -1) * chr.basechar.width;
-                fragenddx = dx;
-                lastcol = col;
-            }
-        }
-        if (lastcol && fraghadprimary) {
-            addfrag(dirforward);
-        }
-    }
-    fragments.forEach((f, i) => f.index = i);
-    return {
-        debugArea: { x: x1, y: y - 9, w: x2 - x1, h: 10 },
-        text: fragments.map(f => f.text).join(""),
-        fragments
-    };
-}
-/**
- * Reads a line of text that uses a smallcaps font, these fonts can have duplicate chars that only have a different amount of
- * empty space after the char before the next char starts.
- * The coordinates should be near the end of the string, or a rectangle with high 1 containing all points where the string can end.
- */
-function readSmallCapsBackwards(buffer, font, cols, x, y, w = -1, h = -1) {
-    if (w == -1) {
-        w = font.width + font.spacewidth;
-        x -= Math.ceil(w / 2);
-    }
-    if (h == -1) {
-        h = 7;
-        y -= 1;
-    }
-    var matchedchar = null;
-    var sorted = (cols.length == 1 ? [{ col: cols[0], score: 1 }] : GetChatColorMono(buffer, new _alt1_base__WEBPACK_IMPORTED_MODULE_0__.Rect(x, y - font.basey, w, h), cols));
-    //loop until we have a match (max 2 cols)
-    for (var a = 0; a < 2 && a < sorted.length && matchedchar == null; a++) {
-        for (var cx = x + w - 1; cx >= x; cx--) {
-            var best = 1000; //TODO finetune score constants
-            var bestchar = null;
-            for (var cy = y; cy < y + h; cy++) {
-                var chr = readChar(buffer, font, sorted[a].col, cx, cy, true, false);
-                if (chr != null && chr.sizescore < best) {
-                    best = chr.sizescore;
-                    bestchar = chr;
-                }
-            }
-            if (bestchar) {
-                matchedchar = bestchar;
-                break;
-            }
-        }
-    }
-    if (matchedchar == null) {
-        return { text: "", debugArea: { x, y, w, h } };
-    }
-    return readLine(buffer, font, cols, matchedchar.x, matchedchar.y, false, true);
-}
-/**
- * Reads a single character at the exact given location
- * @param x exact x location of the start of the character domain (includes part of the spacing between characters)
- * @param y exact y location of the baseline pixel of the character
- * @param backwards read in backwards direction, the x location should be the first pixel after the character domain in that case
- */
-function readChar(buffer, font, col, x, y, backwards, allowSecondary) {
-    y -= font.basey;
-    var shiftx = 0;
-    var shifty = font.basey;
-    var shadow = font.shadow;
-    var debugobj = null;
-    var debugimg = null;
-    if (debug.trackread) {
-        var name = x + ";" + y + " " + JSON.stringify(col);
-        if (!debugout[name]) {
-            debugout[name] = [];
-        }
-        debugobj = debugout[name];
-    }
-    //===== make sure the full domain is inside the bitmap/buffer ======
-    if (y < 0 || y + font.height >= buffer.height) {
-        return null;
-    }
-    if (!backwards) {
-        if (x < 0 || x + font.width > buffer.width) {
-            return null;
-        }
-    }
-    else {
-        if (x - font.width < 0 || x > buffer.width) {
-            return null;
-        }
-    }
-    //====== start reading the char ======
-    var scores = [];
-    for (var chr = 0; chr < font.chars.length; chr++) {
-        var chrobj = font.chars[chr];
-        if (chrobj.secondary && !allowSecondary) {
-            continue;
-        }
-        scores[chr] = { score: 0, sizescore: 0, chr: chrobj };
-        var chrx = (backwards ? x - chrobj.width : x);
-        if (debug.trackread) {
-            debugimg = new _alt1_base__WEBPACK_IMPORTED_MODULE_0__.ImageData(font.width, font.height);
-        }
-        for (var a = 0; a < chrobj.pixels.length;) {
-            var i = (chrx + chrobj.pixels[a]) * 4 + (y + chrobj.pixels[a + 1]) * buffer.width * 4;
-            var penalty = 0;
-            if (!shadow) {
-                penalty = canblend(buffer.data[i], buffer.data[i + 1], buffer.data[i + 2], col[0], col[1], col[2], chrobj.pixels[a + 2] / 255);
-                a += 3;
-            }
-            else {
-                var lum = chrobj.pixels[a + 3] / 255;
-                penalty = canblend(buffer.data[i], buffer.data[i + 1], buffer.data[i + 2], col[0] * lum, col[1] * lum, col[2] * lum, chrobj.pixels[a + 2] / 255);
-                a += 4;
-            }
-            scores[chr].score += Math.max(0, penalty);
-            //TODO add compiler flag to this to remove it for performance
-            if (debugimg) {
-                debugimg.setPixel(chrobj.pixels[a], chrobj.pixels[a + 1], [penalty, penalty, penalty, 255]);
-            }
-        }
-        scores[chr].sizescore = scores[chr].score - chrobj.bonus;
-        if (debugobj) {
-            debugobj.push({ chr: chrobj.chr, score: scores[chr].sizescore, rawscore: scores[chr].score, img: debugimg });
-        }
-    }
-    scores.sort((a, b) => a.sizescore - b.sizescore);
-    if (debug.printcharscores) {
-        scores.slice(0, 5).forEach(q => console.log(q.chr.chr, q.score.toFixed(3), q.sizescore.toFixed(3)));
-    }
-    var winchr = scores[0];
-    if (!winchr || winchr.score > 400) {
-        return null;
-    }
-    return { chr: winchr.chr.chr, basechar: winchr.chr, x: x + shiftx, y: y + shifty, score: winchr.score, sizescore: winchr.sizescore };
-}
-/**
- * Generates a font json description to use in reader functions
- * @param unblended A source image with all characters lined up. The image should be unblended into components using the unblend functions
- * The lowest pixel line of this image is used to mark the location and size of the charecters if the red component is 255 it means there is a character on that pixel column
- * @param chars A string containing all the characters of the image in the same order
- * @param seconds A string with characters that are considered unlikely and should only be detected if no other character is possible.
- * For example the period (.) character matches positive inside many other characters and should be marked as secondary
- * @param bonusses An object that contains bonus scores for certain difficult characters to make the more likely to be red.
- * @param basey The y position of the baseline pixel of the font
- * @param spacewidth the number of pixels a space takes
- * @param treshold minimal color match proportion (0-1) before a pixel is used for the font
- * @param shadow whether this font also uses the black shadow some fonts have. The "unblended" image should be unblended correspondingly
- * @returns a javascript object describing the font which is used as input for the different read functions
- */
-function generatefont(unblended, chars, seconds, bonusses, basey, spacewidth, treshold, shadow) {
-    //settings vars
-    treshold *= 255;
-    //initial vars
-    var miny = unblended.height - 1;
-    var maxy = 0;
-    var font = { chars: [], width: 0, spacewidth: spacewidth, shadow: shadow, height: 0, basey: 0 };
-    var ds = false;
-    var chardata = [];
-    //index all chars
-    for (var dx = 0; dx < unblended.width; dx++) {
-        var i = 4 * dx + 4 * unblended.width * (unblended.height - 1);
-        if (unblended.data[i] == 255 && unblended.data[i + 3] == 255) {
-            if (ds === false) {
-                ds = dx;
-            }
-        }
-        else {
-            if (ds !== false) {
-                //char found, start detection
-                var de = dx;
-                var char = chars[chardata.length];
-                var chr = {
-                    ds: ds,
-                    de: de,
-                    width: de - ds,
-                    chr: char,
-                    bonus: (bonusses && bonusses[char]) || 0,
-                    secondary: seconds.indexOf(chars[chardata.length]) != -1,
-                    pixels: []
-                };
-                chardata.push(chr);
-                font.width = Math.max(font.width, chr.width);
-                for (x = 0; x < de - ds; x++) {
-                    for (y = 0; y < unblended.height - 1; y++) {
-                        var i = (x + ds) * 4 + y * unblended.width * 4;
-                        if (unblended.data[i] >= treshold) {
-                            miny = Math.min(miny, y);
-                            maxy = Math.max(maxy, y);
-                        }
-                    }
-                }
-                ds = false;
-            }
-        }
-    }
-    font.height = maxy + 1 - miny;
-    font.basey = basey - miny;
-    //detect all pixels
-    for (var a in chardata) {
-        var chr = chardata[a];
-        for (var x = 0; x < chr.width; x++) {
-            for (var y = 0; y < maxy + 1 - miny; y++) {
-                var i = (x + chr.ds) * 4 + (y + miny) * unblended.width * 4;
-                if (unblended.data[i] >= treshold) {
-                    chr.pixels.push(x, y);
-                    chr.pixels.push(unblended.data[i]);
-                    if (shadow) {
-                        chr.pixels.push(unblended.data[i + 1]);
-                    }
-                    chr.bonus += 5;
-                }
-            }
-        }
-        //prevent js from doing the thing with unnecessary output precision
-        chr.bonus = +chr.bonus.toFixed(3);
-        font.chars.push({ width: chr.width, bonus: chr.bonus, chr: chr.chr, pixels: chr.pixels, secondary: chr.secondary });
-    }
-    return font;
-}
-
-
-/***/ }),
-
-/***/ "../node_modules/@alt1/ocr/fonts/aa_10px_mono.js":
-/*!*******************************************************!*\
-  !*** ../node_modules/@alt1/ocr/fonts/aa_10px_mono.js ***!
-  \*******************************************************/
-/***/ (function(module) {
-
-!function(s,e){ true?module.exports=e():0}("undefined"!=typeof self?self:this,(()=>{
-return s=[s=>{s.exports={chars:[{width:4,bonus:40,chr:"!",pixels:[1,1,238,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,10,238],secondary:!1},{width:5,bonus:30,chr:'"',pixels:[1,0,187,1,1,255,2,0,153,2,1,153,3,0,255,3,1,187],secondary:!0},{
-width:10,bonus:160,chr:"#",
-pixels:[1,4,238,1,8,255,2,4,255,2,8,255,2,9,221,2,10,255,3,1,153,3,2,187,3,3,221,3,4,255,3,5,255,3,6,204,3,7,170,3,8,255,4,1,153,4,4,255,4,8,255,5,4,255,5,8,255,5,9,204,5,10,255,6,2,187,6,3,221,6,4,255,6,5,255,6,6,221,6,7,187,6,8,255,7,1,153,7,4,255,7,8,255,8,4,255],
-secondary:!1},{width:8,bonus:105,chr:"$",pixels:[1,2,221,1,3,255,1,4,255,1,9,238,2,1,221,2,2,153,2,5,255,2,10,238,3,0,255,3,1,255,3,5,187,3,6,170,3,10,255,3,11,255,4,1,238,4,6,255,4,10,221,5,2,153,5,7,255,5,8,255,5,9,238],secondary:!1},{width:10,
-bonus:125,chr:"%",pixels:[1,2,255,1,3,255,1,10,187,2,1,255,2,4,255,2,9,238,3,2,255,3,3,255,3,7,170,3,8,221,4,6,238,5,4,153,5,5,238,5,8,255,5,9,255,6,3,238,6,4,170,6,7,255,6,10,255,7,2,238,7,7,255,7,10,255,8,1,187,8,8,255,8,9,255],secondary:!1},{
-width:9,bonus:150,chr:"&",
-pixels:[1,2,204,1,3,255,1,4,204,1,6,204,1,7,255,1,8,255,1,9,204,2,1,204,2,2,170,2,4,153,2,5,255,2,6,187,2,9,187,2,10,187,3,1,255,3,5,255,3,10,255,4,1,255,4,5,255,4,10,255,5,5,255,5,9,204,5,10,170,6,4,255,6,5,255,6,6,255,6,7,255,6,8,238,6,9,153,7,5,255],
-secondary:!1},{width:4,bonus:10,chr:"'",pixels:[2,1,221,2,2,187],secondary:!0},{width:4,bonus:55,chr:"(",pixels:[1,3,170,1,4,221,1,5,255,1,6,255,1,7,255,1,8,221,1,9,170,2,1,221,2,2,204,2,10,187,2,11,255],secondary:!1},{width:4,bonus:55,chr:")",
-pixels:[1,1,221,1,2,204,1,10,187,1,11,255,2,3,170,2,4,221,2,5,255,2,6,255,2,7,255,2,8,221,2,9,170],secondary:!1},{width:7,bonus:60,chr:"*",pixels:[1,3,170,2,3,238,2,4,170,2,5,238,3,1,255,3,2,255,3,3,255,3,4,238,4,3,238,4,4,170,4,5,238,5,3,153],
-secondary:!1},{width:9,bonus:65,chr:"+",pixels:[1,7,255,2,7,255,3,7,255,4,4,255,4,5,255,4,6,255,4,7,255,4,8,255,4,9,255,4,10,255,5,7,255,6,7,255,7,7,255],secondary:!1},{width:4,bonus:20,chr:",",pixels:[1,10,187,1,11,170,2,9,255,2,10,153],secondary:!0
-},{width:6,bonus:20,chr:"-",pixels:[1,7,255,2,7,255,3,7,255,4,7,170],secondary:!0},{width:4,bonus:5,chr:".",pixels:[1,10,255],secondary:!0},{width:6,bonus:55,chr:"/",
-pixels:[1,10,187,1,11,187,2,7,204,2,8,255,2,9,187,3,3,170,3,4,255,3,5,221,3,6,153,4,1,255,4,2,204],secondary:!1},{width:9,bonus:110,chr:"0",
-pixels:[1,3,187,1,4,238,1,5,255,1,6,255,1,7,238,1,8,187,2,2,255,2,9,255,3,1,238,3,10,238,4,1,255,4,10,255,5,1,238,5,10,238,6,2,255,6,9,255,7,3,187,7,4,238,7,5,255,7,6,255,7,7,238,7,8,187],secondary:!1},{width:7,bonus:80,chr:"1",
-pixels:[1,3,204,1,10,255,2,2,238,2,10,255,3,1,255,3,2,255,3,3,255,3,4,255,3,5,255,3,6,255,3,7,255,3,8,255,3,9,255,3,10,255,4,10,255,5,10,255],secondary:!1},{width:8,bonus:110,chr:"2",
-pixels:[2,2,255,2,8,204,2,9,255,2,10,255,3,1,204,3,7,221,3,8,170,3,10,255,4,1,255,4,6,204,4,7,170,4,10,255,5,1,221,5,2,153,5,5,187,5,6,204,5,10,255,6,2,221,6,3,255,6,4,255,6,5,170,6,10,255],secondary:!1},{width:8,bonus:120,chr:"3",
-pixels:[1,9,170,2,1,255,2,9,187,2,10,170,3,1,255,3,5,255,3,10,255,4,1,255,4,3,170,4,4,221,4,5,238,4,10,255,5,1,255,5,2,238,5,3,187,5,5,170,5,6,187,5,9,187,5,10,170,6,1,255,6,6,187,6,7,255,6,8,255,6,9,187],secondary:!1},{width:9,bonus:115,chr:"4",
-pixels:[1,6,187,1,7,255,2,5,221,2,6,153,2,7,255,3,4,238,3,7,255,4,3,238,4,7,255,5,1,170,5,2,255,5,7,255,6,1,255,6,2,255,6,3,255,6,4,255,6,5,255,6,6,255,6,7,255,6,8,255,6,9,255,6,10,255,7,7,255],secondary:!1},{width:8,bonus:120,chr:"5",
-pixels:[1,9,153,2,1,255,2,2,255,2,3,255,2,4,221,2,5,255,2,9,153,2,10,187,3,1,255,3,5,255,3,10,255,4,1,255,4,5,255,4,10,255,5,1,255,5,5,187,5,6,187,5,9,187,5,10,170,6,1,170,6,6,187,6,7,255,6,8,255,6,9,187],secondary:!1},{width:9,bonus:150,chr:"6",
-pixels:[1,4,187,1,5,238,1,6,255,1,7,255,1,8,187,2,2,153,2,3,255,2,4,170,2,5,204,2,6,204,2,8,170,2,9,255,3,2,238,3,5,238,3,10,221,4,1,238,4,5,255,4,10,255,5,1,255,5,5,255,5,10,255,6,1,255,6,5,170,6,6,204,6,9,221,6,10,153,7,6,170,7,7,255,7,8,255,7,9,153],
-secondary:!1},{width:9,bonus:95,chr:"7",pixels:[1,1,255,2,1,255,2,8,153,2,9,255,2,10,204,3,1,255,3,6,153,3,7,255,3,8,187,4,1,255,4,4,153,4,5,255,4,6,187,5,1,255,5,2,187,5,3,255,5,4,187,6,1,255,6,2,170],secondary:!1},{width:9,bonus:170,chr:"8",
-pixels:[1,2,204,1,3,255,1,4,204,1,6,153,1,7,255,1,8,255,1,9,153,2,1,187,2,2,187,2,4,187,2,5,255,2,6,204,2,9,221,2,10,153,3,1,255,3,5,255,3,10,255,4,1,255,4,5,170,4,10,255,5,1,204,5,2,153,5,5,204,5,6,204,5,10,238,6,2,238,6,3,255,6,4,255,6,5,170,6,6,255,6,9,221,7,7,238,7,8,255,7,9,153],
-secondary:!1},{width:9,bonus:140,chr:"9",
-pixels:[1,3,238,1,4,255,1,5,238,2,2,238,2,6,238,2,10,255,3,1,255,3,7,238,3,10,255,4,1,255,4,7,255,4,10,238,5,1,204,5,2,153,5,7,204,5,9,204,5,10,153,6,2,238,6,3,187,6,6,238,6,7,187,6,8,221,6,9,204,7,3,153,7,4,221,7,5,255,7,6,255,7,7,221],secondary:!1
-},{width:3,bonus:10,chr:":",pixels:[1,3,255,1,9,255],secondary:!0},{width:4,bonus:15,chr:";",pixels:[2,3,255,2,9,255,2,10,204],secondary:!0},{width:8,bonus:60,chr:"<",
-pixels:[1,5,187,1,6,238,2,5,255,2,6,204,3,4,170,3,7,204,4,4,255,4,7,238,5,4,170,5,8,187,6,3,187,6,8,204],secondary:!1},{width:9,bonus:70,chr:"=",
-pixels:[1,6,221,1,8,221,2,6,255,2,8,255,3,6,255,3,8,255,4,6,255,4,8,255,5,6,255,5,8,255,6,6,255,6,8,255,7,6,255,7,8,255],secondary:!1},{width:8,bonus:75,chr:">",
-pixels:[1,3,153,2,3,153,2,4,170,2,8,255,3,4,255,3,7,187,3,8,170,4,4,170,4,5,153,4,7,255,5,5,255,5,6,187,5,7,153,6,5,170,6,6,255],secondary:!1},{width:6,bonus:55,chr:"?",
-pixels:[1,1,204,2,1,255,2,6,187,2,7,255,2,10,255,3,1,238,3,5,238,3,6,153,4,2,238,4,3,255,4,4,255],secondary:!1},{width:10,bonus:165,chr:"@",
-pixels:[1,5,153,1,6,255,1,7,255,1,8,255,1,9,187,2,4,204,2,5,187,2,9,170,2,10,255,3,4,204,3,11,255,4,3,238,4,6,238,4,7,255,4,8,238,4,12,187,5,3,255,5,5,204,5,9,221,5,12,255,6,3,255,6,5,255,6,9,255,7,3,221,7,5,255,7,9,255,8,4,221,8,5,255,8,6,255,8,7,255,8,8,255,8,9,255,9,9,255],
-secondary:!1},{width:10,bonus:140,chr:"A",
-pixels:[1,9,153,1,10,238,2,7,221,2,8,255,2,9,204,3,4,204,3,5,255,3,6,204,3,7,255,4,1,187,4,2,255,4,3,204,4,7,255,5,1,238,5,2,255,5,3,187,5,7,255,6,3,153,6,4,238,6,5,255,6,6,187,6,7,255,7,6,153,7,7,255,7,8,255,7,9,170,8,9,187,8,10,255],secondary:!1},{
-width:9,bonus:160,chr:"B",
-pixels:[1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,2,1,255,2,6,255,2,10,255,3,1,255,3,6,255,3,10,255,4,1,255,4,6,255,4,10,255,5,1,221,5,2,153,5,5,170,5,6,255,5,9,153,5,10,204,6,2,238,6,3,255,6,4,255,6,5,204,6,7,238,6,8,255,6,9,238],
-secondary:!1},{width:10,bonus:105,chr:"C",pixels:[1,3,153,1,4,255,1,5,255,1,6,255,1,7,238,2,2,204,2,3,204,2,8,204,2,9,204,3,2,187,3,9,204,4,1,221,4,10,221,5,1,255,5,10,255,6,1,238,6,10,238,7,1,187,7,10,187,8,2,221,8,9,255],secondary:!1},{width:10,
-bonus:160,chr:"D",
-pixels:[1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,2,1,255,2,10,255,3,1,255,3,10,255,4,1,255,4,10,255,5,1,238,5,10,238,6,1,153,6,2,204,6,9,204,6,10,153,7,2,221,7,3,204,7,8,204,7,9,221,8,3,170,8,4,255,8,5,255,8,6,255,8,7,255,8,8,170],
-secondary:!1},{width:8,bonus:105,chr:"E",pixels:[1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,2,1,255,2,6,255,2,10,255,3,1,255,3,6,255,3,10,255,4,1,255,4,6,255,4,10,255,5,1,255,5,10,255],secondary:!1},{width:7,
-bonus:85,chr:"F",pixels:[1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,2,1,255,2,6,255,3,1,255,3,6,255,4,1,255,4,6,255,5,1,255],secondary:!1},{width:10,bonus:145,chr:"G",
-pixels:[1,3,153,1,4,255,1,5,255,1,6,255,1,7,255,1,8,153,2,2,204,2,3,187,2,8,204,2,9,221,3,1,153,3,2,187,3,9,187,3,10,170,4,1,255,4,10,255,5,1,255,5,10,255,6,1,238,6,6,170,6,10,204,7,2,204,7,6,255,7,9,238,8,6,255,8,7,255,8,8,255,8,9,255,8,10,255],
-secondary:!1},{width:9,bonus:125,chr:"H",
-pixels:[1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,2,6,255,3,6,255,4,6,255,5,6,255,6,6,255,7,1,255,7,2,255,7,3,255,7,4,255,7,5,255,7,6,255,7,7,255,7,8,255,7,9,255,7,10,255],secondary:!1},{width:5,bonus:70,
-chr:"I",pixels:[1,1,255,1,10,255,2,1,255,2,2,255,2,3,255,2,4,255,2,5,255,2,6,255,2,7,255,2,8,255,2,9,255,2,10,255,3,1,255,3,10,255],secondary:!1},{width:8,bonus:100,chr:"J",
-pixels:[1,8,255,1,9,187,2,9,187,2,10,187,3,1,221,3,10,255,4,1,255,4,10,255,5,1,255,5,9,187,5,10,187,6,1,255,6,2,255,6,3,255,6,4,255,6,5,255,6,6,255,6,7,255,6,8,255,6,9,187],secondary:!1},{width:9,bonus:120,chr:"K",
-pixels:[1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,2,6,255,3,6,255,4,4,187,4,5,255,4,6,170,4,7,255,5,2,187,5,3,255,5,8,221,5,9,204,6,1,255,6,2,153,6,9,153,6,10,255],secondary:!1},{width:8,bonus:75,chr:"L",
-pixels:[1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,2,10,255,3,10,255,4,10,255,5,10,255,6,10,170],secondary:!1},{width:11,bonus:180,chr:"M",
-pixels:[1,3,170,1,4,170,1,5,204,1,6,221,1,7,238,1,8,255,1,9,255,1,10,255,2,1,255,2,2,255,2,3,255,2,4,170,3,3,204,3,4,255,3,5,170,4,5,153,4,6,255,4,7,221,5,7,221,5,8,255,6,5,187,6,6,255,6,7,187,7,3,221,7,4,238,8,1,255,8,2,255,8,3,255,8,4,187,8,5,153,9,5,170,9,6,187,9,7,204,9,8,221,9,9,238,9,10,255],
-secondary:!1},{width:10,bonus:145,chr:"N",
-pixels:[1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,2,2,238,2,3,221,3,3,170,3,4,255,4,5,221,4,6,204,5,7,255,6,8,204,6,9,221,7,1,255,7,2,255,7,3,255,7,4,255,7,5,255,7,6,255,7,7,255,7,8,255,7,9,255,7,10,255],
-secondary:!1},{width:11,bonus:130,chr:"O",
-pixels:[1,4,255,1,5,255,1,6,255,1,7,238,2,2,204,2,3,204,2,8,204,2,9,204,3,2,187,3,9,187,4,1,221,4,10,221,5,1,255,5,10,255,6,1,221,6,10,221,7,2,204,7,9,221,8,2,187,8,3,221,8,8,221,8,9,170,9,4,221,9,5,255,9,6,255,9,7,204],secondary:!1},{width:9,
-bonus:125,chr:"P",pixels:[1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,2,1,255,2,7,255,3,1,255,3,7,255,4,1,255,4,7,255,5,1,187,5,2,187,5,6,187,5,7,187,6,2,187,6,3,255,6,4,255,6,5,255,6,6,187],secondary:!1},{
-width:11,bonus:140,chr:"Q",
-pixels:[1,4,255,1,5,255,1,6,255,1,7,238,2,2,204,2,3,204,2,8,204,2,9,204,3,2,187,3,9,187,4,1,238,4,10,238,5,1,255,5,10,255,6,1,221,6,10,221,7,2,204,7,8,238,7,9,221,8,2,187,8,3,221,8,8,238,8,9,255,9,4,221,9,5,255,9,6,255,9,7,204,9,10,187],secondary:!1
-},{width:9,bonus:140,chr:"R",
-pixels:[1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,2,1,255,2,6,255,3,1,255,3,6,255,4,1,255,4,6,255,5,1,204,5,2,153,5,5,153,5,6,221,5,7,238,5,8,238,6,2,221,6,3,255,6,4,255,6,5,221,6,9,238,6,10,221],secondary:!1},{
-width:7,bonus:95,chr:"S",pixels:[1,2,221,1,3,255,1,4,255,1,9,238,2,1,204,2,2,153,2,5,255,2,10,238,3,1,255,3,5,187,3,6,153,3,10,255,4,1,238,4,6,255,4,10,221,5,2,170,5,7,255,5,8,255,5,9,238],secondary:!1},{width:10,bonus:80,chr:"T",
-pixels:[1,1,255,2,1,255,3,1,255,4,1,255,4,2,255,4,3,255,4,4,255,4,5,255,4,6,255,4,7,255,4,8,255,4,9,255,4,10,255,5,1,255,6,1,255,7,1,255],secondary:!1},{width:10,bonus:110,chr:"U",
-pixels:[1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,238,2,9,238,3,10,204,4,10,255,5,10,255,6,10,204,7,9,238,8,1,255,8,2,255,8,3,255,8,4,255,8,5,255,8,6,255,8,7,255,8,8,221],secondary:!1},{width:10,bonus:110,chr:"V",
-pixels:[1,1,238,1,2,153,2,2,187,2,3,255,2,4,221,3,5,187,3,6,255,3,7,204,4,8,204,4,9,255,4,10,204,5,8,204,5,9,255,5,10,204,6,5,187,6,6,255,6,7,204,7,2,187,7,3,255,7,4,221,8,1,238,8,2,153],secondary:!1},{width:13,bonus:195,chr:"W",
-pixels:[1,1,255,1,2,187,2,3,187,2,4,255,2,5,255,2,6,204,3,7,170,3,8,221,3,9,255,3,10,221,4,7,170,4,8,238,4,9,255,4,10,187,5,3,187,5,4,255,5,5,255,5,6,187,6,1,255,6,2,255,6,3,255,7,3,170,7,4,238,7,5,255,7,6,204,8,7,153,8,8,221,8,9,255,8,10,204,9,7,187,9,8,255,9,9,255,9,10,204,10,3,204,10,4,255,10,5,255,10,6,187,11,1,255,11,2,187],
-secondary:!1},{width:9,bonus:125,chr:"X",
-pixels:[1,1,221,1,10,255,2,1,153,2,2,255,2,3,187,2,8,238,2,9,221,3,3,170,3,4,255,3,5,153,3,6,204,3,7,238,4,4,187,4,5,255,4,6,255,5,3,238,5,4,221,5,7,255,5,8,170,6,1,221,6,2,238,6,8,187,6,9,255,7,1,153,7,10,221],secondary:!1},{width:9,bonus:80,
-chr:"Y",pixels:[1,1,238,2,2,238,2,3,204,3,4,255,3,5,187,4,5,255,4,6,255,4,7,255,4,8,255,4,9,255,4,10,255,5,4,238,5,5,204,6,2,221,6,3,238,7,1,255],secondary:!1},{width:9,bonus:115,chr:"Z",
-pixels:[1,10,170,2,1,255,2,8,153,2,9,255,2,10,255,3,1,255,3,7,238,3,8,221,3,10,255,4,1,255,4,5,187,4,6,255,4,10,255,5,1,255,5,4,255,5,5,187,5,10,255,6,1,255,6,2,204,6,3,221,6,10,255,7,1,255,7,10,255],secondary:!1},{width:4,bonus:65,chr:"[",
-pixels:[1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,1,11,255,2,1,255,2,11,255],secondary:!1},{width:6,bonus:50,chr:"\\",pixels:[1,1,238,1,2,255,1,3,170,2,4,221,2,5,255,2,6,187,3,7,204,3,8,255,3,9,187,4,10,204],
-secondary:!1},{width:3,bonus:65,chr:"]",pixels:[0,1,255,0,11,255,1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,1,11,255],secondary:!1},{width:8,bonus:55,chr:"^",
-pixels:[1,6,170,2,4,221,2,5,238,3,2,255,3,3,187,4,1,187,4,2,255,4,3,153,5,4,255,5,5,204,6,6,204],secondary:!1},{width:9,bonus:35,chr:"_",pixels:[1,11,255,2,11,255,3,11,255,4,11,255,5,11,255,6,11,255,7,11,255],secondary:!1},{width:8,bonus:110,chr:"a",
-pixels:[1,8,221,1,9,255,2,4,187,2,7,170,2,8,153,2,10,221,3,4,255,3,7,221,3,10,255,4,4,255,4,7,255,4,10,238,5,4,204,5,5,170,5,7,255,5,9,204,6,5,204,6,6,255,6,7,255,6,8,255,6,9,255,6,10,255],secondary:!1},{width:8,bonus:135,chr:"b",
-pixels:[1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,2,4,153,2,5,221,2,9,221,2,10,153,3,4,238,3,10,238,4,4,255,4,10,255,5,4,187,5,5,187,5,9,187,5,10,170,6,5,187,6,6,255,6,7,255,6,8,255,6,9,170],secondary:!1},{
-width:8,bonus:60,chr:"c",pixels:[1,6,255,1,7,255,1,8,255,2,5,221,2,9,221,3,4,238,3,10,238,4,4,255,4,10,255,5,4,221,5,10,221,6,9,204],secondary:!1},{width:8,bonus:135,chr:"d",
-pixels:[1,5,170,1,6,255,1,7,255,1,8,255,1,9,187,2,4,170,2,5,187,2,9,187,2,10,170,3,4,255,3,10,255,4,4,238,4,10,238,5,4,153,5,5,221,5,9,221,5,10,153,6,1,255,6,2,255,6,3,255,6,4,255,6,5,255,6,6,255,6,7,255,6,8,255,6,9,255,6,10,255],secondary:!1},{
-width:8,bonus:100,chr:"e",pixels:[1,6,255,1,7,255,1,8,255,1,9,153,2,5,204,2,7,255,2,9,204,3,4,255,3,7,255,3,10,238,4,4,255,4,7,255,4,10,255,5,4,170,5,5,187,5,7,255,5,10,221,6,5,153,6,6,238,6,7,255],secondary:!1},{width:6,bonus:70,chr:"f",
-pixels:[1,4,221,2,2,221,2,3,255,2,4,255,2,5,255,2,6,255,2,7,255,2,8,255,2,9,255,2,10,255,3,1,221,3,4,255,4,1,255,4,4,221],secondary:!1},{width:8,bonus:135,chr:"g",
-pixels:[1,5,187,1,6,255,1,7,255,1,8,255,1,9,187,2,4,204,2,5,170,2,9,170,2,10,221,2,13,238,3,4,255,3,10,255,3,13,255,4,4,187,4,5,153,4,10,204,4,12,170,4,13,187,5,4,255,5,5,255,5,6,255,5,7,255,5,8,255,5,9,255,5,10,255,5,11,255,5,12,204],secondary:!1},{
-width:9,bonus:100,chr:"h",pixels:[1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,2,5,238,3,4,204,4,4,255,5,4,238,6,5,255,6,6,255,6,7,255,6,8,255,6,9,255,6,10,255],secondary:!1},{width:4,bonus:40,chr:"i",
-pixels:[1,1,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255],secondary:!1},{width:5,bonus:60,chr:"j",pixels:[0,13,221,1,13,238,2,1,255,2,4,255,2,5,255,2,6,255,2,7,255,2,8,255,2,9,255,2,10,255,2,11,255,2,12,255],secondary:!1},{width:7,
-bonus:100,chr:"k",pixels:[1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,2,7,255,3,6,187,3,7,255,3,8,170,4,5,255,4,6,170,4,8,187,4,9,221,5,4,255,5,10,255],secondary:!1},{width:5,bonus:50,chr:"l",
-pixels:[1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,2,10,255],secondary:!1},{width:12,bonus:130,chr:"m",
-pixels:[1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,2,5,238,3,4,204,4,4,255,5,4,221,6,5,238,6,6,255,6,7,255,6,8,255,6,9,255,6,10,255,7,5,204,8,4,255,9,4,255,10,5,255,10,6,255,10,7,255,10,8,255,10,9,255,10,10,255],secondary:!1},{width:8,
-bonus:85,chr:"n",pixels:[1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,2,5,238,3,4,204,4,4,255,5,4,238,6,5,255,6,6,255,6,7,255,6,8,255,6,9,255,6,10,255],secondary:!1},{width:9,bonus:80,chr:"o",
-pixels:[1,6,255,1,7,255,1,8,255,2,5,221,2,9,221,3,4,221,3,10,221,4,4,255,4,10,255,5,4,221,5,10,221,6,5,238,6,9,238,7,6,221,7,7,255,7,8,221],secondary:!1},{width:8,bonus:130,chr:"p",
-pixels:[1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,1,11,255,1,12,255,2,4,153,2,5,204,2,9,221,2,10,153,3,4,238,3,10,238,4,4,255,4,10,255,5,4,187,5,5,187,5,9,187,5,10,170,6,5,187,6,6,255,6,7,255,6,8,255,6,9,170],secondary:!1},{width:8,
-bonus:130,chr:"q",pixels:[1,5,170,1,6,255,1,7,255,1,8,255,1,9,187,2,4,170,2,5,187,2,9,187,2,10,187,3,4,255,3,10,255,4,4,238,4,10,238,5,4,153,5,5,204,5,9,221,5,10,153,6,4,255,6,5,255,6,6,255,6,7,255,6,8,255,6,9,255,6,10,255,6,11,255,6,12,255],
-secondary:!1},{width:6,bonus:45,chr:"r",pixels:[1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,2,5,238,3,4,238],secondary:!1},{width:6,bonus:65,chr:"s",
-pixels:[1,5,255,1,6,255,1,9,153,1,10,170,2,4,255,2,7,221,2,10,255,3,4,255,3,7,238,3,10,255,4,4,153,4,8,255,4,9,255],secondary:!1},{width:5,bonus:65,chr:"t",
-pixels:[0,4,255,1,2,238,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,221,2,4,255,2,10,221,3,4,221,3,10,255],secondary:!1},{width:9,bonus:85,chr:"u",
-pixels:[1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,238,2,10,221,3,10,255,4,10,221,5,9,221,6,4,255,6,5,255,6,6,255,6,7,255,6,8,255,6,9,255,6,10,255],secondary:!1},{width:8,bonus:75,chr:"v",
-pixels:[1,4,238,2,5,187,2,6,255,2,7,204,3,8,221,3,9,255,3,10,170,4,8,153,4,9,255,4,10,238,5,6,221,5,7,255,5,8,170,6,4,255,6,5,204],secondary:!1},{width:12,bonus:135,chr:"w",
-pixels:[1,4,238,1,5,153,2,5,170,2,6,255,2,7,238,2,8,153,3,8,153,3,9,255,3,10,255,4,8,204,4,9,255,4,10,170,5,5,187,5,6,255,5,7,187,6,5,255,6,6,221,7,7,187,7,8,255,7,9,187,8,9,255,8,10,255,9,6,187,9,7,255,9,8,221,10,4,255,10,5,204],secondary:!1},{
-width:8,bonus:90,chr:"x",pixels:[1,4,153,1,10,221,2,4,204,2,5,238,2,9,255,2,10,153,3,6,238,3,7,238,3,8,221,4,6,238,4,7,238,4,8,221,5,4,204,5,5,238,5,9,255,5,10,153,6,4,153,6,10,221],secondary:!1},{width:9,bonus:100,chr:"y",
-pixels:[1,4,238,1,13,204,2,5,221,2,6,255,2,7,170,2,13,255,3,7,153,3,8,238,3,9,238,3,12,238,3,13,153,4,9,255,4,10,255,4,11,187,5,6,170,5,7,255,5,8,221,6,4,238,6,5,255,6,6,170],secondary:!1},{width:8,bonus:95,chr:"z",
-pixels:[1,4,255,1,10,255,2,4,255,2,8,187,2,9,255,2,10,255,3,4,255,3,7,221,3,8,187,3,10,255,4,4,255,4,6,238,4,7,153,4,10,255,5,4,255,5,5,255,5,10,255,6,4,238,6,10,255],secondary:!1},{width:6,bonus:55,chr:"{",
-pixels:[1,6,255,2,2,255,2,3,255,2,4,255,2,5,221,2,7,238,2,8,255,2,9,255,2,10,255,3,1,255,3,11,255],secondary:!1},{width:4,bonus:60,chr:"|",pixels:[1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,1,11,255,1,12,255],
-secondary:!1},{width:5,bonus:55,chr:"}",pixels:[1,1,255,1,11,255,2,2,221,2,3,255,2,4,255,2,5,238,2,7,255,2,8,255,2,9,255,2,10,221,3,6,255],secondary:!1},{width:8,bonus:30,chr:"~",pixels:[1,6,238,2,5,255,3,5,238,4,6,238,5,6,255,6,5,238],secondary:!1
-}],width:13,spacewidth:3,shadow:!1,height:14,basey:10}}],e={},function o(r){var n=e[r];if(void 0!==n)return n.exports;var i=e[r]={exports:{}};return s[r](i,i.exports,o),i.exports}(0);var s,e}));
-
-/***/ }),
-
-/***/ "../node_modules/@alt1/ocr/fonts/aa_8px_new.js":
-/*!*****************************************************!*\
-  !*** ../node_modules/@alt1/ocr/fonts/aa_8px_new.js ***!
-  \*****************************************************/
-/***/ (function(module) {
-
-!function(s,e){ true?module.exports=e():0}("undefined"!=typeof self?self:this,(()=>{
-return s=[s=>{s.exports={chars:[{width:7,bonus:140,chr:"a",
-pixels:[0,7,187,255,1,3,221,255,1,6,169,255,1,7,164,132,1,8,255,255,2,3,255,255,2,4,221,0,2,5,196,243,2,7,170,0,2,8,255,255,2,9,255,0,3,3,255,255,3,4,255,0,3,5,255,255,3,6,187,0,3,8,221,255,3,9,255,0,4,4,254,239,4,5,255,255,4,6,254,204,4,7,255,255,4,8,240,253,4,9,221,0,5,5,240,36,5,6,255,34,5,7,211,41,5,8,255,34,5,9,238,0],
-secondary:!1},{width:7,bonus:175,chr:"b",
-pixels:[0,1,203,255,0,2,221,255,0,3,221,255,0,4,221,255,0,5,221,255,0,6,221,255,0,7,221,255,0,8,203,255,1,2,211,41,1,3,248,209,1,4,243,178,1,5,230,75,1,6,230,75,1,7,243,178,1,8,246,194,1,9,204,0,2,3,255,255,2,4,204,0,2,5,170,0,2,8,255,255,2,9,187,0,3,3,255,255,3,4,255,0,3,8,255,255,3,9,255,0,4,3,169,255,4,4,254,171,4,7,169,255,4,9,255,0,5,4,204,128,5,5,232,205,5,6,205,233,5,8,170,0,6,6,187,0,6,7,187,0],
-secondary:!1},{width:7,bonus:95,chr:"c",
-pixels:[0,5,169,255,0,6,187,255,1,4,187,255,1,6,193,90,1,7,237,201,1,8,164,185,2,3,255,255,2,5,187,0,2,8,255,255,3,3,255,255,3,4,255,0,3,8,255,255,3,9,255,0,4,3,221,255,4,4,255,34,4,8,221,255,4,9,255,0,5,4,226,39,5,9,221,0],secondary:!1},{width:7,
-bonus:180,chr:"d",
-pixels:[0,5,187,255,0,6,187,255,1,4,169,255,1,6,205,85,1,7,232,187,1,8,203,213,2,3,255,255,2,5,170,0,2,8,255,255,2,9,170,0,3,3,255,255,3,4,255,0,3,8,255,255,3,9,255,0,4,3,203,255,4,4,254,171,4,7,169,255,4,8,187,255,4,9,255,0,5,1,203,255,5,2,225,251,5,3,225,251,5,4,248,227,5,5,244,231,5,6,230,245,5,7,230,245,5,8,237,219,5,9,187,0,6,2,204,0,6,3,221,0,6,4,221,0,6,5,221,0,6,6,221,0,6,7,221,0,6,8,221,0,6,9,204,0],
-secondary:!1},{width:7,bonus:135,chr:"e",
-pixels:[0,5,187,255,0,6,169,255,1,4,187,255,1,5,255,255,1,6,209,104,1,7,237,219,2,3,255,255,2,5,255,255,2,6,255,0,2,8,255,255,3,3,255,255,3,4,255,0,3,5,255,255,3,6,255,0,3,8,255,255,3,9,255,0,4,3,187,255,4,4,255,119,4,5,255,255,4,6,255,0,4,8,221,255,4,9,255,0,5,4,224,155,5,5,227,229,5,6,255,0,5,9,221,0,6,6,204,0],
-secondary:!1},{width:4,bonus:90,chr:"f",pixels:[0,3,203,255,1,2,221,255,1,3,255,255,1,4,248,227,1,5,225,251,1,6,225,251,1,7,225,251,1,8,210,247,2,1,255,255,2,3,255,255,2,4,255,0,2,5,221,0,2,6,221,0,2,7,221,0,2,8,221,0,2,9,204,0,3,2,255,0,3,4,255,0],
-secondary:!1},{width:7,bonus:200,chr:"g",
-pixels:[0,5,187,255,0,6,187,255,1,3,169,255,1,4,153,255,1,5,155,112,1,6,205,85,1,7,232,187,1,8,184,189,1,11,153,255,2,3,255,255,2,4,170,0,2,5,153,0,2,8,255,255,2,11,245,247,3,3,255,255,3,4,255,0,3,8,255,255,3,9,255,0,3,11,221,255,4,3,221,255,4,4,255,136,4,7,153,255,4,8,221,255,4,9,255,85,4,10,203,255,5,3,203,255,5,4,250,226,5,5,239,236,5,6,230,245,5,7,230,245,5,8,241,234,5,9,243,178,5,11,204,0,6,4,204,0,6,5,221,0,6,6,221,0,6,7,221,0,6,8,221,0,6,9,221,0,6,10,170,0],
-secondary:!1},{width:7,bonus:165,chr:"h",
-pixels:[0,1,203,255,0,2,221,255,0,3,221,255,0,4,221,255,0,5,221,255,0,6,221,255,0,7,221,255,0,8,203,255,1,2,211,41,1,3,243,178,1,4,248,209,1,5,230,75,1,6,226,39,1,7,226,39,1,8,226,39,1,9,204,0,2,3,255,255,2,4,170,0,2,5,204,0,3,3,255,255,3,4,255,0,4,3,169,255,4,4,255,221,4,5,221,255,4,6,221,255,4,7,221,255,4,8,203,255,5,4,175,25,5,5,226,39,5,6,226,39,5,7,226,39,5,8,226,39,5,9,204,0],
-secondary:!1},{width:3,bonus:70,chr:"i",pixels:[0,1,237,255,0,3,203,255,0,4,221,255,0,5,221,255,0,6,221,255,0,7,221,255,0,8,203,255,1,2,238,0,1,4,211,41,1,5,226,39,1,6,226,39,1,7,226,39,1,8,226,39,1,9,204,0],secondary:!1},{width:4,bonus:90,chr:"j",
-pixels:[0,11,153,255,1,11,169,255,2,1,203,255,2,3,203,255,2,4,225,251,2,5,225,251,2,6,225,251,2,7,225,251,2,8,225,251,2,9,225,251,3,2,204,0,3,4,204,0,3,5,221,0,3,6,221,0,3,7,221,0,3,8,221,0,3,9,221,0,3,10,221,0],secondary:!1},{width:6,bonus:130,
-chr:"k",
-pixels:[0,1,203,255,0,2,221,255,0,3,221,255,0,4,221,255,0,5,221,255,0,6,221,255,0,7,221,255,0,8,203,255,1,2,211,41,1,3,226,39,1,4,226,39,1,5,255,255,1,6,226,39,1,7,226,39,1,8,226,39,1,9,204,0,2,4,166,235,2,5,255,255,2,6,255,221,3,3,203,255,3,5,153,0,3,6,255,51,3,7,250,226,3,8,160,217,4,4,204,0,4,8,239,145],
-secondary:!1},{width:3,bonus:75,chr:"l",pixels:[0,1,203,255,0,2,221,255,0,3,221,255,0,4,221,255,0,5,221,255,0,6,221,255,0,7,221,255,1,2,211,41,1,3,226,39,1,4,226,39,1,5,226,39,1,6,226,39,1,7,226,39,1,8,255,255,2,9,255,0],secondary:!1},{width:10,
-bonus:210,chr:"m",
-pixels:[0,3,203,255,0,4,221,255,0,5,221,255,0,6,221,255,0,7,221,255,0,8,203,255,1,4,248,227,1,5,230,75,1,6,226,39,1,7,226,39,1,8,226,39,1,9,204,0,2,3,237,255,2,5,221,0,3,3,255,255,3,4,238,0,4,3,153,255,4,4,255,255,4,5,221,255,4,6,221,255,4,7,221,255,4,8,203,255,5,4,228,209,5,5,255,68,5,6,226,39,5,7,226,39,5,8,226,39,5,9,204,0,6,3,255,255,6,5,187,0,7,3,237,255,7,4,255,85,8,4,249,174,8,5,232,243,8,6,225,251,8,7,225,251,8,8,210,247,9,5,170,0,9,6,221,0,9,7,221,0,9,8,221,0,9,9,204,0],
-secondary:!1},{width:7,bonus:140,chr:"n",
-pixels:[0,3,203,255,0,4,221,255,0,5,221,255,0,6,221,255,0,7,221,255,0,8,203,255,1,4,248,227,1,5,232,93,1,6,226,39,1,7,226,39,1,8,226,39,1,9,204,0,2,3,237,255,2,5,221,0,3,3,255,255,3,4,238,0,4,3,237,255,4,4,255,85,5,4,249,174,5,5,232,243,5,6,225,251,5,7,225,251,5,8,210,247,6,5,170,0,6,6,221,0,6,7,221,0,6,8,221,0,6,9,204,0],
-secondary:!1},{width:8,bonus:120,chr:"o",
-pixels:[0,5,187,255,0,6,169,255,1,4,203,255,1,6,209,104,1,7,244,231,2,3,237,255,2,5,204,0,2,8,252,241,3,3,255,255,3,4,238,0,3,8,255,255,3,9,238,0,4,3,237,255,4,4,255,0,4,8,255,255,4,9,255,0,5,4,251,207,5,7,221,255,5,9,255,0,6,5,237,183,6,6,192,225,6,8,221,0,7,6,170,0,7,7,170,0],
-secondary:!1},{width:6,bonus:170,chr:"p",
-pixels:[0,3,237,255,0,4,255,255,0,5,187,255,0,6,203,255,0,7,255,255,0,8,221,255,0,9,221,255,0,10,221,255,1,3,255,255,1,4,240,36,1,5,255,0,1,6,187,0,1,7,211,41,1,8,254,239,1,9,221,0,1,10,221,0,1,11,221,0,2,3,255,255,2,4,255,0,2,8,255,255,2,9,238,0,3,3,237,255,3,4,255,34,3,8,237,255,3,9,255,0,4,4,253,240,4,5,255,255,4,6,255,255,4,7,237,255,4,9,238,0,5,5,239,18,5,6,255,17,5,7,255,0,5,8,238,0],
-secondary:!1},{width:7,bonus:165,chr:"q",
-pixels:[0,5,187,255,0,6,187,255,1,3,169,255,1,4,153,255,1,5,155,112,1,6,205,85,1,7,228,171,1,8,209,207,2,3,255,255,2,4,170,0,2,5,153,0,2,8,255,255,2,9,170,0,3,3,237,255,3,4,255,17,3,8,237,255,3,9,255,0,4,3,255,255,4,4,255,255,4,5,191,250,4,6,187,255,4,7,255,255,4,8,239,254,4,9,253,223,4,10,221,255,5,4,255,34,5,5,255,34,5,6,196,45,5,7,196,45,5,8,255,34,5,9,240,36,5,10,226,39,5,11,221,0],
-secondary:!1},{width:4,bonus:85,chr:"r",pixels:[0,3,203,255,0,4,221,255,0,5,221,255,0,6,221,255,0,7,221,255,0,8,203,255,1,3,187,255,1,4,244,213,1,5,232,93,1,6,226,39,1,7,226,39,1,8,226,39,1,9,204,0,2,3,255,255,2,4,187,0,2,5,204,0,3,4,255,0],
-secondary:!1},{width:6,bonus:100,chr:"s",
-pixels:[0,4,187,255,1,3,255,255,1,5,250,243,1,8,255,255,2,3,255,255,2,4,255,0,2,5,155,196,2,6,246,123,2,8,255,255,2,9,255,0,3,3,255,255,3,4,255,0,3,6,245,247,3,7,164,132,3,8,255,255,3,9,255,0,4,4,255,17,4,7,250,191,4,9,255,0,5,8,187,0],secondary:!1
-},{width:5,bonus:80,chr:"t",pixels:[1,2,221,255,1,3,255,255,1,4,235,240,1,5,221,255,1,6,221,255,1,7,169,255,2,3,255,255,2,4,255,34,2,5,226,39,2,6,226,39,2,7,232,93,2,8,249,243,3,4,255,0,3,8,187,209,3,9,238,0,4,9,153,0],secondary:!1},{width:6,
-bonus:135,chr:"u",
-pixels:[0,3,203,255,0,4,221,255,0,5,221,255,0,6,221,255,0,7,169,255,1,4,211,41,1,5,226,39,1,6,226,39,1,7,232,93,1,8,249,243,2,8,255,255,2,9,238,0,3,8,203,255,3,9,255,0,4,3,203,255,4,4,221,255,4,5,221,255,4,6,203,255,4,7,255,255,4,8,228,247,4,9,204,0,5,4,211,41,5,5,226,39,5,6,226,39,5,7,211,41,5,8,255,34,5,9,221,0],
-secondary:!1},{width:6,bonus:95,chr:"v",
-pixels:[0,3,237,255,1,4,247,141,1,5,245,247,1,6,203,255,2,6,241,54,2,7,255,255,2,8,255,255,3,5,153,255,3,6,255,255,3,7,173,226,3,8,255,51,3,9,255,0,4,3,237,255,4,4,203,255,4,6,153,0,4,7,255,0,4,8,153,0,5,4,238,0,5,5,204,0],secondary:!1},{width:10,
-bonus:170,chr:"w",
-pixels:[1,3,153,255,1,4,243,249,1,5,187,255,2,4,153,0,2,5,243,71,2,6,228,171,2,7,243,249,2,8,187,255,3,6,217,239,3,7,248,244,3,8,248,157,3,9,187,0,4,3,169,255,4,4,255,255,4,7,204,0,4,8,238,0,4,9,153,0,5,4,244,231,5,5,255,221,5,6,191,159,6,5,223,19,6,6,237,128,6,7,255,255,6,8,223,253,7,6,239,254,7,7,227,229,7,8,255,119,7,9,221,0,8,3,237,255,8,4,203,255,8,7,238,0,8,8,204,0,9,4,238,0,9,5,204,0],
-secondary:!1},{width:6,bonus:95,chr:"x",
-pixels:[0,8,169,255,1,3,169,255,1,4,224,232,1,7,221,255,1,9,170,0,2,4,193,90,2,5,255,255,2,6,240,253,2,8,221,0,3,4,255,255,3,5,155,196,3,6,255,187,3,7,250,191,4,3,221,255,4,5,255,0,4,7,209,104,4,8,255,255,5,4,221,0,5,9,255,0],secondary:!1},{width:6,
-bonus:110,chr:"y",
-pixels:[0,3,255,255,0,4,153,255,0,11,221,255,1,4,255,85,1,5,234,222,1,6,228,247,1,11,196,243,2,6,207,21,2,7,246,194,2,8,255,255,2,9,237,255,3,6,237,255,3,7,191,250,3,8,205,85,3,9,255,0,3,10,238,0,4,3,203,255,4,4,221,255,4,7,238,0,4,8,187,0,5,4,204,0,5,5,221,0],
-secondary:!1},{width:6,bonus:130,chr:"z",
-pixels:[0,3,153,255,0,8,203,255,1,3,255,255,1,4,153,0,1,7,221,255,1,8,255,255,1,9,204,0,2,3,255,255,2,4,255,0,2,6,255,255,2,8,255,255,2,9,255,0,3,3,255,255,3,4,254,171,3,5,169,255,3,7,255,0,3,8,255,255,3,9,255,0,4,3,255,255,4,4,255,119,4,5,170,0,4,6,170,0,4,8,255,255,4,9,255,0,5,4,255,0,5,9,255,0],
-secondary:!1},{width:8,bonus:155,chr:"A",
-pixels:[0,8,153,255,1,6,221,255,1,7,237,255,1,9,153,0,2,3,169,255,2,4,255,255,2,5,187,255,2,6,255,255,2,7,221,0,2,8,238,0,3,1,255,255,3,2,255,255,3,4,170,0,3,5,255,0,3,6,255,255,3,7,255,0,4,2,255,255,4,3,254,239,4,4,184,189,4,6,255,255,4,7,255,0,5,3,255,34,5,4,247,141,5,5,255,255,5,6,255,255,5,7,255,102,6,6,255,85,6,7,255,187,6,8,255,255,7,8,187,0,7,9,255,0],
-secondary:!1},{width:7,bonus:225,chr:"B",
-pixels:[0,1,203,255,0,2,221,255,0,3,221,255,0,4,221,255,0,5,221,255,0,6,221,255,0,7,221,255,0,8,203,255,1,1,255,255,1,2,211,41,1,3,226,39,1,4,255,255,1,5,226,39,1,6,226,39,1,7,226,39,1,8,255,255,1,9,204,0,2,1,255,255,2,2,255,0,2,4,255,255,2,5,255,0,2,8,255,255,2,9,255,0,3,1,255,255,3,2,255,0,3,4,255,255,3,5,255,0,3,8,255,255,3,9,255,0,4,1,221,255,4,2,255,85,4,4,255,255,4,5,254,171,4,8,203,255,4,9,255,0,5,2,243,178,5,3,198,219,5,5,255,102,5,6,232,205,5,7,180,217,5,9,204,0,6,3,170,0,6,4,170,0,6,7,187,0,6,8,153,0],
-secondary:!1},{width:9,bonus:155,chr:"C",
-pixels:[0,4,187,255,0,5,187,255,1,2,221,255,1,3,153,255,1,4,155,112,1,5,205,85,1,6,228,171,1,7,224,232,2,1,169,255,2,3,221,0,2,4,153,0,2,7,194,135,2,8,237,183,3,1,255,255,3,2,170,0,3,8,255,255,3,9,170,0,4,1,255,255,4,2,255,0,4,8,255,255,4,9,255,0,5,1,255,255,5,2,255,0,5,8,255,255,5,9,255,0,6,1,169,255,6,2,255,102,6,8,169,255,6,9,255,0,7,2,181,48,7,9,170,0],
-secondary:!1},{width:8,bonus:200,chr:"D",
-pixels:[0,1,203,255,0,2,221,255,0,3,221,255,0,4,221,255,0,5,221,255,0,6,221,255,0,7,221,255,0,8,203,255,1,1,255,255,1,2,211,41,1,3,226,39,1,4,226,39,1,5,226,39,1,6,226,39,1,7,226,39,1,8,255,255,1,9,204,0,2,1,255,255,2,2,255,0,2,8,255,255,2,9,255,0,3,1,255,255,3,2,255,0,3,8,255,255,3,9,255,0,4,1,203,255,4,2,255,68,4,8,203,255,4,9,255,0,5,2,248,227,5,3,168,207,5,7,221,255,5,9,204,0,6,3,237,128,6,4,223,214,6,5,205,233,6,6,155,196,6,8,221,0,7,5,187,0,7,6,187,0],
-secondary:!1},{width:6,bonus:180,chr:"E",
-pixels:[0,1,203,255,0,2,221,255,0,3,221,255,0,4,221,255,0,5,221,255,0,6,221,255,0,7,221,255,0,8,203,255,1,1,255,255,1,2,211,41,1,3,226,39,1,4,226,39,1,5,255,255,1,6,226,39,1,7,226,39,1,8,255,255,1,9,204,0,2,1,255,255,2,2,255,0,2,5,255,255,2,6,255,0,2,8,255,255,2,9,255,0,3,1,255,255,3,2,255,0,3,5,255,255,3,6,255,0,3,8,255,255,3,9,255,0,4,1,153,255,4,2,255,0,4,6,255,0,4,8,221,255,4,9,255,0,5,2,153,0,5,9,221,0],
-secondary:!1},{width:6,bonus:135,chr:"F",
-pixels:[0,1,203,255,0,2,221,255,0,3,221,255,0,4,221,255,0,5,221,255,0,6,221,255,0,7,221,255,0,8,203,255,1,1,255,255,1,2,211,41,1,3,226,39,1,4,226,39,1,5,255,255,1,6,226,39,1,7,226,39,1,8,226,39,1,9,204,0,2,1,255,255,2,2,255,0,2,5,255,255,2,6,255,0,3,1,255,255,3,2,255,0,3,5,255,255,3,6,255,0,4,2,255,0,4,6,255,0],
-secondary:!1},{width:9,bonus:200,chr:"G",
-pixels:[0,4,169,255,0,5,187,255,1,2,203,255,1,3,153,255,1,5,193,90,1,6,224,155,1,7,237,238,2,1,169,255,2,3,204,0,2,4,153,0,2,7,175,124,2,8,246,194,3,1,255,255,3,2,170,0,3,8,255,255,3,9,187,0,4,1,255,255,4,2,255,0,4,8,255,255,4,9,255,0,5,1,255,255,5,2,255,0,5,8,237,255,5,9,255,0,6,1,169,255,6,2,255,85,6,5,255,255,6,7,153,255,6,8,169,255,6,9,238,0,7,2,175,25,7,5,153,255,7,6,255,221,7,7,225,251,7,8,234,222,7,9,170,0,8,6,153,0,8,7,221,0,8,8,221,0,8,9,204,0],
-secondary:!1},{width:8,bonus:200,chr:"H",
-pixels:[0,1,203,255,0,2,221,255,0,3,221,255,0,4,221,255,0,5,221,255,0,6,221,255,0,7,221,255,0,8,203,255,1,2,211,41,1,3,226,39,1,4,226,39,1,5,255,255,1,6,226,39,1,7,226,39,1,8,226,39,1,9,204,0,2,5,255,255,2,6,255,0,3,5,255,255,3,6,255,0,4,5,255,255,4,6,255,0,5,5,255,255,5,6,255,34,6,1,203,255,6,2,225,251,6,3,225,251,6,4,225,251,6,5,225,251,6,6,255,221,6,7,225,251,6,8,210,247,7,2,204,0,7,3,221,0,7,4,221,0,7,5,221,0,7,6,221,0,7,7,221,0,7,8,221,0,7,9,204,0],
-secondary:!1},{width:4,bonus:110,chr:"I",
-pixels:[0,1,191,255,0,8,191,255,1,1,255,255,1,2,255,255,1,3,255,255,1,4,255,255,1,5,255,255,1,6,255,255,1,7,255,255,1,8,255,255,1,9,191,0,2,1,191,255,2,2,255,0,2,3,255,0,2,4,255,0,2,5,255,0,2,6,255,0,2,7,255,0,2,8,255,191,2,9,255,0,3,2,192,0,3,9,191,0],
-secondary:!1},{width:6,bonus:130,chr:"J",
-pixels:[0,6,153,255,0,7,153,255,1,7,194,135,1,8,234,222,2,1,221,255,2,8,255,255,2,9,204,0,3,1,255,255,3,2,226,39,3,8,203,255,3,9,255,0,4,1,203,255,4,2,255,221,4,3,225,251,4,4,225,251,4,5,225,251,4,6,225,251,4,7,166,235,4,9,204,0,5,2,204,0,5,3,221,0,5,4,221,0,5,5,221,0,5,6,221,0,5,7,221,0,5,8,153,0],
-secondary:!1},{width:7,bonus:155,chr:"K",
-pixels:[0,1,203,255,0,2,221,255,0,3,221,255,0,4,221,255,0,5,221,255,0,6,221,255,0,7,221,255,0,8,203,255,1,2,211,41,1,3,226,39,1,4,255,255,1,5,226,39,1,6,226,39,1,7,226,39,1,8,226,39,1,9,204,0,2,4,255,255,2,5,255,102,3,3,221,255,3,5,254,171,3,6,224,232,4,1,203,255,4,2,153,255,4,4,221,0,4,6,193,90,4,7,251,242,4,8,173,226,5,2,204,0,5,3,153,0,5,8,247,141,5,9,153,0],
-secondary:!1},{width:6,bonus:115,chr:"L",
-pixels:[0,1,203,255,0,2,221,255,0,3,221,255,0,4,221,255,0,5,221,255,0,6,221,255,0,7,221,255,0,8,203,255,1,2,211,41,1,3,226,39,1,4,226,39,1,5,226,39,1,6,226,39,1,7,226,39,1,8,255,255,1,9,204,0,2,8,255,255,2,9,255,0,3,8,255,255,3,9,255,0,4,8,255,255,4,9,255,0,5,9,255,0],
-secondary:!1},{width:9,bonus:240,chr:"M",
-pixels:[0,1,245,255,0,2,255,255,0,3,255,255,0,4,255,255,0,5,255,255,0,6,255,255,0,7,255,255,0,8,255,255,1,2,251,173,1,3,255,225,1,4,255,85,1,5,255,0,1,6,255,0,1,7,255,0,1,8,255,0,1,9,255,0,2,3,191,83,2,4,249,212,2,5,212,229,3,5,226,119,3,6,249,237,3,7,165,227,4,6,241,245,4,7,245,155,4,8,155,32,5,4,207,255,5,5,191,254,5,7,232,0,6,2,169,255,6,3,223,255,6,5,207,0,6,6,190,0,7,1,245,255,7,2,255,255,7,3,255,255,7,4,255,255,7,5,255,255,7,6,255,255,7,7,255,255,7,8,255,255,8,2,245,0,8,3,255,0,8,4,255,0,8,5,255,0,8,6,255,0,8,7,255,0,8,8,255,0,8,9,255,0],
-secondary:!1},{width:8,bonus:200,chr:"N",
-pixels:[0,1,203,255,0,2,221,255,0,3,221,255,0,4,221,255,0,5,221,255,0,6,221,255,0,7,221,255,0,8,203,255,1,2,255,255,1,3,235,111,1,4,226,39,1,5,226,39,1,6,226,39,1,7,226,39,1,8,226,39,1,9,204,0,2,3,255,221,2,4,163,160,3,4,246,194,3,5,214,223,4,5,214,122,4,6,246,229,5,6,163,160,5,7,255,255,6,1,203,255,6,2,225,251,6,3,225,251,6,4,225,251,6,5,225,251,6,6,225,251,6,7,235,240,6,8,254,204,7,2,204,0,7,3,221,0,7,4,221,0,7,5,221,0,7,6,221,0,7,7,221,0,7,8,221,0,7,9,204,0],
-secondary:!1},{width:10,bonus:200,chr:"O",
-pixels:[0,4,187,255,0,5,169,255,1,2,203,255,1,3,153,255,1,5,205,85,1,6,226,192,1,7,224,232,2,1,153,255,2,3,204,0,2,4,153,0,2,7,209,145,2,8,234,167,3,1,255,255,3,2,153,0,3,8,255,255,3,9,153,0,4,1,255,255,4,2,255,0,4,8,255,255,4,9,255,0,5,1,255,255,5,2,255,0,5,8,255,255,5,9,255,0,6,1,153,255,6,2,255,102,6,8,153,255,6,9,255,0,7,2,234,222,7,3,194,201,7,6,169,255,7,7,203,255,7,9,153,0,8,3,225,116,8,4,228,209,8,5,192,225,8,7,170,0,8,8,204,0,9,5,187,0,9,6,170,0],
-secondary:!1},{width:7,bonus:165,chr:"P",
-pixels:[0,1,203,255,0,2,221,255,0,3,221,255,0,4,221,255,0,5,221,255,0,6,221,255,0,7,221,255,0,8,203,255,1,1,255,255,1,2,211,41,1,3,226,39,1,4,226,39,1,5,255,255,1,6,226,39,1,7,226,39,1,8,226,39,1,9,204,0,2,1,255,255,2,2,255,0,2,5,255,255,2,6,255,0,3,1,255,255,3,2,255,0,3,5,255,255,3,6,255,0,4,1,187,255,4,2,255,136,4,5,187,255,4,6,255,0,5,2,224,155,5,3,239,236,5,6,187,0,6,4,221,0],
-secondary:!1},{width:9,bonus:185,chr:"Q",
-pixels:[0,4,187,255,0,5,187,255,1,2,221,255,1,4,155,112,1,5,205,85,1,6,228,171,1,7,235,240,2,1,187,255,2,3,221,0,2,7,187,116,2,8,243,178,3,1,255,255,3,2,187,0,3,8,255,255,3,9,170,0,4,1,255,255,4,2,255,0,4,8,255,255,4,9,255,0,5,1,237,255,5,2,255,0,5,8,237,255,5,9,255,0,6,2,251,207,6,7,255,255,6,9,238,0,7,3,255,255,7,4,203,255,7,5,221,255,7,6,255,255,7,7,155,196,7,8,254,204,8,4,255,17,8,5,207,21,8,6,221,0,8,7,255,0,8,9,204,0],
-secondary:!1},{width:7,bonus:180,chr:"R",
-pixels:[0,1,203,255,0,2,221,255,0,3,221,255,0,4,221,255,0,5,221,255,0,6,221,255,0,7,221,255,0,8,203,255,1,1,255,255,1,2,211,41,1,3,226,39,1,4,226,39,1,5,255,255,1,6,226,39,1,7,226,39,1,8,226,39,1,9,204,0,2,1,255,255,2,2,255,0,2,5,255,255,2,6,255,0,3,1,255,255,3,2,255,0,3,5,255,255,3,6,255,187,4,2,254,239,4,3,203,255,4,4,255,255,4,6,255,68,4,7,250,243,4,8,181,239,5,3,239,18,5,4,204,0,5,5,255,0,5,8,245,107,5,9,170,0],
-secondary:!1},{width:6,bonus:130,chr:"S",
-pixels:[0,2,153,255,0,3,169,255,1,1,203,255,1,3,187,116,1,4,244,231,1,8,243,249,2,1,255,255,2,2,204,0,2,4,198,219,2,5,232,93,2,8,255,255,2,9,238,0,3,1,255,255,3,2,255,0,3,5,255,255,3,8,255,255,3,9,255,0,4,1,169,255,4,2,255,68,4,5,160,217,4,6,255,221,4,7,237,255,4,9,255,0,5,2,170,0,5,7,223,19,5,8,238,0],
-secondary:!1},{width:8,bonus:125,chr:"T",
-pixels:[0,1,255,255,1,1,255,255,1,2,255,0,2,1,255,255,2,2,255,34,3,1,255,255,3,2,255,221,3,3,225,251,3,4,225,251,3,5,225,251,3,6,225,251,3,7,225,251,3,8,210,247,4,1,255,255,4,2,255,0,4,3,221,0,4,4,221,0,4,5,221,0,4,6,221,0,4,7,221,0,4,8,221,0,4,9,204,0,5,1,255,255,5,2,255,0,6,2,255,0],
-secondary:!1},{width:8,bonus:165,chr:"U",
-pixels:[0,1,203,255,0,2,221,255,0,3,221,255,0,4,221,255,0,5,221,255,0,6,187,255,1,2,211,41,1,3,226,39,1,4,226,39,1,5,226,39,1,6,230,75,1,7,232,187,1,8,184,189,2,8,255,255,3,8,255,255,3,9,255,0,4,8,221,255,4,9,255,0,5,1,203,255,5,2,221,255,5,3,221,255,5,4,221,255,5,5,221,255,5,6,255,255,5,7,237,255,5,9,221,0,6,2,211,41,6,3,226,39,6,4,226,39,6,5,226,39,6,6,223,19,6,7,255,0,6,8,238,0],
-secondary:!1},{width:7,bonus:125,chr:"V",
-pixels:[0,1,255,255,0,2,187,255,1,2,255,68,1,3,228,171,1,4,255,255,1,5,153,255,2,4,153,0,2,5,255,85,2,6,228,209,2,7,242,251,3,6,164,185,3,7,255,255,3,8,251,207,4,4,203,255,4,5,237,255,4,8,255,0,4,9,204,0,5,1,169,255,5,2,255,255,5,3,153,255,5,5,204,0,5,6,238,0,6,2,170,0,6,3,255,0,6,4,153,0],
-secondary:!1},{width:10,bonus:245,chr:"W",
-pixels:[0,1,255,255,0,2,221,255,1,2,255,17,1,3,237,128,1,4,223,214,1,5,255,255,1,6,203,255,2,5,191,23,2,6,255,136,2,7,255,255,2,8,255,255,3,3,153,255,3,4,237,255,3,5,221,255,3,7,168,103,3,8,255,0,3,9,255,0,4,1,255,255,4,2,255,255,4,3,187,209,4,4,153,0,4,5,238,0,4,6,221,0,5,2,255,102,5,3,254,171,5,4,248,244,5,5,203,255,6,4,170,0,6,5,241,54,6,6,231,150,6,7,255,255,6,8,255,255,7,4,153,255,7,5,237,255,7,6,241,252,7,7,207,188,7,8,255,85,7,9,255,0,8,1,237,255,8,2,237,255,8,3,153,255,8,4,153,171,8,5,153,0,8,6,238,0,8,7,238,0,8,8,153,0,9,2,238,0,9,3,238,0,9,4,153,0],
-secondary:!1},{width:7,bonus:130,chr:"X",
-pixels:[0,8,169,255,1,1,187,255,1,2,220,236,1,7,237,255,1,9,170,0,2,2,205,85,2,3,248,227,2,4,166,235,2,5,255,255,2,6,153,255,2,8,238,0,3,3,155,196,3,4,255,255,3,5,248,244,3,6,255,51,3,7,153,0,4,2,237,255,4,5,255,51,4,6,251,207,4,7,186,233,5,1,203,255,5,3,238,0,5,7,225,116,5,8,255,255,6,2,204,0,6,9,255,0],
-secondary:!1},{width:7,bonus:90,chr:"Y",
-pixels:[0,1,169,255,1,2,249,243,2,3,248,157,2,4,255,255,3,4,241,234,3,5,254,204,3,6,232,243,3,7,225,251,3,8,210,247,4,3,255,255,4,5,221,0,4,6,204,0,4,7,221,0,4,8,221,0,4,9,204,0,5,1,237,255,5,4,255,0,6,2,238,0],secondary:!1},{width:7,bonus:140,
-chr:"Z",
-pixels:[0,8,187,255,1,1,255,255,1,7,221,255,1,8,255,255,1,9,187,0,2,1,255,255,2,2,255,0,2,5,203,255,2,8,255,255,2,9,255,0,3,1,255,255,3,2,255,0,3,4,203,255,3,6,204,0,3,8,255,255,3,9,255,0,4,1,255,255,4,2,255,221,4,5,204,0,4,8,255,255,4,9,255,0,5,1,187,255,5,2,255,34,5,3,221,0,5,8,153,255,5,9,255,0,6,2,187,0,6,9,153,0],
-secondary:!1},{width:7,bonus:170,chr:"0",
-pixels:[0,2,153,255,0,3,221,255,0,4,255,255,0,5,255,255,0,6,237,255,0,7,169,255,1,1,187,255,1,3,153,0,1,4,221,0,1,5,255,0,1,6,255,0,1,7,243,71,1,8,237,219,2,1,187,255,2,2,187,0,2,8,205,233,2,9,211,41,3,1,221,255,3,2,205,85,3,8,203,255,3,9,187,0,4,2,243,178,4,3,255,255,4,4,187,255,4,5,187,255,4,6,237,255,4,7,169,255,4,9,204,0,5,3,170,0,5,4,255,0,5,5,187,0,5,6,187,0,5,7,238,0,5,8,170,0],
-secondary:!1},{width:7,bonus:100,chr:"1",
-pixels:[1,8,187,255,2,1,203,255,2,2,224,232,2,3,219,218,2,4,187,255,2,5,187,255,2,6,187,255,2,7,187,255,2,8,237,255,2,9,187,0,3,2,218,80,3,3,218,80,3,4,205,85,3,5,205,85,3,6,205,85,3,7,205,85,3,8,241,215,3,9,238,0,4,8,168,207,4,9,204,0],secondary:!1
-},{width:7,bonus:105,chr:"2",
-pixels:[1,8,255,255,2,1,187,255,2,6,153,255,2,8,223,214,2,9,255,0,3,1,203,255,3,2,187,0,3,5,153,255,3,7,153,0,3,8,219,218,3,9,187,0,4,1,187,255,4,2,234,167,4,4,203,255,4,6,153,0,4,8,187,255,4,9,187,0,5,2,214,122,5,3,200,152,5,5,204,0,5,9,187,0],
-secondary:!1},{width:7,bonus:105,chr:"3",
-pixels:[0,8,203,255,1,1,187,255,1,8,191,250,1,9,204,0,2,1,187,255,2,2,196,45,2,4,187,255,2,5,174,150,2,8,203,255,2,9,187,0,3,2,246,229,3,3,210,247,3,5,241,215,3,6,173,175,3,7,169,255,3,9,204,0,4,3,227,57,4,4,204,0,4,6,228,133,4,7,174,150,4,8,170,0],
-secondary:!1},{width:7,bonus:150,chr:"4",
-pixels:[0,6,237,255,1,4,187,255,1,6,219,218,1,7,238,0,2,3,169,255,2,5,187,0,2,6,219,218,2,7,187,0,3,1,187,255,3,2,153,255,3,3,155,112,3,4,193,90,3,6,203,255,3,7,205,85,4,1,187,255,4,2,237,201,4,3,228,209,4,4,205,233,4,5,205,233,4,6,242,251,4,7,241,198,4,8,205,233,5,2,187,0,5,3,187,0,5,4,187,0,5,5,187,0,5,6,224,155,5,7,238,0,5,8,187,0,5,9,187,0],
-secondary:!1},{width:7,bonus:130,chr:"5",
-pixels:[1,1,237,255,1,2,187,255,1,3,187,255,1,4,187,255,1,8,207,251,2,1,187,255,2,2,238,0,2,3,187,0,2,4,237,201,2,5,187,0,2,8,187,255,2,9,204,0,3,1,187,255,3,2,187,0,3,4,203,255,3,5,191,23,3,8,203,255,3,9,187,0,4,2,187,0,4,5,251,242,4,6,191,250,4,7,221,255,4,9,204,0,5,6,243,71,5,7,191,23,5,8,221,0],
-secondary:!1},{width:7,bonus:150,chr:"6",
-pixels:[0,3,169,255,0,4,255,255,0,5,255,255,0,6,237,255,0,7,153,255,1,2,187,255,1,4,209,145,1,5,255,68,1,6,255,0,1,7,246,123,1,8,228,209,2,1,203,255,2,3,187,0,2,4,200,238,2,8,219,218,2,9,187,0,3,1,187,255,3,2,204,0,3,4,203,255,3,5,205,85,3,8,187,255,3,9,187,0,4,2,187,0,4,5,248,227,4,6,255,255,4,7,187,255,4,9,187,0,5,6,221,0,5,7,255,0,5,8,187,0],
-secondary:!1},{width:7,bonus:105,chr:"7",
-pixels:[0,1,187,255,1,1,187,255,1,2,187,0,1,8,203,255,2,1,187,255,2,2,187,0,2,6,237,255,2,7,153,255,2,9,204,0,3,1,187,255,3,2,205,85,3,3,153,255,3,4,221,255,3,7,238,0,3,8,153,0,4,1,255,255,4,2,237,201,4,4,153,0,4,5,221,0,5,2,255,0,5,3,187,0],
-secondary:!1},{width:7,bonus:165,chr:"8",
-pixels:[1,2,237,255,1,3,221,255,1,6,203,255,1,7,228,247,2,1,203,255,2,3,241,54,2,4,248,209,2,5,186,233,2,7,207,21,2,8,250,226,3,1,187,255,3,2,204,0,3,4,186,233,3,5,221,98,3,6,170,0,3,8,191,250,3,9,221,0,4,1,221,255,4,2,209,104,4,4,169,255,4,5,237,219,4,8,187,255,4,9,187,0,5,2,243,178,5,3,187,209,5,5,204,128,5,6,251,242,5,7,240,253,5,9,187,0,6,3,170,0,6,4,153,0,6,7,238,0,6,8,238,0],
-secondary:!1},{width:7,bonus:160,chr:"9",
-pixels:[1,2,221,255,1,3,191,250,1,4,242,251,1,8,153,255,2,1,203,255,2,3,221,0,2,4,191,23,2,5,253,223,2,8,191,250,2,9,153,0,3,1,187,255,3,2,204,0,3,5,191,250,3,6,221,0,3,8,203,255,3,9,187,0,4,1,187,255,4,2,218,139,4,6,200,65,4,7,169,255,4,9,204,0,5,2,228,171,5,3,245,247,5,4,255,255,5,5,255,255,5,6,223,214,5,8,170,0,6,3,153,0,6,4,238,0,6,5,255,0,6,6,255,0,6,7,187,0],
-secondary:!1},{width:8,bonus:130,chr:"%",
-pixels:[0,3,255,255,0,8,255,255,1,2,255,255,1,4,255,255,1,7,255,255,1,9,255,0,2,3,255,255,2,5,255,41,2,6,255,255,2,8,255,0,3,4,255,41,3,5,255,255,3,7,255,0,4,4,255,255,4,6,255,92,4,7,255,255,5,3,255,255,5,5,255,0,5,6,255,255,5,8,255,255,6,2,255,255,6,4,255,0,6,7,255,255,6,9,255,0,7,3,255,0,7,8,255,0],
-secondary:!1},{width:4,bonus:80,chr:"/",pixels:[0,7,153,255,0,8,237,255,0,9,221,255,1,4,187,255,1,5,237,255,1,6,169,255,1,8,153,0,1,9,238,0,1,10,221,0,2,1,221,255,2,2,221,255,2,5,187,0,2,6,238,0,2,7,170,0,3,2,221,0,3,3,221,0],secondary:!1},{width:7,
-bonus:110,chr:"+",
-pixels:[0,5,221,255,1,5,255,255,1,6,221,0,2,5,255,255,2,6,255,34,3,2,153,255,3,3,223,253,3,4,225,251,3,5,255,255,3,6,255,221,3,7,225,251,3,8,210,247,4,3,153,0,4,4,221,0,4,5,255,255,4,6,255,0,4,7,221,0,4,8,221,0,4,9,204,0,5,5,255,255,5,6,255,0,6,6,255,0],
-secondary:!1},{width:5,bonus:75,chr:"?",pixels:[0,1,169,255,1,1,255,255,1,2,170,0,1,6,221,255,1,8,255,255,2,1,255,255,2,2,255,0,2,5,169,255,2,7,221,0,2,9,255,0,3,2,255,255,3,3,221,255,3,6,170,0,4,3,255,17,4,4,221,0],secondary:!1},{width:2,bonus:70,
-chr:"!",pixels:[0,1,169,255,0,2,187,255,0,3,187,255,0,4,187,255,0,5,187,255,0,6,169,255,0,8,255,255,1,2,181,48,1,3,196,45,1,4,196,45,1,5,196,45,1,6,196,45,1,7,170,0,1,9,255,0],secondary:!1},{width:8,bonus:230,chr:"@",
-pixels:[0,4,255,255,0,5,255,255,0,6,221,255,0,7,255,255,0,8,187,255,1,3,221,255,1,5,255,0,1,6,255,34,1,7,221,0,1,8,255,68,1,9,250,243,2,2,221,255,2,4,232,93,2,5,255,255,2,6,237,255,2,7,255,255,2,10,248,157,3,2,255,255,3,3,221,0,3,4,255,255,3,6,255,0,3,7,241,54,3,8,254,204,3,10,214,223,3,11,153,0,4,2,237,255,4,3,255,0,4,4,255,255,4,5,255,0,4,8,255,255,4,9,204,0,4,11,187,0,5,3,253,240,5,4,255,255,5,5,255,221,5,6,221,255,5,7,221,255,5,8,237,255,5,9,255,0,6,4,240,36,6,5,255,34,6,6,226,39,6,7,226,39,6,8,250,226,6,9,238,0,7,9,221,0],
-secondary:!1},{width:8,bonus:200,chr:"#",
-pixels:[0,6,255,255,1,3,255,255,1,6,255,255,1,7,254,171,1,8,237,255,2,1,169,255,2,2,237,255,2,3,255,255,2,4,255,221,2,5,175,247,2,6,255,255,2,7,255,85,2,8,170,0,2,9,238,0,3,2,170,0,3,3,255,255,3,4,255,0,3,5,221,0,3,6,255,255,3,7,255,0,4,3,255,255,4,4,255,153,4,5,203,255,4,6,255,255,4,7,254,239,4,8,187,255,5,1,255,255,5,2,187,255,5,3,255,255,5,4,255,85,5,5,159,27,5,6,255,255,5,7,255,0,5,8,238,0,5,9,187,0,6,2,255,0,6,3,255,255,6,4,255,0,6,7,255,0,7,4,255,0],
-secondary:!1},{width:6,bonus:130,chr:"$",
-pixels:[0,2,153,255,0,3,169,255,1,1,203,255,1,3,187,116,1,4,244,231,1,8,243,249,2,0,203,255,2,1,237,255,2,2,204,0,2,4,176,197,2,5,237,128,2,8,240,253,2,9,251,207,3,1,251,242,3,2,239,18,3,5,247,245,3,6,164,132,3,8,255,255,3,9,240,36,3,10,204,0,4,2,240,36,4,6,249,174,4,7,198,219,4,9,255,0,5,7,170,0,5,8,170,0],
-secondary:!1},{width:6,bonus:75,chr:"^",pixels:[0,4,153,255,0,5,237,255,1,2,203,255,1,3,221,255,1,5,153,0,1,6,238,0,2,1,221,255,2,2,230,245,2,3,218,80,2,4,221,0,3,2,227,57,3,3,246,194,3,4,230,245,4,4,187,0,4,5,239,145],secondary:!1},{width:6,
-bonus:35,chr:"~",pixels:[1,5,255,255,2,5,221,255,2,6,255,51,3,6,250,226,4,5,203,255,4,7,221,0,5,6,204,0],secondary:!1},{width:7,bonus:175,chr:"&",
-pixels:[0,6,187,255,1,2,237,255,1,3,255,255,1,4,191,250,1,5,187,255,1,7,224,155,1,8,223,214,2,1,255,255,2,3,238,0,2,4,255,255,2,5,191,23,2,6,187,0,2,8,255,255,2,9,187,0,3,1,255,255,3,2,255,0,3,4,255,255,3,5,255,0,3,8,255,255,3,9,255,0,4,2,255,0,4,4,255,255,4,5,255,34,4,8,187,255,4,9,255,0,5,3,203,255,5,4,255,255,5,5,255,221,5,6,196,243,5,7,155,196,5,9,187,0,6,4,234,167,6,5,255,0,6,6,221,0,6,7,187,0],
-secondary:!1},{width:6,bonus:70,chr:"*",pixels:[0,2,169,255,1,2,169,255,1,3,237,219,1,4,255,255,2,1,203,255,2,2,240,253,2,3,255,255,2,4,228,133,2,5,255,0,3,2,237,183,3,3,245,107,3,4,255,153,4,3,170,0,4,5,153,0],secondary:!1},{width:4,bonus:100,
-chr:"(",pixels:[0,3,173,255,0,4,239,255,0,5,253,255,0,6,229,255,0,7,171,255,1,1,193,255,1,2,203,255,1,4,188,64,1,5,241,25,1,6,252,46,1,7,240,112,1,8,238,218,1,9,210,232,2,0,209,255,2,2,194,2,2,3,204,0,2,9,223,111,2,10,245,224,3,1,210,0,3,11,216,0],
-secondary:!1},{width:4,bonus:75,chr:")",pixels:[1,0,211,255,1,10,215,255,2,1,244,203,2,2,222,234,2,8,203,255,2,9,191,255,2,11,216,0,3,2,213,94,3,3,238,186,3,4,246,248,3,5,253,255,3,6,231,253,3,7,186,234,3,9,203,1,3,10,191,0],secondary:!1},{width:7,
-bonus:60,chr:"_",pixels:[0,9,153,255,1,9,255,255,1,10,153,0,2,9,255,255,2,10,255,0,3,9,255,255,3,10,255,0,4,9,255,255,4,10,255,0,5,9,255,255,5,10,255,0,6,10,255,0],secondary:!1},{width:4,bonus:30,chr:"-",
-pixels:[0,5,255,255,1,5,255,255,1,6,255,0,2,5,255,255,2,6,255,0,3,6,255,0],secondary:!0},{width:8,bonus:100,chr:"=",
-pixels:[0,4,255,255,0,6,255,255,1,4,255,255,1,5,255,0,1,6,255,255,1,7,255,0,2,4,255,255,2,5,255,0,2,6,255,255,2,7,255,0,3,4,255,255,3,5,255,0,3,6,255,255,3,7,255,0,4,4,255,255,4,5,255,0,4,6,255,255,4,7,255,0,5,5,255,0,5,7,255,0],secondary:!1},{
-width:3,bonus:105,chr:"[",
-pixels:[0,0,203,255,0,1,221,255,0,2,221,255,0,3,221,255,0,4,221,255,0,5,221,255,0,6,221,255,0,7,221,255,0,8,203,255,1,0,237,255,1,1,211,41,1,2,226,39,1,3,226,39,1,4,226,39,1,5,226,39,1,6,226,39,1,7,226,39,1,8,252,241,1,9,204,0,2,1,238,0,2,9,238,0],
-secondary:!1},{width:3,bonus:105,chr:"]",
-pixels:[0,0,237,255,0,8,237,255,1,0,203,255,1,1,253,223,1,2,225,251,1,3,225,251,1,4,225,251,1,5,225,251,1,6,225,251,1,7,225,251,1,8,210,247,1,9,238,0,2,1,204,0,2,2,221,0,2,3,221,0,2,4,221,0,2,5,221,0,2,6,221,0,2,7,221,0,2,8,221,0,2,9,204,0],
-secondary:!1},{width:5,bonus:90,chr:"{",
-pixels:[0,5,153,255,1,2,169,255,1,3,221,255,1,4,221,255,1,5,203,255,1,6,255,255,1,7,221,255,1,8,169,255,2,1,237,255,2,3,181,48,2,4,223,19,2,5,221,0,2,6,207,21,2,7,255,34,2,8,232,93,2,9,249,243,3,2,238,0,3,10,238,0],secondary:!1},{width:5,bonus:90,
-chr:"}",pixels:[1,1,237,255,1,9,237,255,2,2,249,174,2,3,232,243,2,4,225,251,2,5,207,251,2,6,255,255,2,7,223,253,2,8,181,239,2,10,238,0,3,3,170,0,3,4,221,0,3,5,241,162,3,6,204,0,3,7,255,0,3,8,221,0,3,9,170,0,4,6,153,0],secondary:!1},{width:3,bonus:20,
-chr:":",pixels:[1,3,255,255,1,7,255,255,2,4,255,0,2,8,255,0],secondary:!0},{width:3,bonus:40,chr:";",pixels:[0,9,201,255,1,3,255,255,1,7,241,255,1,8,255,255,1,10,201,0,2,4,255,0,2,8,241,0,2,9,255,0],secondary:!0},{width:3,bonus:30,chr:'"',
-pixels:[0,1,255,255,0,2,255,255,1,2,255,0,1,3,255,0,2,1,255,255,2,2,255,255],secondary:!0},{width:2,bonus:20,chr:"'",pixels:[0,1,255,255,0,2,177,255,1,2,255,30,1,3,177,0],secondary:!0},{width:7,bonus:70,chr:"<",
-pixels:[0,5,203,255,1,5,255,255,1,6,228,133,2,4,237,255,2,6,254,239,3,4,169,255,3,5,238,0,3,6,175,247,3,7,243,89,4,3,221,255,4,5,170,0,4,7,244,231,5,4,221,0,5,8,221,0],secondary:!1},{width:7,bonus:80,chr:">",
-pixels:[0,3,203,255,0,7,203,255,1,4,228,133,1,7,187,255,1,8,204,0,2,4,247,245,2,6,255,255,2,8,187,0,3,4,175,247,3,5,248,157,3,6,203,255,3,7,255,0,4,5,255,255,4,6,173,75,4,7,204,0,5,6,255,0],secondary:!1},{width:5,bonus:70,chr:"\\",
-pixels:[1,1,153,255,1,2,255,255,1,3,203,255,2,2,153,0,2,3,255,51,2,4,231,150,2,5,255,255,2,6,203,255,3,6,255,34,3,7,231,150,3,8,255,255,3,9,207,251,4,9,255,0,4,10,204,0],secondary:!1},{width:2,bonus:10,chr:".",pixels:[0,8,255,255,1,9,255,0],
-secondary:!0},{width:3,bonus:30,chr:",",pixels:[0,9,205,255,1,7,205,255,1,8,255,255,1,10,205,0,2,8,205,0,2,9,255,0],secondary:!0},{width:3,bonus:100,chr:"|",
-pixels:[0,1,221,255,0,2,221,255,0,3,221,255,0,4,221,255,0,5,221,255,0,6,221,255,0,7,221,255,0,8,221,255,0,9,221,255,0,10,203,255,1,2,226,39,1,3,226,39,1,4,226,39,1,5,226,39,1,6,226,39,1,7,226,39,1,8,226,39,1,9,226,39,1,10,226,39,1,11,204,0],
-secondary:!1}],width:10,spacewidth:3,shadow:!0,height:12,basey:8}}],e={},function o(r){var n=e[r];if(void 0!==n)return n.exports;var i=e[r]={exports:{}};return s[r](i,i.exports,o),i.exports}(0);var s,e}));
-
-/***/ }),
-
-/***/ "../node_modules/@alt1/ocr/fonts/aa_9px_mono_allcaps.js":
-/*!**************************************************************!*\
-  !*** ../node_modules/@alt1/ocr/fonts/aa_9px_mono_allcaps.js ***!
-  \**************************************************************/
-/***/ (function(module) {
-
-!function(s,e){ true?module.exports=e():0
-}("undefined"!=typeof self?self:this,(()=>{return s=[s=>{s.exports={chars:[{width:3,bonus:55,chr:"!",pixels:[0,4,221,0,5,170,0,6,153,0,12,153,1,3,221,1,4,255,1,5,221,1,6,204,1,7,170,1,8,153,1,12,204],secondary:!1},{width:6,bonus:30,chr:'"',
-pixels:[1,2,221,1,3,255,1,4,170,3,2,221,3,3,255,3,4,170],secondary:!0},{width:9,bonus:160,chr:"#",
-pixels:[1,5,221,1,8,255,2,5,255,2,7,153,2,8,255,2,9,204,2,10,238,2,11,238,3,2,187,3,3,238,3,4,255,3,5,255,3,6,170,3,7,170,3,8,255,4,5,255,4,8,255,5,4,153,5,5,255,5,6,170,5,7,204,5,8,255,5,9,238,5,10,204,5,11,170,6,2,238,6,3,204,6,4,204,6,5,255,6,8,255,7,5,255,7,8,153],
-secondary:!1},{width:7,bonus:145,chr:"$",
-pixels:[1,3,204,1,4,255,1,5,187,1,10,153,1,11,204,2,2,187,2,5,221,2,6,255,2,10,170,2,11,255,2,12,221,3,1,153,3,2,238,3,3,221,3,4,238,3,5,204,3,6,238,3,7,255,3,8,153,3,11,221,4,2,221,4,7,255,4,8,221,4,10,187,5,2,170,5,3,187,5,8,221,5,9,255,5,10,153],
-secondary:!1},{width:12,bonus:175,chr:"%",
-pixels:[1,4,255,1,5,255,1,6,255,2,3,153,2,7,204,3,3,170,3,7,204,3,12,187,4,3,187,4,4,255,4,5,255,4,6,255,4,10,238,4,11,204,5,7,170,5,8,238,5,9,153,6,5,204,6,6,221,6,9,187,6,10,255,6,11,204,7,3,238,7,4,170,7,8,187,7,11,153,7,12,204,8,8,187,8,12,187,9,8,204,9,9,153,9,12,187,10,9,187,10,10,255,10,11,187],
-secondary:!1},{width:12,bonus:175,chr:"&",
-pixels:[0,9,221,0,10,255,0,11,153,1,5,153,1,8,238,1,9,187,1,10,238,1,11,255,2,4,255,2,5,255,2,6,255,2,7,255,2,11,170,2,12,221,3,3,204,3,7,255,3,8,221,3,12,255,4,3,221,4,8,238,4,9,221,4,12,238,5,3,238,5,9,238,5,10,187,5,12,170,6,4,153,6,10,255,6,11,238,7,10,221,7,11,255,8,8,238,8,9,170,8,12,238,9,12,221],
-secondary:!1},{width:3,bonus:15,chr:"'",pixels:[0,2,153,1,2,187,1,3,204],secondary:!0},{width:5,bonus:60,chr:"(",pixels:[0,6,204,0,7,255,0,8,238,0,9,187,1,4,238,1,5,204,1,6,153,1,9,170,1,10,238,1,11,204,2,3,153,2,12,187],secondary:!1},{width:5,
-bonus:50,chr:")",pixels:[1,3,204,1,4,153,1,11,221,2,4,153,2,5,255,2,6,255,2,7,255,2,8,255,2,9,255,2,10,204],secondary:!1},{width:5,bonus:40,chr:"*",pixels:[0,3,170,0,5,153,1,2,187,1,3,187,1,4,221,2,4,170,2,5,221,3,3,153],secondary:!0},{width:8,
-bonus:65,chr:"+",pixels:[0,8,153,1,8,255,2,8,255,3,5,153,3,6,255,3,7,255,3,8,255,3,9,255,3,10,255,3,11,153,4,8,255,5,8,255,6,8,187],secondary:!1},{width:3,bonus:10,chr:",",pixels:[1,10,187,1,11,221],secondary:!0},{width:6,bonus:20,chr:"-",
-pixels:[0,9,204,1,9,255,2,9,255,3,9,204],secondary:!0},{width:3,bonus:10,chr:".",pixels:[1,11,170,1,12,204],secondary:!0},{width:8,bonus:50,chr:"/",pixels:[0,11,187,1,10,238,2,8,221,2,9,153,3,6,170,3,7,204,4,5,238,5,3,221,5,4,170,6,2,153],
-secondary:!1},{width:8,bonus:145,chr:"0",
-pixels:[0,7,153,0,8,187,0,9,170,1,5,221,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,1,11,238,2,4,187,2,11,170,2,12,204,3,4,187,3,12,204,4,4,221,4,12,187,5,5,255,5,6,255,5,7,204,5,8,187,5,9,187,5,10,238,5,11,238,6,6,187,6,7,238,6,8,255,6,9,221,6,10,170],
-secondary:!1},{width:7,bonus:95,chr:"1",pixels:[1,5,153,2,5,255,2,6,187,2,7,187,2,8,187,2,9,187,2,10,187,2,11,187,2,12,238,3,4,204,3,5,255,3,6,255,3,7,255,3,8,255,3,9,255,3,10,255,3,11,255,3,12,255,4,12,153],secondary:!1},{width:9,bonus:115,chr:"2",
-pixels:[1,4,170,1,5,204,1,12,255,2,4,204,2,11,221,2,12,255,3,4,204,3,10,204,3,12,255,4,4,221,4,9,238,4,12,255,5,4,153,5,5,255,5,6,255,5,7,255,5,8,255,5,12,255,6,5,153,6,6,221,6,7,170,6,11,187,6,12,204],secondary:!1},{width:7,bonus:105,chr:"3",
-pixels:[0,11,187,0,12,187,1,4,204,1,12,238,2,4,221,2,12,221,3,4,238,3,7,187,3,8,221,3,12,204,4,4,170,4,5,255,4,6,255,4,7,153,4,8,238,4,9,255,4,10,221,4,11,255,5,5,170,5,9,221,5,10,238],secondary:!1},{width:9,bonus:120,chr:"4",
-pixels:[1,9,204,1,10,255,2,8,204,2,10,255,3,7,187,3,10,255,4,5,170,4,6,238,4,7,153,4,8,153,4,9,170,4,10,255,4,11,153,4,12,221,5,4,204,5,5,255,5,6,255,5,7,255,5,8,255,5,9,255,5,10,255,5,11,255,5,12,255,6,10,255],secondary:!1},{width:7,bonus:110,
-chr:"5",pixels:[0,11,170,0,12,221,1,4,255,1,5,204,1,6,221,1,7,187,1,12,238,2,4,255,2,7,255,2,12,204,3,4,255,3,7,255,3,8,204,3,12,170,4,4,255,4,8,255,4,9,255,4,10,255,4,11,238,5,4,153,5,9,187,5,10,153],secondary:!1},{width:7,bonus:105,chr:"6",
-pixels:[0,8,187,0,9,255,0,10,238,1,6,170,1,7,255,1,8,221,1,9,187,1,10,204,1,11,255,2,5,187,2,6,153,2,12,221,3,8,221,3,12,204,4,8,204,4,9,238,4,10,187,4,11,221,5,9,221,5,10,255,5,11,153],secondary:!1},{width:7,bonus:90,chr:"7",
-pixels:[0,4,204,0,5,187,1,4,255,1,12,170,2,4,255,2,10,221,2,11,255,2,12,187,3,4,255,3,8,221,3,9,238,3,10,153,4,4,255,4,5,153,4,6,204,4,7,187,5,4,255,5,5,187],secondary:!1},{width:8,bonus:170,chr:"8",
-pixels:[0,10,153,1,5,204,1,6,238,1,9,238,1,10,255,1,11,255,2,4,170,2,5,153,2,6,170,2,7,255,2,8,204,2,12,221,3,4,187,3,7,204,3,8,187,3,12,204,4,4,204,4,7,153,4,8,255,4,12,204,5,4,204,5,5,187,5,6,187,5,7,187,5,8,187,5,9,255,5,10,170,5,11,204,5,12,153,6,5,238,6,6,204,6,9,187,6,10,255,6,11,170],
-secondary:!1},{width:7,bonus:105,chr:"9",pixels:[0,6,238,0,7,238,0,8,153,1,5,204,1,6,153,1,7,187,1,8,255,2,4,204,2,9,187,3,4,221,3,11,187,4,5,255,4,6,238,4,7,187,4,8,187,4,9,238,4,10,255,5,6,221,5,7,255,5,8,238,5,9,170],secondary:!1},{width:3,
-bonus:20,chr:":",pixels:[0,5,170,0,6,204,0,10,204,0,11,170],secondary:!0},{width:3,bonus:25,chr:";",pixels:[0,4,170,0,5,204,0,9,221,0,11,153,1,9,170],secondary:!0},{width:8,bonus:55,chr:"<",
-pixels:[1,8,255,1,9,187,2,8,170,2,9,238,3,7,238,4,7,187,4,10,238,5,6,204,5,10,187,6,6,221,6,11,204],secondary:!1},{width:8,bonus:60,chr:"=",pixels:[1,7,255,1,9,255,2,7,255,2,9,255,3,7,255,3,9,255,4,7,255,4,9,255,5,7,255,5,9,255,6,7,255,6,9,255],
-secondary:!1},{width:8,bonus:55,chr:">",pixels:[1,6,238,1,11,170,2,6,170,2,10,221,3,7,238,3,10,204,4,7,204,4,9,187,5,8,221,5,9,238,6,8,221],secondary:!1},{width:7,bonus:80,chr:"?",
-pixels:[1,3,170,1,4,153,2,3,221,2,9,238,2,12,153,3,3,238,3,7,170,3,8,221,3,12,204,4,3,204,4,4,238,4,5,221,4,6,255,4,7,187,5,4,221,5,5,238],secondary:!1},{width:11,bonus:185,chr:"@",
-pixels:[0,7,187,0,8,238,0,9,255,0,10,187,1,5,153,1,6,170,1,11,238,2,12,170,3,7,221,3,8,255,3,9,255,3,10,238,3,12,204,4,3,153,4,6,170,4,12,187,5,3,153,5,5,170,5,8,170,5,9,204,5,12,170,6,3,170,6,5,187,6,6,238,6,7,255,6,8,255,6,9,255,6,10,238,6,12,153,7,3,170,7,10,204,8,4,187,8,9,170,9,5,204,9,6,221,9,7,221,9,8,170],
-secondary:!1},{width:10,bonus:125,chr:"A",
-pixels:[1,12,238,2,9,187,2,10,238,2,11,170,2,12,187,3,7,221,3,8,204,3,9,238,4,5,238,4,6,238,4,9,221,5,5,187,5,6,255,5,7,255,5,8,187,5,9,238,6,7,153,6,8,255,6,9,255,6,10,238,6,11,153,7,10,221,7,11,255,7,12,255,8,12,221],secondary:!1},{width:8,
-bonus:160,chr:"B",
-pixels:[1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,1,11,255,1,12,255,2,4,238,2,5,187,2,6,187,2,7,187,2,8,238,2,9,187,2,10,187,2,11,187,2,12,255,3,4,204,3,8,204,3,12,204,4,4,221,4,5,187,4,7,187,4,8,255,4,12,204,5,5,238,5,6,238,5,9,255,5,10,255,5,11,255,6,10,187],
-secondary:!1},{width:9,bonus:120,chr:"C",
-pixels:[0,7,221,0,8,255,0,9,221,1,5,221,1,6,255,1,7,238,1,8,221,1,9,255,1,10,255,1,11,204,2,5,187,2,11,255,3,4,204,3,12,204,4,4,221,4,12,238,5,4,221,5,12,221,6,4,221,6,12,238,7,4,187,7,5,204,7,11,187,7,12,170],secondary:!1},{width:11,bonus:200,
-chr:"D",
-pixels:[1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,1,11,255,1,12,255,2,4,255,2,5,187,2,6,187,2,7,187,2,8,187,2,9,187,2,10,187,2,11,204,2,12,255,3,4,221,3,12,238,4,4,238,4,12,221,5,4,238,5,12,221,6,4,204,6,5,153,6,12,187,7,5,255,7,6,153,7,11,238,8,5,204,8,6,255,8,7,255,8,8,255,8,9,255,8,10,255,8,11,170,9,7,204,9,8,221,9,9,187],
-secondary:!1},{width:7,bonus:135,chr:"E",
-pixels:[1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,1,11,255,1,12,255,2,4,255,2,5,187,2,6,187,2,7,187,2,8,255,2,9,187,2,10,187,2,11,204,2,12,255,3,4,221,3,8,221,3,12,238,4,4,238,4,8,221,4,12,221,5,4,187,5,8,153,5,12,238],secondary:!1},{
-width:7,bonus:115,chr:"F",pixels:[1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,1,11,255,1,12,255,2,4,255,2,5,187,2,6,187,2,7,187,2,8,255,2,9,187,2,10,187,2,11,187,2,12,238,3,4,221,3,8,221,4,4,238,4,8,221,5,4,221],secondary:!1},{width:10,
-bonus:150,chr:"G",
-pixels:[0,7,204,0,8,255,0,9,255,0,10,187,1,5,187,1,6,255,1,7,238,1,8,221,1,9,238,1,10,255,1,11,221,2,5,204,2,11,238,3,4,204,3,12,204,4,4,221,4,12,238,5,4,238,5,12,221,6,4,221,6,9,238,6,10,187,6,11,187,6,12,221,7,4,170,7,5,221,7,9,255,7,10,255,7,11,255,7,12,153],
-secondary:!1},{width:11,bonus:200,chr:"H",
-pixels:[1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,1,11,255,1,12,255,2,4,238,2,5,187,2,6,187,2,7,187,2,8,255,2,9,187,2,10,187,2,11,187,2,12,238,3,8,221,4,8,221,5,8,221,6,8,221,7,4,255,7,5,255,7,6,255,7,7,255,7,8,255,7,9,255,7,10,255,7,11,255,7,12,255,8,4,238,8,5,187,8,6,187,8,7,187,8,8,187,8,9,187,8,10,187,8,11,187,8,12,238],
-secondary:!1},{width:5,bonus:90,chr:"I",pixels:[1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,1,11,255,1,12,255,2,4,238,2,5,187,2,6,187,2,7,187,2,8,187,2,9,187,2,10,187,2,11,187,2,12,238],secondary:!1},{width:6,bonus:100,chr:"J",
-pixels:[2,4,255,2,5,255,2,6,255,2,7,255,2,8,255,2,9,255,2,10,255,2,11,255,2,12,255,2,13,255,2,14,187,3,4,238,3,5,187,3,6,187,3,7,187,3,8,187,3,9,187,3,10,187,3,11,187,3,12,187],secondary:!1},{width:10,bonus:170,chr:"K",
-pixels:[1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,1,11,255,1,12,255,2,4,238,2,5,187,2,6,187,2,7,187,2,8,255,2,9,204,2,10,187,2,11,187,2,12,238,3,7,170,3,8,255,3,9,221,4,6,204,4,9,238,4,10,238,5,4,153,5,5,238,5,10,238,5,11,238,6,4,255,6,11,238,6,12,187,7,4,153,7,12,255,8,12,153],
-secondary:!1},{width:8,bonus:105,chr:"L",pixels:[1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,1,11,255,1,12,255,2,4,238,2,5,187,2,6,187,2,7,187,2,8,187,2,9,187,2,10,187,2,11,204,2,12,255,3,12,238,4,12,221,5,12,255],secondary:!1},{
-width:13,bonus:190,chr:"M",
-pixels:[1,9,170,1,10,204,1,11,238,1,12,255,2,4,187,2,5,255,2,6,255,2,7,238,2,8,153,2,12,153,3,6,238,3,7,255,3,8,238,4,8,238,4,9,255,4,10,238,5,10,238,5,11,255,5,12,187,6,9,153,6,10,238,7,7,153,7,8,238,8,5,170,8,6,255,8,7,238,9,4,153,9,5,204,9,6,255,9,7,255,9,8,255,9,9,255,9,10,255,9,11,255,9,12,238,10,10,153,10,11,187,10,12,255],
-secondary:!1},{width:11,bonus:170,chr:"N",
-pixels:[0,12,170,1,4,187,1,5,255,1,6,255,1,7,238,1,8,255,1,9,255,1,10,255,1,11,255,1,12,255,2,5,204,2,6,255,2,12,153,3,6,221,3,7,255,4,7,238,4,8,255,5,8,238,5,9,255,6,9,238,6,10,238,7,4,153,7,10,255,7,11,238,8,4,255,8,5,255,8,6,255,8,7,255,8,8,255,8,9,255,8,10,255,8,11,255,8,12,204,9,4,153],
-secondary:!1},{width:10,bonus:160,chr:"O",
-pixels:[0,7,221,0,8,255,0,9,221,1,5,204,1,6,255,1,7,221,1,8,221,1,9,255,1,10,255,1,11,221,2,5,170,2,11,238,3,4,221,3,12,221,4,4,221,4,12,221,5,4,238,5,12,204,6,4,153,6,5,238,6,11,170,7,5,238,7,6,255,7,7,255,7,8,221,7,9,238,7,10,255,7,11,187,8,6,153,8,7,238,8,8,255,8,9,204],
-secondary:!1},{width:8,bonus:130,chr:"P",
-pixels:[1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,1,11,255,1,12,255,2,4,238,2,5,187,2,6,187,2,7,187,2,8,187,2,9,187,2,10,187,2,11,187,2,12,238,3,4,204,4,4,238,5,4,170,5,5,255,5,6,255,5,7,255,5,8,204,6,6,187],secondary:!1},{width:10,
-bonus:200,chr:"Q",
-pixels:[0,7,221,0,8,255,0,9,221,1,5,187,1,6,255,1,7,238,1,8,221,1,9,255,1,10,255,1,11,221,2,5,170,2,11,238,2,12,153,3,4,221,3,12,221,4,4,221,4,12,238,5,4,238,5,12,204,6,4,153,6,5,238,6,11,153,6,12,238,7,5,221,7,6,255,7,7,255,7,8,221,7,9,238,7,10,255,7,11,170,7,12,204,7,13,221,8,6,153,8,7,238,8,8,255,8,9,221,8,13,255,8,14,170,9,13,170,9,14,255],
-secondary:!1},{width:10,bonus:175,chr:"R",
-pixels:[1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,1,11,255,1,12,255,2,4,255,2,5,187,2,6,187,2,7,187,2,8,187,2,9,255,2,10,187,2,11,187,2,12,238,3,4,221,3,9,221,4,4,238,4,9,255,4,10,170,5,4,153,5,5,255,5,6,255,5,7,255,5,8,187,5,10,255,5,11,187,6,6,187,6,11,238,6,12,170,7,12,255,8,12,153],
-secondary:!1},{width:7,bonus:95,chr:"S",pixels:[0,11,221,0,12,187,1,5,255,1,6,255,1,7,255,1,12,238,2,4,187,2,7,255,2,8,238,2,12,221,3,4,187,3,8,255,3,9,187,3,12,221,4,4,221,4,8,187,4,9,255,4,10,255,4,11,255],secondary:!1},{width:10,bonus:125,chr:"T",
-pixels:[0,4,187,1,4,221,2,4,221,3,4,255,3,5,187,3,6,187,3,7,187,3,8,187,3,9,187,3,10,187,3,11,187,3,12,238,4,4,255,4,5,255,4,6,255,4,7,255,4,8,255,4,9,255,4,10,255,4,11,255,4,12,255,5,4,221,5,12,153,6,4,221,7,4,255],secondary:!1},{width:11,bonus:145,
-chr:"U",
-pixels:[1,4,238,1,5,187,1,6,187,1,7,187,1,8,187,1,9,187,1,10,153,2,4,255,2,5,255,2,6,255,2,7,255,2,8,255,2,9,255,2,10,255,2,11,255,3,11,170,3,12,204,4,12,238,5,12,221,6,12,204,7,4,187,7,11,221,8,4,255,8,5,255,8,6,255,8,7,255,8,8,255,8,9,238,8,10,204],
-secondary:!1},{width:11,bonus:120,chr:"V",pixels:[1,4,204,2,4,255,2,5,255,2,6,204,3,4,187,3,5,170,3,6,255,3,7,255,3,8,238,3,9,153,4,8,204,4,9,255,4,10,255,4,11,187,5,10,238,5,11,255,6,8,204,6,9,221,7,4,170,7,5,153,7,6,238,7,7,187,8,4,255,8,5,170],
-secondary:!1},{width:14,bonus:200,chr:"W",
-pixels:[1,4,255,1,5,221,2,4,238,2,5,255,2,6,255,2,7,255,2,8,221,3,7,153,3,8,221,3,9,255,3,10,255,3,11,221,4,9,153,4,10,255,4,11,204,5,7,170,5,8,238,5,9,153,6,5,238,6,6,255,6,7,153,7,5,187,7,6,255,7,7,255,7,8,204,8,8,238,8,9,255,8,10,238,8,11,153,9,9,153,9,10,255,9,11,255,9,12,170,10,7,170,10,8,238,10,9,187,11,4,238,11,5,255,11,6,187,12,4,170],
-secondary:!1},{width:10,bonus:135,chr:"X",
-pixels:[1,4,221,1,12,238,2,4,255,2,5,255,2,10,170,2,11,221,2,12,187,3,4,153,3,5,187,3,6,255,3,7,238,3,9,221,4,7,255,4,8,255,4,9,204,5,6,204,5,7,153,5,9,255,5,10,255,5,11,153,6,4,221,6,5,238,6,10,204,6,11,255,6,12,255,7,4,204,7,12,238],secondary:!1},{
-width:9,bonus:115,chr:"Y",pixels:[0,5,187,1,5,255,1,6,221,2,5,170,2,6,238,2,7,255,2,8,170,3,8,255,3,9,255,3,10,187,3,11,187,3,12,187,3,13,238,4,9,255,4,10,255,4,11,255,4,12,255,4,13,255,5,7,187,5,8,204,6,5,238,6,6,238,7,5,204],secondary:!1},{width:9,
-bonus:145,chr:"Z",
-pixels:[1,5,187,1,6,153,1,13,255,2,5,238,2,11,221,2,12,255,2,13,255,3,5,221,3,9,153,3,10,255,3,11,238,3,13,255,4,5,221,4,8,238,4,9,255,4,10,187,4,13,255,5,5,238,5,6,187,5,7,255,5,8,238,5,13,255,6,5,255,6,6,255,6,7,153,6,13,255,7,5,204,7,12,187,7,13,187],
-secondary:!1},{width:5,bonus:70,chr:"[",pixels:[1,3,187,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,1,11,255,1,12,255,1,13,255,1,14,187,2,3,153,2,14,153],secondary:!1},{width:8,bonus:50,chr:"\\",
-pixels:[0,4,170,1,5,204,1,6,170,2,7,238,3,8,170,3,9,204,4,10,221,4,11,153,5,12,238,6,13,187],secondary:!1},{width:4,bonus:70,chr:"]",
-pixels:[1,3,170,1,14,170,2,3,187,2,4,255,2,5,255,2,6,255,2,7,255,2,8,255,2,9,255,2,10,255,2,11,255,2,12,255,2,13,255,2,14,187],secondary:!1},{width:7,bonus:55,chr:"^",
-pixels:[0,9,238,1,6,170,1,7,238,1,8,153,2,4,204,2,5,221,3,4,187,3,5,238,4,7,238,4,8,187,5,9,204],secondary:!1},{width:8,bonus:35,chr:"_",pixels:[0,12,221,1,12,221,2,12,221,3,12,221,4,12,221,5,12,221,6,12,153],secondary:!1},{width:10,bonus:125,
-chr:"a",pixels:[1,12,238,2,9,187,2,10,238,2,11,170,2,12,187,3,7,221,3,8,204,3,9,238,4,5,238,4,6,238,4,9,221,5,5,187,5,6,255,5,7,255,5,8,187,5,9,238,6,7,153,6,8,255,6,9,255,6,10,238,6,11,153,7,10,221,7,11,255,7,12,255,8,12,221],secondary:!1},{width:8,
-bonus:160,chr:"b",
-pixels:[1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,1,11,255,1,12,255,2,4,238,2,5,187,2,6,187,2,7,187,2,8,238,2,9,187,2,10,187,2,11,187,2,12,255,3,4,204,3,8,204,3,12,204,4,4,221,4,5,187,4,7,187,4,8,255,4,12,204,5,5,238,5,6,238,5,9,255,5,10,255,5,11,255,6,10,187],
-secondary:!1},{width:9,bonus:120,chr:"c",
-pixels:[0,7,221,0,8,255,0,9,221,1,5,221,1,6,255,1,7,238,1,8,221,1,9,255,1,10,255,1,11,204,2,5,187,2,11,255,3,4,204,3,12,204,4,4,221,4,12,238,5,4,221,5,12,221,6,4,221,6,12,238,7,4,187,7,5,204,7,11,187,7,12,170],secondary:!1},{width:11,bonus:200,
-chr:"d",
-pixels:[1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,1,11,255,1,12,255,2,4,255,2,5,187,2,6,187,2,7,187,2,8,187,2,9,187,2,10,187,2,11,204,2,12,255,3,4,221,3,12,238,4,4,238,4,12,221,5,4,238,5,12,221,6,4,204,6,5,153,6,12,187,7,5,255,7,6,153,7,11,238,8,5,204,8,6,255,8,7,255,8,8,255,8,9,255,8,10,255,8,11,170,9,7,204,9,8,221,9,9,187],
-secondary:!1},{width:7,bonus:135,chr:"e",
-pixels:[1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,1,11,255,1,12,255,2,4,255,2,5,187,2,6,187,2,7,187,2,8,255,2,9,187,2,10,187,2,11,204,2,12,255,3,4,221,3,8,221,3,12,238,4,4,238,4,8,221,4,12,221,5,4,187,5,8,153,5,12,238],secondary:!1},{
-width:7,bonus:115,chr:"f",pixels:[1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,1,11,255,1,12,255,2,4,255,2,5,187,2,6,187,2,7,187,2,8,255,2,9,187,2,10,187,2,11,187,2,12,238,3,4,221,3,8,221,4,4,238,4,8,221,5,4,221],secondary:!1},{width:10,
-bonus:150,chr:"g",
-pixels:[0,7,204,0,8,255,0,9,255,0,10,187,1,5,187,1,6,255,1,7,238,1,8,221,1,9,238,1,10,255,1,11,221,2,5,204,2,11,238,3,4,204,3,12,204,4,4,221,4,12,238,5,4,238,5,12,221,6,4,221,6,9,238,6,10,187,6,11,187,6,12,221,7,4,170,7,5,221,7,9,255,7,10,255,7,11,255,7,12,153],
-secondary:!1},{width:11,bonus:200,chr:"h",
-pixels:[1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,1,11,255,1,12,255,2,4,238,2,5,187,2,6,187,2,7,187,2,8,255,2,9,187,2,10,187,2,11,187,2,12,238,3,8,221,4,8,221,5,8,221,6,8,221,7,4,255,7,5,255,7,6,255,7,7,255,7,8,255,7,9,255,7,10,255,7,11,255,7,12,255,8,4,238,8,5,187,8,6,187,8,7,187,8,8,187,8,9,187,8,10,187,8,11,187,8,12,238],
-secondary:!1},{width:5,bonus:90,chr:"i",pixels:[1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,1,11,255,1,12,255,1,13,255,2,5,238,2,6,187,2,7,187,2,8,187,2,9,187,2,10,187,2,11,187,2,12,187,2,13,238],secondary:!1},{width:6,bonus:100,chr:"j",
-pixels:[2,4,255,2,5,255,2,6,255,2,7,255,2,8,255,2,9,255,2,10,255,2,11,255,2,12,255,2,13,255,2,14,187,3,4,238,3,5,187,3,6,187,3,7,187,3,8,187,3,9,187,3,10,187,3,11,187,3,12,187],secondary:!1},{width:10,bonus:170,chr:"k",
-pixels:[1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,1,11,255,1,12,255,2,4,238,2,5,187,2,6,187,2,7,187,2,8,255,2,9,204,2,10,187,2,11,187,2,12,238,3,7,170,3,8,255,3,9,221,4,6,204,4,9,238,4,10,238,5,4,153,5,5,238,5,10,238,5,11,238,6,4,255,6,11,238,6,12,187,7,4,153,7,12,255,8,12,153],
-secondary:!1},{width:8,bonus:105,chr:"l",pixels:[1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,1,11,255,1,12,255,2,4,238,2,5,187,2,6,187,2,7,187,2,8,187,2,9,187,2,10,187,2,11,204,2,12,255,3,12,238,4,12,221,5,12,255],secondary:!1},{
-width:13,bonus:190,chr:"m",
-pixels:[1,9,170,1,10,204,1,11,238,1,12,255,2,4,187,2,5,255,2,6,255,2,7,238,2,8,153,2,12,153,3,6,238,3,7,255,3,8,238,4,8,238,4,9,255,4,10,238,5,10,238,5,11,255,5,12,187,6,9,153,6,10,238,7,7,153,7,8,238,8,5,170,8,6,255,8,7,238,9,4,153,9,5,204,9,6,255,9,7,255,9,8,255,9,9,255,9,10,255,9,11,255,9,12,238,10,10,153,10,11,187,10,12,255],
-secondary:!1},{width:11,bonus:170,chr:"n",
-pixels:[0,12,170,1,4,187,1,5,255,1,6,255,1,7,238,1,8,255,1,9,255,1,10,255,1,11,255,1,12,255,2,5,204,2,6,255,2,12,153,3,6,221,3,7,255,4,7,238,4,8,255,5,8,238,5,9,255,6,9,238,6,10,238,7,4,153,7,10,255,7,11,238,8,4,255,8,5,255,8,6,255,8,7,255,8,8,255,8,9,255,8,10,255,8,11,255,8,12,204,9,4,153],
-secondary:!1},{width:10,bonus:160,chr:"o",
-pixels:[0,7,221,0,8,255,0,9,221,1,5,204,1,6,255,1,7,221,1,8,221,1,9,255,1,10,255,1,11,221,2,5,170,2,11,238,3,4,221,3,12,221,4,4,221,4,12,221,5,4,238,5,12,204,6,4,153,6,5,238,6,11,170,7,5,238,7,6,255,7,7,255,7,8,221,7,9,238,7,10,255,7,11,187,8,6,153,8,7,238,8,8,255,8,9,204],
-secondary:!1},{width:8,bonus:130,chr:"p",
-pixels:[1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,1,11,255,1,12,255,2,4,238,2,5,187,2,6,187,2,7,187,2,8,187,2,9,187,2,10,187,2,11,187,2,12,238,3,4,204,4,4,238,5,4,170,5,5,255,5,6,255,5,7,255,5,8,204,6,6,187],secondary:!1},{width:10,
-bonus:200,chr:"q",
-pixels:[0,7,221,0,8,255,0,9,221,1,5,187,1,6,255,1,7,238,1,8,221,1,9,255,1,10,255,1,11,221,2,5,170,2,11,238,2,12,153,3,4,221,3,12,221,4,4,221,4,12,238,5,4,238,5,12,204,6,4,153,6,5,238,6,11,153,6,12,238,7,5,221,7,6,255,7,7,255,7,8,221,7,9,238,7,10,255,7,11,170,7,12,204,7,13,221,8,6,153,8,7,238,8,8,255,8,9,221,8,13,255,8,14,170,9,13,170,9,14,255],
-secondary:!1},{width:10,bonus:175,chr:"r",
-pixels:[1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,1,11,255,1,12,255,2,4,255,2,5,187,2,6,187,2,7,187,2,8,187,2,9,255,2,10,187,2,11,187,2,12,238,3,4,221,3,9,221,4,4,238,4,9,255,4,10,170,5,4,153,5,5,255,5,6,255,5,7,255,5,8,187,5,10,255,5,11,187,6,6,187,6,11,238,6,12,170,7,12,255,8,12,153],
-secondary:!1},{width:7,bonus:95,chr:"s",pixels:[0,11,221,0,12,187,1,5,255,1,6,255,1,7,255,1,12,238,2,4,187,2,7,255,2,8,238,2,12,221,3,4,187,3,8,255,3,9,187,3,12,221,4,4,221,4,8,187,4,9,255,4,10,255,4,11,255],secondary:!1},{width:10,bonus:125,chr:"t",
-pixels:[0,4,187,1,4,221,2,4,221,3,4,255,3,5,187,3,6,187,3,7,187,3,8,187,3,9,187,3,10,187,3,11,187,3,12,238,4,4,255,4,5,255,4,6,255,4,7,255,4,8,255,4,9,255,4,10,255,4,11,255,4,12,255,5,4,221,5,12,153,6,4,221,7,4,255],secondary:!1},{width:11,bonus:145,
-chr:"u",
-pixels:[1,4,238,1,5,187,1,6,187,1,7,187,1,8,187,1,9,187,1,10,153,2,4,255,2,5,255,2,6,255,2,7,255,2,8,255,2,9,255,2,10,255,2,11,255,3,11,170,3,12,204,4,12,238,5,12,221,6,12,204,7,4,187,7,11,221,8,4,255,8,5,255,8,6,255,8,7,255,8,8,255,8,9,238,8,10,204],
-secondary:!1},{width:11,bonus:120,chr:"v",pixels:[1,4,204,2,4,255,2,5,255,2,6,204,3,4,187,3,5,170,3,6,255,3,7,255,3,8,238,3,9,153,4,8,204,4,9,255,4,10,255,4,11,187,5,10,238,5,11,255,6,8,204,6,9,221,7,4,170,7,5,153,7,6,238,7,7,187,8,4,255,8,5,170],
-secondary:!1},{width:14,bonus:200,chr:"w",
-pixels:[1,4,255,1,5,221,2,4,238,2,5,255,2,6,255,2,7,255,2,8,221,3,7,153,3,8,221,3,9,255,3,10,255,3,11,221,4,9,153,4,10,255,4,11,204,5,7,170,5,8,238,5,9,153,6,5,238,6,6,255,6,7,153,7,5,187,7,6,255,7,7,255,7,8,204,8,8,238,8,9,255,8,10,238,8,11,153,9,9,153,9,10,255,9,11,255,9,12,170,10,7,170,10,8,238,10,9,187,11,4,238,11,5,255,11,6,187,12,4,170],
-secondary:!1},{width:10,bonus:135,chr:"x",
-pixels:[1,4,221,1,12,238,2,4,255,2,5,255,2,10,170,2,11,221,2,12,187,3,4,153,3,5,187,3,6,255,3,7,238,3,9,221,4,7,255,4,8,255,4,9,204,5,6,204,5,7,153,5,9,255,5,10,255,5,11,153,6,4,221,6,5,238,6,10,204,6,11,255,6,12,255,7,4,204,7,12,238],secondary:!1},{
-width:9,bonus:115,chr:"y",pixels:[0,4,187,1,4,255,1,5,221,2,4,170,2,5,238,2,6,255,2,7,170,3,7,255,3,8,255,3,9,187,3,10,187,3,11,187,3,12,238,4,8,255,4,9,255,4,10,255,4,11,255,4,12,255,5,6,187,5,7,204,6,4,238,6,5,238,7,4,204],secondary:!1},{width:9,
-bonus:145,chr:"z",
-pixels:[1,4,187,1,5,153,1,12,255,2,4,238,2,10,221,2,11,255,2,12,255,3,4,221,3,8,153,3,9,255,3,10,238,3,12,255,4,4,221,4,7,238,4,8,255,4,9,187,4,12,255,5,4,238,5,5,187,5,6,255,5,7,238,5,12,255,6,4,255,6,5,255,6,6,153,6,12,255,7,4,204,7,11,187,7,12,187],
-secondary:!1},{width:5,bonus:55,chr:"{",pixels:[1,8,204,2,4,255,2,5,255,2,6,255,2,7,187,2,9,238,2,10,255,2,11,255,2,12,255,2,13,187,3,3,170],secondary:!1},{width:3,bonus:65,chr:"|",
-pixels:[1,0,255,1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,1,11,255,1,12,255],secondary:!0},{width:6,bonus:55,chr:"}",
-pixels:[1,3,170,2,4,255,2,5,255,2,6,255,2,7,187,2,9,238,2,10,255,2,11,255,2,12,255,2,13,187,3,8,204],secondary:!1},{width:7,bonus:35,chr:"~",pixels:[0,9,255,1,8,255,2,8,187,3,9,238,4,10,255,5,8,255,5,9,221],secondary:!1}],width:14,spacewidth:5,
-shadow:!1,height:15,basey:12}}],e={},function o(r){var n=e[r];if(void 0!==n)return n.exports;var i=e[r]={exports:{}};return s[r](i,i.exports,o),i.exports}(0);var s,e}));
-
-/***/ }),
-
 /***/ "../node_modules/@popperjs/core/lib/createPopper.js":
 /*!**********************************************************!*\
   !*** ../node_modules/@popperjs/core/lib/createPopper.js ***!
@@ -65430,13 +62317,12 @@ class QuadTree {
         if (this.subdivisions.length > 0)
             return;
         const center = _math__WEBPACK_IMPORTED_MODULE_1__.Rectangle.center(this.rect);
-        const sub = [
+        this.subdivisions = [
             _math__WEBPACK_IMPORTED_MODULE_1__.Rectangle.from(this.rect.topleft, _math__WEBPACK_IMPORTED_MODULE_1__.Vector2.add(center, { x: 0, y: 1 })),
             _math__WEBPACK_IMPORTED_MODULE_1__.Rectangle.from(_math__WEBPACK_IMPORTED_MODULE_1__.Rectangle.topRight(this.rect), _math__WEBPACK_IMPORTED_MODULE_1__.Vector2.add(center, { x: 1, y: 1 })),
             _math__WEBPACK_IMPORTED_MODULE_1__.Rectangle.from(this.rect.botright, _math__WEBPACK_IMPORTED_MODULE_1__.Vector2.add(center, { x: 1, y: 0 })),
             _math__WEBPACK_IMPORTED_MODULE_1__.Rectangle.from(_math__WEBPACK_IMPORTED_MODULE_1__.Rectangle.bottomLeft(this.rect), center),
-        ];
-        this.subdivisions = sub.map(s => new QuadTree(this, s));
+        ].map(s => new QuadTree(this, s));
         // Resort elements
         const elements = this.elements;
         this.elements = [];
@@ -66450,19 +63336,6 @@ class GameLayer extends leaflet__WEBPACK_IMPORTED_MODULE_0__.FeatureGroup {
             });
             this.rendering.unlock();
         });
-        /*
-        this.entity_quadtree.iterate(event.new_view.rect, e => {
-
-            const render = (() => {
-                if (e.floor_sensitive && event.floor_changed) return true
-
-                if (e.zoom_sensitive && e.zoom_sensitivity_layers.getIndex(event.old_view.zoom) != e.zoom_sensitivity_layers.get(event.new_view.zoom)) return true
-
-                return false
-            })()
-
-            if (render) e.render()
-        })*/
     }
 }
 (function (GameLayer) {
@@ -66652,9 +63525,7 @@ class GameMap extends leaflet__WEBPACK_IMPORTED_MODULE_0__.Map {
                 this.event(new _MapEvents__WEBPACK_IMPORTED_MODULE_6__.GameMapKeyboardEvent(this, e), l => e => l.eventKeyUp(e));
             });
             this.viewport.subscribe((new_value, old) => {
-                (0,_GameLayer__WEBPACK_IMPORTED_MODULE_14__.time)("View Change Event", () => {
-                    this.event(new _MapEvents__WEBPACK_IMPORTED_MODULE_6__.GameMapViewChangedEvent(this, old, new_value), l => e => l.eventViewChanged(e));
-                });
+                this.event(new _MapEvents__WEBPACK_IMPORTED_MODULE_6__.GameMapViewChangedEvent(this, old, new_value), l => e => l.eventViewChanged(e));
             });
             this.on("moveend", () => this.updateView());
             this.on("zoomend", () => this.updateView());
@@ -66856,7 +63727,7 @@ class GameMap extends leaflet__WEBPACK_IMPORTED_MODULE_0__.Map {
     })(View = GameMap.View || (GameMap.View = {}));
 })(GameMap || (GameMap = {}));
 class GameMapWidget extends _ui_Widget__WEBPACK_IMPORTED_MODULE_2__["default"] {
-    constructor(container) {
+    constructor(container = $("<div>")) {
         super(container);
         this.map = new GameMap(container.get()[0])
             .setView([3200, 3000], 0);
@@ -67003,15 +63874,15 @@ class MapEntity extends leaflet__WEBPACK_IMPORTED_MODULE_1__.FeatureGroup {
             this.parent.rendering.request(this);
         }
     }
-    render() {
+    render(force = false) {
         var _a;
-        if (!this.rendering_requested)
+        if (!force && !this.rendering_requested)
             return;
         this.rendering_requested = false;
         const props = this.desired_render_props.value();
         if (!((_a = this.parent) === null || _a === void 0 ? void 0 : _a.getMap()))
             return;
-        if (MapEntity.RenderProps.equals(this.rendered_props, props))
+        if (!force && MapEntity.RenderProps.equals(this.rendered_props, props))
             return;
         this.rendered_props = props;
         this.clearLayers();
@@ -67323,6 +64194,13 @@ class FloorLevels {
 }
 (function (FloorLevels) {
     FloorLevels.none = new FloorLevels([{ floors: [0, 1, 2, 3], value: null }]);
+    function single(floor, value = undefined) {
+        return new FloorLevels([
+            { floors: [floor], value: value },
+            { floors: [0, 1, 2, 3], hidden_here: true },
+        ]);
+    }
+    FloorLevels.single = single;
 })(FloorLevels || (FloorLevels = {}));
 
 
@@ -68065,6 +64943,14 @@ var Rectangle;
         return { x: rect.topleft.x, y: rect.botright.y };
     }
     Rectangle.bottomLeft = bottomLeft;
+    function topLeft(rect) {
+        return { x: rect.topleft.x, y: rect.topleft.y };
+    }
+    Rectangle.topLeft = topLeft;
+    function bottomRight(rect) {
+        return { x: rect.botright.x, y: rect.botright.y };
+    }
+    Rectangle.bottomRight = bottomRight;
     function tileWidth(rect) {
         return rect.botright.x - rect.topleft.x + 1;
     }
@@ -69767,6 +66653,14 @@ var TileArea;
         return !area.data;
     }
     TileArea.isRectangle = isRectangle;
+    function transform(area, transform) {
+        return {
+            origin: _TileCoordinates__WEBPACK_IMPORTED_MODULE_0__.TileCoordinates.transform(area.origin, transform),
+            size: area.size ? _math__WEBPACK_IMPORTED_MODULE_1__.Vector2.abs(_math__WEBPACK_IMPORTED_MODULE_1__.Vector2.snap(_math__WEBPACK_IMPORTED_MODULE_1__.Vector2.transform(area.size, transform.matrix))) : undefined,
+        };
+        // TODO: Transform actual tiles!
+    }
+    TileArea.transform = transform;
 })(TileArea || (TileArea = {}));
 
 
@@ -69862,7 +66756,6 @@ __webpack_require__.r(__webpack_exports__);
 
 var TileRectangle;
 (function (TileRectangle) {
-    var lift_tile = _TileCoordinates__WEBPACK_IMPORTED_MODULE_2__.TileCoordinates.lift;
     function contains(box, tile) {
         return tile.level == box.level && _math__WEBPACK_IMPORTED_MODULE_0__.Rectangle.containsTile(box, tile);
     }
@@ -69872,7 +66765,7 @@ var TileRectangle;
     }
     TileRectangle.containsCoords = containsCoords;
     function clampInto(pos, area) {
-        return lift_tile(_math__WEBPACK_IMPORTED_MODULE_0__.Rectangle.clampInto(pos, area), pos.level);
+        return _TileCoordinates__WEBPACK_IMPORTED_MODULE_2__.TileCoordinates.lift(_math__WEBPACK_IMPORTED_MODULE_0__.Rectangle.clampInto(pos, area), pos.level);
     }
     TileRectangle.clampInto = clampInto;
     function extend(box, padding) {
@@ -69880,23 +66773,23 @@ var TileRectangle;
     }
     TileRectangle.extend = extend;
     function tl(rect) {
-        return lift_tile(rect.topleft, rect.level);
+        return _TileCoordinates__WEBPACK_IMPORTED_MODULE_2__.TileCoordinates.lift(rect.topleft, rect.level);
     }
     TileRectangle.tl = tl;
     function br(rect) {
-        return lift_tile(rect.botright, rect.level);
+        return _TileCoordinates__WEBPACK_IMPORTED_MODULE_2__.TileCoordinates.lift(rect.botright, rect.level);
     }
     TileRectangle.br = br;
     function tr(rect) {
-        return lift_tile(_math__WEBPACK_IMPORTED_MODULE_0__.Rectangle.topRight(rect), rect.level);
+        return _TileCoordinates__WEBPACK_IMPORTED_MODULE_2__.TileCoordinates.lift(_math__WEBPACK_IMPORTED_MODULE_0__.Rectangle.topRight(rect), rect.level);
     }
     TileRectangle.tr = tr;
     function bl(rect) {
-        return lift_tile(_math__WEBPACK_IMPORTED_MODULE_0__.Rectangle.bottomLeft(rect), rect.level);
+        return _TileCoordinates__WEBPACK_IMPORTED_MODULE_2__.TileCoordinates.lift(_math__WEBPACK_IMPORTED_MODULE_0__.Rectangle.bottomLeft(rect), rect.level);
     }
     TileRectangle.bl = bl;
     function center(rect, snap = true) {
-        return lift_tile(_math__WEBPACK_IMPORTED_MODULE_0__.Rectangle.center(rect, snap), rect.level);
+        return _TileCoordinates__WEBPACK_IMPORTED_MODULE_2__.TileCoordinates.lift(_math__WEBPACK_IMPORTED_MODULE_0__.Rectangle.center(rect, snap), rect.level);
     }
     TileRectangle.center = center;
     function fromTile(tile) {
@@ -71192,6 +68085,13 @@ var Path;
                     return _math__WEBPACK_IMPORTED_MODULE_3__.Rectangle.from(step.where);
                 case "cheat":
                     return _math__WEBPACK_IMPORTED_MODULE_3__.Rectangle.from(step.target);
+                case "transport":
+                    let bounds = step.internal.clickable_area;
+                    bounds = _math__WEBPACK_IMPORTED_MODULE_3__.Rectangle.extendTo(bounds, step.assumed_start);
+                    bounds = _math__WEBPACK_IMPORTED_MODULE_3__.Rectangle.extendTo(bounds, Path.ends_up([step]));
+                    return bounds;
+                case "orientation":
+                    return _math__WEBPACK_IMPORTED_MODULE_3__.Rectangle.from({ x: 0, y: 0 });
                 default:
                     return null;
             }
@@ -71307,8 +68207,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _coordinates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./coordinates */ "./lib/runescape/coordinates/index.ts");
 /* harmony import */ var _movement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./movement */ "./lib/runescape/movement.ts");
 /* harmony import */ var _coordinates_TileArea__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./coordinates/TileArea */ "./lib/runescape/coordinates/TileArea.ts");
-/* harmony import */ var _util_util__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../util/util */ "./lib/util/util.ts");
-
 
 
 
@@ -71316,7 +68214,6 @@ __webpack_require__.r(__webpack_exports__);
 
 var Transportation;
 (function (Transportation) {
-    var todo = _util_util__WEBPACK_IMPORTED_MODULE_4__.util.todo;
     let TeleportGroup;
     (function (TeleportGroup) {
         var activate = _coordinates_TileArea__WEBPACK_IMPORTED_MODULE_3__.TileArea.activate;
@@ -71512,77 +68409,50 @@ var Transportation;
     }
     Transportation.name = name;
     function transform(transport, transform) {
-        todo(); // TODO: Reimplement if neede
-        //return transport
-        /*
         switch (transport.type) {
             case "door":
                 return {
                     type: "door",
                     name: transport.name,
-                    position: transport.position,
-                    direction: direction.transform(transport.direction, transform.matrix)
-                }
+                    position: _coordinates__WEBPACK_IMPORTED_MODULE_1__.TileCoordinates.transform(transport.position, transform),
+                    direction: _movement__WEBPACK_IMPORTED_MODULE_2__.direction.transform(transport.direction, transform.matrix),
+                };
             case "entity":
                 return {
                     type: "entity",
                     entity: transport.entity,
-                    clickable_area: TileRectangle.transform(transport.clickable_area, transform),
-                    actions: transport.actions.map(a => ({
+                    clickable_area: _coordinates__WEBPACK_IMPORTED_MODULE_1__.TileRectangle.transform(transport.clickable_area, transform),
+                    actions: transport.actions.map((a) => ({
                         cursor: a.cursor,
-                        interactive_area: TileRectangle.transform(a.interactive_area, transform),
-                        movement: (() => {
-                            switch (a.movement.type) {
-                                case "fixed":
-                                    return (a.movement.relative)
-                                        ? {
-                                            type: "fixed",
-                                            target: TileCoordinates.transform(a.movement.target, transform),
-                                            relative: true
-                                        }
-                                        : {
-                                            type: "fixed",
-                                            target: a.movement.target,
-                                            relative: false
-                                        }
-                                case "offset":
-                                    return {
-                                        type: "offset",
-                                        offset: {...Vector2.snap(Vector2.transform(a.movement.offset, transform.matrix)), level:a.movement.offset.level + transform.level_offset}
-                                    }
-                            }
-                        })(),
-                        orientation: (() => {
-                            switch (a.orientation.type) {
-                                case "byoffset":
-                                    return {type: "byoffset"}
-                                case "keep":
-                                    return {type: "keep"}
-                                case "toentityafter":
-                                    return {type: "toentityafter"}
-                                case "toentitybefore":
-                                    return {type: "toentitybefore"}
-                                case "forced":
-                                    return (a.orientation.relative)
-                                        ? {
-                                            type: "forced",
-                                            direction: direction.transform(a.orientation.direction, transform.matrix),
-                                            relative: true
-                                        }
-                                        : {
-                                            type: "forced",
-                                            direction: a.orientation.direction,
-                                            relative: false
-                                        }
-                            }
-                        })(),
+                        interactive_area: a.interactive_area ? _coordinates_TileArea__WEBPACK_IMPORTED_MODULE_3__.TileArea.transform(a.interactive_area, transform) : undefined,
                         name: a.name,
-                        time: a.time,
-                    }))
-                }
-
-
-        }*/
+                        movement: a.movement.map(movement => {
+                            return {
+                                time: movement.time,
+                                valid_from: movement.valid_from
+                                    ? _coordinates_TileArea__WEBPACK_IMPORTED_MODULE_3__.TileArea.transform(movement.valid_from, transform)
+                                    : undefined,
+                                offset: movement.offset ? {
+                                    ..._math__WEBPACK_IMPORTED_MODULE_0__.Vector2.snap(_math__WEBPACK_IMPORTED_MODULE_0__.Vector2.transform(movement.offset, transform.matrix)),
+                                    level: movement.offset.level,
+                                } : undefined,
+                                fixed_target: movement.fixed_target
+                                    ? (movement.fixed_target.relative
+                                        ? { target: _coordinates__WEBPACK_IMPORTED_MODULE_1__.TileCoordinates.transform(movement.fixed_target.target, transform), relative: true }
+                                        : movement.fixed_target)
+                                    : undefined,
+                                orientation: movement.orientation,
+                                forced_orientation: movement.forced_orientation
+                                    ? (movement.forced_orientation.relative ? {
+                                        dir: _movement__WEBPACK_IMPORTED_MODULE_2__.direction.transform(movement.forced_orientation.dir, transform.matrix),
+                                        relative: true,
+                                    } : movement.forced_orientation)
+                                    : undefined,
+                            };
+                        }),
+                    })),
+                };
+        }
     }
     Transportation.transform = transform;
 })(Transportation || (Transportation = {}));
@@ -73413,6 +70283,12 @@ var util;
         return copy;
     }
     util.copyUpdate = copyUpdate;
+    function copyUpdate2(value, updater) {
+        const copy = lodash__WEBPACK_IMPORTED_MODULE_1__.clone(value);
+        updater(copy);
+        return copy;
+    }
+    util.copyUpdate2 = copyUpdate2;
     function cleanedJSON(value, space = undefined) {
         return JSON.stringify(value, (key, value) => {
             if (key.startsWith("_"))
@@ -73425,6 +70301,16 @@ var util;
         return (a, b) => (a == b) || (a != null && b != null && f(a, b));
     }
     util.eqWithNull = eqWithNull;
+    function download(filename, text) {
+        const element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        element.setAttribute('download', filename);
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+    }
+    util.download = download;
 })(util || (util = {}));
 
 
@@ -74062,3213 +70948,6 @@ function checkaccess(frame) {
 
 /***/ }),
 
-/***/ "./skillbertssolver/cluesolver/cluereader.ts":
-/*!***************************************************!*\
-  !*** ./skillbertssolver/cluesolver/cluereader.ts ***!
-  \***************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ ClueScrollReader)
-/* harmony export */ });
-/* harmony import */ var _alt1_base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js");
-/* harmony import */ var _knotreader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./knotreader */ "./skillbertssolver/cluesolver/knotreader.ts");
-/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../util */ "./skillbertssolver/util.ts");
-/* harmony import */ var _slidereader__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./slidereader */ "./skillbertssolver/cluesolver/slidereader.ts");
-/* harmony import */ var _modeluireader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modeluireader */ "./skillbertssolver/cluesolver/modeluireader.ts");
-/* harmony import */ var _towersreader__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./towersreader */ "./skillbertssolver/cluesolver/towersreader.ts");
-/* harmony import */ var _lockbox__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./lockbox */ "./skillbertssolver/cluesolver/lockbox.ts");
-/* harmony import */ var _textclue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./textclue */ "./skillbertssolver/cluesolver/textclue.ts");
-/* harmony import */ var _scantextreader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./scantextreader */ "./skillbertssolver/cluesolver/scantextreader.ts");
-/* harmony import */ var _rewardreader__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./rewardreader */ "./skillbertssolver/cluesolver/rewardreader.ts");
-/* harmony import */ var _compassclue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./compassclue */ "./skillbertssolver/cluesolver/compassclue.ts");
-
-
-
-
-
-
-
-
-
-
-
-
-var anchorimgs = _alt1_base__WEBPACK_IMPORTED_MODULE_0__.ImageDetect.webpackImages({
-    slide: __webpack_require__(/*! ./imgs/slide.data.png */ "./skillbertssolver/cluesolver/imgs/slide.data.png.js"),
-    slidelegacy: __webpack_require__(/*! ./imgs/slidelegacy.data.png */ "./skillbertssolver/cluesolver/imgs/slidelegacy.data.png.js"),
-    legacyx: __webpack_require__(/*! ./imgs/legacyx.data.png */ "./skillbertssolver/cluesolver/imgs/legacyx.data.png.js"),
-    eocx: __webpack_require__(/*! ./imgs/eocx.data.png */ "./skillbertssolver/cluesolver/imgs/eocx.data.png.js"),
-    scanleveltext: __webpack_require__(/*! ./imgs/differentlevel.data.png */ "./skillbertssolver/cluesolver/imgs/differentlevel.data.png.js"),
-    scanfartext: __webpack_require__(/*! ./imgs/youaretoofaraway.data.png */ "./skillbertssolver/cluesolver/imgs/youaretoofaraway.data.png.js"),
-    scanfartext_pt: __webpack_require__(/*! ./imgs/youaretoofaraway_pt.data.png */ "./skillbertssolver/cluesolver/imgs/youaretoofaraway_pt.data.png.js"),
-    compassnorth: __webpack_require__(/*! ./imgs/compassnorth.data.png */ "./skillbertssolver/cluesolver/imgs/compassnorth.data.png.js")
-});
-var anchorlocs = (0,_util__WEBPACK_IMPORTED_MODULE_2__.arrayEnum)(["central", "central_large", "central_overlay", "minigame"]);
-var intfbases = (0,_util__WEBPACK_IMPORTED_MODULE_2__.constrainedMap)()({
-    slide: { type: "slide", img: "slide", anchor: "central", buf: null, imgpos: { x: 484, y: 19 } },
-    slide_leg: { type: "slide", img: "slidelegacy", anchor: "central", buf: null, imgpos: { x: 484, y: 19 } },
-    lockbox: { type: "lockbox", img: "eocx", anchor: "central", buf: null, imgpos: { x: 368, y: 17 } },
-    lockbox_leg: { type: "lockbox", img: "legacyx", anchor: "central", buf: null, imgpos: { x: 369, y: 21 } },
-    text: { type: "text", img: "eocx", anchor: "central", buf: null, imgpos: { x: 483, y: 17 } },
-    text_leg: { type: "text", img: "legacyx", anchor: "central", buf: null, imgpos: { x: 484, y: 21 } },
-    towers_leg: { type: "towers", img: "legacyx", anchor: "central_large", buf: null, imgpos: { x: 507, y: 48 } },
-    towers: { type: "towers", img: "eocx", anchor: "central_large", buf: null, imgpos: { x: 627, y: 141 } },
-    knot_leg: { type: "knot", img: "legacyx", anchor: "central_overlay", buf: null, imgpos: { x: 484, y: 12 } },
-    reward: { type: "reward", img: "eocx", anchor: "central", buf: null, imgpos: { x: 368 + 60, y: 17 + 55 } },
-    reward_leg: { type: "reward", img: "eocx", anchor: "central", buf: null, imgpos: { x: 369 + 60, y: 21 + 55 } },
-    knot: { type: "knot", img: "eocx", anchor: "central_overlay", buf: null, imgpos: { x: 483, y: 8 } },
-    scan: { type: "scan", img: "scanfartext", anchor: "minigame", buf: null, imgpos: { x: 0, y: -5 + 12 * 4 }, searchsize: { w: 4, h: 100 } },
-    scan_level: { type: "scan", img: "scanleveltext", anchor: "minigame", buf: null, imgpos: { x: 0, y: -7 + 12 * 6 }, searchsize: { w: 4, h: 100 } },
-    scan_pt: { type: "scan", img: "scanfartext_pt", anchor: "minigame", buf: null, imgpos: { x: 0, y: -5 + 12 * 4 }, searchsize: { w: 4, h: 100 } },
-    compass: { type: "compass", img: "compassnorth", anchor: "minigame", buf: null, imgpos: { x: 56, y: 19 }, searchsize: { w: 4, h: 100 } }
-});
-var unionarea = {};
-anchorimgs.promise.then(r => {
-    //run only once when all required images are loaded
-    for (var a in intfbases) {
-        if (!anchorimgs.raw[intfbases[a].img]) {
-            throw new Error("not all infbases have a matching img");
-        }
-    }
-    for (let anchor of anchorlocs) {
-        //get the union off all capture areas
-        var area = null;
-        for (var a in intfbases) {
-            var intf = intfbases[a];
-            if (intf.anchor != anchor) {
-                continue;
-            }
-            intf.buf = anchorimgs.raw[intf.img];
-            var rect = new _alt1_base__WEBPACK_IMPORTED_MODULE_0__.Rect(intf.imgpos.x, intf.imgpos.y, intf.buf.width + (intf.searchsize ? intf.searchsize.w : 0), intf.buf.height + (intf.searchsize ? intf.searchsize.h : 0));
-            if (!area) {
-                area = rect;
-            }
-            else {
-                area.union(rect);
-            }
-        }
-        if (area && area.width * area.height > 150 * 150) {
-            console.log("Warning large combined search area in clue reader");
-        }
-        unionarea[anchor] = area;
-    }
-});
-const modalTextClue = [
-    "mysterious clue scroll", "treasure map",
-    "pergaminho de dicas mister", "mapa do tesouro",
-    "..:se hinweis-schriftp", ""
-];
-const modalTowers = [
-    "towers",
-    "torres",
-    ", ( rme" //t"urme
-];
-const modalLockbox = [
-    "lockbox",
-    "gica",
-    "schlie. .;fach" //schliessfach
-];
-const modalKnot = [
-    "celtic knot",
-    "..: celta",
-    "keltischer knoten"
-];
-const modalComplete = [
-    "trail complete!",
-    "trilha terminada!"
-];
-class ClueScrollReader {
-    constructor() {
-        this.knotreader = new _knotreader__WEBPACK_IMPORTED_MODULE_1__["default"]();
-        this.rewardreader = new _rewardreader__WEBPACK_IMPORTED_MODULE_9__["default"]();
-        this.slidereader = new _slidereader__WEBPACK_IMPORTED_MODULE_3__.SlideReader();
-        this.towersreader = new _towersreader__WEBPACK_IMPORTED_MODULE_5__.TowersReader();
-        this.lockboxreader = new _lockbox__WEBPACK_IMPORTED_MODULE_6__.LockBoxReader();
-        this.textcluereader = new _textclue__WEBPACK_IMPORTED_MODULE_7__.TextclueReader();
-        this.scantextreader = new _scantextreader__WEBPACK_IMPORTED_MODULE_8__.ScantextReader();
-        this.compassreader = new _compassclue__WEBPACK_IMPORTED_MODULE_10__.CompassReader();
-        this.anchorpositions = {};
-    }
-    async find(img, checkonly) {
-        var imgtype = null;
-        if (_alt1_base__WEBPACK_IMPORTED_MODULE_0__.hasAlt1) {
-            imgtype = await this.refind();
-        }
-        if (!imgtype && checkonly) {
-            return null;
-        }
-        if (!img && _alt1_base__WEBPACK_IMPORTED_MODULE_0__.hasAlt1) {
-            img = _alt1_base__WEBPACK_IMPORTED_MODULE_0__.captureHoldFullRs();
-        }
-        if (!img) {
-            return null;
-        }
-        if (!imgtype) {
-            for (var imgname in anchorimgs) {
-                var matchimg = anchorimgs[imgname];
-                var locs = img.findSubimage(matchimg);
-                if (locs.length != 0) {
-                    imgtype = { img: imgname, x: locs[0].x, y: locs[0].y };
-                }
-            }
-        }
-        if (!imgtype) {
-            return null;
-        }
-        var intf = null;
-        if (imgtype.img == "legacyx" || imgtype.img == "eocx") {
-            let modal = (imgtype.img == "legacyx" ? _modeluireader__WEBPACK_IMPORTED_MODULE_4__.ModalUIReader.detectLegacy(img, imgtype) : _modeluireader__WEBPACK_IMPORTED_MODULE_4__.ModalUIReader.detectEoc(img, imgtype));
-            if (modal) {
-                if (modalTowers.indexOf(modal.title) != -1) {
-                    intf = (modal.legacy ? intfbases.towers_leg : intfbases.towers);
-                    this.towersreader.pos = modal;
-                }
-                if (modalLockbox.indexOf(modal.title) != -1) {
-                    intf = (modal.legacy ? intfbases.lockbox_leg : intfbases.lockbox);
-                    this.lockboxreader.pos = modal;
-                }
-                if (modalTextClue.indexOf(modal.title) != -1) {
-                    intf = (modal.legacy ? intfbases.text_leg : intfbases.text);
-                    this.textcluereader.pos = modal;
-                }
-                if (modalKnot.indexOf(modal.title) != -1) {
-                    intf = (modal.legacy ? intfbases.knot_leg : intfbases.knot);
-                    this.knotreader.pos = modal;
-                }
-                if (modalComplete.indexOf(modal.title) != -1) {
-                    intf = (modal.legacy ? intfbases.reward_leg : intfbases.reward);
-                    this.rewardreader.pos = modal;
-                }
-            }
-        }
-        if (imgtype.img == "slide" || imgtype.img == "slidelegacy") {
-            intf = (imgtype.img == "slide" ? intfbases.slide : intfbases.slide_leg);
-            this.slidereader.pos = { x: imgtype.x - intf.imgpos.x + 187, y: imgtype.y - intf.imgpos.y + 34 };
-        }
-        if (imgtype.img == "scanfartext" || imgtype.img == "scanleveltext" || imgtype.img == "scanfartext_pt") {
-            intf = (imgtype.img == "scanleveltext" ? intfbases.scan_level : intfbases.scan);
-            this.scantextreader.pos = { x: imgtype.x - intf.imgpos.x, y: imgtype.y - intf.imgpos.y };
-        }
-        if (imgtype.img == "compassnorth") {
-            intf = intfbases.compass;
-            this.compassreader.pos = { x: imgtype.x - 53, y: imgtype.y + 54 };
-        }
-        if (intf) {
-            return this.found(imgtype, intf, img);
-        }
-    }
-    found(pos, intf, img) {
-        let anchorpos = {
-            x: pos.x - intf.imgpos.x - Math.round(intf.searchsize ? intf.searchsize.w / 2 : 0),
-            y: pos.y - intf.imgpos.y - Math.round(intf.searchsize ? intf.searchsize.h / 2 : 0)
-        };
-        this.anchorpositions[intf.anchor] = anchorpos;
-        let r = { intf: intf, matchedpos: pos, img: img };
-        return r;
-    }
-    async refind() {
-        let captareas = {};
-        for (let a in this.anchorpositions) {
-            let anchor = a;
-            let pos = this.anchorpositions[anchor];
-            let area = unionarea[anchor];
-            if (pos && area) {
-                captareas[anchor] = { x: pos.x + area.x, y: pos.y + area.y, width: area.width, height: area.height };
-            }
-            else {
-                captareas[anchor] = null;
-            }
-        }
-        let capts = await _alt1_base__WEBPACK_IMPORTED_MODULE_0__.captureMultiAsync(captareas);
-        for (let a in capts) {
-            let anchor = a;
-            let capt = capts[anchor];
-            if (!capt) {
-                continue;
-            }
-            let captarea = captareas[anchor];
-            for (let intfid in intfbases) {
-                let intf = intfbases[intfid];
-                let area = unionarea[anchor];
-                if (intf.anchor != anchor || !area) {
-                    continue;
-                }
-                let x = intf.imgpos.x - area.x;
-                let y = intf.imgpos.y - area.y;
-                if (!intf.searchsize && _alt1_base__WEBPACK_IMPORTED_MODULE_0__.ImageDetect.simpleCompare(capt, intf.buf, x, y) != Infinity) {
-                    let r = { img: intf.img, x: captarea.x + x, y: captarea.y + y };
-                    return r;
-                }
-                if (intf.searchsize) {
-                    let pos = _alt1_base__WEBPACK_IMPORTED_MODULE_0__.ImageDetect.findSubbuffer(capt, intf.buf, x, y, intf.buf.width + intf.searchsize.w, intf.buf.height + intf.searchsize.h);
-                    if (pos.length != 0) {
-                        let r = { img: intf.img, x: captarea.x + pos[0].x, y: captarea.y + pos[0].y };
-                        return r;
-                    }
-                }
-            }
-        }
-        return null;
-    }
-}
-
-
-/***/ }),
-
-/***/ "./skillbertssolver/cluesolver/compassclue.ts":
-/*!****************************************************!*\
-  !*** ./skillbertssolver/cluesolver/compassclue.ts ***!
-  \****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   CompassReader: () => (/* binding */ CompassReader),
-/* harmony export */   CompassSolver: () => (/* binding */ CompassSolver)
-/* harmony export */ });
-/* harmony import */ var _alt1_base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js");
-/* harmony import */ var _eventemitter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../eventemitter */ "./skillbertssolver/eventemitter.ts");
-/* harmony import */ var _oldlib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../oldlib */ "./skillbertssolver/oldlib.ts");
-/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../util */ "./skillbertssolver/util.ts");
-
-
-
-
-
-let imgs = _alt1_base__WEBPACK_IMPORTED_MODULE_0__.ImageDetect.webpackImages({
-    northimg: __webpack_require__(/*! ./imgs/compassnorth.data.png */ "./skillbertssolver/cluesolver/imgs/compassnorth.data.png.js")
-});
-//before 07jun2022
-let newAngleTransold = [
-    { dx: -6, dz: 0, raw: 0.0454 },
-    { dx: -6, dz: 1, raw: 0.2232 },
-    { dx: -6, dz: 2, raw: 0.3520 },
-    { dx: -6, dz: 3, raw: 0.4875 },
-    { dx: -6, dz: 4, raw: 0.6123 },
-    { dx: -6, dz: 5, raw: 0.7531 },
-    { dx: -6, dz: 6, raw: 0.8382 },
-    { dx: -5, dz: 6, raw: 0.9688 },
-    { dx: -4, dz: 6, raw: 1.0947 },
-    { dx: -3, dz: 6, raw: 1.2337 },
-    { dx: -2, dz: 6, raw: 1.3632 },
-    { dx: -1, dz: 6, raw: 1.4884 },
-    { dx: 0, dz: 6, raw: 1.6218 },
-    { dx: 1, dz: 6, raw: 1.7545 },
-    { dx: 2, dz: 6, raw: 1.8831 },
-    { dx: 3, dz: 6, raw: 2.0182 },
-    { dx: 4, dz: 6, raw: 2.1465 },
-    { dx: 5, dz: 6, raw: 2.2789 },
-    { dx: 6, dz: 6, raw: 2.4098 },
-    { dx: 6, dz: 5, raw: 2.5404 },
-    { dx: 6, dz: 4, raw: 2.6688 },
-    { dx: 6, dz: 3, raw: 2.8045 },
-    { dx: 6, dz: 2, raw: 2.9357 },
-    { dx: 6, dz: 1, raw: -3.2229 },
-    { dx: 6, dz: 0, raw: -3.0895 },
-    { dx: 6, dz: -1, raw: -2.9611 },
-    { dx: 6, dz: -2, raw: -2.8280 },
-    { dx: 6, dz: -3, raw: -2.6930 },
-    { dx: 6, dz: -4, raw: -2.5674 },
-    { dx: 6, dz: -5, raw: -2.4321 },
-    { dx: 6, dz: -6, raw: -2.3011 },
-    { dx: 5, dz: -6, raw: -2.1725 },
-    { dx: 4, dz: -6, raw: -2.0424 },
-    { dx: 3, dz: -6, raw: -1.9069 },
-    { dx: 2, dz: -6, raw: -1.7791 },
-    { dx: 1, dz: -6, raw: -1.6524 },
-    { dx: 0, dz: -6, raw: -1.5167 },
-    { dx: -1, dz: -6, raw: -1.3859 },
-    { dx: -2, dz: -6, raw: -1.2552 },
-    { dx: -3, dz: -6, raw: -1.1228 },
-    { dx: -4, dz: -6, raw: -0.9937 },
-    { dx: -5, dz: -6, raw: -0.8578 },
-    { dx: -6, dz: -6, raw: -0.6898 },
-    { dx: -6, dz: -5, raw: -0.5594 },
-    { dx: -6, dz: -4, raw: -0.4314 },
-    { dx: -6, dz: -3, raw: -0.3023 },
-    { dx: -6, dz: -2, raw: -0.1692 },
-    { dx: -6, dz: -1, raw: -0.0426 }
-];
-let newAngleTrans = [
-    { dx: -5, dz: 0, raw: 0.0454 },
-    { dx: -5, dz: 1, raw: 0.2037 },
-    { dx: -5, dz: 2, raw: 0.359 },
-    { dx: -5, dz: 3, raw: 0.5237 },
-    { dx: -5, dz: 4, raw: 0.6809 },
-    { dx: -5, dz: 5, raw: 0.8382 },
-    { dx: -4, dz: 5, raw: 0.9919 },
-    { dx: -3, dz: 5, raw: 1.1473 },
-    { dx: -2, dz: 5, raw: 1.3094 },
-    { dx: -1, dz: 5, raw: 1.4671 },
-    { dx: 0, dz: 5, raw: 1.6218 },
-    { dx: 1, dz: 5, raw: 1.7809 },
-    { dx: 2, dz: 5, raw: 1.9308 },
-    { dx: 3, dz: 5, raw: 2.0947 },
-    { dx: 4, dz: 5, raw: 2.2519 },
-    { dx: 5, dz: 5, raw: 2.4098 },
-    { dx: 5, dz: 4, raw: 2.5633 },
-    { dx: 5, dz: 3, raw: 2.7193 },
-    { dx: 5, dz: 2, raw: 2.8785 },
-    { dx: 5, dz: 1, raw: -3.243 },
-    { dx: 5, dz: 0, raw: -3.0895 },
-    { dx: 5, dz: -1, raw: -2.9294 },
-    { dx: 5, dz: -2, raw: -2.7802 },
-    { dx: 5, dz: -3, raw: -2.6201 },
-    { dx: 5, dz: -4, raw: -2.4627 },
-    { dx: 5, dz: -5, raw: -2.3011 },
-    { dx: 4, dz: -5, raw: -2.147 },
-    { dx: 3, dz: -5, raw: -1.992 },
-    { dx: 2, dz: -6, raw: -1.7791 },
-    { dx: 1, dz: -5, raw: -1.6773 },
-    { dx: 0, dz: -5, raw: -1.5167 },
-    { dx: -1, dz: -5, raw: -1.3567 },
-    { dx: -2, dz: -5, raw: -1.207 },
-    { dx: -3, dz: -5, raw: -1.0464 },
-    { dx: -4, dz: -5, raw: -0.8892 },
-    { dx: -5, dz: -5, raw: -0.7311 },
-    { dx: -5, dz: -4, raw: -0.577 },
-    { dx: -5, dz: -3, raw: -0.4213 },
-    { dx: -5, dz: -2, raw: -0.2666 },
-    { dx: -5, dz: -1, raw: -0.1103 }
-];
-class CompassReader {
-    constructor() {
-        this.pos = null;
-    }
-    find(img) {
-        let locs = img.findSubimage(imgs.northimg);
-        if (locs.length != 1) {
-            return null;
-        }
-        this.pos = {
-            x: locs[0].x - 53,
-            y: locs[0].y + 54
-        };
-    }
-    read(img) {
-        if (!this.pos) {
-            return null;
-        }
-        let data = img.toData(this.pos.x, this.pos.y, 130, 170);
-        let dir = getdirection(data);
-        if (dir == null) {
-            return null;
-        }
-        let isArc = isArcClue(data);
-        return { dir, isArc };
-    }
-}
-class CompassSolver extends _eventemitter__WEBPACK_IMPORTED_MODULE_1__.TypedEmitter {
-    constructor() {
-        super(...arguments);
-        this.trackinterval = 0;
-        this.trackendtime = 0;
-        this.tracklastdir = NaN; //i feel discusting for doing this, should prolby remove this
-        this.tracklastdif = 0;
-        this.tracksecondlastdif = 0;
-        this.trackend = 0;
-        this.beams = [];
-        this.pointsOfInterest = [];
-        this.selectedCoord = null;
-        this.selectedCoordMeta = { name: "" };
-        this.reader = new CompassReader();
-    }
-    setCoord(coord, meta) {
-        this.selectedCoord = coord;
-        this.selectedCoordMeta = meta;
-        this.fixPointsOfInterest();
-        this.emit("pointChanged", { coord, meta });
-        if (!meta.manualplace) {
-            this.toggleTrackCompass(10 * 1000);
-        }
-    }
-    trigger() {
-        this.toggleTrackCompass(0);
-        if (!this.selectedCoord) {
-            if (!window.alt1) {
-                this.emit("message", "Double-click your location on the map and then paste the screenshot again.");
-            }
-            else {
-                //TODO the version of this error is handled somewhere else is think
-            }
-            return;
-        }
-        //TODO might not have alt1 at this point
-        let img = _alt1_base__WEBPACK_IMPORTED_MODULE_0__.captureHoldFullRs();
-        this.reader.find(img);
-        let state = this.reader.read(img);
-        if (state) {
-            this.doCompass(state);
-        }
-        return !!state;
-    }
-    undo() {
-        this.beams.pop();
-        this.emit("beamschanged", undefined);
-    }
-    clear() {
-        this.beams.length = 0;
-        this.emit("beamschanged", undefined);
-    }
-    fixPointsOfInterest() {
-        this.pointsOfInterest = [];
-        const PI = Math.PI;
-        const PI2 = Math.PI * 2;
-        for (var a = 0; a < this.beams.length; a++) {
-            let beama = this.beams[a];
-            for (var b = a + 1; b < this.beams.length; b++) {
-                let beamb = this.beams[b];
-                var da = beama.dir - beamb.dir;
-                console.log(Math.min((0,_util__WEBPACK_IMPORTED_MODULE_3__.posmod)(da, PI2), PI2 - (0,_util__WEBPACK_IMPORTED_MODULE_3__.posmod)(da, PI2)));
-                if (Math.min((0,_util__WEBPACK_IMPORTED_MODULE_3__.posmod)(da, PI2), PI2 - (0,_util__WEBPACK_IMPORTED_MODULE_3__.posmod)(da, PI2)) < PI / 20) {
-                    continue;
-                } //ignore small diff angles
-                var isct = findintersect(beama.x, beama.z, beama.dir, beamb.x, beamb.z, beamb.dir);
-                if (!isct) {
-                    continue;
-                }
-                this.pointsOfInterest.push(isct);
-            }
-        }
-        if (this.pointsOfInterest.length == 0 && this.beams.length == 1) {
-            this.pointsOfInterest.push({ x: this.beams[0].x, z: this.beams[0].z });
-            this.pointsOfInterest.push({
-                x: this.beams[0].x + 400 * Math.cos(this.beams[0].dir),
-                z: this.beams[0].z + 400 * Math.sin(this.beams[0].dir)
-            });
-        }
-    }
-    doCompass(state) {
-        this.toggleTrackCompass(0);
-        if (!this.selectedCoord) {
-            if (!window.alt1) {
-                this.emit("message", "Double-click your location on the map and then paste the screenshot again.");
-            }
-            else {
-                //handled elsewhere i think
-            }
-            return;
-        }
-        this.beams.push({ x: this.selectedCoord.x, z: this.selectedCoord.z, dir: state.dir });
-        this.fixPointsOfInterest();
-        this.emit("beamschanged", undefined);
-    }
-    toggleTrackCompass(time) {
-        if (!window.alt1) {
-            return;
-        }
-        if (!this.reader.pos) {
-            if (time > 0) {
-                this.reader.find(_alt1_base__WEBPACK_IMPORTED_MODULE_0__.captureHoldFullRs());
-            }
-            if (!this.reader.pos) {
-                return;
-            }
-        }
-        this.tracklastdir = NaN;
-        this.trackendtime = Date.now() + time;
-        if (time > 0 && !this.trackinterval) {
-            this.trackinterval = +setInterval(this.tracktick, 100);
-            this.emit("toggletrack", true);
-        }
-        if (time <= 0 && this.trackinterval) {
-            clearInterval(this.trackinterval);
-            this.trackinterval = 0;
-            this.emit("toggletrack", false);
-        }
-    }
-    tracktick() {
-        let img = _alt1_base__WEBPACK_IMPORTED_MODULE_0__.captureHoldFullRs();
-        let state = this.reader.read(img);
-        const rad2deg = (rad) => rad / 180 * Math.PI;
-        if (state) {
-            var dif = state.dir - this.tracklastdir;
-            if (this.tracklastdir != -1) {
-                //if it was previously stationary and now jumped more than ~30deg
-                //OR if there was previous movement, followed by a large jump, and now stationary
-                if (
-                // Math.abs(this.tracklastdif) < 0.05 && Math.abs(dif) > 0.5
-                // || Math.abs(this.tracksecondlastdif) > 0.1 && Math.abs(dif) > 0.5 && Math.abs(dif) < 0.02
-                Math.abs(this.tracklastdif) > rad2deg(15) && Math.abs(dif) < rad2deg(2)) {
-                    this.doCompass(state);
-                }
-            }
-            this.tracksecondlastdif = this.tracklastdif;
-            this.tracklastdif = dif;
-            this.tracklastdir = state.dir;
-        }
-        if (Date.now() >= this.trackendtime) {
-            this.toggleTrackCompass(0);
-        }
-    }
-}
-function findintersect(x1, y1, a1, x2, y2, a2) {
-    var dx = x1 - x2, dy = y1 - y2;
-    var dx1 = Math.cos(a1), dy1 = Math.sin(a1);
-    var dx2 = Math.cos(a2), dy2 = Math.sin(a2);
-    var denominator = dy2 * dx1 - dx2 * dy1;
-    if (denominator == 0) {
-        return null;
-    }
-    var num1 = dx2 * dy - dy2 * dx;
-    var num2 = dx1 * dy - dy1 * dx;
-    var a = num1 / denominator;
-    var b = num2 / denominator;
-    var x = x1 + a * dx1;
-    var y = y1 + a * dy1;
-    return { x: x, z: y };
-}
-function isArcClue(buf) {
-    var n = 0;
-    for (var a = 20; a < 120; a++) {
-        var i = a * 4 + 163 * buf.width * 4;
-        if ((0,_oldlib__WEBPACK_IMPORTED_MODULE_2__.coldiff)(buf.data[i], buf.data[i + 1], buf.data[i + 2], 52, 31, 5) < 50) {
-            n++;
-        }
-    }
-    return n > 5;
-}
-function getdirection(buf) {
-    //var size = 170;
-    var maxr = 60;
-    var minr2 = 20;
-    var maxr2 = 50;
-    var mx = 65; //x + 15;
-    var my = 65; //y + 118;
-    //var buf = img.toData(round(mx) - size / 2, round(my) - size / 2, size, size);
-    //mx = mx - round(mx) + size / 2;
-    //my = my - round(my) + size / 2;
-    var sx = 0, sy = 0, m = 0;
-    for (var cx = 0; cx < buf.width; cx++) {
-        for (var cy = 0; cy < buf.height; cy++) {
-            var i = 4 * cx + 4 * buf.width * cy;
-            var dx = cx - mx;
-            var dy = cy - my;
-            var rr = dx * dx + dy * dy;
-            if (rr >= maxr * maxr) {
-                continue;
-            }
-            if ((0,_oldlib__WEBPACK_IMPORTED_MODULE_2__.coldiff)(buf.data[i], buf.data[i + 1], buf.data[i + 2], 19, 19, 18) < 20 //java
-                || buf.data[i] < 5 && buf.data[i + 1] < 5 && buf.data[i + 2] < 5) { //nxt
-                sx += dx;
-                sy += dy;
-                //buf.data[i] = 0; buf.data[i + 1] = 255; buf.data[i + 2] = 0;
-                m++;
-            }
-            else {
-                //buf.data[i] = 255; buf.data[i + 1] = 0; buf.data[i + 2] = 0;
-            }
-        }
-    }
-    if (m == 0) {
-        return 0;
-    }
-    var massx = sx / m;
-    var massy = sy / m;
-    var angle = Math.atan2(massy, massx);
-    const PI = Math.PI;
-    const PI2 = Math.PI * 2;
-    var dirsum = 0, m = 0;
-    for (var cx = 0; cx < buf.width; cx++) {
-        for (var cy = 0; cy < buf.height; cy++) {
-            var i = 4 * cx + 4 * buf.width * cy;
-            var dx = cx - mx - massx;
-            var dy = cy - my - massy;
-            var rr = dx * dx + dy * dy;
-            if (rr >= maxr2 * maxr2 || rr <= minr2 * minr2) {
-                continue;
-            }
-            if ((0,_oldlib__WEBPACK_IMPORTED_MODULE_2__.coldiff)(buf.data[i], buf.data[i + 1], buf.data[i + 2], 19, 19, 18) < 20 //java
-                || buf.data[i] < 5 && buf.data[i + 1] < 5 && buf.data[i + 2] < 5) { //nxt
-                var dir = (0,_util__WEBPACK_IMPORTED_MODULE_3__.posmod)(Math.atan2(dy, dx) - angle, PI2);
-                if (dir > PI * 3 / 2) {
-                    dir -= PI2;
-                }
-                else if (dir > PI / 2) {
-                    dir -= PI;
-                }
-                dirsum += dir;
-                m++;
-                //buf.data[i] = 0; buf.data[i + 1] = 255; buf.data[i + 2] = 0;
-            }
-            else {
-                //buf.data[i] = 255; buf.data[i + 1] = 0; buf.data[i + 2] = 0;
-            }
-        }
-    }
-    if (m == 0) {
-        return 0;
-    }
-    let ddir = dirsum / m;
-    angle += ddir;
-    //console.log(ddir.toFixed(4));
-    // console.log((angle / Math.PI * 180).toFixed(2).padStart(7, " ") + massx.toFixed(2).padStart(7, " ") + "," + massy.toFixed(2).padStart(4, " "));
-    //top.ImageData.prototype.show.call(buf)
-    var under = null;
-    var above = null;
-    var dunder = -10;
-    var dabove = 10;
-    for (let opt of newAngleTrans) {
-        let d = angledif(angle, opt.raw);
-        if (d <= 0 && d > dunder) {
-            under = opt;
-            dunder = d;
-        }
-        if (d >= 0 && d < dabove) {
-            above = opt;
-            dabove = d;
-        }
-    }
-    //interpolate between the 2 closest points
-    let alpha = (under == above ? 1 : dabove / (dabove - dunder));
-    let dirz = alpha * under.dz + (1 - alpha) * above.dz;
-    let dirx = alpha * under.dx + (1 - alpha) * above.dx;
-    return Math.atan2(-dirz, -dirx);
-}
-function angledif(a, b) {
-    return (0,_util__WEBPACK_IMPORTED_MODULE_3__.posmod)(b - a + Math.PI, 2 * Math.PI) - Math.PI;
-}
-
-
-/***/ }),
-
-/***/ "./skillbertssolver/cluesolver/knotreader.ts":
-/*!***************************************************!*\
-  !*** ./skillbertssolver/cluesolver/knotreader.ts ***!
-  \***************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   buttonlocs: () => (/* binding */ buttonlocs),
-/* harmony export */   cnvoffset: () => (/* binding */ cnvoffset),
-/* harmony export */   "default": () => (/* binding */ CelticKnotReader),
-/* harmony export */   tilesize: () => (/* binding */ tilesize)
-/* harmony export */ });
-/* harmony import */ var _alt1_base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js");
-
-var imgs = _alt1_base__WEBPACK_IMPORTED_MODULE_0__.ImageDetect.webpackImages({
-    runearea: __webpack_require__(/*! ./imgs/runearea.data.png */ "./skillbertssolver/cluesolver/imgs/runearea.data.png.js"),
-    bordernomatch: __webpack_require__(/*! ./imgs/bordernomatch.data.png */ "./skillbertssolver/cluesolver/imgs/bordernomatch.data.png.js"),
-    bordermatch: __webpack_require__(/*! ./imgs/bordermatch.data.png */ "./skillbertssolver/cluesolver/imgs/bordermatch.data.png.js")
-});
-const tilesize = 24;
-const cnvoffset = { x: -70, y: 0 };
-class CelticKnotReader {
-    constructor() {
-        this.oldpaths = [[], [], [], []];
-        this.paths = [[], [], [], []];
-        this.intersections = [];
-        this.alltiles = [];
-        this.pathor = { x: 0, y: 0 };
-        this.buttons = [];
-        this.runeimages = [];
-        this.combinedprevious = false;
-        this.pos = null;
-    }
-    read(buffer) {
-        this.oldpaths = this.paths;
-        this.paths = [[], [], [], []];
-        this.intersections = [];
-        this.alltiles = [];
-        this.buttons = [];
-        var err = this.mappaths(buffer);
-        if (err) {
-            return err;
-        }
-        this.determineButtons();
-        this.combinedprevious = this.combinepaths();
-    }
-    determineButtons() {
-        var ints = this.intersections.length;
-        var cols = 0;
-        var longestpath = 0;
-        var longestempty = 0;
-        for (var a in this.paths) {
-            var path = this.paths[a];
-            if (path.length != 0) {
-                cols++;
-            }
-            longestpath = Math.max(longestpath, this.paths[a].length);
-            var empycount = 0;
-            var hadstart = false;
-            for (var b = 0; b < path.length;) {
-                var isisct = path[b].tileinfo[5] !== false;
-                if (isisct) {
-                    empycount = 0;
-                }
-                else {
-                    empycount++;
-                    longestempty = Math.max(longestempty, empycount);
-                }
-                b++;
-                if (b >= path.length) {
-                    if (hadstart) {
-                        break;
-                    }
-                    else {
-                        b = 0;
-                        hadstart = true;
-                    }
-                }
-                if (isisct && hadstart) {
-                    break;
-                }
-            }
-        }
-        for (var a in buttonlocs) {
-            var btn = buttonlocs[a];
-            if (btn.iscts != ints) {
-                continue;
-            }
-            if (btn.cols != cols) {
-                continue;
-            }
-            if (btn.longestpath && btn.longestpath != longestpath) {
-                continue;
-            }
-            if (btn.longestempty && btn.longestempty != longestempty) {
-                continue;
-            }
-            this.buttons = btn.locs;
-            return true;
-        }
-        return false;
-    }
-    getTrackColor(data, x, y) {
-        var rgb = data.getPixel(x, y);
-        var lum = (rgb[0] + rgb[1] + rgb[2]) / 255;
-        var r = rgb[0] / lum;
-        var g = rgb[1] / lum;
-        var b = rgb[2] / lum;
-        var cols = {
-            "-1": [101, 96, 56],
-            0: [75, 66, 116],
-            1: [144, 107, 6],
-            2: [79, 74, 102],
-            3: [92, 89, 75], //gray
-        };
-        var best = "";
-        var bestd = -1;
-        for (var colid in cols) {
-            var d = Math.abs(r - cols[colid][0]) + Math.abs(g - cols[colid][1]) + Math.abs(b - cols[colid][2]);
-            if (best == "" || d < bestd) {
-                bestd = d;
-                best = colid;
-            }
-        }
-        //hardcode darkblue
-        if (best == "0" && lum * 255 < 30) {
-            return 2;
-        }
-        return +best;
-    }
-    mappaths(data) {
-        var x = 380;
-        var y = 23;
-        //intercept knot
-        for (var a = 0; a < 300; a++) {
-            if (data.data[x * 4 + data.width * y * 4] < 60 && data.data[x * 4 + data.width * y * 4 + 1] < 60 && data.data[x * 4 + data.width * y * 4 + 2] < 40) {
-                break;
-            }
-            ;
-            x -= 1;
-            y++;
-        }
-        //adjust for possble odd interception
-        if (data.data[(x + 1) * 4 + data.width * y * 4] < 60 && data.data[(x + 1) * 4 + data.width * y * 4 + 1] < 60 && data.data[(x + 1) * 4 + data.width * y * 4 + 2] < 40) {
-            x++;
-        }
-        //follow line until top corner is found
-        for (var a = 0; a < 200; a++) {
-            if (data.data[x * 4 + data.width * y * 4] > 60 && data.data[x * 4 + data.width * y * 4 + 1] > 60 && data.data[x * 4 + data.width * y * 4 + 2] > 40) {
-                break;
-            }
-            ;
-            x -= 1;
-            y -= 1;
-        }
-        x -= 23;
-        y -= 1;
-        this.pathor = { x: x, y: y };
-        var err = this.maprecur(data, 0, 0);
-        if (err) {
-            return err;
-        }
-        for (var a = 0; a <= 3; a++) { //find start spots for recur
-            var c = -Infinity;
-            var d = -1;
-            for (var b in this.alltiles) { //find highest x then y with right type, will alway result in top corner, which will recur down/clockwise
-                if (this.alltiles[b].tileinfo[4] == a && this.alltiles[b].x * 100 + this.alltiles[b].y > c) {
-                    d = +b;
-                    c = this.alltiles[b].x * 100 + this.alltiles[b].y;
-                }
-            }
-            if (isFinite(c)) {
-                this.connectrecur(a, -1, this.alltiles[d].x, this.alltiles[d].y);
-            }
-        }
-    }
-    maprecur(data, x, y) {
-        if (this.alltiles.length > 58) {
-            console.log("To many tiles found/stack error");
-            return "Error mapping rings.";
-        }
-        for (var a in this.alltiles) {
-            if (this.alltiles[a].x == x && this.alltiles[a].y == y) {
-                return;
-            }
-        }
-        var cx = this.pathor.x + tilesize * x - tilesize * y;
-        var cy = this.pathor.y - tilesize * x - tilesize * y;
-        var tileinfo;
-        var isintersect = false;
-        var runematch = false;
-        if (data.pixelCompare(imgs.bordermatch, cx + 6, cy + 6, -1) < 10) {
-            isintersect = true;
-            runematch = true;
-        }
-        if (data.pixelCompare(imgs.bordernomatch, cx + 6, cy + 6, -1) < 10) {
-            isintersect = true;
-            runematch = false;
-        }
-        var cmain = this.getTrackColor(data, cx + 23, cy + 2);
-        var ctopleft = this.getTrackColor(data, cx + 23, cy + 1);
-        var ctopright = this.getTrackColor(data, cx + 24, cy + 1);
-        var cbotleft = this.getTrackColor(data, cx + 23, cy + 46);
-        var cbotright = this.getTrackColor(data, cx + 24, cy + 46);
-        tileinfo = [ctopleft, ctopright, cbotright, cbotleft, cmain, isintersect];
-        //TODO check if this is still a thing
-        //hardcode solution to weird position glitch in rs
-        var search = false;
-        //if (x == -5 && y == -3) { search = [[0, 0], [1, 0]]; }
-        var rune = this.differentiateRune(data, cx + 5 + 6, cy + 5 + 6, search);
-        this.alltiles.push({ x: x, y: y, tileinfo: tileinfo, rune: rune, match: runematch });
-        //TODO use throw here instead on failure instead of the return string thing
-        if (tileinfo[0] != -1) {
-            var err = this.maprecur(data, x, y + 1);
-            if (err) {
-                return err;
-            }
-        }
-        if (tileinfo[1] != -1) {
-            var err = this.maprecur(data, x + 1, y);
-            if (err) {
-                return err;
-            }
-        }
-        if (tileinfo[2] != -1) {
-            var err = this.maprecur(data, x, y - 1);
-            if (err) {
-                return err;
-            }
-        }
-        if (tileinfo[3] != -1) {
-            var err = this.maprecur(data, x - 1, y);
-            if (err) {
-                return err;
-            }
-        }
-    }
-    differentiateRune(data, x, y, search) {
-        if (!search) {
-            search = [[0, 0]];
-        }
-        for (var c in search) {
-            var cx = x + search[c][0];
-            var cy = y + search[c][1];
-            var subimg = multiplybuffer(data, imgs.runearea, cx, cy);
-            for (var a = 0; a < this.runeimages.length; a++) {
-                var b = diffSum(subimg, this.runeimages[a]);
-                if (b < 3) {
-                    return a;
-                }
-            }
-        }
-        this.runeimages.push(multiplybuffer(data, imgs.runearea, x, y));
-        return this.runeimages.length - 1;
-    }
-    connectrecur(col, dir, x, y) {
-        if (this.paths[col][0] && this.paths[col][0].x == x && this.paths[col][0].y == y) {
-            return;
-        }
-        var tileinfo = false;
-        for (var a = 0; a < this.alltiles.length; a++) {
-            if (this.alltiles[a].x == x && this.alltiles[a].y == y) {
-                tileinfo = this.alltiles[a].tileinfo;
-                break;
-            }
-        }
-        if (tileinfo === false) {
-            console.log("recured to invalid tile");
-            return;
-        }
-        var rune = (tileinfo[4] == col || this.alltiles[a].match ? this.alltiles[a].rune : -1 - this.alltiles[a].rune);
-        this.paths[col].push({ x: x, y: y, tileinfo: tileinfo, rune: rune });
-        if (tileinfo[5]) { //intersection tile
-            var isct = false;
-            for (var c in this.intersections) {
-                if (this.intersections[c].x == x && this.intersections[c].y == y) {
-                    isct = +c;
-                    break;
-                }
-            }
-            if (isct === false) {
-                this.intersections.push({ x: x, y: y, col1: false, i1: false, col2: false, i2: false });
-                isct = this.intersections.length - 1;
-            }
-            if (tileinfo[4] == col) {
-                this.intersections[isct].col1 = col;
-                this.intersections[isct].i1 = this.paths[col].length - 1;
-            }
-            else {
-                this.intersections[isct].col2 = col;
-                this.intersections[isct].i2 = this.paths[col].length - 1;
-            }
-        }
-        if (dir != 2 && tileinfo[0] == col) {
-            this.connectrecur(col, 0, x, y + 1);
-        }
-        else if (dir != 3 && tileinfo[1] == col) {
-            this.connectrecur(col, 1, x + 1, y);
-        }
-        else if (dir != 0 && tileinfo[2] == col) {
-            this.connectrecur(col, 2, x, y - 1);
-        }
-        else if (dir != 1 && tileinfo[3] == col) {
-            this.connectrecur(col, 3, x - 1, y);
-        }
-    }
-    combinepaths() {
-        var match = true;
-        for (var a = 0; a <= 2; a++) {
-            if (this.paths[a].length != this.oldpaths[a].length) {
-                match = false;
-                break;
-            }
-            for (var b in this.paths[a]) {
-                if (this.paths[a][b].rune == this.oldpaths[a][b].rune) {
-                    continue;
-                }
-                if (this.paths[a][b].rune < 0 && this.oldpaths[a][b].rune < 0) {
-                    continue;
-                }
-                if (this.paths[a][b].rune < 0 && -1 - this.paths[a][b].rune != this.oldpaths[a][b].rune) {
-                    continue;
-                }
-                if (this.oldpaths[a][b].rune < 0 && -1 - this.oldpaths[a][b].rune != this.paths[a][b].rune) {
-                    continue;
-                }
-                match = false;
-            }
-        }
-        if (!match) {
-            return false;
-        }
-        for (var a = 0; a <= 2; a++) {
-            for (var b in this.paths[a]) {
-                if (this.paths[a][b].rune < 0 && this.oldpaths[a][b].rune >= 0) {
-                    this.paths[a][b].rune = this.oldpaths[a][b].rune;
-                }
-            }
-        }
-        return true;
-    }
-}
-CelticKnotReader.buttonoffset = { x: 7, y: 308 };
-CelticKnotReader.size = { w: 504, h: 326 };
-function multiplybuffer(target, img, sx, sy) {
-    var x, y, i1, i2, r;
-    r = new _alt1_base__WEBPACK_IMPORTED_MODULE_0__.ImageData(img.width, img.height);
-    if (!sx && sx !== 0) {
-        sx = 0;
-        sy = 0;
-    }
-    for (x = 0; x < img.width; x++) {
-        for (y = 0; y < img.height; y++) {
-            i1 = 4 * (sx + x) + target.width * 4 * (sy + y);
-            i2 = 4 * x + img.width * 4 * y;
-            r.data[i2 + 0] = target.data[i1 + 0] * img.data[i2 + 0] / 255;
-            r.data[i2 + 1] = target.data[i1 + 1] * img.data[i2 + 1] / 255;
-            r.data[i2 + 2] = target.data[i1 + 2] * img.data[i2 + 2] / 255;
-            r.data[i2 + 3] = img.data[i2 + 3];
-        }
-    }
-    return r;
-}
-function diffSum(target, img, sx = 0, sy = 0) {
-    var x, y, i1, i2, r, d;
-    r = 0;
-    for (x = 0; x < img.width; x++) {
-        for (y = 0; y < img.height; y++) {
-            i1 = 4 * (sx + x) + target.width * 4 * (sy + y);
-            i2 = 4 * x + img.width * 4 * y;
-            d = 0;
-            d += Math.abs(target.data[i1 + 0] - img.data[i2 + 0]);
-            d += Math.abs(target.data[i1 + 1] - img.data[i2 + 1]);
-            d += Math.abs(target.data[i1 + 2] - img.data[i2 + 2]);
-            r += d * target.data[i1 + 3] * img.data[i2 + 3] / 255 / 255;
-        }
-    }
-    return r / img.width / img.height;
-}
-var buttonlocs = [
-    {
-        iscts: 6, cols: 3, locs: [
-            { incr: { x: -6, y: -3 }, decr: { x: -5, y: -4 } },
-            { incr: { x: -6, y: 3 }, decr: { x: -7, y: 2 } },
-            { incr: { x: 0, y: -5 }, decr: { x: 1, y: -4 } },
-            null
-        ]
-    },
-    {
-        iscts: 8, cols: 3, longestpath: 16, longestempty: 11, locs: [
-            { incr: { x: 0, y: -5 }, decr: { x: 1, y: -4 } },
-            { incr: { x: -4, y: 3 }, decr: { x: -5, y: 2 } },
-            { incr: { x: -6, y: -3 }, decr: { x: -5, y: -4 } },
-            null
-        ]
-    },
-    {
-        iscts: 8, cols: 3, longestpath: 16, locs: [
-            { incr: { x: -5, y: 3 }, decr: { x: -6, y: 2 } },
-            { incr: { x: 1, y: -2 }, decr: { x: 1, y: 0 } },
-            { incr: { x: -1, y: -5 }, decr: { x: 0, y: -4 } },
-            null
-        ]
-    },
-    {
-        iscts: 8, cols: 3, longestpath: 16, longestempty: 11, locs: [
-            { incr: { x: -5, y: 3 }, decr: { x: -6, y: 2 } },
-            { incr: { x: 1, y: -2 }, decr: { x: 1, y: 0 } },
-            { incr: { x: -1, y: -5 }, decr: { x: 0, y: -4 } },
-            null
-        ]
-    },
-    {
-        iscts: 10, cols: 3, longestpath: 16, locs: [
-            { incr: { x: 0, y: -3 }, decr: { x: 1, y: -2 } },
-            { incr: { x: -7, y: 2 }, decr: { x: -8, y: 1 } },
-            { incr: { x: -6, y: -3 }, decr: { x: -5, y: -4 } },
-            null
-        ]
-    },
-    {
-        iscts: 12, cols: 3, locs: [
-            { incr: { x: -6, y: -3 }, decr: { x: -5, y: -4 } },
-            { incr: { x: -6, y: 1 }, decr: { x: -7, y: 0 } },
-            { incr: { x: -2, y: -5 }, decr: { x: -1, y: -4 } },
-            null
-        ]
-    },
-    {
-        iscts: 8, cols: 4, locs: [
-            { incr: { x: -4, y: -6 }, decr: { x: -2, y: -6 } },
-            { incr: { x: -7, y: -1 }, decr: { x: -7, y: -3 } },
-            { incr: { x: -2, y: 2 }, decr: { x: -4, y: 2 } },
-            { incr: { x: 1, y: -3 }, decr: { x: 1, y: -1 } }
-        ]
-    },
-    {
-        iscts: 14, cols: 4, locs: [
-            { incr: { x: -2, y: 2 }, decr: { x: -5, y: 2 } },
-            { incr: { x: -7, y: -3 }, decr: { x: -6, y: -4 } },
-            { incr: { x: -7, y: 1 }, decr: { x: -8, y: 0 } },
-            { incr: { x: 0, y: -3 }, decr: { x: 1, y: -2 } }
-        ]
-    },
-    {
-        iscts: 8, cols: 3, longestpath: 28, locs: [
-            { incr: { x: -6, y: 2 }, decr: { x: -7, y: 1 } },
-            { incr: { x: 1, y: -1 }, decr: { x: -3, y: 3 } },
-            { incr: { x: -1, y: -5 }, decr: { x: 0, y: -4 } },
-            null
-        ]
-    },
-    {
-        iscts: 10, cols: 3, longestpath: 24, locs: [
-            { incr: { x: -7, y: 2 }, decr: { x: -8, y: 1 } },
-            { incr: { x: 0, y: 1 }, decr: { x: -2, y: 3 } },
-            { incr: { x: -1, y: -4 }, decr: { x: 1, y: -2 } },
-            null
-        ]
-    }
-];
-
-
-/***/ }),
-
-/***/ "./skillbertssolver/cluesolver/lockbox.ts":
-/*!************************************************!*\
-  !*** ./skillbertssolver/cluesolver/lockbox.ts ***!
-  \************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   LockBoxReader: () => (/* binding */ LockBoxReader),
-/* harmony export */   renderLockbox: () => (/* binding */ renderLockbox),
-/* harmony export */   solveLockbox: () => (/* binding */ solveLockbox)
-/* harmony export */ });
-/* harmony import */ var _alt1_base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js");
-/* harmony import */ var _alt1_base_dist_imagedetect__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @alt1/base/dist/imagedetect */ "../node_modules/@alt1/base/dist/imagedetect.js");
-
-
-var imgs = (0,_alt1_base_dist_imagedetect__WEBPACK_IMPORTED_MODULE_1__.webpackImages)({
-    melee: __webpack_require__(/*! ./imgs/lockboxmelee.data.png */ "./skillbertssolver/cluesolver/imgs/lockboxmelee.data.png.js"),
-    mage: __webpack_require__(/*! ./imgs/lockboxmage.data.png */ "./skillbertssolver/cluesolver/imgs/lockboxmage.data.png.js"),
-    range: __webpack_require__(/*! ./imgs/lockboxrange.data.png */ "./skillbertssolver/cluesolver/imgs/lockboxrange.data.png.js"),
-});
-const w = 5;
-const h = 5;
-const colors = 3;
-const tilesize = 38;
-class LockBoxReader {
-    constructor() {
-        this.pos = null;
-    }
-    innerRect() {
-        return this.pos ? new _alt1_base__WEBPACK_IMPORTED_MODULE_0__.Rect(this.pos.rect.x + 38, this.pos.rect.y + 13, w * tilesize, h * tilesize) : null;
-    }
-    read(img) {
-        if (!this.pos) {
-            throw new Error("ui not found yet");
-            ;
-        }
-        if (!img) {
-            img = this.pos.img;
-        }
-        let rect = this.innerRect();
-        var buf = img.toData(rect.x, rect.y, rect.width, rect.height);
-        var state = [];
-        for (var y = 0; y < h; y++) {
-            state[y] = [];
-            for (var x = 0; x < w; x++) {
-                var t = -1;
-                if (_alt1_base__WEBPACK_IMPORTED_MODULE_0__.ImageDetect.simpleCompare(buf, imgs.melee, x * tilesize, y * tilesize) < Infinity) {
-                    t = 0;
-                }
-                if (_alt1_base__WEBPACK_IMPORTED_MODULE_0__.ImageDetect.simpleCompare(buf, imgs.range, x * tilesize, y * tilesize) < Infinity) {
-                    t = 1;
-                }
-                if (_alt1_base__WEBPACK_IMPORTED_MODULE_0__.ImageDetect.simpleCompare(buf, imgs.mage, x * tilesize, y * tilesize) < Infinity) {
-                    t = 2;
-                }
-                if (t == -1) {
-                    throw new Error("lockbox tile not matched");
-                }
-                state[y][x] = t;
-            }
-        }
-        console.log(state);
-        return state;
-    }
-}
-function renderLockbox(ctx, buf, solution) {
-    ctx.putImageData(buf.toDrawableData(), 0, 0);
-    ctx.font = "28px sans-serif";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillStyle = "rgba(0,0,0,0.5)";
-    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    for (var x = 0; x < solution.length; x++) {
-        for (var y = 0; y < solution[x].length; y++) {
-            if (solution[y][x] == 0) {
-                continue;
-            }
-            ctx.fillStyle = "#000";
-            ctx.fillText(solution[y][x] + "", x * 38 + 19 + 1, y * 38 + 19 + 1);
-            ctx.fillText(solution[y][x] + "", x * 38 + 19 - 1, y * 38 + 19 - 1);
-            ctx.fillStyle = "#fff";
-            ctx.fillText(solution[y][x] + "", x * 38 + 19, y * 38 + 19);
-        }
-    }
-}
-function solveLockbox(grid, target) {
-    var doMovo = function (x, y) {
-        toggleTile(x, y);
-        toggleTile(x + 1, y);
-        toggleTile(x - 1, y);
-        toggleTile(x, y + 1);
-        toggleTile(x, y - 1);
-        moves[y][x] = (moves[y][x] + 1) % colors;
-    };
-    var toggleTile = function (x, y) {
-        if (x < 0 || x >= w) {
-            return;
-        }
-        if (y < 0 || y >= h) {
-            return;
-        }
-        clone[y][x] = (clone[y][x] + 1) % colors;
-    };
-    var chase = function () {
-        for (var y = 1; y < h; y++) {
-            for (var x = 0; x < w; x++) {
-                while (clone[y - 1][x] != target) {
-                    doMovo(x, y);
-                }
-            }
-        }
-    };
-    var clone = [];
-    var moves = [];
-    for (var y = 0; y < h; y++) {
-        clone[y] = [];
-        moves[y] = [];
-        for (var x = 0; x < w; x++) {
-            clone[y][x] = grid[y][x];
-            moves[y][x] = 0;
-        }
-    }
-    chase();
-    //save bottom row vector
-    var aim = [];
-    for (var x = 0; x <= w; x++) {
-        aim[x] = clone[h - 1][x];
-    }
-    //Get matrix of bottom rows for each possible top light
-    var bot = [
-        [0, 1, 0, 0, 0],
-        [1, 1, 0, 0, 0]
-    ];
-    var inv = [
-        [1, 0, 2, 0, 1],
-        [0, 1, 0, 1, 0]
-    ];
-    //Now try to make aim from inv rows, by pressing the bot pattern on top row
-    for (var m = 0; m < 2; m++) {
-        while (aim[m]) {
-            //add inv[m] to aim, and apply bot[m] to top row
-            for (var x = 0; x <= w; x++) {
-                aim[x] = (aim[x] + inv[m][x]) % colors;
-                for (var j = 1; j <= bot[m][x]; j++) {
-                    doMovo(x, 0);
-                }
-            }
-        }
-    }
-    //Error if aim has not been attained
-    if (aim[2] + aim[3] + aim[4]) {
-        //restore board
-        return null;
-    }
-    //Expand solution to full board
-    chase();
-    return moves;
-    //TODO implement this part
-    /*
-            //Should now check whether can minimise solution by adding a quiet pattern
-            aim = counthnt();
-            //save current position
-            var backhnt = new Array;
-            for (var i = 0; i <= 4; i++) {
-                backhnt[i] = new Array();
-                for (var j = 0; j <= 4; j++) backhnt[i][j] = hnt[i][j];
-            }
-    
-            //get complete quiet pattern generators
-            var invar = new Array();
-            invar[0] = new Array();
-            invar[0][0] = new Array(1, 0, 0, 0, 2);
-            invar[0][1] = new Array(2, 2, 0, 1, 1);
-            invar[0][2] = new Array(1, 2, 0, 1, 2);
-            invar[0][3] = new Array(1, 1, 0, 2, 2);
-            invar[0][4] = new Array(0, 2, 0, 1, 0);
-            invar[1] = new Array();
-            invar[1][0] = new Array(0, 1, 0, 2, 0);
-            invar[1][1] = new Array(2, 2, 0, 1, 1);
-            invar[1][2] = new Array(2, 1, 0, 2, 1);
-            invar[1][3] = new Array(1, 1, 0, 2, 2);
-            invar[1][4] = new Array(2, 0, 0, 0, 1);
-            invar[2] = new Array();
-            invar[2][0] = new Array(0, 0, 1, 0, 1);
-            invar[2][1] = new Array(0, 2, 2, 1, 2);
-            invar[2][2] = new Array(1, 2, 0, 1, 2);
-            invar[2][3] = new Array(0, 1, 1, 2, 1);
-            invar[2][4] = new Array(1, 2, 2, 1, 1);
-    
-            //run through all non-zero combinations of the quiet patterns.
-            for (var c0 = 0; c0 <= 2; c0++) {
-                for (var c1 = 0; c1 <= 2; c1++) {
-                    for (var c2 = 0; c2 <= 2; c2++) {
-                        //check combination c012; each c is multiplier for generator
-                        for (var i = 0; i <= 4; i++) for (var j = 0; j <= 4; j++) {
-                            var c = backhnt[i][j] + c0 * invar[0][i][j] + c1 * invar[1][i][j] + c2 * invar[2][i][j];
-                            hnt[i][j] = c - 3 * Math.floor(c / 3)
-    
-                        }
-                        //check if found better solution
-                        j = counthnt();
-                        if (j < aim) {
-                            aim = j;
-                            for (var i = 0; i <= 4; i++) for (var j = 0; j <= 4; j++) backhnt[i][j] = hnt[i][j];
-                        }
-                    }
-                }
-            }
-            //restore hnt
-            for (var i = 0; i <= 4; i++) for (var j = 0; j <= 4; j++) {
-                if (backhnt[i][j]) hnt[i][j] = 3 - backhnt[i][j]; else hnt[i][j] = 0;
-            }
-            //restore board
-            for (var i = 0; i <= 4; i++) for (var j = 0; j <= 4; j++) posit[i][j] = backup[i][j];
-            return (true);*/
-}
-
-
-/***/ }),
-
-/***/ "./skillbertssolver/cluesolver/modeluireader.ts":
-/*!******************************************************!*\
-  !*** ./skillbertssolver/cluesolver/modeluireader.ts ***!
-  \******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   ModalUIReader: () => (/* binding */ ModalUIReader)
-/* harmony export */ });
-/* harmony import */ var _alt1_base_dist_imagedetect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @alt1/base/dist/imagedetect */ "../node_modules/@alt1/base/dist/imagedetect.js");
-/* harmony import */ var _alt1_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js");
-/* harmony import */ var _alt1_ocr__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @alt1/ocr */ "../node_modules/@alt1/ocr/dist/index.js");
-
-
-
-var capsfont = __webpack_require__(/*! @alt1/ocr/fonts/aa_9px_mono_allcaps.js */ "../node_modules/@alt1/ocr/fonts/aa_9px_mono_allcaps.js");
-let imgs = (0,_alt1_base_dist_imagedetect__WEBPACK_IMPORTED_MODULE_0__.webpackImages)({
-    exitbutton: __webpack_require__(/*! ./imgs/eocx.data.png */ "./skillbertssolver/cluesolver/imgs/eocx.data.png.js"),
-    exitbutton_leg: __webpack_require__(/*! ./imgs/legacyx.data.png */ "./skillbertssolver/cluesolver/imgs/legacyx.data.png.js"),
-    topleft: __webpack_require__(/*! ./imgs/eoctopleft.data.png */ "./skillbertssolver/cluesolver/imgs/eoctopleft.data.png.js"),
-    topleft_leg: __webpack_require__(/*! ./imgs/legacytopleft.data.png */ "./skillbertssolver/cluesolver/imgs/legacytopleft.data.png.js"),
-    botleft: __webpack_require__(/*! ./imgs/eocbotleft.data.png */ "./skillbertssolver/cluesolver/imgs/eocbotleft.data.png.js"),
-    botleft_leg: __webpack_require__(/*! ./imgs/legacybotleft.data.png */ "./skillbertssolver/cluesolver/imgs/legacybotleft.data.png.js"),
-});
-var ModalUIReader;
-(function (ModalUIReader) {
-    function find(img) {
-        if (!img) {
-            img = (0,_alt1_base__WEBPACK_IMPORTED_MODULE_1__.captureHoldFullRs)();
-        }
-        let treoc = img.findSubimage(imgs.exitbutton);
-        let trleg = img.findSubimage(imgs.exitbutton_leg);
-        let eocboxes = treoc.map(p => detectEoc(img, p));
-        let legacyboxes = trleg.map(p => detectLegacy(img, p));
-        return [...eocboxes, ...legacyboxes].filter(m => m);
-    }
-    ModalUIReader.find = find;
-    function detectEoc(img, pos) {
-        let left = img.findSubimage(imgs.topleft, img.x, pos.y - 5, pos.x, imgs.topleft.height).sort((a, b) => a.x - b.x)[0];
-        if (!left) {
-            return null;
-        }
-        let bot = img.findSubimage(imgs.botleft, left.x, pos.y, imgs.botleft.width, img.y + img.height - pos.y).sort((a, b) => a.y - b.y)[0];
-        if (!bot) {
-            return null;
-        }
-        let buf = img.toData(left.x, pos.y, 250, 20);
-        let title = _alt1_ocr__WEBPACK_IMPORTED_MODULE_2__.readSmallCapsBackwards(buf, capsfont, [[255, 203, 5]], 0, 13, buf.width, 1);
-        return {
-            rect: new _alt1_base__WEBPACK_IMPORTED_MODULE_1__.Rect(left.x + 4, pos.y + 24, (pos.x + 21) - (left.x + 4), (bot.y + 8) - (pos.y + 24)),
-            legacy: false,
-            title: title ? title.text.toLowerCase() : "",
-            img: img
-        };
-    }
-    ModalUIReader.detectEoc = detectEoc;
-    function detectLegacy(img, pos) {
-        let left = img.findSubimage(imgs.topleft_leg, img.x, pos.y - 9, pos.x, imgs.topleft_leg.height).sort((a, b) => a.x - b.x)[0];
-        if (!left) {
-            return null;
-        }
-        let bot = img.findSubimage(imgs.botleft_leg, left.x - 2, pos.y, imgs.botleft_leg.width, img.y + img.height - pos.y).sort((a, b) => a.y - b.y)[0];
-        if (!bot) {
-            return null;
-        }
-        let buf = img.toData(Math.round(left.x + pos.x - 250) / 2, pos.y - 4, 250, 20);
-        let title = _alt1_ocr__WEBPACK_IMPORTED_MODULE_2__.readSmallCapsBackwards(buf, capsfont, [[255, 152, 31]], 0, 13, buf.width, 1);
-        return {
-            rect: new _alt1_base__WEBPACK_IMPORTED_MODULE_1__.Rect(left.x + 4, pos.y + 20, (pos.x + 20) - (left.x + 4), (bot.y) - (pos.y + 20)),
-            legacy: true,
-            title: title ? title.text.toLowerCase() : "",
-            img: img
-        };
-    }
-    ModalUIReader.detectLegacy = detectLegacy;
-})(ModalUIReader || (ModalUIReader = {}));
-
-
-/***/ }),
-
-/***/ "./skillbertssolver/cluesolver/oldlib.ts":
-/*!***********************************************!*\
-  !*** ./skillbertssolver/cluesolver/oldlib.ts ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   addzeros: () => (/* reexport safe */ _oldlib__WEBPACK_IMPORTED_MODULE_0__.addzeros),
-/* harmony export */   coloravg: () => (/* binding */ coloravg),
-/* harmony export */   colordifsum: () => (/* binding */ colordifsum),
-/* harmony export */   comparetiledata: () => (/* binding */ comparetiledata),
-/* harmony export */   rgbtohsl: () => (/* binding */ rgbtohsl),
-/* harmony export */   spacednr: () => (/* reexport safe */ _oldlib__WEBPACK_IMPORTED_MODULE_0__.spacednr),
-/* harmony export */   strcomparescore: () => (/* binding */ strcomparescore),
-/* harmony export */   tiledata: () => (/* binding */ tiledata)
-/* harmony export */ });
-/* harmony import */ var _oldlib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../oldlib */ "./skillbertssolver/oldlib.ts");
-
-//calculates the average color of an area in a imagedata object
-//used in a1lib.tiledata
-function coloravg(buf, x, y, w, h) {
-    var a, c, r, g, b, i;
-    r = 0;
-    g = 0;
-    b = 0;
-    for (a = x; a < x + w; a++) {
-        for (c = y; c < y + h; c++) {
-            i = 4 * buf.width * c + 4 * a;
-            r += buf.data[i];
-            g += buf.data[i + 1];
-            b += buf.data[i + 2];
-        }
-    }
-    r /= w * h;
-    g /= w * h;
-    b /= w * h;
-    return [r, g, b];
-}
-//calculates the total amount of difference between adjecent pixels
-//used in a1lib.tiledata
-function colordifsum(buf, x, y, w, h) {
-    var a, b, c, s, i, row, column;
-    row = 4 * buf.width;
-    column = 4;
-    s = 0;
-    for (a = x; a < x + w; a++) {
-        for (c = y; c < y + h; c++) {
-            i = row * c + column * a;
-            s += Math.abs(buf.data[i] - buf.data[i + column]);
-            s += Math.abs(buf.data[i] - buf.data[i + row]);
-            s += Math.abs(buf.data[i + 1] - buf.data[i + 1 + column]);
-            s += Math.abs(buf.data[i + 1] - buf.data[i + 1 + row]);
-            s += Math.abs(buf.data[i + 2] - buf.data[i + 2 + column]);
-            s += Math.abs(buf.data[i + 2] - buf.data[i + 2 + row]);
-        }
-    }
-    return s;
-}
-//calculates a pattern from a buffer to compare to skillbertssolver buffers
-//currently experimental, did wonders on slide puzzle tiles
-function tiledata(buf, rw, rh, x, y, w, h) {
-    let basecol = rgbtohsl(coloravg(buf, x, y, w, h));
-    let r = [basecol[0], basecol[1], basecol[2]];
-    for (let cx = 0; (cx + 1) * rw <= w; cx++) {
-        let xx = x + cx * rw;
-        for (let cy = 0; (cy + 1) * rh <= h; cy++) {
-            let yy = y + cy * rh;
-            let i = cx * 5 + cy * Math.floor(w / rw) * 5 + 3;
-            let b = rgbtohsl(coloravg(buf, xx, yy, rw, rh));
-            r[i + 0] = b[0]; //hue
-            if (r[i + 0] > 128) {
-                r[i + 1] -= 256;
-            }
-            if (r[i + 0] < -128) {
-                r[i + 1] += 256;
-            }
-            r[i + 1] = b[1]; //sat
-            r[i + 2] = basecol[2] - b[2]; //lum
-            r[i + 3] = Math.floor(colordifsum(buf, xx + 1, yy + 1, rw - 2, rh - 2) / rw / rh); //min roughtness (border -1 px)
-            r[i + 4] = Math.floor(colordifsum(buf, xx, yy, rw, rh) / rw / rh); //max roughness (full square)
-        }
-    }
-    return r;
-}
-//compares 2 tiledata objects and returns a match score
-function comparetiledata(data1, data2) {
-    let r = 0;
-    let c = Math.abs(data1[0] - data2[0]);
-    r += Math.max(0, (c > 128 ? 255 - c : c) * 5 - 100); //basecol hue
-    r += Math.max(0, Math.abs(data1[1] - data2[1]) * 5 - 100); //basecol sat
-    for (let a = 3; a < data1.length; a += 5) {
-        let b = 0;
-        c = Math.abs(data1[a] - data2[a]); //hue
-        b += (c > 128 ? 255 - c : c) * Math.max(data1[a], data2[a]) / 255;
-        b += Math.abs(data1[a + 1] - data2[a + 1]); //sat
-        b += Math.max(0, data1[a + 3] - data2[a + 4]) * 100; //more roughness
-        b += Math.max(0, data2[a + 3] - data1[a + 4]) * 100; //less roughness
-        r += b;
-    }
-    return r;
-}
-function rgbtohsl(r, g, b) {
-    var mx, mn, cr, h, s, l;
-    if (typeof r == "object") {
-        b = r[2];
-        g = r[1];
-        r = r[0];
-    }
-    r = r / 256;
-    g = g / 256;
-    b = b / 256;
-    mx = Math.max(r, g, b);
-    mn = Math.min(r, g, b);
-    cr = mx - mn;
-    s = cr;
-    l = 0.5 * (mx + mn);
-    h = 0;
-    if (cr != 0) {
-        if (mx == r) {
-            h = (6 + (g - b) / cr) % 6;
-        }
-        if (mx == g) {
-            h = (b - r) / cr + 2;
-        }
-        if (mx == b) {
-            h = (r - g) / cr + 4;
-        }
-    }
-    return [Math.round(h / 6 * 255), Math.round(s * 255), Math.round(l * 255)];
-}
-function strcompare(first, second) {
-    // Calculates the similarity between two strings  
-    // discuss at: http://phpjs.org/functions/similar_text
-    first += '';
-    second += '';
-    var pos1 = 0, pos2 = 0, max = 0, firstLength = first.length, secondLength = second.length, p, q, l, sum;
-    max = 0;
-    for (p = 0; p < firstLength; p++) {
-        for (q = 0; q < secondLength; q++) {
-            for (l = 0; (p + l < firstLength) && (q + l < secondLength) && (first.charAt(p + l) === second.charAt(q + l)); l++)
-                ;
-            if (l > max) {
-                max = l;
-                pos1 = p;
-                pos2 = q;
-            }
-        }
-    }
-    sum = max;
-    if (sum) {
-        if (pos1 && pos2) {
-            sum += strcompare(first.substr(0, pos2), second.substr(0, pos2));
-        }
-        if ((pos1 + max < firstLength) && (pos2 + max < secondLength)) {
-            sum += strcompare(first.substr(pos1 + max, firstLength - pos1 - max), second.substr(pos2 + max, secondLength - pos2 - max));
-        }
-    }
-    return sum;
-}
-function strcomparescore(foundstring, templatestr) {
-    return (strcompare(foundstring.toLowerCase(), templatestr.toLowerCase()) - Math.abs(foundstring.length - templatestr.length) / 2) / foundstring.length;
-}
-
-
-/***/ }),
-
-/***/ "./skillbertssolver/cluesolver/rewardreader.ts":
-/*!*****************************************************!*\
-  !*** ./skillbertssolver/cluesolver/rewardreader.ts ***!
-  \*****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ ClueRewardReader)
-/* harmony export */ });
-/* harmony import */ var _alt1_ocr__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @alt1/ocr */ "../node_modules/@alt1/ocr/dist/index.js");
-
-var font = __webpack_require__(/*! @alt1/ocr/fonts/aa_9px_mono_allcaps.js */ "../node_modules/@alt1/ocr/fonts/aa_9px_mono_allcaps.js");
-class ClueRewardReader {
-    constructor() {
-        this.pos = null;
-    }
-    read(img) {
-        if (!this.pos) {
-            throw new Error("ui not found yet");
-            ;
-        }
-        var buf = img.toData(this.pos.rect.x, this.pos.rect.y, this.pos.rect.width, this.pos.rect.height);
-        var hash = 0;
-        const xcomp = 20 - 28;
-        const ycomp = -19 - 13;
-        for (var y = 50 + ycomp; y < 85 + ycomp; y++) {
-            for (var x = 25 + xcomp; x < 375 + xcomp; x++) {
-                if (this.pos.legacy && buf.getColorDifference(x, y, 62, 53, 40) < 10) {
-                    continue;
-                }
-                if (!this.pos.legacy && buf.getColorDifference(x, y, 10, 31, 41) < 10) {
-                    continue;
-                }
-                hash = (((hash << 5) - hash) + buf.getPixelInt(x, y)) | 0;
-            }
-        }
-        var str = _alt1_ocr__WEBPACK_IMPORTED_MODULE_0__.findReadLine(buf, font, [[255, 255, 255]], 134 + xcomp, 113 + ycomp);
-        if (!str.text) {
-            return null;
-        }
-        var text = str.text.toLowerCase();
-        var m = text.match(/(value|atual)[: ]+([\d,\.]+)\b/);
-        if (!m) {
-            return null;
-        }
-        var value = +m[2].replace(/[,\.]/g, "");
-        return { hash, value, text };
-    }
-}
-
-
-/***/ }),
-
-/***/ "./skillbertssolver/cluesolver/scantextreader.ts":
-/*!*******************************************************!*\
-  !*** ./skillbertssolver/cluesolver/scantextreader.ts ***!
-  \*******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   ScantextReader: () => (/* binding */ ScantextReader)
-/* harmony export */ });
-/* harmony import */ var _alt1_ocr__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @alt1/ocr */ "../node_modules/@alt1/ocr/dist/index.js");
-/* harmony import */ var data_clues__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! data/clues */ "./data/clues.ts");
-/* harmony import */ var _oldlib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./oldlib */ "./skillbertssolver/cluesolver/oldlib.ts");
-
-
-
-let font = __webpack_require__(/*! @alt1/ocr/fonts/aa_8px_new.js */ "../node_modules/@alt1/ocr/fonts/aa_8px_new.js");
-class ScantextReader {
-    constructor() {
-        this.pos = null;
-    }
-    read(img) {
-        if (!this.pos) {
-            throw new Error("not found");
-        }
-        const lineheight = 12;
-        let lines = [];
-        let capty = this.pos.y;
-        let data = img.toData(this.pos.x - 20, capty, 180, 190);
-        for (let lineindex = 0; lineindex < 13; lineindex++) {
-            let y = this.pos.y - capty + lineindex * lineheight;
-            let str = _alt1_ocr__WEBPACK_IMPORTED_MODULE_0__.findReadLine(data, font, [[255, 255, 255]], 70, y, 40, 1);
-            lines.push(str.text);
-        }
-        let text = "";
-        let lastempty = false;
-        for (let line of lines) {
-            if (line) {
-                if (lastempty) {
-                    text += "\n";
-                }
-                else if (text) {
-                    text += " ";
-                }
-                text += line;
-            }
-            lastempty = !line && !!text;
-        }
-        return this.findByText(text);
-    }
-    findByText(text) {
-        let str = text.split("\n")[0];
-        let bestscore = 0;
-        let best = null;
-        for (let clue of (0,data_clues__WEBPACK_IMPORTED_MODULE_1__.byType)("scan")) {
-            let score = _oldlib__WEBPACK_IMPORTED_MODULE_2__.strcomparescore(str, clue.scantext);
-            if (score > bestscore) {
-                best = clue;
-                bestscore = score;
-            }
-        }
-        if (bestscore < 0.5 || !best) {
-            return null;
-        }
-        return best;
-    }
-}
-
-
-/***/ }),
-
-/***/ "./skillbertssolver/cluesolver/slidereader.ts":
-/*!****************************************************!*\
-  !*** ./skillbertssolver/cluesolver/slidereader.ts ***!
-  \****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   SlideReader: () => (/* binding */ SlideReader)
-/* harmony export */ });
-/* harmony import */ var _slidetiles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./slidetiles */ "./skillbertssolver/cluesolver/slidetiles.ts");
-/* harmony import */ var _oldlib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./oldlib */ "./skillbertssolver/cluesolver/oldlib.ts");
-
-
-var mapw = 5;
-var maph = 5;
-class SlideReader {
-    constructor() {
-        this.pos = null;
-        this.osrs = false;
-        this.debugimport = false;
-    }
-    find() {
-        throw new Error("Not implemented, get the position using cluereader");
-    }
-    read(imgref) {
-        if (!this.pos) {
-            return null;
-        }
-        var x = this.pos.x;
-        var y = this.pos.y;
-        var buf = imgref.toData(x, y, 280, 280);
-        var tileoffset = this.osrs ? 39 : 56;
-        var puzzleoffset = { x: 0, y: 0 };
-        var scores = []; //read all tiles possibilities into scores
-        for (var a = 0; a < maph; a++) {
-            for (var b = 0; b < mapw; b++) {
-                scores.push(this.readtile(buf, puzzleoffset.x + b * tileoffset, puzzleoffset.y + a * tileoffset));
-            }
-        }
-        var themescores = {}; //get the match rate for every theme
-        var cthemes = this.osrs ? _slidetiles__WEBPACK_IMPORTED_MODULE_0__.osrsthemes : _slidetiles__WEBPACK_IMPORTED_MODULE_0__.themes;
-        for (var a = 0; a < cthemes.length; a++) {
-            var d = cthemes[a];
-            themescores[d] = 0;
-            for (var b = 0; b < scores.length; b++) {
-                for (var c = 0; c < scores[b].length; c++) {
-                    if (scores[b][c].theme == d || scores[b][c].theme == "black") {
-                        themescores[d] += scores[b][c].score;
-                        break;
-                    }
-                }
-            }
-        }
-        var b = Infinity;
-        var theme = null;
-        for (var d in themescores) { //get the best theme match
-            if (themescores[d] < b) {
-                b = themescores[d];
-                theme = d;
-            }
-        }
-        var map = [];
-        for (var a = 0; a < scores.length; a++) {
-            for (var b = 0; b < scores[a].length; b++) {
-                if (scores[a][b].theme == theme || scores[a][b].theme == "black") {
-                    map[a] = scores[a][b].part;
-                    break;
-                }
-            }
-        }
-        //console.log("== theme = " + theme + " == ");
-        //console.log(map);
-        //multiply color at coord with color vector, highest sum is p1
-        var hardcodes;
-        if (this.osrs) {
-            hardcodes = [
-                { theme: "c", p1: 11, p2: 6, x: 3, y: 3, r: 1, g: 0, b: 0 },
-            ];
-        }
-        else {
-            hardcodes = [
-                { theme: "r", p1: 20, p2: 17, x: 10, y: 10, r: 0, g: 0, b: 1 },
-                { theme: "m", p1: 4, p2: 0, x: 47, y: 47, r: 1, g: 0, b: 0 },
-                { theme: "b", p1: 4, p2: 1, x: 25, y: 45, r: 0, g: 0, b: 1 },
-                //rare fixes, obscure graphics settings
-                { theme: "o", p1: 4, p2: 14, x: 40, y: 10, r: 1, g: 1, b: 1 },
-                { theme: "c", p1: 6, p2: 11, x: 5, y: 45, r: 1, g: 0, b: 1 },
-                { theme: "d", p1: 2, p2: 4, x: 42, y: 47, r: 0, g: 0, b: 1 },
-                { theme: "m", p1: 10, p2: 6, x: 9, y: 6, r: 1, g: 0, b: 0 },
-                { theme: "m", p1: 22, p2: 23, x: 9, y: 6, r: 1, g: 0, b: 0 },
-                { theme: "d", p1: 21, p2: 23, x: 2, y: 39, r: 0, g: 1, b: 0 },
-                { theme: "m", p1: 10, p2: 6, x: 20, y: 40, r: 1, g: 1, b: 0 },
-                { theme: "m", p1: 4, p2: 6, x: 43, y: 44, r: 1, g: 0, b: 0 },
-                { theme: "m", p1: 10, p2: 14, x: 2, y: 2, r: 1, g: 0, b: 0 },
-                { theme: "t", p1: 22, p2: 21, x: 2, y: 2, r: 1, g: 1, b: 1 },
-                { theme: "o", p1: 19, p2: 24, x: 40, y: 40, r: 0, g: 0, b: 1 },
-            ];
-        }
-        for (var d in hardcodes) {
-            if (theme != hardcodes[d].theme) {
-                continue;
-            }
-            let b = [];
-            for (var a = 0; a < map.length; a++) {
-                if (map[a] == hardcodes[d].p1 || map[a] == hardcodes[d].p2) {
-                    b.push([a % mapw, Math.floor(a / mapw), a, 0]);
-                }
-            }
-            if (b.length <= 1) {
-                continue;
-            }
-            var max = 0;
-            for (let e in b) {
-                var p = buf.getPixel(puzzleoffset.x + b[e][0] * tileoffset + hardcodes[d].x, puzzleoffset.y + b[e][1] * tileoffset + hardcodes[d].y);
-                b[e][3] += p[0] * hardcodes[d].r;
-                b[e][3] += p[1] * hardcodes[d].g;
-                b[e][3] += p[2] * hardcodes[d].b;
-                if (b[e][3] > max) {
-                    max = b[e][3];
-                }
-            }
-            var used = false;
-            for (let e in b) {
-                if (b[e][3] == max) {
-                    if (map[b[e][2]] != hardcodes[d].p1) {
-                        used = true;
-                    }
-                    map[b[e][2]] = hardcodes[d].p1;
-                }
-                else {
-                    if (map[b[e][2]] != hardcodes[d].p2) {
-                        used = true;
-                    }
-                    map[b[e][2]] = hardcodes[d].p2;
-                }
-            }
-            console.log("hardcode fix #" + d + " applied: " + hardcodes[d].p1 + "-" + hardcodes[d].p2, used);
-        }
-        if (!this.debugimport) {
-            //check if we have a full set of unique tiles
-            for (var a = 0; a < 25; a++) {
-                if (map.indexOf(a) == -1) {
-                    return false;
-                }
-            }
-        }
-        return { map, theme };
-    }
-    readtile(data, x, y) {
-        var a, vals;
-        var tilelist = this.osrs ? _slidetiles__WEBPACK_IMPORTED_MODULE_0__.ostiles : _slidetiles__WEBPACK_IMPORTED_MODULE_0__.tiles;
-        if (this.osrs) {
-            vals = _oldlib__WEBPACK_IMPORTED_MODULE_1__.tiledata(data, 9, 9, x, y, 36, 36);
-        }
-        else {
-            vals = _oldlib__WEBPACK_IMPORTED_MODULE_1__.tiledata(data, 12, 12, x, y, 48, 48);
-        }
-        //if (tiledataname) { tiledata.push({ part: tiledataname + tiledata.length, scores: vals }); }
-        var r = [];
-        for (a in tilelist) {
-            var b;
-            var c;
-            tilelist[a].part.replace(/([A-Za-z_]+)(\d+)/, function () { b = +arguments[2]; c = arguments[1]; return ""; });
-            r[a] = { score: _oldlib__WEBPACK_IMPORTED_MODULE_1__.comparetiledata(vals, tilelist[a].scores), part: b, theme: c };
-        }
-        r.sort(function (a, b) { return a.score - b.score; });
-        return r;
-    }
-}
-
-
-/***/ }),
-
-/***/ "./skillbertssolver/cluesolver/slidetiles.ts":
-/*!***************************************************!*\
-  !*** ./skillbertssolver/cluesolver/slidetiles.ts ***!
-  \***************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   osrsthemes: () => (/* binding */ osrsthemes),
-/* harmony export */   ostiles: () => (/* binding */ ostiles),
-/* harmony export */   slideThemeUrls: () => (/* binding */ slideThemeUrls),
-/* harmony export */   themes: () => (/* binding */ themes),
-/* harmony export */   tiles: () => (/* binding */ tiles)
-/* harmony export */ });
-var slideThemeUrls = {
-    b: "/apps/slidesolver/tileimgs/bandos.png",
-    t: "/apps/slidesolver/tileimgs/troll.png",
-    c: "/apps/slidesolver/tileimgs/castle.png",
-    r: "/apps/slidesolver/tileimgs/bridge.png",
-    o: "/apps/slidesolver/tileimgs/corp.png",
-    d: "/apps/slidesolver/tileimgs/dragon.png",
-    m: "/apps/slidesolver/tileimgs/maple.png",
-    s: "/apps/slidesolver/tileimgs/sliske.png",
-    gs: "/apps/slidesolver/tileimgs/guthixsword.png",
-    elf: "/apps/slidesolver/tileimgs/elf.png",
-    tusk: "/apps/slidesolver/tileimgs/tuska.png",
-    elderdrag: "/apps/slidesolver/tileimgs/elderdrag.png",
-    v: "/apps/slidesolver/tileimgs/v.png",
-    vyre: "/apps/slidesolver/tileimgs/vyre.png",
-    nomad: "/apps/slidesolver/tileimgs/nomad.png",
-    cit: "/apps/slidesolver/tileimgs/cit.png",
-    float: "/apps/slidesolver/tileimgs/float.png",
-    frost: "/apps/slidesolver/tileimgs/frost.png",
-    archer: "/apps/slidesolver/tileimgs/archer.png",
-    ara: "/apps/slidesolver/tileimgs/ara.png",
-    zam: "/apps/slidesolver/tileimgs/zam.png",
-    mage: "/apps/slidesolver/tileimgs/mage.png",
-    helw: "/apps/slidesolver/tileimgs/helwyr.png",
-    wolf: "/apps/slidesolver/tileimgs/wolf.png",
-    jas: "/apps/slidesolver/tileimgs/jas.png",
-    menn: "/apps/slidesolver/tileimgs/menn.png",
-    seal: "/apps/slidesolver/tileimgs/seal.png",
-    //osrs
-    cer: "/apps/slidesolver/tileimgs/os_cerberis.png",
-    gno: "/apps/slidesolver/tileimgs/os_rainbow.png",
-    sna: "/apps/slidesolver/tileimgs/os_snakeguy.png",
-    mm: "/apps/slidesolver/tileimgs/os_monkey.png"
-};
-var themes = ["b", "t", "c", "r", "o", "d", "m", "s", "gs", "elf", "tusk", "elderdrag", "v", "vyre", "nomad", "ara", "cit", "float", "frost", "archer", "zam", "mage", "helw", "wolf", "jas", "menn", "seal"];
-var osrsthemes = ["t", "c", "m", "cer", "gno", "sna", "mm"];
-var tiles = [
-    { "part": "black24", "scores": [19, 16, 41, 19, 18, -2, 0, 10, 19, 16, 1, 0, 0, 19, 16, 1, 0, 0, 19, 16, 1, 0, 0, 19, 18, -2, 0, 10, 19, 16, 1, 0, 0, 19, 16, 1, 0, 0, 19, 16, 1, 0, 0, 19, 18, -2, 0, 10, 19, 16, 1, 0, 0, 19, 16, 1, 0, 0, 19, 16, 1, 0, 0, 19, 18, -2, 0, 10, 19, 16, 1, 0, 0, 19, 16, 1, 0, 0, 19, 16, 1, 0, 0] },
-    { "part": "black24", "scores": [23, 16, 38, 23, 16, 0, 4, 13, 22, 15, 2, 4, 6, 24, 15, 2, 3, 5, 24, 16, 1, 3, 5, 24, 17, -1, 3, 10, 22, 15, 2, 6, 7, 23, 15, 2, 3, 5, 24, 16, 1, 3, 5, 23, 17, -1, 3, 10, 24, 16, 0, 3, 4, 24, 16, 1, 3, 5, 22, 16, 0, 3, 5, 22, 17, -3, 3, 11, 22, 16, -1, 2, 3, 23, 16, 0, 4, 6, 21, 16, -1, 2, 3] },
-    { "part": "black24", "scores": [26, 23, 47, 24, 27, -10, 19, 24, 25, 25, -4, 10, 14, 26, 26, -6, 9, 12, 26, 26, -5, 9, 12, 25, 24, -4, 13, 17, 25, 22, 4, 2, 4, 26, 22, 4, 3, 5, 26, 22, 3, 4, 5, 26, 24, -3, 12, 18, 26, 19, 7, 5, 7, 26, 19, 5, 4, 5, 24, 20, 4, 3, 5, 26, 26, -5, 13, 17, 26, 19, 5, 4, 5, 27, 19, 7, 5, 8, 25, 21, 5, 5, 7] }, { "part": "black24", "scores": [22, 15, 50, 22, 22, -15, 15, 17, 22, 18, -7, 9, 11, 22, 18, -7, 9, 11, 22, 18, -7, 9, 11, 22, 18, -7, 9, 11, 21, 12, 5, 0, 0, 21, 12, 5, 0, 0, 21, 12, 5, 0, 0, 22, 18, -7, 9, 11, 21, 12, 5, 0, 0, 21, 12, 5, 0, 0, 21, 12, 5, 0, 0, 22, 18, -7, 9, 11, 21, 12, 5, 0, 0, 21, 12, 5, 0, 0, 21, 12, 5, 0, 0] },
-    { "part": "b0", "scores": [150, 52, 225, 149, 53, -3, 3, 4, 144, 45, -6, 3, 4, 140, 41, -9, 0, 0, 140, 41, -9, 0, 0, 151, 57, -1, 0, 0, 151, 57, -1, 0, 0, 150, 54, -2, 2, 3, 145, 46, -6, 3, 4, 152, 56, 3, 5, 7, 151, 57, -1, 0, 0, 151, 57, -1, 0, 0, 151, 57, -1, 0, 0, 155, 49, 26, 3, 5, 152, 55, 7, 8, 13, 151, 57, -1, 0, 1, 151, 57, -1, 0, 0] }, { "part": "b1", "scores": [145, 45, 228, 140, 41, -6, 0, 0, 140, 41, -6, 0, 0, 140, 41, -6, 0, 0, 140, 41, -6, 0, 0, 140, 41, -6, 0, 1, 140, 41, -6, 0, 0, 140, 41, -6, 0, 0, 140, 41, -6, 0, 0, 151, 56, 2, 0, 2, 149, 52, 0, 3, 3, 147, 49, -2, 3, 3, 145, 46, -3, 3, 3, 151, 57, 2, 0, 0, 151, 38, 12, 28, 40, 148, 43, 23, 31, 49, 151, 52, 4, 7, 12] }, { "part": "b2", "scores": [139, 31, 214, 140, 41, -20, 0, 0, 140, 41, -20, 0, 0, 140, 41, -20, 0, 0, 140, 41, -20, 0, 0, 141, 35, -16, 11, 22, 140, 40, -16, 1, 12, 140, 41, -20, 0, 0, 140, 41, -20, 0, 0, 146, 26, -17, 9, 31, 139, 34, 7, 29, 46, 140, 41, -20, 0, 0, 139, 40, -18, 2, 9, 142, 5, 2, 32, 47, 126, 11, 66, 30, 69, 140, 32, 44, 77, 101, 55, 19, 75, 73, 107] }, { "part": "b3", "scores": [144, 44, 230, 140, 41, -4, 0, 0, 140, 41, -4, 0, 0, 140, 41, -4, 0, 0, 140, 41, -4, 0, 0, 140, 41, -4, 0, 0, 140, 41, -4, 0, 0, 140, 41, -4, 0, 0, 140, 41, -4, 0, 0, 136, 31, 8, 30, 42, 142, 42, -3, 2, 3, 143, 44, -2, 2, 3, 144, 45, -1, 2, 3, 151, 43, 20, 30, 49, 151, 57, 4, 0, 0, 151, 57, 4, 0, 0, 151, 57, 4, 0, 0] }, { "part": "b4", "scores": [144, 45, 231, 140, 41, -3, 0, 0, 140, 41, -3, 0, 0, 140, 41, -3, 0, 0, 140, 41, -3, 0, 0, 140, 41, -3, 0, 0, 140, 41, -3, 0, 0, 140, 41, -3, 0, 0, 140, 41, -3, 0, 0, 145, 47, 0, 2, 3, 145, 47, 0, 3, 3, 141, 42, -2, 1, 2, 140, 41, -3, 0, 0, 151, 57, 5, 0, 0, 151, 57, 5, 0, 0, 151, 56, 5, 0, 1, 148, 51, 3, 3, 4] }, { "part": "b5", "scores": [154, 50, 200, 155, 49, 3, 0, 0, 155, 49, 3, 0, 1, 153, 53, -11, 11, 13, 151, 57, -25, 0, 2, 155, 49, 3, 0, 0, 155, 49, 3, 0, 0, 155, 49, 3, 0, 0, 154, 51, -5, 9, 11, 155, 49, 3, 0, 0, 155, 49, 3, 0, 0, 155, 49, 3, 0, 0, 155, 49, 3, 0, 0, 155, 49, 3, 0, 0, 155, 49, 3, 0, 0, 155, 49, 3, 0, 0, 148, 46, 5, 7, 11] }, { "part": "b6", "scores": [133, 13, 181, 151, 57, -45, 0, 0, 151, 53, -39, 12, 23, 35, 13, 23, 68, 105, 91, 24, 35, 74, 101, 151, 56, -44, 1, 4, 151, 57, -45, 0, 0, 151, 53, -40, 7, 24, 49, 18, 19, 56, 79, 154, 50, -22, 7, 11, 148, 26, -33, 31, 44, 1, 14, -7, 48, 66, 76, 13, 24, 80, 95, 117, 46, 1, 16, 21, 35, 47, 19, 63, 80, 19, 71, 40, 46, 62, 62, 23, 84, 42, 57] }, { "part": "b7", "scores": [103, 21, 120, 75, 30, -7, 57, 78, 93, 28, -3, 57, 86, 77, 26, 15, 69, 94, 127, 10, -48, 70, 99, 102, 28, 8, 23, 36, 105, 32, 2, 46, 68, 66, 23, 0, 34, 72, 151, 53, -103, 0, 8, 86, 18, 14, 18, 30, 108, 32, 4, 27, 42, 103, 23, 17, 40, 62, 137, 22, -39, 66, 82, 105, 23, 33, 30, 38, 104, 21, 43, 24, 35, 105, 18, 47, 14, 24, 72, 18, 19, 24, 33] }, { "part": "b8", "scores": [115, 9, 160, 151, 57, -66, 0, 0, 151, 57, -66, 0, 0, 151, 57, -66, 0, 0, 151, 57, -66, 0, 0, 151, 49, -52, 23, 42, 150, 35, -18, 34, 41, 147, 28, -4, 34, 47, 60, 16, -25, 41, 55, 136, 9, 62, 3, 12, 137, 9, 66, 0, 1, 35, 97, 24, 43, 62, 33, 55, 62, 44, 63, 139, 8, 69, 9, 11, 42, 22, 40, 45, 58, 37, 75, 5, 53, 73, 62, 9, 58, 29, 44] }, { "part": "b9", "scores": [150, 30, 168, 151, 57, -58, 0, 0, 151, 57, -58, 0, 0, 151, 57, -58, 0, 0, 151, 57, -58, 0, 0, 145, 30, -31, 29, 43, 151, 52, -43, 21, 35, 150, 35, -14, 53, 74, 152, 39, -2, 26, 35, 45, 11, 58, 24, 41, 64, 5, 40, 31, 51, 150, 21, 33, 20, 32, 152, 33, 20, 0, 0, 55, 12, 62, 50, 80, 175, 11, 51, 27, 43, 160, 20, 36, 32, 40, 152, 33, 20, 0, 0] }, { "part": "b10", "scores": [141, 29, 162, 155, 49, -35, 0, 0, 155, 49, -35, 0, 0, 138, 41, -26, 17, 21, 111, 44, -2, 26, 35, 155, 49, -35, 0, 0, 147, 45, -31, 11, 17, 108, 44, 3, 12, 22, 109, 37, 32, 8, 15, 153, 48, -34, 3, 11, 118, 28, -19, 51, 67, 152, 16, -2, 22, 33, 143, 17, 17, 27, 41, 146, 34, -8, 34, 47, 159, 11, 26, 42, 59, 168, 10, 51, 20, 27, 172, 10, 72, 25, 38] }, { "part": "b11", "scores": [48, 30, 121, 109, 38, -29, 10, 14, 41, 50, -19, 63, 83, 20, 71, 8, 46, 84, 53, 36, 1, 33, 44, 110, 27, 24, 17, 28, 54, 39, -12, 45, 72, 18, 54, 31, 27, 58, 41, 48, 5, 65, 93, 112, 21, 37, 34, 45, 93, 21, 8, 24, 39, 32, 80, -13, 50, 72, 36, 81, -27, 71, 98, 154, 13, 8, 41, 52, 125, 14, 25, 39, 51, 39, 44, -36, 72, 95, 75, 39, -29, 35, 49] }, { "part": "b12", "scores": [106, 18, 98, 104, 22, 10, 22, 30, 104, 19, 23, 20, 25, 102, 20, 7, 17, 21, 79, 17, -29, 66, 89, 103, 19, 27, 23, 30, 106, 21, 11, 4, 6, 115, 19, -9, 49, 64, 80, 13, -44, 47, 79, 110, 17, 5, 59, 73, 122, 19, -4, 52, 69, 146, 30, -23, 37, 57, 142, 22, 1, 32, 53, 88, 33, -24, 16, 25, 73, 26, -3, 48, 69, 124, 15, 18, 31, 40, 93, 14, 33, 44, 59] }, { "part": "b13", "scores": [38, 33, 114, 42, 31, 0, 53, 74, 37, 60, -10, 64, 95, 41, 32, -14, 54, 85, 51, 12, 3, 56, 72, 37, 65, -25, 87, 124, 38, 69, -18, 99, 135, 34, 36, 17, 49, 81, 36, 51, -3, 69, 93, 50, 30, 59, 39, 66, 40, 42, 19, 53, 68, 34, 63, -19, 47, 83, 33, 65, -23, 62, 77, 114, 14, 36, 67, 79, 141, 21, 16, 45, 62, 200, 5, -26, 33, 61, 4, 14, -9, 30, 48] }, { "part": "b14", "scores": [146, 8, 113, 42, 7, 42, 19, 39, 131, 4, 25, 34, 49, 148, 14, 15, 46, 61, 151, 28, -21, 33, 38, 37, 33, 26, 56, 77, 55, 6, 53, 35, 72, 144, 11, 16, 48, 66, 151, 27, -21, 35, 40, 34, 45, -1, 74, 95, 156, 24, -28, 6, 23, 153, 31, -33, 5, 8, 152, 33, -35, 0, 0, 253, 9, 7, 26, 35, 196, 5, 8, 31, 49, 157, 23, -18, 26, 33, 152, 33, -35, 0, 0] }, { "part": "b15", "scores": [155, 23, 119, 157, 31, -24, 53, 68, 165, 7, 43, 10, 18, 158, 8, 30, 4, 7, 175, 9, 17, 10, 18, 154, 44, -63, 15, 23, 158, 18, 18, 34, 45, 165, 8, 58, 26, 35, 160, 8, 42, 25, 36, 152, 33, -29, 0, 2, 152, 33, -29, 0, 4, 154, 22, 17, 47, 56, 163, 12, 40, 25, 44, 152, 33, -29, 0, 0, 152, 33, -29, 0, 0, 152, 33, -29, 0, 0, 152, 33, -28, 0, 5] }, { "part": "b16", "scores": [96, 9, 90, 168, 11, -15, 35, 51, 166, 13, -25, 18, 38, 164, 15, -39, 29, 54, 87, 35, -49, 19, 37, 176, 9, -16, 4, 16, 170, 8, -2, 42, 63, 124, 9, -10, 37, 52, 83, 26, -3, 21, 29, 163, 7, 33, 24, 45, 92, 16, 20, 37, 57, 86, 23, 2, 9, 15, 63, 18, 37, 13, 18, 152, 31, -47, 16, 30, 57, 16, 7, 69, 94, 52, 23, 44, 11, 15, 42, 28, 59, 2, 5] }, { "part": "b17", "scores": [72, 24, 52, 85, 28, -23, 13, 17, 84, 27, -6, 14, 19, 106, 19, -12, 51, 68, 147, 28, -44, 44, 58, 82, 28, -1, 4, 15, 83, 27, -2, 10, 13, 82, 35, -8, 7, 12, 86, 19, 3, 23, 33, 79, 27, 2, 8, 16, 79, 27, 3, 10, 19, 80, 31, 1, 12, 15, 67, 33, 25, 8, 13, 32, 36, 14, 8, 10, 28, 37, 10, 13, 19, 44, 31, 22, 8, 11, 46, 26, 23, 7, 9] }, { "part": "b18", "scores": [153, 19, 82, 155, 31, -39, 20, 29, 155, 35, -45, 18, 31, 157, 29, -20, 11, 17, 168, 8, 14, 29, 37, 147, 21, 6, 16, 26, 153, 31, -19, 11, 24, 154, 20, 3, 15, 19, 159, 9, 24, 19, 30, 145, 15, 37, 8, 22, 155, 15, 18, 15, 22, 152, 15, 17, 43, 55, 154, 20, -8, 59, 73, 43, 18, 54, 7, 13, 85, 5, 29, 38, 50, 157, 32, -40, 2, 17, 157, 33, -41, 0, 0] }, { "part": "b19", "scores": [155, 29, 121, 88, 9, 49, 32, 56, 150, 23, -1, 30, 52, 152, 33, -26, 3, 5, 153, 33, -20, 6, 8, 151, 27, -5, 24, 53, 153, 22, 20, 31, 43, 156, 31, 3, 16, 23, 157, 33, -2, 0, 0, 156, 33, -6, 4, 7, 157, 33, -2, 0, 0, 157, 33, -2, 0, 0, 157, 33, -2, 0, 0, 157, 33, -2, 0, 0, 157, 33, -2, 0, 0, 157, 33, -2, 0, 0, 157, 33, -2, 0, 0] }, { "part": "b20", "scores": [155, 33, 135, 152, 33, -13, 0, 0, 152, 33, -13, 0, 0, 152, 33, -13, 0, 2, 153, 33, -8, 6, 8, 152, 33, -13, 0, 0, 152, 33, -13, 0, 2, 156, 33, 5, 7, 9, 157, 33, 12, 0, 0, 152, 33, -13, 0, 1, 155, 33, 2, 8, 10, 157, 33, 12, 0, 0, 157, 33, 12, 0, 0, 154, 33, -1, 10, 12, 157, 33, 12, 0, 0, 157, 33, 12, 0, 0, 157, 33, 12, 0, 0] }, { "part": "b21", "scores": [155, 25, 111, 154, 33, -26, 6, 8, 154, 28, -10, 17, 27, 59, 11, 61, 34, 45, 44, 28, 84, 5, 6, 157, 33, -12, 0, 0, 157, 33, -12, 0, 0, 157, 33, -12, 0, 3, 149, 16, 25, 31, 38, 157, 33, -12, 0, 0, 157, 33, -12, 0, 0, 157, 33, -12, 0, 0, 157, 33, -12, 0, 0, 157, 33, -12, 0, 0, 157, 33, -12, 0, 0, 157, 33, -12, 0, 0, 157, 33, -12, 0, 0] }, { "part": "b22", "scores": [144, 10, 86, 38, 35, 50, 4, 8, 34, 38, 46, 5, 7, 42, 31, 55, 3, 5, 45, 26, 59, 6, 17, 84, 6, 30, 24, 31, 77, 7, 31, 23, 31, 122, 7, 22, 26, 32, 155, 25, -20, 18, 26, 157, 33, -37, 0, 0, 157, 33, -37, 0, 0, 157, 33, -37, 0, 0, 157, 33, -37, 0, 0, 157, 33, -37, 0, 0, 157, 33, -37, 0, 0, 157, 32, -33, 6, 11, 155, 29, -18, 12, 14] }, { "part": "b23", "scores": [155, 28, 105, 117, 6, 40, 35, 44, 157, 31, -14, 1, 11, 157, 33, -18, 0, 0, 157, 33, -18, 0, 0, 157, 33, -18, 0, 0, 157, 33, -18, 0, 0, 157, 33, -18, 0, 0, 157, 33, -18, 0, 0, 157, 33, -18, 0, 0, 156, 32, -12, 9, 13, 154, 29, 3, 12, 14, 152, 26, 18, 10, 14, 152, 26, 17, 10, 14, 151, 24, 27, 0, 1, 151, 24, 27, 0, 0, 151, 24, 27, 0, 0] },
-    { "part": "t0", "scores": [137, 19, 106, 117, 11, 17, 3, 6, 130, 12, -14, 21, 30, 149, 69, -68, 23, 30, 151, 104, -90, 7, 12, 116, 11, 19, 0, 0, 116, 11, 19, 0, 1, 120, 11, 3, 14, 20, 142, 17, -41, 22, 31, 116, 11, 19, 0, 0, 116, 11, 19, 0, 0, 116, 11, 19, 0, 0, 117, 11, 14, 6, 9, 116, 11, 19, 0, 0, 116, 11, 19, 0, 0, 116, 11, 19, 0, 0, 116, 11, 19, 0, 0] }, { "part": "t1", "scores": [151, 60, 191, 151, 105, -7, 5, 6, 151, 105, -7, 5, 6, 151, 105, -7, 5, 6, 151, 105, -7, 5, 6, 154, 51, -13, 11, 18, 155, 58, -23, 1, 1, 155, 58, -23, 1, 1, 155, 58, -23, 1, 1, 138, 15, 54, 26, 37, 149, 46, -10, 18, 26, 149, 58, -26, 0, 1, 149, 58, -26, 0, 1, 117, 11, 100, 4, 7, 131, 11, 63, 20, 28, 150, 54, -17, 14, 18, 150, 64, -29, 0, 0] }, { "part": "t2", "scores": [150, 34, 171, 151, 87, -18, 25, 31, 137, 9, 33, 26, 38, 150, 84, -10, 19, 25, 151, 105, -27, 5, 6, 155, 58, -43, 1, 1, 155, 11, 8, 30, 35, 31, 11, 35, 23, 29, 153, 25, 1, 23, 27, 149, 58, -46, 0, 1, 149, 49, -37, 14, 32, 30, 15, 48, 11, 16, 30, 13, 49, 11, 13, 150, 64, -49, 0, 0, 150, 49, -30, 25, 29, 33, 9, 44, 0, 0, 33, 9, 44, 0, 0] }, { "part": "t3", "scores": [149, 35, 171, 151, 105, -27, 5, 6, 149, 69, 2, 25, 30, 144, 24, 35, 23, 28, 150, 85, -10, 33, 41, 153, 27, -1, 26, 37, 28, 29, 52, 1, 12, 37, 5, 38, 40, 52, 155, 57, -42, 1, 5, 30, 15, 51, 21, 23, 35, 11, 38, 16, 22, 148, 46, -32, 17, 27, 149, 58, -46, 0, 1, 33, 9, 44, 0, 0, 148, 25, 1, 20, 25, 150, 64, -49, 0, 0, 150, 64, -49, 0, 0] }, { "part": "t4", "scores": [146, 35, 142, 151, 105, -56, 5, 6, 151, 105, -56, 5, 6, 150, 73, -39, 20, 28, 119, 11, 41, 9, 15, 155, 58, -72, 1, 1, 153, 41, -46, 22, 28, 140, 16, 4, 27, 35, 116, 11, 53, 1, 5, 149, 52, -68, 11, 16, 132, 12, 17, 24, 33, 116, 11, 55, 0, 0, 116, 11, 55, 0, 0, 148, 39, -45, 23, 31, 118, 11, 43, 8, 12, 116, 11, 55, 0, 0, 116, 11, 55, 0, 0] }, { "part": "t5", "scores": [117, 11, 88, 116, 11, 1, 0, 0, 116, 11, 1, 0, 0, 116, 11, 1, 0, 0, 116, 11, 1, 0, 0, 116, 11, 1, 0, 0, 116, 11, 1, 0, 0, 116, 11, 1, 0, 0, 116, 11, 1, 0, 0, 118, 11, -3, 3, 4, 116, 11, 0, 1, 1, 116, 11, 1, 0, 0, 116, 11, 1, 0, 0, 117, 10, 5, 3, 4, 119, 10, -2, 4, 6, 119, 11, -3, 4, 5, 117, 11, 0, 1, 2] }, { "part": "t6", "scores": [126, 11, 116, 116, 11, 29, 0, 0, 118, 11, 16, 9, 17, 144, 20, -73, 24, 35, 145, 25, -110, 0, 0, 116, 11, 29, 0, 0, 116, 11, 28, 0, 3, 122, 11, 8, 19, 29, 139, 17, -84, 28, 38, 116, 11, 29, 0, 0, 116, 11, 29, 0, 0, 116, 11, 29, 0, 0, 133, 14, -28, 36, 44, 116, 11, 29, 0, 0, 116, 11, 29, 0, 0, 116, 11, 29, 0, 0, 128, 11, -6, 23, 38] }, { "part": "t7", "scores": [62, 5, 160, 145, 25, -66, 0, 0, 107, 5, -22, 28, 42, 34, 26, 21, 39, 55, 29, 32, 49, 1, 5, 139, 19, -69, 2, 12, 54, 4, 13, 24, 47, 36, 9, 27, 4, 21, 31, 10, 34, 0, 2, 141, 25, -74, 0, 0, 116, 5, -8, 31, 36, 33, 9, 33, 0, 0, 33, 9, 33, 0, 0, 132, 13, -48, 32, 44, 34, 16, 20, 28, 35, 33, 9, 33, 0, 0, 33, 9, 33, 0, 0] }, { "part": "t8", "scores": [114, 6, 174, 34, 25, 37, 57, 68, 80, 4, 1, 32, 45, 145, 25, -52, 0, 0, 145, 25, -50, 3, 9, 33, 9, 47, 0, 0, 55, 4, 25, 28, 35, 139, 19, -56, 0, 2, 140, 18, -31, 24, 34, 33, 9, 47, 0, 0, 130, 8, -6, 30, 38, 141, 25, -60, 0, 0, 138, 17, 6, 32, 44, 33, 10, 47, 0, 1, 30, 25, 47, 14, 27, 69, 6, -5, 35, 43, 134, 13, 9, 40, 56] }, { "part": "t9", "scores": [96, 9, 90, 134, 12, -47, 27, 37, 116, 11, 2, 0, 3, 116, 11, 3, 0, 0, 116, 11, 3, 0, 0, 114, 10, -5, 9, 17, 107, 10, 3, 1, 3, 116, 11, 3, 0, 0, 116, 11, 3, 0, 0, 57, 15, 10, 6, 7, 66, 12, 8, 5, 6, 116, 11, 3, 0, 0, 116, 11, 3, 0, 0, 41, 29, 23, 5, 7, 49, 19, 15, 5, 6, 116, 11, 3, 0, 0, 116, 11, 3, 0, 0] }, { "part": "t10", "scores": [116, 11, 81, 116, 11, 2, 0, 0, 116, 11, 2, 0, 0, 117, 11, -2, 2, 4, 119, 11, -10, 1, 2, 116, 11, 2, 0, 0, 116, 11, 2, 0, 0, 116, 11, 0, 2, 3, 119, 10, -10, 3, 5, 116, 11, 2, 0, 0, 116, 11, 2, 0, 0, 116, 11, 2, 0, 0, 116, 11, 1, 1, 2, 116, 11, 2, 0, 0, 116, 11, 2, 0, 0, 116, 11, 2, 0, 0, 116, 11, 2, 0, 0] }, { "part": "t11", "scores": [90, 7, 95, 116, 11, 8, 0, 0, 116, 11, 8, 0, 0, 116, 11, 8, 0, 0, 88, 6, -6, 12, 15, 118, 11, 4, 2, 3, 116, 11, 7, 0, 1, 116, 11, 8, 0, 0, 34, 19, -10, 8, 10, 117, 10, 9, 3, 5, 120, 11, 3, 3, 4, 116, 11, 8, 0, 0, 30, 27, -16, 6, 8, 116, 11, 15, 0, 2, 120, 10, 3, 3, 4, 94, 8, 2, 6, 8, 28, 33, -20, 0, 0] }, { "part": "t12", "scores": [29, 33, 120, 28, 33, 5, 0, 0, 28, 33, 4, 1, 2, 30, 33, -3, 0, 0, 30, 33, -3, 0, 0, 28, 33, 5, 0, 0, 29, 33, 1, 2, 3, 30, 33, -3, 0, 0, 30, 33, -3, 0, 0, 28, 33, 5, 0, 1, 30, 33, -2, 2, 3, 30, 33, -2, 1, 2, 30, 33, -2, 3, 4, 29, 32, 7, 15, 17, 29, 33, -1, 1, 3, 29, 33, 0, 2, 4, 30, 33, -3, 0, 1] }, { "part": "t13", "scores": [30, 34, 105, 30, 33, -17, 1, 2, 28, 33, -10, 0, 0, 28, 33, -10, 0, 0, 30, 33, -3, 15, 25, 30, 33, -18, 0, 0, 29, 33, -11, 1, 2, 30, 33, -4, 8, 11, 35, 33, 29, 3, 9, 30, 33, -18, 0, 0, 29, 33, -13, 4, 5, 30, 34, 7, 25, 32, 36, 33, 32, 0, 1, 29, 33, -15, 2, 4, 29, 34, -7, 14, 18, 29, 41, 34, 0, 7, 33, 35, 26, 26, 31] }, { "part": "t14", "scores": [51, 17, 78, 37, 41, 17, 0, 0, 42, 27, 10, 5, 6, 116, 11, -9, 0, 0, 116, 11, -9, 0, 0, 39, 31, 11, 8, 11, 38, 37, 15, 3, 6, 116, 11, -9, 0, 0, 116, 11, -9, 0, 0, 40, 25, 4, 10, 13, 37, 41, 17, 0, 1, 97, 9, -8, 2, 5, 116, 11, -9, 0, 0, 36, 32, 4, 0, 2, 40, 29, 10, 8, 11, 63, 13, -3, 5, 6, 116, 11, -9, 0, 0] }, { "part": "t15", "scores": [28, 31, 93, 116, 11, 14, 0, 0, 112, 10, 13, 1, 3, 44, 13, 12, 8, 10, 32, 26, 15, 5, 6, 90, 7, 10, 4, 6, 26, 39, -4, 6, 8, 26, 44, -5, 3, 5, 27, 51, 9, 5, 6, 31, 21, 2, 9, 10, 23, 50, -14, 0, 0, 23, 50, -14, 0, 0, 26, 47, 0, 6, 8, 26, 33, -5, 6, 7, 23, 50, -14, 0, 0, 23, 50, -14, 0, 0, 25, 46, -6, 4, 7] }, { "part": "t16", "scores": [31, 29, 84, 30, 35, 6, 5, 6, 28, 40, 3, 6, 8, 28, 44, -2, 11, 17, 29, 31, -29, 2, 4, 26, 58, 6, 0, 0, 26, 58, 6, 0, 0, 28, 40, 4, 7, 9, 99, 8, -8, 6, 9, 26, 58, 6, 0, 0, 27, 55, 6, 2, 4, 79, 7, -4, 3, 5, 116, 11, -3, 0, 0, 26, 58, 6, 0, 0, 35, 20, 2, 8, 10, 116, 11, -3, 0, 0, 116, 11, -3, 0, 0] }, { "part": "t17", "scores": [31, 30, 114, 33, 24, 9, 10, 12, 30, 33, -9, 0, 0, 30, 33, -9, 0, 0, 30, 33, -9, 0, 0, 31, 27, 8, 8, 12, 30, 33, -9, 0, 0, 30, 33, -9, 0, 0, 30, 33, -9, 0, 0, 33, 24, 16, 10, 14, 30, 33, -8, 1, 2, 30, 33, -9, 0, 0, 30, 33, -9, 0, 0, 35, 21, 19, 10, 14, 31, 29, 13, 10, 15, 31, 28, 8, 10, 13, 32, 25, 13, 11, 14] }, { "part": "t18", "scores": [35, 22, 96, 30, 33, -27, 0, 0, 29, 33, -25, 3, 7, 29, 39, 19, 9, 13, 30, 36, 24, 7, 11, 30, 33, -27, 0, 0, 30, 30, -23, 7, 10, 53, 11, 7, 10, 14, 29, 40, 26, 0, 1, 30, 33, -22, 5, 8, 38, 16, 1, 10, 14, 116, 11, 9, 0, 0, 38, 18, 19, 7, 8, 31, 28, -2, 10, 15, 34, 21, -2, 8, 10, 116, 11, 9, 0, 0, 112, 10, 9, 1, 2] }, { "part": "t19", "scores": [59, 12, 83, 36, 32, 9, 0, 2, 41, 23, 8, 10, 12, 49, 19, 8, 5, 7, 116, 11, -4, 0, 0, 35, 27, 8, 12, 15, 37, 29, 9, 2, 4, 99, 9, -3, 4, 7, 116, 11, -4, 0, 0, 29, 38, 13, 2, 6, 51, 14, 1, 10, 14, 116, 11, -4, 0, 0, 116, 11, -4, 0, 0, 78, 8, -3, 4, 6, 116, 11, -4, 0, 0, 116, 11, -4, 0, 0, 116, 11, -4, 0, 0] }, { "part": "t20", "scores": [30, 21, 114, 26, 31, 14, 6, 8, 23, 50, 7, 0, 0, 23, 50, 7, 0, 0, 25, 46, 14, 4, 7, 29, 20, 9, 4, 7, 23, 50, 7, 0, 0, 23, 50, 7, 0, 0, 28, 31, 15, 11, 16, 107, 8, -5, 2, 6, 26, 28, 3, 8, 10, 30, 20, 1, 7, 10, 116, 9, -5, 0, 5, 121, 10, -21, 0, 3, 121, 10, -21, 0, 3, 121, 10, -21, 0, 3, 121, 10, -21, 0, 3] }, { "part": "t21", "scores": [62, 9, 111, 30, 32, 30, 9, 14, 116, 11, 24, 0, 4, 116, 11, 24, 0, 3, 67, 8, 17, 6, 9, 118, 9, 8, 0, 3, 118, 9, 7, 0, 3, 56, 9, 6, 4, 5, 31, 28, 5, 1, 3, 119, 10, -8, 0, 3, 38, 17, 1, 7, 12, 31, 31, 5, 2, 5, 31, 30, 5, 2, 9, 121, 10, -24, 0, 3, 121, 10, -24, 0, 3, 121, 10, -24, 0, 3, 121, 10, -24, 0, 3] }, { "part": "t22", "scores": [112, 9, 113, 33, 23, 12, 5, 9, 114, 10, 25, 0, 5, 116, 11, 26, 0, 3, 116, 11, 26, 0, 3, 101, 7, 8, 2, 6, 120, 10, 10, 0, 2, 120, 10, 10, 0, 2, 120, 10, 10, 0, 2, 119, 10, -6, 0, 3, 119, 10, -6, 0, 3, 119, 10, -6, 0, 3, 119, 10, -6, 0, 3, 121, 10, -22, 0, 3, 121, 10, -22, 0, 3, 121, 10, -22, 0, 3, 121, 10, -22, 0, 3] }, { "part": "t23", "scores": [45, 12, 110, 59, 10, 16, 6, 10, 30, 33, 4, 0, 0, 74, 8, 17, 5, 8, 116, 11, 23, 0, 3, 119, 9, 6, 0, 4, 30, 30, 4, 0, 2, 31, 27, 4, 2, 3, 36, 16, 5, 3, 4, 118, 10, -9, 0, 5, 31, 30, 3, 1, 4, 30, 33, 4, 0, 0, 30, 33, 4, 0, 0, 121, 10, -25, 0, 3, 81, 6, -22, 6, 8, 72, 7, -21, 6, 7, 72, 7, -21, 6, 7] },
-    { "part": "c0", "scores": [179, 25, 219, 189, 16, -3, 0, 0, 189, 16, -3, 0, 0, 189, 16, -3, 0, 0, 189, 16, -3, 0, 0, 189, 16, -3, 0, 0, 189, 16, -3, 0, 0, 189, 16, -3, 0, 0, 189, 16, -3, 0, 0, 189, 16, -3, 0, 0, 189, 16, -3, 0, 0, 189, 16, -3, 0, 0, 189, 16, -3, 0, 3, 169, 65, 16, 35, 48, 189, 16, -3, 0, 0, 184, 19, -2, 3, 18, 166, 116, 36, 56, 65] }, { "part": "c1", "scores": [167, 108, 151, 189, 16, -71, 0, 0, 189, 16, -71, 0, 2, 172, 57, -55, 33, 41, 168, 162, -12, 13, 21, 170, 71, -49, 29, 39, 168, 146, -19, 25, 41, 167, 182, -4, 1, 9, 167, 182, -4, 1, 9, 164, 206, 5, 29, 44, 164, 216, 28, 20, 26, 164, 198, 30, 34, 48, 167, 83, 42, 58, 73, 165, 143, 44, 45, 53, 167, 72, 46, 33, 41, 17, 16, 53, 0, 1, 184, 16, 52, 24, 28] }, { "part": "c2", "scores": [165, 218, 141, 167, 180, -15, 0, 0, 167, 180, -15, 0, 0, 167, 180, -15, 0, 0, 167, 180, -15, 0, 0, 167, 182, -14, 1, 9, 167, 182, -14, 1, 9, 167, 182, -14, 1, 9, 167, 182, -14, 1, 9, 164, 254, 14, 0, 0, 164, 254, 14, 0, 0, 164, 254, 14, 0, 0, 164, 254, 14, 0, 0, 164, 254, 14, 0, 0, 164, 254, 14, 0, 0, 164, 254, 14, 0, 0, 164, 254, 14, 0, 0] }, { "part": "c3", "scores": [167, 123, 135, 167, 180, -21, 0, 0, 167, 180, -21, 0, 0, 167, 174, -23, 6, 15, 174, 43, -76, 23, 35, 168, 165, -16, 11, 20, 167, 169, -17, 8, 18, 167, 182, -20, 1, 9, 167, 178, -22, 2, 19, 166, 105, 24, 28, 34, 167, 79, 26, 37, 43, 165, 141, 20, 42, 50, 164, 243, 9, 9, 19, 169, 50, 30, 27, 33, 18, 17, 37, 0, 0, 17, 15, 38, 3, 11, 165, 112, 29, 37, 45] }, { "part": "c4", "scores": [166, 135, 173, 188, 17, -49, 0, 11, 187, 17, -49, 1, 6, 189, 16, -49, 0, 0, 189, 16, -49, 0, 0, 167, 169, 13, 7, 29, 168, 106, -13, 36, 50, 177, 31, -43, 19, 32, 189, 16, -49, 0, 0, 164, 254, 46, 0, 0, 164, 254, 46, 0, 0, 164, 241, 41, 12, 24, 167, 89, -21, 36, 47, 164, 208, 54, 20, 27, 164, 254, 46, 0, 0, 164, 254, 46, 0, 0, 164, 254, 46, 0, 0] }, { "part": "c5", "scores": [171, 75, 194, 169, 119, 8, 2, 9, 171, 81, -5, 16, 20, 170, 109, 5, 9, 15, 169, 124, 10, 0, 0, 171, 91, 5, 8, 9, 171, 91, 5, 8, 9, 171, 91, 5, 8, 9, 171, 91, 5, 8, 9, 171, 50, -2, 0, 0, 171, 50, -2, 0, 0, 171, 50, -2, 0, 0, 171, 50, -2, 0, 0, 172, 52, -8, 1, 1, 172, 52, -8, 1, 1, 172, 52, -8, 1, 1, 172, 52, -8, 1, 1] }, { "part": "c6", "scores": [227, 9, 106, 177, 38, -6, 24, 29, 18, 17, 14, 2, 3, 18, 17, 8, 0, 0, 9, 12, 5, 5, 18, 174, 45, -30, 29, 37, 11, 17, 16, 1, 2, 19, 17, 9, 1, 1, 18, 17, 8, 0, 6, 173, 35, -54, 27, 32, 8, 16, 18, 2, 3, 20, 17, 10, 1, 1, 18, 17, 8, 0, 0, 173, 45, -79, 28, 35, 9, 14, 20, 3, 3, 21, 17, 10, 1, 1, 18, 17, 8, 0, 0] }, { "part": "c7", "scores": [174, 52, 144, 169, 124, -40, 0, 0, 169, 124, -40, 0, 0, 169, 124, -40, 0, 0, 169, 124, -40, 0, 0, 171, 88, -40, 18, 29, 171, 88, -40, 14, 20, 171, 88, -40, 15, 23, 171, 89, -41, 15, 24, 237, 9, 30, 16, 26, 235, 9, 30, 17, 20, 235, 9, 30, 21, 29, 229, 9, 28, 17, 22, 18, 17, 46, 0, 0, 18, 17, 46, 0, 0, 18, 17, 46, 0, 0, 18, 17, 46, 0, 0] }, { "part": "c8", "scores": [3, 10, 102, 236, 9, -1, 2, 15, 18, 17, 4, 0, 0, 22, 17, 8, 1, 2, 6, 15, 15, 3, 5, 16, 16, 3, 0, 2, 18, 17, 4, 0, 0, 19, 17, 10, 2, 3, 223, 11, 8, 24, 35, 18, 17, 4, 0, 0, 17, 17, 4, 0, 1, 14, 17, 12, 0, 1, 183, 19, -23, 32, 37, 18, 17, 4, 0, 0, 18, 17, 5, 1, 1, 12, 16, 13, 2, 3, 175, 33, -57, 32, 37] }, { "part": "c9", "scores": [171, 78, 192, 170, 109, 19, 10, 21, 169, 124, 8, 0, 0, 169, 124, 8, 0, 0, 169, 124, 8, 0, 0, 171, 91, 3, 8, 9, 171, 91, 3, 8, 9, 171, 91, 3, 8, 9, 171, 91, 3, 8, 9, 171, 50, -4, 0, 0, 171, 50, -4, 0, 0, 171, 50, -4, 0, 0, 171, 50, -4, 0, 0, 172, 52, -10, 1, 1, 172, 52, -10, 1, 1, 172, 52, -10, 1, 1, 172, 52, -10, 1, 1] }, { "part": "c10", "scores": [85, 12, 186, 177, 19, -26, 0, 1, 177, 19, -26, 0, 1, 177, 19, -26, 0, 1, 177, 19, -26, 0, 1, 177, 20, -34, 0, 1, 177, 20, -34, 0, 1, 177, 20, -34, 0, 1, 177, 20, -34, 0, 1, 70, 28, 11, 25, 31, 73, 13, -6, 25, 31, 178, 5, -25, 21, 32, 187, 16, -36, 0, 7, 68, 85, 81, 5, 8, 68, 84, 78, 6, 8, 68, 83, 75, 6, 8, 68, 72, 61, 14, 32] }, { "part": "c11", "scores": [14, 11, 116, 179, 18, -88, 18, 34, 10, 14, 31, 2, 3, 21, 17, 21, 1, 1, 18, 17, 18, 0, 0, 179, 17, -91, 30, 37, 8, 14, 30, 2, 3, 20, 17, 20, 1, 1, 18, 17, 18, 0, 0, 191, 13, -83, 34, 41, 8, 15, 29, 3, 3, 20, 17, 20, 1, 1, 18, 17, 18, 0, 0, 67, 33, -14, 43, 52, 10, 16, 28, 2, 3, 19, 17, 19, 1, 1, 18, 17, 18, 0, 0] }, { "part": "c12", "scores": [18, 53, 100, 18, 17, 2, 0, 0, 18, 17, 2, 0, 0, 18, 17, 2, 0, 0, 18, 17, 2, 0, 0, 18, 17, 2, 0, 0, 17, 36, 5, 14, 22, 17, 29, 2, 8, 12, 18, 17, 2, 0, 0, 17, 30, 5, 10, 15, 18, 137, -3, 10, 20, 18, 128, -10, 6, 13, 17, 18, 2, 0, 2, 17, 59, 8, 21, 29, 18, 139, -10, 0, 0, 18, 139, -11, 0, 0, 18, 33, 0, 5, 11] }, { "part": "c13", "scores": [1, 9, 123, 18, 17, 25, 0, 0, 19, 17, 27, 1, 1, 11, 15, 36, 3, 3, 180, 15, -68, 23, 36, 18, 17, 25, 0, 0, 20, 17, 27, 1, 1, 8, 14, 37, 2, 9, 179, 18, -86, 2, 32, 18, 17, 25, 0, 0, 21, 17, 28, 1, 1, 6, 14, 38, 2, 29, 189, 16, -95, 0, 11, 18, 17, 25, 0, 0, 21, 17, 28, 1, 1, 7, 13, 38, 2, 38, 177, 19, -104, 0, 4] }, { "part": "c14", "scores": [169, 10, 211, 177, 19, -1, 0, 1, 177, 19, -1, 0, 1, 177, 19, -1, 0, 1, 177, 19, -1, 0, 1, 177, 20, -9, 0, 1, 177, 20, -9, 0, 1, 177, 20, -9, 0, 1, 177, 20, -9, 0, 1, 187, 16, -11, 0, 1, 187, 16, -11, 0, 1, 187, 16, -11, 0, 1, 187, 16, -11, 0, 1, 174, 15, -12, 10, 27, 106, 8, 11, 27, 33, 74, 25, 32, 29, 37, 69, 48, 58, 30, 37] }, { "part": "c15", "scores": [67, 93, 96, 66, 88, 16, 3, 3, 66, 88, 15, 2, 3, 67, 88, 14, 3, 3, 67, 88, 12, 3, 3, 65, 88, 19, 0, 0, 65, 88, 19, 0, 0, 65, 88, 19, 0, 0, 65, 88, 19, 0, 0, 65, 88, 19, 0, 0, 65, 88, 19, 0, 4, 68, 99, -3, 23, 29, 70, 112, -39, 27, 33, 67, 97, 1, 22, 29, 71, 112, -43, 23, 33, 71, 103, -51, 7, 9, 72, 93, -41, 8, 11] }, { "part": "c16", "scores": [69, 70, 119, 65, 51, 38, 8, 14, 12, 17, 29, 0, 2, 18, 17, 21, 0, 1, 18, 17, 21, 0, 0, 63, 52, 36, 21, 33, 61, 44, 10, 19, 23, 68, 74, -12, 16, 20, 70, 98, -26, 17, 21, 72, 115, -37, 4, 9, 72, 106, -31, 7, 8, 72, 98, -25, 4, 6, 72, 94, -21, 4, 8, 73, 91, -10, 3, 4, 73, 93, -7, 3, 4, 74, 94, -5, 3, 4, 74, 96, -3, 0, 1] }, { "part": "c17", "scores": [35, 49, 116, 17, 82, 23, 21, 26, 18, 139, 5, 0, 0, 18, 139, 5, 0, 0, 18, 48, 14, 9, 11, 51, 46, -6, 16, 29, 18, 43, -4, 11, 16, 23, 48, -3, 17, 21, 66, 91, -22, 20, 25, 58, 41, -11, 15, 18, 12, 25, -16, 1, 2, 20, 25, -16, 5, 7, 71, 81, -21, 11, 15, 73, 91, -6, 3, 7, 19, 25, -17, 0, 7, 12, 25, -19, 0, 0, 50, 31, -9, 13, 16] }, { "part": "c18", "scores": [69, 67, 119, 18, 17, 21, 0, 0, 21, 17, 24, 1, 1, 7, 13, 35, 2, 17, 68, 62, -13, 28, 47, 68, 76, -14, 18, 22, 62, 44, 7, 17, 21, 22, 15, 33, 8, 17, 67, 79, 35, 5, 12, 72, 94, -22, 4, 6, 72, 103, -29, 6, 9, 72, 111, -34, 5, 16, 71, 110, -19, 24, 30, 74, 95, -4, 1, 3, 74, 93, -7, 3, 4, 73, 91, -11, 3, 5, 73, 92, -18, 6, 9] }, { "part": "c19", "scores": [67, 92, 96, 68, 84, -10, 7, 8, 68, 86, -5, 4, 8, 69, 87, 0, 5, 8, 68, 88, 5, 5, 8, 66, 88, 15, 3, 3, 66, 88, 18, 0, 3, 65, 88, 19, 0, 0, 65, 88, 19, 0, 0, 68, 103, -12, 24, 30, 66, 89, 17, 3, 11, 65, 88, 19, 0, 0, 65, 88, 19, 0, 0, 72, 100, -49, 6, 8, 71, 112, -52, 15, 25, 69, 104, -16, 28, 34, 65, 88, 18, 0, 7] }, { "part": "c20", "scores": [73, 90, 124, 72, 104, -24, 8, 10, 73, 91, -8, 5, 8, 74, 94, 0, 3, 4, 74, 96, 2, 0, 0, 73, 94, -1, 3, 5, 74, 96, 2, 0, 0, 74, 96, 2, 0, 0, 74, 96, 2, 0, 0, 74, 96, 2, 0, 0, 74, 96, 2, 0, 0, 74, 96, 2, 0, 0, 74, 96, 2, 0, 0, 74, 96, 2, 0, 0, 74, 94, 2, 1, 5, 69, 66, 1, 13, 16, 48, 29, -1, 12, 15] }, { "part": "c21", "scores": [68, 61, 123, 74, 96, 1, 0, 0, 74, 96, 1, 0, 0, 74, 96, 1, 0, 0, 74, 96, 1, 0, 0, 74, 96, 1, 0, 0, 74, 96, 1, 0, 0, 74, 96, 1, 0, 0, 71, 79, 1, 11, 16, 73, 88, 1, 8, 13, 69, 67, 0, 11, 14, 57, 38, -1, 14, 16, 13, 25, -12, 0, 1, 12, 25, -12, 0, 0, 12, 25, -12, 0, 0, 12, 25, -12, 0, 0, 12, 25, -12, 0, 0] }, { "part": "c22", "scores": [62, 46, 124, 72, 82, 2, 10, 15, 13, 25, -10, 0, 2, 12, 25, -11, 0, 0, 36, 25, -3, 12, 15, 35, 25, -4, 7, 11, 12, 25, -11, 0, 0, 29, 25, -5, 7, 12, 72, 80, 2, 8, 12, 12, 25, -11, 0, 0, 29, 25, -6, 7, 11, 73, 87, 2, 5, 10, 74, 96, 2, 0, 0, 17, 25, -9, 2, 7, 71, 78, 2, 9, 13, 74, 96, 2, 0, 0, 74, 96, 2, 0, 0] }, { "part": "c23", "scores": [74, 96, 122, 74, 96, 0, 0, 0, 74, 96, 0, 0, 0, 74, 96, 0, 0, 0, 74, 96, 0, 0, 0, 74, 96, 0, 0, 0, 74, 96, 0, 0, 0, 74, 96, 0, 0, 0, 74, 96, 0, 0, 0, 74, 96, 0, 0, 0, 74, 96, 0, 0, 0, 74, 96, 0, 0, 0, 74, 96, 0, 0, 0, 74, 96, 0, 0, 0, 74, 96, 0, 0, 0, 74, 96, 0, 0, 0, 74, 96, 0, 0, 0] },
-    { "part": "r0", "scores": [39, 54, 102, 38, 57, 8, 0, 0, 38, 57, 8, 0, 0, 38, 57, 8, 0, 0, 38, 57, 8, 0, 0, 38, 61, 2, 3, 3, 38, 61, 3, 3, 3, 38, 59, 6, 3, 4, 38, 52, -3, 30, 34, 39, 66, -5, 0, 2, 39, 66, -5, 0, 5, 39, 66, -5, 0, 0, 40, 40, 4, 12, 19, 39, 61, -7, 8, 12, 40, 38, -13, 29, 36, 40, 41, -15, 36, 46, 45, 27, 7, 8, 20] }, { "part": "r1", "scores": [39, 42, 97, 38, 57, 3, 0, 0, 38, 57, 3, 0, 0, 38, 57, 3, 0, 0, 38, 55, 3, 1, 8, 38, 56, 2, 0, 4, 38, 57, 3, 0, 2, 38, 57, 3, 0, 0, 41, 43, 5, 10, 13, 39, 32, -9, 24, 34, 39, 39, -13, 28, 38, 39, 42, -8, 21, 27, 45, 26, -15, 39, 49, 44, 26, 2, 11, 20, 41, 26, 4, 13, 21, 43, 25, 7, 3, 5, 42, 25, 8, 4, 5] }, { "part": "r2", "scores": [128, 17, 88, 142, 42, 10, 0, 0, 142, 42, 10, 0, 0, 142, 42, 10, 0, 0, 142, 42, 10, 0, 0, 141, 38, 8, 1, 1, 141, 37, 8, 0, 1, 141, 37, 8, 0, 1, 141, 38, 8, 0, 1, 106, 13, -15, 22, 28, 126, 16, -8, 16, 24, 125, 17, -10, 25, 32, 135, 23, -3, 13, 19, 41, 25, -1, 4, 8, 40, 26, -4, 6, 11, 40, 28, -13, 12, 16, 46, 23, -22, 28, 36] }, { "part": "r3", "scores": [40, 40, 89, 140, 38, 11, 3, 9, 35, 56, 3, 0, 2, 35, 58, 3, 0, 0, 35, 58, 3, 0, 0, 123, 18, 7, 11, 13, 35, 58, 3, 0, 2, 35, 58, 3, 0, 0, 35, 58, 3, 0, 0, 113, 16, 1, 8, 10, 38, 57, -5, 0, 1, 37, 57, -3, 2, 3, 36, 58, 0, 2, 3, 60, 19, -17, 26, 33, 38, 57, -5, 0, 2, 38, 57, -5, 0, 0, 38, 57, -5, 0, 0] }, { "part": "r4", "scores": [35, 58, 86, 35, 58, 0, 0, 0, 35, 58, 0, 0, 0, 35, 58, 0, 0, 0, 35, 58, 0, 0, 0, 35, 58, 0, 0, 0, 35, 58, 0, 0, 0, 35, 58, 0, 0, 0, 35, 58, 0, 0, 0, 35, 58, 0, 0, 1, 35, 58, 0, 0, 0, 35, 58, 0, 0, 0, 35, 58, 0, 0, 0, 38, 57, -7, 1, 2, 36, 58, -2, 2, 3, 35, 58, 0, 0, 0, 35, 58, 0, 0, 0] }, { "part": "r5", "scores": [38, 58, 97, 39, 66, -9, 0, 1, 40, 54, -5, 8, 11, 40, 36, -3, 14, 22, 43, 28, -7, 14, 23, 39, 66, -9, 0, 1, 36, 66, -4, 2, 3, 35, 65, -2, 0, 1, 38, 55, 6, 8, 11, 37, 66, -5, 3, 3, 35, 66, -2, 0, 0, 38, 62, 5, 4, 5, 41, 58, 11, 0, 0, 35, 66, -2, 0, 0, 37, 63, 2, 3, 4, 41, 58, 11, 0, 0, 41, 58, 11, 0, 0] }, { "part": "r6", "scores": [46, 22, 90, 41, 30, -19, 13, 20, 42, 29, -19, 18, 29, 41, 29, -20, 28, 35, 42, 29, -21, 27, 36, 42, 23, 8, 4, 12, 43, 23, 0, 6, 9, 47, 23, 1, 3, 4, 45, 25, -2, 4, 7, 43, 28, 10, 9, 12, 41, 22, 1, 8, 12, 43, 21, 3, 8, 13, 49, 18, 7, 12, 17, 42, 40, 13, 8, 11, 41, 21, 9, 14, 24, 76, 8, 32, 12, 21, 138, 30, 10, 9, 15] }, { "part": "r7", "scores": [46, 24, 99, 41, 31, -18, 25, 33, 43, 29, -6, 24, 31, 45, 27, 5, 0, 3, 42, 25, 10, 9, 11, 41, 31, -8, 7, 13, 41, 30, -15, 27, 37, 42, 28, -8, 29, 36, 46, 27, 4, 0, 3, 44, 24, 7, 8, 13, 43, 25, 6, 3, 9, 43, 28, -3, 9, 16, 41, 30, -16, 30, 38, 137, 26, 21, 9, 14, 81, 10, 10, 14, 18, 48, 22, 11, 9, 14, 46, 25, 7, 4, 7] }, { "part": "r8", "scores": [41, 31, 101, 40, 27, 7, 9, 15, 40, 34, -9, 24, 32, 39, 49, -5, 16, 22, 38, 56, 0, 16, 23, 45, 26, 8, 7, 11, 42, 25, 11, 3, 4, 40, 27, 5, 10, 15, 39, 35, -23, 24, 38, 44, 27, 1, 24, 34, 46, 27, 6, 0, 0, 45, 26, 8, 8, 10, 41, 25, 12, 3, 5, 42, 29, -8, 14, 25, 41, 31, -14, 34, 47, 42, 32, -13, 26, 35, 46, 27, 6, 0, 0] }, { "part": "r9", "scores": [38, 48, 98, 38, 57, 4, 0, 0, 38, 57, 4, 0, 0, 37, 57, 7, 3, 4, 35, 58, 12, 0, 1, 38, 52, -5, 10, 15, 38, 57, 4, 0, 0, 38, 57, 4, 0, 0, 38, 57, 5, 1, 2, 40, 29, -5, 16, 23, 39, 44, -14, 22, 30, 38, 56, 2, 2, 6, 38, 57, 4, 0, 1, 43, 25, 8, 8, 9, 40, 26, 7, 6, 11, 39, 34, -13, 23, 30, 38, 50, -21, 34, 43] }, { "part": "r10", "scores": [44, 42, 95, 36, 65, -4, 3, 4, 40, 59, 8, 1, 2, 41, 58, 9, 0, 0, 41, 58, 9, 0, 2, 37, 66, -7, 3, 5, 40, 59, 7, 1, 3, 41, 58, 9, 0, 0, 62, 27, -4, 11, 13, 36, 66, -4, 0, 1, 38, 62, 2, 2, 3, 44, 47, 6, 6, 9, 136, 37, -7, 1, 4, 35, 66, -4, 0, 0, 36, 64, -1, 2, 4, 109, 21, -7, 9, 12, 138, 41, -7, 0, 0] }, { "part": "r11", "scores": [136, 37, 100, 85, 16, -1, 13, 17, 102, 13, 6, 18, 25, 139, 44, 6, 5, 10, 139, 46, 3, 1, 1, 138, 41, -2, 0, 0, 138, 41, -2, 0, 0, 138, 41, -2, 0, 0, 139, 44, 0, 1, 1, 138, 41, -2, 0, 0, 138, 41, -2, 0, 0, 138, 41, -2, 0, 0, 138, 41, -2, 0, 0, 138, 41, -2, 0, 0, 138, 41, -2, 0, 0, 138, 41, -2, 0, 0, 138, 41, -2, 0, 0] }, { "part": "r12", "scores": [137, 38, 97, 139, 41, 4, 3, 5, 139, 37, 10, 3, 4, 137, 27, 13, 6, 11, 57, 17, 6, 9, 13, 139, 48, -2, 1, 1, 139, 47, 0, 0, 1, 139, 44, 2, 1, 2, 136, 34, 5, 7, 10, 138, 41, -5, 0, 0, 138, 43, -4, 1, 1, 139, 46, -3, 1, 1, 139, 48, -1, 0, 1, 138, 41, -5, 0, 0, 138, 41, -5, 0, 0, 138, 41, -5, 0, 0, 138, 41, -5, 0, 0] }, { "part": "r13", "scores": [53, 20, 97, 47, 22, 10, 4, 5, 44, 27, 0, 5, 9, 41, 31, -20, 21, 28, 43, 28, -10, 28, 35, 52, 20, 7, 7, 10, 47, 23, 7, 3, 3, 45, 27, 2, 1, 3, 42, 29, -11, 14, 19, 128, 24, 1, 8, 11, 46, 26, 4, 3, 5, 47, 23, 8, 3, 4, 47, 22, 9, 4, 5, 139, 44, -4, 1, 1, 55, 21, -1, 4, 7, 47, 21, 10, 3, 3, 49, 19, 14, 0, 0] }, { "part": "r14", "scores": [42, 34, 103, 45, 26, 10, 6, 9, 45, 27, 8, 0, 1, 42, 25, 12, 7, 9, 39, 51, 2, 8, 11, 41, 30, -11, 33, 41, 45, 27, 6, 2, 6, 45, 26, 5, 8, 11, 40, 54, -2, 4, 5, 43, 28, 3, 8, 14, 40, 31, -14, 37, 45, 40, 33, -21, 30, 38, 39, 55, -11, 12, 16, 48, 21, 17, 3, 4, 45, 27, 8, 2, 5, 41, 31, -7, 11, 16, 39, 58, -10, 8, 12] }, { "part": "r15", "scores": [122, 23, 110, 35, 66, 11, 0, 0, 46, 34, 5, 12, 15, 139, 43, 5, 3, 4, 138, 41, 8, 0, 0, 35, 66, 11, 0, 1, 126, 25, -1, 9, 13, 140, 48, -2, 3, 3, 138, 41, 7, 0, 1, 43, 37, 7, 12, 14, 140, 50, -5, 0, 0, 140, 50, -5, 0, 0, 140, 49, -3, 2, 3, 119, 22, -3, 11, 14, 140, 50, -5, 0, 0, 140, 50, -5, 0, 0, 140, 50, -5, 0, 0] }, { "part": "r16", "scores": [138, 42, 103, 138, 41, 1, 0, 0, 138, 41, 1, 0, 0, 138, 41, 1, 0, 0, 138, 41, 1, 0, 0, 138, 41, 1, 0, 0, 138, 41, 1, 0, 0, 138, 41, 1, 0, 0, 138, 41, 1, 0, 0, 139, 43, -2, 2, 3, 138, 41, 1, 0, 0, 138, 41, 1, 0, 0, 138, 41, 1, 0, 0, 140, 50, -11, 0, 1, 139, 45, -4, 4, 5, 138, 41, 1, 0, 0, 138, 41, 1, 0, 0] }, { "part": "r17", "scores": [138, 41, 102, 138, 41, 0, 0, 0, 138, 41, 0, 0, 0, 138, 41, 0, 0, 0, 138, 41, 0, 0, 0, 138, 41, 0, 0, 0, 138, 41, 0, 0, 0, 138, 41, 0, 0, 0, 138, 41, 0, 0, 0, 138, 41, 0, 0, 0, 138, 41, 0, 0, 0, 138, 41, 0, 0, 0, 138, 41, 0, 0, 0, 138, 41, 0, 0, 0, 138, 41, 0, 0, 0, 138, 41, 0, 0, 0, 138, 41, 0, 0, 0] }, { "part": "r18", "scores": [87, 14, 97, 138, 40, -5, 0, 4, 47, 25, 2, 1, 6, 42, 17, 20, 3, 8, 46, 18, 18, 2, 5, 137, 37, -3, 4, 7, 55, 16, 9, 14, 20, 48, 17, 30, 7, 14, 41, 42, 17, 8, 11, 138, 41, -5, 0, 0, 138, 41, -5, 0, 0, 112, 20, -1, 13, 18, 41, 58, 11, 0, 0, 138, 41, -5, 0, 0, 138, 41, -5, 0, 0, 75, 20, -5, 8, 10, 41, 58, 11, 0, 0] }, { "part": "r19", "scores": [38, 63, 102, 42, 40, 18, 7, 10, 37, 63, 6, 3, 7, 40, 53, 0, 6, 9, 39, 65, -4, 0, 1, 38, 62, 10, 3, 4, 37, 66, 0, 2, 3, 39, 66, -5, 0, 0, 39, 66, -5, 0, 0, 36, 66, 4, 0, 0, 38, 66, -3, 2, 3, 39, 66, -5, 0, 0, 39, 66, -5, 0, 0, 36, 66, 3, 0, 1, 39, 66, -4, 0, 0, 39, 66, -5, 0, 0, 39, 66, -5, 0, 0] }, { "part": "r20", "scores": [140, 59, 121, 140, 62, -2, 0, 0, 140, 62, -2, 0, 0, 140, 62, -2, 0, 0, 139, 60, -2, 2, 11, 140, 62, -2, 0, 0, 140, 62, -2, 0, 0, 140, 62, -2, 0, 0, 132, 32, 15, 98, 137, 140, 62, -2, 0, 0, 140, 62, -2, 0, 0, 140, 62, -2, 0, 0, 139, 56, 5, 9, 18, 140, 62, -2, 0, 0, 140, 62, -2, 0, 0, 140, 62, -2, 0, 0, 140, 62, -2, 0, 0] }, { "part": "r21", "scores": [140, 59, 121, 140, 62, -2, 0, 4, 140, 62, -2, 0, 0, 140, 61, 0, 2, 3, 140, 59, 5, 3, 4, 136, 17, 13, 120, 151, 140, 62, -2, 0, 0, 140, 62, -2, 0, 0, 140, 62, -2, 0, 0, 140, 59, 4, 4, 14, 140, 62, -2, 0, 0, 140, 62, -2, 0, 0, 140, 62, -2, 0, 0, 140, 62, -2, 0, 0, 140, 62, -2, 0, 0, 140, 62, -2, 0, 0, 140, 62, -2, 0, 0] }, { "part": "r22", "scores": [140, 47, 111, 139, 42, 7, 2, 3, 138, 41, 9, 0, 0, 138, 41, 9, 0, 0, 138, 41, 9, 0, 0, 140, 50, -3, 0, 0, 140, 48, 0, 3, 3, 140, 47, 1, 2, 3, 139, 46, 3, 2, 3, 140, 50, -4, 0, 0, 140, 50, -4, 0, 0, 140, 50, -4, 0, 0, 140, 50, -4, 0, 0, 140, 50, -4, 0, 0, 140, 50, -4, 0, 0, 140, 50, -4, 0, 0, 140, 50, -4, 0, 0] }, { "part": "r23", "scores": [67, 22, 109, 138, 41, 7, 0, 0, 138, 41, 7, 0, 0, 50, 38, 15, 8, 10, 41, 58, 22, 1, 3, 139, 45, 2, 2, 3, 139, 43, 2, 4, 9, 39, 58, 17, 2, 7, 38, 63, 14, 4, 5, 140, 50, -6, 0, 0, 135, 35, -4, 9, 11, 35, 66, 10, 0, 0, 37, 66, 7, 2, 2, 140, 50, -6, 0, 0, 122, 23, -3, 9, 11, 35, 66, 10, 0, 0, 37, 66, 6, 2, 2] },
-    { "part": "o0", "scores": [151, 33, 122, 151, 33, -8, 2, 3, 151, 33, -9, 0, 0, 151, 33, -9, 0, 0, 151, 33, -9, 0, 0, 152, 33, 6, 1, 2, 151, 33, -1, 5, 6, 151, 33, -8, 1, 3, 151, 33, -9, 0, 0, 152, 33, 7, 0, 0, 152, 33, 7, 0, 0, 152, 33, 6, 1, 2, 151, 33, -2, 5, 6, 152, 33, 7, 0, 0, 152, 33, 7, 0, 0, 152, 33, 7, 0, 0, 152, 33, 7, 0, 0] }, { "part": "o1", "scores": [151, 33, 129, 151, 33, -2, 0, 0, 151, 33, -2, 0, 0, 151, 33, -2, 0, 0, 151, 33, -2, 0, 0, 151, 33, -2, 0, 0, 151, 33, -2, 0, 0, 151, 33, -2, 0, 0, 151, 33, -2, 0, 0, 151, 33, -1, 1, 3, 151, 33, -2, 0, 0, 151, 33, -2, 0, 0, 151, 33, -2, 0, 0, 152, 33, 13, 0, 1, 152, 33, 9, 4, 5, 151, 33, 4, 4, 5, 150, 30, 0, 7, 11] }, { "part": "o2", "scores": [149, 25, 136, 152, 35, -2, 7, 9, 154, 39, -17, 7, 10, 155, 41, -24, 0, 0, 155, 41, -24, 0, 0, 151, 33, 5, 0, 0, 151, 33, 5, 0, 0, 152, 35, -2, 7, 9, 154, 39, -17, 7, 10, 151, 33, 5, 0, 0, 151, 33, 5, 0, 3, 148, 27, 6, 5, 7, 137, 14, 9, 11, 16, 143, 18, 9, 21, 25, 129, 10, 13, 15, 24, 52, 21, 18, 33, 42, 54, 20, 11, 23, 35] }, { "part": "o3", "scores": [151, 28, 153, 155, 41, -7, 0, 0, 155, 41, -7, 0, 0, 155, 41, -7, 0, 0, 155, 41, -7, 0, 0, 155, 41, -7, 0, 0, 155, 41, -7, 0, 0, 155, 41, -7, 0, 0, 155, 41, -7, 0, 0, 121, 10, 19, 32, 41, 145, 20, 0, 9, 15, 155, 41, -7, 0, 0, 155, 41, -7, 0, 0, 51, 28, 19, 21, 34, 51, 29, 20, 32, 43, 123, 11, 10, 14, 18, 155, 39, -1, 7, 9] }, { "part": "o4", "scores": [153, 46, 167, 153, 46, -1, 4, 5, 151, 50, -5, 0, 0, 151, 50, -5, 0, 0, 151, 50, -5, 0, 0, 155, 41, 6, 1, 2, 152, 49, -4, 2, 3, 151, 50, -5, 0, 0, 151, 50, -5, 0, 0, 155, 41, 7, 0, 0, 155, 43, 5, 2, 4, 152, 49, -4, 2, 3, 151, 50, -5, 0, 0, 155, 41, 7, 0, 0, 155, 41, 7, 0, 0, 155, 41, 6, 1, 2, 153, 47, -1, 4, 5] }, { "part": "o5", "scores": [152, 5, 103, 152, 33, -12, 0, 0, 152, 33, -12, 0, 0, 150, 28, -13, 8, 13, 145, 19, -15, 11, 16, 154, 11, 13, 12, 16, 152, 24, -2, 12, 14, 152, 33, -12, 0, 3, 74, 10, -21, 14, 21, 17, 15, 9, 4, 8, 17, 12, 19, 7, 9, 14, 5, 22, 17, 26, 113, 6, -2, 40, 51, 18, 17, 5, 0, 0, 18, 17, 5, 0, 0, 18, 17, 5, 0, 0, 21, 17, 5, 7, 14] }, { "part": "o6", "scores": [69, 11, 123, 146, 21, 6, 17, 21, 149, 26, 7, 5, 8, 152, 33, 8, 0, 0, 149, 25, 8, 12, 14, 75, 10, -5, 17, 23, 58, 17, -1, 16, 23, 130, 10, 3, 11, 14, 147, 20, 8, 7, 10, 52, 17, 7, 20, 30, 64, 12, 0, 23, 30, 45, 34, -2, 6, 9, 53, 21, -6, 10, 17, 40, 25, 15, 32, 40, 45, 34, -6, 9, 14, 45, 34, -7, 8, 11, 45, 35, -4, 2, 4] }, { "part": "o7", "scores": [51, 15, 119, 69, 10, -1, 24, 34, 120, 9, 2, 22, 30, 148, 26, -7, 6, 12, 136, 14, -12, 9, 12, 58, 12, 2, 17, 24, 142, 14, 4, 7, 10, 147, 23, 0, 8, 13, 46, 32, -8, 4, 9, 49, 18, 2, 14, 20, 47, 20, 2, 8, 11, 48, 29, -8, 8, 11, 41, 34, 4, 11, 14, 45, 35, -7, 3, 6, 30, 38, 12, 20, 26, 38, 34, 6, 13, 19, 28, 39, 20, 16, 20] }, { "part": "o8", "scores": [43, 23, 117, 45, 35, -10, 5, 9, 48, 37, -18, 14, 18, 60, 21, -24, 8, 10, 151, 33, -14, 0, 0, 45, 31, 5, 20, 26, 47, 34, -7, 35, 47, 49, 35, -19, 8, 18, 106, 10, -14, 8, 13, 38, 34, 4, 17, 29, 34, 33, 17, 37, 57, 45, 34, -9, 17, 30, 49, 28, -3, 15, 27, 36, 31, 12, 6, 12, 2, 16, 29, 27, 36, 19, 42, 30, 24, 35, 50, 21, -1, 23, 37] }, { "part": "o9", "scores": [151, 31, 136, 152, 35, -2, 7, 9, 154, 39, -17, 7, 10, 155, 41, -24, 0, 0, 155, 41, -24, 0, 0, 150, 30, 5, 1, 4, 151, 33, 5, 0, 0, 152, 35, -2, 7, 9, 154, 39, -17, 7, 10, 77, 10, 8, 28, 39, 150, 31, 5, 0, 4, 151, 33, 5, 0, 0, 151, 33, 5, 0, 0, 107, 9, 15, 22, 32, 151, 32, 16, 6, 10, 151, 33, 11, 4, 5, 151, 33, 7, 2, 4] }, { "part": "o10", "scores": [19, 13, 96, 17, 17, -2, 0, 1, 18, 17, -2, 0, 0, 18, 17, -2, 0, 0, 21, 17, -6, 8, 10, 16, 9, 8, 2, 3, 17, 14, 2, 3, 4, 17, 16, -4, 2, 3, 33, 21, -16, 13, 16, 16, 8, 10, 0, 0, 15, 8, 8, 2, 3, 14, 9, 1, 2, 4, 23, 13, -4, 7, 12, 14, 8, 7, 3, 3, 14, 9, 2, 0, 0, 14, 9, 2, 0, 0, 14, 9, 2, 0, 0] }, { "part": "o11", "scores": [36, 30, 115, 31, 22, -3, 10, 12, 45, 35, -19, 5, 6, 45, 35, -15, 6, 8, 45, 35, -22, 3, 6, 30, 27, 0, 25, 34, 45, 34, -24, 2, 5, 45, 31, 0, 13, 20, 45, 35, -16, 7, 8, 11, 45, 36, 21, 36, 25, 26, 3, 21, 27, 44, 29, 3, 8, 12, 44, 35, -8, 0, 5, 24, 33, 22, 28, 40, 23, 22, 25, 21, 30, 48, 30, 4, 6, 14, 23, 25, 10, 17, 25] }, { "part": "o12", "scores": [30, 37, 105, 36, 33, -4, 18, 23, 10, 54, 19, 4, 6, 19, 42, 17, 15, 21, 43, 31, -8, 26, 38, 25, 40, 0, 19, 23, 12, 50, 22, 10, 12, 40, 31, -7, 24, 32, 45, 31, -9, 23, 34, 34, 37, -10, 34, 44, 47, 34, -13, 19, 23, 48, 38, -16, 4, 8, 47, 36, -18, 12, 19, 10, 51, 21, 17, 32, 25, 39, 6, 28, 40, 46, 27, -3, 15, 27, 44, 34, -12, 7, 12] }, { "part": "o13", "scores": [130, 4, 106, 44, 32, -14, 19, 31, 154, 18, -4, 12, 18, 111, 6, -6, 19, 34, 153, 31, -8, 1, 4, 49, 23, -6, 24, 30, 152, 32, -8, 0, 4, 152, 33, -9, 0, 0, 152, 33, -9, 0, 0, 33, 20, 7, 21, 29, 2, 3, 23, 15, 22, 153, 19, 6, 14, 17, 152, 33, -9, 0, 3, 41, 28, -10, 8, 12, 19, 20, 7, 7, 14, 17, 14, 16, 8, 10, 246, 2, 22, 17, 23] }, { "part": "o14", "scores": [152, 31, 112, 152, 33, -3, 0, 0, 152, 33, -3, 0, 0, 152, 33, -3, 0, 0, 152, 33, -3, 0, 0, 152, 33, -3, 0, 0, 152, 33, -3, 0, 0, 152, 33, -3, 0, 0, 152, 33, -3, 0, 0, 152, 33, -3, 0, 0, 152, 33, -3, 0, 0, 152, 33, -3, 0, 0, 152, 33, -3, 0, 0, 154, 15, 17, 10, 13, 153, 21, 10, 10, 12, 152, 27, 4, 10, 13, 152, 32, -2, 2, 9] }, { "part": "o15", "scores": [15, 9, 85, 14, 9, -9, 0, 0, 14, 9, -9, 0, 0, 14, 9, -9, 0, 0, 14, 9, -9, 0, 0, 14, 9, -4, 6, 8, 14, 9, -9, 0, 1, 14, 9, -9, 0, 0, 14, 9, -9, 0, 0, 16, 8, 15, 0, 0, 16, 8, 12, 4, 6, 14, 9, -2, 7, 9, 14, 9, -9, 0, 0, 16, 8, 15, 0, 0, 16, 8, 15, 0, 0, 16, 8, 15, 0, 2, 14, 9, 1, 8, 10] }, { "part": "o16", "scores": [25, 21, 93, 9, 25, 4, 8, 10, 10, 43, 14, 16, 30, 20, 38, 7, 17, 26, 16, 33, 5, 24, 32, 14, 9, -1, 0, 1, 20, 11, -11, 27, 33, 37, 25, -9, 5, 6, 41, 32, -14, 4, 8, 14, 9, -1, 0, 0, 21, 9, 2, 2, 3, 40, 21, -4, 7, 9, 40, 32, -12, 1, 4, 21, 9, 2, 2, 3, 37, 8, 7, 0, 0, 38, 8, 7, 0, 2, 23, 22, 11, 23, 30] }, { "part": "o17", "scores": [31, 17, 97, 30, 10, 0, 13, 23, 18, 17, -2, 0, 3, 21, 17, 0, 2, 4, 41, 30, -10, 13, 19, 44, 25, -12, 14, 22, 32, 15, 0, 12, 15, 18, 16, 0, 1, 2, 18, 18, 1, 3, 6, 44, 21, 3, 14, 23, 45, 26, -10, 20, 28, 37, 11, 7, 6, 10, 21, 13, 4, 3, 5, 17, 20, 2, 42, 53, 29, 9, 8, 2, 4, 33, 13, 1, 22, 26, 14, 9, 3, 0, 1] }, { "part": "o18", "scores": [17, 17, 104, 25, 39, 5, 40, 53, 13, 39, 19, 38, 62, 19, 16, 2, 8, 16, 16, 16, 1, 2, 3, 21, 16, -1, 27, 42, 15, 18, 9, 20, 33, 21, 14, -9, 16, 20, 16, 16, -3, 0, 0, 17, 16, 2, 3, 5, 16, 16, -2, 0, 0, 16, 16, -3, 0, 0, 14, 13, -7, 4, 5, 13, 9, 8, 2, 5, 14, 10, 1, 7, 9, 12, 10, -8, 5, 6, 10, 8, -14, 1, 2] }, { "part": "o19", "scores": [10, 10, 114, 15, 15, 11, 2, 8, 15, 13, 18, 8, 11, 15, 12, 25, 8, 11, 14, 10, 31, 10, 13, 16, 16, 7, 0, 1, 14, 14, 4, 3, 4, 13, 11, 0, 3, 4, 11, 8, -4, 0, 1, 11, 9, -4, 1, 2, 11, 8, -5, 0, 0, 10, 8, -5, 0, 2, 3, 8, -10, 4, 5, 7, 8, -7, 3, 4, 254, 8, -13, 4, 5, 248, 10, -19, 1, 3, 247, 10, -20, 0, 0] }, { "part": "o20", "scores": [14, 3, 62, 254, 2, 2, 3, 4, 13, 5, -3, 3, 4, 14, 8, -5, 2, 3, 14, 9, -2, 2, 3, 213, 1, 6, 0, 0, 213, 1, 6, 0, 0, 0, 2, 4, 1, 1, 14, 9, 1, 0, 0, 213, 1, 6, 0, 0, 213, 1, 6, 0, 0, 213, 1, 6, 0, 0, 6, 3, 3, 2, 5, 244, 1, 4, 3, 6, 27, 3, -3, 6, 7, 33, 6, -9, 6, 7, 36, 8, -15, 0, 3] }, { "part": "o21", "scores": [20, 8, 79, 20, 9, 9, 8, 10, 35, 8, -5, 3, 5, 31, 8, -8, 1, 2, 19, 9, -13, 2, 2, 14, 9, 18, 0, 0, 15, 8, 11, 5, 7, 15, 8, -1, 6, 8, 14, 9, -9, 7, 10, 14, 8, 8, 7, 9, 16, 8, 1, 4, 5, 15, 8, -3, 4, 5, 16, 8, -6, 0, 2, 36, 8, 1, 0, 1, 29, 8, -1, 1, 2, 23, 8, -4, 1, 2, 17, 8, -6, 1, 1] }, { "part": "o22", "scores": [12, 8, 100, 14, 9, 6, 0, 0, 14, 9, 6, 0, 0, 13, 9, 1, 4, 6, 11, 8, -6, 4, 5, 13, 9, 1, 5, 7, 11, 8, -7, 3, 5, 11, 8, -11, 0, 0, 11, 8, -11, 0, 0, 14, 8, 11, 4, 6, 11, 8, -1, 7, 8, 10, 8, -9, 2, 6, 11, 8, -11, 0, 0, 16, 8, 14, 1, 3, 14, 8, 10, 4, 5, 12, 8, 7, 4, 6, 10, 8, 0, 7, 11] }, { "part": "o23", "scores": [13, 12, 116, 11, 8, 5, 0, 0, 11, 8, 5, 0, 0, 10, 8, 5, 0, 1, 13, 13, -1, 4, 5, 11, 8, 5, 0, 0, 11, 9, 5, 1, 2, 14, 14, -4, 3, 4, 15, 17, -7, 0, 0, 11, 9, 3, 2, 3, 14, 16, -5, 2, 3, 15, 17, -7, 0, 0, 15, 17, -7, 0, 0, 11, 10, 6, 5, 7, 13, 13, 2, 5, 6, 14, 15, -2, 5, 6, 14, 16, -6, 2, 5] },
-    { "part": "d0", "scores": [24, 83, 72, 25, 85, 13, 9, 11, 26, 84, 15, 9, 11, 26, 81, 19, 14, 23, 24, 88, -1, 5, 6, 23, 81, -11, 3, 6, 22, 80, -12, 4, 6, 24, 79, 4, 14, 29, 23, 79, -21, 3, 5, 23, 80, -20, 4, 7, 23, 80, -21, 4, 6, 24, 78, -5, 16, 25, 24, 84, -3, 9, 17, 25, 85, 11, 11, 16, 25, 86, 12, 15, 21, 25, 85, 14, 18, 27, 20, 99, 14, 26, 39] }, { "part": "d1", "scores": [23, 94, 78, 24, 87, 4, 4, 6, 24, 87, 2, 5, 6, 24, 85, 1, 4, 6, 24, 87, 2, 4, 6, 23, 79, -14, 6, 8, 23, 79, -15, 5, 7, 23, 79, -14, 6, 8, 23, 80, -15, 6, 8, 24, 85, 5, 7, 12, 24, 83, 9, 10, 14, 24, 84, 11, 9, 17, 24, 82, 12, 9, 15, 19, 116, 10, 26, 33, 20, 127, 3, 24, 39, 21, 136, -2, 25, 36, 22, 132, 0, 29, 52] }, { "part": "d2", "scores": [24, 81, 70, 24, 88, -5, 5, 6, 24, 89, -3, 4, 6, 24, 87, -4, 5, 6, 24, 88, -3, 5, 6, 23, 79, -22, 6, 8, 23, 79, -21, 7, 8, 23, 79, -22, 6, 8, 23, 78, -22, 6, 8, 25, 84, 4, 10, 15, 24, 83, 2, 10, 18, 25, 82, 7, 10, 19, 24, 82, 3, 10, 17, 20, 94, 13, 25, 34, 24, 74, 24, 6, 9, 25, 72, 25, 5, 6, 25, 65, 23, 16, 24] }, { "part": "d3", "scores": [23, 85, 72, 24, 88, -2, 4, 5, 24, 88, -1, 4, 6, 24, 88, -1, 4, 5, 23, 84, -6, 3, 5, 23, 79, -20, 7, 8, 23, 79, -21, 3, 7, 23, 80, -22, 4, 8, 23, 80, -21, 7, 10, 24, 83, 4, 10, 13, 24, 83, 2, 10, 16, 24, 83, 3, 10, 14, 25, 86, 9, 14, 22, 25, 71, 28, 6, 13, 21, 81, 23, 13, 21, 19, 95, 16, 24, 35, 19, 111, 7, 31, 39] }, { "part": "d4", "scores": [22, 85, 71, 23, 83, -10, 1, 5, 23, 82, -11, 2, 5, 23, 84, -7, 4, 6, 24, 85, -6, 5, 6, 23, 81, -21, 4, 6, 23, 81, -19, 4, 7, 23, 78, -20, 8, 10, 23, 79, -21, 7, 10, 25, 86, 11, 20, 25, 24, 85, 15, 20, 26, 24, 85, 10, 19, 25, 24, 85, 10, 19, 23, 18, 109, 6, 31, 39, 18, 96, 13, 20, 34, 21, 80, 23, 11, 21, 21, 80, 23, 8, 15] }, { "part": "d5", "scores": [27, 101, 61, 23, 136, -19, 31, 43, 25, 151, -27, 26, 33, 26, 157, -30, 29, 35, 32, 186, -47, 11, 22, 31, 127, -14, 18, 23, 31, 121, -11, 18, 22, 30, 115, -8, 18, 21, 29, 94, 4, 21, 28, 26, 66, 20, 0, 0, 26, 66, 20, 0, 0, 26, 66, 20, 0, 0, 26, 66, 20, 0, 0, 26, 66, 20, 0, 0, 26, 66, 20, 0, 2, 26, 67, 15, 16, 24, 25, 65, 18, 7, 17] }, { "part": "d6", "scores": [27, 61, 50, 33, 173, -52, 19, 32, 31, 123, -24, 24, 33, 28, 80, 1, 9, 23, 26, 66, 9, 0, 0, 26, 66, 9, 0, 2, 26, 66, 9, 0, 0, 26, 66, 9, 0, 0, 26, 61, 10, 4, 7, 26, 66, 9, 0, 0, 26, 63, 10, 3, 5, 25, 35, 20, 11, 14, 21, 10, 24, 14, 19, 20, 51, -23, 78, 101, 21, 21, 13, 37, 57, 10, 15, 1, 79, 95, 7, 20, -23, 79, 101] }, { "part": "d7", "scores": [24, 25, 32, 26, 66, -9, 0, 0, 26, 66, -9, 0, 0, 26, 66, -9, 0, 0, 23, 35, -25, 28, 37, 25, 46, -9, 8, 12, 24, 31, -5, 11, 14, 22, 16, 0, 9, 16, 19, 8, 2, 19, 24, 21, 8, 11, 1, 6, 20, 8, 7, 14, 17, 20, 8, 7, 11, 15, 21, 8, 12, 0, 1, 20, 8, 6, 12, 18, 20, 8, 8, 5, 9, 20, 8, 8, 6, 10, 20, 8, 7, 9, 12] }, { "part": "d8", "scores": [24, 21, 26, 25, 51, -14, 8, 12, 25, 47, -12, 14, 20, 25, 40, -9, 12, 14, 24, 24, -2, 10, 13, 20, 8, 3, 10, 14, 21, 8, 5, 1, 4, 21, 8, 6, 0, 0, 22, 11, 5, 3, 5, 21, 8, 6, 0, 0, 21, 8, 6, 0, 0, 21, 8, 6, 0, 0, 21, 8, 6, 1, 7, 20, 6, 3, 7, 11, 21, 7, 5, 1, 2, 25, 35, -4, 10, 12, 25, 58, -15, 3, 10] }, { "part": "d9", "scores": [25, 52, 40, 24, 21, 15, 12, 18, 26, 57, 2, 6, 14, 26, 64, -1, 1, 4, 26, 66, -1, 0, 0, 25, 37, 9, 11, 15, 25, 50, 4, 8, 14, 26, 63, 0, 0, 4, 26, 66, -1, 0, 0, 25, 35, 6, 23, 33, 26, 59, 1, 4, 10, 26, 66, -1, 0, 0, 26, 66, -1, 0, 0, 19, 21, -17, 24, 37, 23, 33, -15, 38, 50, 26, 66, -1, 0, 1, 26, 66, -1, 0, 1] }, { "part": "d10", "scores": [23, 46, 63, 26, 66, 21, 5, 9, 26, 68, 17, 12, 15, 26, 66, 19, 3, 10, 25, 66, 20, 1, 2, 24, 66, 15, 0, 1, 24, 66, 15, 0, 1, 22, 46, -4, 57, 69, 16, 21, -20, 57, 75, 23, 66, 14, 0, 0, 21, 39, -5, 36, 46, 9, 11, -11, 25, 49, 24, 15, -8, 62, 86, 23, 66, 14, 0, 0, 20, 38, -18, 58, 72, 14, 21, -44, 73, 107, 16, 19, -22, 32, 62] }, { "part": "d11", "scores": [21, 20, 52, 24, 52, 1, 23, 33, 24, 41, -1, 34, 48, 24, 48, 6, 20, 28, 23, 31, 17, 15, 24, 253, 7, -20, 29, 39, 17, 18, -10, 43, 60, 21, 36, -5, 30, 47, 22, 41, -6, 32, 49, 2, 7, -14, 33, 49, 11, 5, 1, 26, 37, 14, 6, 8, 33, 44, 1, 7, -14, 34, 46, 18, 12, -1, 24, 33, 24, 5, 17, 18, 26, 22, 4, 14, 17, 26, 13, 6, 4, 34, 44] }, { "part": "d12", "scores": [13, 7, 40, 16, 6, 7, 16, 25, 7, 3, 6, 18, 27, 13, 5, 6, 20, 29, 20, 7, 15, 12, 19, 3, 8, -31, 26, 35, 1, 8, -31, 21, 33, 17, 8, 3, 22, 32, 18, 8, 8, 18, 24, 4, 7, -22, 24, 30, 14, 8, 1, 16, 23, 21, 8, 19, 0, 5, 21, 8, 19, 1, 4, 16, 7, 3, 25, 38, 18, 8, 7, 18, 27, 5, 7, -14, 16, 22, 15, 8, 8, 13, 17] }, { "part": "d13", "scores": [21, 17, 38, 19, 8, 10, 7, 11, 20, 8, 13, 9, 11, 22, 26, -8, 24, 32, 23, 38, -7, 16, 23, 20, 8, 13, 6, 10, 21, 8, 18, 0, 6, 1, 7, -18, 18, 31, 5, 5, -4, 34, 41, 17, 8, -2, 6, 13, 19, 8, 3, 19, 29, 16, 9, -3, 24, 34, 17, 5, 9, 7, 11, 19, 9, -9, 28, 42, 23, 49, -19, 11, 21, 23, 59, -7, 5, 6, 23, 22, 9, 11, 16] }, { "part": "d14", "scores": [23, 51, 50, 18, 19, -6, 41, 51, 8, 9, -11, 43, 56, 23, 66, 1, 0, 0, 23, 66, 1, 0, 0, 12, 10, -4, 28, 38, 23, 46, 1, 7, 11, 23, 66, 1, 0, 0, 23, 66, 1, 0, 0, 23, 49, 8, 8, 15, 23, 68, -3, 7, 10, 24, 70, -7, 23, 30, 23, 66, 1, 0, 2, 21, 14, 12, 17, 25, 23, 64, 1, 0, 6, 24, 68, -2, 4, 9, 24, 67, -1, 2, 5] }, { "part": "d15", "scores": [25, 74, 55, 24, 74, -5, 23, 26, 24, 70, 2, 13, 17, 24, 70, 0, 19, 23, 24, 72, -5, 22, 30, 25, 74, 2, 0, 0, 25, 76, -4, 13, 18, 25, 74, -4, 22, 27, 25, 72, 2, 3, 9, 25, 74, 2, 0, 0, 25, 74, 2, 0, 0, 25, 74, 2, 0, 0, 25, 71, 4, 1, 2, 25, 80, -1, 1, 1, 25, 80, -1, 0, 1, 25, 79, -1, 1, 1, 25, 79, 0, 1, 1] }, { "part": "d16", "scores": [24, 52, 50, 24, 68, -4, 13, 21, 25, 50, 7, 9, 14, 22, 23, 10, 24, 33, 9, 7, 4, 27, 37, 25, 74, -5, 2, 6, 25, 74, -3, 0, 0, 25, 69, 0, 4, 10, 19, 8, 21, 14, 26, 25, 74, -3, 0, 3, 23, 55, -13, 63, 82, 24, 36, -5, 17, 22, 23, 24, 4, 34, 44, 25, 78, -5, 2, 7, 24, 63, -7, 18, 30, 25, 61, -2, 8, 11, 25, 71, -1, 2, 6] }, { "part": "d17", "scores": [24, 52, 51, 8, 9, -8, 13, 22, 14, 7, 13, 27, 41, 16, 7, 15, 19, 32, 11, 7, 7, 23, 29, 25, 65, -1, 4, 7, 24, 42, 0, 21, 30, 25, 65, 0, 4, 11, 25, 63, 4, 7, 9, 25, 74, -2, 0, 0, 25, 74, -2, 0, 0, 25, 74, -2, 0, 0, 25, 72, -2, 1, 6, 25, 74, -2, 0, 0, 25, 76, -5, 6, 10, 25, 75, -3, 1, 4, 22, 44, -14, 48, 71] }, { "part": "d18", "scores": [24, 51, 53, 10, 9, 2, 25, 42, 24, 59, 6, 6, 10, 24, 68, 3, 1, 1, 24, 69, 2, 1, 1, 24, 34, 14, 19, 28, 26, 33, 15, 15, 22, 25, 74, 0, 0, 0, 25, 73, 0, 0, 1, 24, 49, 0, 22, 35, 22, 18, 5, 32, 46, 25, 74, 0, 0, 0, 22, 49, -15, 85, 94, 20, 30, -8, 43, 69, 18, 31, -21, 77, 92, 25, 71, 0, 0, 3, 25, 73, 0, 0, 5] }, { "part": "d19", "scores": [24, 56, 55, 24, 27, 14, 16, 21, 25, 53, 8, 13, 16, 25, 74, 2, 0, 0, 25, 74, 2, 0, 0, 23, 23, 8, 21, 31, 24, 37, 9, 21, 28, 25, 74, 2, 0, 0, 25, 74, 2, 0, 0, 10, 14, -18, 59, 89, 12, 15, -11, 49, 95, 24, 69, -4, 6, 20, 25, 74, 2, 0, 1, 24, 67, -6, 17, 43, 24, 67, -5, 13, 40, 25, 80, -3, 1, 11, 25, 83, -2, 0, 0] }, { "part": "d20", "scores": [26, 140, 84, 24, 91, 24, 6, 7, 24, 90, 24, 6, 7, 24, 90, 24, 6, 8, 25, 90, 23, 2, 4, 15, 104, 24, 6, 7, 15, 104, 24, 6, 7, 15, 100, 26, 7, 8, 16, 91, 30, 7, 12, 22, 178, -20, 11, 18, 22, 178, -20, 11, 18, 21, 176, -19, 14, 20, 18, 168, -14, 9, 15, 35, 195, -30, 3, 4, 35, 195, -30, 3, 4, 36, 196, -30, 4, 5, 36, 198, -31, 5, 11] }, { "part": "d21", "scores": [23, 121, 75, 25, 87, 16, 2, 2, 25, 83, 17, 0, 1, 25, 83, 18, 0, 2, 25, 82, 10, 19, 23, 19, 86, 22, 5, 9, 21, 89, 19, 5, 7, 23, 90, 17, 7, 8, 24, 90, 15, 6, 8, 15, 157, -15, 10, 17, 14, 136, -3, 12, 15, 14, 117, 8, 10, 14, 15, 101, 17, 7, 10, 34, 195, -39, 13, 16, 31, 191, -37, 11, 18, 25, 183, -32, 13, 16, 20, 174, -27, 8, 15] }, { "part": "d22", "scores": [21, 101, 64, 25, 83, 6, 2, 4, 25, 83, 7, 0, 0, 25, 83, 7, 0, 0, 25, 83, 7, 0, 0, 25, 89, 4, 1, 3, 25, 87, 4, 1, 2, 25, 86, 5, 1, 2, 25, 84, 6, 1, 2, 17, 89, 11, 7, 14, 19, 86, 11, 5, 8, 21, 89, 8, 5, 6, 22, 92, 6, 5, 6, 18, 167, -33, 9, 11, 16, 157, -26, 10, 17, 15, 141, -17, 15, 19, 14, 125, -8, 11, 18] }, { "part": "d23", "scores": [21, 96, 62, 25, 83, 5, 0, 0, 25, 83, 5, 0, 0, 25, 83, 5, 0, 0, 25, 83, -3, 11, 17, 25, 84, 4, 1, 2, 25, 86, 3, 1, 2, 25, 87, 2, 1, 2, 25, 89, 2, 1, 2, 23, 93, 2, 4, 5, 23, 92, 3, 4, 5, 22, 92, 3, 4, 5, 22, 92, 4, 4, 6, 14, 118, -6, 10, 12, 14, 120, -7, 10, 12, 14, 122, -8, 10, 12, 14, 125, -10, 10, 12] },
-    { "part": "m0", "scores": [252, 202, 150, 251, 206, -1, 0, 0, 251, 206, -1, 0, 0, 251, 206, -1, 0, 0, 251, 206, -1, 0, 0, 251, 206, -1, 0, 0, 251, 206, -1, 0, 0, 251, 206, -1, 0, 0, 251, 206, -1, 0, 0, 251, 206, -1, 0, 0, 251, 206, -1, 0, 0, 251, 206, -1, 0, 0, 251, 206, -1, 0, 0, 251, 206, -1, 0, 0, 251, 206, -1, 0, 0, 252, 201, 0, 6, 9, 4, 156, 17, 16, 26] }, { "part": "m1", "scores": [13, 150, 102, 251, 206, -49, 0, 0, 251, 206, -49, 0, 4, 9, 161, -11, 23, 29, 22, 139, 24, 0, 0, 252, 205, -49, 0, 6, 10, 158, -8, 22, 27, 22, 139, 24, 0, 0, 22, 139, 24, 0, 0, 7, 165, -19, 28, 38, 22, 139, 24, 0, 0, 22, 139, 24, 0, 0, 22, 139, 24, 0, 0, 20, 120, 6, 4, 9, 21, 124, 12, 7, 9, 22, 139, 24, 0, 0, 22, 139, 24, 0, 0] }, { "part": "m2", "scores": [22, 138, 77, 21, 136, 1, 2, 4, 20, 132, 3, 3, 3, 20, 130, 4, 3, 4, 19, 129, 5, 3, 4, 22, 139, -1, 0, 0, 22, 139, -1, 0, 0, 22, 139, -1, 0, 0, 22, 139, -1, 0, 0, 22, 139, -1, 0, 0, 22, 139, -1, 0, 0, 22, 139, -1, 0, 0, 22, 139, -1, 0, 0, 22, 139, -1, 0, 0, 22, 139, -1, 0, 0, 22, 139, -1, 0, 0, 22, 139, -1, 0, 0] }, { "part": "m3", "scores": [8, 163, 117, 6, 165, -5, 20, 24, 252, 204, -33, 1, 6, 251, 206, -34, 0, 0, 251, 206, -34, 0, 0, 22, 139, 39, 0, 0, 13, 153, 16, 25, 35, 251, 205, -34, 0, 4, 251, 206, -34, 0, 0, 22, 139, 39, 0, 0, 22, 140, 39, 0, 2, 9, 160, 4, 23, 28, 252, 202, -33, 3, 9, 22, 139, 39, 0, 0, 22, 139, 39, 0, 0, 22, 139, 39, 0, 0, 8, 162, 1, 36, 44] }, { "part": "m4", "scores": [251, 206, 151, 251, 206, 0, 0, 0, 251, 206, 0, 0, 0, 251, 206, 0, 0, 0, 251, 206, 0, 0, 0, 251, 206, 0, 0, 0, 251, 206, 0, 0, 0, 251, 206, 0, 0, 0, 251, 206, 0, 0, 0, 251, 206, 0, 0, 0, 251, 206, 0, 0, 0, 251, 206, 0, 0, 0, 251, 206, 0, 0, 0, 251, 206, 0, 0, 0, 251, 206, 0, 0, 0, 251, 206, 0, 0, 0, 251, 206, 0, 0, 0] }, { "part": "m5", "scores": [5, 166, 148, 251, 206, -3, 0, 0, 251, 206, -3, 0, 0, 251, 206, -3, 0, 0, 10, 138, 31, 22, 28, 1, 176, -12, 3, 4, 1, 176, -12, 3, 4, 2, 173, -8, 12, 16, 18, 121, 44, 5, 13, 5, 172, -12, 1, 1, 5, 172, -12, 1, 1, 5, 172, -12, 1, 4, 17, 124, 40, 8, 13, 8, 172, -12, 0, 0, 8, 172, -12, 0, 0, 8, 172, -11, 0, 2, 12, 146, 17, 11, 20] }, { "part": "m6", "scores": [21, 115, 98, 21, 115, 0, 0, 0, 21, 115, 0, 0, 0, 21, 115, 0, 0, 0, 21, 115, 0, 0, 0, 21, 115, 0, 0, 0, 21, 115, 0, 0, 0, 21, 115, 0, 0, 0, 21, 115, 0, 0, 0, 21, 115, 0, 0, 0, 21, 115, 0, 0, 0, 21, 115, 0, 0, 0, 21, 115, 0, 0, 0, 21, 115, 0, 0, 0, 21, 115, 0, 0, 0, 21, 115, 0, 0, 0, 21, 115, 0, 0, 0] }, { "part": "m7", "scores": [21, 123, 92, 22, 131, 8, 5, 7, 22, 139, 14, 0, 0, 22, 139, 14, 0, 0, 22, 139, 14, 0, 0, 21, 116, -5, 1, 3, 21, 120, -2, 5, 6, 22, 130, 6, 5, 7, 22, 130, 6, 5, 6, 21, 115, -6, 0, 0, 21, 115, -6, 0, 0, 21, 115, -6, 0, 0, 21, 115, -6, 0, 0, 21, 115, -6, 0, 0, 21, 115, -6, 0, 0, 21, 115, -6, 0, 0, 21, 115, -6, 0, 0] }, { "part": "m8", "scores": [20, 122, 94, 22, 139, 16, 0, 0, 22, 139, 16, 0, 0, 22, 136, 14, 4, 6, 11, 150, -16, 28, 32, 21, 126, 5, 6, 7, 21, 119, -1, 4, 4, 21, 117, -2, 3, 4, 21, 115, -4, 0, 0, 21, 115, -4, 0, 0, 21, 115, -4, 0, 0, 21, 115, -4, 0, 0, 21, 115, -4, 0, 0, 21, 115, -4, 0, 0, 21, 115, -4, 0, 0, 21, 115, -4, 0, 0, 21, 115, -4, 0, 0] }, { "part": "m9", "scores": [3, 170, 152, 251, 204, 1, 0, 4, 251, 206, 1, 0, 0, 251, 206, 1, 0, 0, 251, 206, 1, 0, 0, 10, 141, 29, 19, 29, 1, 176, -8, 3, 4, 1, 176, -8, 3, 4, 1, 176, -8, 3, 4, 12, 139, 28, 13, 16, 5, 172, -8, 1, 2, 5, 172, -8, 1, 1, 5, 172, -8, 1, 1, 19, 120, 48, 7, 15, 8, 171, -7, 0, 4, 8, 172, -8, 0, 0, 8, 172, -8, 0, 0] }, { "part": "m10", "scores": [18, 172, 160, 12, 172, 0, 0, 0, 12, 172, 0, 0, 0, 12, 172, 0, 0, 0, 12, 172, 0, 0, 0, 15, 172, 0, 1, 1, 15, 172, 0, 1, 1, 15, 172, 0, 1, 1, 15, 172, 0, 1, 1, 20, 172, 0, 2, 2, 20, 172, 0, 2, 2, 20, 172, 0, 2, 2, 20, 172, 0, 2, 2, 25, 172, 0, 0, 0, 25, 172, 0, 0, 0, 25, 172, 0, 0, 0, 25, 172, 0, 0, 0] }, { "part": "m11", "scores": [21, 147, 133, 19, 123, 26, 9, 20, 21, 115, 35, 0, 0, 21, 115, 35, 0, 0, 21, 115, 35, 0, 0, 15, 171, -26, 1, 5, 18, 138, 10, 22, 26, 20, 120, 29, 8, 10, 21, 115, 35, 0, 0, 20, 172, -27, 2, 2, 20, 172, -27, 2, 2, 21, 160, -14, 14, 17, 22, 150, -3, 17, 20, 25, 172, -27, 0, 0, 25, 172, -27, 0, 0, 25, 172, -27, 0, 0, 25, 169, -23, 21, 27] }, { "part": "m12", "scores": [21, 118, 100, 21, 115, 2, 0, 0, 21, 115, 2, 0, 0, 21, 115, 2, 0, 0, 21, 115, 2, 0, 0, 21, 115, 2, 0, 0, 21, 115, 2, 0, 0, 21, 115, 2, 0, 0, 21, 115, 2, 0, 0, 21, 108, 14, 24, 34, 21, 99, 26, 12, 15, 20, 105, 17, 14, 20, 22, 136, -20, 33, 41, 24, 156, -41, 24, 35, 21, 92, 36, 15, 28, 22, 106, 11, 35, 43, 24, 169, -57, 12, 15] }, { "part": "m13", "scores": [21, 138, 126, 21, 114, 28, 1, 1, 21, 115, 28, 0, 0, 21, 115, 28, 0, 1, 20, 117, 25, 4, 14, 21, 108, 29, 6, 7, 20, 116, 25, 7, 13, 18, 143, -4, 24, 35, 15, 169, -31, 9, 19, 22, 131, 5, 31, 43, 21, 116, 10, 34, 42, 21, 151, -17, 19, 30, 20, 171, -33, 2, 6, 23, 134, -4, 39, 51, 24, 164, -27, 8, 14, 25, 172, -34, 0, 0, 25, 172, -34, 0, 0] }, { "part": "m14", "scores": [18, 171, 159, 14, 154, 19, 12, 14, 12, 172, -1, 0, 0, 12, 172, -1, 0, 0, 12, 172, -1, 0, 0, 15, 172, -1, 1, 1, 15, 172, -1, 1, 1, 15, 172, -1, 1, 1, 15, 172, -1, 1, 1, 20, 172, -1, 2, 2, 20, 172, -1, 2, 2, 20, 172, -1, 2, 2, 20, 172, -1, 2, 2, 25, 172, -1, 0, 0, 25, 172, -1, 0, 0, 25, 172, -1, 0, 0, 25, 172, -1, 0, 0] }, { "part": "m15", "scores": [31, 151, 142, 28, 172, -18, 0, 0, 28, 172, -18, 0, 0, 28, 172, -18, 0, 0, 28, 172, -18, 0, 0, 30, 172, -18, 0, 1, 30, 171, -16, 5, 14, 30, 172, -16, 3, 11, 30, 172, -18, 0, 1, 32, 172, -17, 1, 11, 28, 157, 21, 31, 41, 29, 160, 12, 28, 37, 32, 172, -18, 1, 1, 39, 53, 58, 8, 20, 32, 90, 42, 34, 45, 35, 109, 24, 23, 35, 36, 119, 16, 21, 25] }, { "part": "m16", "scores": [31, 164, 150, 28, 172, -10, 0, 0, 28, 172, -10, 0, 0, 28, 172, -9, 2, 11, 28, 152, 17, 71, 99, 30, 172, -10, 0, 1, 30, 172, -10, 0, 1, 30, 172, -10, 0, 1, 30, 172, -10, 0, 1, 32, 172, -10, 1, 1, 30, 163, 13, 26, 31, 30, 162, 16, 27, 32, 32, 172, -10, 1, 1, 36, 133, 15, 21, 26, 32, 143, 23, 49, 58, 33, 158, 12, 39, 59, 35, 168, -5, 12, 33] }, { "part": "m17", "scores": [25, 107, 101, 28, 157, -38, 43, 63, 24, 102, 20, 30, 43, 23, 99, -2, 20, 25, 25, 120, -18, 46, 62, 29, 154, -34, 35, 58, 22, 87, 34, 7, 17, 21, 83, 11, 0, 1, 23, 93, 3, 14, 22, 32, 160, -43, 32, 39, 21, 85, 32, 8, 10, 20, 83, 11, 0, 0, 27, 116, -15, 31, 37, 30, 124, 1, 45, 55, 21, 83, 19, 6, 9, 20, 83, 11, 0, 0, 20, 83, 11, 0, 1] }, { "part": "m18", "scores": [30, 160, 145, 27, 140, 11, 25, 30, 28, 172, -15, 0, 0, 28, 172, -15, 0, 0, 28, 172, -15, 0, 0, 30, 171, -14, 0, 6, 30, 172, -15, 0, 1, 30, 172, -15, 0, 1, 30, 172, -14, 1, 10, 31, 166, 0, 21, 28, 28, 156, 25, 35, 40, 32, 172, -15, 1, 1, 29, 158, 21, 31, 40, 33, 150, 6, 32, 72, 30, 151, 20, 48, 63, 36, 141, 5, 22, 27, 33, 123, 23, 36, 42] }, { "part": "m19", "scores": [30, 146, 138, 28, 172, -22, 0, 0, 28, 172, -22, 0, 0, 28, 172, -22, 0, 0, 28, 172, -22, 0, 0, 30, 172, -21, 2, 9, 29, 170, -16, 10, 17, 28, 166, -6, 21, 27, 30, 172, -22, 0, 1, 30, 161, 5, 29, 38, 31, 165, -4, 25, 37, 28, 158, 16, 31, 36, 32, 172, -22, 1, 12, 36, 103, 23, 23, 35, 36, 87, 33, 27, 35, 34, 70, 48, 23, 30, 39, 49, 56, 1, 17] }, { "part": "m20", "scores": [44, 54, 91, 40, 41, 5, 0, 0, 40, 41, 5, 0, 0, 40, 41, 5, 0, 0, 40, 41, 5, 0, 0, 40, 41, 5, 0, 0, 40, 41, 5, 0, 0, 40, 41, 5, 0, 1, 42, 45, 1, 9, 12, 43, 49, -3, 11, 15, 44, 60, -12, 16, 19, 46, 68, -18, 11, 20, 47, 72, -15, 9, 11, 47, 72, -7, 6, 10, 48, 73, 0, 4, 5, 48, 76, 4, 0, 1, 48, 76, 4, 0, 0] }, { "part": "m21", "scores": [44, 61, 91, 40, 41, 5, 0, 0, 40, 41, 5, 0, 0, 40, 41, 5, 0, 0, 25, 76, 15, 20, 26, 43, 53, -6, 9, 11, 44, 57, -10, 9, 15, 44, 60, -12, 11, 15, 39, 69, -9, 21, 27, 47, 70, -9, 6, 10, 47, 70, -5, 4, 6, 47, 71, -4, 3, 4, 47, 71, -4, 3, 4, 48, 76, 4, 0, 0, 48, 76, 4, 0, 0, 48, 76, 4, 0, 0, 48, 76, 4, 0, 0] }, { "part": "m22", "scores": [36, 72, 93, 20, 83, -5, 0, 0, 20, 83, -5, 0, 0, 20, 83, -5, 0, 0, 20, 83, -5, 0, 0, 30, 78, -11, 11, 14, 29, 78, -10, 11, 13, 29, 77, -10, 11, 13, 33, 75, -13, 14, 17, 47, 71, -2, 3, 4, 47, 71, -1, 3, 4, 48, 72, -1, 3, 4, 48, 72, -1, 3, 4, 48, 76, 6, 0, 0, 48, 76, 6, 0, 0, 48, 76, 6, 0, 0, 48, 76, 6, 0, 0] }, { "part": "m23", "scores": [46, 62, 93, 38, 44, 6, 2, 4, 40, 41, 7, 0, 0, 40, 41, 7, 0, 0, 40, 41, 7, 0, 0, 45, 63, -13, 12, 15, 44, 62, -12, 12, 15, 44, 61, -11, 13, 16, 44, 57, -8, 10, 15, 48, 72, -1, 3, 4, 48, 72, -1, 3, 4, 47, 71, -2, 4, 4, 47, 70, -3, 4, 4, 48, 76, 6, 0, 0, 48, 76, 6, 0, 0, 48, 76, 6, 0, 0, 48, 76, 6, 0, 0] },
-    { "part": "s0", "scores": [132, 40, 111, 121, 36, -40, 98, 130, 124, 59, -7, 83, 116, 124, 40, 3, 80, 113, 133, 44, -1, 65, 90, 131, 38, 22, 33, 54, 133, 45, 30, 34, 48, 134, 44, 45, 17, 34, 135, 44, 43, 49, 72, 136, 41, 49, 14, 25, 136, 50, 28, 38, 52, 142, 62, -50, 53, 80, 143, 46, -104, 14, 26, 121, 20, -12, 38, 56, 123, 31, -6, 16, 24, 130, 36, 8, 12, 21, 128, 25, -18, 35, 47] }, { "part": "s1", "scores": [75, 21, 133, 135, 53, 44, 23, 36, 136, 55, 61, 18, 41, 96, 16, -33, 70, 103, 108, 27, -32, 144, 190, 144, 62, 45, 42, 56, 125, 20, 4, 72, 93, 53, 39, -8, 97, 123, 73, 31, 8, 76, 112, 57, 16, -18, 72, 99, 41, 57, -15, 83, 131, 98, 20, 44, 41, 76, 47, 55, -5, 93, 123, 56, 23, -32, 72, 112, 47, 16, 18, 91, 127, 45, 38, 17, 99, 132, 40, 75, -23, 70, 101] }, { "part": "s2", "scores": [73, 15, 139, 62, 27, 1, 110, 146, 97, 20, 2, 95, 122, 129, 29, 74, 31, 43, 140, 20, 91, 13, 21, 49, 51, -29, 56, 80, 134, 46, 6, 73, 100, 104, 21, 73, 42, 66, 100, 11, 96, 23, 38, 83, 21, 18, 72, 109, 77, 8, -51, 71, 100, 39, 47, -12, 85, 120, 68, 7, -2, 40, 72, 39, 80, 0, 97, 141, 186, 3, -99, 13, 27, 174, 10, -98, 13, 22, 34, 5, -29, 16, 24] }, { "part": "s3", "scores": [70, 9, 72, 121, 14, 25, 27, 38, 139, 38, -11, 53, 68, 145, 67, -71, 13, 27, 139, 21, -20, 79, 104, 122, 19, 38, 10, 19, 118, 8, 36, 21, 36, 54, 24, -18, 79, 114, 36, 28, 2, 76, 103, 89, 10, -15, 48, 63, 43, 10, 40, 22, 33, 30, 73, -1, 49, 70, 26, 28, 11, 50, 66, 43, 9, -44, 15, 24, 36, 26, 19, 32, 48, 27, 27, 35, 27, 40, 149, 8, 14, 42, 56] }, { "part": "s4", "scores": [148, 3, 78, 143, 24, -16, 31, 43, 127, 6, -8, 30, 42, 178, 9, 6, 5, 10, 229, 4, 16, 5, 10, 145, 15, -24, 23, 33, 108, 9, 5, 35, 47, 174, 9, -2, 11, 16, 3, 4, 17, 3, 5, 141, 5, -21, 17, 25, 70, 7, 20, 28, 43, 24, 25, 1, 60, 78, 228, 4, 7, 10, 14, 146, 2, -11, 17, 25, 32, 3, 30, 13, 28, 18, 4, -16, 63, 90, 165, 11, -12, 9, 13] }, { "part": "s5", "scores": [106, 10, 142, 141, 37, -39, 24, 34, 135, 18, -23, 21, 31, 137, 18, -11, 28, 40, 66, 13, 4, 32, 44, 127, 13, 8, 44, 61, 144, 27, -28, 25, 41, 107, 13, -31, 37, 49, 44, 58, 0, 101, 131, 49, 21, 70, 15, 22, 82, 5, 60, 41, 57, 146, 25, -34, 9, 16, 140, 19, -29, 13, 24, 59, 13, 32, 102, 136, 51, 16, 76, 12, 23, 138, 10, -8, 30, 44, 143, 11, -30, 6, 11] }, { "part": "s6", "scores": [39, 42, 102, 46, 34, -56, 61, 116, 39, 20, 20, 62, 85, 40, 6, 52, 23, 42, 41, 47, -7, 76, 107, 42, 59, -7, 119, 171, 36, 55, 2, 87, 116, 36, 19, 19, 38, 54, 33, 47, 11, 81, 115, 39, 43, -61, 42, 74, 39, 59, 15, 102, 130, 47, 23, 49, 12, 18, 35, 45, 32, 85, 109, 43, 8, -42, 112, 143, 38, 44, 9, 98, 141, 39, 75, -7, 67, 89, 40, 85, -28, 96, 131] }, { "part": "s7", "scores": [34, 37, 159, 39, 84, 25, 87, 123, 27, 13, -67, 36, 50, 17, 4, -69, 16, 24, 31, 24, 4, 18, 30, 37, 32, 83, 67, 96, 29, 23, -56, 76, 99, 32, 29, -40, 41, 59, 31, 41, 28, 30, 48, 35, 31, 94, 60, 93, 32, 36, -44, 70, 107, 32, 45, -10, 122, 160, 32, 32, 33, 54, 80, 38, 99, 27, 87, 131, 33, 65, 63, 133, 187, 27, 20, -56, 31, 56, 27, 18, -12, 79, 104] }, { "part": "s8", "scores": [30, 17, 43, 32, 17, -45, 49, 66, 28, 15, -10, 26, 39, 30, 7, 22, 18, 28, 76, 4, -6, 20, 34, 31, 15, -12, 52, 72, 28, 18, -19, 17, 27, 27, 21, 12, 24, 35, 31, 20, 11, 21, 30, 28, 14, 2, 35, 47, 28, 20, -13, 20, 34, 35, 26, 11, 25, 37, 27, 33, 6, 17, 26, 24, 20, -18, 15, 24, 26, 12, 6, 18, 28, 31, 13, 25, 16, 22, 30, 15, 23, 15, 21] }, { "part": "s9", "scores": [29, 33, 53, 38, 17, 5, 29, 54, 33, 21, 3, 55, 75, 24, 24, -17, 54, 76, 31, 5, -23, 8, 15, 31, 114, -62, 74, 107, 32, 32, 8, 37, 57, 28, 50, 0, 80, 111, 26, 49, -26, 66, 88, 28, 30, 15, 35, 46, 40, 19, 18, 32, 57, 28, 32, 13, 65, 97, 32, 18, 14, 35, 58, 36, 14, 21, 14, 22, 28, 48, -3, 65, 102, 22, 26, 21, 57, 98, 25, 34, 14, 53, 78] }, { "part": "s10", "scores": [23, 53, 83, 24, 43, 15, 63, 93, 34, 26, -30, 123, 159, 52, 13, -30, 39, 62, 46, 8, -97, 7, 11, 27, 37, 24, 27, 43, 23, 72, 18, 54, 83, 26, 45, 8, 68, 95, 34, 29, -88, 29, 49, 27, 48, 26, 36, 55, 21, 85, 16, 34, 56, 21, 54, 37, 26, 35, 22, 59, 21, 42, 64, 21, 102, 2, 57, 92, 20, 97, 9, 32, 53, 20, 72, 29, 25, 37, 19, 60, 34, 15, 24] }, { "part": "s11", "scores": [33, 61, 143, 41, 19, -48, 15, 24, 33, 99, 29, 123, 162, 35, 81, 51, 106, 146, 36, 97, 32, 83, 112, 35, 30, -46, 9, 14, 34, 39, -26, 11, 20, 31, 68, 24, 73, 101, 26, 56, 83, 51, 87, 33, 38, -35, 12, 32, 32, 43, -26, 4, 7, 35, 85, -13, 59, 102, 34, 57, -48, 101, 150, 25, 57, 51, 55, 76, 31, 52, -11, 18, 33, 37, 79, 5, 115, 157, 34, 81, -15, 77, 121] }, { "part": "s12", "scores": [20, 61, 95, 34, 112, -23, 95, 149, 28, 41, 42, 60, 94, 28, 46, -48, 85, 120, 21, 37, -5, 114, 174, 23, 49, 48, 27, 43, 28, 22, 64, 16, 27, 28, 59, -14, 92, 134, 15, 65, -4, 115, 168, 26, 69, -44, 76, 106, 28, 38, 33, 89, 105, 29, 30, 25, 89, 124, 4, 96, -68, 107, 149, 31, 83, -20, 81, 120, 20, 61, 15, 116, 146, 2, 84, 4, 83, 122, 2, 79, -9, 74, 100] }, { "part": "s13", "scores": [25, 9, 26, 26, 18, -14, 51, 67, 96, 3, 7, 14, 21, 32, 4, 13, 5, 7, 36, 8, 1, 9, 14, 3, 36, -18, 39, 57, 7, 3, 12, 10, 15, 60, 3, 11, 7, 11, 31, 10, -7, 18, 26, 9, 30, -16, 43, 62, 70, 4, 6, 13, 20, 66, 7, 8, 9, 14, 30, 16, 4, 18, 26, 21, 24, -30, 43, 63, 35, 7, 1, 27, 39, 117, 13, 2, 12, 18, 98, 6, 4, 12, 19] }, { "part": "s14", "scores": [27, 24, 44, 29, 24, 11, 30, 49, 25, 47, 0, 63, 90, 23, 34, 4, 52, 85, 23, 47, -17, 97, 145, 24, 19, 9, 36, 54, 21, 33, 11, 50, 71, 28, 26, 7, 47, 82, 25, 39, -13, 52, 104, 27, 19, 19, 22, 34, 35, 12, -6, 58, 82, 33, 18, 9, 26, 47, 29, 27, 3, 63, 86, 27, 6, 23, 11, 16, 28, 13, 7, 31, 52, 112, 14, -28, 62, 85, 26, 28, -36, 69, 96] }, { "part": "s15", "scores": [29, 68, 80, 33, 85, -33, 82, 111, 21, 85, 18, 37, 57, 20, 90, 9, 38, 50, 21, 57, 32, 33, 48, 31, 70, -70, 58, 77, 28, 93, -22, 61, 88, 25, 93, 1, 85, 120, 29, 62, 15, 80, 114, 40, 45, 1, 76, 103, 42, 62, -6, 99, 141, 37, 73, -7, 102, 143, 33, 79, -21, 111, 155, 33, 35, 27, 35, 55, 30, 44, 24, 43, 66, 29, 47, 22, 77, 100, 30, 62, 9, 86, 129] }, { "part": "s16", "scores": [28, 21, 55, 25, 39, 3, 46, 69, 29, 41, -24, 46, 69, 38, 30, -32, 55, 90, 36, 31, -72, 103, 146, 26, 37, 1, 38, 56, 25, 10, 20, 12, 24, 30, 6, -12, 26, 42, 37, 10, -24, 53, 74, 23, 32, 19, 18, 30, 23, 19, 15, 23, 35, 33, 2, 10, 15, 23, 138, 3, 18, 12, 19, 22, 43, 12, 29, 50, 21, 21, 25, 26, 35, 25, 12, 27, 15, 23, 164, 2, 10, 22, 31] }, { "part": "s17", "scores": [31, 18, 49, 29, 76, -55, 88, 118, 20, 72, -15, 42, 65, 16, 67, -12, 31, 44, 30, 16, 10, 26, 38, 45, 13, -16, 43, 64, 32, 20, -18, 41, 57, 24, 47, -7, 49, 72, 35, 17, 13, 26, 40, 113, 8, -4, 21, 36, 114, 9, 4, 25, 35, 67, 7, 6, 36, 57, 105, 17, 9, 48, 78, 146, 5, 10, 15, 24, 145, 6, 21, 6, 11, 134, 6, 23, 9, 14, 106, 7, 19, 36, 49] }, { "part": "s18", "scores": [118, 18, 46, 24, 18, 0, 50, 68, 54, 6, 20, 10, 18, 125, 12, 25, 6, 9, 105, 10, 18, 16, 25, 124, 11, 25, 6, 10, 120, 10, 21, 5, 9, 120, 11, 15, 6, 10, 113, 7, 1, 23, 36, 122, 15, 21, 14, 22, 121, 19, 12, 37, 45, 93, 5, -4, 30, 45, 34, 18, -62, 37, 58, 123, 36, 7, 30, 42, 125, 45, -15, 94, 118, 125, 54, -28, 58, 78, 124, 60, -36, 66, 90] }, { "part": "s19", "scores": [121, 30, 87, 57, 5, 67, 13, 19, 59, 4, 64, 15, 21, 112, 13, 0, 31, 42, 17, 25, -53, 67, 94, 54, 12, 42, 30, 45, 115, 14, 57, 14, 21, 91, 6, -6, 54, 86, 157, 6, -97, 85, 123, 106, 21, 8, 35, 50, 125, 59, 17, 34, 47, 128, 73, -31, 49, 88, 126, 71, -49, 66, 100, 125, 61, -6, 74, 98, 125, 58, -18, 85, 117, 124, 61, -1, 73, 101, 123, 54, 20, 68, 94] }, { "part": "s20", "scores": [24, 47, 57, 40, 19, -1, 47, 68, 28, 47, -7, 57, 79, 23, 44, 12, 16, 22, 21, 54, 10, 22, 34, 35, 36, -68, 81, 116, 24, 45, 5, 43, 60, 20, 53, 12, 23, 32, 20, 52, 16, 13, 20, 25, 71, -16, 35, 61, 22, 75, 0, 39, 54, 20, 50, 12, 14, 21, 21, 50, 12, 16, 23, 22, 69, -2, 41, 77, 24, 48, 3, 23, 35, 29, 19, 4, 7, 13, 27, 26, 9, 18, 25] }, { "part": "s21", "scores": [22, 38, 44, 22, 72, -28, 88, 116, 25, 32, -1, 37, 55, 23, 29, 9, 36, 49, 46, 3, 26, 10, 17, 20, 52, 0, 19, 33, 27, 37, -12, 37, 54, 25, 35, -4, 48, 63, 24, 15, 19, 18, 28, 21, 51, 0, 18, 25, 21, 46, 5, 13, 20, 21, 48, -2, 29, 42, 21, 36, -12, 45, 62, 22, 41, 1, 16, 25, 21, 43, 10, 13, 21, 22, 40, 10, 16, 23, 20, 28, -27, 56, 69] }, { "part": "s22", "scores": [19, 9, 40, 167, 4, 8, 14, 21, 157, 4, 17, 8, 12, 148, 5, 18, 3, 6, 146, 6, 22, 3, 7, 31, 2, 21, 11, 17, 38, 2, 23, 9, 12, 32, 1, 25, 2, 5, 125, 1, 25, 5, 8, 23, 24, 8, 22, 37, 23, 16, 14, 12, 19, 24, 16, 16, 18, 25, 23, 20, 15, 21, 30, 9, 18, -81, 4, 16, 10, 16, -70, 20, 32, 14, 17, -57, 48, 71, 24, 25, 4, 28, 41] }, { "part": "s23", "scores": [58, 6, 24, 120, 11, -2, 25, 34, 124, 20, -4, 20, 30, 128, 29, -4, 10, 17, 129, 30, -6, 14, 22, 48, 3, 7, 12, 20, 136, 3, 9, 7, 12, 107, 2, 4, 9, 16, 130, 3, 7, 8, 14, 27, 20, -8, 23, 32, 25, 15, 6, 5, 7, 27, 17, 5, 4, 6, 33, 13, -7, 18, 23, 24, 23, 3, 4, 7, 23, 22, 2, 4, 6, 27, 21, 4, 4, 6, 27, 22, -1, 8, 13] },
-    //guthix edicts sword
-    { "part": "gs0", "scores": [95, 36, 117, 90, 36, -5, 7, 10, 79, 37, -10, 10, 15, 81, 38, -10, 6, 10, 80, 38, -11, 9, 13, 71, 39, -8, 10, 15, 110, 40, 13, 19, 26, 101, 40, -2, 6, 8, 99, 39, -2, 7, 10, 112, 37, 19, 15, 20, 107, 41, 9, 14, 17, 96, 38, -4, 4, 6, 89, 36, -8, 6, 9, 122, 40, 31, 16, 21, 91, 33, -1, 4, 7, 93, 35, 0, 7, 10, 94, 37, -2, 6, 10] }, { "part": "gs1", "scores": [100, 45, 128, 90, 35, 4, 9, 13, 93, 37, 5, 11, 15, 102, 43, 14, 7, 12, 96, 39, 13, 18, 22, 100, 42, 5, 7, 9, 90, 40, -3, 6, 8, 82, 42, -12, 6, 10, 100, 51, -8, 9, 13, 82, 36, 2, 7, 10, 87, 36, 4, 10, 16, 107, 54, -4, 6, 9, 114, 62, -2, 6, 10, 96, 40, 5, 10, 15, 93, 38, 4, 8, 15, 113, 57, -2, 8, 17, 120, 74, -16, 10, 18] }, { "part": "gs2", "scores": [126, 87, 141, 101, 48, 10, 11, 15, 120, 76, 0, 10, 14, 126, 96, -13, 5, 8, 128, 107, -21, 5, 7, 117, 70, 1, 9, 14, 125, 93, -12, 7, 10, 126, 97, -11, 22, 36, 127, 94, -2, 91, 107, 126, 97, -16, 11, 16, 128, 103, -12, 38, 53, 130, 69, 52, 73, 106, 129, 118, -21, 57, 91, 127, 98, -17, 38, 58, 130, 66, 59, 47, 72, 131, 78, 32, 86, 121, 129, 103, -36, 66, 97] }, { "part": "gs3", "scores": [128, 97, 155, 129, 115, -14, 4, 7, 129, 124, -21, 4, 7, 130, 123, -22, 5, 7, 129, 113, -16, 6, 9, 128, 111, -20, 21, 34, 127, 102, -10, 34, 47, 126, 102, -14, 14, 23, 125, 97, -12, 11, 19, 128, 104, -26, 59, 86, 128, 136, -4, 56, 77, 128, 68, 53, 65, 90, 129, 85, 48, 57, 76, 128, 86, -56, 38, 55, 129, 80, -39, 46, 70, 131, 86, 44, 79, 119, 129, 37, 108, 29, 45] }, { "part": "gs4", "scores": [123, 36, 55, 123, 69, -60, 68, 93, 125, 50, -19, 21, 44, 123, 45, -16, 39, 59, 120, 54, -38, 39, 51, 121, 57, -42, 49, 65, 124, 41, -5, 36, 52, 123, 33, 6, 28, 40, 123, 28, 12, 25, 33, 126, 27, 16, 25, 40, 124, 24, 18, 21, 32, 122, 23, 19, 18, 27, 123, 19, 25, 15, 21, 126, 28, 15, 21, 31, 124, 22, 21, 15, 23, 123, 19, 26, 20, 29, 117, 35, 15, 19, 26] }, { "part": "gs5", "scores": [90, 22, 122, 117, 38, 30, 15, 20, 100, 36, 7, 10, 15, 113, 42, 13, 11, 17, 92, 36, -12, 24, 29, 128, 41, 44, 10, 15, 122, 54, 20, 23, 39, 29, 45, -10, 53, 71, 33, 45, -16, 42, 63, 118, 33, 34, 29, 46, 72, 25, 5, 65, 85, 29, 54, -16, 56, 70, 101, 28, -16, 19, 32, 119, 30, 36, 27, 44, 31, 59, -13, 84, 115, 98, 24, -13, 8, 23, 113, 38, -21, 12, 16] }, { "part": "gs6", "scores": [124, 68, 135, 102, 35, 15, 6, 9, 108, 39, 13, 6, 9, 120, 60, -1, 8, 13, 128, 92, -24, 14, 30, 113, 40, -3, 11, 17, 121, 61, -5, 13, 18, 126, 87, -21, 6, 10, 128, 69, 25, 65, 81, 120, 58, -13, 6, 13, 127, 95, -9, 9, 14, 127, 93, -23, 6, 8, 127, 62, 34, 76, 91, 123, 64, -7, 14, 20, 128, 95, -4, 7, 10, 125, 79, -11, 60, 72, 123, 66, 42, 71, 102] }, { "part": "gs7", "scores": [128, 66, 104, 129, 59, 25, 57, 82, 131, 60, 34, 50, 88, 130, 124, -32, 80, 122, 127, 76, -112, 36, 55, 126, 32, 58, 17, 25, 130, 78, 21, 72, 105, 129, 133, -48, 81, 110, 127, 82, -109, 45, 62, 125, 29, 61, 23, 34, 128, 42, 50, 15, 24, 131, 93, -3, 82, 117, 129, 76, -87, 68, 106, 118, 51, 46, 17, 28, 125, 32, 58, 23, 32, 128, 42, 45, 20, 27, 130, 63, -21, 85, 117] }, { "part": "gs8", "scores": [128, 41, 84, 129, 87, -111, 58, 76, 129, 81, -98, 62, 89, 129, 47, 27, 50, 81, 127, 26, 49, 22, 32, 128, 32, -151, 21, 42, 131, 71, -16, 61, 82, 128, 32, 43, 25, 34, 125, 24, 52, 22, 29, 131, 69, -73, 62, 87, 129, 46, 26, 23, 42, 125, 25, 49, 21, 36, 121, 17, 54, 23, 36, 129, 54, 2, 49, 79, 126, 27, 40, 24, 35, 117, 17, 48, 26, 35, 120, 19, 52, 25, 36] }, { "part": "gs9", "scores": [121, 48, 68, 125, 20, 40, 21, 30, 123, 19, 41, 20, 30, 113, 47, 19, 15, 23, 114, 65, -6, 74, 94, 124, 19, 40, 24, 35, 115, 41, 25, 15, 27, 120, 56, -3, 72, 93, 125, 61, -43, 27, 47, 117, 34, 31, 21, 30, 115, 54, 3, 50, 64, 125, 69, -33, 43, 69, 128, 59, -32, 18, 32, 110, 44, 3, 14, 26, 118, 55, -15, 68, 92, 128, 70, -38, 52, 78, 129, 60, -30, 15, 25] }, { "part": "gs10", "scores": [109, 30, 125, 119, 49, -4, 127, 171, 32, 68, -33, 103, 149, 67, 25, -26, 53, 73, 124, 57, 2, 7, 13, 49, 26, 15, 108, 150, 127, 73, -19, 84, 118, 128, 66, 12, 44, 61, 115, 43, -17, 64, 80, 26, 84, -11, 80, 109, 101, 9, 55, 54, 86, 128, 87, -12, 99, 130, 129, 101, -23, 64, 84, 13, 90, 15, 52, 75, 120, 13, 67, 22, 33, 122, 14, 53, 37, 58, 128, 76, -1, 80, 116] }, { "part": "gs11", "scores": [128, 101, 152, 127, 84, 24, 10, 16, 127, 96, 10, 10, 15, 127, 93, -7, 9, 13, 127, 108, -17, 22, 37, 128, 82, 28, 9, 14, 128, 96, 13, 10, 13, 127, 95, -3, 18, 25, 127, 104, -7, 23, 37, 128, 85, 26, 15, 25, 128, 97, 12, 29, 39, 128, 108, -10, 34, 43, 128, 125, -27, 18, 22, 129, 115, -9, 35, 53, 130, 98, 15, 38, 61, 126, 110, -25, 36, 55, 129, 128, -27, 14, 21] }, { "part": "gs12", "scores": [124, 42, 87, 120, 72, -4, 52, 69, 118, 31, 35, 38, 47, 124, 30, 33, 15, 21, 127, 46, -6, 84, 116, 124, 72, -9, 79, 95, 115, 20, 40, 25, 34, 122, 20, 36, 20, 36, 126, 38, -70, 143, 222, 128, 114, -77, 45, 68, 108, 13, 43, 18, 30, 118, 12, 37, 23, 53, 125, 29, -9, 126, 174, 129, 129, -93, 14, 26, 118, 23, 24, 36, 68, 121, 13, 23, 45, 78, 123, 21, -8, 153, 205] }, { "part": "gs13", "scores": [112, 15, 53, 123, 18, 6, 28, 43, 119, 13, 17, 21, 28, 95, 7, 15, 28, 39, 107, 22, 3, 19, 27, 115, 8, 15, 25, 33, 111, 7, 20, 25, 37, 76, 5, 17, 16, 27, 103, 30, -23, 36, 57, 41, 3, 21, 23, 32, 34, 5, 23, 28, 40, 98, 9, 4, 17, 25, 123, 56, -72, 56, 70, 13, 11, 22, 26, 37, 27, 9, 16, 24, 34, 78, 8, 3, 12, 19, 125, 62, -82, 78, 101] }, { "part": "gs14", "scores": [127, 86, 138, 114, 46, 48, 69, 87, 128, 102, -14, 20, 42, 129, 81, 15, 33, 47, 130, 59, 41, 29, 43, 128, 110, -24, 24, 43, 128, 107, -18, 20, 29, 128, 80, 11, 41, 59, 127, 59, 33, 33, 55, 128, 120, -47, 7, 12, 128, 110, -25, 30, 45, 129, 78, 19, 49, 71, 126, 67, 5, 66, 95, 127, 111, -43, 33, 60, 128, 78, 23, 58, 84, 127, 94, -13, 51, 78, 126, 94, -21, 92, 122] }, { "part": "gs15", "scores": [84, 13, 116, 17, 142, -10, 54, 83, 19, 8, 50, 57, 72, 14, 26, 60, 19, 28, 122, 32, 45, 37, 69, 25, 51, -27, 105, 155, 13, 97, 5, 55, 77, 13, 28, 50, 31, 44, 34, 15, 61, 20, 35, 124, 40, 18, 80, 111, 113, 43, -36, 68, 98, 21, 48, -47, 91, 123, 117, 46, -35, 80, 132, 126, 62, 0, 80, 114, 128, 81, -7, 46, 76, 126, 76, -22, 58, 83, 125, 72, -28, 47, 80] }, { "part": "gs16", "scores": [127, 89, 147, 129, 88, 24, 92, 127, 129, 121, -27, 18, 38, 127, 108, -18, 46, 63, 126, 115, -39, 17, 28, 125, 61, 38, 85, 115, 129, 105, -9, 66, 84, 128, 120, -38, 19, 38, 128, 110, -40, 33, 51, 52, 17, 59, 59, 95, 129, 88, 8, 45, 73, 128, 95, 6, 88, 113, 128, 113, -18, 24, 41, 126, 57, -8, 81, 118, 128, 69, 32, 92, 125, 129, 90, 21, 71, 110, 128, 106, 1, 52, 73] }, { "part": "gs17", "scores": [123, 27, 90, 128, 125, -87, 15, 31, 51, 8, 35, 35, 67, 123, 15, 6, 96, 121, 112, 9, -2, 121, 149, 128, 112, -67, 44, 76, 14, 29, 47, 19, 33, 125, 18, 15, 93, 119, 94, 4, 11, 100, 129, 127, 86, -39, 56, 76, 12, 29, 48, 18, 25, 124, 16, -23, 129, 168, 20, 7, 30, 31, 52, 126, 74, -29, 51, 66, 13, 14, 43, 20, 43, 125, 23, -9, 62, 107, 102, 4, 33, 30, 47] }, { "part": "gs18", "scores": [117, 17, 78, 11, 15, 47, 25, 37, 49, 6, 31, 21, 31, 88, 10, 19, 12, 24, 128, 91, -43, 50, 79, 46, 3, 38, 26, 36, 120, 19, 18, 12, 19, 110, 20, 8, 25, 39, 129, 75, -11, 59, 88, 87, 4, 32, 20, 30, 105, 8, 19, 26, 41, 123, 48, -18, 81, 114, 120, 33, -49, 151, 198, 23, 10, 26, 30, 51, 105, 8, -6, 92, 133, 97, 10, -57, 143, 199, 4, 41, -50, 74, 105] }, { "part": "gs19", "scores": [120, 39, 130, 129, 82, 32, 63, 102, 128, 76, 20, 84, 127, 128, 105, -23, 98, 148, 128, 70, 40, 80, 113, 127, 70, 17, 161, 212, 127, 81, -12, 109, 159, 127, 62, 28, 68, 113, 118, 32, -6, 97, 137, 104, 15, -32, 125, 164, 116, 27, -38, 93, 140, 113, 29, -32, 81, 117, 103, 30, 1, 88, 127, 6, 148, 3, 52, 77, 40, 36, -27, 99, 126, 124, 77, -1, 71, 104, 115, 6, 50, 59, 83] }, { "part": "gs20", "scores": [71, 4, 66, 130, 4, -19, 67, 95, 59, 1, -12, 52, 88, 127, 46, -21, 116, 154, 128, 42, -14, 71, 105, 115, 18, -10, 54, 78, 8, 34, 3, 51, 68, 13, 33, 5, 29, 48, 126, 40, 2, 54, 85, 13, 69, -40, 43, 62, 10, 59, -4, 29, 42, 123, 13, 19, 30, 45, 136, 32, 20, 43, 59, 28, 29, -4, 42, 59, 131, 13, 30, 15, 22, 180, 7, 28, 5, 10, 212, 7, 28, 6, 12] }, { "part": "gs21", "scores": [130, 28, 65, 119, 20, -38, 83, 124, 114, 13, -62, 163, 198, 128, 67, -50, 107, 149, 128, 94, -73, 93, 135, 134, 44, -3, 71, 113, 132, 66, -36, 123, 168, 130, 36, -6, 108, 133, 133, 14, 20, 59, 81, 136, 39, 9, 35, 55, 131, 24, 22, 22, 41, 225, 1, 42, 9, 13, 240, 1, 36, 24, 39, 134, 14, 33, 17, 24, 150, 3, 47, 6, 11, 206, 3, 42, 13, 21, 131, 16, 15, 55, 75] }, { "part": "gs22", "scores": [51, 1, 63, 127, 49, -27, 79, 100, 121, 10, 31, 15, 36, 123, 9, 2, 97, 146, 9, 15, 22, 24, 38, 255, 8, 37, 10, 17, 2, 4, -7, 83, 124, 111, 5, -58, 158, 239, 35, 7, -35, 81, 111, 1, 28, 3, 42, 59, 3, 25, 10, 47, 81, 125, 30, -38, 111, 154, 123, 16, 1, 68, 100, 127, 7, 30, 22, 33, 131, 15, 23, 33, 48, 246, 20, 5, 32, 43, 255, 42, 7, 22, 36] }, { "part": "gs23", "scores": [19, 18, 82, 23, 10, -5, 69, 99, 5, 31, -26, 75, 113, 125, 52, -99, 64, 109, 49, 5, -25, 75, 114, 118, 23, -10, 75, 100, 124, 56, -20, 60, 81, 124, 63, -22, 82, 111, 26, 5, 33, 56, 86, 132, 6, 28, 47, 69, 9, 30, 13, 70, 91, 5, 86, 8, 29, 50, 5, 21, 49, 18, 27, 6, 111, -8, 43, 62, 16, 141, -30, 61, 85, 7, 23, 45, 16, 26, 10, 7, 63, 2, 4] },
-    //elf
-    { "part": "elf0", "scores": [153, 90, 172, 150, 108, 28, 10, 14, 149, 76, 21, 9, 13, 148, 70, 19, 10, 15, 148, 69, 19, 9, 14, 152, 97, 4, 4, 6, 153, 87, 0, 7, 10, 153, 88, -4, 7, 10, 152, 85, -5, 8, 11, 155, 102, -4, 3, 4, 155, 96, -6, 2, 4, 155, 92, -11, 3, 5, 154, 88, -15, 1, 3, 156, 108, -9, 2, 4, 155, 97, -8, 2, 3, 154, 92, -12, 3, 4, 154, 87, -16, 1, 2] }, { "part": "elf1", "scores": [152, 59, 172, 148, 63, 10, 5, 8, 147, 60, 7, 5, 8, 145, 66, 14, 8, 11, 145, 64, 11, 3, 6, 152, 76, -7, 7, 11, 152, 63, -8, 9, 12, 150, 62, -9, 11, 14, 150, 62, -11, 11, 16, 154, 83, -17, 2, 4, 154, 83, -19, 2, 4, 154, 81, -21, 3, 7, 155, 46, 9, 46, 65, 154, 84, -18, 2, 2, 154, 84, -20, 1, 2, 157, 35, 12, 93, 133, 15, 70, 68, 106, 167] }, { "part": "elf2", "scores": [151, 39, 146, 150, 102, -28, 3, 7, 152, 100, -34, 3, 5, 151, 99, -33, 5, 7, 151, 97, -30, 7, 10, 152, 89, -43, 5, 7, 152, 67, -34, 45, 64, 152, 69, -36, 23, 44, 153, 87, -43, 2, 3, 254, 23, 4, 97, 141, 19, 63, 39, 109, 153, 66, 8, 37, 105, 146, 154, 77, -48, 2, 10, 27, 36, 93, 56, 94, 30, 45, 44, 126, 168, 59, 30, 84, 54, 93, 142, 26, 14, 101, 128] }, { "part": "elf3", "scores": [139, 28, 140, 149, 74, -33, 10, 14, 149, 75, -29, 11, 14, 148, 64, -26, 9, 12, 147, 54, -18, 17, 22, 153, 87, -47, 2, 4, 154, 91, -47, 3, 5, 153, 83, -43, 8, 17, 99, 15, 32, 24, 34, 151, 74, -53, 28, 37, 153, 65, -32, 26, 37, 91, 15, 29, 43, 54, 50, 51, 69, 4, 7, 33, 51, -26, 114, 155, 34, 68, 41, 112, 156, 50, 38, 85, 15, 25, 53, 44, 78, 7, 10] }, { "part": "elf4", "scores": [95, 19, 90, 144, 61, -48, 22, 29, 145, 66, -48, 19, 30, 149, 62, -65, 11, 19, 151, 71, -71, 7, 10, 58, 35, 7, 7, 11, 52, 42, 9, 8, 14, 52, 42, 4, 13, 23, 142, 36, 2, 47, 59, 54, 40, 28, 6, 9, 49, 50, 21, 5, 8, 51, 49, 19, 8, 12, 102, 18, 44, 15, 19, 55, 40, 27, 9, 13, 72, 22, 34, 19, 24, 63, 29, 31, 26, 32, 121, 20, 58, 6, 8] }, { "part": "elf5", "scores": [85, 21, 139, 151, 80, 5, 39, 49, 154, 103, -41, 3, 4, 153, 75, -38, 19, 34, 154, 88, -46, 4, 15, 149, 74, 14, 53, 64, 125, 33, -11, 68, 87, 52, 90, 11, 110, 159, 53, 91, 16, 92, 145, 124, 28, 52, 66, 92, 72, 72, 38, 114, 152, 52, 61, 20, 120, 164, 51, 60, 17, 134, 186, 128, 33, 55, 63, 90, 80, 44, 28, 162, 220, 26, 129, -16, 50, 78, 27, 121, -18, 55, 98] }, { "part": "elf6", "scores": [94, 7, 113, 156, 71, -71, 30, 43, 160, 40, -59, 61, 95, 27, 28, 28, 73, 115, 50, 15, 24, 107, 149, 151, 40, -56, 40, 71, 151, 26, -10, 52, 68, 104, 16, 36, 20, 26, 66, 27, 34, 39, 65, 62, 52, 4, 106, 151, 144, 42, -5, 33, 48, 67, 18, 43, 31, 50, 17, 59, 12, 152, 200, 73, 43, 18, 128, 191, 161, 16, -35, 98, 140, 19, 14, 0, 82, 125, 18, 46, 35, 114, 157] }, { "part": "elf7", "scores": [36, 53, 95, 36, 35, 26, 105, 145, 33, 114, -64, 90, 127, 26, 113, -34, 93, 144, 78, 20, 7, 120, 194, 59, 32, 8, 93, 137, 31, 149, -63, 54, 80, 23, 116, -19, 84, 125, 100, 41, 0, 74, 119, 22, 55, 24, 97, 150, 32, 95, -10, 141, 193, 30, 66, -14, 124, 192, 61, 36, 23, 45, 87, 21, 49, 33, 78, 118, 56, 28, 16, 105, 150, 73, 23, 5, 123, 175, 86, 34, -2, 148, 196] }, { "part": "elf8", "scores": [40, 43, 86, 122, 16, -29, 72, 110, 25, 70, -33, 107, 156, 39, 46, 12, 77, 95, 63, 31, 33, 11, 15, 58, 43, 29, 10, 19, 63, 29, 25, 14, 37, 28, 72, -20, 73, 104, 67, 26, 26, 59, 91, 40, 44, 17, 109, 130, 33, 58, -7, 114, 149, 27, 96, -40, 88, 137, 83, 29, -10, 188, 250, 43, 54, -5, 59, 88, 28, 144, -63, 66, 96, 28, 59, 2, 109, 146, 96, 28, 8, 163, 222] }, { "part": "elf9", "scores": [55, 29, 88, 99, 18, 39, 15, 30, 109, 15, 42, 39, 65, 118, 16, 47, 33, 47, 130, 21, 52, 7, 17, 39, 24, 28, 89, 139, 57, 29, -5, 133, 189, 84, 21, -5, 112, 161, 56, 16, 18, 123, 179, 31, 53, -2, 121, 177, 103, 80, -47, 48, 83, 97, 78, -75, 59, 94, 61, 31, -3, 110, 149, 26, 62, -5, 133, 191, 24, 85, -36, 110, 154, 26, 94, -52, 90, 133, 27, 70, -12, 113, 168] }, { "part": "elf10", "scores": [58, 28, 113, 146, 107, -61, 28, 42, 147, 68, -26, 64, 94, 25, 77, 1, 130, 176, 26, 89, -5, 135, 189, 135, 51, -36, 80, 114, 132, 35, 3, 98, 139, 41, 30, 43, 104, 142, 34, 33, 31, 134, 182, 41, 56, -10, 111, 154, 77, 35, 13, 125, 179, 101, 25, 50, 69, 113, 37, 67, -11, 132, 186, 35, 64, -11, 108, 148, 56, 74, 26, 109, 163, 56, 59, 25, 136, 190, 36, 49, 1, 86, 138] }, { "part": "elf11", "scores": [37, 45, 96, 31, 12, -14, 107, 153, 20, 47, -9, 109, 151, 22, 101, -24, 120, 172, 23, 76, 4, 96, 132, 102, 51, -30, 111, 147, 118, 19, 9, 83, 118, 40, 51, -43, 113, 155, 29, 104, -13, 105, 143, 29, 60, -16, 76, 121, 63, 28, 15, 132, 192, 37, 56, 22, 77, 124, 33, 81, -5, 105, 154, 21, 50, 26, 43, 65, 77, 35, 42, 137, 188, 57, 44, 36, 74, 118, 36, 68, -51, 83, 118] }, { "part": "elf12", "scores": [41, 72, 107, 31, 57, 29, 91, 138, 58, 53, -7, 125, 182, 39, 87, -36, 97, 140, 30, 154, -60, 46, 74, 86, 63, 1, 82, 118, 45, 94, -23, 99, 151, 50, 59, -58, 100, 145, 25, 126, -15, 51, 74, 53, 92, -22, 91, 122, 33, 112, -12, 92, 129, 28, 86, 3, 77, 115, 67, 37, 60, 61, 88, 30, 145, -41, 56, 89, 43, 79, 12, 87, 133, 58, 59, 24, 97, 148, 54, 22, 66, 67, 98] }, { "part": "elf13", "scores": [70, 41, 66, 26, 106, -41, 88, 118, 27, 89, -35, 107, 163, 88, 27, 12, 79, 137, 74, 18, 6, 59, 116, 87, 43, 22, 45, 66, 91, 70, 12, 59, 94, 94, 36, -6, 167, 216, 94, 21, 18, 48, 71, 82, 75, 4, 86, 115, 87, 114, -16, 64, 104, 92, 60, -3, 114, 153, 73, 25, -5, 106, 140, 37, 34, 12, 62, 93, 53, 52, -40, 155, 219, 115, 7, 7, 130, 179, 89, 10, 38, 24, 39] }, { "part": "elf14", "scores": [61, 29, 96, 54, 25, 32, 83, 123, 39, 40, -4, 78, 107, 69, 41, -29, 90, 130, 29, 43, 13, 115, 160, 82, 13, 27, 64, 88, 90, 20, 11, 49, 69, 102, 56, -10, 51, 75, 67, 19, 21, 86, 119, 41, 34, -4, 56, 89, 83, 9, 19, 67, 92, 59, 12, 14, 91, 132, 99, 49, -15, 60, 90, 38, 40, -4, 52, 77, 44, 49, -16, 93, 137, 51, 46, -45, 129, 174, 67, 36, -3, 91, 137] }, { "part": "elf15", "scores": [35, 45, 74, 41, 57, -3, 91, 135, 39, 89, -73, 103, 142, 29, 133, -70, 87, 134, 47, 44, 16, 59, 86, 38, 35, 9, 85, 118, 30, 60, -50, 85, 119, 21, 50, 8, 45, 71, 37, 17, 32, 48, 72, 48, 22, 32, 66, 89, 27, 102, -48, 90, 132, 47, 12, 33, 44, 69, 43, 12, 28, 59, 80, 52, 20, 31, 88, 106, 31, 68, -13, 74, 109, 68, 19, 26, 44, 66, 88, 13, 23, 30, 42] }, { "part": "elf16", "scores": [66, 36, 89, 82, 14, 59, 43, 61, 71, 35, 15, 153, 202, 48, 29, 12, 96, 138, 41, 46, 1, 86, 120, 93, 24, 52, 58, 106, 61, 28, -15, 158, 204, 96, 42, -9, 99, 142, 67, 54, -1, 94, 143, 105, 19, -4, 109, 150, 22, 79, -28, 108, 160, 90, 30, 2, 82, 123, 90, 96, -55, 84, 118, 110, 35, 37, 83, 102, 57, 42, -1, 58, 87, 34, 23, 6, 110, 151, 54, 82, -67, 55, 94] }, { "part": "elf17", "scores": [64, 42, 100, 35, 53, 35, 64, 96, 78, 34, 29, 93, 141, 72, 20, 20, 79, 124, 21, 33, 40, 87, 114, 79, 58, -5, 102, 140, 79, 84, -38, 54, 87, 100, 62, 6, 50, 75, 28, 13, 63, 55, 95, 48, 79, -60, 44, 71, 57, 72, -50, 99, 131, 63, 30, 3, 47, 71, 33, 6, 61, 75, 100, 89, 101, -55, 47, 75, 49, 53, -90, 94, 134, 33, 41, -23, 58, 87, 16, 7, 63, 64, 95] }, { "part": "elf18", "scores": [58, 27, 62, 25, 38, 0, 92, 119, 32, 65, -62, 118, 157, 88, 29, -51, 128, 189, 102, 29, 16, 72, 120, 107, 16, 15, 66, 108, 110, 41, -16, 64, 94, 63, 49, -40, 143, 184, 53, 14, 2, 114, 164, 254, 17, 50, 2, 3, 79, 10, 35, 30, 52, 28, 100, -43, 96, 140, 77, 32, -15, 95, 153, 255, 18, 50, 2, 4, 8, 28, 33, 30, 41, 69, 76, -18, 52, 74, 102, 60, 15, 50, 69] }, { "part": "elf19", "scores": [39, 37, 79, 70, 17, 16, 69, 97, 38, 45, -12, 79, 111, 46, 56, -66, 66, 93, 34, 70, -50, 84, 124, 74, 15, 39, 56, 81, 34, 43, 4, 62, 91, 35, 93, -62, 64, 104, 32, 126, -64, 90, 133, 82, 5, 50, 23, 36, 33, 16, 38, 36, 54, 28, 44, -15, 57, 89, 36, 34, -9, 62, 100, 54, 2, 46, 22, 36, 58, 15, 25, 43, 57, 42, 30, 23, 54, 88, 63, 33, 15, 64, 93] }, { "part": "elf20", "scores": [33, 22, 53, 79, 17, 3, 64, 94, 59, 45, -35, 77, 104, 55, 13, -5, 35, 53, 99, 14, 8, 27, 39, 47, 22, -14, 104, 153, 32, 71, -35, 50, 73, 44, 12, -9, 49, 65, 9, 16, 20, 31, 44, 28, 38, -13, 97, 161, 77, 19, -19, 63, 90, 21, 15, 19, 28, 40, 14, 20, 4, 22, 32, 20, 28, 2, 49, 88, 17, 42, 13, 20, 31, 15, 21, 16, 27, 37, 1, 34, 20, 10, 17] }, { "part": "elf21", "scores": [65, 32, 87, 113, 32, 24, 104, 132, 108, 67, 16, 51, 78, 46, 21, 16, 70, 98, 66, 91, -65, 76, 110, 6, 9, 8, 83, 118, 92, 19, -41, 123, 184, 62, 46, -5, 109, 157, 66, 68, -70, 129, 169, 4, 27, 31, 71, 104, 52, 9, -43, 104, 157, 81, 65, 21, 87, 138, 56, 49, -5, 96, 137, 254, 22, 62, 22, 29, 1, 11, 32, 83, 116, 74, 57, -1, 96, 149, 34, 65, 12, 47, 71] }, { "part": "elf22", "scores": [72, 56, 96, 88, 84, -45, 75, 107, 48, 61, -47, 109, 147, 51, 64, -39, 34, 62, 56, 23, 22, 119, 150, 80, 76, -37, 64, 91, 67, 67, -45, 62, 90, 71, 51, 31, 84, 114, 89, 24, 69, 39, 70, 55, 47, -4, 73, 103, 87, 48, 20, 84, 107, 90, 101, 38, 42, 58, 85, 47, 50, 71, 95, 34, 48, 24, 58, 85, 89, 52, 30, 70, 105, 78, 86, -27, 95, 135, 60, 52, -39, 111, 161] }, { "part": "elf23", "scores": [39, 8, 54, 1, 18, 42, 3, 4, 4, 26, 35, 3, 15, 97, 77, -23, 54, 87, 106, 33, -10, 94, 124, 10, 17, 37, 26, 43, 3, 15, -33, 87, 105, 94, 23, -89, 96, 134, 129, 7, -2, 72, 103, 12, 18, 32, 29, 50, 3, 8, -63, 129, 151, 64, 8, -85, 67, 98, 242, 4, 28, 31, 52, 22, 17, 20, 34, 60, 2, 24, 21, 24, 40, 2, 22, 18, 30, 43, 252, 9, 31, 21, 27] },
-    //tuska
-    { "part": "tusk0", "scores": [167, 26, 61, 169, 18, 15, 5, 8, 172, 18, 15, 5, 8, 171, 18, 15, 6, 8, 168, 23, 9, 10, 14, 173, 18, 13, 6, 9, 172, 19, 13, 6, 10, 169, 19, 13, 5, 9, 168, 24, 2, 11, 16, 173, 21, 1, 8, 14, 166, 30, -5, 36, 47, 168, 24, 2, 11, 16, 168, 31, -10, 12, 18, 165, 44, -33, 66, 87, 164, 38, -16, 13, 30, 161, 45, -19, 35, 47, 164, 34, -9, 14, 22] }, { "part": "tusk1", "scores": [163, 32, 89, 166, 28, 31, 8, 11, 172, 20, 33, 9, 16, 169, 20, 13, 12, 19, 146, 11, -4, 17, 25, 169, 34, 11, 23, 31, 170, 34, 13, 30, 41, 164, 18, 9, 13, 22, 121, 12, -14, 15, 24, 168, 50, -18, 36, 54, 161, 74, -47, 56, 76, 159, 30, -6, 27, 37, 156, 17, 20, 13, 18, 170, 58, -47, 60, 81, 161, 52, -34, 29, 45, 162, 24, 18, 20, 29, 160, 26, 25, 8, 11] }, { "part": "tusk2", "scores": [129, 22, 76, 110, 25, -35, 12, 18, 114, 26, -11, 22, 29, 121, 18, 18, 41, 76, 119, 98, -119, 45, 71, 128, 23, -5, 16, 23, 134, 16, 9, 14, 22, 130, 7, 29, 11, 23, 119, 41, -16, 64, 91, 145, 22, 6, 7, 11, 140, 17, 6, 17, 26, 138, 10, 23, 20, 31, 127, 15, 27, 18, 25, 156, 27, -1, 8, 14, 169, 16, -8, 29, 43, 151, 12, 29, 28, 42, 135, 21, 19, 43, 59] }, { "part": "tusk3", "scores": [118, 58, 119, 122, 93, -81, 54, 77, 119, 110, -68, 56, 87, 117, 120, -45, 73, 102, 113, 104, -27, 90, 122, 121, 74, -36, 72, 96, 123, 84, -85, 38, 59, 115, 76, -22, 69, 89, 111, 61, 7, 79, 104, 121, 43, 34, 51, 72, 119, 73, -57, 73, 115, 115, 21, 48, 37, 55, 109, 23, 51, 50, 70, 128, 17, 69, 28, 42, 130, 12, 65, 17, 31, 130, 8, 75, 14, 25, 117, 9, 72, 10, 19] }, { "part": "tusk4", "scores": [118, 35, 76, 115, 95, -66, 91, 131, 121, 72, -39, 121, 167, 127, 34, 17, 47, 77, 149, 13, 28, 11, 19, 113, 76, -72, 89, 127, 123, 25, 15, 46, 78, 128, 14, 32, 47, 69, 137, 16, 23, 54, 65, 112, 25, 5, 43, 62, 116, 19, 14, 49, 71, 128, 9, 31, 10, 21, 127, 16, 25, 18, 25, 110, 11, 27, 16, 26, 111, 26, 9, 32, 47, 113, 54, -19, 49, 66, 114, 70, -28, 54, 68] }, { "part": "tusk5", "scores": [157, 76, 117, 159, 84, -23, 58, 88, 156, 96, -50, 55, 78, 159, 43, 50, 7, 20, 159, 41, 53, 6, 9, 150, 93, -76, 22, 42, 147, 78, -57, 48, 64, 156, 78, 9, 17, 25, 157, 78, 11, 17, 22, 151, 63, -38, 46, 64, 158, 66, 7, 36, 55, 159, 75, 26, 6, 9, 158, 83, 18, 6, 9, 160, 83, 5, 40, 60, 162, 89, 21, 9, 20, 161, 86, 21, 17, 34, 161, 88, 24, 4, 13] }, { "part": "tusk6", "scores": [158, 66, 100, 162, 50, 7, 28, 41, 157, 43, 13, 18, 28, 160, 33, 31, 8, 12, 161, 33, 28, 8, 11, 156, 71, -2, 16, 21, 157, 62, 7, 13, 19, 160, 50, 13, 8, 12, 162, 45, 19, 17, 24, 157, 82, -8, 6, 9, 157, 89, -20, 7, 11, 157, 85, -20, 17, 23, 160, 70, -2, 56, 72, 159, 83, 3, 4, 6, 159, 79, -3, 4, 7, 158, 77, -13, 7, 12, 158, 99, -49, 42, 66] }, { "part": "tusk7", "scores": [160, 60, 107, 157, 35, 30, 29, 38, 159, 34, 23, 17, 29, 162, 27, 47, 40, 58, 150, 30, 46, 85, 107, 157, 40, 29, 36, 48, 162, 40, 23, 13, 22, 160, 52, 16, 62, 93, 163, 42, 26, 73, 100, 160, 54, 11, 15, 26, 168, 56, 1, 27, 44, 163, 107, -50, 54, 90, 165, 67, -3, 88, 130, 157, 91, -27, 53, 76, 159, 98, -52, 98, 133, 155, 92, -77, 65, 102, 159, 91, -52, 156, 217] }, { "part": "tusk8", "scores": [152, 20, 60, 165, 19, 12, 26, 37, 142, 14, 8, 29, 49, 129, 14, 8, 29, 59, 115, 15, 8, 37, 50, 160, 19, 10, 51, 71, 154, 11, 14, 20, 34, 142, 10, 14, 32, 44, 119, 16, 6, 15, 25, 166, 35, -11, 45, 73, 166, 16, 3, 25, 38, 152, 13, 10, 28, 42, 117, 14, 2, 10, 17, 163, 73, -74, 101, 137, 162, 25, -14, 48, 69, 156, 19, 0, 13, 24, 123, 11, -1, 16, 28] }, { "part": "tusk9", "scores": [109, 89, 120, 104, 22, 67, 9, 16, 105, 52, 29, 33, 49, 110, 120, -39, 30, 47, 114, 102, -42, 73, 108, 111, 58, 13, 55, 67, 108, 90, -9, 46, 60, 109, 126, -27, 30, 48, 110, 96, -29, 50, 76, 109, 81, 5, 53, 68, 109, 114, -6, 39, 56, 110, 128, -19, 56, 78, 111, 96, -9, 60, 81, 107, 53, 36, 35, 51, 109, 104, 10, 25, 39, 108, 101, 8, 36, 54, 106, 77, 13, 44, 62] }, { "part": "tusk10", "scores": [151, 63, 180, 156, 73, 3, 44, 59, 161, 67, 2, 31, 45, 157, 63, 6, 45, 72, 146, 49, -16, 75, 106, 138, 48, -6, 34, 48, 133, 58, -2, 28, 44, 143, 74, 6, 39, 56, 150, 65, -4, 56, 73, 149, 69, 17, 71, 95, 139, 53, -3, 66, 80, 149, 91, 14, 37, 53, 158, 78, 7, 54, 81, 153, 53, 1, 67, 97, 156, 70, 1, 58, 79, 163, 51, -11, 33, 46, 154, 44, -10, 56, 92] }, { "part": "tusk11", "scores": [157, 70, 142, 151, 76, -15, 71, 86, 159, 80, 37, 15, 33, 160, 78, 36, 14, 24, 154, 91, -44, 45, 69, 139, 59, -57, 51, 63, 149, 72, -22, 61, 82, 161, 76, 35, 5, 9, 150, 67, -46, 52, 70, 158, 86, -24, 66, 97, 160, 68, 25, 29, 57, 163, 67, 30, 4, 6, 160, 68, 8, 33, 45, 158, 76, -26, 103, 138, 159, 45, -2, 85, 116, 165, 54, 31, 4, 6, 163, 64, 28, 4, 6] }, { "part": "tusk12", "scores": [151, 85, 188, 154, 107, 14, 48, 65, 153, 111, 12, 52, 75, 147, 86, -4, 62, 91, 155, 86, 25, 113, 175, 143, 67, -27, 18, 27, 155, 116, 1, 24, 35, 145, 107, -2, 40, 63, 146, 75, 29, 107, 153, 147, 60, -21, 46, 64, 151, 86, -14, 36, 57, 150, 96, -10, 47, 73, 154, 69, 6, 116, 160, 164, 70, 50, 22, 36, 157, 67, -17, 52, 74, 153, 78, -17, 55, 74, 148, 80, -21, 46, 64] }, { "part": "tusk13", "scores": [157, 44, 103, 149, 62, -29, 117, 192, 134, 43, -3, 127, 169, 155, 33, 19, 57, 79, 132, 19, 33, 39, 68, 149, 38, 7, 68, 113, 163, 54, -7, 62, 88, 162, 55, -11, 69, 89, 156, 10, 46, 21, 30, 163, 67, -36, 108, 158, 160, 85, -57, 89, 126, 160, 47, 5, 66, 93, 155, 11, 59, 18, 27, 161, 61, -82, 98, 138, 163, 70, -35, 80, 116, 159, 26, 41, 41, 58, 156, 25, 43, 32, 46] }, { "part": "tusk14", "scores": [131, 13, 63, 117, 36, -11, 40, 57, 108, 52, -16, 56, 68, 107, 42, -10, 22, 32, 106, 26, -1, 27, 36, 125, 11, 18, 16, 25, 124, 13, 7, 11, 17, 120, 7, 6, 11, 18, 9, 4, 9, 8, 12, 152, 21, 3, 39, 55, 142, 27, -15, 67, 86, 185, 6, 4, 21, 31, 233, 9, 4, 17, 25, 155, 35, -22, 68, 88, 179, 16, -1, 20, 32, 199, 10, 3, 20, 28, 226, 12, 0, 19, 27] }, { "part": "tusk15", "scores": [176, 28, 95, 172, 57, -9, 46, 65, 171, 75, -21, 46, 70, 170, 54, 7, 18, 28, 166, 53, -9, 53, 79, 168, 27, 21, 5, 7, 174, 27, 4, 37, 56, 192, 21, 16, 31, 51, 175, 26, 9, 18, 29, 170, 17, 17, 4, 6, 172, 17, 9, 7, 10, 202, 12, 0, 53, 70, 188, 19, 13, 22, 37, 184, 14, 14, 4, 7, 183, 14, -5, 16, 22, 198, 13, -47, 89, 117, 212, 14, -25, 62, 95] }, { "part": "tusk16", "scores": [162, 54, 152, 153, 55, -33, 82, 116, 155, 58, -28, 85, 123, 156, 45, 2, 64, 88, 168, 54, 33, 8, 17, 163, 49, 1, 43, 57, 148, 63, -48, 39, 56, 151, 69, -45, 56, 74, 164, 57, 0, 38, 50, 184, 26, 59, 34, 50, 173, 53, 21, 50, 73, 165, 79, -1, 50, 74, 169, 55, 4, 30, 42, 174, 32, 39, 51, 76, 167, 52, 18, 71, 104, 162, 72, -5, 62, 87, 163, 56, -12, 32, 44] }, { "part": "tusk17", "scores": [168, 52, 153, 166, 70, 24, 33, 44, 170, 52, -12, 33, 44, 163, 60, -2, 43, 56, 157, 88, -27, 42, 58, 173, 51, 30, 6, 8, 174, 48, 35, 6, 8, 173, 48, 17, 9, 13, 162, 67, -31, 24, 34, 175, 44, 26, 8, 11, 179, 43, 28, 6, 10, 178, 42, 18, 8, 12, 164, 67, -24, 17, 27, 179, 38, 16, 8, 13, 182, 42, 5, 9, 13, 173, 50, -22, 38, 49, 154, 82, -52, 31, 45] }, { "part": "tusk18", "scores": [162, 61, 125, 169, 61, -26, 73, 102, 168, 41, 32, 72, 107, 160, 58, 16, 78, 110, 164, 61, 18, 78, 109, 160, 80, -36, 67, 93, 156, 55, -34, 112, 148, 158, 58, -6, 106, 146, 162, 47, 34, 47, 67, 158, 104, -50, 41, 61, 169, 42, 36, 40, 66, 164, 58, 15, 82, 107, 160, 56, 10, 81, 108, 157, 112, -50, 29, 44, 174, 25, 58, 18, 36, 161, 68, -8, 96, 146, 172, 51, -1, 66, 102] }, { "part": "tusk19", "scores": [209, 10, 67, 172, 30, -14, 36, 57, 186, 17, -1, 36, 48, 201, 12, 2, 32, 44, 233, 17, -4, 28, 38, 166, 19, -4, 36, 50, 209, 11, 8, 16, 23, 227, 8, 14, 14, 23, 234, 11, 14, 11, 17, 187, 26, -20, 33, 46, 236, 8, -4, 63, 82, 248, 11, 6, 24, 38, 240, 15, 8, 19, 31, 145, 16, -33, 78, 107, 238, 19, -10, 33, 50, 243, 20, 5, 16, 25, 247, 17, 0, 42, 59] }, { "part": "tusk20", "scores": [230, 18, 106, 203, 13, 23, 4, 6, 213, 13, 11, 6, 8, 221, 17, -14, 42, 57, 164, 21, -52, 55, 81, 223, 15, 21, 5, 7, 226, 17, 10, 7, 9, 226, 20, -5, 45, 57, 182, 33, -8, 49, 69, 239, 21, 12, 6, 9, 241, 24, 4, 5, 7, 244, 22, -4, 8, 16, 243, 25, -3, 44, 62, 251, 27, -3, 6, 8, 250, 28, -7, 5, 7, 254, 31, -19, 35, 43, 224, 18, 5, 43, 59] }, { "part": "tusk21", "scores": [170, 26, 118, 203, 14, 17, 62, 92, 173, 31, 24, 78, 110, 162, 38, -39, 78, 114, 146, 29, -111, 25, 46, 180, 23, 29, 50, 75, 171, 29, 25, 78, 106, 165, 54, -8, 55, 92, 156, 35, -93, 44, 60, 182, 24, 18, 74, 108, 173, 27, 29, 54, 81, 168, 41, 8, 70, 88, 163, 43, -37, 67, 89, 193, 12, 61, 16, 26, 178, 21, 46, 26, 40, 180, 22, 39, 41, 53, 177, 27, 21, 60, 81] }, { "part": "tusk22", "scores": [177, 40, 202, 173, 40, 1, 24, 33, 179, 49, 16, 23, 35, 158, 66, -6, 47, 66, 156, 84, 6, 46, 64, 148, 29, -32, 18, 28, 172, 38, -25, 24, 37, 169, 67, -12, 28, 42, 167, 78, 3, 29, 45, 180, 21, -22, 39, 59, 202, 26, -22, 33, 50, 193, 46, -17, 34, 49, 173, 36, -18, 41, 63, 178, 44, 30, 64, 89, 244, 43, 31, 21, 33, 242, 48, 36, 26, 37, 183, 58, 34, 55, 78] }, { "part": "tusk23", "scores": [180, 36, 121, 158, 107, -68, 20, 41, 170, 34, -2, 63, 93, 167, 67, -44, 75, 110, 187, 25, 19, 74, 109, 163, 73, -52, 24, 44, 170, 34, -21, 82, 110, 177, 60, -36, 62, 89, 223, 27, 34, 35, 48, 176, 37, -13, 40, 63, 173, 48, -20, 100, 128, 200, 33, 10, 30, 44, 241, 31, 36, 32, 44, 202, 19, 39, 38, 61, 186, 32, 18, 38, 58, 218, 20, 44, 27, 42, 245, 24, 57, 18, 27] },
-    //elder dragon??
-    { "part": "elderdrag0", "scores": [150, 67, 153, 149, 99, 17, 50, 71, 149, 86, -26, 12, 19, 149, 82, -32, 1, 1, 149, 84, -28, 5, 13, 151, 67, -8, 49, 71, 148, 77, -22, 25, 36, 149, 81, -32, 1, 1, 149, 83, -32, 0, 3, 152, 44, 22, 62, 80, 146, 55, 43, 54, 83, 148, 68, -9, 46, 66, 150, 75, -3, 92, 124, 153, 51, 59, 35, 49, 164, 27, 32, 77, 100, 187, 20, -4, 93, 123, 150, 86, 30, 109, 144] }, { "part": "elderdrag1", "scores": [153, 62, 119, 149, 87, -62, 17, 30, 150, 88, -41, 54, 72, 150, 80, -61, 51, 65, 149, 77, -72, 2, 2, 151, 78, -13, 89, 109, 154, 68, 26, 54, 77, 154, 72, 19, 68, 99, 150, 66, -47, 83, 104, 159, 47, 14, 52, 74, 164, 39, 23, 55, 78, 154, 40, 46, 38, 63, 153, 58, 23, 107, 147, 153, 76, 28, 41, 60, 162, 36, 19, 48, 68, 161, 41, 40, 56, 78, 152, 42, 61, 32, 48] }, { "part": "elderdrag2", "scores": [152, 51, 166, 149, 67, -20, 24, 29, 150, 55, -9, 45, 66, 150, 55, -7, 31, 47, 152, 49, 6, 72, 96, 148, 68, -28, 1, 2, 148, 61, -17, 25, 39, 153, 53, 6, 69, 92, 150, 59, -4, 44, 67, 148, 58, -8, 54, 78, 148, 62, -32, 1, 2, 152, 51, -1, 41, 55, 165, 32, 24, 61, 90, 150, 52, 60, 110, 143, 151, 46, 1, 84, 111, 151, 50, -3, 39, 67, 216, 26, 41, 31, 51] }, { "part": "elderdrag3", "scores": [149, 57, 187, 148, 78, -4, 2, 6, 148, 84, 1, 1, 1, 148, 75, -1, 2, 3, 148, 62, -7, 1, 2, 149, 68, 6, 29, 46, 148, 76, -3, 2, 3, 148, 67, -6, 2, 3, 147, 57, -9, 3, 7, 153, 44, 26, 69, 88, 147, 62, -10, 2, 3, 147, 56, -12, 6, 14, 149, 45, 11, 67, 93, 192, 21, 21, 75, 104, 147, 48, -19, 2, 6, 148, 42, 0, 61, 79, 155, 41, 20, 75, 106] }, { "part": "elderdrag4", "scores": [150, 43, 194, 148, 54, -5, 1, 2, 148, 51, -5, 3, 7, 147, 50, -5, 1, 2, 147, 46, -6, 2, 2, 148, 48, 4, 45, 59, 148, 46, -3, 20, 33, 147, 41, -10, 1, 2, 147, 38, -10, 1, 2, 150, 36, 23, 90, 127, 152, 40, 8, 78, 103, 147, 31, -12, 5, 14, 147, 31, -15, 3, 4, 157, 48, 13, 50, 70, 156, 43, 5, 28, 39, 158, 46, 13, 42, 57, 156, 36, 1, 30, 40] }, { "part": "elderdrag5", "scores": [152, 73, 113, 150, 82, 18, 29, 41, 158, 52, 24, 37, 53, 226, 33, -39, 70, 101, 146, 67, -35, 91, 128, 150, 88, -1, 33, 51, 150, 93, 37, 28, 39, 157, 55, -17, 73, 110, 170, 29, -31, 95, 142, 149, 95, -14, 49, 71, 151, 99, 34, 21, 34, 158, 59, 7, 60, 84, 151, 78, -16, 78, 114, 151, 100, 2, 56, 80, 150, 99, 10, 43, 61, 153, 76, 26, 37, 53, 146, 103, 4, 84, 116] }, { "part": "elderdrag6", "scores": [166, 29, 95, 148, 92, 0, 51, 67, 187, 23, -10, 55, 78, 177, 44, -2, 66, 92, 150, 37, 43, 47, 71, 150, 62, -11, 84, 109, 181, 20, -7, 64, 93, 190, 47, -7, 59, 87, 158, 30, 43, 57, 85, 234, 24, -53, 86, 121, 216, 10, -28, 81, 121, 190, 25, 12, 42, 68, 153, 36, 43, 42, 63, 169, 29, -13, 84, 118, 177, 35, -42, 106, 145, 166, 22, 25, 63, 91, 149, 39, 43, 50, 73] }, { "part": "elderdrag7", "scores": [160, 25, 127, 151, 53, 39, 104, 150, 143, 32, -46, 68, 108, 170, 26, -13, 42, 72, 204, 24, -2, 48, 68, 151, 52, 61, 69, 113, 123, 12, -35, 107, 169, 174, 25, -7, 44, 70, 221, 28, -4, 47, 65, 147, 50, 56, 56, 84, 149, 19, -11, 137, 185, 171, 18, -24, 58, 87, 203, 24, 1, 47, 66, 149, 41, 54, 57, 88, 151, 30, 17, 155, 218, 148, 19, -45, 118, 160, 156, 30, -6, 84, 125] }, { "part": "elderdrag8", "scores": [151, 29, 203, 207, 21, 41, 81, 110, 146, 37, -7, 7, 19, 149, 34, 20, 80, 108, 148, 37, -1, 22, 36, 167, 27, 32, 60, 88, 151, 36, 1, 33, 53, 148, 30, 5, 49, 67, 145, 23, -18, 1, 2, 153, 51, 35, 66, 92, 145, 29, -12, 11, 28, 146, 28, -11, 23, 31, 144, 21, -21, 1, 2, 149, 48, 20, 77, 105, 144, 21, -23, 1, 2, 144, 18, -25, 1, 2, 145, 17, -25, 1, 2] }, { "part": "elderdrag9", "scores": [146, 21, 221, 145, 27, 5, 2, 3, 145, 22, 2, 2, 3, 147, 20, 1, 1, 2, 153, 42, 30, 46, 59, 145, 23, 0, 1, 2, 145, 21, 0, 1, 2, 146, 19, -2, 2, 2, 146, 19, -2, 2, 6, 145, 20, -3, 1, 2, 145, 19, -3, 1, 2, 145, 20, -1, 2, 3, 146, 18, -2, 1, 2, 145, 17, -6, 2, 3, 144, 17, -6, 1, 2, 144, 16, -6, 1, 2, 144, 15, -6, 1, 2] }, { "part": "elderdrag10", "scores": [154, 87, 82, 154, 70, 11, 30, 45, 155, 90, -11, 65, 88, 152, 101, 5, 34, 48, 150, 98, -20, 53, 76, 156, 75, 17, 24, 34, 155, 72, 19, 42, 63, 155, 114, 8, 31, 49, 151, 124, -4, 42, 59, 153, 83, 8, 44, 67, 155, 85, 21, 41, 60, 154, 102, 20, 34, 49, 155, 106, 17, 35, 51, 146, 33, -118, 20, 37, 154, 77, -10, 83, 111, 159, 76, 21, 55, 78, 159, 83, 17, 41, 59] }, { "part": "elderdrag11", "scores": [154, 51, 63, 152, 65, -9, 69, 93, 183, 36, -26, 72, 103, 182, 25, -8, 67, 96, 149, 33, 22, 40, 58, 148, 63, -26, 37, 56, 158, 60, 3, 44, 62, 173, 36, -6, 50, 69, 148, 28, 31, 42, 60, 150, 91, -17, 64, 86, 152, 56, 19, 31, 48, 151, 65, -6, 27, 45, 147, 28, 25, 35, 50, 156, 86, -12, 66, 96, 152, 60, 6, 53, 79, 152, 62, -5, 54, 89, 149, 38, 20, 42, 64] }, { "part": "elderdrag12", "scores": [151, 22, 97, 147, 38, 49, 56, 83, 152, 37, 8, 119, 165, 77, 1, -66, 147, 215, 233, 18, -87, 86, 136, 147, 45, 43, 56, 81, 148, 46, 37, 64, 87, 155, 41, 9, 107, 150, 147, 20, -18, 128, 195, 146, 36, 50, 42, 61, 146, 34, 50, 51, 71, 149, 28, 6, 97, 135, 204, 4, -66, 135, 187, 145, 26, 57, 38, 51, 145, 21, 48, 60, 84, 194, 6, -60, 113, 164, 250, 11, -56, 125, 173] }, { "part": "elderdrag13", "scores": [178, 15, 127, 144, 39, -41, 84, 113, 138, 16, -53, 105, 138, 139, 10, -87, 50, 81, 144, 20, -97, 3, 6, 156, 13, 18, 135, 183, 207, 20, 25, 125, 182, 208, 18, -3, 149, 219, 194, 24, -42, 88, 133, 211, 5, 8, 101, 151, 182, 17, 41, 99, 142, 170, 26, 34, 122, 171, 173, 35, 9, 177, 253, 174, 10, 89, 45, 70, 170, 15, 71, 45, 72, 234, 25, 41, 118, 156, 226, 19, 2, 107, 145] }, { "part": "elderdrag14", "scores": [159, 10, 222, 144, 15, -8, 5, 8, 143, 14, -10, 4, 7, 142, 14, -11, 3, 5, 144, 14, -9, 2, 3, 225, 27, 52, 124, 153, 147, 10, -11, 16, 27, 142, 12, -14, 8, 11, 144, 10, -15, 4, 7, 206, 24, 87, 153, 193, 165, 9, 1, 47, 69, 143, 14, -12, 9, 12, 144, 11, -15, 4, 6, 236, 12, 17, 76, 102, 144, 20, -3, 14, 22, 142, 13, -13, 13, 17, 144, 9, -16, 5, 7] }, { "part": "elderdrag15", "scores": [151, 48, 128, 144, 25, -84, 2, 3, 152, 56, 10, 55, 71, 154, 71, 54, 59, 82, 167, 57, 44, 72, 103, 145, 29, -81, 2, 3, 149, 43, -26, 66, 87, 153, 72, 58, 42, 54, 152, 65, 69, 39, 56, 145, 32, -80, 2, 5, 147, 38, -58, 46, 66, 152, 58, 61, 55, 75, 147, 44, 79, 30, 47, 144, 23, -92, 12, 16, 146, 42, -67, 29, 48, 151, 67, 47, 33, 58, 146, 46, 62, 42, 64] }, { "part": "elderdrag16", "scores": [166, 27, 109, 168, 58, 33, 53, 80, 158, 66, 33, 74, 102, 152, 67, 28, 49, 83, 148, 49, 9, 76, 104, 171, 56, 28, 58, 87, 179, 48, 15, 100, 145, 151, 16, -7, 91, 138, 46, 9, -47, 122, 166, 154, 37, 66, 49, 71, 199, 48, -13, 98, 137, 247, 22, -62, 131, 187, 18, 31, -50, 142, 189, 149, 64, 35, 35, 54, 159, 30, 32, 50, 76, 183, 12, -2, 132, 185, 9, 6, -66, 147, 215] }, { "part": "elderdrag17", "scores": [164, 16, 113, 144, 23, 68, 51, 72, 148, 16, 79, 45, 75, 155, 14, -29, 73, 112, 249, 8, -37, 126, 165, 137, 6, 10, 112, 145, 147, 18, 80, 38, 54, 185, 8, 35, 72, 94, 180, 4, -48, 61, 93, 25, 3, -85, 80, 121, 152, 30, 50, 74, 121, 185, 20, 3, 118, 153, 168, 26, -6, 110, 152, 20, 29, -42, 62, 91, 171, 31, 6, 94, 129, 159, 62, -39, 57, 86, 171, 47, -42, 53, 82] }, { "part": "elderdrag18", "scores": [167, 19, 124, 171, 17, 68, 47, 66, 201, 25, 48, 72, 99, 212, 27, 42, 65, 96, 224, 30, 25, 128, 173, 171, 4, 39, 125, 169, 164, 11, 92, 46, 67, 170, 10, 60, 67, 108, 179, 17, 12, 94, 135, 153, 14, -6, 86, 133, 154, 6, -2, 139, 194, 145, 15, -37, 133, 181, 144, 35, -85, 11, 24, 165, 53, -22, 64, 98, 156, 51, -47, 73, 97, 149, 41, -72, 34, 51, 148, 39, -75, 29, 42] }, { "part": "elderdrag19", "scores": [154, 31, 182, 207, 8, 52, 86, 142, 156, 9, -9, 62, 80, 147, 10, -41, 47, 67, 144, 6, -56, 11, 27, 233, 24, 56, 166, 224, 147, 28, -5, 49, 63, 149, 25, 16, 41, 60, 150, 24, 16, 65, 104, 155, 20, -17, 71, 93, 142, 22, -38, 5, 9, 148, 39, -15, 27, 44, 156, 71, 23, 39, 54, 147, 37, -19, 22, 38, 155, 54, 2, 52, 68, 157, 78, 26, 30, 53, 150, 80, 18, 26, 39] }, { "part": "elderdrag20", "scores": [145, 36, 145, 143, 22, -76, 6, 9, 149, 64, 7, 61, 76, 148, 72, 28, 69, 100, 142, 23, -25, 110, 158, 140, 23, -66, 17, 31, 148, 65, 22, 59, 87, 144, 38, 59, 54, 86, 25, 17, 1, 57, 101, 140, 26, -60, 22, 42, 147, 68, 9, 95, 135, 145, 54, 19, 82, 123, 109, 3, -2, 70, 108, 144, 16, -75, 30, 54, 147, 51, 41, 75, 106, 144, 41, 67, 45, 64, 144, 30, 57, 27, 44] }, { "part": "elderdrag21", "scores": [80, 2, 128, 144, 14, 49, 56, 81, 152, 11, -6, 86, 122, 19, 14, -76, 60, 101, 19, 40, -50, 65, 95, 111, 4, 1, 93, 128, 138, 21, 29, 69, 93, 25, 20, 11, 63, 82, 19, 20, 9, 119, 167, 21, 33, -22, 63, 99, 139, 25, 34, 55, 84, 136, 26, 46, 26, 38, 25, 15, 0, 49, 78, 21, 38, -19, 18, 35, 142, 17, -26, 90, 122, 140, 40, 39, 30, 43, 138, 20, -1, 83, 104] }, { "part": "elderdrag22", "scores": [171, 8, 190, 233, 16, 72, 85, 119, 201, 32, 37, 98, 138, 149, 66, 37, 36, 52, 151, 75, 45, 12, 20, 225, 7, 80, 189, 256, 229, 11, -18, 77, 104, 142, 11, -48, 15, 22, 147, 38, -6, 33, 43, 13, 6, -12, 69, 121, 16, 23, -25, 49, 74, 18, 10, -37, 53, 71, 142, 24, -29, 8, 16, 14, 12, -7, 50, 85, 15, 20, -17, 37, 59, 16, 22, -20, 39, 51, 144, 9, -26, 43, 58] }, { "part": "elderdrag23", "scores": [150, 46, 187, 154, 68, 24, 21, 30, 155, 61, 13, 30, 43, 157, 63, 15, 37, 51, 159, 67, 19, 36, 51, 149, 61, 27, 31, 40, 150, 73, 39, 21, 36, 150, 78, 39, 13, 23, 150, 81, 39, 16, 25, 142, 22, -34, 16, 24, 142, 24, -30, 4, 9, 145, 25, -19, 5, 23, 146, 23, -17, 8, 27, 143, 32, -18, 21, 30, 142, 21, -32, 9, 14, 141, 17, -33, 3, 5, 140, 13, -31, 2, 3] },
-    //v
-    { "part": "v0", "scores": [129, 61, 164, 122, 51, -37, 11, 17, 124, 70, -15, 11, 16, 125, 75, 9, 7, 12, 130, 69, 31, 12, 25, 110, 26, -55, 8, 13, 122, 44, -36, 17, 23, 128, 71, 12, 8, 13, 130, 68, 19, 6, 9, 114, 31, -51, 16, 22, 124, 61, -16, 14, 21, 133, 72, 15, 15, 20, 134, 73, 34, 8, 11, 127, 64, -22, 12, 17, 134, 97, 15, 6, 10, 136, 88, 33, 4, 7, 138, 72, 38, 12, 23] }, { "part": "v1", "scores": [164, 8, 110, 12, 52, -47, 117, 161, 153, 6, -20, 62, 86, 147, 77, 8, 5, 8, 153, 81, 13, 5, 7, 52, 3, -2, 65, 90, 14, 51, -32, 42, 68, 145, 19, -36, 46, 66, 146, 68, -1, 13, 25, 131, 52, -25, 21, 35, 1, 10, 39, 41, 62, 254, 22, 28, 23, 38, 250, 16, -9, 47, 69, 158, 7, -25, 63, 83, 254, 12, -8, 65, 91, 252, 15, 47, 32, 43, 244, 12, 70, 13, 21] }, { "part": "v2", "scores": [163, 24, 117, 157, 77, 27, 10, 13, 162, 74, 32, 6, 11, 164, 62, 38, 5, 8, 163, 47, 39, 24, 32, 149, 70, 25, 8, 11, 157, 71, 32, 5, 7, 162, 64, 34, 6, 14, 223, 11, -3, 79, 97, 213, 4, -4, 93, 127, 153, 24, -28, 89, 112, 169, 12, -39, 96, 123, 18, 60, -38, 77, 115, 0, 15, 61, 39, 62, 186, 2, -24, 94, 129, 145, 23, -80, 64, 91, 28, 61, -72, 71, 116] }, { "part": "v3", "scores": [158, 45, 88, 160, 48, 19, 4, 7, 158, 44, 21, 5, 8, 157, 39, 27, 6, 9, 157, 37, 33, 3, 5, 160, 61, 5, 3, 5, 159, 53, 1, 14, 22, 160, 45, -14, 44, 57, 160, 48, 20, 5, 10, 155, 56, -4, 12, 29, 154, 64, -2, 4, 6, 155, 58, 0, 8, 14, 157, 61, 7, 7, 12, 225, 5, -22, 78, 109, 154, 35, -27, 50, 66, 153, 41, -27, 52, 71, 160, 28, -29, 63, 78] }, { "part": "v4", "scores": [162, 24, 63, 155, 37, 14, 4, 5, 156, 31, 18, 3, 5, 160, 29, 21, 3, 5, 158, 23, 21, 9, 14, 156, 42, 6, 4, 6, 157, 47, 6, 5, 7, 156, 41, 12, 6, 10, 161, 16, -11, 29, 41, 156, 56, -5, 5, 12, 156, 41, -15, 47, 68, 181, 12, 0, 30, 42, 173, 11, 6, 24, 36, 224, 12, -44, 80, 118, 1, 34, -42, 45, 67, 196, 11, 15, 24, 32, 157, 42, 1, 11, 18] }, { "part": "v5", "scores": [136, 85, 147, 132, 94, -23, 8, 13, 134, 100, -6, 9, 13, 135, 88, 4, 24, 28, 138, 64, 14, 19, 32, 132, 97, -25, 6, 9, 133, 102, -6, 6, 9, 137, 97, 15, 6, 9, 140, 83, 26, 5, 7, 126, 54, -58, 8, 12, 129, 78, -24, 12, 18, 136, 88, 5, 16, 23, 144, 86, 31, 5, 8, 135, 80, -16, 23, 29, 133, 85, 0, 23, 31, 141, 91, 28, 11, 18, 143, 79, 33, 10, 15] }, { "part": "v6", "scores": [153, 29, 109, 253, 21, 34, 32, 57, 148, 27, 29, 32, 43, 214, 5, 61, 25, 39, 244, 12, 64, 14, 20, 149, 30, -4, 51, 68, 146, 58, 5, 25, 33, 148, 66, -3, 8, 17, 158, 27, 39, 28, 35, 150, 70, -8, 16, 24, 151, 68, 5, 4, 7, 151, 57, 8, 16, 34, 153, 44, -11, 63, 90, 151, 57, -2, 31, 56, 153, 25, -42, 95, 119, 6, 8, -83, 74, 109, 18, 24, -89, 55, 76] }, { "part": "v7", "scores": [13, 41, 121, 254, 14, 88, 14, 25, 12, 20, -3, 107, 138, 147, 8, -84, 58, 84, 16, 62, -21, 63, 100, 8, 17, 64, 58, 87, 13, 68, 15, 97, 136, 16, 74, -18, 74, 110, 13, 72, 9, 53, 77, 245, 6, -22, 99, 132, 14, 62, -51, 64, 103, 14, 105, 13, 97, 127, 16, 82, -14, 76, 119, 145, 13, -74, 33, 50, 10, 23, -25, 62, 84, 8, 45, 51, 42, 57, 6, 30, 72, 41, 61] }, { "part": "v8", "scores": [226, 8, 70, 223, 7, -4, 33, 55, 240, 12, 14, 25, 42, 244, 15, -6, 32, 47, 247, 17, 7, 24, 38, 254, 14, 21, 25, 35, 245, 9, 39, 12, 16, 211, 6, 14, 58, 73, 152, 46, -15, 34, 55, 10, 47, -11, 73, 112, 155, 22, 5, 30, 49, 232, 9, 13, 31, 44, 254, 18, -13, 52, 79, 3, 18, 3, 29, 52, 164, 9, -61, 124, 180, 161, 16, -30, 93, 122, 155, 10, -10, 97, 130] }, { "part": "v9", "scores": [156, 39, 77, 198, 8, 30, 27, 40, 158, 29, 17, 23, 32, 157, 57, 10, 5, 9, 157, 54, 16, 5, 8, 152, 60, -4, 7, 11, 154, 55, 6, 6, 9, 156, 49, 12, 6, 10, 156, 50, 13, 6, 10, 157, 42, -8, 33, 47, 154, 60, 9, 7, 11, 154, 42, -5, 14, 21, 155, 28, -56, 25, 36, 244, 13, 13, 42, 67, 153, 49, 8, 15, 21, 154, 36, 8, 18, 27, 154, 24, -58, 30, 41] }, { "part": "v10", "scores": [156, 38, 97, 150, 85, -12, 7, 12, 149, 78, -1, 11, 16, 149, 68, 12, 6, 13, 149, 39, -29, 100, 134, 151, 78, -7, 4, 6, 151, 68, 10, 4, 6, 152, 40, -10, 93, 120, 5, 33, -49, 76, 121, 154, 73, -4, 8, 12, 154, 63, 8, 6, 10, 166, 18, -7, 93, 118, 250, 24, 34, 34, 54, 165, 29, 23, 27, 44, 244, 22, 3, 62, 86, 158, 40, 19, 19, 36, 188, 8, 9, 84, 103] }, { "part": "v11", "scores": [12, 32, 93, 13, 44, -81, 87, 126, 12, 59, -69, 47, 70, 5, 29, -41, 38, 55, 6, 24, 3, 43, 61, 254, 25, -12, 48, 68, 236, 16, 18, 35, 50, 242, 14, 32, 30, 42, 5, 14, 52, 25, 45, 246, 24, 15, 43, 62, 251, 13, 51, 23, 34, 21, 38, 22, 106, 139, 24, 84, -39, 152, 210, 255, 10, 45, 29, 41, 5, 17, 26, 48, 66, 20, 41, 9, 131, 177, 23, 77, -23, 153, 198] }, { "part": "v12", "scores": [7, 18, 60, 161, 17, -61, 86, 118, 229, 11, -21, 44, 74, 14, 47, -37, 43, 64, 9, 24, 17, 19, 27, 254, 12, 23, 20, 31, 1, 10, 28, 23, 42, 14, 42, -17, 39, 52, 9, 22, 21, 9, 18, 19, 42, -7, 50, 72, 255, 12, 8, 45, 72, 254, 10, 24, 16, 24, 5, 22, -9, 50, 72, 14, 27, 13, 35, 53, 248, 8, 19, 24, 38, 254, 13, 22, 20, 29, 1, 17, -14, 62, 76] }, { "part": "v13", "scores": [244, 10, 56, 254, 8, 6, 47, 70, 180, 4, -26, 55, 86, 3, 10, -21, 32, 47, 158, 6, -7, 53, 70, 230, 9, -9, 75, 95, 230, 6, 17, 15, 23, 222, 5, 0, 31, 43, 247, 4, -7, 43, 56, 241, 21, -16, 57, 82, 228, 9, 5, 21, 36, 252, 11, 3, 23, 36, 6, 20, -1, 36, 51, 247, 21, 8, 27, 39, 229, 8, 17, 27, 41, 241, 9, 23, 14, 23, 5, 28, 7, 28, 48] }, { "part": "v14", "scores": [174, 10, 55, 152, 31, -9, 34, 54, 155, 29, -8, 18, 25, 158, 28, -5, 16, 25, 154, 38, -1, 9, 14, 9, 10, 1, 53, 75, 158, 22, 9, 19, 29, 157, 20, -30, 38, 50, 153, 39, -13, 17, 24, 252, 10, 12, 31, 44, 228, 7, 25, 26, 36, 177, 12, 21, 15, 21, 152, 41, 6, 7, 11, 233, 7, 21, 22, 33, 253, 8, 30, 20, 33, 14, 50, -32, 32, 48, 8, 36, -33, 28, 38] }, { "part": "v15", "scores": [177, 11, 48, 246, 13, -12, 51, 67, 172, 21, -13, 23, 31, 159, 47, -28, 5, 7, 171, 15, -26, 60, 75, 9, 24, 4, 27, 49, 173, 20, -1, 14, 22, 163, 31, -6, 7, 10, 169, 16, -11, 67, 81, 6, 4, 3, 41, 64, 173, 4, 12, 23, 33, 165, 20, 3, 11, 16, 179, 10, 5, 36, 46, 219, 2, 11, 31, 41, 10, 6, 21, 18, 26, 170, 6, 13, 23, 35, 183, 6, 21, 13, 25] }, { "part": "v16", "scores": [4, 33, 91, 2, 22, 23, 42, 56, 6, 54, -39, 24, 47, 12, 85, -34, 58, 83, 6, 47, -19, 32, 49, 1, 19, 44, 15, 22, 7, 44, -24, 18, 31, 7, 67, -40, 26, 39, 7, 55, -49, 19, 28, 254, 15, 45, 16, 23, 3, 29, 4, 16, 26, 4, 34, -4, 25, 38, 251, 22, -4, 33, 44, 0, 20, 39, 21, 32, 245, 11, 16, 42, 54, 222, 9, 32, 20, 33, 236, 12, 23, 17, 24] }, { "part": "v17", "scores": [250, 12, 48, 7, 45, -54, 23, 36, 5, 25, -7, 21, 30, 207, 5, 6, 18, 26, 192, 6, 8, 8, 14, 4, 42, -48, 23, 36, 247, 14, -21, 42, 57, 206, 5, 7, 22, 33, 229, 5, 22, 15, 21, 234, 9, -21, 33, 45, 232, 5, 6, 24, 34, 226, 4, 19, 13, 20, 223, 3, 23, 10, 17, 251, 13, -9, 14, 21, 249, 11, 7, 11, 16, 252, 10, 26, 9, 13, 250, 7, 33, 6, 9] }, { "part": "v18", "scores": [1, 5, 15, 253, 9, -19, 14, 20, 0, 7, -6, 9, 15, 240, 5, -2, 12, 16, 251, 12, -12, 20, 32, 1, 7, -25, 29, 37, 3, 5, -12, 22, 30, 11, 3, 5, 5, 7, 244, 4, 4, 3, 10, 1, 5, 3, 5, 8, 11, 4, 4, 6, 11, 12, 4, 8, 5, 8, 3, 3, 9, 4, 6, 3, 5, 7, 5, 7, 7, 4, 8, 4, 6, 22, 3, 11, 1, 3, 3, 3, 10, 4, 5] }, { "part": "v19", "scores": [12, 9, 20, 236, 7, 0, 13, 20, 214, 3, 6, 16, 21, 15, 29, -42, 42, 55, 19, 71, -118, 31, 46, 237, 1, 15, 2, 5, 235, 2, 17, 2, 2, 249, 2, 17, 2, 5, 7, 28, -20, 31, 44, 2, 1, 18, 1, 3, 2, 1, 14, 9, 14, 250, 1, 13, 11, 16, 253, 0, 20, 0, 1, 246, 3, 15, 3, 4, 22, 2, 18, 1, 1, 15, 1, 19, 1, 1, 249, 0, 19, 0, 1] }, { "part": "v20", "scores": [11, 13, 65, 194, 2, 14, 40, 64, 22, 39, -43, 105, 140, 185, 3, 7, 22, 34, 196, 1, 12, 33, 43, 204, 2, 11, 37, 60, 17, 26, -60, 89, 123, 16, 13, -47, 53, 75, 188, 2, -14, 30, 42, 191, 4, 37, 19, 26, 4, 6, 8, 37, 62, 17, 41, -33, 77, 97, 233, 3, 32, 21, 35, 193, 4, 47, 3, 10, 250, 6, 27, 20, 31, 11, 41, 4, 42, 57, 10, 41, 3, 23, 39] }, { "part": "v21", "scores": [255, 13, 47, 176, 5, -7, 27, 38, 177, 8, -24, 8, 13, 192, 5, -18, 13, 23, 3, 18, 10, 13, 21, 201, 4, 18, 13, 20, 198, 5, 11, 13, 23, 13, 11, 2, 28, 43, 5, 17, 2, 31, 48, 12, 30, -4, 46, 58, 252, 19, 7, 22, 36, 10, 30, -1, 42, 59, 252, 9, 11, 24, 36, 4, 31, -5, 32, 45, 4, 30, -4, 37, 53, 3, 23, -2, 31, 49, 224, 4, 7, 17, 27] }, { "part": "v22", "scores": [253, 8, 19, 255, 15, -8, 9, 13, 1, 12, -1, 5, 8, 253, 11, 2, 5, 7, 1, 7, 9, 5, 8, 1, 20, -19, 16, 22, 5, 21, -16, 17, 23, 251, 7, -4, 15, 20, 7, 4, 11, 5, 8, 252, 11, -8, 9, 13, 250, 9, -2, 3, 5, 243, 5, 3, 2, 5, 249, 4, 5, 7, 11, 231, 5, 2, 7, 14, 228, 4, 8, 3, 8, 254, 3, 7, 9, 15, 20, 2, 13, 3, 9] }, { "part": "v23", "scores": [20, 4, 6, 7, 5, 0, 4, 6, 12, 6, -3, 12, 15, 16, 5, -21, 38, 49, 18, 4, -4, 8, 17, 26, 3, 3, 1, 2, 28, 3, 3, 0, 1, 18, 4, 1, 2, 5, 24, 3, 2, 1, 4, 19, 3, 2, 2, 3, 28, 3, 3, 1, 2, 21, 4, 2, 3, 4, 26, 3, 3, 0, 1, 8, 3, 1, 3, 8, 24, 3, 3, 1, 6, 28, 3, 3, 0, 4, 28, 3, 3, 0, 4] },
-    //vyre
-    { "part": "vyre0", "scores": [162, 43, 50, 173, 18, 19, 29, 39, 163, 29, 13, 46, 56, 161, 55, -1, 2, 3, 160, 57, -4, 5, 8, 162, 51, -1, 3, 10, 180, 23, 6, 77, 92, 160, 57, -6, 1, 3, 161, 55, -9, 10, 16, 160, 55, -4, 4, 6, 169, 35, -1, 45, 56, 161, 58, -9, 1, 2, 161, 42, -6, 42, 51, 160, 55, -5, 6, 10, 161, 54, -5, 5, 13, 161, 37, 7, 37, 52, 163, 19, 16, 46, 65] }, { "part": "vyre1", "scores": [162, 56, 64, 161, 58, 7, 2, 5, 161, 58, 5, 3, 4, 161, 59, 4, 3, 4, 161, 59, 2, 2, 3, 162, 61, -1, 7, 8, 162, 61, -3, 2, 3, 162, 63, -5, 2, 3, 162, 63, -6, 2, 3, 162, 64, -5, 1, 2, 162, 65, -8, 1, 2, 162, 56, -5, 33, 39, 162, 63, -8, 10, 18, 162, 51, -1, 24, 35, 163, 52, -6, 37, 53, 162, 39, 8, 56, 70, 164, 25, 27, 31, 53] }, { "part": "vyre2", "scores": [161, 57, 82, 161, 57, 23, 8, 13, 162, 49, 29, 16, 22, 161, 59, 18, 7, 10, 162, 52, 17, 31, 40, 162, 63, 11, 3, 4, 162, 65, 8, 2, 4, 161, 69, 5, 3, 5, 160, 65, -1, 25, 50, 161, 66, 5, 4, 5, 161, 69, 1, 3, 4, 160, 73, -6, 2, 4, 160, 50, 9, 49, 59, 161, 51, -24, 65, 99, 160, 53, -58, 40, 51, 160, 51, -65, 47, 70, 166, 22, 34, 36, 54] }, { "part": "vyre3", "scores": [167, 21, 37, 170, 11, 6, 76, 95, 166, 18, 4, 16, 28, 162, 54, -25, 12, 19, 161, 61, -28, 3, 5, 170, 11, 14, 18, 31, 171, 11, 13, 19, 28, 169, 14, 12, 8, 14, 162, 43, -16, 20, 26, 172, 14, 10, 6, 8, 173, 14, 9, 7, 11, 173, 16, 4, 5, 7, 172, 13, 11, 6, 9, 180, 21, -12, 10, 14, 175, 17, 1, 9, 13, 173, 17, 1, 4, 7, 173, 16, 4, 3, 4] }, { "part": "vyre4", "scores": [163, 34, 41, 161, 58, -18, 2, 3, 161, 57, -14, 2, 5, 161, 55, -12, 5, 6, 161, 55, -11, 1, 4, 161, 59, -25, 3, 6, 161, 58, -19, 1, 3, 163, 39, -3, 20, 27, 165, 23, 12, 12, 16, 164, 25, 7, 16, 22, 162, 40, -5, 14, 21, 168, 13, 12, 30, 46, 171, 12, 21, 5, 7, 172, 15, 12, 3, 5, 172, 13, 13, 8, 13, 172, 14, 11, 6, 13, 173, 14, 17, 3, 5] }, { "part": "vyre5", "scores": [211, 16, 40, 161, 50, -16, 15, 22, 175, 23, 3, 30, 43, 162, 28, -10, 81, 112, 168, 24, -4, 60, 77, 181, 13, 16, 8, 14, 186, 12, 9, 22, 38, 14, 15, -42, 106, 157, 209, 6, -5, 64, 105, 236, 53, -9, 21, 29, 218, 16, -6, 54, 78, 199, 8, -13, 74, 99, 225, 18, 7, 33, 56, 241, 86, -21, 27, 41, 235, 29, 11, 34, 52, 211, 12, 18, 24, 39, 234, 25, 12, 30, 45] }, { "part": "vyre6", "scores": [210, 9, 36, 195, 11, 15, 27, 41, 209, 15, 10, 37, 53, 181, 13, -27, 84, 110, 178, 9, -3, 66, 100, 189, 7, 20, 14, 36, 208, 10, 4, 49, 75, 225, 8, 0, 41, 65, 213, 5, 0, 48, 77, 2, 8, -12, 53, 80, 6, 15, -22, 77, 101, 205, 9, 14, 6, 14, 199, 17, -3, 23, 31, 237, 13, 1, 34, 47, 229, 11, 6, 28, 44, 190, 14, -11, 48, 69, 197, 18, -10, 26, 35] }, { "part": "vyre7", "scores": [178, 14, 61, 161, 20, -47, 90, 122, 158, 25, -75, 72, 90, 163, 17, -15, 62, 84, 179, 18, 18, 14, 21, 166, 10, 43, 18, 28, 220, 3, 19, 63, 88, 189, 10, 15, 38, 58, 181, 22, 8, 21, 29, 182, 20, 12, 16, 23, 189, 11, 4, 56, 79, 250, 6, -5, 54, 88, 185, 22, -5, 20, 33, 182, 22, 6, 17, 28, 181, 19, 15, 20, 27, 182, 16, 9, 34, 55, 187, 7, 7, 78, 108] }, { "part": "vyre8", "scores": [178, 20, 60, 185, 27, -11, 8, 13, 183, 23, 4, 19, 24, 179, 21, 9, 11, 16, 177, 22, 8, 9, 13, 185, 27, -10, 9, 15, 183, 25, -4, 17, 24, 179, 19, 14, 14, 19, 184, 26, -6, 6, 10, 182, 23, 3, 23, 33, 183, 23, -3, 27, 46, 175, 16, 25, 14, 23, 173, 19, 3, 31, 46, 172, 16, 14, 62, 89, 158, 15, -44, 66, 95, 169, 12, 23, 25, 37, 162, 15, -28, 42, 57] }, { "part": "vyre9", "scores": [163, 25, 47, 173, 18, 9, 3, 5, 170, 18, 12, 0, 1, 172, 16, 15, 2, 3, 167, 17, 16, 3, 5, 177, 21, -2, 7, 10, 170, 18, 10, 2, 4, 167, 20, 11, 2, 2, 164, 20, 10, 3, 5, 162, 39, -20, 25, 34, 165, 24, 4, 8, 13, 164, 21, 9, 1, 2, 164, 21, 8, 4, 6, 156, 45, -57, 18, 24, 156, 70, -38, 14, 20, 162, 24, 2, 8, 13, 164, 21, 7, 8, 10] }, { "part": "vyre10", "scores": [207, 34, 59, 246, 66, 4, 42, 62, 200, 16, 28, 20, 30, 170, 16, 26, 18, 26, 164, 33, -4, 50, 75, 218, 46, -12, 26, 40, 178, 34, -1, 43, 60, 162, 40, -4, 38, 51, 159, 64, -37, 22, 39, 239, 117, -28, 30, 44, 211, 50, -17, 21, 33, 162, 45, -9, 46, 64, 171, 31, -2, 41, 58, 239, 122, -29, 28, 38, 230, 80, -22, 27, 38, 170, 48, -30, 19, 31, 221, 15, 38, 12, 25] }, { "part": "vyre11", "scores": [220, 6, 37, 225, 10, -21, 81, 109, 9, 12, -16, 56, 87, 224, 6, 3, 46, 60, 154, 10, 21, 4, 7, 232, 13, -7, 46, 74, 11, 12, -28, 64, 97, 224, 9, 9, 30, 53, 154, 10, 22, 4, 5, 205, 9, 18, 11, 16, 249, 16, -18, 78, 104, 7, 7, -21, 84, 113, 176, 7, 16, 14, 28, 162, 9, 18, 3, 6, 177, 7, 16, 13, 32, 239, 7, -15, 50, 67, 193, 7, -18, 111, 145] }, { "part": "vyre12", "scores": [156, 24, 110, 157, 22, 3, 110, 164, 165, 14, 42, 103, 148, 160, 22, 22, 145, 178, 153, 31, -27, 118, 154, 155, 15, 57, 59, 85, 153, 28, -28, 95, 135, 152, 34, -50, 62, 95, 151, 40, -74, 17, 44, 163, 18, 47, 84, 122, 159, 25, -3, 80, 104, 158, 22, 13, 124, 182, 154, 29, -29, 74, 107, 150, 36, -70, 27, 73, 165, 18, 41, 73, 113, 156, 19, 23, 116, 155, 156, 18, 29, 125, 165] }, { "part": "vyre13", "scores": [156, 14, 109, 163, 18, 42, 127, 184, 153, 18, -22, 22, 44, 163, 12, 44, 33, 54, 157, 15, -7, 20, 40, 151, 33, -63, 42, 64, 152, 20, -34, 19, 28, 157, 11, 28, 71, 90, 155, 14, -15, 17, 22, 153, 33, -50, 67, 95, 156, 17, -6, 108, 141, 154, 16, -29, 29, 53, 154, 14, -15, 20, 34, 158, 14, 55, 75, 129, 24, 20, 27, 157, 211, 5, 5, 16, 126, 164, 160, 17, 35, 71, 107] }, { "part": "vyre14", "scores": [152, 56, 95, 155, 27, -23, 21, 30, 153, 82, -4, 2, 4, 158, 35, 33, 21, 28, 155, 49, 24, 30, 38, 154, 22, -33, 26, 38, 152, 72, -1, 29, 47, 153, 53, 18, 35, 49, 151, 85, -6, 7, 11, 152, 17, -21, 16, 29, 151, 75, -4, 28, 54, 151, 70, -1, 25, 37, 151, 84, -1, 8, 11, 159, 14, 14, 75, 103, 151, 51, 5, 61, 97, 151, 64, 10, 34, 51, 151, 91, -10, 6, 9] }, { "part": "vyre15", "scores": [192, 50, 86, 212, 50, 10, 23, 32, 240, 132, -2, 23, 35, 234, 96, 1, 30, 41, 243, 136, -1, 34, 50, 234, 102, -5, 39, 59, 188, 58, -11, 16, 26, 162, 70, -14, 7, 11, 184, 38, 12, 42, 54, 163, 58, -2, 33, 47, 159, 74, -7, 37, 57, 157, 77, -8, 48, 61, 156, 92, -26, 9, 18, 158, 93, -33, 4, 15, 157, 85, -21, 28, 47, 161, 56, 2, 62, 85, 195, 22, 43, 59, 83] }, { "part": "vyre16", "scores": [182, 17, 78, 243, 98, 9, 28, 51, 188, 14, -20, 46, 69, 167, 16, -20, 82, 109, 183, 7, -8, 91, 118, 201, 12, 46, 34, 57, 156, 17, -30, 46, 71, 157, 21, -51, 13, 22, 156, 25, -77, 33, 58, 157, 47, 16, 50, 71, 160, 20, 11, 69, 83, 171, 13, -25, 31, 44, 162, 20, -48, 32, 44, 180, 17, 50, 25, 38, 160, 18, 59, 16, 25, 181, 18, 46, 23, 34, 173, 22, 37, 20, 26] }, { "part": "vyre17", "scores": [158, 23, 107, 157, 11, -15, 49, 65, 154, 25, -20, 160, 207, 149, 32, -67, 27, 59, 154, 30, 0, 79, 117, 13, 11, 6, 74, 102, 153, 28, -62, 16, 32, 155, 28, -31, 100, 132, 157, 25, -30, 65, 94, 164, 10, -30, 63, 101, 158, 25, -44, 34, 57, 165, 24, -11, 92, 119, 162, 33, 16, 60, 82, 166, 24, 66, 23, 33, 164, 26, 69, 21, 32, 158, 29, 74, 17, 25, 154, 28, 84, 10, 19] }, { "part": "vyre18", "scores": [164, 12, 48, 156, 20, -32, 81, 124, 163, 27, -4, 63, 96, 164, 9, 5, 71, 89, 173, 11, -8, 88, 117, 161, 29, -86, 68, 94, 164, 22, 12, 30, 42, 186, 6, 17, 38, 60, 24, 19, -37, 178, 228, 160, 28, 10, 33, 47, 166, 7, 28, 17, 30, 193, 3, 11, 58, 85, 10, 6, 0, 74, 101, 155, 27, 30, 3, 5, 154, 20, 26, 18, 31, 165, 6, 17, 55, 79, 181, 6, 14, 75, 95] }, { "part": "vyre19", "scores": [18, 18, 80, 177, 8, 10, 80, 110, 10, 10, 22, 70, 96, 192, 7, 18, 83, 101, 151, 84, -38, 7, 15, 183, 10, 2, 106, 147, 14, 31, -20, 105, 154, 22, 98, -24, 109, 157, 158, 26, -46, 42, 68, 8, 8, 23, 66, 91, 24, 61, -2, 99, 139, 23, 105, -20, 80, 132, 26, 54, -60, 52, 88, 192, 3, 31, 68, 100, 17, 11, 35, 64, 101, 24, 21, 39, 43, 71, 25, 22, 31, 44, 67] }, { "part": "vyre20", "scores": [154, 66, 81, 156, 62, 0, 51, 70, 168, 30, 19, 48, 64, 166, 33, 19, 68, 87, 152, 38, 43, 27, 38, 154, 99, -33, 3, 5, 154, 102, -37, 8, 12, 152, 88, -21, 42, 55, 153, 78, -11, 45, 63, 154, 78, -12, 28, 38, 152, 93, -25, 21, 34, 152, 99, -30, 8, 22, 152, 80, -12, 40, 64, 152, 54, 19, 46, 62, 151, 46, 30, 63, 90, 160, 28, 34, 36, 58, 155, 42, 17, 39, 53] }, { "part": "vyre21", "scores": [154, 41, 48, 151, 31, 21, 21, 42, 153, 26, 23, 13, 27, 155, 37, 3, 31, 38, 156, 50, -16, 34, 41, 160, 40, -16, 97, 127, 157, 44, -13, 46, 62, 156, 46, -11, 34, 44, 158, 44, -10, 43, 54, 157, 23, 25, 14, 25, 153, 25, 27, 14, 20, 152, 34, 12, 54, 67, 153, 41, 1, 58, 78, 151, 59, -17, 32, 43, 150, 42, 1, 39, 51, 151, 30, 14, 18, 31, 150, 80, -46, 49, 69] }, { "part": "vyre22", "scores": [153, 32, 32, 156, 33, -11, 47, 64, 156, 26, -2, 45, 54, 155, 17, -6, 43, 51, 150, 32, 10, 4, 7, 159, 28, -5, 40, 60, 154, 22, 11, 7, 10, 152, 30, 9, 4, 7, 152, 39, 5, 4, 6, 154, 27, 2, 8, 14, 153, 30, 7, 4, 6, 151, 36, -2, 19, 32, 152, 42, -7, 12, 19, 151, 33, -7, 27, 41, 152, 36, 2, 2, 4, 151, 36, -4, 11, 21, 153, 47, -10, 2, 4] }, { "part": "vyre23", "scores": [153, 17, 23, 151, 36, 0, 3, 4, 151, 36, -3, 2, 4, 152, 30, -2, 10, 19, 171, 5, 3, 21, 32, 153, 41, -7, 2, 4, 153, 41, -8, 3, 5, 153, 24, -5, 22, 34, 9, 3, 3, 35, 44, 153, 31, -11, 14, 18, 153, 8, 2, 13, 20, 15, 1, 11, 4, 10, 171, 2, 6, 9, 15, 153, 17, -6, 20, 27, 205, 1, 9, 12, 16, 177, 2, 5, 16, 22, 246, 0, 9, 8, 13] },
-    //nomad
-    { "part": "nomad0", "scores": [137, 64, 78, 139, 78, 12, 2, 4, 139, 82, 6, 2, 3, 139, 92, -4, 2, 3, 139, 90, -3, 11, 19, 97, 19, -7, 58, 76, 123, 35, -8, 56, 73, 132, 56, -12, 48, 64, 119, 25, 19, 50, 70, 139, 68, 4, 6, 16, 138, 63, 5, 16, 22, 137, 57, 6, 31, 43, 72, 12, 31, 32, 51, 140, 90, -10, 2, 4, 140, 99, -15, 5, 7, 141, 115, -28, 3, 5, 141, 86, -14, 28, 36] }, { "part": "nomad1", "scores": [137, 59, 75, 139, 100, -12, 10, 21, 139, 105, -11, 2, 3, 140, 110, -11, 1, 3, 140, 111, -9, 1, 2, 112, 29, -8, 36, 59, 136, 92, -23, 62, 83, 136, 100, -28, 47, 69, 146, 87, -31, 74, 97, 96, 13, 16, 34, 54, 129, 31, 13, 62, 82, 132, 27, 13, 69, 101, 138, 57, -3, 41, 61, 140, 81, -11, 37, 50, 129, 18, 27, 41, 60, 107, 9, 31, 52, 75, 87, 6, 30, 51, 73] }, { "part": "nomad2", "scores": [137, 44, 114, 140, 113, 33, 2, 3, 140, 113, 34, 3, 4, 140, 109, 34, 7, 20, 139, 108, 25, 29, 42, 183, 79, -15, 84, 110, 140, 124, 10, 34, 64, 131, 45, -51, 51, 71, 116, 17, -104, 18, 29, 124, 24, 38, 101, 137, 99, 22, 54, 52, 80, 115, 17, -63, 30, 43, 80, 8, -101, 16, 24, 91, 12, 82, 18, 27, 69, 16, 72, 30, 41, 48, 10, -11, 53, 78, 60, 12, -51, 38, 56] }, { "part": "nomad3", "scores": [133, 58, 89, 140, 99, 15, 3, 9, 140, 89, 17, 3, 4, 139, 78, 20, 2, 3, 139, 82, 15, 3, 4, 134, 77, -57, 75, 95, 141, 99, 6, 4, 11, 139, 83, 14, 3, 4, 139, 81, 12, 3, 4, 115, 24, -89, 27, 62, 114, 57, 10, 61, 81, 137, 83, 3, 29, 44, 139, 93, 0, 11, 25, 69, 9, -75, 48, 81, 81, 37, 19, 43, 71, 94, 45, 8, 37, 53, 108, 22, 23, 40, 63] }, { "part": "nomad4", "scores": [137, 62, 66, 139, 64, 7, 4, 5, 139, 64, 10, 2, 4, 139, 64, 12, 4, 6, 138, 52, 14, 4, 6, 139, 81, -6, 5, 7, 139, 80, 3, 5, 7, 139, 87, 4, 4, 6, 139, 75, 6, 5, 7, 139, 82, -14, 3, 16, 139, 79, -10, 3, 5, 139, 84, -7, 5, 7, 139, 80, -3, 3, 5, 93, 17, -5, 43, 70, 101, 19, -7, 37, 54, 119, 28, -9, 44, 54, 137, 67, -17, 22, 35] }, { "part": "nomad5", "scores": [137, 96, 106, 141, 94, 9, 5, 6, 139, 129, -18, 13, 19, 141, 130, -15, 9, 12, 141, 133, -13, 7, 9, 141, 102, 3, 3, 7, 140, 123, -14, 10, 15, 140, 134, -21, 7, 10, 140, 137, -22, 5, 7, 103, 48, 17, 14, 27, 103, 51, 12, 21, 36, 119, 58, 12, 37, 45, 135, 79, 10, 19, 24, 141, 97, 6, 3, 6, 140, 99, 2, 3, 6, 138, 100, -2, 10, 19, 137, 86, 6, 19, 24] }, { "part": "nomad6", "scores": [137, 86, 90, 138, 154, -50, 8, 13, 140, 141, -34, 14, 27, 140, 81, 7, 42, 60, 120, 16, 49, 27, 45, 137, 153, -55, 8, 11, 138, 152, -47, 9, 12, 140, 143, -35, 4, 12, 132, 38, 38, 32, 50, 138, 118, -29, 28, 35, 139, 144, -43, 5, 16, 140, 92, 4, 36, 48, 128, 32, 36, 33, 44, 131, 53, 12, 21, 28, 128, 36, 35, 32, 48, 123, 18, 55, 20, 30, 126, 6, 47, 35, 46] }, { "part": "nomad7", "scores": [84, 33, 70, 90, 13, 41, 9, 14, 87, 21, 30, 14, 24, 83, 20, -29, 106, 138, 58, 21, -80, 123, 170, 83, 20, 30, 16, 25, 84, 28, 24, 22, 34, 79, 45, 1, 26, 36, 84, 58, -13, 52, 69, 78, 32, 17, 20, 29, 79, 42, 12, 33, 48, 82, 41, 3, 37, 52, 94, 75, -30, 53, 72, 69, 14, 18, 30, 45, 78, 34, 0, 36, 56, 81, 35, 7, 23, 37, 100, 62, -6, 41, 60] }, { "part": "nomad8", "scores": [102, 60, 88, 83, 37, -20, 104, 145, 80, 53, 11, 33, 50, 79, 49, 21, 26, 40, 102, 29, 32, 22, 35, 81, 54, 17, 48, 69, 88, 60, 6, 47, 69, 74, 75, -3, 31, 47, 102, 30, 13, 46, 68, 102, 81, 2, 39, 60, 87, 55, 2, 33, 52, 85, 58, -4, 50, 69, 132, 54, -39, 95, 132, 114, 124, -7, 45, 64, 113, 106, -3, 63, 88, 112, 43, 8, 83, 121, 136, 131, -30, 57, 90] }, { "part": "nomad9", "scores": [157, 62, 116, 140, 95, 22, 41, 59, 140, 101, 15, 9, 27, 138, 81, 16, 30, 40, 106, 20, 41, 51, 75, 157, 36, 26, 42, 72, 166, 46, 27, 59, 89, 139, 119, -13, 27, 45, 137, 111, -19, 32, 45, 204, 93, -31, 75, 105, 215, 180, -19, 33, 54, 148, 90, 15, 51, 71, 140, 115, -8, 14, 19, 156, 43, -4, 76, 102, 212, 85, 23, 56, 80, 143, 37, 63, 28, 47, 141, 102, 3, 5, 13] }, { "part": "nomad10", "scores": [113, 46, 82, 140, 86, -12, 3, 6, 140, 102, -25, 6, 8, 140, 118, -38, 4, 7, 138, 99, -27, 25, 32, 125, 27, 30, 14, 22, 125, 31, 25, 40, 53, 114, 51, -3, 36, 47, 119, 38, 15, 15, 22, 76, 46, -5, 26, 34, 73, 71, -16, 15, 24, 91, 44, -4, 12, 19, 106, 26, 26, 10, 17, 69, 63, -5, 12, 19, 77, 50, -2, 14, 19, 85, 38, 0, 12, 16, 92, 26, 19, 10, 14] }, { "part": "nomad11", "scores": [139, 5, 44, 130, 40, -17, 31, 41, 105, 16, 10, 5, 9, 109, 9, 9, 23, 33, 223, 38, -21, 57, 79, 109, 20, 0, 5, 9, 98, 13, 14, 4, 6, 106, 8, 7, 23, 30, 219, 68, -25, 61, 85, 99, 16, 2, 8, 12, 99, 12, 12, 11, 14, 88, 7, 12, 16, 23, 193, 16, -19, 49, 67, 93, 12, 4, 5, 8, 93, 11, 12, 6, 9, 75, 7, 14, 14, 20, 140, 6, -9, 49, 68] }, { "part": "nomad12", "scores": [135, 59, 103, 214, 81, 15, 108, 133, 88, 23, 47, 24, 36, 114, 68, 30, 38, 56, 122, 107, 25, 46, 64, 200, 87, -25, 96, 131, 109, 25, 9, 66, 96, 135, 57, 7, 79, 107, 132, 84, -23, 89, 111, 84, 4, 25, 35, 56, 134, 57, 10, 79, 119, 133, 81, -16, 60, 95, 130, 153, -48, 70, 97, 130, 11, 47, 60, 86, 133, 44, 14, 41, 67, 133, 120, -3, 50, 74, 129, 153, -71, 56, 83] }, { "part": "nomad13", "scores": [129, 92, 122, 128, 83, 53, 39, 64, 124, 29, 43, 68, 99, 46, 15, 50, 31, 59, 133, 52, 28, 80, 106, 132, 123, -8, 74, 101, 131, 91, 18, 70, 91, 123, 40, 26, 76, 101, 72, 11, 44, 42, 62, 130, 197, -32, 28, 47, 131, 191, -18, 33, 49, 131, 116, -18, 62, 87, 130, 55, -26, 77, 108, 128, 90, -86, 44, 62, 129, 137, -62, 58, 77, 130, 182, -28, 49, 68, 135, 108, 6, 62, 89] }, { "part": "nomad14", "scores": [138, 59, 93, 137, 50, -7, 51, 66, 142, 26, 12, 22, 33, 139, 21, 40, 22, 30, 141, 77, 6, 22, 30, 142, 28, 18, 38, 58, 141, 20, 29, 24, 41, 138, 21, 41, 28, 42, 141, 58, 17, 26, 36, 138, 79, -47, 82, 120, 139, 95, -43, 77, 114, 139, 89, -17, 61, 81, 138, 106, -25, 55, 77, 134, 38, 14, 47, 80, 139, 37, 14, 49, 76, 137, 96, -33, 74, 107, 135, 107, -24, 71, 94] }, { "part": "nomad15", "scores": [73, 18, 58, 71, 50, -27, 8, 13, 72, 47, -26, 10, 14, 78, 40, -20, 7, 11, 79, 36, -16, 6, 10, 68, 34, -16, 19, 25, 59, 12, -1, 16, 21, 247, 3, 1, 13, 22, 247, 2, 6, 10, 15, 103, 12, 11, 8, 11, 87, 18, 9, 10, 14, 82, 22, 6, 6, 12, 76, 23, 4, 7, 11, 9, 6, 13, 12, 20, 35, 5, 18, 11, 17, 235, 3, 19, 15, 20, 251, 2, 12, 16, 21] }, { "part": "nomad16", "scores": [83, 13, 58, 80, 15, 16, 6, 10, 70, 7, 29, 10, 16, 51, 4, 12, 28, 38, 84, 2, 0, 50, 72, 81, 3, 17, 13, 20, 211, 1, 14, 27, 37, 122, 5, 8, 39, 57, 103, 5, 1, 41, 66, 71, 19, 6, 12, 17, 70, 19, 3, 24, 30, 88, 14, -6, 24, 42, 123, 7, -11, 52, 80, 59, 12, 6, 17, 22, 67, 27, 1, 16, 23, 80, 41, -26, 26, 35, 98, 65, -61, 17, 40] }, { "part": "nomad17", "scores": [125, 38, 63, 111, 6, -1, 51, 74, 130, 30, 4, 44, 65, 136, 107, -9, 41, 62, 132, 173, -47, 60, 80, 114, 12, -2, 58, 81, 118, 22, 1, 26, 39, 131, 43, 13, 16, 24, 134, 112, -6, 58, 72, 122, 11, -6, 63, 92, 80, 9, 2, 17, 29, 108, 14, 16, 9, 14, 125, 27, 20, 13, 20, 103, 58, -52, 31, 53, 92, 30, -14, 44, 65, 70, 9, 22, 15, 25, 87, 7, 21, 21, 28] }, { "part": "nomad18", "scores": [130, 64, 73, 130, 124, -98, 70, 92, 132, 166, -49, 89, 128, 130, 144, -99, 64, 95, 131, 118, -63, 90, 142, 133, 140, -32, 79, 101, 133, 115, -8, 77, 106, 132, 93, 4, 48, 69, 129, 20, 23, 23, 36, 126, 38, 32, 17, 24, 126, 25, 38, 18, 25, 126, 11, 40, 24, 38, 137, 17, 27, 26, 41, 90, 12, 41, 6, 9, 105, 8, 42, 14, 23, 118, 6, 42, 19, 32, 122, 8, 44, 13, 17] }, { "part": "nomad19", "scores": [135, 29, 55, 133, 91, -59, 99, 139, 134, 52, -33, 96, 129, 23, 5, 12, 34, 52, 136, 37, -1, 14, 20, 136, 21, -2, 34, 47, 137, 23, -5, 79, 98, 139, 14, 22, 16, 31, 136, 41, -7, 6, 10, 137, 12, 19, 15, 24, 138, 13, 14, 13, 20, 136, 21, 13, 16, 22, 135, 44, -8, 3, 5, 135, 9, 25, 9, 13, 138, 10, 22, 8, 14, 137, 29, 2, 16, 19, 135, 43, -8, 2, 3] }, { "part": "nomad20", "scores": [61, 6, 38, 66, 39, -20, 17, 24, 75, 6, 8, 6, 10, 65, 2, 12, 4, 8, 33, 3, 10, 8, 14, 61, 13, 1, 11, 15, 49, 1, 9, 5, 7, 127, 2, -2, 18, 26, 35, 8, 5, 31, 43, 26, 2, 1, 5, 8, 29, 4, 9, 10, 15, 134, 4, -5, 14, 22, 76, 2, -12, 29, 46, 37, 4, 0, 14, 22, 31, 7, 2, 35, 47, 39, 4, 2, 25, 36, 115, 6, -24, 35, 49] }, { "part": "nomad21", "scores": [60, 14, 51, 31, 5, 21, 19, 27, 38, 5, 15, 29, 40, 40, 6, 8, 39, 60, 43, 8, 1, 54, 77, 37, 7, 13, 29, 48, 35, 10, 5, 59, 86, 38, 9, 5, 51, 77, 50, 6, 7, 23, 35, 35, 9, 11, 44, 65, 35, 10, 9, 49, 69, 34, 8, 8, 39, 53, 46, 8, 4, 11, 16, 72, 16, -22, 38, 53, 65, 33, -15, 33, 43, 71, 41, -26, 24, 33, 78, 51, -50, 25, 32] }, { "part": "nomad22", "scores": [82, 29, 79, 94, 19, 6, 60, 77, 81, 39, -13, 39, 52, 75, 32, 12, 30, 44, 107, 14, 44, 2, 8, 22, 6, 25, 35, 47, 28, 5, 25, 24, 35, 60, 7, 17, 34, 51, 72, 20, 33, 14, 19, 50, 9, 26, 30, 46, 67, 29, 12, 17, 31, 70, 40, 13, 20, 31, 87, 28, 1, 41, 53, 83, 62, -48, 18, 31, 87, 66, -57, 14, 25, 94, 69, -50, 22, 39, 90, 52, -27, 24, 33] }, { "part": "nomad23", "scores": [125, 26, 67, 96, 13, 34, 4, 7, 94, 10, 41, 8, 27, 105, 11, 36, 12, 23, 130, 17, 29, 22, 28, 133, 36, -15, 39, 51, 132, 32, -5, 25, 43, 88, 12, 32, 15, 24, 140, 47, -15, 9, 18, 115, 41, -38, 26, 34, 71, 31, 10, 14, 26, 130, 30, -1, 23, 29, 140, 51, -19, 3, 5, 98, 36, -22, 23, 31, 133, 40, -36, 23, 30, 142, 53, -35, 7, 10, 140, 48, -24, 5, 6] },
-    //ara
-    { "part": "ara0", "scores": [17, 32, 22, 6, 10, 17, 2, 3, 11, 9, 17, 6, 9, 18, 32, 0, 11, 15, 18, 53, -16, 4, 7, 9, 11, 16, 4, 6, 18, 18, 10, 10, 15, 17, 54, -16, 5, 8, 20, 63, -23, 8, 13, 17, 16, 12, 9, 13, 16, 37, -4, 7, 11, 19, 60, -20, 6, 9, 15, 30, 1, 13, 20, 19, 26, 5, 5, 8, 14, 42, -8, 5, 8, 16, 35, -1, 13, 18, 17, 19, 8, 12, 17] }, { "part": "ara1", "scores": [24, 52, 41, 25, 74, -12, 6, 9, 27, 89, -23, 5, 7, 27, 74, -10, 5, 7, 24, 53, 5, 14, 19, 25, 64, -13, 20, 27, 28, 98, -29, 5, 8, 25, 74, -10, 15, 20, 13, 20, 25, 11, 18, 12, 19, 3, 30, 43, 26, 87, -20, 6, 13, 22, 53, 5, 23, 28, 10, 12, 28, 7, 12, 13, 15, 25, 13, 23, 22, 45, -5, 23, 30, 24, 45, 9, 32, 37, 8, 11, 24, 8, 16] }, { "part": "ara2", "scores": [10, 15, 47, 37, 14, 21, 38, 47, 242, 9, 20, 5, 10, 241, 15, 20, 14, 23, 224, 2, 8, 23, 33, 59, 12, 6, 48, 61, 32, 12, -9, 35, 52, 249, 20, 4, 35, 48, 248, 15, -1, 34, 49, 0, 12, 6, 17, 31, 50, 18, -31, 63, 75, 3, 19, -1, 27, 42, 253, 18, 1, 36, 54, 1, 17, 0, 54, 68, 18, 24, -22, 63, 73, 8, 26, -18, 62, 94, 5, 31, -7, 44, 70] }, { "part": "ara3", "scores": [12, 22, 78, 149, 8, 14, 17, 27, 17, 7, 4, 43, 62, 2, 4, -3, 35, 50, 242, 12, 39, 30, 46, 26, 6, 4, 28, 49, 20, 23, -12, 58, 81, 11, 19, -6, 70, 95, 246, 18, 36, 17, 30, 23, 25, -15, 41, 66, 20, 37, -24, 71, 101, 9, 31, 3, 62, 86, 7, 34, 1, 43, 59, 18, 34, -20, 48, 79, 14, 45, -16, 89, 133, 4, 28, 22, 52, 83, 13, 49, -23, 36, 64] }, { "part": "ara4", "scores": [30, 71, 68, 31, 79, 7, 15, 22, 30, 82, 10, 3, 5, 28, 77, 13, 3, 5, 28, 70, 16, 3, 4, 13, 15, 18, 21, 34, 30, 85, 4, 9, 18, 29, 86, 7, 3, 5, 30, 90, 1, 6, 9, 21, 17, -6, 28, 50, 36, 59, -5, 47, 68, 30, 100, -2, 3, 5, 31, 108, -11, 4, 6, 44, 24, -30, 65, 86, 18, 30, 1, 22, 36, 30, 109, -9, 4, 8, 31, 111, -12, 4, 6] }, { "part": "ara5", "scores": [56, 30, 44, 19, 24, 27, 9, 16, 64, 24, 8, 44, 60, 70, 30, 1, 54, 75, 23, 82, -13, 9, 18, 67, 14, 19, 53, 75, 88, 60, -29, 47, 75, 68, 56, -28, 47, 67, 53, 69, -37, 54, 76, 72, 19, -5, 71, 94, 79, 42, -23, 54, 82, 16, 24, 25, 16, 29, 42, 32, 5, 45, 64, 61, 19, 14, 48, 65, 55, 13, 17, 35, 60, 73, 33, -20, 61, 87, 9, 26, -4, 49, 70] }, { "part": "ara6", "scores": [19, 31, 43, 25, 80, -15, 23, 35, 1, 10, 7, 38, 53, 30, 20, 17, 39, 52, 21, 12, 16, 27, 40, 21, 47, -19, 58, 80, 11, 30, -29, 58, 86, 5, 4, 19, 34, 55, 5, 19, -9, 28, 45, 43, 17, -5, 46, 67, 23, 65, -1, 22, 30, 22, 6, 20, 43, 58, 7, 26, -25, 53, 80, 15, 47, 5, 29, 51, 16, 65, 7, 12, 17, 18, 26, 16, 31, 41, 8, 21, -9, 53, 81] }, { "part": "ara7", "scores": [11, 40, 70, 1, 16, 32, 32, 46, 2, 24, 32, 59, 75, 6, 33, 3, 85, 130, 3, 40, 12, 71, 110, 11, 43, -22, 57, 79, 1, 30, 7, 35, 51, 3, 38, 22, 81, 108, 5, 42, 5, 83, 114, 6, 52, -26, 42, 67, 4, 58, -32, 33, 54, 10, 57, -12, 71, 101, 13, 45, -1, 113, 164, 2, 29, 11, 44, 63, 7, 33, 24, 34, 51, 12, 54, -14, 63, 92, 62, 74, -53, 109, 157] }, { "part": "ara8", "scores": [11, 46, 79, 11, 44, 3, 117, 163, 8, 47, 10, 122, 174, 12, 54, -14, 79, 124, 17, 64, -52, 104, 133, 6, 54, 4, 102, 152, 10, 48, 2, 98, 149, 10, 52, -2, 113, 156, 13, 44, 12, 91, 127, 12, 52, -3, 144, 194, 3, 36, 34, 61, 95, 5, 38, 19, 50, 80, 7, 54, -23, 70, 91, 42, 43, -14, 116, 158, 5, 35, 17, 37, 58, 8, 29, 25, 76, 96, 7, 47, -12, 49, 72] }, { "part": "ara9", "scores": [28, 48, 60, 11, 43, -30, 57, 80, 251, 20, 4, 47, 68, 29, 91, -15, 21, 29, 31, 112, -20, 3, 10, 7, 40, -17, 62, 90, 254, 18, 8, 34, 49, 29, 101, -17, 24, 34, 29, 76, -1, 42, 52, 19, 27, 5, 50, 76, 53, 29, 10, 50, 70, 27, 96, -13, 32, 52, 17, 16, 27, 22, 40, 48, 36, -10, 52, 78, 66, 47, 5, 34, 50, 22, 17, 24, 32, 46, 23, 42, 19, 38, 50] }, { "part": "ara10", "scores": [24, 14, 35, 12, 11, 7, 41, 77, 14, 18, -6, 35, 64, 43, 12, -6, 50, 72, 15, 19, -20, 52, 78, 12, 10, 9, 40, 71, 60, 12, -21, 56, 85, 63, 20, -6, 55, 71, 27, 15, 25, 8, 15, 241, 11, 5, 35, 53, 36, 11, -6, 33, 56, 38, 13, -12, 103, 130, 24, 13, 26, 3, 17, 2, 13, 13, 24, 38, 11, 27, -6, 54, 75, 24, 14, 20, 17, 33, 23, 18, -19, 131, 163] }, { "part": "ara11", "scores": [16, 20, 26, 12, 40, -48, 89, 125, 254, 18, -23, 33, 49, 255, 13, 5, 20, 31, 10, 15, -13, 61, 91, 28, 17, 9, 26, 36, 10, 24, -29, 40, 54, 18, 21, -12, 26, 39, 20, 23, 0, 45, 66, 22, 14, 19, 1, 2, 30, 22, 10, 15, 20, 21, 23, 13, 5, 10, 20, 33, 8, 6, 7, 20, 14, 12, 23, 34, 20, 15, 18, 1, 2, 19, 14, 18, 2, 5, 9, 14, 6, 20, 30] }, { "part": "ara12", "scores": [15, 27, 48, 16, 17, 23, 32, 50, 2, 15, 18, 43, 57, 36, 25, -4, 64, 93, 60, 47, -30, 82, 120, 11, 32, 24, 26, 36, 244, 13, 32, 19, 29, 10, 30, -21, 91, 122, 47, 39, -24, 65, 91, 7, 57, 1, 38, 50, 5, 41, -30, 107, 142, 1, 23, -4, 88, 117, 10, 20, 0, 61, 85, 254, 26, -10, 85, 113, 5, 41, -30, 80, 123, 14, 29, 20, 24, 52, 241, 11, 36, 13, 23] }, { "part": "ara13", "scores": [19, 23, 40, 51, 31, -18, 66, 96, 16, 28, 2, 30, 44, 8, 27, -9, 54, 74, 20, 39, -34, 89, 130, 43, 18, 2, 46, 61, 10, 17, 12, 25, 38, 12, 32, -20, 66, 89, 0, 21, -6, 27, 44, 31, 25, 7, 65, 94, 18, 17, 2, 97, 126, 14, 25, 1, 46, 70, 12, 17, 0, 32, 45, 14, 26, 14, 19, 36, 22, 25, 17, 26, 35, 249, 10, 14, 19, 30, 21, 15, 9, 22, 33] }, { "part": "ara14", "scores": [15, 22, 37, 40, 18, -4, 35, 55, 20, 12, 6, 28, 40, 252, 10, 6, 33, 45, 18, 16, 9, 21, 31, 7, 25, -14, 54, 74, 253, 11, 5, 35, 47, 22, 23, 12, 21, 29, 15, 43, 13, 7, 13, 11, 36, -46, 78, 100, 36, 26, 14, 16, 26, 16, 26, 23, 6, 10, 13, 18, 27, 3, 6, 10, 27, -30, 55, 72, 9, 20, -5, 38, 53, 7, 25, -16, 52, 77, 13, 20, -2, 43, 65] }, { "part": "ara15", "scores": [20, 26, 20, 5, 19, 4, 19, 27, 4, 44, -19, 27, 38, 26, 12, 12, 3, 4, 29, 15, 11, 4, 9, 19, 20, 5, 17, 25, 6, 34, -11, 20, 29, 22, 11, 13, 3, 5, 23, 12, 13, 2, 3, 35, 52, -21, 23, 31, 8, 43, -16, 27, 35, 32, 22, 5, 10, 14, 21, 13, 12, 3, 4, 37, 48, -13, 16, 24, 6, 34, -8, 24, 35, 32, 25, -2, 21, 28, 23, 13, 12, 2, 5] }, { "part": "ara16", "scores": [17, 15, 20, 8, 16, -19, 68, 97, 13, 11, -17, 61, 80, 255, 15, -25, 53, 74, 1, 20, -39, 84, 101, 22, 13, 12, 2, 3, 23, 14, 12, 2, 4, 21, 16, 7, 12, 25, 18, 17, 8, 14, 23, 23, 13, 13, 2, 3, 19, 11, 14, 2, 3, 16, 12, 12, 5, 7, 19, 18, 7, 17, 27, 23, 12, 13, 2, 3, 32, 20, 0, 16, 21, 26, 19, 4, 12, 19, 7, 15, 1, 19, 27] }, { "part": "ara17", "scores": [14, 36, 48, 8, 27, -40, 92, 132, 10, 51, -47, 103, 141, 18, 26, 33, 4, 7, 17, 23, 34, 4, 7, 4, 19, 2, 58, 86, 17, 37, -49, 82, 117, 28, 32, 25, 12, 27, 26, 24, 33, 3, 7, 254, 18, 10, 28, 41, 12, 55, -35, 72, 98, 16, 62, -10, 40, 53, 29, 24, 31, 5, 8, 4, 27, 12, 13, 21, 9, 55, -11, 12, 19, 6, 61, -16, 16, 27, 24, 30, 24, 14, 21] }, { "part": "ara18", "scores": [14, 21, 17, 17, 20, 4, 4, 7, 23, 23, 1, 9, 13, 30, 23, -2, 20, 28, 21, 17, -13, 21, 31, 18, 18, 6, 1, 2, 17, 16, 7, 1, 2, 19, 13, 9, 2, 5, 7, 27, -19, 38, 54, 22, 16, 7, 2, 3, 20, 13, 8, 2, 2, 20, 16, 5, 11, 18, 254, 45, -19, 16, 25, 24, 16, 7, 2, 3, 25, 13, 9, 2, 3, 7, 23, 0, 14, 19, 255, 30, -7, 13, 18] }, { "part": "ara19", "scores": [21, 14, 16, 15, 16, -23, 37, 57, 31, 17, 2, 16, 21, 32, 16, -5, 30, 42, 17, 22, -46, 75, 102, 6, 14, -12, 31, 46, 17, 11, 9, 2, 3, 12, 9, 11, 1, 3, 22, 11, 6, 10, 17, 11, 16, 5, 6, 10, 17, 10, 9, 2, 3, 19, 11, 9, 2, 3, 19, 9, 10, 2, 3, 25, 12, 8, 2, 2, 25, 12, 8, 3, 4, 31, 13, 7, 8, 11, 39, 16, 3, 18, 25] }, { "part": "ara20", "scores": [31, 47, 32, 33, 35, 7, 12, 18, 13, 27, 9, 20, 29, 26, 29, 7, 14, 23, 31, 20, 16, 15, 21, 34, 38, 4, 16, 22, 31, 34, 10, 16, 22, 23, 33, 9, 16, 23, 34, 36, 10, 9, 15, 34, 47, -7, 21, 29, 34, 46, 4, 11, 17, 22, 37, 7, 21, 30, 33, 61, -7, 17, 27, 33, 96, -33, 30, 42, 34, 94, -25, 17, 23, 34, 68, -7, 12, 18, 35, 45, -3, 14, 22] }, { "part": "ara21", "scores": [30, 37, 35, 25, 15, 25, 5, 8, 33, 26, 12, 18, 25, 12, 16, 19, 11, 15, 1, 27, 4, 17, 30, 30, 23, 21, 4, 7, 31, 24, 17, 9, 14, 24, 21, 9, 20, 28, 7, 16, -17, 63, 82, 33, 40, 10, 18, 24, 34, 45, -2, 21, 30, 34, 42, -16, 33, 50, 30, 59, -11, 19, 33, 34, 50, -1, 22, 29, 34, 65, -20, 25, 37, 34, 56, -29, 42, 61, 35, 71, -23, 8, 16] }, { "part": "ara22", "scores": [29, 57, 46, 5, 50, -2, 24, 33, 7, 53, -2, 22, 29, 8, 34, 4, 40, 55, 30, 65, -19, 42, 59, 14, 34, 18, 29, 38, 30, 58, 10, 26, 36, 30, 72, 1, 35, 47, 30, 51, -7, 76, 95, 34, 61, 2, 17, 23, 33, 59, 5, 16, 24, 35, 75, -6, 16, 26, 31, 48, 15, 33, 48, 37, 75, -22, 7, 11, 36, 70, -9, 11, 16, 38, 61, -1, 12, 19, 38, 54, 8, 25, 33] }, { "part": "ara23", "scores": [33, 42, 31, 33, 53, -4, 20, 26, 32, 20, 17, 6, 11, 253, 28, 5, 11, 17, 15, 15, 20, 6, 10, 37, 72, -17, 19, 27, 26, 41, -2, 22, 31, 19, 35, -2, 23, 32, 41, 29, 10, 12, 17, 35, 26, 11, 21, 34, 24, 31, 1, 40, 55, 37, 72, -17, 36, 54, 37, 72, -17, 26, 39, 37, 35, 3, 19, 28, 41, 44, 0, 14, 20, 40, 38, 6, 15, 25, 39, 56, -7, 33, 43] },
-    //citadel
-    { "part": "cit0", "scores": [15, 91, 89, 20, 64, -17, 50, 68, 23, 73, -10, 52, 68, 18, 91, -28, 64, 84, 17, 113, -62, 49, 67, 27, 100, -2, 8, 16, 26, 94, -1, 15, 28, 13, 160, -20, 41, 54, 11, 178, -41, 37, 49, 15, 47, 29, 27, 36, 254, 15, 50, 8, 13, 11, 40, 40, 29, 50, 13, 227, -41, 32, 55, 7, 72, 23, 17, 27, 250, 17, 46, 9, 13, 252, 16, 52, 5, 8, 11, 159, -13, 41, 53] }, { "part": "cit1", "scores": [14, 101, 112, 20, 105, -32, 35, 54, 22, 92, 12, 31, 47, 20, 87, 30, 41, 59, 14, 228, -12, 34, 57, 14, 87, -22, 56, 82, 16, 74, -11, 125, 160, 7, 42, 54, 14, 22, 13, 196, -5, 39, 61, 12, 78, -15, 46, 72, 14, 87, -16, 105, 151, 12, 62, 22, 46, 71, 10, 131, 16, 27, 38, 13, 111, -18, 68, 97, 14, 107, -48, 49, 80, 14, 76, 1, 104, 135, 7, 50, 46, 20, 37] }, { "part": "cit2", "scores": [4, 36, 53, 2, 28, 9, 14, 21, 253, 16, 23, 8, 14, 7, 66, -6, 13, 23, 5, 20, 18, 7, 11, 1, 31, 1, 12, 27, 240, 18, 18, 9, 13, 7, 69, -9, 25, 33, 253, 19, 11, 8, 14, 8, 59, -18, 33, 44, 242, 21, 11, 10, 16, 7, 57, -9, 19, 29, 248, 21, 5, 13, 19, 5, 46, -26, 30, 55, 2, 27, 0, 17, 27, 10, 49, -9, 22, 32, 10, 45, -8, 17, 28] }, { "part": "cit3", "scores": [15, 73, 76, 15, 96, -23, 42, 63, 16, 68, 4, 46, 67, 16, 45, 37, 6, 17, 16, 74, 12, 19, 29, 13, 81, -14, 26, 38, 19, 61, -4, 71, 102, 16, 49, 14, 28, 63, 16, 70, 14, 24, 34, 12, 77, -13, 27, 39, 19, 64, 2, 28, 56, 17, 61, 1, 44, 65, 16, 69, 13, 20, 29, 13, 90, -18, 28, 38, 17, 78, -5, 42, 66, 15, 88, -10, 39, 67, 15, 95, -13, 28, 38] }, { "part": "cit4", "scores": [16, 129, 128, 17, 131, 4, 59, 85, 16, 126, 26, 34, 50, 17, 159, -15, 30, 43, 18, 158, -31, 30, 44, 17, 113, 16, 52, 72, 15, 121, 30, 24, 35, 16, 140, 4, 29, 42, 17, 152, -19, 31, 44, 17, 101, 24, 52, 79, 16, 115, 17, 45, 72, 16, 136, 3, 32, 45, 15, 141, -28, 19, 27, 19, 89, 16, 79, 112, 17, 110, -20, 70, 106, 14, 131, -2, 18, 27, 13, 131, -19, 6, 10] }, { "part": "cit5", "scores": [3, 25, 61, 5, 43, 6, 23, 31, 3, 34, 7, 15, 21, 247, 17, 17, 7, 11, 8, 47, 5, 26, 34, 237, 14, 14, 19, 33, 4, 42, 2, 11, 16, 245, 18, 15, 9, 12, 253, 19, 16, 7, 11, 234, 10, -14, 121, 145, 253, 25, 3, 12, 25, 253, 23, 6, 10, 17, 14, 30, 4, 36, 46, 192, 10, -1, 53, 81, 254, 25, -32, 64, 110, 11, 39, -27, 85, 107, 22, 38, 1, 96, 116] }, { "part": "cit6", "scores": [21, 60, 88, 13, 64, 1, 100, 150, 15, 79, -41, 72, 112, 16, 103, -58, 72, 107, 18, 62, 4, 55, 86, 15, 59, -52, 134, 180, 20, 82, -28, 102, 142, 17, 77, -30, 105, 141, 24, 45, 21, 57, 87, 40, 11, 53, 30, 45, 28, 62, 30, 26, 49, 26, 44, 9, 101, 147, 22, 74, -7, 98, 146, 30, 42, 42, 27, 38, 29, 43, 38, 36, 48, 28, 36, 37, 37, 59, 22, 87, -23, 108, 165] }, { "part": "cit7", "scores": [26, 57, 69, 22, 60, -104, 133, 186, 24, 37, 30, 25, 35, 24, 34, 30, 20, 32, 17, 47, 25, 34, 54, 29, 63, 9, 30, 46, 27, 58, 14, 43, 55, 29, 59, 17, 27, 39, 31, 34, 24, 31, 44, 29, 64, 7, 58, 75, 29, 51, 2, 56, 80, 25, 62, 2, 56, 87, 31, 51, 11, 55, 70, 25, 108, -60, 70, 92, 26, 60, -9, 53, 80, 25, 73, -2, 61, 88, 32, 46, -2, 53, 80] }, { "part": "cit8", "scores": [25, 39, 118, 16, 86, 40, 52, 71, 19, 89, -25, 76, 106, 18, 82, -57, 71, 95, 18, 124, -24, 36, 56, 25, 62, 27, 93, 113, 24, 39, 10, 47, 83, 21, 34, -80, 56, 80, 23, 21, -124, 15, 29, 29, 30, 67, 34, 44, 102, 17, 52, 24, 38, 76, 6, 32, 34, 53, 22, 25, -75, 57, 72, 28, 49, 4, 105, 135, 81, 22, 37, 49, 73, 111, 21, 55, 19, 28, 104, 11, 31, 39, 59] }, { "part": "cit9", "scores": [16, 100, 173, 21, 96, 54, 31, 53, 16, 114, 21, 59, 96, 13, 126, 22, 11, 17, 12, 122, 16, 14, 20, 23, 77, 21, 91, 121, 18, 129, -6, 13, 23, 14, 126, 2, 8, 12, 15, 110, -4, 39, 49, 21, 37, -42, 101, 129, 18, 111, -20, 23, 36, 15, 122, -7, 7, 17, 15, 105, -15, 23, 41, 20, 92, 27, 42, 71, 18, 86, -35, 36, 52, 15, 88, -15, 37, 58, 15, 51, -20, 71, 90] }, { "part": "cit10", "scores": [16, 43, 105, 248, 22, 28, 65, 95, 0, 19, 18, 76, 101, 22, 37, 58, 26, 47, 27, 53, 53, 32, 43, 5, 20, 3, 108, 146, 4, 22, 6, 100, 141, 20, 51, -21, 115, 147, 24, 42, 55, 44, 62, 246, 18, 29, 38, 61, 11, 36, -16, 105, 138, 17, 61, -96, 48, 77, 22, 90, 7, 46, 74, 3, 35, -18, 15, 21, 249, 17, 17, 68, 99, 17, 70, -89, 57, 94, 19, 99, -26, 58, 92] }, { "part": "cit11", "scores": [26, 74, 80, 26, 37, 33, 37, 49, 29, 49, 28, 30, 38, 31, 49, 26, 51, 70, 23, 113, -45, 49, 76, 29, 59, 27, 21, 31, 27, 65, 20, 46, 65, 23, 86, -6, 78, 107, 22, 118, -74, 54, 78, 25, 71, -6, 67, 98, 23, 90, -24, 101, 142, 25, 76, -10, 86, 110, 27, 66, 1, 56, 76, 24, 51, -7, 80, 114, 29, 83, 10, 38, 67, 28, 92, 13, 14, 24, 31, 83, 12, 22, 33] }, { "part": "cit12", "scores": [88, 27, 152, 22, 129, 0, 25, 42, 30, 59, 33, 58, 86, 80, 22, 45, 69, 99, 42, 44, 34, 64, 98, 30, 43, 23, 74, 100, 118, 50, 13, 75, 106, 118, 54, -22, 42, 60, 115, 66, 9, 64, 88, 55, 35, 29, 78, 114, 124, 72, -7, 50, 79, 54, 19, -67, 16, 29, 112, 43, -43, 28, 47, 58, 38, 76, 23, 46, 123, 75, 37, 53, 75, 118, 49, -28, 41, 63, 119, 59, -15, 64, 94] }, { "part": "cit13", "scores": [37, 44, 72, 40, 56, -5, 58, 85, 28, 86, 6, 16, 25, 37, 36, 21, 16, 24, 117, 18, 25, 19, 29, 60, 41, -11, 33, 58, 35, 74, 1, 40, 51, 28, 76, 10, 18, 26, 37, 25, 27, 17, 23, 100, 43, -42, 61, 83, 42, 26, 24, 17, 27, 28, 61, 10, 29, 52, 29, 76, 14, 12, 18, 90, 25, -44, 78, 110, 29, 59, -40, 95, 131, 28, 65, -55, 123, 159, 29, 68, 18, 12, 18] }, { "part": "cit14", "scores": [18, 59, 135, 21, 41, 66, 48, 71, 19, 69, -55, 84, 112, 14, 29, -53, 45, 57, 15, 53, -54, 58, 80, 21, 46, 90, 22, 34, 19, 64, 35, 86, 114, 15, 24, -42, 70, 108, 16, 70, -77, 32, 52, 23, 54, 87, 27, 41, 19, 87, 29, 70, 108, 17, 64, -33, 127, 162, 17, 76, -79, 11, 19, 20, 53, 91, 33, 46, 21, 72, 28, 91, 123, 15, 58, 41, 42, 65, 17, 90, -70, 19, 32] }, { "part": "cit15", "scores": [227, 19, 103, 227, 23, -18, 9, 14, 224, 17, 25, 36, 54, 13, 56, -33, 108, 142, 18, 93, -39, 53, 94, 185, 33, -4, 7, 12, 193, 24, 3, 32, 43, 213, 12, 53, 35, 49, 8, 27, 33, 59, 91, 180, 33, -1, 21, 27, 181, 33, -31, 10, 18, 198, 19, 21, 66, 90, 3, 41, -23, 48, 67, 219, 7, 42, 9, 14, 177, 35, -14, 28, 43, 185, 33, -34, 33, 55, 229, 25, -19, 74, 101] }, { "part": "cit16", "scores": [24, 66, 91, 28, 74, 27, 38, 58, 29, 77, 8, 100, 137, 26, 67, 28, 44, 64, 29, 88, 25, 13, 21, 23, 89, -8, 53, 72, 29, 59, -22, 131, 182, 28, 77, 29, 36, 60, 28, 75, 34, 11, 19, 12, 70, -41, 50, 68, 29, 29, 16, 52, 85, 29, 58, 1, 115, 159, 28, 77, 33, 15, 24, 9, 64, -92, 24, 38, 12, 73, -52, 41, 60, 21, 45, -36, 112, 154, 18, 42, 49, 26, 49] }, { "part": "cit17", "scores": [29, 59, 81, 30, 75, -6, 38, 52, 46, 27, -19, 54, 77, 105, 33, -38, 64, 101, 94, 25, -32, 55, 94, 27, 83, 7, 34, 51, 25, 68, -19, 84, 115, 26, 68, -39, 80, 122, 27, 62, -35, 75, 103, 27, 92, 15, 18, 24, 28, 86, 17, 18, 34, 27, 81, 7, 37, 52, 27, 95, -3, 32, 42, 22, 55, 33, 29, 40, 25, 61, 29, 25, 37, 27, 60, 31, 25, 35, 24, 49, 37, 26, 36] }, { "part": "cit18", "scores": [22, 60, 103, 23, 73, -27, 72, 107, 24, 77, -6, 71, 101, 28, 69, -48, 116, 151, 26, 60, 52, 20, 31, 21, 103, -26, 28, 50, 25, 60, -6, 70, 92, 24, 56, -48, 102, 131, 15, 59, 54, 44, 58, 28, 76, 43, 17, 29, 26, 41, 12, 47, 69, 17, 38, 4, 100, 137, 17, 55, 41, 71, 100, 20, 48, 57, 29, 41, 16, 28, 19, 41, 60, 15, 57, -58, 115, 154, 18, 61, -67, 95, 123] }, { "part": "cit19", "scores": [15, 69, 147, 24, 39, 107, 24, 38, 17, 70, 79, 32, 59, 16, 91, 14, 71, 95, 15, 107, -23, 30, 44, 20, 63, 76, 63, 99, 18, 51, -17, 74, 93, 16, 77, -40, 76, 103, 13, 98, 6, 19, 34, 18, 34, -36, 70, 96, 21, 26, -89, 28, 48, 15, 90, -7, 93, 123, 11, 93, 23, 9, 13, 23, 14, -97, 16, 34, 19, 74, -41, 74, 102, 12, 92, 18, 44, 64, 10, 88, 30, 16, 23] }, { "part": "cit20", "scores": [183, 37, 98, 189, 12, 40, 18, 32, 178, 46, -7, 30, 47, 181, 46, -16, 24, 33, 190, 37, -34, 56, 79, 177, 37, 26, 13, 25, 178, 39, 15, 23, 35, 179, 44, -5, 17, 37, 186, 44, -13, 15, 22, 179, 31, 39, 11, 17, 178, 38, 19, 10, 17, 181, 33, -23, 85, 122, 185, 39, -5, 33, 53, 196, 27, -6, 27, 39, 185, 37, -11, 34, 45, 185, 42, -23, 26, 37, 188, 35, 10, 15, 24] }, { "part": "cit21", "scores": [237, 35, 118, 221, 25, 17, 44, 72, 3, 47, -63, 40, 54, 12, 39, -8, 58, 91, 15, 60, -26, 112, 152, 203, 32, 10, 50, 68, 236, 42, -3, 33, 48, 248, 31, 13, 63, 84, 253, 25, 33, 68, 88, 201, 36, 12, 14, 26, 224, 34, 23, 62, 80, 243, 53, -46, 35, 59, 230, 30, 44, 35, 57, 205, 32, 31, 8, 14, 222, 36, 18, 10, 18, 236, 52, -24, 25, 36, 240, 44, -22, 59, 76] }, { "part": "cit22", "scores": [7, 43, 138, 17, 66, 33, 57, 84, 19, 58, 54, 52, 77, 20, 59, 56, 39, 55, 18, 60, 51, 49, 74, 11, 59, -59, 48, 87, 15, 50, -81, 23, 53, 15, 48, -81, 31, 57, 15, 40, -91, 36, 59, 246, 34, 7, 88, 118, 251, 37, 7, 67, 96, 254, 36, -17, 74, 97, 253, 40, 6, 74, 100, 232, 33, 50, 39, 62, 246, 40, 11, 35, 59, 247, 36, 33, 47, 70, 249, 34, 44, 49, 70] }, { "part": "cit23", "scores": [12, 53, 114, 15, 73, -8, 91, 113, 14, 36, 25, 52, 77, 16, 62, -23, 93, 121, 19, 72, -77, 75, 99, 13, 42, -109, 46, 74, 6, 33, 52, 39, 68, 12, 65, 2, 84, 107, 17, 94, -26, 69, 96, 254, 42, -2, 60, 94, 248, 25, 64, 12, 19, 5, 48, 32, 39, 60, 17, 89, -13, 53, 87, 251, 37, 12, 69, 92, 242, 22, 66, 9, 17, 3, 41, 37, 31, 55, 17, 84, -23, 62, 89] },
-    //floating islands
-    { "part": "float0", "scores": [157, 55, 165, 156, 60, -2, 14, 22, 157, 39, -33, 20, 27, 159, 31, -43, 11, 16, 155, 30, -50, 15, 19, 158, 67, 11, 5, 9, 156, 59, -2, 11, 15, 158, 49, -16, 11, 15, 158, 43, -23, 2, 4, 159, 67, 21, 3, 4, 158, 65, 15, 5, 7, 157, 65, 11, 5, 8, 154, 64, 0, 11, 15, 160, 59, 24, 35, 52, 159, 46, 39, 62, 85, 155, 69, 23, 4, 6, 155, 68, 21, 6, 13] }, { "part": "float1", "scores": [168, 13, 182, 152, 21, -50, 6, 12, 159, 14, -58, 2, 3, 157, 12, -59, 1, 2, 149, 16, -58, 3, 4, 159, 35, 0, 32, 42, 160, 27, -23, 24, 37, 162, 14, -50, 14, 20, 166, 9, -61, 3, 4, 165, 34, 69, 41, 52, 253, 19, 72, 52, 69, 140, 18, -8, 25, 38, 152, 27, -31, 32, 44, 177, 27, 106, 40, 60, 253, 43, 85, 33, 49, 26, 18, 18, 49, 66, 154, 37, 42, 37, 59] }, { "part": "float2", "scores": [146, 15, 227, 147, 17, -12, 2, 3, 144, 18, -13, 3, 4, 140, 23, -10, 2, 4, 139, 21, -11, 2, 3, 151, 10, -14, 2, 3, 145, 15, -15, 2, 3, 141, 15, -14, 3, 4, 138, 14, -15, 3, 5, 155, 19, 5, 18, 26, 150, 12, -9, 8, 11, 143, 7, -16, 2, 4, 144, 6, -18, 2, 3, 140, 11, 67, 58, 79, 155, 21, 31, 29, 49, 154, 15, 24, 70, 88, 149, 13, 21, 73, 91] }, { "part": "float3", "scores": [148, 24, 192, 138, 21, -45, 3, 5, 137, 17, -48, 4, 5, 136, 26, -43, 3, 4, 144, 30, 0, 62, 74, 142, 10, -53, 2, 3, 142, 9, -53, 2, 3, 139, 16, -45, 9, 27, 153, 41, 68, 23, 47, 149, 5, -49, 11, 19, 148, 4, -49, 9, 37, 147, 13, -29, 42, 81, 153, 42, 71, 21, 34, 149, 26, 33, 62, 73, 150, 39, 75, 32, 48, 154, 40, 84, 12, 20, 155, 39, 84, 9, 15] }, { "part": "float4", "scores": [145, 23, 159, 137, 28, -50, 38, 58, 136, 27, -63, 17, 36, 136, 26, -71, 4, 7, 138, 13, -81, 2, 3, 156, 33, 42, 6, 13, 150, 32, 29, 25, 54, 117, 7, -49, 51, 72, 138, 14, -25, 51, 70, 151, 22, 33, 22, 35, 149, 32, 31, 22, 36, 145, 15, 20, 34, 53, 138, 23, 27, 54, 73, 152, 37, 49, 15, 28, 147, 15, 35, 44, 58, 147, 23, 32, 29, 45, 146, 25, 42, 27, 37] }, { "part": "float5", "scores": [216, 14, 105, 170, 35, -60, 14, 20, 168, 28, -27, 75, 108, 163, 30, -18, 80, 124, 168, 28, 1, 87, 116, 228, 21, -55, 19, 31, 191, 21, -34, 37, 56, 193, 17, 32, 92, 129, 200, 22, 33, 60, 86, 20, 61, -44, 84, 117, 18, 38, -30, 74, 104, 240, 18, 10, 65, 92, 195, 19, 53, 50, 76, 6, 36, -3, 21, 34, 253, 34, -8, 20, 29, 201, 17, 34, 39, 56, 195, 25, 52, 20, 32] }, { "part": "float6", "scores": [214, 13, 66, 177, 19, 16, 62, 87, 223, 14, 17, 62, 88, 27, 37, -56, 129, 162, 157, 34, -39, 12, 22, 220, 17, 32, 29, 45, 227, 23, 4, 49, 65, 182, 22, -38, 52, 75, 203, 6, -46, 66, 86, 229, 29, 8, 35, 55, 199, 16, 19, 43, 60, 209, 16, 16, 26, 37, 250, 22, -22, 58, 95, 187, 18, 14, 43, 61, 204, 20, 26, 18, 30, 206, 19, 19, 30, 38, 238, 29, 1, 67, 94] }, { "part": "float7", "scores": [175, 14, 136, 155, 34, 31, 8, 17, 157, 34, 14, 27, 47, 156, 47, -28, 35, 63, 155, 50, -29, 33, 46, 154, 35, 33, 5, 8, 169, 17, 20, 65, 79, 219, 6, 33, 62, 96, 167, 21, -29, 17, 32, 10, 7, 7, 62, 85, 231, 18, -15, 32, 49, 234, 11, 33, 66, 94, 231, 18, -20, 20, 30, 24, 42, -11, 107, 146, 183, 22, -26, 29, 56, 184, 12, 35, 59, 85, 194, 13, -34, 28, 44] }, { "part": "float8", "scores": [156, 25, 125, 153, 50, -22, 36, 45, 151, 49, 12, 20, 29, 150, 42, 27, 9, 12, 152, 42, 29, 6, 9, 169, 23, -41, 18, 24, 162, 30, -32, 27, 35, 154, 33, 2, 30, 41, 150, 43, 25, 15, 23, 216, 15, -22, 9, 15, 221, 13, -26, 17, 22, 205, 10, -24, 22, 36, 155, 32, 10, 35, 46, 161, 24, 4, 47, 64, 143, 15, 20, 24, 34, 102, 12, 30, 37, 54, 139, 9, 13, 51, 70] }, { "part": "float9", "scores": [155, 16, 124, 153, 37, 22, 11, 17, 157, 37, 20, 11, 16, 155, 37, 9, 15, 20, 153, 29, 4, 20, 29, 150, 36, 23, 15, 22, 154, 26, 23, 10, 16, 156, 22, 1, 29, 41, 159, 28, -28, 43, 56, 140, 17, -2, 38, 57, 150, 17, 12, 24, 35, 179, 8, -13, 15, 24, 224, 10, -31, 12, 16, 43, 25, -5, 52, 72, 45, 16, 9, 60, 76, 240, 3, 5, 48, 63, 205, 15, -45, 38, 51] }, { "part": "float10", "scores": [236, 17, 104, 6, 45, -12, 9, 15, 246, 29, -43, 37, 47, 193, 18, 14, 51, 69, 191, 19, 58, 13, 21, 255, 30, -26, 37, 49, 9, 25, -48, 30, 39, 219, 9, 16, 40, 55, 203, 19, 64, 18, 25, 4, 17, -64, 26, 42, 14, 21, -61, 41, 54, 199, 13, 32, 71, 99, 215, 18, 57, 27, 35, 12, 14, -23, 19, 34, 253, 12, -33, 62, 76, 194, 27, 18, 25, 48, 220, 24, 41, 35, 52] }, { "part": "float11", "scores": [212, 15, 56, 201, 21, 17, 18, 28, 192, 20, 7, 40, 54, 209, 19, 5, 38, 54, 224, 14, 4, 35, 51, 212, 21, 11, 24, 34, 202, 19, 17, 23, 36, 198, 19, 3, 35, 53, 211, 16, 4, 32, 49, 214, 19, 8, 35, 45, 208, 21, 3, 16, 24, 196, 16, 7, 43, 70, 25, 27, -56, 94, 125, 205, 25, -14, 26, 41, 205, 17, 3, 39, 54, 229, 17, -19, 48, 67, 214, 9, -16, 55, 84] }, { "part": "float12", "scores": [3, 16, 130, 23, 41, 25, 76, 107, 238, 17, -12, 75, 103, 23, 44, 4, 102, 133, 198, 11, -19, 26, 37, 232, 21, 67, 41, 68, 25, 84, -9, 107, 159, 22, 60, -12, 83, 124, 175, 8, -9, 23, 39, 209, 16, 62, 46, 70, 11, 37, 33, 83, 127, 191, 18, -13, 39, 67, 239, 15, -41, 22, 35, 245, 10, -26, 33, 55, 193, 10, 8, 44, 75, 177, 14, -8, 39, 65, 181, 18, -25, 14, 21] }, { "part": "float13", "scores": [177, 13, 137, 182, 9, -4, 31, 43, 155, 34, 37, 22, 31, 156, 37, 48, 12, 19, 161, 21, 49, 14, 20, 174, 10, -1, 10, 16, 174, 12, -4, 23, 35, 158, 39, 34, 23, 35, 159, 31, 53, 12, 18, 5, 19, -51, 29, 41, 1, 15, -49, 10, 20, 248, 9, -34, 52, 68, 159, 30, 44, 15, 30, 200, 15, -28, 10, 14, 237, 14, -38, 3, 6, 243, 18, -57, 19, 26, 176, 16, -1, 55, 80] }, { "part": "float14", "scores": [185, 13, 132, 157, 22, 46, 11, 16, 216, 10, 33, 18, 25, 203, 15, 5, 31, 40, 166, 33, -35, 15, 25, 154, 20, 45, 18, 27, 220, 7, 35, 17, 27, 25, 7, 0, 26, 40, 182, 12, -14, 25, 35, 18, 10, 9, 32, 48, 183, 8, 20, 33, 47, 192, 18, -29, 30, 39, 186, 26, -32, 7, 13, 195, 8, -27, 37, 55, 181, 8, -4, 36, 51, 199, 18, -22, 13, 19, 186, 29, -31, 6, 10] }, { "part": "float15", "scores": [206, 11, 91, 229, 8, -45, 26, 37, 177, 34, -13, 36, 51, 184, 32, 2, 23, 38, 188, 24, -2, 55, 79, 220, 11, 4, 55, 70, 226, 9, -39, 42, 57, 222, 5, 17, 60, 86, 193, 13, 56, 19, 33, 4, 13, -21, 46, 60, 11, 9, -46, 17, 24, 206, 7, -5, 49, 63, 189, 23, 47, 16, 23, 12, 21, -18, 14, 20, 19, 13, -13, 17, 23, 225, 8, 5, 36, 47, 198, 22, 40, 32, 46] }, { "part": "float16", "scores": [237, 26, 73, 198, 16, 30, 39, 55, 195, 22, 34, 23, 31, 221, 22, 9, 43, 61, 9, 45, -28, 83, 117, 189, 28, 26, 10, 15, 214, 22, 19, 20, 31, 235, 31, -11, 26, 42, 12, 63, -51, 50, 80, 201, 24, 18, 19, 28, 218, 22, 14, 22, 29, 240, 32, -10, 31, 42, 7, 51, -38, 67, 99, 213, 18, 12, 29, 38, 227, 27, 8, 9, 14, 246, 34, -18, 43, 56, 254, 36, -22, 52, 74] }, { "part": "float17", "scores": [205, 5, 120, 203, 5, 50, 71, 104, 38, 11, 33, 55, 87, 203, 2, 16, 68, 92, 176, 16, -38, 22, 34, 168, 4, 25, 37, 55, 28, 13, 17, 113, 144, 200, 1, 1, 35, 52, 221, 7, -23, 36, 52, 248, 12, -44, 23, 38, 227, 9, -14, 60, 77, 180, 21, -33, 14, 22, 195, 18, -44, 18, 25, 245, 6, 9, 18, 34, 255, 3, 32, 39, 51, 178, 10, 5, 15, 21, 178, 12, -2, 20, 27] }, { "part": "float18", "scores": [221, 12, 163, 169, 31, 4, 9, 12, 183, 22, 13, 41, 49, 223, 18, -6, 8, 14, 245, 16, -14, 28, 38, 242, 8, -26, 47, 62, 177, 22, 32, 38, 62, 187, 28, 17, 33, 46, 182, 27, 27, 37, 50, 254, 13, -25, 27, 36, 17, 28, -43, 28, 39, 16, 33, -36, 11, 19, 6, 20, -16, 32, 44, 183, 16, 31, 22, 29, 211, 12, 8, 19, 30, 236, 13, 5, 16, 25, 10, 25, -15, 9, 17] }, { "part": "float19", "scores": [234, 14, 174, 10, 24, -18, 23, 35, 194, 10, 24, 38, 50, 200, 12, 19, 28, 39, 205, 9, 8, 24, 37, 174, 29, 15, 11, 20, 201, 16, 6, 11, 16, 3, 23, -20, 13, 19, 5, 22, -18, 21, 28, 194, 11, 23, 27, 38, 255, 20, -17, 16, 23, 218, 22, -5, 10, 15, 205, 22, 7, 4, 8, 223, 13, 7, 10, 16, 249, 18, -10, 25, 36, 14, 34, -32, 18, 28, 5, 17, -4, 22, 40] }, { "part": "float20", "scores": [221, 7, 72, 214, 2, -13, 10, 15, 234, 3, -16, 11, 17, 202, 9, -8, 25, 38, 198, 22, 29, 22, 34, 225, 3, -6, 9, 15, 4, 6, -14, 12, 17, 212, 9, -5, 19, 26, 193, 20, 31, 14, 21, 249, 2, 1, 11, 19, 212, 5, -8, 9, 13, 234, 9, -11, 11, 18, 194, 25, 25, 15, 26, 30, 29, -23, 30, 41, 255, 4, -1, 9, 13, 243, 10, -11, 8, 11, 210, 13, 16, 26, 33] }, { "part": "float21", "scores": [232, 18, 72, 224, 20, 14, 34, 49, 225, 27, 9, 14, 28, 249, 32, -17, 66, 95, 12, 41, -30, 75, 103, 5, 21, -11, 16, 27, 199, 25, 30, 14, 28, 227, 26, 17, 18, 29, 7, 25, -27, 32, 45, 255, 18, -10, 31, 48, 195, 25, 33, 10, 19, 237, 18, -3, 43, 60, 3, 10, -34, 26, 41, 198, 12, 5, 51, 64, 195, 27, 35, 11, 18, 232, 10, -8, 63, 80, 170, 17, -20, 35, 49] }, { "part": "float22", "scores": [238, 4, 90, 222, 1, 9, 10, 16, 175, 5, 23, 29, 38, 199, 3, 7, 9, 15, 179, 10, -29, 22, 32, 4, 5, 1, 15, 21, 184, 4, 23, 40, 54, 160, 6, 9, 11, 15, 178, 5, 12, 6, 10, 26, 23, -24, 44, 61, 218, 3, 25, 25, 47, 197, 4, 8, 15, 20, 170, 9, 1, 24, 34, 17, 16, -27, 39, 74, 21, 35, 3, 63, 82, 9, 14, 1, 17, 26, 170, 20, -53, 10, 17] }, { "part": "float23", "scores": [189, 11, 139, 186, 16, -8, 12, 23, 237, 13, -33, 39, 52, 189, 14, -12, 15, 21, 252, 15, -30, 16, 23, 178, 17, 26, 23, 31, 176, 28, -15, 9, 16, 188, 13, -10, 15, 31, 19, 18, 10, 51, 76, 197, 10, -7, 27, 36, 206, 9, -21, 20, 27, 231, 9, 0, 36, 47, 80, 6, 57, 31, 45, 169, 17, -12, 4, 6, 165, 26, -8, 6, 10, 170, 20, -1, 22, 36, 158, 7, 51, 44, 59] },
-    //frost
-    { "part": "frost0", "scores": [144, 24, 51, 143, 30, -17, 70, 92, 142, 29, -30, 48, 77, 143, 25, 0, 41, 57, 142, 34, -31, 58, 84, 149, 15, 27, 12, 23, 144, 26, -7, 76, 115, 144, 16, 12, 35, 56, 141, 39, -37, 77, 99, 150, 18, 21, 23, 31, 147, 14, 24, 21, 34, 145, 22, 8, 39, 58, 143, 24, -6, 53, 80, 145, 37, -7, 22, 37, 149, 20, 16, 19, 30, 146, 19, 17, 26, 38, 145, 19, 2, 29, 42] }, { "part": "frost1", "scores": [143, 31, 67, 147, 19, 30, 10, 19, 143, 35, 1, 50, 66, 145, 37, 19, 19, 31, 146, 33, 20, 12, 16, 144, 22, 20, 26, 42, 142, 37, -9, 73, 92, 146, 18, 28, 27, 47, 144, 34, -6, 40, 54, 141, 37, -13, 61, 82, 143, 35, -10, 49, 62, 144, 29, 3, 30, 47, 144, 40, -24, 38, 51, 138, 18, 3, 101, 127, 142, 24, -12, 43, 60, 143, 37, -10, 34, 50, 140, 39, -46, 36, 68] }, { "part": "frost2", "scores": [140, 34, 89, 146, 41, 36, 12, 19, 148, 28, 42, 16, 22, 145, 33, 31, 18, 25, 144, 33, 29, 20, 29, 148, 26, 22, 17, 28, 150, 17, 28, 27, 46, 147, 33, 11, 19, 28, 146, 38, 2, 32, 44, 142, 38, -9, 31, 48, 92, 37, -20, 104, 149, 140, 36, -30, 92, 126, 151, 23, 22, 37, 54, 139, 68, -41, 36, 55, 132, 39, -59, 86, 112, 128, 25, -29, 78, 119, 140, 65, -55, 38, 62] }, { "part": "frost3", "scores": [148, 31, 73, 145, 30, 18, 12, 17, 144, 37, 10, 6, 11, 147, 30, 18, 24, 31, 148, 26, 21, 29, 37, 147, 32, -4, 24, 35, 145, 44, -19, 26, 38, 161, 15, 23, 28, 38, 155, 25, 8, 44, 57, 155, 18, 13, 20, 35, 146, 35, -12, 51, 71, 162, 14, 19, 22, 35, 153, 24, 4, 40, 59, 145, 41, -13, 34, 50, 143, 62, -51, 29, 45, 150, 29, -7, 30, 46, 149, 35, -27, 54, 70] }, { "part": "frost4", "scores": [154, 19, 47, 145, 32, -12, 22, 32, 146, 34, -6, 32, 48, 146, 34, 4, 15, 23, 147, 31, 12, 16, 23, 149, 32, -23, 64, 82, 156, 14, 7, 36, 48, 147, 22, 1, 49, 74, 147, 41, -17, 57, 83, 151, 30, -25, 56, 79, 177, 11, 11, 33, 53, 214, 7, 27, 19, 27, 211, 4, 16, 31, 49, 191, 13, -9, 44, 60, 171, 10, -12, 55, 77, 223, 9, 21, 24, 40, 193, 10, 15, 33, 46] }, { "part": "frost5", "scores": [149, 23, 58, 146, 48, -38, 40, 55, 152, 23, 7, 40, 59, 148, 15, 26, 17, 26, 147, 18, 21, 28, 46, 147, 40, -32, 25, 41, 162, 13, 7, 46, 74, 147, 20, 2, 26, 37, 147, 19, 20, 25, 32, 146, 37, -19, 22, 40, 185, 9, 5, 48, 69, 149, 22, -2, 46, 64, 147, 19, 18, 23, 32, 146, 47, -32, 40, 63, 193, 9, 0, 31, 46, 154, 17, 7, 36, 49, 147, 20, 17, 21, 29] }, { "part": "frost6", "scores": [137, 16, 84, 134, 8, 20, 48, 65, 135, 10, 3, 40, 62, 141, 41, -7, 48, 78, 122, 19, -53, 54, 76, 78, 2, 25, 38, 59, 137, 10, 11, 46, 68, 141, 20, 19, 53, 77, 119, 16, -54, 59, 88, 144, 11, 39, 35, 47, 143, 19, 20, 51, 67, 145, 19, 32, 20, 39, 118, 15, -61, 53, 75, 146, 23, 33, 43, 57, 144, 27, 12, 42, 61, 145, 19, 26, 24, 40, 124, 16, -70, 48, 69] }, { "part": "frost7", "scores": [136, 45, 167, 138, 74, 16, 72, 101, 138, 71, 25, 76, 108, 93, 19, 36, 115, 172, 77, 21, 24, 106, 137, 138, 66, -9, 38, 56, 138, 65, -2, 60, 77, 137, 56, -8, 34, 60, 92, 14, 22, 110, 145, 138, 53, -35, 12, 16, 138, 61, -24, 13, 21, 139, 53, -32, 6, 8, 140, 41, 17, 58, 83, 139, 52, -37, 5, 7, 138, 46, -34, 8, 12, 139, 41, -33, 23, 46, 141, 32, 45, 88, 133] }, { "part": "frost8", "scores": [146, 30, 122, 141, 53, -4, 62, 83, 140, 68, -14, 37, 59, 146, 47, 16, 46, 73, 144, 47, 8, 45, 67, 139, 58, -40, 42, 61, 63, 24, -30, 116, 164, 143, 27, -1, 121, 169, 171, 28, 8, 68, 91, 143, 37, 2, 86, 124, 104, 12, -38, 112, 165, 61, 9, -8, 128, 171, 181, 27, 2, 39, 58, 145, 46, 11, 118, 179, 143, 32, 55, 69, 125, 145, 27, 16, 105, 148, 208, 33, 20, 59, 86] }, { "part": "frost9", "scores": [247, 22, 61, 152, 24, -20, 58, 83, 231, 10, 14, 46, 70, 244, 10, 6, 50, 72, 217, 14, 21, 40, 56, 219, 11, 8, 45, 67, 218, 10, 11, 51, 79, 14, 25, -36, 115, 150, 249, 23, 20, 23, 33, 239, 35, 14, 46, 63, 248, 31, 19, 29, 49, 254, 21, 1, 59, 88, 16, 75, -9, 70, 104, 239, 34, 5, 34, 52, 236, 30, -20, 38, 55, 245, 39, -1, 36, 58, 10, 42, -17, 71, 100] }, { "part": "frost10", "scores": [156, 16, 58, 174, 9, 12, 32, 57, 201, 8, 29, 18, 26, 161, 12, 15, 34, 45, 148, 19, 21, 16, 24, 232, 14, 20, 30, 50, 227, 13, 24, 35, 53, 174, 9, 20, 35, 46, 146, 32, -1, 26, 36, 146, 28, -62, 72, 112, 164, 10, 8, 38, 64, 154, 17, 5, 70, 89, 145, 42, -20, 16, 30, 146, 16, -23, 58, 86, 241, 13, 16, 38, 71, 148, 31, -24, 56, 75, 145, 43, -24, 21, 34] }, { "part": "frost11", "scores": [138, 18, 97, 147, 23, 48, 32, 47, 144, 31, 14, 43, 71, 143, 22, 20, 80, 108, 57, 11, -56, 64, 84, 146, 25, 48, 18, 25, 142, 22, 23, 51, 76, 137, 14, 9, 80, 114, 114, 11, -63, 69, 101, 146, 34, 31, 25, 35, 144, 28, 37, 41, 60, 110, 7, 1, 74, 108, 100, 9, -51, 60, 96, 146, 37, 24, 19, 30, 146, 27, 38, 33, 50, 51, 14, -22, 86, 124, 133, 29, -104, 27, 46] }, { "part": "frost12", "scores": [134, 10, 137, 139, 40, -70, 7, 20, 138, 36, -53, 35, 58, 13, 48, 32, 91, 141, 5, 16, 36, 87, 122, 138, 18, 15, 100, 137, 138, 33, 15, 106, 144, 12, 33, 0, 139, 193, 13, 44, 54, 91, 136, 140, 43, -55, 13, 29, 139, 42, -37, 23, 53, 17, 17, 57, 103, 160, 28, 33, 18, 143, 201, 139, 48, -70, 10, 15, 139, 41, -29, 53, 79, 135, 21, 42, 132, 190, 139, 37, 50, 116, 165] }, { "part": "frost13", "scores": [144, 12, 79, 143, 30, -19, 109, 165, 146, 49, -25, 119, 158, 147, 44, -28, 127, 177, 148, 31, -30, 125, 165, 152, 7, -13, 59, 96, 146, 23, 9, 66, 104, 165, 12, 35, 42, 81, 130, 17, -5, 112, 154, 8, 24, -7, 141, 187, 148, 15, 24, 47, 85, 124, 6, 4, 98, 142, 38, 28, -41, 136, 187, 166, 3, 46, 36, 58, 10, 15, 29, 97, 140, 55, 3, 16, 88, 126, 145, 24, 2, 71, 110] }, { "part": "frost14", "scores": [238, 13, 125, 101, 8, -24, 101, 137, 44, 21, -15, 116, 161, 213, 29, 9, 48, 75, 232, 31, 47, 75, 102, 33, 80, -16, 110, 159, 33, 29, -6, 117, 164, 210, 25, 7, 64, 87, 242, 57, 40, 44, 69, 120, 15, -5, 62, 104, 158, 24, -17, 58, 85, 214, 21, 3, 49, 69, 230, 33, 17, 52, 75, 96, 11, -4, 101, 141, 179, 10, 5, 69, 96, 209, 28, 6, 34, 50, 189, 26, -19, 37, 51] }, { "part": "frost15", "scores": [134, 8, 102, 150, 10, 56, 67, 98, 154, 16, 43, 70, 98, 146, 39, 6, 36, 54, 146, 39, 10, 23, 36, 145, 18, 62, 33, 55, 146, 14, 59, 27, 44, 140, 9, 40, 22, 32, 120, 3, 39, 50, 74, 141, 24, 24, 62, 94, 128, 3, 27, 74, 99, 25, 26, -41, 66, 90, 40, 14, -52, 69, 89, 138, 41, -74, 58, 84, 141, 5, -13, 61, 91, 26, 48, -81, 54, 72, 70, 5, -105, 11, 17] }, { "part": "frost16", "scores": [104, 9, 161, 144, 28, 80, 66, 89, 145, 24, 93, 60, 85, 46, 19, -2, 61, 85, 140, 40, -58, 8, 13, 60, 4, 69, 71, 103, 135, 9, 72, 118, 154, 72, 11, -14, 69, 96, 136, 25, -59, 19, 27, 135, 24, -21, 56, 89, 148, 16, 31, 29, 55, 88, 6, -27, 44, 66, 60, 17, -38, 64, 82, 135, 22, -39, 15, 28, 30, 37, 3, 76, 111, 46, 14, -45, 53, 77, 32, 44, -17, 85, 123] }, { "part": "frost17", "scores": [127, 13, 123, 140, 22, -68, 50, 69, 141, 24, 1, 93, 125, 138, 19, 38, 74, 117, 140, 41, 47, 76, 129, 139, 29, -71, 35, 48, 142, 29, 4, 34, 55, 35, 10, 45, 95, 143, 89, 5, 33, 108, 148, 85, 10, -66, 68, 97, 34, 7, 39, 79, 129, 48, 14, 4, 64, 102, 141, 22, 39, 27, 39, 48, 28, -23, 121, 171, 105, 10, -36, 60, 89, 140, 34, -20, 15, 24, 140, 26, 19, 29, 40] }, { "part": "frost18", "scores": [14, 5, 53, 57, 9, -20, 144, 188, 7, 16, 17, 35, 61, 12, 47, 4, 93, 108, 1, 9, -5, 59, 83, 114, 13, -38, 60, 94, 146, 4, 23, 21, 29, 5, 24, 26, 9, 14, 9, 50, 14, 25, 38, 143, 31, -9, 49, 74, 142, 6, 31, 13, 20, 190, 2, 21, 25, 35, 8, 25, -4, 36, 51, 135, 21, -40, 43, 64, 137, 11, 4, 24, 37, 132, 9, -3, 20, 28, 131, 11, -25, 64, 85] }, { "part": "frost19", "scores": [139, 14, 160, 74, 0, 60, 61, 99, 134, 10, 7, 78, 109, 151, 43, 5, 39, 58, 151, 46, -12, 22, 33, 14, 67, 82, 110, 157, 30, 6, 15, 100, 137, 142, 46, -35, 21, 30, 140, 41, -35, 13, 19, 11, 39, 78, 80, 114, 117, 9, -10, 63, 102, 139, 41, -31, 10, 16, 137, 34, -35, 5, 7, 105, 8, 0, 53, 84, 121, 14, -15, 39, 65, 137, 34, -42, 5, 9, 135, 25, -39, 6, 9] }, { "part": "frost20", "scores": [105, 10, 174, 138, 50, -36, 13, 18, 138, 24, -31, 27, 44, 22, 59, -21, 52, 79, 27, 23, -20, 19, 29, 137, 50, 1, 58, 79, 138, 34, 18, 73, 102, 24, 12, -36, 50, 79, 25, 79, -19, 45, 69, 142, 46, 70, 64, 98, 133, 27, 55, 35, 61, 136, 19, 0, 68, 99, 30, 34, -42, 55, 77, 137, 33, 68, 47, 70, 111, 21, 40, 49, 71, 93, 8, 14, 92, 121, 42, 18, -28, 76, 98] }, { "part": "frost21", "scores": [30, 31, 198, 115, 7, -13, 9, 15, 101, 5, -14, 15, 30, 34, 21, -1, 61, 85, 34, 53, 40, 84, 124, 29, 30, -20, 30, 46, 30, 33, -11, 67, 91, 32, 16, 29, 77, 111, 59, 12, 30, 54, 77, 28, 80, -2, 63, 91, 25, 63, -2, 58, 87, 25, 34, 3, 27, 45, 45, 15, -8, 13, 19, 42, 11, -14, 47, 70, 29, 38, -15, 53, 75, 24, 53, -3, 51, 74, 28, 55, -2, 28, 44] }, { "part": "frost22", "scores": [79, 8, 203, 33, 53, 49, 91, 134, 130, 17, 32, 34, 52, 135, 21, -1, 14, 22, 135, 27, 20, 25, 35, 129, 15, 10, 19, 34, 97, 8, -7, 26, 39, 112, 6, -19, 8, 13, 128, 12, -13, 9, 13, 71, 7, -7, 14, 20, 97, 7, -7, 15, 21, 105, 8, -7, 10, 15, 121, 12, -1, 9, 13, 32, 43, 1, 31, 41, 41, 15, -3, 21, 30, 41, 16, -1, 18, 25, 68, 10, 3, 14, 23] }, { "part": "frost23", "scores": [61, 10, 153, 132, 13, 51, 45, 62, 62, 5, 94, 31, 44, 117, 7, 91, 41, 58, 126, 10, 71, 76, 120, 132, 18, -24, 38, 62, 138, 19, 61, 86, 123, 129, 14, 9, 60, 84, 98, 11, -40, 16, 24, 124, 15, -45, 5, 9, 106, 11, -26, 50, 70, 69, 13, -43, 10, 15, 67, 13, -37, 11, 15, 45, 12, -50, 9, 16, 32, 54, -37, 26, 38, 31, 63, -31, 18, 31, 25, 53, -23, 47, 64] },
-    //archer
-    { "part": "archer0", "scores": [125, 42, 32, 127, 41, 5, 4, 10, 126, 38, 7, 4, 10, 125, 39, 5, 6, 13, 123, 65, -19, 17, 25, 124, 44, 5, 5, 8, 125, 40, 5, 5, 6, 125, 37, 8, 4, 6, 126, 46, -4, 8, 12, 124, 37, 8, 4, 7, 125, 38, 6, 4, 6, 126, 40, 5, 5, 8, 125, 44, -9, 61, 85, 125, 37, 10, 7, 10, 127, 38, 1, 16, 33, 119, 46, -32, 94, 125, 127, 35, -3, 14, 41] }, { "part": "archer1", "scores": [127, 91, 79, 125, 162, -12, 23, 34, 126, 181, -15, 15, 23, 126, 169, -21, 29, 55, 127, 136, -46, 54, 90, 123, 94, 0, 74, 111, 125, 145, -15, 57, 88, 130, 55, -11, 129, 176, 145, 14, -2, 44, 71, 120, 56, 5, 103, 144, 126, 118, -1, 61, 93, 131, 51, 2, 156, 204, 152, 15, 24, 31, 55, 128, 38, 31, 41, 66, 132, 37, 30, 45, 63, 131, 66, 19, 124, 173, 127, 142, -8, 72, 125] }, { "part": "archer2", "scores": [126, 132, 96, 126, 194, -10, 8, 20, 126, 200, -6, 7, 12, 126, 179, 5, 7, 12, 126, 160, 5, 32, 48, 128, 135, -33, 30, 42, 126, 206, -8, 7, 12, 126, 194, -2, 11, 15, 126, 164, 2, 48, 61, 129, 103, -18, 71, 97, 125, 115, 10, 113, 150, 124, 102, -5, 84, 111, 125, 99, -27, 103, 142, 127, 145, 6, 89, 136, 131, 85, 13, 102, 143, 126, 27, 28, 102, 146, 117, 9, 42, 56, 97] }, { "part": "archer3", "scores": [126, 169, 91, 126, 161, 7, 11, 17, 126, 166, 4, 16, 25, 125, 206, -14, 9, 16, 126, 198, -10, 10, 15, 126, 162, 8, 19, 27, 126, 150, 13, 14, 20, 125, 200, -10, 14, 21, 125, 197, -9, 18, 24, 125, 123, 15, 42, 59, 126, 141, 17, 8, 14, 125, 184, -2, 19, 26, 125, 203, -12, 15, 21, 126, 88, -5, 125, 168, 126, 141, 14, 10, 26, 126, 183, -2, 18, 26, 125, 195, -8, 14, 20] }, { "part": "archer4", "scores": [124, 152, 98, 126, 200, -4, 8, 14, 126, 189, 1, 8, 14, 107, 55, -10, 97, 133, 125, 164, 2, 36, 59, 126, 201, -3, 7, 11, 126, 201, -4, 10, 13, 120, 128, -19, 70, 101, 123, 84, 23, 74, 103, 125, 200, -4, 15, 23, 126, 205, -6, 9, 13, 125, 157, 9, 52, 75, 73, 28, 8, 92, 135, 125, 192, -1, 21, 32, 125, 200, -4, 20, 28, 126, 197, -3, 18, 37, 113, 39, 22, 106, 160] }, { "part": "archer5", "scores": [73, 6, 66, 125, 38, 23, 60, 88, 124, 35, 18, 55, 86, 44, 26, -14, 70, 90, 40, 15, 9, 75, 103, 127, 43, 23, 30, 51, 119, 22, 19, 44, 61, 23, 78, -49, 82, 123, 13, 31, -7, 63, 91, 134, 41, 36, 5, 8, 135, 32, 34, 37, 49, 16, 44, -49, 117, 174, 3, 46, -29, 70, 103, 133, 40, 37, 9, 12, 136, 35, 29, 49, 62, 8, 26, -19, 107, 158, 0, 42, -23, 61, 96] }, { "part": "archer6", "scores": [130, 47, 63, 126, 38, 23, 35, 56, 132, 33, 19, 48, 66, 136, 32, 20, 53, 80, 127, 130, -16, 91, 118, 127, 23, 11, 54, 72, 131, 33, 26, 31, 41, 127, 55, 11, 45, 61, 125, 125, -25, 57, 92, 142, 42, 14, 44, 76, 136, 42, 18, 54, 76, 125, 59, 8, 17, 34, 124, 84, -24, 35, 69, 174, 13, 25, 31, 54, 160, 12, -36, 150, 192, 127, 19, -45, 155, 206, 143, 31, -38, 111, 166] }, { "part": "archer7", "scores": [57, 9, 99, 127, 138, 3, 113, 159, 139, 40, 48, 85, 123, 55, 5, 7, 163, 213, 25, 70, -60, 74, 123, 128, 129, 3, 92, 137, 148, 21, 51, 93, 138, 19, 65, -53, 153, 218, 17, 97, -52, 65, 100, 129, 61, 21, 96, 153, 158, 19, 68, 28, 59, 13, 65, -14, 76, 109, 14, 105, -52, 94, 127, 18, 49, -15, 120, 171, 250, 27, 34, 77, 111, 178, 5, 21, 69, 111, 7, 33, 10, 94, 129] }, { "part": "archer8", "scores": [127, 81, 88, 21, 10, 9, 65, 101, 128, 107, 17, 60, 83, 125, 176, -2, 23, 31, 125, 179, -11, 31, 42, 3, 13, 15, 68, 105, 127, 101, 3, 97, 128, 125, 166, 2, 17, 30, 125, 159, -20, 27, 41, 246, 22, 30, 43, 64, 137, 51, 44, 57, 82, 127, 124, 7, 70, 99, 125, 149, -18, 26, 34, 174, 13, 19, 82, 113, 128, 28, -26, 145, 196, 123, 37, -53, 155, 209, 125, 74, -23, 129, 182] }, { "part": "archer9", "scores": [125, 119, 106, 125, 164, -1, 29, 39, 125, 168, 2, 32, 44, 125, 188, 7, 27, 39, 127, 117, 30, 73, 104, 125, 154, -3, 24, 34, 125, 151, -1, 27, 41, 125, 160, 4, 30, 40, 125, 137, 17, 56, 86, 125, 158, -7, 24, 36, 125, 152, -3, 28, 50, 125, 141, -5, 33, 76, 124, 87, 1, 97, 139, 128, 58, -21, 123, 181, 122, 49, 15, 102, 159, 128, 56, 25, 112, 157, 18, 59, -42, 86, 131] }, { "part": "archer10", "scores": [30, 26, 95, 125, 39, 70, 11, 29, 31, 87, -22, 90, 135, 25, 76, -40, 120, 163, 6, 37, 8, 83, 116, 128, 40, 47, 50, 72, 31, 16, -5, 85, 119, 29, 101, -53, 37, 66, 25, 56, -10, 76, 109, 134, 46, -9, 91, 126, 179, 14, 36, 44, 61, 23, 69, -34, 90, 123, 25, 64, -13, 131, 178, 140, 32, 18, 47, 73, 122, 10, 32, 60, 86, 6, 38, -18, 81, 107, 8, 38, -17, 87, 120] }, { "part": "archer11", "scores": [252, 12, 74, 5, 29, 2, 77, 107, 231, 31, 17, 77, 108, 218, 20, 36, 49, 67, 158, 11, 24, 63, 88, 23, 105, -44, 74, 110, 15, 73, -35, 86, 132, 9, 19, 8, 95, 123, 184, 15, 50, 17, 27, 14, 60, -22, 73, 100, 135, 10, -25, 71, 113, 145, 30, 4, 45, 64, 225, 12, 5, 52, 70, 248, 35, -6, 49, 76, 140, 21, -20, 72, 110, 151, 39, 26, 24, 35, 138, 35, 9, 39, 53] }, { "part": "archer12", "scores": [228, 9, 77, 244, 29, 25, 35, 50, 190, 13, 49, 17, 27, 13, 32, -41, 107, 138, 251, 15, -10, 106, 140, 163, 20, 49, 18, 25, 169, 12, 51, 14, 26, 147, 39, 27, 35, 52, 140, 83, -2, 55, 86, 206, 5, -3, 93, 130, 10, 17, 0, 74, 114, 123, 45, -31, 107, 169, 255, 34, -81, 143, 202, 222, 14, -14, 110, 150, 32, 9, 8, 50, 76, 245, 38, -9, 112, 137, 254, 97, -40, 63, 92] }, { "part": "archer13", "scores": [200, 15, 43, 147, 38, -39, 95, 135, 250, 31, -35, 50, 76, 245, 20, -22, 86, 110, 192, 11, -2, 60, 87, 179, 10, -42, 103, 133, 196, 14, 8, 16, 38, 181, 13, 11, 22, 32, 179, 15, 17, 21, 39, 241, 57, -22, 28, 48, 196, 18, 12, 13, 24, 175, 17, 17, 12, 17, 165, 18, 24, 6, 9, 224, 33, -12, 22, 36, 201, 22, 8, 28, 42, 177, 17, 18, 18, 27, 158, 22, 23, 5, 8] }, { "part": "archer14", "scores": [131, 54, 64, 249, 20, 2, 93, 148, 6, 35, -7, 93, 124, 192, 17, -10, 48, 73, 2, 35, -20, 31, 49, 208, 9, 34, 34, 58, 203, 11, 34, 31, 50, 162, 19, 19, 35, 52, 135, 43, 7, 65, 83, 133, 67, 6, 115, 138, 133, 60, 9, 61, 88, 127, 117, -13, 70, 89, 125, 186, -31, 17, 32, 145, 43, 32, 15, 35, 131, 91, -4, 104, 137, 125, 165, -24, 30, 55, 125, 177, -27, 24, 35] }, { "part": "archer15", "scores": [92, 12, 87, 18, 32, -30, 132, 179, 19, 58, -67, 67, 88, 2, 27, 19, 57, 83, 150, 20, 16, 48, 62, 108, 48, -15, 64, 97, 107, 33, -26, 114, 164, 149, 11, 32, 86, 132, 232, 19, 25, 55, 75, 116, 103, -2, 26, 37, 110, 66, 14, 33, 51, 96, 15, -11, 146, 181, 4, 59, -39, 54, 77, 116, 44, 41, 7, 11, 115, 43, 40, 10, 16, 71, 13, 31, 63, 85, 4, 36, -15, 95, 127] }, { "part": "archer16", "scores": [157, 9, 54, 142, 23, -26, 53, 70, 222, 13, -4, 35, 53, 153, 38, 9, 27, 39, 116, 54, -19, 25, 46, 205, 15, 4, 34, 44, 192, 18, 22, 14, 20, 166, 22, 21, 15, 22, 108, 35, -21, 29, 49, 251, 40, -34, 54, 85, 238, 24, -3, 45, 65, 166, 14, 8, 39, 52, 119, 17, 11, 44, 72, 246, 20, -14, 96, 131, 246, 12, 13, 57, 84, 144, 22, 18, 15, 27, 137, 26, 31, 15, 20] }, { "part": "archer17", "scores": [235, 23, 66, 2, 58, -67, 129, 178, 156, 24, -13, 94, 123, 215, 16, 30, 41, 58, 227, 32, 26, 12, 24, 253, 52, -35, 106, 143, 248, 48, -32, 70, 113, 250, 50, -7, 54, 90, 198, 12, 26, 56, 81, 254, 66, -35, 65, 103, 249, 70, -21, 30, 48, 251, 30, -7, 99, 122, 210, 18, 27, 46, 59, 147, 34, 18, 49, 76, 149, 30, 1, 83, 117, 147, 38, 19, 37, 58, 157, 25, 27, 54, 68] }, { "part": "archer18", "scores": [153, 19, 33, 210, 21, -3, 21, 28, 189, 19, 3, 27, 37, 169, 14, 13, 13, 18, 149, 21, 3, 32, 61, 221, 23, -10, 24, 35, 175, 18, 4, 33, 43, 159, 21, 16, 5, 13, 134, 27, -16, 106, 143, 177, 16, 0, 14, 24, 163, 19, 10, 20, 28, 145, 29, 7, 15, 27, 116, 45, -25, 80, 120, 156, 25, 7, 10, 14, 152, 22, 11, 8, 11, 152, 23, 13, 13, 19, 121, 47, -21, 28, 39] }, { "part": "archer19", "scores": [119, 63, 63, 136, 46, 23, 42, 74, 144, 46, 31, 12, 27, 128, 90, 1, 66, 100, 121, 134, -30, 60, 88, 124, 35, 13, 68, 86, 145, 39, 35, 18, 38, 130, 64, 10, 77, 116, 117, 129, -39, 27, 54, 114, 40, 5, 56, 81, 120, 64, -2, 90, 125, 118, 61, -3, 56, 84, 111, 84, -31, 49, 80, 98, 48, -16, 65, 84, 104, 58, -16, 43, 76, 108, 56, -7, 61, 80, 107, 60, -7, 30, 42] }, { "part": "archer20", "scores": [41, 28, 64, 116, 39, 21, 10, 14, 116, 36, 23, 11, 17, 37, 69, -32, 51, 71, 24, 59, -34, 81, 114, 121, 27, 34, 5, 8, 121, 29, 32, 12, 28, 33, 119, -61, 33, 56, 24, 113, -44, 32, 44, 133, 22, 42, 2, 3, 87, 10, 22, 36, 47, 30, 109, -49, 59, 92, 24, 114, -53, 39, 60, 131, 21, 41, 3, 5, 132, 14, 29, 20, 26, 215, 6, 7, 18, 32, 22, 31, 7, 47, 63] }, { "part": "archer21", "scores": [27, 42, 71, 26, 56, -18, 95, 148, 22, 104, -39, 61, 89, 22, 48, -4, 20, 32, 133, 30, 37, 18, 25, 25, 100, -25, 77, 107, 26, 129, -46, 59, 81, 20, 65, 3, 26, 39, 136, 32, 25, 16, 22, 33, 115, -52, 48, 68, 25, 147, -49, 42, 66, 17, 31, 16, 35, 51, 145, 30, 38, 19, 27, 25, 30, 2, 73, 90, 185, 11, 32, 23, 39, 149, 32, 36, 11, 17, 158, 22, 47, 22, 41] }, { "part": "archer22", "scores": [188, 4, 47, 146, 25, 6, 45, 65, 147, 41, 0, 54, 71, 151, 35, 13, 10, 20, 152, 34, 13, 20, 40, 137, 9, 7, 63, 95, 153, 27, 7, 49, 70, 154, 27, 17, 25, 35, 212, 9, 16, 28, 39, 29, 23, -27, 111, 157, 142, 4, -5, 66, 102, 6, 33, -7, 32, 42, 254, 22, 2, 26, 36, 22, 29, -21, 92, 121, 21, 12, -19, 75, 125, 246, 14, 0, 47, 65, 6, 30, -4, 15, 30] }, { "part": "archer23", "scores": [186, 13, 40, 163, 18, 14, 18, 38, 196, 9, 7, 23, 33, 157, 21, 19, 6, 12, 139, 48, 7, 30, 40, 252, 19, -10, 53, 78, 202, 16, 0, 32, 46, 144, 31, 8, 45, 63, 139, 21, 18, 12, 17, 218, 12, 0, 69, 87, 242, 46, -18, 10, 16, 167, 21, -16, 25, 37, 138, 29, 12, 14, 22, 228, 20, -8, 72, 104, 244, 53, -16, 4, 10, 236, 34, -15, 18, 26, 148, 45, -3, 19, 27] },
-    //zam
-    { "part": "zam0", "scores": [217, 13, 41, 161, 26, -57, 35, 66, 251, 8, -24, 82, 104, 222, 12, 25, 11, 19, 191, 12, -23, 69, 90, 227, 11, 1, 46, 74, 220, 10, -17, 58, 74, 221, 13, 15, 29, 39, 211, 14, 5, 33, 47, 231, 15, 10, 32, 52, 220, 15, 17, 8, 13, 232, 25, 8, 49, 66, 219, 16, 4, 19, 36, 213, 14, 10, 12, 21, 219, 17, 0, 28, 42, 226, 20, 2, 23, 40, 225, 19, 5, 14, 20] }, { "part": "zam1", "scores": [221, 19, 69, 154, 22, -45, 116, 149, 167, 25, -47, 94, 123, 223, 13, -5, 103, 150, 8, 25, -52, 101, 134, 209, 14, 24, 55, 91, 213, 14, 31, 27, 43, 211, 14, 28, 30, 45, 213, 15, 27, 38, 51, 227, 23, 33, 47, 78, 228, 32, 9, 50, 82, 226, 24, -8, 47, 76, 220, 21, -14, 50, 87, 222, 18, 28, 23, 35, 224, 21, 11, 31, 52, 234, 39, 4, 53, 82, 233, 42, -35, 113, 183] }, { "part": "zam2", "scores": [206, 16, 112, 225, 17, 80, 29, 54, 225, 17, 85, 18, 30, 10, 45, -42, 68, 86, 2, 67, -87, 26, 41, 222, 19, 67, 35, 60, 245, 29, 45, 79, 112, 197, 23, -43, 77, 107, 174, 35, -45, 11, 25, 227, 20, 36, 62, 91, 8, 21, -97, 96, 144, 161, 48, -33, 75, 96, 158, 48, -27, 10, 28, 201, 18, 4, 132, 180, 196, 18, -7, 89, 126, 155, 48, -35, 10, 31, 166, 19, 43, 89, 122] }, { "part": "zam3", "scores": [158, 26, 121, 3, 51, -72, 43, 59, 187, 19, -29, 33, 55, 152, 47, 8, 38, 55, 141, 32, -39, 116, 182, 167, 32, 13, 45, 59, 162, 20, 66, 47, 77, 148, 62, -17, 52, 79, 133, 24, -110, 26, 62, 171, 16, 78, 48, 79, 156, 43, 10, 38, 54, 147, 65, -48, 36, 55, 158, 17, 0, 90, 120, 159, 30, 23, 44, 58, 158, 35, -1, 55, 69, 176, 17, 66, 35, 53, 168, 18, 52, 61, 84] }, { "part": "zam4", "scores": [191, 18, 61, 183, 18, 4, 10, 19, 191, 18, 1, 18, 27, 193, 17, 5, 8, 16, 195, 17, 11, 9, 16, 180, 19, -6, 17, 26, 198, 19, -1, 39, 51, 196, 18, 2, 17, 23, 195, 18, 8, 9, 13, 177, 17, -6, 39, 51, 182, 16, -13, 38, 55, 198, 18, -3, 13, 20, 193, 18, 2, 11, 16, 187, 17, -3, 30, 57, 193, 16, -4, 28, 55, 198, 18, -6, 27, 42, 189, 18, 2, 8, 13] }, { "part": "zam5", "scores": [250, 32, 85, 241, 30, 25, 71, 101, 215, 11, 42, 76, 115, 229, 21, 41, 55, 103, 242, 28, 26, 108, 138, 5, 49, -29, 98, 119, 215, 10, 63, 15, 34, 238, 17, 31, 75, 113, 3, 56, -45, 63, 86, 9, 73, -81, 69, 92, 231, 15, 50, 38, 56, 193, 11, 42, 61, 89, 254, 43, -38, 109, 132, 8, 79, -110, 12, 19, 3, 81, -84, 36, 62, 234, 21, 22, 61, 85, 230, 17, 61, 23, 33] }, { "part": "zam6", "scores": [239, 32, 76, 232, 15, 51, 34, 60, 227, 23, 14, 62, 81, 237, 48, -18, 104, 131, 241, 96, -47, 83, 133, 238, 22, 38, 72, 106, 235, 14, 49, 35, 68, 236, 39, -21, 100, 134, 245, 51, -86, 85, 125, 248, 27, -63, 126, 168, 230, 12, 47, 74, 103, 237, 29, 14, 45, 68, 247, 58, -64, 81, 113, 230, 12, 29, 101, 121, 224, 12, 61, 17, 27, 229, 20, 21, 64, 86, 240, 40, -30, 43, 72] }, { "part": "zam7", "scores": [210, 13, 62, 229, 24, -52, 171, 234, 184, 16, -19, 78, 113, 173, 15, 4, 61, 86, 173, 14, -17, 77, 104, 236, 30, -58, 96, 138, 181, 13, 34, 33, 46, 179, 12, 22, 34, 45, 209, 9, 37, 34, 54, 241, 37, -67, 133, 178, 185, 8, 43, 28, 44, 192, 12, 18, 50, 74, 208, 13, 17, 57, 80, 237, 36, -67, 130, 193, 185, 13, 15, 73, 99, 203, 13, 30, 26, 41, 214, 13, 29, 36, 51] }, { "part": "zam8", "scores": [192, 16, 71, 169, 17, -7, 50, 73, 196, 14, 30, 43, 72, 195, 13, -4, 79, 108, 231, 49, -50, 87, 124, 198, 13, 30, 50, 80, 188, 13, 12, 61, 87, 196, 12, 18, 43, 60, 198, 14, 14, 58, 78, 190, 16, 24, 19, 33, 179, 15, 28, 25, 48, 169, 16, 15, 73, 110, 179, 17, 20, 45, 61, 210, 13, 11, 100, 124, 170, 16, -92, 61, 101, 170, 19, -72, 60, 91, 191, 19, 11, 16, 32] }, { "part": "zam9", "scores": [220, 18, 68, 222, 27, 7, 41, 62, 234, 40, -13, 98, 119, 228, 16, -31, 88, 127, 236, 26, -83, 98, 124, 234, 15, -9, 107, 142, 230, 18, -7, 87, 123, 241, 22, -31, 68, 98, 235, 32, -44, 60, 90, 192, 17, 23, 18, 33, 207, 16, 27, 45, 65, 210, 16, 22, 19, 25, 202, 17, 15, 20, 29, 193, 17, 28, 15, 20, 201, 15, 39, 18, 30, 198, 15, 25, 34, 47, 194, 16, 20, 46, 62] }, { "part": "zam10", "scores": [4, 60, 135, 3, 71, -54, 16, 30, 252, 41, 27, 121, 163, 254, 43, 25, 94, 142, 0, 61, 39, 57, 90, 6, 73, -58, 14, 20, 5, 71, -28, 54, 75, 246, 36, 77, 81, 131, 254, 70, 23, 65, 95, 15, 80, -56, 33, 50, 6, 57, -4, 95, 132, 252, 52, 27, 109, 130, 246, 57, 55, 59, 84, 14, 87, -57, 31, 54, 18, 71, -63, 30, 52, 8, 68, -9, 90, 115, 248, 63, 73, 31, 56] }, { "part": "zam11", "scores": [245, 45, 74, 238, 29, 37, 23, 36, 236, 23, 48, 22, 39, 226, 15, 31, 57, 101, 193, 14, 31, 30, 56, 244, 53, -17, 50, 73, 239, 38, -3, 104, 151, 237, 26, 25, 34, 59, 239, 38, -28, 62, 87, 254, 71, -58, 88, 125, 246, 47, 1, 46, 63, 242, 37, 14, 42, 60, 246, 60, -58, 42, 62, 249, 69, 6, 19, 36, 251, 69, 0, 44, 57, 249, 52, -8, 88, 125, 250, 79, -32, 48, 80] }, { "part": "zam12", "scores": [242, 36, 76, 190, 13, 29, 32, 66, 196, 13, 52, 15, 25, 215, 14, 41, 32, 51, 226, 20, -11, 100, 153, 244, 47, -16, 76, 109, 243, 44, -9, 72, 107, 244, 30, -9, 145, 178, 237, 31, -25, 74, 95, 247, 55, -45, 49, 74, 250, 58, -18, 49, 84, 252, 59, -26, 65, 89, 246, 63, -6, 67, 91, 248, 53, 1, 57, 74, 232, 21, 25, 35, 61, 236, 23, 15, 50, 71, 245, 48, 0, 73, 89] }, { "part": "zam13", "scores": [248, 59, 76, 242, 23, 51, 18, 42, 233, 15, 47, 18, 39, 226, 16, 7, 116, 147, 227, 24, 18, 54, 77, 240, 30, 6, 70, 94, 249, 51, 28, 20, 27, 250, 58, 22, 22, 33, 242, 32, 14, 70, 97, 247, 48, 29, 18, 30, 247, 78, -6, 32, 41, 247, 92, -31, 28, 41, 248, 77, -1, 22, 34, 1, 79, -40, 53, 80, 254, 103, -67, 65, 86, 250, 126, -45, 23, 40, 248, 98, -26, 12, 20] }, { "part": "zam14", "scores": [235, 30, 59, 216, 18, 18, 14, 20, 208, 16, 24, 9, 13, 199, 17, 17, 11, 15, 196, 18, 2, 18, 24, 237, 41, -3, 13, 26, 231, 26, 16, 9, 13, 218, 18, 19, 16, 20, 204, 16, 20, 11, 15, 245, 50, -12, 63, 83, 241, 46, -1, 9, 14, 233, 32, 0, 13, 25, 232, 22, -1, 59, 76, 246, 70, -26, 39, 46, 244, 59, -15, 15, 24, 238, 25, 5, 46, 75, 249, 22, -80, 64, 87] }, { "part": "zam15", "scores": [253, 79, 114, 4, 82, -47, 56, 85, 9, 86, -61, 57, 78, 9, 99, -42, 79, 101, 254, 101, 15, 23, 42, 247, 70, 25, 22, 36, 0, 92, -34, 62, 89, 0, 104, -47, 52, 69, 3, 130, -25, 39, 60, 245, 72, 49, 26, 36, 244, 75, 44, 34, 54, 252, 92, -6, 33, 46, 2, 113, -51, 28, 44, 243, 51, 55, 13, 19, 232, 25, 77, 8, 12, 242, 48, 60, 15, 23, 250, 90, 19, 29, 43] }, { "part": "zam16", "scores": [1, 109, 125, 251, 91, 44, 8, 14, 250, 81, 42, 21, 35, 249, 77, 44, 14, 23, 250, 74, 39, 49, 71, 2, 129, -2, 53, 74, 1, 116, 2, 59, 84, 6, 103, -26, 69, 89, 5, 116, -14, 51, 70, 1, 121, -30, 24, 34, 2, 134, -13, 36, 54, 3, 143, -11, 26, 37, 3, 144, -21, 25, 33, 4, 112, -33, 46, 64, 4, 106, -40, 54, 85, 2, 131, -4, 33, 50, 255, 99, 37, 30, 43] }, { "part": "zam17", "scores": [2, 102, 116, 250, 70, 15, 94, 115, 248, 49, 74, 16, 26, 247, 39, 79, 13, 20, 244, 25, 94, 13, 20, 3, 116, -34, 68, 92, 3, 127, -19, 44, 59, 1, 123, -10, 60, 81, 3, 113, -9, 49, 66, 9, 131, -37, 42, 57, 4, 144, -24, 29, 45, 5, 137, -32, 42, 58, 6, 127, -47, 34, 44, 253, 89, 35, 28, 35, 0, 117, -4, 28, 37, 2, 132, -31, 26, 36, 6, 135, -40, 26, 39] }, { "part": "zam18", "scores": [6, 87, 125, 232, 14, 93, 25, 39, 8, 57, 9, 93, 120, 17, 108, -49, 46, 71, 0, 105, -6, 53, 75, 254, 88, 41, 36, 48, 251, 40, 87, 27, 44, 1, 53, 20, 121, 157, 2, 121, -13, 45, 75, 14, 110, -51, 48, 58, 255, 127, -4, 15, 26, 2, 67, 28, 74, 102, 2, 66, 20, 97, 143, 25, 97, -59, 18, 37, 5, 131, -34, 32, 50, 7, 115, -45, 60, 80, 8, 109, -29, 41, 65] }, { "part": "zam19", "scores": [253, 58, 102, 247, 61, 18, 65, 90, 248, 55, 49, 23, 35, 243, 29, 58, 23, 31, 253, 21, -2, 54, 67, 254, 101, -12, 30, 40, 254, 83, 15, 41, 54, 242, 25, 61, 43, 58, 242, 31, 12, 73, 93, 2, 128, -43, 45, 56, 255, 86, -10, 66, 100, 2, 30, -2, 114, 157, 239, 41, 42, 16, 26, 3, 122, -52, 33, 52, 1, 64, -39, 82, 110, 16, 45, -104, 4, 10, 242, 35, 32, 34, 55] }, { "part": "zam20", "scores": [4, 69, 122, 246, 56, 61, 19, 33, 234, 25, 88, 10, 15, 240, 34, 82, 10, 16, 245, 52, 69, 10, 15, 253, 90, 10, 57, 78, 248, 45, 59, 63, 77, 253, 54, 27, 83, 112, 8, 67, -16, 70, 95, 7, 120, -26, 72, 104, 5, 88, -7, 84, 107, 11, 87, -50, 43, 66, 10, 87, -53, 38, 59, 254, 90, -6, 35, 46, 8, 94, -63, 5, 9, 14, 87, -69, 9, 12, 13, 89, -68, 3, 4] }, { "part": "zam21", "scores": [3, 87, 136, 250, 85, 42, 35, 56, 3, 115, -6, 64, 88, 1, 114, 5, 22, 31, 251, 68, 74, 26, 35, 254, 84, 26, 51, 71, 5, 86, -10, 82, 101, 4, 99, -22, 64, 84, 254, 105, 11, 37, 55, 250, 79, 52, 34, 60, 15, 91, -32, 70, 100, 9, 100, -39, 56, 77, 3, 88, -37, 49, 67, 253, 57, 37, 71, 94, 255, 77, 25, 52, 74, 16, 84, -57, 48, 64, 14, 91, -51, 33, 44] }, { "part": "zam22", "scores": [1, 83, 105, 245, 41, 64, 9, 14, 246, 40, 61, 17, 23, 251, 52, 43, 29, 46, 1, 84, 11, 39, 56, 252, 87, 16, 46, 61, 251, 75, 45, 23, 35, 0, 53, 32, 62, 85, 0, 58, 35, 54, 68, 4, 99, -64, 43, 58, 4, 115, -36, 47, 60, 4, 111, -33, 41, 67, 254, 109, -36, 64, 89, 6, 120, -55, 38, 51, 3, 115, -17, 52, 69, 0, 101, 5, 41, 61, 7, 104, -50, 43, 67] }, { "part": "zam23", "scores": [8, 93, 166, 10, 94, 31, 61, 94, 8, 103, 20, 70, 104, 10, 111, -2, 41, 65, 5, 129, 3, 23, 34, 255, 79, 78, 57, 96, 19, 63, -11, 74, 108, 6, 113, -8, 47, 64, 6, 123, -1, 9, 16, 8, 66, -19, 61, 82, 28, 52, -50, 15, 24, 4, 109, -5, 45, 58, 6, 114, -5, 38, 56, 21, 67, -35, 57, 81, 14, 76, 4, 112, 146, 1, 109, 17, 24, 41, 4, 81, -12, 59, 75] },
-    //mage
-    { "part": "mage0", "scores": [153, 39, 62, 153, 39, 2, 8, 12, 152, 37, -4, 11, 15, 153, 40, -2, 5, 8, 156, 42, 7, 4, 6, 153, 38, -6, 6, 8, 151, 37, 0, 12, 16, 154, 42, 4, 5, 8, 156, 42, 12, 4, 6, 149, 34, -3, 10, 13, 152, 39, -1, 7, 10, 155, 42, 6, 5, 8, 155, 43, 6, 3, 5, 149, 36, -1, 7, 10, 152, 39, -6, 6, 9, 151, 37, -1, 9, 13, 152, 39, -4, 6, 9] }, { "part": "mage1", "scores": [155, 34, 74, 156, 43, 23, 5, 6, 156, 47, 18, 3, 4, 155, 50, 14, 3, 4, 152, 55, 9, 4, 6, 155, 43, 19, 7, 12, 155, 49, 12, 4, 6, 151, 52, 0, 24, 38, 148, 47, -25, 102, 127, 155, 35, 1, 26, 37, 156, 30, -16, 58, 78, 152, 43, -2, 28, 54, 252, 23, 0, 36, 51, 160, 14, -15, 38, 60, 150, 39, -9, 23, 44, 152, 24, -29, 67, 98, 234, 14, -2, 55, 77] }, { "part": "mage2", "scores": [159, 11, 111, 148, 65, 41, 3, 5, 142, 78, 29, 9, 13, 136, 97, 9, 11, 16, 135, 103, -4, 7, 11, 184, 10, 22, 50, 73, 145, 56, 6, 54, 74, 160, 28, -14, 62, 79, 139, 50, -39, 51, 71, 6, 39, 48, 51, 72, 7, 56, 26, 42, 74, 2, 49, 3, 77, 110, 240, 37, -3, 71, 103, 7, 12, 1, 79, 105, 14, 31, -88, 36, 72, 11, 50, -58, 75, 109, 4, 44, 22, 56, 84] }, { "part": "mage3", "scores": [133, 77, 142, 138, 90, 25, 6, 11, 139, 89, 28, 4, 7, 137, 97, 25, 10, 16, 134, 111, 19, 5, 8, 136, 91, 17, 30, 47, 134, 80, 4, 51, 74, 129, 114, 0, 29, 45, 131, 137, 4, 11, 20, 132, 65, -3, 48, 73, 130, 46, 0, 101, 137, 131, 90, -15, 96, 131, 129, 132, -12, 55, 81, 2, 28, 11, 85, 124, 129, 59, -28, 85, 118, 129, 42, -59, 57, 77, 116, 28, -13, 87, 122] }, { "part": "mage4", "scores": [133, 104, 112, 134, 113, -12, 3, 4, 135, 108, -15, 3, 5, 135, 100, -16, 4, 7, 133, 98, 3, 29, 41, 133, 120, -19, 11, 15, 135, 107, -16, 5, 8, 135, 103, -15, 12, 22, 133, 98, 11, 32, 44, 131, 153, -18, 27, 38, 133, 120, -20, 20, 32, 131, 127, 0, 58, 79, 130, 43, 51, 19, 32, 130, 141, -36, 42, 58, 132, 140, 1, 62, 85, 133, 56, 45, 22, 37, 129, 38, 52, 24, 32] }, { "part": "mage5", "scores": [141, 31, 92, 147, 34, 18, 12, 16, 150, 36, 18, 8, 12, 147, 34, 18, 26, 34, 152, 29, 7, 23, 42, 147, 36, 15, 8, 13, 147, 34, 16, 11, 18, 148, 36, 16, 15, 23, 153, 21, -5, 56, 71, 143, 33, 16, 17, 23, 130, 33, 4, 37, 52, 148, 30, -3, 25, 40, 138, 29, -31, 56, 80, 133, 28, 7, 21, 41, 106, 28, -39, 44, 63, 112, 24, -34, 45, 58, 136, 51, -32, 27, 55] }, { "part": "mage6", "scores": [135, 26, 146, 239, 14, 40, 47, 83, 172, 12, 20, 47, 75, 141, 50, 23, 46, 66, 2, 21, 72, 31, 46, 245, 11, 13, 61, 87, 127, 12, -12, 77, 100, 134, 47, -10, 73, 97, 165, 6, 58, 23, 38, 127, 26, -23, 44, 59, 128, 31, -44, 50, 72, 133, 35, -33, 88, 117, 142, 46, 28, 56, 76, 127, 50, -59, 55, 85, 126, 56, -52, 51, 79, 128, 48, -40, 66, 89, 142, 40, 26, 30, 48] }, { "part": "mage7", "scores": [253, 14, 103, 164, 19, 6, 85, 128, 11, 46, -65, 85, 128, 9, 47, -88, 76, 113, 254, 36, 29, 33, 52, 164, 23, 21, 69, 104, 7, 44, -37, 89, 128, 6, 42, -32, 52, 77, 5, 47, 28, 38, 58, 186, 6, 13, 73, 103, 165, 9, 37, 86, 130, 4, 18, 16, 76, 105, 4, 34, 39, 44, 63, 154, 4, 14, 84, 110, 131, 33, -28, 76, 117, 9, 13, 17, 45, 76, 144, 18, 28, 45, 70] }, { "part": "mage8", "scores": [140, 18, 114, 2, 30, 25, 49, 68, 6, 20, -25, 49, 66, 120, 15, -28, 55, 74, 128, 91, -70, 39, 66, 214, 6, 48, 32, 45, 146, 24, -4, 38, 52, 152, 26, 20, 33, 48, 145, 29, 36, 46, 72, 139, 30, 0, 56, 79, 143, 9, 17, 38, 54, 142, 14, 11, 47, 69, 147, 32, -11, 37, 59, 134, 29, -27, 63, 92, 131, 20, -22, 59, 88, 141, 15, -4, 48, 74, 143, 12, 36, 43, 60] }, { "part": "mage9", "scores": [132, 43, 90, 128, 139, -60, 50, 75, 135, 60, 24, 24, 43, 133, 36, 34, 13, 21, 124, 25, 33, 13, 19, 132, 51, -14, 63, 104, 129, 53, -1, 61, 81, 136, 32, 31, 14, 23, 137, 24, 38, 9, 13, 141, 44, -46, 39, 64, 134, 55, -41, 68, 91, 130, 60, -12, 74, 97, 131, 27, 28, 23, 50, 141, 5, 26, 30, 43, 147, 8, 1, 42, 59, 141, 26, -13, 47, 65, 134, 48, -30, 39, 59] }, { "part": "mage10", "scores": [115, 29, 153, 128, 20, 42, 42, 56, 60, 32, -16, 43, 57, 140, 27, 34, 12, 21, 138, 45, 18, 31, 46, 131, 27, 13, 42, 64, 62, 26, -56, 42, 58, 127, 21, 7, 22, 30, 133, 33, 22, 5, 11, 120, 46, -8, 67, 88, 107, 34, -42, 41, 53, 100, 23, -7, 25, 33, 105, 25, 5, 15, 22, 86, 27, -3, 51, 70, 119, 53, 10, 44, 58, 125, 48, -18, 23, 37, 110, 30, -5, 17, 27] }, { "part": "mage11", "scores": [117, 33, 158, 123, 46, -14, 57, 95, 125, 52, -41, 76, 107, 130, 52, -19, 64, 97, 143, 38, 14, 110, 151, 99, 26, 6, 47, 70, 125, 35, -28, 66, 91, 130, 46, -43, 61, 87, 130, 50, 13, 88, 126, 64, 45, 14, 38, 51, 93, 14, 2, 58, 83, 124, 36, -2, 78, 102, 128, 54, -37, 82, 126, 64, 48, 21, 51, 69, 40, 18, 41, 74, 103, 127, 15, 52, 32, 45, 123, 46, 39, 65, 90] }, { "part": "mage12", "scores": [129, 18, 121, 127, 29, -14, 105, 134, 123, 17, -9, 61, 96, 119, 19, -16, 113, 152, 151, 25, 17, 40, 63, 133, 50, -16, 65, 85, 131, 56, -39, 106, 140, 135, 16, 8, 39, 76, 133, 17, 2, 47, 79, 125, 52, -43, 73, 96, 132, 30, 0, 39, 65, 180, 3, 16, 35, 50, 254, 14, 20, 40, 55, 118, 34, -3, 33, 62, 122, 14, 10, 45, 79, 4, 19, 28, 17, 26, 9, 30, 29, 24, 31] }, { "part": "mage13", "scores": [144, 32, 93, 129, 53, -71, 57, 79, 134, 24, -29, 51, 80, 134, 10, 23, 49, 69, 155, 13, 44, 18, 31, 128, 44, -46, 37, 55, 145, 12, 13, 36, 51, 149, 27, 24, 38, 51, 159, 42, 5, 30, 46, 131, 14, 1, 37, 52, 159, 17, 32, 34, 59, 145, 49, 0, 58, 89, 156, 53, -8, 36, 54, 241, 11, 27, 34, 44, 136, 50, 11, 78, 100, 142, 57, -18, 74, 97, 155, 47, -4, 33, 46] }, { "part": "mage14", "scores": [136, 16, 45, 147, 12, 9, 18, 27, 136, 12, 21, 5, 9, 132, 13, 17, 4, 10, 132, 19, 5, 10, 18, 158, 23, -24, 30, 42, 137, 13, 13, 12, 20, 130, 13, 14, 8, 11, 127, 18, 7, 6, 8, 157, 21, -27, 21, 29, 145, 22, -12, 25, 34, 114, 15, 12, 4, 6, 117, 20, 3, 4, 6, 157, 24, -29, 16, 23, 146, 24, -31, 38, 51, 104, 18, 9, 4, 6, 105, 22, 0, 3, 4] }, { "part": "mage15", "scores": [77, 45, 154, 72, 29, -20, 29, 46, 95, 35, 30, 35, 46, 103, 49, 6, 36, 51, 110, 54, -31, 31, 44, 78, 28, -6, 22, 33, 84, 30, 7, 12, 20, 79, 46, 27, 17, 25, 84, 47, -13, 26, 35, 79, 35, -19, 24, 35, 76, 48, 10, 24, 32, 68, 61, 24, 11, 16, 69, 66, 10, 8, 14, 84, 45, -28, 40, 58, 68, 57, 9, 26, 36, 62, 74, 15, 10, 15, 61, 80, 11, 9, 15] }, { "part": "mage16", "scores": [57, 37, 122, 92, 36, -40, 33, 44, 63, 22, -6, 35, 46, 58, 14, 0, 22, 30, 135, 45, 20, 58, 84, 84, 46, -61, 34, 49, 71, 37, -1, 23, 37, 29, 31, 20, 13, 19, 33, 16, 38, 22, 32, 69, 69, -46, 27, 39, 62, 59, -11, 32, 47, 37, 34, 31, 51, 71, 17, 60, 44, 10, 17, 62, 83, -45, 18, 25, 59, 85, -50, 25, 38, 34, 53, 26, 26, 42, 16, 59, 46, 14, 20] }, { "part": "mage17", "scores": [104, 13, 73, 130, 43, -70, 108, 142, 125, 41, -65, 143, 186, 75, 11, -39, 43, 64, 10, 23, -20, 15, 23, 106, 10, 7, 30, 43, 130, 37, 3, 29, 43, 99, 19, -28, 96, 122, 16, 34, -8, 12, 18, 117, 10, 16, 42, 53, 117, 18, 21, 26, 40, 94, 15, 41, 14, 36, 28, 17, 5, 79, 105, 98, 14, 32, 3, 6, 102, 20, 27, 20, 25, 85, 12, 47, 2, 4, 98, 15, 42, 30, 50] }, { "part": "mage18", "scores": [142, 13, 81, 2, 11, -1, 26, 43, 137, 42, 5, 47, 71, 141, 53, -31, 42, 64, 149, 38, -13, 35, 50, 236, 9, -1, 43, 58, 142, 36, -3, 63, 85, 139, 42, -14, 37, 68, 135, 19, -7, 50, 75, 223, 6, 24, 29, 41, 174, 10, 8, 25, 36, 138, 16, -5, 52, 76, 59, 22, -19, 47, 67, 20, 13, 27, 47, 73, 239, 8, 19, 29, 43, 190, 5, 17, 35, 49, 25, 7, -9, 37, 53] }, { "part": "mage19", "scores": [79, 15, 81, 156, 25, -1, 17, 24, 137, 15, 3, 23, 33, 107, 21, 30, 16, 24, 98, 26, 30, 3, 4, 126, 9, -20, 31, 43, 64, 13, -1, 26, 37, 98, 20, 8, 23, 32, 92, 28, 23, 3, 5, 37, 21, 5, 25, 37, 46, 22, 3, 24, 34, 71, 23, 1, 19, 27, 85, 29, 16, 7, 11, 27, 38, -36, 31, 42, 43, 20, -34, 27, 38, 81, 21, -8, 12, 19, 84, 31, 9, 11, 15] }, { "part": "mage20", "scores": [73, 62, 162, 103, 65, 5, 42, 57, 89, 53, 11, 30, 51, 78, 54, 21, 34, 50, 64, 75, 16, 31, 44, 100, 61, 22, 34, 48, 76, 67, -16, 27, 41, 58, 96, -27, 15, 26, 64, 77, -9, 48, 66, 99, 55, 6, 37, 51, 73, 65, -13, 38, 49, 57, 94, -15, 30, 44, 55, 106, -22, 22, 30, 111, 48, 44, 44, 61, 93, 41, 30, 24, 36, 76, 56, 3, 35, 48, 58, 84, 3, 23, 34] }, { "part": "mage21", "scores": [56, 78, 153, 55, 96, -1, 22, 31, 56, 93, -26, 13, 19, 54, 78, -5, 49, 65, 71, 13, 89, 12, 19, 63, 75, -12, 46, 65, 62, 76, -2, 29, 48, 73, 41, 31, 49, 76, 56, 50, 46, 62, 79, 56, 101, -26, 27, 44, 55, 97, -29, 19, 39, 57, 94, -34, 16, 31, 52, 106, -26, 26, 45, 53, 106, -23, 19, 29, 51, 106, -24, 23, 42, 54, 94, -24, 37, 68, 75, 23, 67, 31, 48] }, { "part": "mage22", "scores": [90, 12, 48, 98, 12, -1, 7, 9, 100, 23, 3, 6, 9, 90, 12, 16, 3, 5, 80, 10, 23, 4, 6, 98, 12, -7, 11, 28, 109, 21, -3, 16, 22, 71, 11, 9, 5, 8, 74, 9, 19, 3, 5, 59, 47, -58, 51, 71, 90, 12, -10, 11, 18, 80, 8, 5, 4, 5, 102, 9, 17, 3, 4, 85, 11, -20, 36, 42, 113, 13, 3, 11, 16, 122, 11, 5, 4, 7, 121, 9, 15, 2, 4] }, { "part": "mage23", "scores": [37, 14, 47, 98, 15, 11, 35, 55, 15, 20, -12, 46, 67, 5, 11, -20, 29, 42, 19, 40, -72, 20, 29, 88, 10, 25, 1, 2, 68, 10, 8, 37, 53, 22, 44, -25, 21, 43, 20, 50, -47, 12, 17, 94, 9, 24, 2, 3, 89, 10, 25, 1, 2, 59, 15, -1, 51, 65, 19, 61, -32, 14, 26, 111, 9, 21, 5, 6, 99, 10, 25, 2, 3, 93, 11, 23, 3, 4, 73, 14, 13, 11, 20] },
-    //helwyr
-    { "part": "helw0", "scores": [147, 23, 56, 149, 42, -56, 45, 58, 149, 38, -28, 43, 63, 148, 34, -3, 14, 27, 147, 32, 1, 13, 24, 151, 21, -20, 37, 52, 144, 32, 4, 25, 37, 146, 22, 12, 10, 15, 145, 20, 14, 7, 11, 163, 11, -10, 13, 20, 144, 30, 0, 39, 47, 146, 17, 18, 6, 9, 144, 19, 15, 6, 9, 145, 10, -1, 50, 63, 149, 16, 11, 12, 17, 144, 14, 22, 7, 10, 142, 16, 19, 4, 7] }, { "part": "helw1", "scores": [145, 25, 67, 146, 23, -3, 28, 50, 151, 40, -15, 38, 55, 152, 31, -32, 70, 91, 152, 31, -44, 59, 81, 144, 19, 16, 19, 29, 146, 27, 14, 19, 29, 142, 37, -15, 67, 93, 142, 20, -32, 39, 53, 145, 21, 22, 10, 15, 145, 22, 23, 7, 13, 141, 26, 2, 42, 61, 142, 22, -6, 32, 46, 141, 18, 26, 9, 15, 143, 21, 24, 10, 15, 143, 25, 16, 22, 35, 143, 23, 1, 24, 37] }, { "part": "helw2", "scores": [146, 56, 123, 154, 76, 0, 43, 58, 157, 2, 4, 64, 94, 157, 124, -29, 13, 24, 152, 134, -42, 9, 15, 143, 29, 30, 58, 77, 126, 13, -9, 57, 82, 151, 89, 0, 41, 51, 150, 110, -48, 22, 33, 125, 9, 12, 82, 108, 138, 23, 15, 46, 71, 139, 69, -4, 45, 64, 139, 76, -6, 40, 62, 126, 15, 6, 83, 112, 137, 42, 15, 74, 110, 134, 49, 13, 60, 85, 132, 32, 45, 67, 83] }, { "part": "helw3", "scores": [139, 35, 108, 139, 70, -107, 7, 13, 145, 91, -93, 7, 17, 133, 18, 15, 78, 115, 38, 8, 65, 39, 63, 143, 72, -101, 11, 15, 147, 81, -82, 27, 50, 125, 11, 48, 55, 77, 23, 31, 76, 15, 35, 142, 88, -70, 40, 61, 148, 76, -68, 39, 64, 134, 32, 39, 81, 115, 37, 14, 79, 15, 30, 133, 40, 28, 45, 72, 141, 57, 22, 40, 60, 58, 9, 77, 10, 18, 48, 11, 77, 15, 23] }, { "part": "helw4", "scores": [48, 6, 68, 28, 22, 31, 22, 41, 108, 8, 8, 50, 75, 128, 6, 2, 88, 127, 17, 21, 7, 55, 99, 48, 8, 24, 27, 44, 41, 7, 29, 34, 49, 16, 39, 16, 26, 45, 147, 46, -92, 89, 137, 27, 23, 32, 21, 28, 27, 27, 35, 8, 12, 26, 17, 9, 32, 46, 138, 42, -93, 92, 124, 36, 15, 36, 7, 11, 30, 23, 28, 9, 14, 35, 16, 19, 22, 36, 141, 31, -82, 54, 72] }, { "part": "helw5", "scores": [119, 5, 59, 145, 17, -2, 41, 67, 144, 24, 12, 31, 49, 141, 13, 26, 9, 17, 141, 16, 21, 7, 10, 132, 17, -46, 77, 112, 137, 23, -8, 55, 79, 115, 8, -2, 66, 87, 132, 10, 10, 37, 54, 18, 26, -5, 28, 44, 22, 30, -28, 39, 59, 26, 19, -28, 51, 74, 44, 9, -27, 67, 82, 155, 8, 34, 4, 8, 23, 5, 21, 14, 25, 105, 6, 9, 31, 49, 136, 12, 23, 17, 25] }, { "part": "helw6", "scores": [138, 26, 56, 140, 34, 2, 24, 32, 137, 70, -36, 50, 69, 139, 62, -28, 52, 68, 137, 44, -41, 72, 95, 138, 39, -5, 33, 58, 142, 30, 17, 14, 28, 144, 20, 22, 16, 22, 141, 25, 0, 39, 58, 110, 11, -52, 49, 74, 137, 26, -9, 86, 106, 142, 17, 25, 19, 36, 144, 16, 30, 10, 16, 136, 11, 21, 24, 35, 94, 3, 21, 11, 18, 122, 8, 13, 29, 47, 133, 13, 9, 33, 46] }, { "part": "helw7", "scores": [124, 11, 96, 121, 11, 0, 56, 84, 136, 20, 23, 37, 61, 125, 8, 5, 41, 66, 107, 8, 36, 30, 45, 104, 5, 36, 27, 50, 120, 6, 44, 24, 45, 27, 10, -12, 70, 101, 56, 12, 5, 49, 79, 137, 13, 61, 21, 32, 121, 14, -13, 82, 115, 127, 12, -47, 76, 105, 121, 13, -43, 66, 105, 134, 11, 48, 38, 59, 134, 29, 15, 77, 108, 134, 34, -80, 45, 78, 128, 16, -80, 65, 85] }, { "part": "helw8", "scores": [66, 8, 61, 42, 11, 28, 12, 20, 99, 7, 19, 16, 22, 38, 13, 30, 11, 16, 40, 11, 31, 10, 14, 45, 13, 5, 31, 50, 36, 14, 30, 8, 13, 41, 10, 30, 7, 11, 42, 9, 29, 6, 11, 55, 19, -57, 80, 114, 137, 43, -24, 89, 108, 36, 11, 28, 4, 7, 40, 8, 20, 6, 9, 72, 12, -103, 71, 93, 135, 29, -68, 66, 88, 37, 8, 15, 12, 23, 37, 5, 15, 7, 10] }, { "part": "helw9", "scores": [88, 4, 85, 35, 15, 48, 10, 14, 31, 23, 38, 15, 23, 35, 17, 27, 24, 34, 139, 25, -60, 66, 84, 35, 16, 39, 11, 16, 31, 22, 30, 14, 21, 34, 17, 26, 14, 22, 139, 25, -74, 50, 64, 35, 10, 29, 11, 16, 38, 9, 23, 15, 22, 69, 3, 10, 30, 43, 150, 33, -69, 13, 26, 68, 1, 28, 9, 14, 144, 7, 16, 18, 24, 148, 20, -32, 46, 60, 147, 25, -62, 35, 48] }, { "part": "helw10", "scores": [142, 24, 43, 153, 11, 16, 3, 5, 148, 8, 18, 4, 7, 136, 32, -8, 64, 83, 139, 33, -2, 35, 49, 152, 15, 9, 6, 9, 149, 8, 14, 4, 6, 143, 23, 4, 24, 38, 139, 30, -3, 60, 80, 152, 18, 2, 8, 12, 151, 9, 13, 6, 9, 139, 42, -12, 67, 92, 139, 46, -14, 78, 107, 150, 13, -21, 25, 35, 151, 12, 8, 4, 7, 139, 33, -10, 49, 70, 138, 42, -17, 77, 103] }, { "part": "helw11", "scores": [132, 18, 52, 139, 17, 8, 34, 47, 120, 6, 8, 28, 38, 38, 9, 7, 24, 39, 133, 43, -37, 99, 132, 142, 39, 6, 39, 67, 140, 19, 19, 23, 42, 83, 6, 10, 28, 36, 97, 12, -11, 58, 76, 139, 32, 3, 38, 86, 135, 45, -13, 78, 113, 115, 6, 14, 16, 23, 80, 7, -23, 38, 53, 136, 40, -11, 85, 115, 137, 43, -10, 79, 99, 133, 9, 18, 8, 14, 102, 6, -5, 52, 72] }, { "part": "helw12", "scores": [23, 14, 84, 52, 7, 11, 47, 67, 34, 7, 33, 34, 52, 124, 6, -75, 117, 162, 127, 16, -118, 77, 105, 38, 10, -4, 62, 84, 19, 20, 26, 90, 119, 20, 16, 12, 66, 100, 99, 7, -74, 97, 124, 33, 14, 14, 48, 63, 14, 25, 58, 10, 17, 14, 32, 47, 28, 47, 29, 21, 1, 59, 83, 89, 4, -8, 44, 59, 16, 25, 48, 32, 42, 13, 45, 34, 50, 71, 15, 37, -6, 73, 100] }, { "part": "helw13", "scores": [126, 14, 167, 129, 22, -17, 98, 129, 132, 20, -17, 52, 78, 115, 9, 42, 50, 70, 57, 6, 54, 46, 56, 139, 39, -19, 47, 72, 126, 15, -17, 43, 70, 40, 20, 5, 90, 116, 44, 17, -23, 11, 21, 138, 29, 9, 54, 75, 136, 16, -41, 57, 80, 138, 25, -7, 49, 70, 118, 12, -29, 51, 75, 139, 30, 56, 26, 44, 131, 16, -3, 58, 87, 131, 16, -30, 62, 90, 127, 11, 32, 29, 42] }, { "part": "helw14", "scores": [79, 10, 164, 125, 5, 49, 48, 59, 137, 12, 34, 43, 55, 141, 14, 9, 18, 36, 138, 13, 7, 27, 42, 45, 20, -30, 7, 12, 103, 19, -1, 70, 102, 135, 81, 3, 86, 119, 76, 6, -5, 5, 8, 45, 23, -26, 41, 56, 51, 23, 10, 75, 113, 103, 15, 3, 48, 78, 41, 18, -8, 4, 7, 124, 11, 31, 51, 71, 37, 37, -9, 62, 90, 35, 28, -6, 5, 8, 36, 29, -6, 11, 24] }, { "part": "helw15", "scores": [41, 7, 93, 27, 12, -11, 43, 57, 150, 15, 49, 11, 17, 148, 10, 59, 7, 10, 141, 19, 55, 26, 44, 26, 28, -35, 17, 29, 26, 14, 1, 42, 56, 140, 5, 52, 20, 29, 148, 9, 66, 6, 9, 27, 23, -36, 56, 73, 31, 27, -57, 37, 54, 40, 8, 9, 51, 72, 139, 10, 55, 22, 34, 30, 8, 18, 50, 66, 40, 20, -91, 17, 26, 35, 26, -83, 27, 39, 44, 17, -58, 28, 46] }, { "part": "helw16", "scores": [141, 13, 37, 138, 37, -17, 64, 88, 140, 21, -4, 19, 31, 139, 19, -7, 24, 32, 140, 27, -29, 34, 51, 144, 9, 10, 6, 9, 145, 7, 10, 3, 6, 144, 10, 11, 7, 11, 144, 16, 4, 13, 20, 146, 9, 11, 8, 15, 148, 8, 12, 6, 10, 151, 7, 13, 3, 5, 147, 10, 12, 6, 13, 72, 5, -39, 39, 60, 129, 2, -7, 27, 38, 143, 10, 6, 7, 11, 138, 13, 7, 15, 30] }, { "part": "helw17", "scores": [132, 12, 63, 127, 22, -63, 59, 86, 131, 11, -45, 74, 100, 11, 21, 3, 41, 66, 13, 43, -28, 111, 136, 139, 22, 13, 26, 38, 127, 16, -15, 37, 57, 134, 14, -35, 90, 117, 148, 12, -18, 69, 96, 138, 30, 21, 43, 60, 137, 11, 33, 7, 11, 134, 8, 28, 10, 15, 132, 15, 16, 21, 33, 134, 43, 9, 62, 104, 131, 9, 36, 6, 9, 133, 27, 14, 62, 90, 134, 22, 22, 29, 50] }, { "part": "helw18", "scores": [119, 8, 85, 134, 11, -5, 41, 60, 134, 17, -34, 38, 61, 117, 12, -81, 40, 61, 117, 8, -44, 49, 69, 135, 13, 0, 42, 64, 126, 12, -13, 29, 48, 42, 14, -31, 77, 103, 62, 16, -81, 54, 83, 130, 14, 15, 43, 58, 69, 1, 34, 32, 47, 114, 6, 49, 20, 31, 5, 6, 16, 45, 71, 138, 16, 53, 7, 11, 134, 13, 53, 10, 15, 135, 15, 51, 9, 16, 25, 4, 25, 33, 48] }, { "part": "helw19", "scores": [49, 14, 127, 124, 8, 30, 25, 35, 138, 19, -7, 51, 66, 44, 20, -26, 44, 59, 36, 30, -25, 35, 55, 37, 26, -24, 40, 65, 133, 11, 22, 26, 40, 141, 17, 26, 40, 58, 49, 18, -13, 43, 64, 70, 19, 10, 77, 110, 45, 20, -16, 49, 74, 58, 11, 16, 40, 55, 68, 12, 13, 69, 92, 33, 15, 27, 44, 58, 34, 21, -11, 71, 96, 28, 40, -20, 27, 51, 32, 33, -5, 10, 15] }, { "part": "helw20", "scores": [32, 26, 147, 25, 19, 58, 44, 72, 30, 33, -24, 15, 25, 43, 22, -47, 14, 21, 36, 29, -30, 21, 29, 30, 31, -36, 21, 43, 29, 36, -20, 15, 23, 38, 27, -28, 18, 34, 37, 22, -10, 53, 80, 28, 30, 9, 52, 78, 28, 38, -19, 17, 32, 28, 22, 39, 61, 76, 26, 30, 5, 9, 20, 29, 22, 31, 92, 121, 37, 22, -4, 66, 89, 34, 10, 63, 60, 89, 30, 17, 7, 39, 61] }, { "part": "helw21", "scores": [72, 4, 94, 37, 20, -50, 21, 30, 85, 5, 20, 28, 39, 135, 11, 61, 10, 15, 137, 12, 65, 5, 8, 42, 13, -38, 23, 36, 117, 10, 31, 16, 27, 134, 13, 59, 6, 10, 135, 14, 62, 8, 12, 19, 10, -35, 36, 49, 75, 5, -40, 62, 81, 68, 5, 16, 42, 56, 112, 8, 38, 25, 39, 82, 5, -56, 38, 60, 5, 10, -40, 22, 41, 9, 12, -41, 49, 60, 17, 14, -36, 26, 41] }, { "part": "helw22", "scores": [134, 25, 50, 141, 35, 9, 29, 44, 140, 54, -3, 54, 74, 136, 49, -10, 82, 112, 137, 31, 6, 40, 57, 135, 15, 18, 9, 13, 133, 43, -10, 74, 106, 135, 44, -6, 85, 107, 135, 15, 19, 6, 15, 134, 15, 16, 7, 15, 135, 33, 3, 21, 42, 133, 19, 12, 10, 22, 136, 43, -5, 50, 65, 38, 8, -47, 36, 45, 90, 7, -20, 30, 46, 111, 8, -3, 25, 34, 128, 10, 14, 12, 20] }, { "part": "helw23", "scores": [138, 25, 36, 140, 38, -6, 59, 72, 138, 20, 4, 14, 27, 137, 16, 6, 9, 12, 137, 17, 6, 13, 19, 136, 14, 6, 9, 14, 139, 47, -12, 72, 97, 138, 40, -10, 45, 69, 137, 16, 6, 10, 15, 137, 37, -15, 47, 60, 138, 47, -15, 47, 69, 138, 39, -7, 25, 43, 136, 13, 7, 10, 14, 136, 14, 4, 11, 18, 136, 13, 1, 19, 28, 137, 12, 8, 8, 13, 135, 12, 9, 6, 11] },
-    //wolf
-    { "part": "wolf0", "scores": [125, 33, 134, 117, 25, 41, 81, 117, 119, 29, -3, 93, 131, 129, 46, -72, 41, 67, 128, 34, -103, 1, 4, 109, 20, 63, 47, 73, 128, 45, 10, 110, 149, 127, 38, 30, 74, 106, 129, 41, -91, 15, 29, 106, 21, 47, 75, 109, 113, 21, 62, 35, 65, 125, 29, 65, 52, 71, 130, 42, 24, 58, 78, 124, 23, -60, 97, 132, 128, 35, -72, 37, 50, 130, 34, 12, 60, 77, 130, 47, 43, 23, 34] }, { "part": "wolf1", "scores": [130, 44, 174, 128, 28, -66, 0, 1, 127, 25, -67, 2, 6, 129, 30, -64, 17, 25, 129, 79, -39, 27, 35, 127, 29, -65, 1, 2, 129, 35, -34, 81, 104, 130, 36, -44, 49, 77, 128, 27, -66, 10, 17, 131, 56, -11, 32, 45, 132, 68, 1, 49, 74, 129, 36, 83, 72, 104, 128, 38, 56, 73, 89, 132, 75, 37, 21, 37, 133, 67, 67, 48, 71, 125, 33, 109, 29, 46, 127, 45, 97, 49, 68] }, { "part": "wolf2", "scores": [133, 122, 150, 130, 133, -37, 6, 10, 133, 153, -20, 8, 16, 137, 154, 16, 23, 31, 137, 149, 22, 12, 21, 128, 104, -52, 5, 9, 131, 138, -33, 7, 16, 133, 154, -9, 30, 48, 136, 151, 14, 40, 51, 128, 63, 22, 61, 78, 132, 86, 25, 83, 111, 133, 143, -20, 16, 30, 135, 161, -1, 6, 9, 125, 38, 82, 31, 48, 130, 66, 31, 51, 68, 132, 125, -32, 8, 12, 133, 141, -7, 8, 12] }, { "part": "wolf3", "scores": [139, 128, 106, 139, 124, -1, 29, 43, 142, 137, -3, 6, 8, 144, 122, 9, 5, 7, 142, 90, 33, 7, 11, 137, 155, -23, 26, 31, 139, 142, -9, 21, 27, 142, 129, 4, 9, 13, 142, 102, 24, 11, 17, 136, 155, -28, 13, 18, 137, 147, -17, 10, 16, 139, 136, -3, 8, 12, 141, 103, 21, 19, 28, 135, 146, -26, 6, 9, 136, 141, -12, 5, 9, 139, 122, 6, 13, 21, 139, 95, 20, 45, 61] }, { "part": "wolf4", "scores": [141, 60, 54, 141, 60, 1, 18, 30, 140, 38, 16, 19, 26, 140, 30, 22, 13, 20, 141, 36, 20, 12, 17, 140, 60, -1, 22, 32, 139, 47, 7, 20, 28, 141, 55, 3, 18, 26, 141, 47, 12, 9, 14, 140, 69, -9, 31, 46, 139, 57, -2, 37, 57, 142, 75, -10, 9, 21, 142, 60, 2, 5, 7, 139, 94, -29, 28, 43, 140, 85, -16, 8, 13, 140, 80, -13, 6, 9, 142, 70, -6, 5, 8] }, { "part": "wolf5", "scores": [126, 22, 225, 126, 24, -8, 24, 38, 127, 21, -19, 2, 3, 127, 14, -20, 4, 8, 128, 40, 81, 56, 73, 125, 27, -14, 20, 22, 127, 20, -19, 4, 7, 128, 16, -20, 13, 15, 124, 20, 18, 124, 160, 127, 19, -19, 2, 3, 127, 21, -18, 8, 10, 125, 22, 11, 104, 149, 125, 27, 28, 83, 144, 127, 29, -14, 7, 10, 127, 14, -22, 2, 4, 125, 18, 13, 51, 83, 125, 26, 25, 108, 143] }, { "part": "wolf6", "scores": [122, 29, 70, 130, 50, -26, 33, 43, 132, 47, -8, 34, 44, 114, 26, 12, 21, 33, 120, 28, 2, 73, 97, 128, 41, -20, 66, 96, 128, 33, 6, 26, 39, 111, 20, 17, 31, 43, 71, 11, 30, 25, 38, 126, 42, -43, 79, 109, 122, 39, -3, 22, 31, 120, 21, 19, 30, 45, 86, 7, 30, 21, 34, 129, 47, -72, 72, 106, 123, 35, 3, 26, 42, 111, 19, 16, 11, 17, 104, 12, 29, 9, 14] }, { "part": "wolf7", "scores": [129, 50, 91, 121, 37, 19, 74, 100, 127, 39, 11, 84, 120, 131, 92, -108, 11, 27, 131, 124, -80, 12, 16, 81, 9, 41, 49, 73, 125, 40, 23, 61, 89, 131, 81, -46, 55, 76, 132, 108, -88, 17, 31, 67, 11, 34, 76, 101, 117, 23, 45, 26, 46, 132, 50, 23, 20, 31, 133, 98, -35, 37, 49, 102, 9, 59, 9, 14, 118, 19, 51, 24, 36, 136, 61, 19, 51, 67, 134, 55, 19, 23, 49] }, { "part": "wolf8", "scores": [135, 117, 132, 133, 137, -15, 11, 15, 136, 140, 7, 7, 10, 137, 132, 19, 10, 18, 139, 121, 26, 23, 31, 133, 127, -30, 18, 23, 135, 132, -3, 14, 19, 136, 130, 12, 9, 13, 139, 123, 23, 8, 11, 133, 124, -38, 8, 14, 133, 121, -26, 12, 18, 135, 126, -7, 9, 13, 135, 92, 12, 55, 78, 135, 110, -2, 51, 68, 134, 122, -8, 34, 53, 134, 121, 0, 30, 42, 114, 31, 34, 77, 105] }, { "part": "wolf9", "scores": [140, 89, 86, 140, 106, -5, 13, 19, 140, 91, 10, 9, 14, 142, 92, 9, 11, 17, 142, 89, 10, 8, 14, 140, 113, -11, 12, 16, 141, 106, -4, 14, 20, 142, 103, -2, 20, 28, 142, 101, -3, 16, 24, 138, 79, -5, 35, 48, 141, 102, -9, 27, 41, 142, 102, -4, 13, 20, 141, 96, -3, 19, 29, 108, 19, 24, 52, 72, 136, 60, -2, 56, 76, 141, 94, -3, 14, 23, 140, 85, 2, 15, 22] }, { "part": "wolf10", "scores": [128, 67, 160, 126, 54, -48, 50, 65, 127, 32, -77, 4, 7, 127, 23, -82, 3, 4, 127, 15, -87, 2, 3, 125, 90, 32, 44, 70, 127, 76, 16, 57, 78, 126, 44, -61, 19, 31, 127, 63, -52, 29, 35, 130, 81, 59, 38, 56, 129, 86, 59, 25, 35, 128, 84, 23, 47, 61, 127, 99, 0, 31, 43, 131, 70, 78, 26, 41, 130, 84, 55, 40, 60, 130, 91, 38, 43, 57, 129, 94, 40, 18, 38] }, { "part": "wolf11", "scores": [126, 36, 81, 128, 28, -130, 48, 65, 123, 36, 16, 38, 56, 120, 21, 30, 11, 17, 120, 16, 39, 23, 30, 126, 85, -113, 21, 30, 126, 56, -15, 102, 136, 129, 31, 25, 31, 48, 127, 18, 41, 18, 27, 127, 100, -75, 37, 60, 128, 38, 17, 49, 82, 127, 28, 27, 27, 38, 123, 14, 44, 9, 15, 128, 56, -9, 54, 75, 124, 20, 30, 26, 42, 119, 13, 43, 13, 19, 127, 23, 32, 11, 17] }, { "part": "wolf12", "scores": [129, 25, 56, 115, 11, 27, 9, 14, 70, 9, 13, 14, 23, 134, 37, -5, 55, 77, 137, 38, 3, 35, 55, 108, 7, 29, 10, 14, 104, 7, 27, 18, 27, 131, 32, -1, 41, 61, 136, 38, -6, 31, 46, 122, 11, 27, 13, 20, 112, 10, 24, 14, 22, 130, 28, -3, 45, 64, 134, 23, 11, 29, 45, 133, 32, 0, 13, 22, 128, 18, 14, 28, 41, 131, 71, -91, 48, 70, 131, 59, -74, 56, 77] }, { "part": "wolf13", "scores": [131, 26, 57, 137, 56, -19, 54, 84, 135, 30, 5, 33, 62, 133, 76, -50, 88, 124, 127, 16, 7, 26, 49, 133, 19, 16, 32, 45, 131, 20, 15, 32, 53, 131, 46, -25, 65, 100, 121, 36, -45, 82, 119, 130, 10, 25, 11, 17, 126, 14, 16, 27, 39, 127, 19, 6, 33, 51, 132, 34, -21, 73, 104, 134, 14, 18, 16, 25, 131, 14, 15, 17, 24, 129, 12, 19, 20, 29, 127, 12, 15, 33, 49] }, { "part": "wolf14", "scores": [134, 34, 64, 125, 9, 27, 14, 22, 136, 29, 15, 37, 53, 138, 58, -1, 28, 36, 139, 68, -10, 17, 24, 119, 23, -2, 59, 92, 135, 14, 25, 22, 33, 136, 37, 5, 26, 35, 136, 50, 1, 9, 16, 130, 37, -41, 115, 151, 130, 23, 5, 54, 78, 137, 35, 10, 26, 37, 125, 25, -3, 38, 53, 128, 15, 7, 49, 76, 132, 39, -29, 57, 85, 138, 44, -11, 69, 93, 138, 36, -6, 83, 111] }, { "part": "wolf15", "scores": [134, 59, 96, 132, 51, 29, 22, 33, 131, 65, 13, 36, 55, 130, 60, -5, 54, 71, 128, 35, 29, 24, 47, 134, 46, 32, 16, 28, 134, 55, 19, 31, 47, 134, 61, 6, 51, 67, 132, 50, 18, 25, 37, 135, 51, 26, 28, 40, 136, 73, -6, 58, 77, 136, 86, -32, 43, 58, 133, 45, 15, 30, 41, 135, 64, -19, 65, 86, 136, 85, -49, 57, 77, 134, 79, -92, 30, 45, 134, 43, 9, 41, 63] }, { "part": "wolf16", "scores": [127, 23, 62, 128, 31, 4, 14, 20, 112, 12, 19, 13, 18, 113, 12, 26, 11, 16, 113, 16, 19, 8, 12, 128, 42, -31, 58, 74, 127, 29, -10, 47, 64, 104, 9, 31, 6, 10, 108, 12, 21, 8, 11, 129, 29, 3, 13, 31, 132, 36, -7, 53, 81, 124, 12, 29, 7, 15, 123, 17, 16, 20, 32, 134, 40, -27, 59, 85, 133, 51, -115, 71, 107, 131, 23, -14, 58, 80, 131, 15, 21, 33, 48] }, { "part": "wolf17", "scores": [130, 20, 57, 130, 27, 2, 19, 23, 128, 17, 16, 18, 25, 132, 19, 9, 27, 41, 131, 53, -69, 62, 80, 127, 19, 8, 16, 23, 122, 13, 17, 19, 29, 132, 9, 22, 5, 9, 132, 8, 22, 3, 6, 129, 16, 14, 13, 18, 123, 10, 17, 13, 17, 130, 8, 18, 7, 12, 130, 19, -4, 32, 52, 131, 18, 5, 37, 48, 126, 13, 5, 32, 45, 131, 26, -25, 56, 79, 134, 42, -62, 84, 118] }, { "part": "wolf18", "scores": [126, 10, 45, 133, 35, -36, 50, 70, 123, 11, 2, 18, 28, 132, 10, 12, 15, 21, 118, 7, 12, 24, 36, 132, 14, -9, 63, 82, 120, 8, 3, 18, 32, 134, 9, 11, 14, 20, 128, 8, 10, 25, 34, 133, 28, -53, 89, 119, 128, 5, 8, 14, 24, 113, 5, 8, 26, 34, 128, 8, 9, 23, 30, 111, 6, -3, 27, 44, 84, 3, 4, 17, 23, 97, 4, 10, 18, 26, 110, 6, 10, 19, 28] }, { "part": "wolf19", "scores": [133, 32, 128, 138, 9, 89, 36, 51, 132, 19, 67, 45, 63, 137, 59, 31, 39, 55, 137, 30, 68, 54, 81, 131, 27, 10, 93, 117, 134, 35, -32, 69, 86, 134, 58, -54, 40, 62, 129, 29, 37, 75, 110, 118, 17, 48, 85, 110, 133, 37, -68, 46, 70, 134, 43, -65, 33, 54, 129, 37, -25, 56, 73, 114, 13, 70, 61, 95, 133, 30, -41, 105, 141, 133, 31, -82, 15, 22, 133, 47, -53, 24, 35] }, { "part": "wolf20", "scores": [133, 45, 159, 135, 55, -37, 31, 44, 134, 50, -48, 27, 39, 132, 49, -44, 48, 73, 133, 36, 75, 53, 80, 136, 42, -47, 15, 24, 134, 55, -31, 42, 55, 134, 51, 14, 69, 91, 134, 40, 79, 23, 38, 133, 49, -39, 27, 38, 130, 54, -23, 46, 60, 135, 49, 17, 71, 97, 136, 36, 79, 32, 45, 132, 34, -49, 19, 27, 130, 44, -26, 18, 26, 132, 49, 7, 48, 69, 134, 30, 77, 30, 50] }, { "part": "wolf21", "scores": [134, 24, 67, 134, 32, -1, 34, 58, 132, 43, -60, 76, 99, 135, 28, -8, 45, 65, 133, 26, -4, 47, 64, 138, 28, 5, 17, 28, 138, 32, -2, 16, 25, 136, 30, -7, 25, 35, 134, 25, -6, 17, 28, 132, 40, -34, 67, 86, 132, 29, -18, 69, 90, 132, 13, 25, 9, 14, 132, 13, 26, 12, 18, 133, 18, 8, 32, 48, 130, 13, 21, 15, 29, 131, 12, 24, 14, 22, 130, 10, 30, 10, 17] }, { "part": "wolf22", "scores": [132, 21, 63, 133, 25, -10, 63, 89, 132, 29, -24, 57, 86, 134, 40, -40, 58, 83, 132, 28, -22, 54, 76, 135, 27, -11, 40, 60, 133, 26, -2, 33, 45, 132, 25, 5, 27, 40, 120, 8, 17, 16, 25, 133, 13, 24, 14, 23, 134, 15, 18, 28, 37, 133, 13, 21, 28, 39, 133, 19, 4, 27, 38, 128, 9, 25, 10, 15, 130, 9, 21, 13, 18, 130, 10, 25, 7, 12, 133, 42, -48, 48, 66] }, { "part": "wolf23", "scores": [132, 17, 63, 87, 3, 19, 7, 12, 123, 3, 26, 9, 13, 113, 3, 27, 15, 23, 107, 6, 22, 27, 38, 132, 4, 26, 5, 10, 137, 8, 22, 11, 17, 133, 7, 27, 11, 17, 130, 10, 22, 25, 35, 134, 30, -17, 38, 52, 133, 17, 11, 17, 28, 133, 12, 18, 11, 17, 133, 13, 20, 13, 20, 133, 75, -136, 14, 25, 133, 56, -90, 47, 61, 132, 27, -23, 49, 64, 131, 10, 25, 14, 23] },
-    //weird new clue with stone of jas in it
-    { "part": "jas0", "scores": [128, 15, 33, 139, 30, -5, 16, 22, 116, 10, 6, 10, 14, 119, 17, -14, 25, 34, 118, 17, -18, 13, 21, 117, 8, 11, 9, 13, 118, 10, 9, 10, 15, 124, 18, -6, 53, 76, 127, 21, -14, 43, 58, 116, 8, 9, 8, 12, 127, 12, 4, 30, 40, 135, 19, -1, 14, 30, 137, 22, -2, 5, 8, 116, 9, 5, 8, 13, 131, 13, 8, 16, 23, 130, 19, 2, 10, 17, 133, 22, -4, 38, 53] }, { "part": "jas1", "scores": [130, 27, 64, 127, 28, 10, 31, 46, 121, 28, -15, 35, 51, 127, 26, 4, 40, 52, 123, 28, -12, 31, 48, 130, 30, -9, 69, 88, 123, 43, -46, 54, 99, 133, 32, 17, 20, 34, 132, 38, 8, 24, 41, 141, 20, 28, 12, 21, 132, 27, -17, 81, 115, 124, 27, 29, 6, 10, 122, 35, -11, 38, 50, 151, 20, 22, 25, 35, 157, 19, -16, 94, 152, 138, 19, 16, 69, 111, 122, 36, -27, 58, 79] }, { "part": "jas2", "scores": [129, 52, 164, 130, 44, 60, 69, 96, 122, 44, 7, 49, 68, 129, 52, -30, 37, 51, 128, 54, -22, 32, 49, 122, 32, 67, 42, 64, 126, 55, 5, 70, 90, 131, 62, -36, 29, 41, 129, 52, -51, 24, 38, 124, 41, 44, 36, 49, 132, 70, 11, 28, 40, 130, 59, -55, 24, 37, 133, 62, -41, 29, 40, 127, 42, 72, 64, 92, 133, 62, 27, 18, 40, 131, 60, -32, 35, 49, 132, 57, -36, 34, 44] }, { "part": "jas3", "scores": [127, 38, 115, 120, 39, -22, 28, 43, 122, 29, 5, 35, 47, 121, 34, 20, 33, 48, 120, 32, 31, 23, 39, 127, 52, -58, 54, 80, 122, 33, -17, 34, 51, 124, 30, 7, 54, 73, 120, 23, 31, 37, 54, 134, 71, -41, 18, 34, 125, 47, -37, 44, 65, 119, 23, 11, 30, 44, 126, 32, 50, 37, 53, 135, 68, -26, 11, 16, 133, 56, -8, 42, 59, 125, 35, 15, 67, 88, 128, 33, 24, 70, 97] }, { "part": "jas4", "scores": [131, 29, 62, 124, 28, -11, 43, 63, 119, 23, -7, 24, 31, 130, 30, -16, 81, 102, 131, 24, -1, 45, 58, 127, 28, 3, 37, 63, 123, 25, 2, 54, 77, 136, 38, -2, 54, 82, 135, 22, 17, 37, 55, 132, 28, 6, 42, 61, 135, 33, 6, 37, 55, 129, 33, 5, 37, 50, 132, 36, -9, 26, 40, 136, 36, 11, 24, 34, 135, 29, 14, 18, 28, 127, 35, -20, 58, 75, 132, 35, -3, 27, 43] }, { "part": "jas5", "scores": [138, 27, 64, 118, 9, 40, 8, 12, 128, 23, 27, 6, 10, 123, 27, 6, 28, 38, 123, 30, -36, 24, 45, 150, 25, 16, 45, 59, 125, 23, 22, 11, 15, 122, 29, -16, 28, 40, 130, 35, -38, 23, 44, 168, 42, -6, 31, 45, 149, 33, -4, 57, 73, 121, 27, 1, 29, 48, 134, 32, -12, 65, 87, 141, 25, -5, 47, 65, 167, 36, 2, 18, 28, 127, 23, 6, 17, 25, 139, 34, -11, 40, 58] }, { "part": "jas6", "scores": [159, 39, 91, 144, 22, 18, 57, 76, 175, 21, 24, 31, 58, 151, 25, 44, 69, 100, 147, 34, 31, 57, 90, 146, 39, 11, 131, 167, 157, 51, -46, 142, 193, 185, 40, 11, 89, 133, 171, 30, 29, 86, 136, 153, 33, 25, 46, 73, 169, 30, 32, 62, 99, 165, 57, -49, 128, 176, 152, 60, -52, 99, 145, 176, 32, 20, 81, 102, 163, 48, 4, 48, 79, 151, 60, -41, 99, 138, 152, 65, -43, 86, 124] }, { "part": "jas7", "scores": [150, 41, 106, 175, 22, 51, 58, 98, 131, 51, -33, 45, 79, 134, 69, -33, 9, 19, 137, 73, -27, 8, 12, 206, 25, 40, 64, 106, 151, 54, -5, 103, 146, 138, 55, -23, 58, 83, 136, 65, -14, 13, 17, 221, 25, 48, 88, 119, 172, 35, 30, 53, 86, 146, 71, -22, 135, 178, 164, 20, -2, 92, 132, 166, 54, 5, 77, 110, 222, 20, -36, 110, 152, 143, 57, 14, 91, 132, 164, 36, 32, 87, 129] }, { "part": "jas8", "scores": [134, 52, 96, 136, 67, -24, 9, 14, 137, 62, -3, 9, 16, 129, 48, -3, 44, 59, 137, 49, 21, 45, 64, 131, 63, -25, 14, 21, 127, 46, -14, 24, 35, 128, 43, -1, 25, 35, 129, 37, 23, 25, 37, 133, 69, -29, 94, 133, 137, 58, -7, 64, 94, 131, 42, 5, 18, 32, 134, 42, 16, 20, 31, 142, 72, 11, 49, 79, 132, 51, -17, 82, 122, 139, 47, 28, 40, 57, 128, 32, 22, 14, 21] }, { "part": "jas9", "scores": [131, 25, 52, 137, 37, 7, 18, 26, 137, 31, 9, 13, 20, 124, 26, -7, 39, 49, 124, 22, -7, 18, 28, 135, 33, -5, 25, 39, 135, 29, 12, 11, 20, 132, 21, 15, 22, 30, 125, 24, -5, 18, 26, 132, 33, -17, 20, 29, 132, 24, 3, 18, 27, 136, 20, 20, 15, 24, 126, 22, -3, 16, 26, 127, 29, -19, 39, 55, 124, 27, -17, 52, 75, 131, 19, 4, 41, 59, 124, 14, 7, 23, 33] }, { "part": "jas10", "scores": [147, 40, 84, 131, 24, 14, 23, 37, 161, 37, 20, 24, 35, 137, 31, 24, 32, 49, 154, 43, 29, 37, 53, 166, 40, 15, 17, 26, 136, 42, -4, 26, 36, 134, 47, -17, 67, 83, 142, 51, -27, 61, 87, 151, 34, 8, 16, 23, 128, 32, 0, 19, 31, 142, 53, -23, 61, 84, 159, 59, -7, 69, 91, 128, 25, -8, 34, 57, 136, 27, -14, 37, 60, 149, 39, -5, 22, 41, 166, 58, -2, 53, 81] }, { "part": "jas11", "scores": [162, 60, 78, 158, 52, 19, 17, 30, 159, 60, -1, 39, 65, 151, 56, -33, 112, 150, 165, 50, -10, 62, 88, 162, 58, 11, 51, 69, 161, 64, 4, 58, 79, 163, 63, 15, 40, 57, 166, 53, -1, 49, 67, 160, 79, -13, 54, 78, 170, 65, -2, 56, 72, 164, 67, 3, 41, 55, 164, 61, -2, 52, 73, 168, 65, -13, 54, 84, 163, 46, 20, 32, 46, 165, 52, 15, 50, 74, 158, 61, -10, 90, 128] }, { "part": "jas12", "scores": [174, 45, 77, 175, 67, -58, 92, 134, 185, 32, -20, 100, 146, 158, 53, -7, 67, 97, 178, 33, 15, 77, 100, 178, 62, -19, 52, 75, 179, 50, 7, 39, 71, 171, 41, 6, 50, 83, 187, 40, 15, 70, 98, 171, 51, -18, 78, 99, 174, 46, 18, 23, 37, 171, 43, 4, 39, 68, 178, 42, 19, 34, 48, 167, 52, -15, 50, 70, 172, 43, 33, 20, 33, 167, 41, 7, 69, 99, 178, 41, 17, 41, 57] }, { "part": "jas13", "scores": [144, 44, 74, 148, 58, -5, 79, 109, 140, 52, -17, 73, 99, 141, 47, 0, 42, 70, 134, 31, -9, 51, 66, 153, 51, 3, 41, 58, 147, 55, 3, 76, 104, 144, 46, 6, 84, 120, 135, 34, -6, 52, 83, 153, 51, 10, 58, 80, 147, 44, 18, 36, 53, 143, 37, 21, 39, 57, 141, 39, -4, 76, 114, 146, 50, -18, 96, 126, 137, 51, -31, 89, 116, 141, 33, 15, 40, 61, 140, 28, 19, 56, 75] }, { "part": "jas14", "scores": [131, 25, 72, 127, 25, 5, 11, 16, 122, 27, -4, 97, 137, 126, 23, 2, 35, 52, 131, 14, 32, 40, 57, 138, 41, -28, 69, 98, 130, 28, -8, 97, 150, 124, 24, -6, 76, 111, 127, 19, 6, 60, 78, 143, 43, -38, 127, 165, 140, 31, 2, 86, 115, 122, 22, 4, 65, 103, 125, 23, -14, 125, 156, 139, 24, 24, 33, 50, 139, 24, 23, 42, 69, 125, 23, -15, 106, 164, 123, 13, 15, 80, 111] }, { "part": "jas15", "scores": [168, 21, 77, 143, 24, -19, 41, 57, 131, 23, -14, 36, 61, 139, 18, -5, 37, 55, 168, 53, -20, 59, 89, 166, 31, -21, 54, 78, 136, 15, -5, 39, 52, 169, 25, 4, 26, 44, 177, 41, 7, 42, 64, 181, 43, -1, 65, 81, 172, 17, -15, 71, 105, 183, 34, 9, 75, 95, 171, 14, 3, 53, 76, 191, 13, 37, 30, 45, 187, 21, 29, 22, 35, 201, 8, 38, 47, 62, 3, 2, 4, 48, 66] }, { "part": "jas16", "scores": [170, 18, 97, 158, 44, 16, 46, 75, 152, 34, 25, 56, 82, 163, 35, 40, 30, 52, 158, 42, 12, 68, 100, 140, 30, -16, 55, 77, 145, 30, 14, 81, 115, 163, 25, -29, 80, 112, 185, 31, 29, 73, 105, 134, 18, -38, 63, 84, 123, 26, -64, 37, 55, 188, 17, -21, 59, 81, 206, 39, 1, 62, 93, 8, 3, 13, 19, 30, 223, 4, 27, 42, 62, 226, 37, 18, 56, 81, 222, 31, 30, 30, 48] }, { "part": "jas17", "scores": [190, 26, 51, 170, 36, -12, 49, 71, 178, 35, 15, 35, 52, 172, 34, -5, 43, 63, 168, 37, -22, 58, 94, 184, 33, 14, 31, 43, 198, 29, 1, 69, 92, 185, 31, 3, 70, 89, 168, 30, -5, 87, 115, 191, 23, -2, 56, 84, 220, 29, -7, 69, 97, 222, 29, -5, 44, 65, 177, 22, 11, 42, 70, 222, 20, -6, 62, 86, 236, 31, -8, 49, 68, 202, 17, 8, 57, 82, 190, 14, 2, 53, 84] }, { "part": "jas18", "scores": [143, 18, 73, 144, 45, -14, 52, 73, 136, 47, -36, 80, 106, 136, 33, -14, 70, 99, 130, 20, -3, 85, 121, 156, 28, -7, 67, 91, 140, 27, -3, 68, 97, 133, 22, -15, 71, 101, 127, 15, -5, 46, 69, 167, 18, 14, 90, 124, 157, 15, 11, 112, 160, 156, 10, 24, 78, 120, 121, 3, 9, 78, 105, 176, 8, 10, 70, 105, 181, 2, 1, 90, 124, 27, 5, 7, 56, 78, 26, 3, 27, 40, 59] }, { "part": "jas19", "scores": [99, 5, 56, 127, 16, -6, 71, 101, 127, 18, -16, 128, 174, 102, 7, -5, 66, 88, 112, 4, 25, 18, 28, 122, 15, -22, 68, 107, 123, 9, -17, 60, 94, 109, 2, 12, 26, 37, 53, 6, 24, 28, 41, 125, 5, -24, 140, 182, 73, 6, -24, 70, 101, 42, 4, 11, 30, 45, 28, 5, 25, 14, 24, 53, 7, -11, 62, 91, 43, 14, -8, 65, 98, 15, 4, 24, 12, 23, 12, 3, 33, 8, 12] }, { "part": "jas20", "scores": [28, 13, 27, 31, 7, 1, 29, 51, 24, 7, 5, 11, 19, 18, 8, 5, 17, 26, 31, 13, -30, 10, 21, 28, 11, 8, 9, 17, 26, 10, 11, 10, 15, 27, 14, -3, 20, 29, 25, 15, -6, 29, 36, 32, 13, 5, 22, 31, 30, 13, 6, 13, 21, 24, 16, 0, 22, 33, 25, 11, 9, 15, 26, 28, 14, 6, 19, 26, 34, 17, -3, 17, 26, 25, 18, -3, 31, 42, 32, 21, -11, 25, 40] }, { "part": "jas21", "scores": [31, 12, 31, 26, 12, -12, 22, 29, 15, 15, -15, 31, 43, 240, 17, -15, 34, 45, 230, 15, -12, 23, 37, 23, 10, 18, 7, 13, 15, 7, 22, 8, 11, 20, 7, 21, 10, 15, 20, 8, 15, 20, 32, 20, 11, 16, 10, 15, 34, 12, 17, 14, 20, 57, 20, 8, 22, 30, 58, 18, 2, 18, 25, 37, 22, -10, 23, 31, 45, 24, -20, 22, 32, 50, 19, -16, 28, 42, 47, 15, -16, 37, 53] }, { "part": "jas22", "scores": [37, 22, 63, 240, 27, 17, 40, 61, 233, 13, 17, 57, 77, 249, 25, 5, 63, 89, 45, 10, -27, 54, 79, 5, 8, 35, 26, 43, 15, 9, 24, 35, 48, 33, 22, -3, 44, 66, 50, 50, -37, 70, 94, 51, 19, 14, 33, 47, 37, 39, -23, 72, 102, 47, 37, -20, 67, 98, 56, 43, -6, 56, 81, 37, 28, -6, 67, 91, 43, 30, -8, 67, 92, 52, 31, 3, 49, 70, 59, 30, -2, 20, 26] }, { "part": "jas23", "scores": [49, 18, 44, 47, 12, -37, 30, 45, 53, 16, -34, 75, 92, 60, 11, -15, 26, 41, 58, 18, -14, 35, 54, 48, 43, -29, 32, 49, 57, 34, -16, 25, 37, 51, 20, -2, 26, 39, 55, 19, 6, 18, 33, 39, 28, 5, 49, 89, 44, 15, 17, 34, 47, 43, 13, 21, 28, 37, 54, 19, 14, 19, 30, 50, 19, -8, 34, 49, 42, 11, 28, 21, 28, 38, 12, 24, 12, 20, 24, 9, 31, 8, 12] },
-    //that mennaphos king guy
-    { "part": "menn0", "scores": [137, 45, 184, 147, 95, -9, 2, 4, 146, 99, -7, 3, 7, 144, 91, 0, 15, 27, 125, 43, 6, 76, 138, 151, 88, -12, 2, 3, 147, 58, -6, 35, 44, 140, 49, -1, 39, 48, 95, 34, 3, 71, 127, 147, 42, -9, 35, 52, 141, 42, -11, 25, 36, 117, 20, -7, 47, 64, 66, 43, 27, 78, 138, 147, 69, -10, 11, 21, 143, 34, -9, 38, 51, 112, 17, -25, 38, 59, 82, 39, 20, 93, 152] }, { "part": "menn1", "scores": [42, 18, 176, 118, 41, 2, 52, 78, 137, 33, 4, 77, 108, 41, 47, 5, 104, 141, 29, 57, 21, 82, 147, 141, 55, -4, 33, 52, 143, 24, 3, 84, 112, 21, 64, -19, 85, 114, 23, 66, 12, 79, 142, 145, 84, -8, 24, 45, 35, 29, -1, 81, 112, 8, 46, -34, 73, 113, 36, 57, -15, 74, 137, 69, 35, 26, 86, 124, 34, 47, 31, 98, 144, 18, 67, -22, 81, 118, 23, 31, -20, 111, 174] }, { "part": "menn2", "scores": [88, 21, 182, 46, 45, 9, 80, 115, 101, 28, -7, 63, 88, 124, 41, 4, 61, 89, 142, 127, 7, 3, 40, 142, 81, -1, 22, 49, 52, 38, 3, 65, 93, 75, 32, -11, 64, 85, 112, 42, -11, 38, 90, 100, 15, 10, 59, 84, 48, 61, 3, 48, 71, 29, 98, 13, 71, 98, 140, 66, -3, 23, 77, 22, 96, 64, 69, 94, 48, 50, 22, 90, 123, 35, 60, 11, 84, 118, 145, 95, -6, 4, 44] }, { "part": "menn3", "scores": [143, 105, 185, 142, 126, 9, 3, 5, 142, 123, 6, 2, 3, 142, 119, 6, 2, 3, 142, 119, 7, 2, 39, 141, 94, 2, 29, 38, 142, 115, 3, 2, 4, 142, 111, 3, 2, 4, 142, 108, 1, 3, 42, 143, 99, -4, 2, 4, 143, 102, -3, 2, 3, 142, 103, -2, 2, 3, 142, 98, -6, 2, 42, 144, 95, -3, 3, 5, 144, 94, -3, 3, 4, 144, 94, -3, 4, 5, 145, 86, -9, 4, 46] }, { "part": "menn4", "scores": [143, 102, 185, 142, 121, 8, 2, 4, 143, 123, 10, 3, 5, 143, 127, 12, 3, 5, 143, 127, 13, 4, 41, 142, 110, 3, 3, 4, 143, 111, 5, 2, 3, 142, 113, 7, 2, 4, 143, 114, 7, 2, 39, 142, 96, -6, 3, 4, 143, 100, -1, 3, 5, 143, 102, 3, 2, 4, 144, 105, 3, 3, 43, 144, 76, -15, 4, 5, 146, 70, -18, 5, 6, 146, 69, -16, 5, 7, 148, 61, -20, 4, 49] }, { "part": "menn5", "scores": [145, 77, 183, 144, 106, 2, 2, 3, 143, 104, 1, 3, 4, 142, 79, 2, 29, 45, 64, 23, -2, 83, 145, 142, 113, 8, 1, 2, 143, 108, 4, 2, 3, 143, 104, 2, 2, 3, 143, 83, 20, 56, 106, 144, 95, -1, 5, 6, 146, 84, -6, 4, 5, 147, 79, -8, 3, 4, 148, 53, 13, 76, 132, 149, 69, -15, 2, 3, 150, 66, -15, 2, 3, 151, 65, -16, 2, 5, 156, 32, 12, 66, 126] }, { "part": "menn6", "scores": [41, 15, 106, 38, 48, -24, 103, 156, 39, 28, -36, 109, 165, 27, 46, -23, 129, 189, 111, 22, -83, 91, 160, 145, 30, 28, 37, 61, 34, 21, 30, 89, 133, 49, 39, -18, 160, 222, 83, 24, -43, 125, 213, 154, 17, 26, 32, 54, 13, 31, 58, 49, 80, 41, 47, -28, 158, 209, 60, 28, 1, 140, 223, 104, 5, 0, 58, 91, 13, 35, 65, 44, 74, 17, 32, 12, 104, 147, 172, 39, 9, 92, 137] }, { "part": "menn7", "scores": [236, 16, 112, 13, 73, 13, 83, 131, 12, 79, 8, 76, 108, 241, 31, -28, 93, 118, 149, 73, -86, 2, 44, 14, 64, 54, 53, 89, 1, 66, 32, 35, 48, 242, 36, -20, 94, 115, 153, 60, -90, 4, 47, 15, 44, 65, 51, 84, 252, 41, 57, 28, 39, 231, 24, -9, 106, 124, 154, 72, -82, 1, 40, 181, 21, 82, 28, 47, 14, 24, 57, 61, 81, 115, 25, -21, 54, 73, 153, 64, -73, 17, 72] }, { "part": "menn8", "scores": [153, 45, 196, 149, 74, -2, 1, 3, 149, 72, -3, 2, 4, 149, 70, -4, 3, 4, 149, 66, -7, 3, 48, 153, 61, -7, 5, 7, 153, 65, -5, 4, 5, 153, 67, -4, 3, 4, 153, 70, -3, 2, 43, 154, 70, 2, 2, 3, 154, 66, -3, 8, 15, 153, 50, -13, 20, 37, 156, 23, 2, 70, 139, 148, 37, -25, 27, 41, 26, 11, -19, 67, 101, 12, 43, 65, 150, 211, 16, 17, 22, 173, 267] }, { "part": "menn9", "scores": [154, 37, 185, 151, 61, -21, 3, 4, 151, 62, -19, 3, 4, 151, 63, -18, 2, 3, 151, 62, -19, 2, 44, 153, 70, -13, 1, 2, 154, 69, -13, 2, 3, 154, 66, -15, 4, 6, 155, 57, -21, 7, 51, 110, 3, -4, 94, 136, 137, 28, -23, 44, 60, 153, 49, -25, 11, 18, 157, 45, -25, 2, 46, 24, 13, 54, 84, 125, 20, 14, 98, 49, 70, 13, 41, 76, 56, 79, 169, 22, -6, 27, 84] }, { "part": "menn10", "scores": [121, 10, 196, 148, 58, -7, 2, 3, 148, 57, -7, 3, 8, 148, 54, -7, 12, 28, 146, 45, 0, 50, 110, 146, 35, -22, 25, 34, 141, 9, -18, 48, 69, 107, 13, 0, 61, 101, 117, 6, 66, 97, 154, 87, 4, -24, 31, 54, 70, 4, 13, 57, 80, 114, 15, 13, 53, 85, 47, 34, -3, 94, 176, 18, 13, 13, 56, 76, 102, 8, 19, 74, 100, 30, 74, 1, 64, 93, 36, 30, -40, 17, 80] }, { "part": "menn11", "scores": [45, 9, 123, 159, 17, -20, 70, 88, 231, 22, 57, 41, 57, 178, 31, 48, 52, 74, 169, 30, 71, 64, 90, 18, 4, 3, 106, 145, 200, 15, 59, 26, 46, 171, 24, 80, 36, 50, 173, 27, 70, 73, 89, 42, 30, -109, 21, 40, 48, 47, -30, 89, 121, 72, 20, 18, 105, 154, 105, 30, 21, 89, 141, 43, 26, -117, 5, 9, 42, 77, -57, 51, 72, 42, 52, -16, 133, 181, 37, 27, -74, 57, 127] }, { "part": "menn12", "scores": [31, 42, 120, 169, 23, 97, 12, 19, 157, 9, 89, 33, 50, 96, 43, 5, 32, 56, 10, 47, -47, 127, 202, 165, 21, 96, 22, 47, 75, 31, -8, 124, 171, 35, 76, -25, 111, 162, 27, 102, -34, 127, 209, 98, 38, -36, 131, 185, 26, 85, -14, 100, 140, 20, 118, 18, 92, 142, 37, 48, -3, 121, 186, 18, 73, -73, 67, 100, 24, 84, -41, 139, 183, 35, 47, -36, 114, 180, 35, 57, -36, 83, 155] }, { "part": "menn13", "scores": [27, 33, 114, 39, 13, -77, 110, 155, 14, 54, 26, 151, 212, 19, 16, -20, 148, 205, 17, 14, 51, 77, 139, 33, 21, 13, 97, 156, 43, 21, 3, 161, 215, 39, 9, 48, 86, 130, 25, 21, -32, 140, 205, 42, 18, 47, 94, 136, 60, 20, 10, 97, 145, 53, 20, -14, 129, 179, 12, 103, 2, 52, 106, 61, 20, -41, 108, 143, 40, 18, 8, 114, 167, 20, 50, 19, 97, 140, 30, 132, -52, 86, 141] }, { "part": "menn14", "scores": [14, 78, 124, 25, 12, 23, 107, 138, 29, 11, 48, 99, 120, 7, 29, 83, 16, 29, 7, 30, 20, 51, 99, 5, 56, -44, 80, 117, 5, 62, -43, 82, 122, 13, 69, 31, 79, 115, 13, 44, 56, 28, 59, 7, 114, -28, 36, 60, 12, 123, -16, 64, 80, 10, 127, -7, 63, 85, 14, 117, 20, 47, 76, 19, 136, -16, 90, 122, 24, 100, -49, 109, 148, 25, 94, -59, 72, 111, 20, 133, -26, 93, 159] }, { "part": "menn15", "scores": [28, 107, 165, 14, 31, 26, 84, 104, 32, 58, -40, 44, 64, 34, 69, -51, 25, 37, 41, 41, -66, 11, 69, 28, 16, -22, 74, 103, 27, 142, 0, 40, 58, 35, 109, -27, 21, 31, 34, 115, -21, 49, 104, 22, 76, -13, 47, 67, 28, 162, 5, 32, 45, 28, 151, 23, 45, 60, 29, 150, 29, 34, 78, 20, 139, 29, 29, 50, 26, 164, 27, 23, 34, 21, 146, 56, 20, 30, 27, 147, 46, 26, 63] }, { "part": "menn16", "scores": [38, 58, 146, 38, 59, -75, 19, 27, 33, 100, -47, 63, 80, 26, 48, -68, 54, 89, 29, 76, -43, 115, 193, 36, 109, -44, 27, 43, 37, 76, -13, 49, 81, 51, 44, 9, 110, 148, 65, 44, -8, 93, 134, 33, 112, -1, 45, 63, 111, 42, 17, 70, 96, 104, 31, 18, 53, 82, 39, 29, 64, 64, 101, 31, 121, 22, 45, 68, 38, 54, 42, 126, 160, 33, 43, 48, 114, 154, 30, 91, 40, 78, 132] }, { "part": "menn17", "scores": [24, 66, 106, 33, 103, -68, 98, 146, 32, 104, -44, 101, 144, 24, 63, -5, 109, 153, 29, 38, 24, 92, 139, 71, 35, -42, 79, 121, 95, 36, -39, 79, 115, 24, 20, 57, 24, 50, 18, 62, 22, 36, 75, 41, 29, 20, 67, 92, 12, 39, 46, 21, 42, 13, 70, 35, 25, 37, 15, 90, 18, 31, 50, 27, 114, 3, 25, 43, 15, 75, 22, 22, 33, 13, 121, -30, 24, 38, 14, 122, -40, 14, 40] }, { "part": "menn18", "scores": [23, 74, 98, 34, 26, -18, 139, 185, 29, 34, 17, 73, 100, 20, 72, 9, 57, 76, 15, 116, -33, 58, 99, 26, 34, 62, 15, 29, 30, 36, 61, 22, 39, 28, 80, -23, 60, 97, 24, 71, -85, 26, 99, 22, 78, 12, 47, 66, 22, 93, -9, 83, 113, 20, 102, -25, 94, 122, 20, 89, -40, 92, 168, 23, 132, -5, 50, 66, 26, 59, 47, 38, 53, 25, 65, 44, 55, 86, 23, 91, -8, 87, 132] }, { "part": "menn19", "scores": [20, 97, 91, 14, 134, -46, 54, 79, 17, 111, 21, 46, 77, 18, 98, 32, 42, 62, 21, 132, 10, 91, 136, 24, 75, -96, 19, 47, 25, 89, -17, 68, 99, 20, 53, 61, 19, 32, 15, 91, 43, 35, 66, 20, 98, -53, 80, 122, 19, 106, -47, 92, 127, 19, 118, -19, 123, 172, 17, 81, 40, 57, 92, 25, 107, -31, 105, 149, 24, 126, -10, 87, 120, 22, 65, 50, 36, 64, 15, 64, 55, 29, 51] }, { "part": "menn20", "scores": [27, 103, 125, 21, 144, 2, 20, 33, 25, 150, 3, 18, 27, 23, 127, 14, 36, 56, 27, 113, -3, 83, 131, 27, 107, -5, 60, 97, 28, 103, -6, 77, 101, 23, 74, 21, 92, 127, 22, 69, 18, 84, 152, 17, 98, 31, 42, 75, 26, 81, 26, 53, 68, 34, 95, -21, 54, 76, 41, 71, -59, 32, 95, 31, 109, -7, 44, 60, 32, 107, -8, 58, 80, 30, 99, -4, 67, 88, 30, 98, -4, 79, 128] }, { "part": "menn21", "scores": [30, 100, 138, 26, 100, 21, 64, 101, 25, 91, 24, 99, 136, 30, 76, -7, 76, 104, 33, 106, -15, 69, 117, 32, 73, -28, 78, 119, 40, 58, -61, 44, 75, 36, 109, -28, 53, 78, 30, 129, 5, 57, 102, 40, 100, -30, 30, 60, 35, 115, -10, 46, 67, 33, 113, -5, 38, 51, 28, 123, 12, 32, 66, 30, 94, 11, 72, 102, 25, 107, 29, 38, 54, 23, 105, 31, 39, 55, 20, 106, 44, 25, 48] }, { "part": "menn22", "scores": [21, 107, 115, 28, 135, -7, 43, 56, 22, 86, 20, 37, 49, 15, 116, -20, 25, 36, 15, 120, -41, 12, 46, 25, 132, 1, 31, 40, 26, 90, 10, 40, 52, 17, 102, -5, 20, 26, 17, 125, -38, 15, 52, 22, 130, 7, 16, 23, 28, 94, 11, 34, 48, 21, 91, 21, 20, 31, 17, 126, -33, 13, 48, 21, 84, 39, 15, 26, 31, 79, 18, 44, 60, 29, 77, 35, 21, 30, 17, 118, -18, 21, 53] }, { "part": "menn23", "scores": [22, 114, 100, 20, 165, -30, 14, 25, 27, 87, 40, 30, 42, 31, 45, 66, 14, 27, 64, 40, 0, 89, 141, 17, 143, -42, 16, 22, 24, 153, -9, 38, 50, 27, 61, 46, 18, 28, 31, 59, 48, 45, 83, 16, 121, -55, 9, 14, 21, 170, -27, 14, 23, 25, 118, 18, 44, 58, 24, 103, 25, 41, 81, 17, 125, -49, 14, 19, 17, 143, -36, 14, 22, 24, 178, -19, 23, 38, 22, 129, 20, 43, 77] },
-    //archaeology zammy puzzle seal
-    { "part": "seal0", "scores": [26, 34, 33, 18, 146, -136, 42, 68, 28, 88, -45, 62, 83, 27, 6, 29, 3, 8, 0, 0, 32, 0, 4, 28, 75, -24, 44, 66, 31, 115, -111, 86, 122, 27, 22, 22, 7, 12, 26, 0, 33, 0, 0, 27, 9, 27, 4, 11, 31, 41, -4, 37, 60, 30, 15, 21, 13, 35, 27, 3, 31, 2, 3, 32, 0, 31, 0, 4, 27, 2, 32, 2, 2, 27, 7, 30, 3, 5, 27, 8, 29, 3, 6] }, { "part": "seal1", "scores": [24, 65, 61, 0, 0, 60, 0, 4, 27, 1, 59, 0, 5, 27, 6, 56, 4, 10, 27, 22, 49, 9, 18, 27, 9, 57, 5, 7, 27, 41, 39, 15, 34, 28, 90, -20, 64, 82, 20, 131, -76, 60, 75, 34, 59, -4, 80, 112, 29, 122, -89, 80, 110, 20, 140, -93, 50, 65, 15, 154, -101, 35, 46, 26, 22, 50, 6, 10, 27, 40, 41, 9, 14, 27, 67, 27, 13, 30, 28, 142, -59, 61, 78] }, { "part": "seal2", "scores": [20, 106, 103, 27, 44, 79, 14, 37, 29, 61, 60, 41, 62, 29, 61, 58, 44, 64, 27, 44, 79, 14, 36, 15, 150, -67, 22, 48, 14, 152, -75, 17, 30, 16, 150, -76, 21, 45, 16, 149, -66, 27, 53, 9, 160, -71, 10, 23, 27, 107, 15, 57, 86, 28, 82, 51, 30, 55, 17, 146, -52, 48, 63, 18, 160, -68, 24, 45, 28, 68, 63, 24, 43, 27, 29, 88, 10, 16, 24, 137, -27, 56, 72] }, { "part": "seal3", "scores": [23, 72, 69, 27, 20, 57, 9, 17, 27, 5, 65, 3, 9, 25, 1, 67, 0, 5, 0, 0, 68, 0, 4, 21, 128, -65, 61, 76, 28, 85, -5, 62, 81, 27, 35, 51, 13, 24, 27, 6, 66, 3, 6, 10, 161, -101, 17, 26, 18, 148, -104, 39, 66, 26, 128, -85, 60, 92, 31, 64, 8, 55, 75, 24, 157, -76, 51, 65, 27, 95, 20, 16, 35, 29, 65, 26, 20, 49, 33, 52, 16, 52, 75] }, { "part": "seal4", "scores": [26, 31, 30, 0, 0, 29, 0, 4, 27, 3, 27, 2, 8, 28, 58, -7, 31, 52, 19, 142, -134, 47, 73, 24, 0, 30, 0, 1, 27, 19, 21, 7, 17, 32, 104, -101, 86, 128, 27, 96, -62, 70, 91, 27, 6, 27, 3, 4, 30, 11, 22, 15, 29, 30, 31, 5, 23, 44, 27, 10, 25, 5, 10, 27, 7, 26, 3, 5, 27, 2, 29, 1, 1, 25, 0, 30, 0, 0, 0, 0, 30, 0, 4] }, { "part": "seal5", "scores": [23, 70, 67, 0, 0, 66, 0, 4, 27, 8, 63, 4, 7, 32, 68, -4, 65, 85, 32, 45, 25, 39, 64, 26, 1, 65, 0, 5, 27, 37, 48, 14, 29, 27, 128, -92, 56, 100, 28, 56, 35, 11, 32, 27, 5, 63, 3, 9, 28, 86, -9, 63, 81, 18, 147, -101, 47, 66, 27, 82, 26, 14, 28, 27, 20, 56, 9, 17, 21, 128, -66, 59, 74, 11, 160, -102, 18, 27, 24, 152, -72, 54, 67] }, { "part": "seal6", "scores": [33, 122, 111, 27, 12, 105, 6, 9, 30, 76, 56, 51, 74, 36, 167, -34, 43, 68, 27, 189, -48, 54, 70, 30, 75, 58, 50, 71, 30, 185, -43, 64, 94, 39, 167, -60, 26, 38, 36, 132, -52, 54, 78, 35, 166, -32, 53, 78, 40, 163, -62, 13, 22, 34, 113, -17, 78, 102, 27, 70, 75, 14, 28, 27, 187, -49, 44, 57, 35, 138, -56, 64, 85, 27, 79, 69, 16, 47, 27, 35, 94, 7, 10] }, { "part": "seal7", "scores": [32, 90, 95, 28, 160, -51, 46, 62, 34, 104, -23, 64, 93, 31, 83, 23, 53, 69, 29, 157, -69, 48, 62, 33, 143, -62, 45, 59, 34, 101, -24, 67, 97, 32, 88, 11, 57, 73, 33, 145, -76, 44, 55, 35, 108, -44, 64, 100, 28, 41, 72, 12, 27, 27, 32, 79, 11, 18, 35, 108, -39, 65, 97, 34, 69, 14, 105, 123, 27, 11, 89, 4, 6, 27, 10, 90, 5, 7, 34, 71, 11, 103, 127] }, { "part": "seal8", "scores": [33, 122, 110, 27, 189, -50, 46, 62, 35, 176, -39, 38, 63, 31, 88, 44, 56, 78, 27, 17, 102, 7, 11, 35, 136, -49, 55, 81, 41, 160, -64, 13, 25, 32, 192, -45, 44, 77, 31, 91, 40, 58, 80, 28, 74, 68, 29, 45, 34, 100, -3, 72, 93, 33, 170, -59, 58, 78, 36, 179, -40, 35, 61, 27, 24, 98, 7, 10, 27, 45, 88, 13, 21, 36, 121, -37, 54, 74, 32, 190, -49, 62, 82] }, { "part": "seal9", "scores": [25, 63, 57, 27, 15, 50, 5, 8, 32, 43, 14, 62, 87, 27, 8, 53, 4, 6, 0, 0, 57, 0, 4, 27, 34, 40, 9, 14, 31, 114, -83, 85, 117, 27, 39, 36, 13, 25, 27, 1, 57, 0, 5, 28, 69, 18, 16, 35, 22, 133, -87, 50, 66, 28, 90, -25, 62, 81, 27, 6, 54, 3, 9, 29, 142, -56, 65, 85, 19, 148, -93, 45, 57, 20, 133, -84, 63, 78, 27, 24, 45, 9, 17] }, { "part": "seal10", "scores": [20, 113, 111, 27, 41, 89, 13, 30, 16, 148, -55, 30, 57, 13, 155, -58, 31, 47, 21, 157, -44, 45, 57, 28, 56, 74, 36, 62, 16, 150, -68, 19, 34, 28, 100, 38, 41, 67, 31, 102, 17, 54, 78, 28, 54, 77, 29, 59, 16, 150, -68, 20, 37, 28, 101, 36, 48, 74, 31, 102, 21, 55, 77, 27, 37, 91, 12, 24, 16, 146, -51, 39, 63, 12, 156, -59, 23, 39, 20, 157, -46, 40, 53] }, { "part": "seal11", "scores": [31, 86, 89, 30, 157, -72, 57, 72, 32, 124, -37, 58, 79, 35, 91, -21, 45, 63, 35, 70, 5, 87, 122, 31, 130, -40, 62, 90, 32, 67, 25, 86, 103, 27, 16, 81, 5, 8, 27, 8, 85, 3, 5, 31, 134, -45, 68, 87, 32, 75, 17, 92, 107, 27, 24, 77, 8, 12, 27, 14, 82, 5, 8, 27, 165, -77, 42, 51, 33, 134, -56, 47, 82, 35, 99, -30, 81, 102, 34, 71, 6, 101, 125] }, { "part": "seal12", "scores": [27, 4, 2, 27, 16, -6, 4, 8, 26, 2, 1, 1, 2, 27, 2, 1, 1, 2, 27, 13, -5, 4, 6, 27, 2, 1, 1, 1, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 27, 3, 1, 2, 2, 27, 3, 1, 2, 2, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 26, 1, 2, 0, 1, 27, 14, -5, 4, 7, 27, 1, 1, 1, 1, 27, 2, 1, 1, 1, 27, 11, -4, 4, 6] }, { "part": "seal13", "scores": [32, 91, 92, 34, 61, 24, 99, 113, 34, 99, -25, 81, 100, 33, 134, -56, 62, 82, 27, 157, -62, 38, 51, 27, 18, 83, 6, 8, 29, 71, 46, 39, 52, 34, 126, -50, 64, 82, 32, 110, -18, 75, 92, 27, 5, 90, 2, 4, 30, 62, 45, 46, 58, 33, 121, -43, 48, 63, 27, 70, 53, 21, 53, 34, 59, 23, 74, 108, 32, 99, -7, 59, 77, 33, 133, -52, 71, 87, 33, 136, -52, 66, 83] }, { "part": "seal14", "scores": [20, 127, 127, 23, 165, -29, 34, 46, 11, 165, -43, 12, 21, 13, 152, -46, 25, 51, 27, 51, 99, 14, 33, 32, 123, -7, 52, 81, 15, 154, -41, 24, 37, 13, 160, -46, 17, 29, 30, 69, 73, 40, 63, 27, 84, 84, 14, 49, 23, 143, -24, 42, 61, 18, 165, -41, 26, 44, 30, 74, 63, 46, 64, 31, 150, -34, 53, 72, 12, 160, -45, 13, 24, 13, 156, -48, 16, 37, 29, 59, 88, 22, 52] }, { "part": "seal15", "scores": [24, 66, 62, 27, 16, 52, 8, 16, 22, 122, -64, 63, 79, 13, 158, -105, 29, 39, 27, 149, -64, 59, 74, 27, 4, 59, 2, 9, 29, 78, -1, 56, 77, 20, 144, -107, 49, 70, 27, 83, 20, 13, 29, 28, 0, 60, 0, 5, 27, 31, 47, 12, 19, 29, 121, -87, 64, 106, 28, 56, 30, 11, 34, 0, 0, 61, 0, 4, 27, 6, 59, 3, 5, 32, 54, 10, 52, 71, 31, 36, 30, 31, 55] }, { "part": "seal16", "scores": [32, 125, 109, 28, 195, -48, 55, 70, 35, 137, -43, 65, 87, 27, 61, 78, 13, 22, 27, 29, 94, 6, 10, 35, 174, -38, 45, 70, 36, 173, -58, 42, 55, 34, 107, -6, 78, 101, 27, 70, 73, 18, 38, 31, 84, 47, 55, 76, 27, 193, -44, 51, 86, 41, 164, -63, 12, 18, 36, 136, -47, 59, 80, 27, 15, 102, 6, 11, 31, 87, 43, 55, 77, 35, 178, -39, 44, 70, 26, 190, -50, 58, 74] }, { "part": "seal17", "scores": [32, 87, 92, 34, 64, 18, 98, 117, 27, 8, 88, 3, 5, 27, 12, 86, 5, 7, 34, 64, 21, 99, 114, 35, 104, -36, 58, 90, 27, 29, 77, 10, 16, 27, 32, 76, 11, 17, 34, 105, -34, 84, 111, 33, 139, -66, 57, 74, 34, 88, -4, 60, 79, 32, 91, 0, 63, 78, 33, 143, -81, 36, 64, 30, 155, -45, 57, 82, 34, 95, -15, 56, 78, 32, 99, -13, 56, 73, 28, 164, -65, 44, 61] }, { "part": "seal18", "scores": [33, 122, 114, 27, 36, 96, 6, 11, 29, 78, 60, 31, 58, 34, 133, -47, 60, 76, 26, 178, -51, 33, 47, 27, 54, 85, 15, 31, 33, 94, 18, 70, 89, 41, 147, -66, 16, 28, 37, 181, -40, 30, 52, 34, 125, -28, 56, 74, 37, 151, -64, 30, 47, 30, 194, -43, 49, 78, 32, 101, 34, 62, 83, 28, 184, -48, 52, 68, 37, 181, -41, 33, 59, 32, 102, 33, 62, 85, 27, 21, 104, 8, 12] }, { "part": "seal19", "scores": [22, 78, 75, 23, 159, -86, 40, 55, 10, 161, -96, 14, 23, 17, 142, -80, 57, 72, 27, 33, 59, 10, 19, 28, 97, 20, 23, 42, 18, 148, -81, 45, 60, 25, 107, -31, 67, 84, 27, 11, 69, 5, 12, 27, 52, 49, 11, 28, 25, 135, -91, 49, 93, 28, 55, 40, 25, 44, 26, 2, 74, 1, 6, 30, 45, 41, 42, 61, 33, 91, -30, 71, 91, 27, 15, 68, 6, 9, 43, 0, 75, 0, 4] }, { "part": "seal20", "scores": [26, 32, 32, 0, 0, 31, 0, 4, 24, 0, 32, 0, 0, 27, 3, 30, 1, 2, 27, 7, 28, 3, 5, 27, 5, 28, 3, 10, 29, 27, 13, 24, 44, 31, 14, 19, 23, 36, 27, 7, 29, 3, 5, 28, 74, -26, 53, 76, 32, 111, -110, 83, 121, 28, 27, 17, 7, 22, 26, 1, 31, 0, 1, 18, 146, -140, 33, 71, 28, 83, -35, 49, 72, 27, 7, 28, 3, 10, 0, 0, 32, 0, 4] }, { "part": "seal21", "scores": [23, 72, 68, 27, 30, 51, 17, 52, 27, 44, 46, 11, 19, 27, 77, 26, 16, 34, 26, 153, -71, 52, 65, 34, 75, -19, 71, 95, 27, 128, -90, 59, 105, 19, 142, -84, 49, 64, 13, 158, -97, 27, 37, 27, 12, 62, 5, 8, 28, 48, 40, 19, 37, 26, 100, -28, 64, 83, 18, 138, -82, 59, 74, 0, 0, 68, 0, 4, 26, 1, 67, 0, 5, 27, 9, 63, 4, 11, 27, 29, 53, 10, 19] }, { "part": "seal22", "scores": [20, 109, 105, 22, 152, -53, 44, 61, 27, 49, 78, 12, 28, 27, 47, 80, 15, 31, 21, 153, -51, 41, 57, 14, 154, -62, 36, 52, 28, 85, 52, 36, 60, 28, 83, 54, 38, 64, 15, 153, -61, 32, 49, 13, 154, -70, 19, 43, 15, 152, -70, 21, 44, 16, 151, -70, 22, 46, 13, 153, -70, 23, 49, 28, 56, 71, 17, 44, 30, 72, 45, 45, 63, 30, 71, 47, 44, 63, 28, 53, 75, 14, 38] }, { "part": "seal23", "scores": [24, 69, 64, 28, 153, -68, 55, 70, 28, 81, 17, 20, 40, 27, 44, 42, 10, 17, 27, 22, 53, 7, 32, 16, 155, -97, 35, 45, 20, 140, -87, 50, 65, 29, 123, -88, 69, 114, 34, 62, -5, 62, 90, 19, 136, -81, 61, 76, 27, 95, -24, 64, 82, 27, 43, 40, 14, 29, 27, 10, 59, 4, 6, 27, 26, 51, 9, 18, 27, 8, 60, 3, 10, 27, 1, 64, 0, 5, 0, 0, 64, 0, 4] },
-];
-var ostiles = [
-    { "part": "black24", "scores": [21, 49, 25, 24, 54, -2, 6, 7, 22, 50, 0, 3, 4, 22, 50, 0, 3, 4, 22, 50, 0, 3, 11, 22, 50, 0, 3, 4, 19, 46, 2, 0, 0, 19, 46, 2, 0, 0, 19, 46, 2, 0, 7, 22, 50, 0, 3, 4, 19, 46, 2, 0, 0, 19, 46, 2, 0, 0, 19, 46, 2, 0, 7, 24, 54, -2, 6, 11, 22, 50, 0, 3, 8, 22, 50, 0, 3, 8, 22, 50, 0, 3, 15] },
-    { "part": "m0", "scores": [252, 136, 116, 251, 140, 0, 0, 0, 251, 140, 0, 0, 0, 251, 140, 0, 0, 0, 251, 140, 0, 0, 19, 251, 140, 0, 0, 0, 251, 140, 0, 0, 0, 251, 140, 0, 0, 0, 251, 140, 0, 0, 20, 251, 140, 0, 0, 0, 251, 140, 0, 0, 0, 251, 140, 0, 0, 0, 251, 140, 0, 0, 20, 251, 140, 0, 0, 19, 251, 140, 0, 0, 20, 253, 132, 1, 12, 36, 7, 102, 14, 12, 49] }, { "part": "m1", "scores": [15, 110, 82, 251, 140, -34, 0, 0, 252, 137, -33, 3, 10, 15, 113, 1, 13, 22, 24, 107, 16, 0, 10, 252, 137, -33, 3, 10, 16, 112, 1, 13, 20, 24, 107, 16, 0, 0, 24, 107, 16, 0, 10, 8, 118, -12, 24, 36, 23, 107, 15, 0, 5, 24, 107, 16, 0, 0, 24, 107, 16, 0, 10, 21, 85, -3, 0, 25, 22, 91, 3, 9, 27, 24, 107, 16, 0, 10, 24, 107, 16, 0, 21] }, { "part": "m2", "scores": [23, 105, 65, 23, 103, 2, 4, 5, 22, 100, 4, 3, 4, 21, 99, 6, 4, 5, 21, 99, 6, 4, 13, 24, 107, -1, 0, 0, 24, 107, -1, 0, 0, 24, 107, -1, 0, 0, 24, 107, -1, 0, 10, 24, 107, -1, 0, 0, 24, 107, -1, 0, 0, 24, 107, -1, 0, 0, 24, 107, -1, 0, 10, 24, 107, -1, 0, 10, 24, 107, -1, 0, 10, 24, 107, -1, 0, 10, 24, 107, -1, 0, 21] }, { "part": "m3", "scores": [8, 118, 95, 5, 120, -6, 18, 24, 251, 140, -21, 0, 1, 251, 140, -21, 0, 0, 251, 140, -21, 0, 19, 24, 107, 29, 0, 0, 11, 116, 5, 24, 36, 251, 140, -21, 0, 0, 251, 140, -21, 0, 20, 24, 107, 29, 0, 0, 23, 107, 27, 0, 6, 8, 118, 0, 18, 25, 252, 139, -21, 0, 26, 24, 107, 29, 0, 10, 24, 107, 29, 0, 10, 24, 107, 29, 0, 12, 7, 119, -2, 32, 76] }, { "part": "m4", "scores": [251, 140, 116, 251, 140, 0, 0, 0, 251, 140, 0, 0, 0, 251, 140, 0, 0, 0, 251, 140, 0, 0, 18, 251, 140, 0, 0, 0, 251, 140, 0, 0, 0, 251, 140, 0, 0, 0, 251, 140, 0, 0, 18, 251, 140, 0, 0, 0, 251, 140, 0, 0, 0, 251, 140, 0, 0, 0, 251, 140, 0, 0, 18, 251, 140, 0, 0, 20, 251, 140, 0, 0, 20, 251, 140, 0, 0, 20, 251, 140, 0, 0, 38] }, { "part": "m5", "scores": [5, 113, 117, 251, 140, 1, 0, 0, 251, 140, 1, 0, 0, 251, 140, 1, 0, 2, 14, 91, 23, 10, 38, 0, 122, -8, 3, 4, 0, 122, -8, 3, 4, 2, 117, -3, 14, 19, 19, 84, 29, 0, 25, 6, 119, -9, 1, 1, 6, 119, -9, 1, 1, 6, 116, -6, 5, 12, 19, 83, 28, 0, 26, 8, 119, -9, 0, 24, 8, 119, -9, 0, 25, 8, 119, -9, 0, 25, 14, 99, 12, 9, 50] }, { "part": "m6", "scores": [21, 82, 87, 21, 82, 0, 0, 0, 21, 82, 0, 0, 0, 21, 82, 0, 0, 0, 21, 82, 0, 0, 16, 21, 82, 0, 0, 0, 21, 82, 0, 0, 0, 21, 82, 0, 0, 0, 21, 82, 0, 0, 16, 21, 82, 0, 0, 0, 21, 82, 0, 0, 0, 21, 82, 0, 0, 0, 21, 82, 0, 0, 16, 21, 82, 0, 0, 16, 21, 82, 0, 0, 16, 21, 82, 0, 0, 16, 21, 82, 0, 0, 33] }, { "part": "m7", "scores": [22, 90, 79, 23, 101, 8, 5, 8, 24, 107, 13, 0, 0, 24, 107, 13, 0, 0, 24, 107, 13, 0, 10, 21, 84, -6, 2, 4, 22, 89, -1, 6, 8, 23, 99, 7, 6, 8, 23, 101, 8, 6, 18, 21, 82, -8, 0, 0, 21, 82, -8, 0, 0, 21, 82, -8, 0, 0, 21, 82, -8, 0, 16, 21, 82, -8, 0, 16, 21, 82, -8, 0, 16, 21, 82, -8, 0, 16, 21, 82, -8, 0, 33] }, { "part": "m8", "scores": [21, 90, 83, 24, 107, 17, 0, 0, 24, 107, 17, 0, 0, 24, 105, 15, 4, 6, 7, 116, -15, 25, 54, 23, 95, 7, 8, 10, 22, 87, 1, 4, 6, 21, 84, -2, 2, 4, 21, 82, -4, 0, 16, 21, 82, -4, 0, 0, 21, 82, -4, 0, 0, 21, 82, -4, 0, 0, 21, 82, -4, 0, 16, 21, 82, -4, 0, 16, 21, 82, -4, 0, 16, 21, 82, -4, 0, 17, 21, 81, -3, 3, 36] }, { "part": "m9", "scores": [4, 117, 120, 251, 140, 4, 0, 1, 251, 140, 4, 0, 0, 251, 140, 4, 0, 0, 251, 140, 4, 0, 18, 9, 101, 17, 17, 28, 0, 122, -5, 3, 4, 0, 122, -5, 3, 4, 0, 122, -5, 3, 24, 13, 96, 18, 11, 13, 6, 119, -6, 1, 1, 6, 119, -6, 1, 1, 6, 119, -6, 1, 23, 19, 86, 28, 6, 33, 8, 118, -6, 0, 28, 8, 119, -6, 0, 25, 8, 119, -6, 0, 48] }, { "part": "m10", "scores": [19, 119, 126, 13, 119, 0, 0, 0, 13, 119, 0, 0, 0, 13, 119, 0, 0, 0, 13, 119, 0, 0, 27, 16, 119, 0, 1, 1, 16, 119, 0, 1, 1, 16, 119, 0, 1, 1, 16, 119, 0, 1, 29, 22, 119, 0, 1, 2, 22, 119, 0, 1, 2, 22, 119, 0, 1, 2, 22, 119, 0, 1, 32, 25, 119, 0, 0, 30, 25, 119, 0, 0, 31, 25, 119, 0, 0, 31, 25, 119, 0, 0, 62] }, { "part": "m11", "scores": [22, 102, 108, 20, 84, 18, 1, 11, 21, 82, 21, 0, 0, 21, 82, 21, 0, 0, 21, 82, 21, 0, 16, 16, 116, -16, 2, 8, 19, 92, 11, 19, 22, 20, 83, 19, 4, 6, 21, 82, 21, 0, 16, 22, 119, -18, 1, 2, 22, 119, -18, 1, 2, 23, 109, -8, 11, 15, 23, 105, -4, 12, 40, 25, 119, -18, 0, 31, 25, 119, -18, 0, 31, 25, 119, -18, 0, 31, 25, 118, -16, 9, 74] }, { "part": "m12", "scores": [22, 87, 90, 21, 82, 3, 0, 0, 21, 82, 3, 0, 0, 21, 82, 3, 0, 0, 21, 82, 3, 0, 16, 21, 82, 3, 0, 0, 21, 82, 3, 0, 0, 21, 82, 3, 0, 0, 21, 82, 3, 0, 16, 21, 83, 1, 1, 9, 20, 80, 7, 12, 20, 20, 80, 9, 11, 34, 23, 101, -16, 25, 62, 24, 112, -28, 17, 60, 23, 75, 34, 4, 36, 23, 87, 3, 25, 58, 25, 112, -31, 13, 94] }, { "part": "m13", "scores": [22, 96, 104, 21, 82, 17, 0, 0, 21, 82, 17, 0, 0, 21, 76, 19, 8, 10, 20, 84, 15, 3, 26, 21, 80, 18, 4, 6, 21, 78, 18, 2, 11, 18, 98, -3, 18, 39, 16, 116, -19, 2, 43, 23, 91, 3, 25, 38, 22, 82, 7, 26, 37, 22, 109, -14, 9, 18, 22, 119, -22, 1, 32, 23, 88, 2, 30, 63, 25, 113, -18, 3, 44, 25, 119, -22, 0, 31, 25, 119, -22, 0, 62] }, { "part": "m14", "scores": [19, 118, 125, 15, 107, 11, 9, 13, 13, 119, -1, 0, 0, 13, 119, -1, 0, 0, 13, 119, -1, 0, 24, 16, 119, -1, 1, 1, 16, 119, -1, 1, 1, 16, 119, -1, 1, 1, 16, 119, -1, 1, 26, 22, 119, -1, 1, 2, 22, 119, -1, 1, 2, 22, 119, -1, 1, 2, 22, 119, -1, 1, 29, 25, 119, -1, 0, 31, 25, 119, -1, 0, 31, 25, 119, -1, 0, 31, 25, 119, -1, 0, 59] }, { "part": "m15", "scores": [31, 103, 113, 29, 119, -13, 0, 0, 29, 119, -13, 0, 0, 29, 119, -13, 0, 0, 29, 119, -13, 0, 32, 31, 119, -13, 0, 1, 31, 119, -13, 0, 11, 31, 119, -13, 0, 8, 31, 119, -13, 0, 33, 34, 115, -11, 5, 18, 29, 113, 14, 28, 42, 31, 115, 3, 21, 29, 34, 119, -13, 0, 34, 42, 30, 43, 0, 21, 33, 57, 33, 26, 59, 37, 69, 18, 19, 36, 37, 78, 13, 17, 58] }, { "part": "m16", "scores": [31, 113, 118, 29, 119, -8, 0, 0, 29, 119, -8, 0, 0, 29, 117, -5, 18, 31, 27, 103, 21, 56, 101, 31, 119, -8, 0, 1, 31, 119, -8, 0, 1, 31, 119, -8, 0, 1, 31, 119, -8, 0, 33, 34, 119, -8, 0, 1, 30, 115, 12, 26, 31, 31, 116, 6, 23, 31, 34, 119, -8, 0, 34, 36, 88, 11, 17, 36, 32, 99, 18, 44, 81, 35, 107, 3, 25, 50, 35, 114, 0, 17, 72] }, { "part": "m17", "scores": [25, 77, 85, 28, 110, -25, 25, 50, 23, 74, 20, 8, 43, 24, 78, -9, 22, 40, 25, 80, -11, 36, 60, 29, 105, -15, 42, 67, 22, 68, 26, 8, 10, 20, 60, 5, 0, 6, 24, 70, -3, 16, 50, 32, 112, -28, 30, 37, 22, 66, 23, 10, 12, 20, 59, 6, 0, 0, 28, 86, -16, 28, 69, 29, 88, 8, 36, 59, 20, 60, 12, 5, 23, 20, 59, 6, 0, 14, 20, 59, 6, 0, 28] }, { "part": "m18", "scores": [30, 110, 114, 27, 96, 5, 22, 28, 29, 119, -12, 0, 0, 29, 119, -12, 0, 0, 29, 119, -12, 0, 32, 30, 118, -11, 0, 5, 31, 119, -12, 0, 1, 31, 119, -12, 0, 1, 31, 119, -12, 0, 46, 31, 116, 1, 21, 31, 29, 112, 20, 25, 36, 34, 119, -12, 0, 1, 28, 111, 25, 23, 47, 33, 102, 3, 23, 76, 31, 103, 13, 44, 76, 36, 91, 5, 19, 36, 32, 79, 22, 25, 60] }, { "part": "m19", "scores": [31, 101, 111, 29, 119, -15, 0, 0, 29, 119, -15, 0, 0, 29, 119, -15, 0, 0, 29, 119, -15, 0, 29, 31, 119, -15, 0, 6, 30, 118, -13, 5, 16, 30, 117, -8, 16, 23, 31, 119, -15, 0, 30, 31, 115, 3, 26, 36, 32, 116, -3, 21, 34, 31, 115, 3, 21, 31, 34, 119, -15, 0, 49, 37, 66, 18, 19, 36, 36, 58, 25, 22, 41, 37, 44, 34, 12, 42, 42, 29, 41, 0, 28] }, { "part": "m20", "scores": [44, 38, 75, 41, 28, 3, 0, 0, 41, 28, 3, 0, 0, 41, 28, 3, 0, 0, 41, 28, 3, 0, 13, 41, 28, 3, 0, 0, 41, 28, 3, 0, 0, 41, 28, 3, 0, 1, 41, 29, 2, 4, 24, 43, 36, -4, 9, 14, 45, 42, -10, 12, 16, 45, 48, -13, 7, 20, 46, 52, -10, 7, 27, 45, 53, -4, 5, 18, 45, 54, 0, 3, 16, 45, 55, 4, 0, 11, 45, 55, 4, 0, 24] }, { "part": "m21", "scores": [40, 46, 73, 41, 28, 1, 0, 0, 41, 28, 1, 0, 0, 39, 30, 2, 3, 7, 23, 63, 9, 14, 38, 43, 33, -4, 8, 10, 43, 36, -7, 8, 10, 35, 52, 1, 21, 30, 29, 58, -7, 12, 40, 45, 52, -8, 3, 8, 45, 53, -7, 3, 9, 45, 53, -4, 3, 5, 45, 53, -4, 3, 21, 45, 55, 2, 0, 10, 45, 55, 2, 0, 10, 45, 55, 2, 0, 10, 45, 55, 2, 0, 24] }, { "part": "m22", "scores": [34, 54, 78, 21, 60, -4, 0, 0, 21, 60, -4, 0, 0, 21, 60, -4, 0, 0, 21, 60, -4, 0, 15, 28, 56, -7, 8, 10, 28, 56, -7, 8, 10, 28, 56, -7, 8, 10, 28, 56, -7, 8, 28, 45, 53, 1, 3, 5, 45, 53, 1, 3, 5, 45, 53, 1, 3, 5, 45, 53, 1, 3, 21, 45, 55, 7, 0, 10, 45, 55, 7, 0, 10, 45, 55, 7, 0, 10, 45, 55, 7, 0, 24] }, { "part": "m23", "scores": [42, 44, 75, 25, 48, -3, 4, 4, 41, 28, 3, 0, 0, 41, 28, 3, 0, 0, 41, 28, 3, 0, 13, 32, 53, -11, 9, 14, 44, 41, -9, 9, 14, 44, 39, -8, 7, 13, 43, 36, -5, 7, 29, 45, 53, -2, 3, 5, 45, 53, -2, 3, 5, 45, 53, -4, 3, 5, 45, 53, -4, 3, 21, 45, 55, 4, 0, 10, 45, 55, 4, 0, 10, 45, 55, 4, 0, 10, 45, 55, 4, 0, 24] },
-    { "part": "c0", "scores": [169, 21, 168, 170, 12, -2, 0, 0, 170, 12, -2, 0, 0, 170, 12, -2, 0, 0, 170, 12, -2, 0, 43, 170, 12, -2, 0, 0, 170, 12, -2, 0, 0, 170, 12, -2, 0, 0, 170, 12, -2, 0, 44, 170, 12, -2, 0, 0, 170, 12, -2, 0, 0, 170, 12, -2, 0, 0, 170, 14, -2, 0, 53, 169, 51, 9, 30, 78, 170, 12, -2, 0, 44, 169, 18, 0, 7, 58, 169, 113, 27, 41, 112] }, { "part": "c1", "scores": [170, 78, 125, 170, 12, -45, 0, 0, 170, 12, -45, 0, 2, 169, 46, -31, 29, 37, 169, 109, -5, 4, 40, 169, 50, -29, 22, 33, 169, 95, -11, 17, 39, 169, 119, -1, 0, 11, 169, 119, -1, 0, 35, 169, 158, -2, 19, 38, 169, 153, 11, 18, 27, 169, 141, 13, 27, 55, 171, 65, 26, 24, 84, 170, 92, 30, 32, 61, 172, 53, 31, 31, 56, 0, 6, 35, 0, 17, 174, 40, 30, 21, 77] }, { "part": "c2", "scores": [169, 152, 123, 169, 119, -3, 0, 0, 169, 119, -3, 0, 0, 169, 119, -3, 0, 0, 169, 119, -3, 0, 23, 169, 119, -3, 0, 11, 169, 119, -3, 0, 11, 169, 119, -3, 0, 11, 169, 119, -3, 0, 35, 169, 186, 4, 0, 0, 169, 186, 4, 0, 0, 169, 186, 4, 0, 0, 169, 186, 4, 0, 29, 169, 186, 4, 0, 29, 169, 186, 4, 0, 29, 169, 186, 4, 0, 29, 169, 186, 4, 0, 58] }, { "part": "c3", "scores": [170, 84, 116, 169, 119, -10, 0, 0, 169, 119, -10, 0, 0, 169, 103, -17, 17, 24, 170, 17, -52, 4, 60, 169, 109, -7, 5, 18, 169, 115, -9, 1, 15, 169, 119, -10, 0, 11, 169, 111, -13, 4, 54, 170, 78, 14, 27, 33, 171, 67, 16, 36, 48, 170, 101, 10, 42, 61, 169, 184, -3, 0, 38, 175, 33, 23, 15, 52, 0, 6, 26, 0, 17, 190, 11, 29, 11, 33, 170, 80, 21, 31, 70] }, { "part": "c4", "scores": [169, 97, 143, 170, 12, -27, 0, 0, 170, 12, -27, 0, 0, 170, 12, -27, 0, 0, 170, 12, -27, 0, 41, 169, 100, 9, 12, 36, 169, 57, -9, 32, 51, 170, 15, -26, 2, 21, 170, 12, -27, 0, 41, 169, 186, 24, 0, 0, 169, 186, 24, 0, 0, 169, 156, 15, 26, 38, 169, 70, -10, 26, 71, 169, 158, 31, 19, 53, 169, 186, 24, 0, 29, 169, 186, 24, 0, 29, 169, 186, 24, 0, 59] }, { "part": "c5", "scores": [169, 50, 152, 169, 76, 6, 3, 9, 170, 50, -4, 10, 17, 169, 75, 6, 3, 9, 169, 80, 8, 0, 31, 169, 60, 4, 6, 8, 169, 60, 4, 6, 8, 169, 60, 4, 6, 8, 169, 60, 4, 6, 42, 169, 36, -3, 0, 1, 169, 36, -3, 0, 1, 169, 36, -3, 0, 1, 169, 36, -3, 0, 38, 170, 36, -7, 1, 39, 170, 36, -7, 1, 41, 170, 36, -7, 1, 41, 170, 36, -7, 1, 80] }, { "part": "c6", "scores": [196, 8, 93, 178, 21, 3, 21, 28, 0, 6, 10, 3, 5, 0, 6, 3, 0, 0, 182, 17, -6, 12, 47, 173, 29, -17, 29, 36, 0, 6, 13, 2, 3, 0, 6, 4, 0, 1, 210, 6, 1, 10, 45, 171, 24, -36, 24, 31, 0, 7, 14, 1, 3, 0, 6, 5, 1, 2, 0, 6, 3, 0, 17, 171, 30, -53, 26, 69, 0, 6, 16, 3, 17, 0, 6, 5, 1, 19, 0, 6, 3, 0, 34] }, { "part": "c7", "scores": [173, 36, 119, 169, 80, -25, 0, 0, 169, 80, -25, 0, 0, 169, 80, -25, 0, 0, 169, 80, -25, 0, 31, 169, 60, -29, 6, 19, 169, 58, -26, 10, 16, 169, 59, -27, 8, 16, 169, 60, -29, 6, 50, 199, 7, 19, 13, 22, 212, 5, 23, 12, 17, 212, 5, 23, 17, 21, 191, 8, 16, 16, 47, 0, 6, 29, 0, 17, 0, 6, 29, 0, 17, 0, 6, 29, 0, 17, 0, 6, 29, 0, 34] }, { "part": "c8", "scores": [226, 5, 89, 248, 6, -1, 0, 3, 0, 6, -1, 0, 0, 0, 6, 4, 2, 4, 0, 6, 14, 3, 18, 0, 6, -1, 0, 0, 0, 6, 0, 0, 1, 0, 6, 8, 2, 4, 186, 11, 2, 27, 70, 0, 6, -1, 0, 0, 0, 6, 0, 2, 2, 0, 7, 10, 1, 4, 174, 19, -26, 27, 72, 0, 6, -1, 0, 17, 0, 6, 1, 1, 19, 0, 6, 12, 4, 18, 171, 28, -51, 23, 111] }, { "part": "c9", "scores": [169, 52, 151, 170, 73, 12, 0, 16, 169, 80, 7, 0, 0, 169, 80, 7, 0, 0, 169, 80, 7, 0, 28, 169, 60, 3, 6, 8, 169, 60, 3, 6, 8, 169, 60, 3, 6, 8, 169, 60, 3, 6, 39, 169, 36, -4, 0, 1, 169, 36, -4, 0, 1, 169, 36, -4, 0, 1, 169, 36, -4, 0, 35, 170, 36, -8, 1, 41, 170, 36, -8, 1, 41, 170, 36, -8, 1, 41, 170, 36, -8, 1, 77] }, { "part": "c10", "scores": [72, 12, 144, 170, 12, -20, 0, 1, 170, 12, -20, 0, 1, 170, 12, -20, 0, 1, 170, 12, -20, 0, 43, 170, 13, -24, 0, 0, 170, 13, -24, 0, 0, 170, 13, -24, 0, 0, 170, 13, -24, 0, 44, 64, 24, 10, 19, 24, 69, 14, -1, 19, 26, 136, 5, -13, 19, 26, 170, 12, -26, 0, 54, 59, 69, 58, 4, 22, 59, 67, 55, 6, 23, 59, 65, 52, 6, 23, 60, 59, 44, 3, 61] }, { "part": "c11", "scores": [252, 4, 99, 172, 11, -56, 24, 35, 0, 6, 23, 3, 4, 0, 6, 11, 1, 2, 0, 6, 9, 0, 17, 172, 12, -58, 25, 33, 0, 6, 23, 3, 4, 0, 6, 11, 1, 2, 0, 6, 9, 0, 17, 174, 10, -51, 29, 38, 0, 6, 22, 3, 4, 0, 6, 10, 0, 2, 0, 6, 9, 0, 17, 58, 28, -3, 31, 60, 0, 6, 20, 1, 20, 0, 6, 9, 0, 17, 0, 6, 9, 0, 34] }, { "part": "c12", "scores": [18, 28, 88, 0, 6, -2, 0, 0, 0, 6, -2, 0, 0, 0, 6, -2, 0, 0, 0, 6, -2, 0, 17, 0, 6, -2, 0, 0, 14, 17, 2, 10, 21, 10, 11, -1, 3, 9, 0, 6, -2, 0, 17, 14, 17, 2, 10, 17, 21, 85, 3, 5, 18, 21, 70, -2, 9, 12, 0, 6, -2, 0, 17, 19, 38, 6, 20, 45, 21, 85, -2, 0, 18, 21, 83, -2, 1, 28, 0, 6, -2, 0, 34] }, { "part": "c13", "scores": [223, 4, 105, 0, 6, 15, 0, 0, 0, 6, 18, 1, 2, 0, 6, 31, 1, 32, 170, 12, -58, 0, 50, 0, 6, 15, 0, 0, 0, 6, 18, 1, 4, 245, 6, 22, 27, 39, 170, 13, -63, 0, 44, 0, 6, 15, 0, 0, 0, 6, 18, 1, 4, 244, 5, 22, 28, 36, 170, 12, -65, 0, 45, 0, 6, 15, 0, 17, 0, 6, 18, 1, 20, 244, 5, 21, 29, 53, 170, 12, -70, 0, 91] }, { "part": "c14", "scores": [156, 7, 161, 170, 12, -3, 0, 1, 170, 12, -3, 0, 1, 170, 12, -3, 0, 1, 170, 12, -3, 0, 40, 170, 13, -7, 0, 0, 170, 13, -7, 0, 0, 170, 13, -7, 0, 0, 170, 13, -7, 0, 41, 170, 12, -9, 0, 1, 170, 12, -9, 0, 1, 170, 12, -9, 0, 1, 170, 12, -9, 0, 42, 163, 9, -9, 10, 51, 79, 8, 7, 20, 51, 64, 24, 25, 23, 51, 61, 42, 44, 23, 72] }, { "part": "c15", "scores": [59, 75, 78, 58, 75, 11, 3, 4, 58, 75, 11, 4, 5, 58, 75, 9, 4, 5, 58, 75, 8, 3, 17, 58, 76, 16, 0, 0, 58, 76, 16, 0, 0, 58, 76, 16, 0, 0, 58, 76, 16, 0, 9, 58, 76, 16, 0, 0, 58, 76, 16, 0, 6, 59, 80, -3, 23, 31, 62, 80, -30, 21, 58, 59, 80, 0, 24, 57, 62, 78, -33, 18, 59, 64, 67, -39, 3, 32, 64, 65, -34, 5, 54] }, { "part": "c16", "scores": [61, 48, 99, 56, 42, 29, 9, 18, 0, 6, 18, 3, 5, 0, 6, 9, 0, 0, 0, 6, 9, 0, 17, 55, 38, 32, 14, 42, 55, 25, 9, 18, 30, 60, 47, -6, 25, 39, 62, 63, -15, 15, 46, 63, 77, -23, 4, 7, 64, 71, -20, 5, 8, 64, 65, -17, 2, 4, 64, 64, -14, 4, 33, 64, 66, -8, 3, 26, 64, 69, -5, 3, 26, 63, 71, -2, 1, 26, 63, 73, 0, 0, 42] }, { "part": "c17", "scores": [37, 30, 100, 20, 51, 17, 19, 27, 21, 85, 10, 0, 0, 21, 85, 10, 0, 0, 14, 15, 10, 0, 26, 41, 23, -1, 19, 29, 16, 25, -2, 9, 11, 27, 28, -2, 15, 21, 61, 56, -11, 14, 48, 54, 24, -9, 12, 16, 3, 9, -13, 1, 1, 36, 12, -11, 6, 9, 63, 59, -13, 7, 37, 63, 70, 0, 1, 26, 24, 11, -12, 0, 32, 5, 9, -14, 0, 25, 55, 28, -6, 10, 59] }, { "part": "c18", "scores": [61, 47, 99, 0, 6, 9, 0, 0, 0, 6, 12, 1, 4, 23, 8, 21, 16, 24, 60, 49, -11, 17, 59, 60, 41, -5, 15, 20, 53, 19, 7, 16, 21, 12, 7, 26, 1, 24, 58, 74, 29, 4, 19, 64, 65, -17, 3, 5, 64, 71, -20, 5, 8, 63, 74, -21, 4, 18, 62, 81, -9, 21, 52, 63, 72, -1, 0, 24, 64, 69, -5, 4, 26, 64, 66, -8, 4, 27, 64, 64, -14, 4, 55] }, { "part": "c19", "scores": [59, 74, 77, 59, 66, -13, 6, 8, 59, 69, -8, 4, 9, 59, 72, -4, 5, 10, 59, 73, 1, 5, 21, 58, 75, 11, 4, 5, 58, 75, 13, 1, 5, 58, 76, 15, 0, 0, 58, 76, 15, 0, 7, 60, 81, -8, 23, 31, 58, 76, 14, 2, 11, 58, 76, 15, 0, 0, 58, 76, 15, 0, 7, 64, 67, -40, 4, 31, 63, 76, -39, 11, 52, 60, 81, -8, 25, 65, 58, 76, 15, 0, 17] }, { "part": "c20", "scores": [63, 66, 102, 64, 72, -17, 6, 10, 64, 65, -7, 6, 9, 64, 71, 0, 2, 5, 63, 73, 3, 0, 21, 64, 69, -1, 4, 5, 63, 73, 3, 0, 0, 63, 73, 3, 0, 0, 63, 73, 3, 0, 21, 63, 73, 3, 0, 0, 63, 73, 3, 0, 0, 63, 73, 3, 0, 0, 63, 73, 3, 0, 24, 63, 73, 3, 0, 17, 63, 71, 3, 1, 22, 60, 43, -2, 12, 36, 36, 13, -8, 4, 56] }, { "part": "c21", "scores": [60, 44, 103, 63, 73, 4, 0, 0, 63, 73, 4, 0, 0, 63, 73, 4, 0, 0, 63, 73, 4, 0, 21, 63, 73, 4, 0, 0, 63, 73, 4, 0, 0, 63, 73, 4, 0, 0, 63, 62, 2, 7, 34, 63, 61, 2, 8, 11, 61, 47, 0, 8, 12, 55, 27, -3, 12, 14, 9, 9, -11, 0, 27, 5, 9, -11, 0, 21, 5, 9, -11, 0, 21, 5, 9, -11, 0, 21, 5, 9, -11, 0, 46] }, { "part": "c22", "scores": [58, 34, 105, 63, 63, 4, 7, 13, 9, 9, -9, 0, 2, 5, 9, -9, 0, 0, 50, 20, -2, 8, 35, 44, 15, -3, 7, 11, 5, 9, -9, 0, 0, 40, 13, -4, 7, 12, 63, 64, 5, 4, 29, 5, 9, -9, 0, 0, 41, 14, -3, 7, 12, 63, 67, 5, 2, 6, 63, 73, 6, 0, 21, 24, 11, -7, 4, 28, 63, 63, 4, 4, 27, 63, 73, 6, 0, 17, 63, 73, 6, 0, 37] }, { "part": "c23", "scores": [63, 73, 99, 63, 73, 0, 0, 0, 63, 73, 0, 0, 0, 63, 73, 0, 0, 0, 63, 73, 0, 0, 21, 63, 73, 0, 0, 0, 63, 73, 0, 0, 0, 63, 73, 0, 0, 0, 63, 73, 0, 0, 21, 63, 73, 0, 0, 0, 63, 73, 0, 0, 0, 63, 73, 0, 0, 0, 63, 73, 0, 0, 21, 63, 73, 0, 0, 17, 63, 73, 0, 0, 17, 63, 73, 0, 0, 17, 63, 73, 0, 0, 37] }, { "part": "c24", "scores": [21, 48, 25, 23, 54, -4, 8, 10, 22, 50, -2, 6, 7, 22, 50, -2, 6, 7, 22, 50, -2, 6, 13, 22, 50, 0, 3, 4, 19, 46, 2, 0, 0, 19, 46, 2, 0, 0, 19, 46, 2, 0, 7, 22, 50, 0, 3, 4, 19, 46, 2, 0, 0, 19, 46, 2, 0, 0, 19, 46, 2, 0, 7, 22, 50, 0, 3, 12, 19, 46, 2, 0, 8, 19, 46, 2, 0, 8, 19, 46, 2, 0, 16] },
-    { "part": "t0", "scores": [144, 14, 90, 134, 6, 12, 4, 8, 133, 9, -15, 16, 26, 150, 54, -50, 15, 25, 152, 72, -61, 5, 44, 135, 6, 15, 0, 0, 134, 6, 14, 1, 5, 131, 7, -3, 14, 23, 143, 15, -35, 19, 61, 135, 6, 15, 0, 0, 135, 6, 15, 0, 0, 135, 6, 15, 0, 0, 133, 6, 10, 6, 26, 135, 6, 15, 0, 12, 135, 6, 15, 0, 13, 135, 6, 15, 0, 13, 135, 6, 15, 0, 26] }, { "part": "t1", "scores": [150, 39, 146, 152, 72, -5, 5, 6, 152, 72, -5, 5, 6, 152, 72, -5, 5, 6, 152, 72, -5, 5, 43, 152, 33, -9, 7, 13, 152, 36, -14, 1, 1, 152, 36, -14, 1, 1, 152, 36, -14, 1, 42, 137, 10, 36, 20, 35, 148, 30, -7, 14, 23, 149, 38, -17, 0, 1, 149, 38, -17, 0, 43, 134, 6, 69, 2, 19, 130, 8, 43, 15, 47, 148, 35, -16, 2, 50, 149, 38, -19, 0, 86] }, { "part": "t2", "scores": [149, 22, 133, 151, 59, -11, 24, 30, 146, 13, 19, 19, 33, 151, 66, -13, 12, 17, 152, 72, -18, 5, 43, 152, 36, -27, 1, 1, 137, 3, 10, 26, 33, 60, 2, 16, 22, 30, 150, 14, 0, 16, 53, 149, 38, -30, 0, 1, 149, 32, -23, 13, 31, 31, 11, 31, 11, 16, 31, 10, 30, 8, 34, 149, 38, -32, 0, 43, 148, 25, -16, 17, 58, 32, 8, 27, 0, 23, 32, 8, 27, 0, 46] }, { "part": "t3", "scores": [149, 24, 135, 152, 72, -16, 5, 6, 151, 50, 2, 22, 27, 149, 29, 17, 17, 27, 151, 65, -11, 18, 63, 151, 19, -4, 21, 35, 29, 20, 38, 0, 10, 130, 3, 17, 35, 42, 152, 36, -25, 1, 42, 31, 11, 34, 15, 19, 35, 8, 26, 14, 28, 149, 35, -25, 0, 14, 149, 38, -28, 0, 43, 32, 8, 29, 0, 23, 145, 12, 3, 15, 51, 149, 38, -30, 0, 43, 149, 38, -30, 0, 86] }, { "part": "t4", "scores": [148, 23, 111, 152, 72, -40, 5, 6, 152, 72, -40, 5, 6, 149, 41, -22, 20, 28, 133, 6, 31, 6, 71, 152, 36, -49, 1, 1, 149, 26, -33, 17, 24, 138, 11, 2, 18, 34, 135, 6, 36, 0, 59, 148, 34, -47, 9, 15, 133, 8, 12, 17, 30, 135, 6, 36, 0, 0, 135, 6, 36, 0, 16, 145, 23, -31, 18, 60, 132, 6, 28, 8, 25, 135, 6, 36, 0, 13, 135, 6, 36, 0, 23] }, { "part": "t5", "scores": [134, 6, 75, 135, 6, 0, 0, 0, 135, 6, 0, 0, 0, 135, 6, 0, 0, 0, 135, 6, 0, 0, 13, 135, 6, 0, 0, 0, 135, 6, 0, 0, 0, 135, 6, 0, 0, 0, 135, 6, 0, 0, 13, 132, 6, -3, 4, 7, 134, 6, 0, 1, 2, 135, 6, 0, 0, 0, 135, 6, 0, 0, 13, 130, 5, 4, 2, 15, 131, 6, -2, 4, 19, 132, 6, -3, 5, 20, 134, 6, 0, 0, 28] }, { "part": "t6", "scores": [136, 7, 99, 135, 6, 24, 0, 0, 131, 6, 14, 9, 20, 141, 11, -52, 15, 21, 145, 12, -69, 0, 44, 135, 6, 24, 0, 0, 134, 6, 23, 0, 4, 132, 7, -1, 24, 39, 138, 11, -63, 12, 68, 135, 6, 24, 0, 0, 135, 6, 24, 0, 0, 135, 6, 24, 0, 0, 133, 9, -31, 28, 84, 135, 6, 24, 0, 13, 135, 6, 24, 0, 13, 135, 6, 24, 0, 13, 132, 9, -16, 28, 107] }, { "part": "t7", "scores": [47, 5, 125, 145, 12, -43, 0, 0, 57, 3, -11, 20, 43, 32, 19, 22, 15, 27, 29, 21, 33, 1, 20, 139, 11, -47, 0, 9, 41, 5, 6, 17, 43, 34, 9, 17, 0, 15, 31, 9, 21, 0, 27, 135, 12, -48, 0, 0, 77, 3, -7, 25, 30, 32, 8, 19, 0, 0, 32, 8, 19, 0, 23, 109, 6, -29, 32, 60, 33, 12, 14, 21, 50, 32, 8, 19, 0, 23, 32, 8, 19, 0, 46] }, { "part": "t8", "scores": [92, 3, 134, 34, 17, 24, 37, 61, 58, 3, -2, 23, 41, 145, 12, -34, 0, 0, 145, 12, -32, 4, 47, 32, 8, 28, 0, 0, 50, 4, 11, 24, 34, 139, 11, -38, 0, 1, 136, 10, -13, 23, 57, 32, 8, 28, 0, 0, 113, 5, -10, 22, 34, 135, 12, -39, 0, 0, 132, 9, 18, 20, 52, 32, 8, 28, 0, 24, 30, 18, 32, 7, 43, 57, 6, -3, 32, 57, 128, 7, 21, 27, 79] }, { "part": "t9", "scores": [100, 4, 76, 133, 8, -35, 21, 36, 134, 6, 0, 0, 3, 135, 6, 1, 0, 0, 135, 6, 1, 0, 10, 128, 5, -4, 7, 16, 124, 4, 2, 0, 3, 135, 6, 1, 0, 0, 135, 6, 1, 0, 10, 46, 9, 8, 6, 7, 56, 6, 5, 4, 6, 135, 6, 1, 0, 0, 135, 6, 1, 0, 10, 36, 25, 17, 3, 13, 41, 13, 11, 4, 16, 135, 6, 1, 0, 13, 135, 6, 1, 0, 23] }, { "part": "t10", "scores": [129, 5, 71, 128, 5, 2, 0, 0, 128, 5, 2, 0, 0, 131, 6, -3, 3, 4, 132, 6, -6, 2, 15, 128, 5, 2, 0, 0, 128, 5, 2, 0, 0, 131, 5, -1, 2, 4, 131, 6, -8, 5, 21, 128, 5, 2, 0, 0, 128, 5, 2, 0, 0, 128, 5, 2, 0, 0, 129, 5, 1, 1, 13, 128, 5, 2, 0, 11, 128, 5, 2, 0, 11, 128, 5, 2, 0, 11, 128, 5, 2, 0, 22] }, { "part": "t11", "scores": [83, 3, 81, 135, 6, 6, 0, 0, 135, 6, 6, 0, 0, 135, 6, 6, 0, 0, 52, 4, -6, 12, 35, 132, 6, 4, 3, 4, 134, 6, 6, 0, 0, 135, 6, 6, 0, 1, 31, 16, -10, 4, 28, 132, 6, 7, 1, 5, 131, 6, 2, 4, 7, 132, 5, 6, 0, 7, 29, 22, -13, 0, 22, 128, 5, 12, 0, 13, 131, 6, 3, 4, 20, 56, 4, -1, 6, 22, 29, 22, -14, 0, 39] }, { "part": "t12", "scores": [31, 23, 97, 29, 22, 2, 0, 0, 30, 22, 1, 1, 2, 32, 24, -2, 0, 0, 32, 24, -2, 0, 21, 29, 22, 2, 0, 0, 31, 23, 0, 1, 2, 32, 24, -2, 0, 0, 32, 24, -2, 0, 21, 29, 22, 2, 0, 2, 32, 24, -1, 0, 2, 31, 24, -1, 2, 4, 32, 24, -1, 1, 23, 30, 22, 4, 15, 37, 31, 23, -1, 1, 23, 31, 23, -1, 1, 23, 32, 24, -1, 0, 43] }, { "part": "t13", "scores": [31, 25, 86, 32, 24, -12, 0, 1, 29, 22, -9, 0, 0, 29, 22, -9, 0, 0, 31, 24, 0, 20, 37, 32, 24, -13, 0, 0, 30, 22, -9, 1, 1, 31, 23, 0, 11, 15, 35, 25, 18, 4, 21, 32, 24, -13, 0, 1, 30, 23, -10, 2, 3, 31, 26, 10, 24, 30, 36, 25, 21, 0, 10, 31, 23, -11, 1, 23, 30, 26, -3, 13, 37, 27, 35, 23, 2, 19, 34, 26, 18, 13, 44] }, { "part": "t14", "scores": [44, 10, 68, 35, 32, 12, 0, 0, 37, 20, 6, 4, 6, 135, 6, -7, 0, 0, 135, 6, -7, 0, 10, 36, 26, 9, 4, 8, 36, 26, 9, 4, 6, 135, 6, -7, 0, 0, 135, 6, -7, 0, 10, 38, 18, 3, 10, 14, 35, 31, 12, 0, 4, 130, 5, -6, 0, 1, 135, 6, -7, 0, 10, 36, 23, 2, 1, 14, 36, 22, 7, 6, 20, 78, 4, -5, 3, 17, 135, 6, -7, 0, 23] }, { "part": "t15", "scores": [29, 23, 79, 128, 5, 10, 0, 0, 117, 4, 9, 1, 3, 38, 9, 9, 5, 9, 32, 14, 11, 3, 16, 85, 3, 7, 3, 6, 27, 28, -4, 5, 8, 27, 33, -3, 4, 7, 27, 37, 8, 3, 16, 30, 18, -1, 9, 11, 27, 35, -10, 0, 0, 27, 35, -10, 0, 1, 27, 35, 3, 4, 18, 28, 26, -6, 5, 23, 27, 35, -10, 0, 18, 27, 35, -10, 0, 18, 27, 34, -2, 6, 35] }, { "part": "t16", "scores": [30, 18, 73, 30, 19, 5, 4, 6, 29, 23, 2, 6, 9, 29, 26, -5, 13, 18, 29, 20, -20, 2, 22, 27, 39, 6, 0, 0, 27, 39, 6, 0, 0, 29, 24, 3, 7, 10, 97, 3, -6, 5, 20, 27, 39, 6, 0, 0, 27, 36, 5, 1, 4, 106, 3, -2, 1, 4, 135, 6, -2, 0, 13, 27, 39, 6, 0, 10, 33, 12, 1, 7, 21, 135, 6, -2, 0, 13, 135, 6, -2, 0, 26] }, { "part": "t17", "scores": [32, 21, 93, 31, 18, 6, 6, 11, 32, 24, -6, 0, 0, 32, 24, -6, 0, 0, 32, 24, -6, 0, 21, 31, 18, 5, 6, 11, 32, 24, -6, 0, 0, 32, 24, -6, 0, 0, 32, 24, -6, 0, 21, 31, 16, 9, 8, 13, 32, 24, -5, 1, 2, 32, 24, -6, 0, 0, 32, 24, -6, 0, 21, 31, 15, 11, 8, 32, 30, 18, 8, 8, 28, 31, 18, 5, 8, 24, 32, 14, 9, 8, 41] }, { "part": "t18", "scores": [32, 17, 81, 32, 24, -18, 0, 0, 31, 24, -16, 2, 7, 27, 34, 15, 6, 10, 29, 27, 16, 10, 27, 32, 24, -18, 0, 0, 32, 22, -15, 4, 8, 34, 10, 6, 11, 15, 27, 36, 19, 0, 9, 31, 23, -15, 4, 8, 34, 11, 1, 9, 13, 135, 6, 6, 0, 0, 29, 21, 15, 7, 17, 29, 18, -2, 7, 31, 33, 12, -3, 6, 27, 135, 6, 6, 0, 13, 118, 4, 7, 1, 28] }, { "part": "t19", "scores": [50, 7, 71, 36, 25, 6, 0, 0, 38, 18, 5, 9, 11, 49, 8, 2, 5, 7, 135, 6, -4, 0, 10, 33, 22, 5, 11, 15, 37, 19, 4, 4, 9, 109, 4, -3, 1, 4, 135, 6, -4, 0, 10, 27, 33, 8, 1, 7, 47, 8, 0, 8, 13, 135, 6, -4, 0, 0, 135, 6, -4, 0, 10, 81, 3, -3, 3, 18, 135, 6, -4, 0, 13, 135, 6, -4, 0, 13, 135, 6, -4, 0, 23] }, { "part": "t20", "scores": [33, 14, 95, 28, 24, 10, 5, 8, 27, 35, 6, 0, 0, 27, 35, 6, 0, 0, 27, 34, 13, 6, 19, 32, 15, 6, 4, 8, 27, 35, 6, 0, 0, 27, 35, 6, 0, 0, 29, 22, 11, 10, 34, 115, 5, -4, 1, 7, 30, 19, 2, 6, 12, 38, 10, 0, 7, 14, 128, 7, -4, 0, 25, 133, 8, -16, 0, 21, 133, 8, -16, 0, 21, 133, 8, -16, 0, 21, 133, 8, -16, 0, 45] }, { "part": "t21", "scores": [67, 4, 93, 29, 23, 23, 7, 13, 133, 5, 18, 0, 6, 135, 6, 18, 0, 5, 51, 5, 12, 6, 27, 125, 6, 3, 0, 4, 125, 6, 3, 0, 3, 61, 5, 2, 3, 4, 30, 19, 3, 0, 20, 128, 7, -6, 0, 3, 39, 9, 0, 6, 13, 31, 17, 2, 3, 7, 33, 14, 1, 6, 32, 133, 8, -18, 0, 21, 133, 8, -18, 0, 21, 133, 8, -18, 0, 21, 133, 8, -18, 0, 45] }, { "part": "t22", "scores": [124, 6, 94, 32, 14, 7, 5, 10, 131, 5, 19, 0, 7, 135, 6, 19, 0, 5, 135, 6, 19, 0, 18, 107, 4, 3, 1, 6, 128, 6, 4, 0, 3, 128, 6, 4, 0, 3, 128, 6, 4, 0, 21, 128, 7, -5, 0, 3, 128, 7, -5, 0, 3, 128, 7, -5, 0, 3, 128, 7, -5, 0, 25, 133, 8, -17, 0, 21, 133, 8, -17, 0, 21, 133, 8, -17, 0, 21, 133, 8, -17, 0, 45] }, { "part": "t23", "scores": [49, 6, 93, 47, 5, 12, 5, 11, 30, 20, 3, 0, 2, 120, 4, 16, 2, 8, 135, 6, 18, 0, 18, 125, 6, 3, 0, 5, 30, 19, 3, 0, 2, 33, 14, 3, 2, 3, 39, 8, 3, 2, 21, 128, 7, -6, 0, 6, 30, 18, 3, 0, 3, 30, 20, 3, 0, 0, 30, 20, 3, 0, 18, 133, 8, -18, 0, 21, 124, 6, -16, 0, 28, 122, 6, -16, 0, 28, 122, 6, -16, 0, 52] },
-    { "part": "cer0", "scores": [130, 16, 106, 134, 7, 13, 0, 0, 138, 3, 26, 34, 53, 134, 7, 14, 2, 8, 134, 7, 13, 0, 18, 130, 7, 5, 3, 5, 131, 5, 14, 31, 39, 130, 7, 5, 3, 5, 130, 7, 5, 3, 27, 130, 17, -10, 5, 7, 130, 13, 2, 43, 53, 130, 17, -10, 5, 7, 130, 17, -10, 5, 34, 130, 36, -24, 7, 44, 130, 25, 2, 87, 154, 130, 45, -27, 8, 51, 130, 35, -23, 5, 74] }, { "part": "cer1", "scores": [121, 6, 100, 134, 7, 7, 0, 0, 134, 7, 7, 0, 0, 134, 7, 7, 0, 0, 134, 7, 7, 0, 18, 130, 7, -1, 3, 5, 130, 7, -1, 3, 5, 130, 7, -1, 3, 5, 130, 7, -1, 3, 27, 130, 17, -16, 5, 7, 130, 17, -16, 5, 7, 130, 17, -16, 5, 7, 72, 1, 4, 36, 64, 130, 29, -26, 0, 31, 130, 29, -26, 0, 31, 26, 31, 6, 69, 104, 7, 48, 70, 1, 31] }, { "part": "cer2", "scores": [128, 11, 102, 134, 7, 9, 0, 0, 134, 7, 9, 0, 0, 134, 7, 9, 0, 0, 134, 7, 9, 0, 18, 130, 7, 1, 3, 5, 130, 7, 1, 3, 5, 130, 7, 1, 3, 5, 130, 7, 1, 3, 27, 13, 8, 16, 40, 48, 130, 17, -14, 5, 7, 130, 17, -14, 5, 7, 130, 17, -14, 5, 34, 11, 43, 64, 35, 83, 130, 45, -33, 8, 51, 130, 47, -34, 5, 44, 130, 32, -17, 34, 90] }, { "part": "cer3", "scores": [131, 15, 108, 134, 7, 15, 0, 0, 134, 7, 15, 0, 0, 134, 7, 15, 0, 0, 134, 7, 15, 0, 18, 130, 7, 7, 3, 5, 130, 7, 7, 3, 5, 130, 7, 7, 3, 5, 130, 7, 7, 3, 27, 130, 17, -8, 5, 7, 130, 17, -8, 5, 7, 130, 17, -8, 5, 7, 130, 17, -8, 5, 34, 131, 24, -2, 20, 61, 130, 29, -18, 0, 31, 130, 29, -18, 0, 31, 130, 29, -18, 0, 62] }, { "part": "cer4", "scores": [130, 16, 106, 134, 7, 13, 0, 0, 134, 5, 18, 9, 19, 142, 2, 29, 26, 41, 134, 7, 13, 0, 16, 130, 7, 5, 3, 5, 130, 7, 5, 3, 11, 131, 5, 13, 17, 33, 130, 7, 5, 3, 24, 130, 17, -10, 5, 7, 130, 17, -10, 5, 22, 130, 11, 7, 24, 40, 130, 17, -10, 5, 31, 130, 36, -24, 7, 45, 130, 46, -28, 8, 57, 130, 31, -7, 47, 99, 130, 35, -23, 5, 71] }, { "part": "cer5", "scores": [129, 44, 143, 130, 54, 3, 0, 1, 130, 36, 27, 95, 124, 130, 54, 2, 3, 10, 130, 42, 16, 46, 82, 129, 56, -4, 1, 3, 129, 42, 17, 64, 84, 129, 57, -6, 0, 3, 129, 56, -4, 2, 42, 129, 43, -15, 3, 5, 130, 29, 2, 74, 98, 130, 37, -19, 0, 0, 129, 44, -14, 3, 46, 129, 43, -15, 3, 44, 129, 26, 36, 96, 189, 129, 48, -5, 14, 70, 130, 42, -16, 3, 89] }, { "part": "cer6", "scores": [24, 20, 77, 4, 24, 5, 44, 76, 4, 30, 5, 43, 68, 13, 77, 30, 31, 52, 27, 80, 26, 54, 91, 128, 23, -52, 31, 47, 6, 24, 2, 51, 73, 11, 42, 50, 17, 33, 27, 130, -7, 49, 101, 129, 55, -73, 1, 3, 126, 21, -42, 36, 49, 4, 19, 52, 6, 12, 4, 35, 46, 9, 17, 130, 38, -84, 0, 45, 129, 35, -72, 21, 99, 4, 22, 51, 6, 18, 0, 4, 58, 0, 19] }, { "part": "cer7", "scores": [19, 28, 64, 35, 100, -6, 55, 105, 117, 4, -50, 62, 95, 127, 16, -60, 34, 76, 126, 14, -43, 54, 78, 30, 83, -12, 105, 138, 128, 26, -66, 32, 57, 4, 79, 9, 32, 49, 17, 68, 16, 48, 74, 5, 29, 32, 15, 34, 6, 32, -43, 44, 76, 3, 3, 36, 2, 38, 9, 28, 40, 14, 33, 0, 4, 45, 0, 9, 5, 63, 20, 16, 29, 4, 22, 38, 7, 18, 0, 4, 45, 0, 19] }, { "part": "cer8", "scores": [68, 6, 95, 5, 22, 28, 48, 59, 130, 20, -26, 17, 46, 130, 33, -33, 5, 40, 130, 45, -39, 6, 45, 13, 83, 46, 36, 44, 6, 59, 61, 9, 17, 124, 9, 26, 47, 65, 130, 55, -47, 3, 43, 21, 63, 51, 79, 93, 17, 74, 46, 73, 103, 103, 18, -20, 52, 84, 129, 54, -56, 2, 44, 0, 4, 76, 0, 9, 8, 10, 11, 57, 105, 128, 24, -45, 25, 88, 129, 29, -60, 13, 107] }, { "part": "cer9", "scores": [129, 45, 143, 130, 54, 3, 0, 1, 130, 41, 20, 37, 73, 130, 29, 38, 77, 129, 130, 54, 3, 0, 35, 129, 56, -4, 1, 3, 129, 57, -6, 0, 10, 129, 45, 11, 37, 81, 129, 56, -4, 2, 39, 129, 43, -15, 3, 5, 130, 37, -19, 0, 37, 130, 22, 17, 37, 45, 129, 44, -14, 3, 43, 129, 43, -15, 3, 45, 129, 51, -8, 2, 55, 129, 38, 11, 44, 106, 130, 42, -16, 3, 86] }, { "part": "cer10", "scores": [115, 13, 108, 129, 57, -41, 0, 1, 129, 36, -9, 53, 68, 129, 53, -38, 7, 16, 129, 57, -41, 0, 42, 130, 54, -33, 1, 3, 130, 43, -16, 27, 52, 129, 35, -23, 51, 103, 129, 40, -13, 43, 97, 130, 37, -22, 5, 17, 6, 23, 51, 47, 83, 5, 83, 58, 7, 9, 5, 78, 62, 9, 18, 130, 29, -18, 0, 30, 126, 11, 9, 35, 88, 22, 41, 51, 85, 117, 22, 74, 59, 67, 104] }, { "part": "cer11", "scores": [17, 54, 58, 129, 43, -83, 55, 81, 6, 30, -50, 61, 76, 10, 79, -1, 53, 83, 23, 92, -7, 33, 59, 6, 37, -3, 66, 100, 5, 99, -4, 39, 54, 7, 54, 16, 14, 36, 32, 150, -38, 20, 68, 14, 69, 17, 33, 50, 7, 29, 35, 7, 9, 4, 8, 38, 1, 4, 10, 71, 4, 20, 47, 20, 62, 12, 36, 93, 2, 8, 37, 2, 18, 28, 47, 17, 39, 77, 24, 67, 6, 40, 85] }, { "part": "cer12", "scores": [21, 48, 42, 14, 97, -26, 31, 46, 9, 21, 14, 15, 32, 0, 4, 23, 0, 0, 8, 15, 17, 10, 27, 27, 144, -51, 28, 42, 3, 6, 22, 0, 7, 8, 17, 16, 15, 25, 22, 78, -16, 42, 84, 15, 56, -4, 23, 33, 9, 25, 12, 20, 25, 17, 43, 2, 27, 45, 35, 153, -55, 6, 54, 0, 4, 23, 0, 9, 0, 4, 23, 0, 9, 11, 23, 13, 17, 44, 18, 81, -15, 43, 76] }, { "part": "cer13", "scores": [9, 25, 41, 1, 5, 22, 0, 5, 5, 35, -31, 42, 55, 5, 42, -28, 39, 58, 128, 25, -81, 48, 106, 15, 49, 1, 21, 49, 5, 58, 1, 6, 10, 1, 6, 21, 0, 2, 130, 8, -3, 41, 81, 18, 86, -14, 26, 44, 5, 36, 12, 10, 12, 0, 4, 22, 0, 0, 0, 4, 22, 0, 9, 6, 62, 6, 5, 12, 7, 49, 15, 2, 27, 200, 0, 9, 20, 52, 0, 4, 22, 0, 19] }, { "part": "cer14", "scores": [128, 23, 114, 129, 57, -35, 0, 1, 129, 47, -19, 33, 59, 129, 33, 1, 83, 128, 129, 57, -35, 0, 39, 130, 53, -26, 1, 17, 130, 54, -25, 0, 9, 130, 41, -7, 23, 65, 130, 54, -27, 2, 39, 10, 21, 52, 48, 68, 125, 4, 0, 57, 114, 130, 26, -5, 10, 30, 130, 38, -17, 6, 39, 7, 53, 88, 0, 5, 3, 62, 75, 0, 20, 131, 19, -2, 11, 54, 130, 29, -12, 0, 59] }, { "part": "cer15", "scores": [8, 13, 79, 128, 7, -29, 0, 0, 128, 7, -29, 0, 0, 5, 25, -3, 30, 38, 5, 31, 1, 27, 51, 131, 7, -21, 3, 5, 131, 7, -21, 3, 5, 131, 7, -21, 3, 5, 131, 7, -21, 3, 26, 147, 1, -5, 5, 7, 158, 1, 1, 21, 29, 2, 6, -2, 16, 22, 4, 23, 5, 20, 36, 22, 11, 22, 27, 59, 27, 21, 51, 19, 52, 5, 70, 35, 0, 8, 5, 62, 30, 10, 30] }, { "part": "cer16", "scores": [11, 28, 66, 53, 0, -11, 27, 38, 6, 28, 14, 37, 59, 24, 61, 18, 36, 55, 18, 89, -8, 57, 104, 131, 4, -31, 10, 23, 5, 40, 13, 26, 32, 7, 44, 31, 21, 35, 131, 6, -29, 3, 43, 4, 60, 18, 8, 18, 3, 52, 19, 13, 20, 2, 18, -3, 26, 35, 147, 1, -18, 5, 23, 4, 26, 2, 13, 32, 0, 6, -7, 0, 11, 16, 11, -6, 4, 17, 26, 21, -6, 4, 30] }, { "part": "cer17", "scores": [16, 18, 57, 3, 6, 21, 27, 47, 0, 4, 38, 0, 3, 9, 12, 34, 10, 22, 5, 54, 13, 16, 45, 131, 7, -43, 3, 5, 132, 5, -28, 20, 38, 4, 1, -25, 26, 38, 1, 11, -9, 36, 73, 147, 1, -27, 5, 7, 5, 3, -15, 23, 39, 10, 26, 6, 30, 48, 7, 47, 26, 5, 24, 29, 32, -15, 3, 18, 32, 30, 5, 64, 91, 32, 31, 10, 54, 86, 20, 40, 5, 19, 49] }, { "part": "cer18", "scores": [5, 25, 60, 7, 53, 31, 2, 15, 7, 43, 20, 27, 37, 128, 5, -33, 23, 33, 0, 1, 17, 27, 46, 3, 40, 38, 6, 9, 3, 46, 8, 19, 29, 131, 7, -40, 3, 5, 131, 7, -40, 3, 26, 4, 50, 28, 23, 30, 3, 56, 15, 13, 18, 147, 1, -24, 5, 7, 147, 1, -24, 5, 23, 10, 54, 8, 24, 39, 4, 58, 20, 7, 35, 14, 10, -13, 3, 16, 0, 6, -13, 0, 23] }, { "part": "cer19", "scores": [12, 16, 71, 9, 20, -1, 39, 49, 3, 47, 16, 23, 35, 3, 22, -9, 26, 31, 128, 7, -37, 0, 21, 131, 7, -29, 3, 5, 4, 21, -6, 27, 35, 4, 52, 14, 21, 34, 131, 7, -29, 3, 25, 147, 1, -13, 5, 7, 40, 14, 0, 56, 97, 12, 39, 37, 27, 41, 2, 5, 7, 27, 48, 0, 6, -2, 0, 11, 32, 21, 11, 39, 76, 31, 16, 25, 33, 68, 22, 11, 8, 31, 67] }, { "part": "cer20", "scores": [18, 12, 58, 26, 12, 1, 11, 30, 27, 12, 11, 25, 34, 4, 18, 7, 13, 18, 1, 7, 1, 0, 11, 0, 5, 1, 0, 0, 0, 5, 1, 0, 0, 0, 5, 1, 0, 0, 24, 22, -4, 17, 41, 0, 5, 1, 0, 0, 0, 5, 1, 0, 0, 0, 5, 1, 0, 0, 29, 74, -19, 44, 73, 0, 5, 1, 0, 7, 0, 5, 1, 0, 7, 0, 5, 1, 0, 7, 0, 5, 1, 0, 15] }, { "part": "cer21", "scores": [28, 44, 69, 0, 5, 12, 0, 0, 21, 15, 9, 11, 36, 27, 25, 5, 24, 38, 29, 28, 2, 6, 19, 28, 51, -1, 32, 67, 29, 57, -3, 50, 82, 30, 94, -13, 29, 61, 28, 47, 0, 32, 73, 29, 59, -4, 41, 47, 30, 102, -16, 44, 64, 27, 34, 4, 20, 32, 30, 98, -15, 41, 96, 0, 5, 12, 0, 13, 29, 71, -7, 20, 42, 22, 17, 8, 11, 28, 0, 5, 12, 0, 15] }, { "part": "cer22", "scores": [25, 19, 61, 30, 38, -10, 0, 4, 31, 39, -10, 0, 0, 31, 39, -10, 0, 0, 29, 25, 11, 24, 39, 20, 13, 1, 0, 19, 25, 18, -1, 7, 8, 27, 22, -3, 6, 8, 15, 8, 13, 22, 35, 29, 65, -13, 29, 50, 0, 5, 4, 0, 0, 0, 5, 4, 0, 0, 0, 5, 4, 0, 8, 0, 5, 4, 0, 7, 0, 5, 4, 0, 7, 0, 5, 4, 0, 7, 0, 5, 4, 0, 15] }, { "part": "cer23", "scores": [23, 11, 54, 40, 49, 12, 69, 89, 38, 35, 19, 65, 89, 20, 11, -2, 5, 22, 3, 5, -3, 0, 9, 31, 16, -3, 5, 36, 0, 5, 8, 15, 25, 0, 5, -2, 0, 5, 0, 5, -3, 0, 8, 0, 5, -3, 0, 0, 0, 5, -3, 0, 0, 0, 5, -3, 0, 0, 0, 5, -3, 0, 8, 0, 5, -3, 0, 7, 0, 5, -3, 0, 7, 0, 5, -3, 0, 7, 0, 5, -3, 0, 15] },
-    { "part": "gno0", "scores": [139, 30, 163, 134, 37, 4, 0, 0, 134, 37, 4, 0, 0, 134, 37, 4, 0, 0, 134, 37, 4, 0, 41, 134, 43, 8, 2, 3, 134, 34, 3, 8, 12, 137, 14, -8, 5, 9, 136, 19, -6, 8, 55, 134, 57, 16, 6, 11, 247, 5, -16, 5, 16, 0, 10, -21, 0, 0, 0, 10, -21, 0, 48, 144, 82, 16, 0, 37, 144, 55, 9, 11, 54, 148, 24, -2, 14, 56, 147, 27, -1, 14, 98] }, { "part": "gno1", "scores": [141, 39, 161, 134, 37, 2, 0, 0, 135, 30, -2, 5, 8, 134, 36, 1, 0, 3, 134, 37, 2, 0, 41, 139, 8, -13, 9, 14, 0, 10, -23, 0, 0, 247, 4, -19, 4, 11, 133, 46, 9, 8, 53, 166, 6, -16, 12, 17, 147, 31, -5, 13, 16, 145, 41, 2, 14, 20, 140, 67, 13, 5, 49, 144, 75, 12, 2, 46, 144, 82, 14, 0, 38, 144, 82, 14, 0, 38, 142, 69, 16, 14, 92] }, { "part": "gno2", "scores": [125, 26, 153, 134, 37, -6, 0, 0, 134, 37, -6, 0, 0, 134, 37, -6, 0, 0, 134, 37, -6, 0, 41, 133, 48, 2, 5, 11, 135, 19, -15, 8, 15, 133, 43, -1, 6, 13, 114, 45, 13, 15, 52, 186, 1, -22, 10, 19, 0, 10, -31, 0, 1, 251, 6, -27, 5, 14, 60, 66, 37, 37, 62, 144, 63, 1, 9, 51, 145, 51, -3, 8, 54, 144, 58, 0, 9, 50, 69, 56, 45, 23, 71] }, { "part": "gno3", "scores": [55, 99, 89, 127, 31, -65, 8, 17, 80, 35, -53, 26, 32, 62, 66, -28, 26, 32, 59, 79, -18, 20, 50, 55, 103, 1, 14, 25, 53, 122, 15, 0, 0, 53, 122, 15, 0, 0, 53, 122, 15, 0, 15, 53, 122, 15, 0, 0, 53, 122, 15, 0, 0, 53, 122, 15, 0, 0, 53, 122, 15, 0, 16, 53, 113, 20, 3, 16, 53, 115, 19, 2, 16, 53, 112, 20, 2, 16, 53, 109, 22, 1, 28] }, { "part": "gno4", "scores": [63, 38, 135, 66, 52, 7, 30, 47, 142, 6, -41, 6, 8, 137, 14, -36, 8, 10, 135, 33, -26, 2, 45, 47, 44, -4, 47, 71, 0, 10, -49, 0, 5, 0, 10, -49, 0, 0, 136, 16, -35, 9, 51, 53, 110, 58, 3, 22, 52, 84, 46, 28, 39, 49, 53, 15, 32, 56, 135, 42, -19, 11, 56, 53, 107, 69, 0, 12, 53, 107, 69, 0, 13, 53, 101, 73, 5, 41, 143, 80, -11, 0, 79] }, { "part": "gno5", "scores": [88, 32, 123, 153, 37, -16, 40, 49, 188, 17, -7, 35, 44, 146, 64, -21, 17, 49, 144, 82, -24, 0, 38, 24, 161, 21, 16, 22, 28, 161, 21, 14, 41, 17, 161, 21, 17, 27, 244, 36, 1, 58, 116, 109, 124, 16, 27, 52, 122, 133, 32, 14, 26, 93, 105, 0, 41, 60, 26, 152, 23, 26, 61, 139, 120, 6, 25, 64, 129, 88, 14, 30, 60, 116, 106, 24, 27, 62, 94, 99, 9, 9, 82] }, { "part": "gno6", "scores": [112, 38, 134, 144, 82, -13, 0, 0, 144, 82, -13, 0, 0, 143, 79, -13, 1, 11, 59, 34, -3, 9, 60, 144, 82, -13, 0, 0, 144, 82, -13, 0, 0, 135, 45, -5, 19, 27, 46, 51, 6, 0, 33, 188, 17, 4, 44, 89, 138, 76, -5, 13, 19, 85, 24, -4, 22, 30, 46, 51, 6, 0, 33, 97, 103, 26, 0, 23, 96, 100, 25, 1, 31, 51, 49, 12, 4, 44, 46, 51, 6, 0, 66] }, { "part": "gno7", "scores": [118, 54, 129, 143, 79, -18, 0, 6, 144, 82, -18, 0, 0, 144, 82, -18, 0, 0, 113, 43, 6, 25, 49, 121, 31, -11, 18, 22, 144, 82, -18, 0, 0, 144, 82, -18, 0, 0, 144, 82, -18, 0, 38, 50, 45, -2, 6, 12, 118, 69, 6, 14, 26, 118, 74, 8, 13, 17, 118, 74, 8, 13, 48, 46, 51, 1, 0, 33, 77, 62, 4, 15, 49, 97, 103, 21, 0, 23, 97, 103, 21, 0, 46] }, { "part": "gno8", "scores": [65, 56, 97, 54, 101, 27, 5, 23, 53, 106, 31, 1, 3, 53, 105, 33, 3, 3, 53, 103, 34, 2, 15, 143, 78, -48, 0, 9, 103, 30, -21, 73, 91, 43, 64, 25, 11, 26, 40, 73, 29, 6, 22, 125, 68, -27, 13, 19, 132, 66, -33, 17, 25, 51, 49, 5, 29, 60, 38, 71, 24, 26, 59, 95, 98, -11, 6, 31, 93, 94, -11, 12, 52, 36, 63, 19, 0, 36, 31, 68, 19, 0, 42] }, { "part": "gno9", "scores": [115, 44, 120, 53, 100, 59, 3, 4, 54, 97, 62, 1, 7, 65, 61, 32, 44, 57, 144, 82, -27, 0, 35, 57, 44, 25, 53, 68, 129, 40, -4, 41, 72, 144, 82, -27, 0, 0, 144, 82, -27, 0, 35, 105, 36, -2, 36, 60, 144, 82, -27, 0, 2, 144, 82, -27, 0, 0, 144, 82, -27, 0, 35, 69, 55, 20, 36, 74, 109, 78, 3, 19, 58, 126, 67, -4, 17, 44, 140, 78, -22, 7, 78] }, { "part": "gno10", "scores": [92, 95, 104, 97, 103, -4, 0, 0, 97, 103, -4, 0, 0, 97, 103, -4, 0, 0, 97, 103, -4, 0, 23, 97, 103, -4, 0, 4, 97, 104, -2, 3, 4, 97, 106, 0, 3, 4, 97, 107, 2, 3, 28, 98, 114, 9, 0, 0, 98, 114, 9, 0, 0, 98, 114, 9, 0, 1, 96, 110, 8, 4, 31, 86, 88, 0, 7, 27, 73, 80, 8, 16, 38, 62, 78, 15, 10, 37, 68, 84, 4, 15, 65] }, { "part": "gno11", "scores": [66, 58, 121, 97, 103, 13, 0, 0, 89, 73, 5, 12, 16, 46, 49, -3, 4, 5, 46, 51, -7, 0, 33, 97, 109, 20, 3, 4, 74, 56, 6, 15, 20, 46, 50, -5, 2, 5, 46, 51, -7, 0, 33, 92, 99, 21, 8, 17, 52, 46, 6, 0, 14, 46, 51, -7, 0, 1, 46, 51, -7, 0, 33, 65, 75, 17, 14, 49, 45, 44, 5, 3, 33, 46, 51, -7, 0, 33, 46, 51, -7, 0, 66] }, { "part": "gno12", "scores": [59, 56, 121, 46, 51, -7, 0, 0, 48, 51, -7, 1, 7, 91, 83, 8, 13, 33, 86, 61, 2, 69, 116, 46, 51, -7, 0, 0, 46, 51, -7, 0, 0, 59, 58, 9, 33, 47, 90, 81, 21, 14, 65, 46, 51, -7, 0, 0, 46, 51, -7, 0, 0, 47, 51, -7, 0, 6, 75, 84, 15, 13, 43, 42, 49, -5, 4, 37, 38, 47, -4, 3, 33, 37, 47, -4, 3, 33, 55, 60, 7, 20, 70] }, { "part": "gno13", "scores": [83, 80, 104, 90, 80, -4, 16, 24, 74, 67, 5, 16, 34, 69, 66, 8, 16, 20, 74, 67, 5, 14, 38, 98, 112, 8, 0, 4, 97, 111, 6, 3, 4, 97, 110, 5, 3, 4, 97, 109, 3, 3, 27, 81, 89, 1, 7, 8, 85, 87, -1, 7, 8, 89, 94, 2, 7, 8, 93, 101, 5, 6, 31, 71, 94, 5, 0, 19, 69, 92, 7, 2, 22, 62, 82, 14, 8, 27, 68, 90, 9, 4, 44] }, { "part": "gno14", "scores": [86, 73, 109, 66, 65, 16, 14, 22, 88, 77, 1, 16, 34, 92, 88, 1, 16, 31, 97, 103, 1, 0, 22, 96, 101, 6, 9, 14, 95, 96, 4, 13, 22, 81, 54, -11, 71, 104, 94, 94, 1, 6, 42, 91, 51, -23, 54, 82, 77, 69, 14, 32, 64, 89, 83, 11, 20, 26, 96, 105, 14, 0, 34, 69, 69, -11, 43, 75, 58, 75, 23, 11, 42, 77, 86, 9, 11, 39, 86, 89, 5, 7, 47] }, { "part": "gno15", "scores": [59, 84, 91, 71, 94, -8, 0, 4, 45, 67, 13, 11, 22, 63, 55, -32, 31, 68, 70, 88, -10, 4, 39, 64, 85, -1, 10, 15, 58, 79, 6, 13, 16, 61, 32, -57, 43, 71, 68, 69, -25, 42, 73, 65, 93, 9, 10, 13, 49, 72, 16, 11, 15, 68, 103, 6, 4, 19, 64, 108, 10, 5, 21, 56, 110, 14, 10, 31, 33, 74, 12, 0, 24, 52, 116, 18, 1, 22, 53, 122, 17, 0, 31] }, { "part": "gno16", "scores": [32, 74, 114, 31, 45, -1, 8, 21, 27, 75, -14, 7, 10, 25, 78, -18, 10, 14, 22, 71, -19, 1, 38, 62, 72, 18, 22, 30, 20, 83, -21, 4, 9, 21, 93, -23, 3, 4, 20, 75, -20, 0, 32, 62, 110, 34, 4, 10, 31, 75, -1, 18, 26, 20, 81, -21, 5, 7, 20, 75, -20, 0, 32, 53, 122, 40, 0, 15, 50, 109, 34, 11, 40, 20, 74, -20, 0, 33, 20, 75, -20, 0, 64] }, { "part": "gno17", "scores": [22, 65, 126, 17, 45, -14, 55, 62, 17, 44, -7, 49, 64, 18, 48, -8, 42, 53, 21, 40, -1, 53, 97, 20, 75, -8, 0, 0, 20, 75, -8, 0, 3, 20, 69, -5, 4, 12, 20, 73, -6, 1, 36, 20, 73, -5, 10, 17, 18, 78, 12, 50, 64, 18, 70, 14, 54, 70, 29, 68, 11, 20, 53, 20, 73, -7, 0, 34, 20, 66, -4, 3, 37, 20, 63, -3, 7, 41, 47, 89, 40, 18, 57] }, { "part": "gno18", "scores": [58, 87, 89, 71, 94, -10, 0, 0, 69, 73, -27, 31, 40, 65, 75, -15, 9, 51, 53, 74, 6, 12, 39, 70, 99, 1, 3, 9, 66, 49, -43, 43, 58, 67, 59, -36, 50, 64, 52, 74, 10, 15, 38, 60, 113, 10, 4, 6, 59, 109, 7, 8, 26, 61, 108, 8, 5, 19, 39, 71, 14, 6, 30, 53, 122, 15, 0, 15, 53, 122, 15, 0, 15, 47, 96, 17, 9, 27, 35, 76, 12, 4, 39] }, { "part": "gno19", "scores": [63, 100, 86, 71, 94, -13, 0, 3, 38, 69, 8, 3, 26, 70, 92, -12, 0, 5, 71, 94, -13, 0, 16, 68, 92, -5, 8, 14, 70, 96, -9, 4, 5, 70, 95, -11, 4, 5, 71, 94, -12, 0, 21, 63, 104, 6, 7, 13, 68, 103, 2, 3, 7, 70, 102, 1, 0, 1, 70, 102, 1, 0, 12, 53, 122, 12, 0, 15, 53, 122, 12, 0, 15, 55, 119, 11, 1, 22, 57, 116, 9, 5, 35] }, { "part": "gno20", "scores": [52, 98, 85, 52, 118, 12, 2, 5, 50, 107, 12, 6, 8, 52, 117, 12, 2, 4, 53, 122, 11, 0, 15, 53, 121, 11, 0, 3, 53, 119, 12, 2, 3, 53, 117, 14, 2, 3, 53, 106, 7, 15, 43, 53, 107, 19, 0, 0, 53, 107, 19, 0, 0, 51, 79, -11, 26, 37, 46, 52, -41, 1, 41, 53, 107, 19, 0, 9, 52, 89, -1, 26, 55, 46, 51, -43, 0, 29, 46, 51, -43, 0, 61] }, { "part": "gno21", "scores": [45, 56, 119, 53, 122, 45, 0, 2, 52, 96, 31, 15, 28, 26, 50, -5, 7, 11, 20, 60, -9, 4, 38, 49, 68, 10, 16, 25, 46, 50, -8, 1, 4, 46, 51, -9, 0, 0, 45, 49, -8, 0, 34, 46, 51, -9, 0, 0, 46, 51, -9, 0, 0, 46, 51, -9, 0, 0, 46, 51, -9, 0, 33, 46, 51, -9, 0, 29, 46, 51, -9, 0, 29, 46, 51, -9, 0, 29, 46, 51, -9, 0, 61] }, { "part": "gno22", "scores": [43, 52, 121, 20, 63, -8, 3, 5, 21, 60, -7, 6, 10, 36, 52, 9, 16, 26, 53, 115, 44, 5, 26, 44, 49, -6, 0, 3, 46, 51, -7, 0, 0, 46, 50, -6, 2, 4, 47, 55, 6, 11, 43, 46, 51, -7, 0, 0, 46, 51, -7, 0, 0, 46, 51, -7, 0, 0, 46, 51, -7, 0, 33, 46, 51, -7, 0, 29, 46, 51, -7, 0, 29, 46, 51, -7, 0, 29, 46, 51, -7, 0, 61] }, { "part": "gno23", "scores": [52, 96, 83, 53, 122, 9, 0, 0, 53, 122, 9, 0, 0, 50, 108, 10, 6, 9, 48, 100, 10, 6, 24, 52, 98, 3, 16, 27, 53, 112, 14, 2, 3, 53, 113, 13, 2, 3, 53, 113, 13, 2, 17, 46, 51, -43, 1, 9, 51, 82, -9, 26, 32, 53, 107, 17, 0, 0, 53, 107, 17, 0, 12, 46, 51, -45, 0, 29, 46, 51, -44, 0, 38, 52, 94, 3, 17, 44, 53, 107, 17, 0, 21] },
-    { "part": "sna0", "scores": [24, 9, 66, 39, 16, 11, 1, 4, 36, 14, 7, 3, 4, 35, 14, 7, 3, 4, 35, 14, 7, 3, 16, 12, 7, -3, 0, 0, 12, 7, -3, 0, 0, 12, 7, -3, 0, 0, 12, 7, -3, 0, 15, 21, 10, -4, 0, 1, 16, 8, -5, 1, 1, 14, 8, -5, 0, 1, 14, 8, -5, 0, 17, 23, 7, 2, 21, 44, 20, 8, -2, 7, 22, 240, 7, -7, 1, 17, 30, 9, 1, 11, 34] }, { "part": "sna1", "scores": [41, 38, 55, 38, 15, -2, 3, 4, 40, 17, 1, 0, 1, 40, 17, 1, 0, 0, 37, 22, 2, 3, 16, 12, 7, -14, 0, 2, 50, 23, 9, 17, 30, 44, 58, 14, 15, 26, 37, 58, 16, 7, 18, 39, 14, -3, 18, 29, 44, 58, 17, 13, 19, 42, 71, 17, 0, 2, 42, 52, -30, 38, 82, 44, 62, 9, 15, 35, 42, 69, 17, 8, 20, 42, 52, -7, 40, 75, 38, 26, -51, 31, 78] }, { "part": "sna2", "scores": [24, 14, 64, 35, 29, 14, 3, 4, 35, 26, 13, 7, 13, 34, 20, 9, 13, 16, 33, 16, 6, 9, 34, 31, 46, 26, 11, 21, 28, 24, 10, 13, 16, 23, 14, 1, 3, 14, 24, 7, 1, 20, 34, 22, 11, -4, 0, 6, 9, 7, -8, 1, 2, 246, 6, -9, 0, 1, 246, 6, -9, 0, 18, 238, 7, -9, 0, 18, 231, 7, -9, 0, 17, 231, 7, -9, 0, 17, 231, 7, -9, 0, 34] }, { "part": "sna3", "scores": [47, 44, 57, 43, 14, 6, 16, 25, 44, 15, 8, 18, 35, 39, 16, 1, 3, 4, 39, 16, 1, 3, 15, 38, 9, 2, 15, 24, 48, 63, 13, 52, 79, 80, 5, 10, 34, 53, 12, 7, -12, 0, 23, 248, 6, -16, 1, 5, 44, 78, 3, 30, 46, 50, 106, -6, 20, 33, 88, 11, 21, 33, 67, 29, 21, -11, 16, 38, 47, 107, -3, 22, 49, 49, 133, -18, 1, 25, 49, 124, -13, 0, 51] }, { "part": "sna4", "scores": [30, 9, 64, 38, 15, 7, 3, 4, 36, 14, 5, 3, 4, 31, 12, 2, 4, 4, 22, 9, -2, 2, 13, 12, 7, -5, 0, 0, 12, 7, -5, 0, 0, 12, 7, -5, 0, 0, 9, 7, -6, 1, 10, 246, 2, 5, 18, 30, 0, 6, -9, 1, 2, 240, 7, -9, 0, 2, 231, 7, -9, 0, 9, 54, 60, 18, 34, 67, 138, 10, 29, 28, 63, 17, 10, -6, 4, 25, 231, 7, -9, 0, 26] }, { "part": "sna5", "scores": [45, 60, 48, 35, 30, -15, 4, 10, 45, 48, 5, 25, 45, 41, 34, -6, 14, 23, 55, 45, 16, 2, 14, 34, 31, -17, 0, 0, 47, 99, -23, 33, 53, 46, 77, 2, 39, 53, 44, 65, 11, 11, 26, 39, 51, -8, 5, 7, 45, 86, -10, 28, 38, 48, 80, 0, 23, 36, 42, 77, 5, 4, 15, 42, 77, 5, 0, 10, 49, 55, 14, 8, 18, 48, 57, 13, 13, 23, 42, 73, 8, 1, 21] }, { "part": "sna6", "scores": [43, 56, 68, 43, 72, 27, 7, 14, 42, 68, 16, 24, 41, 38, 27, -30, 22, 34, 21, 13, -8, 0, 25, 42, 67, 30, 2, 14, 42, 47, -27, 33, 49, 34, 30, -3, 0, 19, 34, 29, 2, 0, 17, 42, 46, -9, 31, 42, 41, 47, -17, 38, 49, 39, 51, 11, 9, 15, 40, 48, 11, 17, 45, 43, 53, -38, 26, 84, 48, 131, -5, 5, 43, 48, 112, 6, 15, 45, 46, 92, 16, 20, 59] }, { "part": "sna7", "scores": [34, 25, 60, 21, 14, -18, 14, 29, 27, 9, -5, 105, 183, 40, 23, -8, 86, 137, 35, 23, -9, 57, 104, 38, 23, 0, 63, 92, 48, 18, 0, 152, 226, 42, 40, -4, 98, 173, 50, 38, 13, 55, 122, 46, 29, 9, 66, 119, 26, 28, -17, 104, 181, 3, 55, -20, 78, 125, 62, 16, 14, 44, 103, 41, 36, -5, 41, 84, 56, 16, -5, 40, 104, 10, 45, 2, 83, 136, 61, 18, 29, 33, 59] }, { "part": "sna8", "scores": [47, 91, 62, 41, 60, 12, 32, 51, 49, 127, -10, 1, 11, 49, 133, -14, 0, 0, 49, 127, -8, 1, 27, 42, 52, 13, 36, 60, 48, 112, -7, 19, 29, 46, 104, 2, 18, 31, 45, 99, 6, 22, 47, 48, 27, 1, 48, 81, 42, 65, 20, 27, 38, 48, 114, -2, 17, 29, 49, 133, -14, 0, 23, 55, 21, 7, 64, 113, 42, 52, -1, 58, 92, 48, 117, -5, 10, 26, 48, 116, -4, 9, 43] }, { "part": "sna9", "scores": [47, 72, 59, 47, 108, -1, 12, 19, 48, 61, 19, 27, 55, 41, 35, 11, 32, 47, 33, 26, -8, 1, 10, 48, 113, -5, 19, 35, 49, 105, -3, 18, 65, 91, 5, 21, 14, 18, 34, 31, -6, 0, 7, 49, 133, -17, 0, 1, 49, 128, -12, 0, 29, 56, 16, 11, 53, 65, 41, 61, 8, 5, 12, 48, 116, -7, 9, 24, 48, 115, -6, 8, 29, 47, 39, -36, 58, 145, 42, 74, 15, 3, 30] }, { "part": "sna10", "scores": [44, 59, 51, 42, 80, 6, 0, 0, 45, 66, 12, 19, 26, 42, 66, 14, 3, 10, 42, 57, -8, 35, 75, 42, 77, 7, 2, 13, 46, 70, 9, 10, 20, 42, 71, 11, 5, 7, 43, 43, -51, 11, 72, 48, 39, 12, 4, 7, 50, 57, 15, 10, 15, 42, 74, 10, 3, 4, 43, 54, -48, 35, 73, 49, 37, 16, 5, 13, 50, 52, 19, 12, 28, 42, 69, 14, 1, 9, 42, 43, -49, 29, 101] }, { "part": "sna11", "scores": [48, 121, 73, 46, 75, -34, 18, 25, 48, 141, -7, 1, 2, 49, 130, -1, 3, 9, 46, 99, 15, 16, 41, 48, 128, -11, 8, 20, 47, 119, 6, 15, 20, 45, 93, 20, 22, 38, 47, 105, 14, 21, 46, 45, 102, 16, 31, 45, 47, 126, 2, 17, 26, 49, 138, -5, 2, 3, 49, 133, -3, 0, 23, 49, 146, -9, 2, 30, 48, 143, -8, 0, 25, 48, 143, -8, 0, 26, 47, 116, 7, 20, 55] }, { "part": "sna12", "scores": [48, 43, 51, 43, 40, 11, 17, 52, 60, 19, 10, 21, 93, 45, 20, 27, 16, 33, 58, 16, 17, 45, 77, 45, 88, -5, 26, 55, 48, 26, -20, 57, 83, 91, 9, 25, 20, 47, 62, 14, 29, 5, 12, 46, 98, -6, 23, 34, 43, 47, 12, 35, 57, 52, 24, -22, 102, 142, 58, 17, -5, 104, 139, 46, 93, -1, 30, 61, 49, 122, -20, 9, 41, 43, 46, -25, 45, 97, 57, 16, -24, 63, 137] }, { "part": "sna13", "scores": [47, 65, 66, 96, 9, 32, 24, 60, 50, 29, 37, 20, 43, 46, 94, 14, 13, 32, 47, 102, 9, 17, 39, 59, 21, 19, 95, 129, 43, 42, -25, 28, 64, 47, 114, 2, 11, 16, 49, 133, -9, 0, 24, 71, 11, 6, 88, 152, 42, 30, -19, 77, 102, 48, 109, 1, 16, 30, 49, 133, -10, 0, 23, 43, 38, -63, 24, 109, 39, 36, -28, 35, 85, 42, 57, 18, 27, 62, 45, 91, 11, 19, 52] }, { "part": "sna14", "scores": [46, 72, 55, 47, 101, -1, 16, 25, 47, 87, 5, 28, 54, 46, 55, 3, 66, 114, 43, 72, 13, 6, 17, 49, 133, -21, 0, 1, 50, 111, -10, 18, 34, 44, 69, -8, 83, 127, 42, 80, 10, 0, 12, 49, 131, -18, 2, 3, 52, 53, -2, 98, 129, 41, 34, 11, 0, 0, 41, 34, 11, 0, 4, 46, 96, -2, 12, 30, 46, 42, -16, 73, 110, 41, 34, 11, 0, 9, 41, 34, 11, 0, 13] }, { "part": "sna15", "scores": [44, 54, 49, 44, 40, 6, 24, 34, 43, 75, 6, 9, 21, 42, 64, 13, 6, 8, 44, 50, -50, 18, 81, 42, 37, -1, 18, 25, 46, 67, 9, 12, 16, 42, 76, 6, 0, 1, 42, 55, -35, 27, 79, 44, 25, -2, 13, 16, 53, 51, 15, 6, 15, 42, 72, 9, 2, 5, 42, 58, -13, 25, 65, 40, 19, -5, 10, 29, 48, 54, 16, 14, 30, 42, 69, 11, 3, 13, 42, 55, 7, 21, 60] }, { "part": "sna16", "scores": [46, 66, 74, 49, 154, -12, 0, 0, 48, 145, -7, 0, 2, 48, 133, -1, 12, 22, 46, 106, 15, 28, 64, 48, 94, -14, 51, 68, 48, 112, -5, 13, 23, 44, 70, 15, 30, 48, 48, 107, -4, 7, 39, 30, 19, -18, 23, 32, 40, 21, 16, 21, 34, 42, 43, 3, 16, 26, 39, 34, 1, 14, 37, 35, 20, -13, 18, 48, 20, 8, 8, 9, 31, 3, 7, 2, 1, 17, 2, 7, 1, 1, 33] }, { "part": "sna17", "scores": [44, 50, 71, 49, 137, -6, 2, 3, 49, 136, -6, 2, 3, 47, 100, 12, 17, 31, 37, 35, -4, 33, 85, 48, 122, -9, 9, 11, 48, 138, -9, 4, 17, 44, 80, 14, 32, 50, 33, 19, -28, 24, 70, 33, 21, -1, 13, 17, 39, 21, 7, 20, 30, 250, 7, 4, 3, 8, 225, 7, 2, 5, 31, 5, 9, -2, 1, 18, 17, 11, 2, 14, 32, 12, 13, -2, 2, 17, 10, 14, -3, 0, 34] }, { "part": "sna18", "scores": [37, 16, 93, 43, 35, -31, 28, 48, 47, 28, -15, 45, 74, 40, 27, -2, 27, 49, 30, 14, 31, 7, 22, 50, 23, -5, 87, 109, 46, 29, -17, 42, 78, 38, 26, -16, 20, 24, 213, 8, 17, 0, 18, 35, 20, -7, 9, 16, 36, 17, -3, 25, 37, 35, 20, -10, 11, 32, 219, 7, 23, 4, 28, 35, 17, -4, 35, 71, 165, 2, 26, 18, 62, 28, 9, 6, 27, 64, 247, 6, 14, 9, 47] }, { "part": "sna19", "scores": [252, 6, 70, 42, 18, 17, 23, 28, 41, 20, 20, 11, 19, 40, 24, 21, 2, 10, 41, 25, 23, 0, 6, 213, 8, -6, 0, 0, 213, 8, -6, 0, 0, 213, 8, -6, 0, 0, 227, 7, -5, 0, 19, 213, 7, -1, 3, 5, 213, 8, -5, 1, 3, 213, 8, -6, 0, 0, 213, 8, -6, 0, 10, 213, 7, 2, 1, 17, 213, 7, 1, 1, 19, 213, 7, -2, 4, 22, 213, 8, -5, 2, 30] }, { "part": "sna20", "scores": [43, 47, 46, 20, 9, -20, 1, 2, 44, 68, 0, 17, 33, 42, 79, 1, 3, 7, 42, 70, 7, 6, 15, 20, 9, -20, 1, 2, 48, 50, 4, 14, 24, 45, 71, 4, 12, 18, 42, 73, 6, 2, 12, 31, 15, -14, 0, 0, 49, 39, 4, 19, 26, 52, 49, 14, 9, 17, 42, 70, 8, 0, 11, 31, 15, -14, 0, 7, 38, 24, -9, 10, 26, 47, 56, 11, 15, 27, 42, 75, 4, 7, 24] }, { "part": "sna21", "scores": [38, 27, 69, 40, 33, -35, 31, 60, 17, 8, 1, 0, 4, 16, 8, 1, 0, 0, 16, 8, 1, 0, 15, 42, 54, -7, 31, 38, 35, 20, -16, 30, 39, 27, 12, 5, 1, 2, 27, 12, 5, 1, 16, 42, 58, 27, 20, 33, 39, 24, -14, 15, 42, 31, 15, 9, 0, 0, 31, 15, 9, 0, 13, 42, 62, 35, 3, 7, 42, 52, 5, 38, 59, 40, 34, -41, 16, 72, 32, 16, 6, 2, 35] }, { "part": "sna22", "scores": [25, 11, 65, 15, 8, -3, 0, 0, 14, 7, -4, 0, 1, 12, 7, -4, 0, 0, 11, 7, -5, 0, 16, 22, 10, -1, 2, 2, 16, 8, -3, 0, 0, 16, 8, -3, 0, 0, 16, 8, -3, 0, 15, 31, 15, 5, 0, 0, 30, 14, 3, 1, 2, 27, 12, 1, 1, 2, 27, 12, 1, 1, 16, 31, 15, 5, 0, 7, 31, 15, 5, 0, 7, 31, 15, 5, 0, 7, 31, 15, 5, 0, 20] }, { "part": "sna23", "scores": [31, 14, 92, 25, 12, 1, 3, 8, 27, 14, -4, 3, 4, 26, 12, -2, 2, 4, 8, 10, 11, 4, 24, 24, 11, 6, 12, 15, 22, 8, 7, 18, 27, 26, 10, 1, 15, 24, 19, 9, 10, 9, 30, 33, 17, -4, 14, 33, 36, 11, 3, 26, 34, 39, 10, 5, 25, 41, 35, 18, 1, 27, 56, 36, 20, -5, 3, 31, 35, 23, -14, 5, 25, 36, 22, -13, 3, 23, 34, 19, 4, 16, 45] },
-    { "part": "mm0", "scores": [159, 51, 149, 155, 162, 30, 17, 21, 155, 138, 23, 17, 21, 155, 178, 34, 13, 21, 155, 197, 38, 0, 28, 162, 34, -4, 12, 15, 168, 20, -8, 10, 17, 160, 44, -1, 15, 26, 155, 128, 21, 26, 67, 0, 12, -16, 0, 0, 0, 12, -16, 0, 0, 0, 12, -16, 0, 0, 246, 10, -14, 0, 44, 0, 12, -16, 0, 38, 0, 11, -16, 0, 38, 0, 11, -16, 0, 38, 0, 11, -16, 0, 77] }, { "part": "mm1", "scores": [156, 102, 135, 155, 197, 24, 0, 0, 155, 197, 24, 0, 0, 155, 197, 24, 0, 0, 155, 197, 24, 0, 28, 155, 158, 14, 13, 19, 155, 187, 22, 9, 21, 155, 197, 24, 0, 11, 155, 197, 24, 0, 28, 219, 7, -24, 0, 15, 168, 19, -22, 14, 17, 161, 35, -18, 12, 25, 156, 101, 0, 30, 71, 0, 11, -30, 0, 38, 0, 11, -30, 0, 38, 0, 11, -30, 0, 38, 0, 12, -30, 0, 77] }, { "part": "mm2", "scores": [155, 141, 125, 155, 197, 14, 0, 0, 155, 197, 14, 0, 0, 155, 197, 14, 0, 0, 155, 197, 14, 0, 28, 155, 197, 14, 0, 0, 155, 197, 14, 0, 0, 155, 197, 14, 0, 0, 155, 197, 14, 0, 28, 155, 128, -3, 23, 36, 155, 164, 6, 15, 26, 155, 174, 9, 15, 21, 155, 197, 14, 0, 34, 0, 11, -40, 0, 38, 235, 9, -36, 0, 49, 216, 7, -34, 1, 54, 162, 34, -28, 19, 106] }, { "part": "mm3", "scores": [155, 132, 127, 155, 197, 16, 0, 0, 155, 197, 16, 0, 0, 155, 197, 16, 0, 7, 155, 165, 8, 21, 59, 155, 192, 15, 4, 14, 156, 87, -12, 34, 44, 162, 32, -26, 9, 34, 232, 8, -34, 3, 47, 155, 181, 12, 12, 16, 158, 56, -20, 32, 50, 184, 11, -31, 8, 35, 162, 31, -27, 25, 68, 155, 197, 16, 0, 28, 155, 197, 16, 0, 28, 155, 197, 16, 0, 28, 155, 174, 23, 35, 90] }, { "part": "mm4", "scores": [155, 159, 121, 155, 176, 5, 16, 28, 155, 197, 10, 0, 0, 155, 197, 10, 0, 0, 155, 197, 10, 0, 29, 195, 9, -37, 7, 16, 156, 85, -19, 35, 50, 155, 190, 9, 7, 14, 155, 197, 10, 0, 28, 158, 57, -26, 24, 31, 158, 60, -25, 27, 47, 155, 194, 10, 0, 7, 155, 197, 10, 0, 28, 155, 197, 10, 0, 28, 155, 197, 10, 0, 28, 155, 197, 10, 0, 28, 155, 197, 10, 0, 57] }, { "part": "mm5", "scores": [157, 68, 134, 0, 12, -31, 0, 0, 0, 12, -31, 0, 0, 0, 12, -31, 0, 1, 0, 12, -31, 5, 46, 158, 53, -9, 23, 42, 181, 12, -17, 24, 53, 8, 14, -18, 45, 82, 0, 12, -31, 0, 40, 155, 145, 33, 44, 65, 155, 73, 31, 36, 84, 156, 53, 29, 26, 58, 156, 70, 11, 37, 94, 155, 193, 24, 6, 43, 155, 178, 28, 22, 64, 155, 188, 26, 0, 40, 155, 196, 24, 0, 60] }, { "part": "mm6", "scores": [156, 90, 135, 0, 12, -30, 0, 0, 0, 12, -30, 0, 0, 0, 12, -30, 0, 0, 0, 12, -30, 0, 38, 0, 12, -30, 0, 3, 165, 24, -21, 15, 26, 163, 31, -19, 12, 34, 157, 79, -6, 30, 72, 156, 114, 3, 19, 39, 155, 180, 20, 9, 17, 155, 197, 24, 0, 3, 155, 197, 24, 0, 28, 155, 197, 24, 0, 28, 155, 168, 30, 23, 60, 155, 121, 41, 50, 99, 155, 197, 24, 0, 57] }, { "part": "mm7", "scores": [156, 81, 121, 0, 12, -44, 0, 0, 0, 12, -44, 0, 0, 0, 11, -44, 0, 15, 166, 22, -35, 21, 66, 156, 91, -8, 35, 61, 156, 79, -11, 55, 76, 155, 137, 5, 37, 55, 155, 184, 7, 7, 42, 155, 144, 20, 52, 70, 155, 102, 24, 46, 82, 155, 102, 29, 38, 60, 155, 82, 27, 76, 118, 155, 197, 10, 0, 28, 155, 188, 13, 11, 51, 155, 61, 25, 63, 99, 26, 53, 20, 0, 46] }, { "part": "mm8", "scores": [155, 110, 104, 155, 121, -26, 34, 47, 155, 194, -6, 0, 16, 155, 83, 7, 67, 102, 155, 148, 3, 36, 101, 155, 162, 1, 26, 49, 161, 5, 9, 44, 67, 155, 57, 7, 62, 83, 155, 197, -7, 0, 28, 26, 43, 7, 10, 31, 25, 19, 10, 45, 65, 155, 185, -4, 0, 20, 155, 197, -7, 0, 28, 26, 49, 6, 8, 35, 155, 128, 5, 38, 89, 155, 197, -7, 0, 28, 155, 197, -7, 0, 57] }, { "part": "mm9", "scores": [155, 191, 110, 155, 197, -1, 0, 0, 155, 197, -1, 0, 0, 155, 197, -1, 0, 0, 155, 197, -1, 0, 28, 155, 197, -1, 0, 0, 155, 197, -1, 0, 0, 155, 197, -1, 0, 0, 155, 197, -1, 0, 28, 155, 184, 2, 13, 23, 155, 186, 1, 25, 39, 155, 197, -1, 0, 0, 155, 197, -1, 0, 28, 155, 173, 3, 24, 63, 155, 149, 8, 21, 69, 155, 197, -1, 0, 28, 155, 197, -1, 0, 57] }, { "part": "mm10", "scores": [155, 115, 131, 155, 158, 11, 0, 0, 155, 158, 11, 0, 0, 155, 158, 11, 0, 0, 155, 158, 11, 0, 26, 155, 158, 11, 0, 0, 155, 158, 11, 0, 1, 155, 125, 2, 19, 31, 157, 69, -12, 25, 64, 155, 158, 11, 0, 0, 156, 106, -3, 28, 36, 226, 8, -29, 4, 9, 0, 11, -34, 0, 38, 155, 158, 11, 0, 26, 155, 146, 8, 7, 42, 156, 87, -8, 22, 56, 158, 53, -17, 22, 88] }, { "part": "mm11", "scores": [19, 7, 97, 155, 154, -21, 2, 14, 25, 15, 6, 42, 73, 155, 41, 11, 48, 78, 155, 142, -17, 14, 58, 159, 25, -10, 65, 91, 26, 49, 8, 28, 46, 26, 52, -3, 5, 14, 26, 45, 18, 47, 77, 21, 25, -18, 42, 56, 26, 44, 5, 13, 20, 26, 43, 18, 37, 53, 26, 54, -5, 0, 23, 172, 6, -4, 49, 79, 26, 41, 23, 33, 57, 26, 54, -6, 0, 19, 26, 54, -6, 0, 38] }, { "part": "mm12", "scores": [26, 36, 93, 155, 108, -10, 34, 55, 20, 4, 10, 51, 78, 26, 46, 6, 21, 33, 26, 48, -6, 3, 29, 26, 52, -6, 4, 12, 26, 54, -10, 0, 0, 26, 52, -5, 4, 16, 27, 41, 21, 32, 49, 26, 54, -10, 0, 0, 26, 54, -10, 0, 0, 26, 49, -6, 7, 15, 27, 41, 24, 42, 56, 26, 54, -10, 0, 19, 26, 49, -7, 4, 22, 26, 38, 15, 34, 60, 26, 53, -7, 0, 48] }, { "part": "mm13", "scores": [157, 56, 123, 156, 22, 32, 52, 75, 155, 135, -3, 17, 21, 156, 109, -10, 19, 28, 157, 73, -20, 22, 62, 155, 132, 11, 13, 36, 162, 33, -30, 17, 29, 252, 10, -41, 0, 2, 0, 11, -42, 0, 38, 155, 151, 6, 5, 23, 155, 138, -2, 11, 21, 156, 88, -16, 24, 33, 160, 43, -27, 24, 65, 26, 44, 33, 16, 48, 160, 7, 26, 42, 78, 155, 41, 39, 37, 65, 21, 4, 46, 42, 82] }, { "part": "mm14", "scores": [156, 93, 135, 157, 69, -9, 23, 28, 156, 94, -2, 24, 30, 155, 125, 6, 16, 27, 155, 150, 13, 9, 39, 0, 12, -30, 0, 0, 0, 12, -30, 0, 2, 246, 10, -28, 0, 13, 157, 71, -8, 21, 55, 158, 55, -12, 27, 45, 156, 113, 3, 19, 30, 155, 132, 8, 13, 17, 155, 141, 10, 11, 41, 155, 101, 36, 29, 58, 155, 158, 15, 0, 26, 155, 158, 15, 0, 26, 155, 158, 15, 0, 52] }, { "part": "mm15", "scores": [156, 91, 138, 157, 77, -4, 21, 26, 156, 115, 6, 13, 24, 155, 132, 11, 0, 5, 155, 132, 11, 0, 24, 0, 11, -27, 0, 0, 249, 10, -26, 0, 6, 156, 87, -1, 16, 24, 155, 132, 11, 0, 24, 237, 9, -23, 4, 14, 159, 46, -12, 24, 32, 156, 112, 6, 11, 21, 155, 132, 11, 0, 24, 156, 117, 7, 8, 41, 155, 132, 11, 0, 24, 155, 132, 11, 0, 24, 155, 132, 11, 0, 48] }, { "part": "mm16", "scores": [156, 66, 113, 156, 51, 24, 32, 71, 156, 45, 16, 53, 78, 25, 21, 26, 47, 81, 26, 36, 21, 4, 27, 158, 23, 22, 51, 83, 156, 95, -8, 33, 61, 158, 60, -14, 27, 46, 159, 27, 8, 62, 102, 155, 122, -14, 7, 14, 156, 89, -5, 27, 50, 156, 79, 0, 40, 55, 156, 80, -10, 23, 57, 155, 132, -14, 0, 24, 155, 132, -14, 0, 24, 155, 132, -14, 0, 27, 160, 35, -22, 38, 117] }, { "part": "mm17", "scores": [191, 4, 113, 26, 35, 21, 5, 6, 26, 31, 32, 13, 27, 26, 49, 23, 14, 27, 26, 54, 10, 0, 19, 165, 4, 26, 37, 54, 26, 18, 37, 48, 64, 25, 24, 22, 33, 43, 25, 21, 24, 33, 57, 161, 16, 21, 64, 90, 156, 120, -17, 12, 16, 157, 81, -27, 19, 27, 156, 92, -24, 14, 52, 16, 20, -15, 53, 103, 236, 8, -48, 0, 48, 0, 11, -52, 0, 38, 0, 11, -52, 0, 77] }, { "part": "mm18", "scores": [168, 11, 125, 26, 53, 23, 1, 2, 26, 41, 42, 28, 42, 26, 41, 42, 14, 33, 156, 38, 32, 51, 90, 25, 15, 41, 33, 46, 26, 16, 56, 39, 53, 156, 41, 32, 52, 68, 155, 132, -2, 0, 24, 157, 67, -19, 24, 32, 163, 26, -30, 7, 21, 164, 26, -30, 7, 21, 158, 53, -23, 21, 59, 0, 10, -40, 0, 38, 0, 11, -40, 0, 38, 0, 11, -40, 0, 38, 0, 11, -40, 0, 77] }, { "part": "mm19", "scores": [157, 70, 137, 155, 132, 10, 0, 0, 155, 132, 10, 0, 0, 155, 131, 11, 2, 6, 155, 132, 10, 0, 24, 155, 113, 17, 13, 27, 156, 99, 22, 36, 51, 155, 121, 13, 12, 39, 155, 132, 10, 0, 24, 158, 59, -1, 40, 57, 175, 10, 2, 50, 71, 167, 15, 6, 36, 49, 157, 79, -4, 16, 54, 0, 11, -28, 0, 38, 0, 11, -28, 0, 38, 0, 11, -28, 0, 38, 0, 11, -28, 0, 77] }, { "part": "mm20", "scores": [158, 67, 145, 156, 93, 7, 0, 0, 156, 93, 7, 0, 0, 156, 93, 7, 0, 0, 156, 93, 7, 0, 28, 156, 93, 7, 0, 0, 156, 90, 6, 2, 8, 157, 67, 0, 13, 19, 162, 33, -8, 15, 54, 156, 93, 7, 0, 0, 158, 53, -3, 13, 18, 253, 12, -20, 0, 3, 0, 12, -20, 0, 38, 156, 93, 7, 0, 28, 156, 90, 6, 0, 34, 157, 67, 1, 12, 46, 161, 39, -7, 15, 82] }, { "part": "mm21", "scores": [157, 69, 136, 156, 93, -2, 0, 0, 156, 93, -2, 0, 0, 156, 92, -2, 1, 5, 156, 93, -2, 0, 28, 159, 44, -8, 23, 35, 157, 74, 7, 37, 54, 156, 79, 3, 18, 34, 156, 93, -2, 0, 32, 8, 14, -16, 39, 56, 160, 26, 12, 33, 70, 157, 42, 28, 21, 32, 156, 83, 3, 8, 43, 159, 46, -14, 17, 49, 157, 79, -2, 10, 52, 156, 93, -2, 0, 28, 156, 93, -2, 0, 56] }, { "part": "mm22", "scores": [158, 62, 146, 214, 7, -13, 7, 14, 242, 10, -16, 5, 7, 249, 10, -18, 2, 6, 0, 11, -19, 0, 38, 156, 89, 7, 0, 5, 157, 80, 5, 6, 8, 157, 68, 2, 9, 14, 159, 46, -4, 11, 50, 156, 93, 8, 0, 0, 156, 93, 8, 0, 0, 156, 93, 8, 0, 0, 156, 93, 8, 0, 28, 156, 93, 8, 0, 28, 156, 93, 8, 0, 28, 156, 93, 8, 0, 28, 156, 93, 8, 0, 56] }, { "part": "mm23", "scores": [159, 47, 150, 0, 12, -15, 0, 0, 0, 12, -15, 0, 0, 0, 12, -15, 0, 0, 0, 12, -15, 0, 38, 163, 31, -4, 16, 22, 197, 9, -8, 5, 15, 197, 9, -8, 5, 15, 166, 23, -6, 15, 55, 156, 93, 12, 0, 0, 156, 93, 12, 0, 0, 156, 93, 12, 0, 0, 156, 93, 12, 0, 28, 156, 93, 12, 0, 28, 156, 93, 12, 0, 28, 156, 93, 12, 0, 28, 156, 93, 12, 0, 56] },
-    { "part": "archer0", "scores": [125, 42, 32, 127, 41, 5, 4, 10, 126, 38, 7, 4, 10, 125, 39, 5, 6, 13, 123, 65, -19, 17, 25, 124, 44, 5, 5, 8, 125, 40, 5, 5, 6, 125, 37, 8, 4, 6, 126, 46, -4, 8, 12, 124, 37, 8, 4, 7, 125, 38, 6, 4, 6, 126, 40, 5, 5, 8, 125, 44, -9, 61, 85, 125, 37, 10, 7, 10, 127, 38, 1, 16, 33, 119, 46, -32, 94, 125, 127, 35, -3, 14, 41] }, { "part": "archer1", "scores": [127, 91, 79, 125, 162, -12, 23, 34, 126, 181, -15, 15, 23, 126, 169, -21, 29, 55, 127, 136, -46, 54, 90, 123, 94, 0, 74, 111, 125, 145, -15, 57, 88, 130, 55, -11, 129, 176, 145, 14, -2, 44, 71, 120, 56, 5, 103, 144, 126, 118, -1, 61, 93, 131, 51, 2, 156, 204, 152, 15, 24, 31, 55, 128, 38, 31, 41, 66, 132, 37, 30, 45, 63, 131, 66, 19, 124, 173, 127, 142, -8, 72, 125] }, { "part": "archer2", "scores": [126, 132, 96, 126, 194, -10, 8, 20, 126, 200, -6, 7, 12, 126, 179, 5, 7, 12, 126, 160, 5, 32, 48, 128, 135, -33, 30, 42, 126, 206, -8, 7, 12, 126, 194, -2, 11, 15, 126, 164, 2, 48, 61, 129, 103, -18, 71, 97, 125, 115, 10, 113, 150, 124, 102, -5, 84, 111, 125, 99, -27, 103, 142, 127, 145, 6, 89, 136, 131, 85, 13, 102, 143, 126, 27, 28, 102, 146, 117, 9, 42, 56, 97] }, { "part": "archer3", "scores": [126, 169, 91, 126, 161, 7, 11, 17, 126, 166, 4, 16, 25, 125, 206, -14, 9, 16, 126, 198, -10, 10, 15, 126, 162, 8, 19, 27, 126, 150, 13, 14, 20, 125, 200, -10, 14, 21, 125, 197, -9, 18, 24, 125, 123, 15, 42, 59, 126, 141, 17, 8, 14, 125, 184, -2, 19, 26, 125, 203, -12, 15, 21, 126, 88, -5, 125, 168, 126, 141, 14, 10, 26, 126, 183, -2, 18, 26, 125, 195, -8, 14, 20] }, { "part": "archer4", "scores": [124, 152, 98, 126, 200, -4, 8, 14, 126, 189, 1, 8, 14, 107, 55, -10, 97, 133, 125, 164, 2, 36, 59, 126, 201, -3, 7, 11, 126, 201, -4, 10, 13, 120, 128, -19, 70, 101, 123, 84, 23, 74, 103, 125, 200, -4, 15, 23, 126, 205, -6, 9, 13, 125, 157, 9, 52, 75, 73, 28, 8, 92, 135, 125, 192, -1, 21, 32, 125, 200, -4, 20, 28, 126, 197, -3, 18, 37, 113, 39, 22, 106, 160] }, { "part": "archer5", "scores": [73, 6, 66, 125, 38, 23, 60, 88, 124, 35, 18, 55, 86, 44, 26, -14, 70, 90, 40, 15, 9, 75, 103, 127, 43, 23, 30, 51, 119, 22, 19, 44, 61, 23, 78, -49, 82, 123, 13, 31, -7, 63, 91, 134, 41, 36, 5, 8, 135, 32, 34, 37, 49, 16, 44, -49, 117, 174, 3, 46, -29, 70, 103, 133, 40, 37, 9, 12, 136, 35, 29, 49, 62, 8, 26, -19, 107, 158, 0, 42, -23, 61, 96] }, { "part": "archer6", "scores": [130, 47, 63, 126, 38, 23, 35, 56, 132, 33, 19, 48, 66, 136, 32, 20, 53, 80, 127, 130, -16, 91, 118, 127, 23, 11, 54, 72, 131, 33, 26, 31, 41, 127, 55, 11, 45, 61, 125, 125, -25, 57, 92, 142, 42, 14, 44, 76, 136, 42, 18, 54, 76, 125, 59, 8, 17, 34, 124, 84, -24, 35, 69, 174, 13, 25, 31, 54, 160, 12, -36, 150, 192, 127, 19, -45, 155, 206, 143, 31, -38, 111, 166] }, { "part": "archer7", "scores": [57, 9, 99, 127, 138, 3, 113, 159, 139, 40, 48, 85, 123, 55, 5, 7, 163, 213, 25, 70, -60, 74, 123, 128, 129, 3, 92, 137, 148, 21, 51, 93, 138, 19, 65, -53, 153, 218, 17, 97, -52, 65, 100, 129, 61, 21, 96, 153, 158, 19, 68, 28, 59, 13, 65, -14, 76, 109, 14, 105, -52, 94, 127, 18, 49, -15, 120, 171, 250, 27, 34, 77, 111, 178, 5, 21, 69, 111, 7, 33, 10, 94, 129] }, { "part": "archer8", "scores": [127, 81, 88, 21, 10, 9, 65, 101, 128, 107, 17, 60, 83, 125, 176, -2, 23, 31, 125, 179, -11, 31, 42, 3, 13, 15, 68, 105, 127, 101, 3, 97, 128, 125, 166, 2, 17, 30, 125, 159, -20, 27, 41, 246, 22, 30, 43, 64, 137, 51, 44, 57, 82, 127, 124, 7, 70, 99, 125, 149, -18, 26, 34, 174, 13, 19, 82, 113, 128, 28, -26, 145, 196, 123, 37, -53, 155, 209, 125, 74, -23, 129, 182] }, { "part": "archer9", "scores": [125, 119, 106, 125, 164, -1, 29, 39, 125, 168, 2, 32, 44, 125, 188, 7, 27, 39, 127, 117, 30, 73, 104, 125, 154, -3, 24, 34, 125, 151, -1, 27, 41, 125, 160, 4, 30, 40, 125, 137, 17, 56, 86, 125, 158, -7, 24, 36, 125, 152, -3, 28, 50, 125, 141, -5, 33, 76, 124, 87, 1, 97, 139, 128, 58, -21, 123, 181, 122, 49, 15, 102, 159, 128, 56, 25, 112, 157, 18, 59, -42, 86, 131] }, { "part": "archer10", "scores": [30, 26, 95, 125, 39, 70, 11, 29, 31, 87, -22, 90, 135, 25, 76, -40, 120, 163, 6, 37, 8, 83, 116, 128, 40, 47, 50, 72, 31, 16, -5, 85, 119, 29, 101, -53, 37, 66, 25, 56, -10, 76, 109, 134, 46, -9, 91, 126, 179, 14, 36, 44, 61, 23, 69, -34, 90, 123, 25, 64, -13, 131, 178, 140, 32, 18, 47, 73, 122, 10, 32, 60, 86, 6, 38, -18, 81, 107, 8, 38, -17, 87, 120] }, { "part": "archer11", "scores": [252, 12, 74, 5, 29, 2, 77, 107, 231, 31, 17, 77, 108, 218, 20, 36, 49, 67, 158, 11, 24, 63, 88, 23, 105, -44, 74, 110, 15, 73, -35, 86, 132, 9, 19, 8, 95, 123, 184, 15, 50, 17, 27, 14, 60, -22, 73, 100, 135, 10, -25, 71, 113, 145, 30, 4, 45, 64, 225, 12, 5, 52, 70, 248, 35, -6, 49, 76, 140, 21, -20, 72, 110, 151, 39, 26, 24, 35, 138, 35, 9, 39, 53] }, { "part": "archer12", "scores": [228, 9, 77, 244, 29, 25, 35, 50, 190, 13, 49, 17, 27, 13, 32, -41, 107, 138, 251, 15, -10, 106, 140, 163, 20, 49, 18, 25, 169, 12, 51, 14, 26, 147, 39, 27, 35, 52, 140, 83, -2, 55, 86, 206, 5, -3, 93, 130, 10, 17, 0, 74, 114, 123, 45, -31, 107, 169, 255, 34, -81, 143, 202, 222, 14, -14, 110, 150, 32, 9, 8, 50, 76, 245, 38, -9, 112, 137, 254, 97, -40, 63, 92] }, { "part": "archer13", "scores": [200, 15, 43, 147, 38, -39, 95, 135, 250, 31, -35, 50, 76, 245, 20, -22, 86, 110, 192, 11, -2, 60, 87, 179, 10, -42, 103, 133, 196, 14, 8, 16, 38, 181, 13, 11, 22, 32, 179, 15, 17, 21, 39, 241, 57, -22, 28, 48, 196, 18, 12, 13, 24, 175, 17, 17, 12, 17, 165, 18, 24, 6, 9, 224, 33, -12, 22, 36, 201, 22, 8, 28, 42, 177, 17, 18, 18, 27, 158, 22, 23, 5, 8] }, { "part": "archer14", "scores": [131, 54, 64, 249, 20, 2, 93, 148, 6, 35, -7, 93, 124, 192, 17, -10, 48, 73, 2, 35, -20, 31, 49, 208, 9, 34, 34, 58, 203, 11, 34, 31, 50, 162, 19, 19, 35, 52, 135, 43, 7, 65, 83, 133, 67, 6, 115, 138, 133, 60, 9, 61, 88, 127, 117, -13, 70, 89, 125, 186, -31, 17, 32, 145, 43, 32, 15, 35, 131, 91, -4, 104, 137, 125, 165, -24, 30, 55, 125, 177, -27, 24, 35] }, { "part": "archer15", "scores": [92, 12, 87, 18, 32, -30, 132, 179, 19, 58, -67, 67, 88, 2, 27, 19, 57, 83, 150, 20, 16, 48, 62, 108, 48, -15, 64, 97, 107, 33, -26, 114, 164, 149, 11, 32, 86, 132, 232, 19, 25, 55, 75, 116, 103, -2, 26, 37, 110, 66, 14, 33, 51, 96, 15, -11, 146, 181, 4, 59, -39, 54, 77, 116, 44, 41, 7, 11, 115, 43, 40, 10, 16, 71, 13, 31, 63, 85, 4, 36, -15, 95, 127] }, { "part": "archer16", "scores": [157, 9, 54, 142, 23, -26, 53, 70, 222, 13, -4, 35, 53, 153, 38, 9, 27, 39, 116, 54, -19, 25, 46, 205, 15, 4, 34, 44, 192, 18, 22, 14, 20, 166, 22, 21, 15, 22, 108, 35, -21, 29, 49, 251, 40, -34, 54, 85, 238, 24, -3, 45, 65, 166, 14, 8, 39, 52, 119, 17, 11, 44, 72, 246, 20, -14, 96, 131, 246, 12, 13, 57, 84, 144, 22, 18, 15, 27, 137, 26, 31, 15, 20] }, { "part": "archer17", "scores": [235, 23, 66, 2, 58, -67, 129, 178, 156, 24, -13, 94, 123, 215, 16, 30, 41, 58, 227, 32, 26, 12, 24, 253, 52, -35, 106, 143, 248, 48, -32, 70, 113, 250, 50, -7, 54, 90, 198, 12, 26, 56, 81, 254, 66, -35, 65, 103, 249, 70, -21, 30, 48, 251, 30, -7, 99, 122, 210, 18, 27, 46, 59, 147, 34, 18, 49, 76, 149, 30, 1, 83, 117, 147, 38, 19, 37, 58, 157, 25, 27, 54, 68] }, { "part": "archer18", "scores": [153, 19, 33, 210, 21, -3, 21, 28, 189, 19, 3, 27, 37, 169, 14, 13, 13, 18, 149, 21, 3, 32, 61, 221, 23, -10, 24, 35, 175, 18, 4, 33, 43, 159, 21, 16, 5, 13, 134, 27, -16, 106, 143, 177, 16, 0, 14, 24, 163, 19, 10, 20, 28, 145, 29, 7, 15, 27, 116, 45, -25, 80, 120, 156, 25, 7, 10, 14, 152, 22, 11, 8, 11, 152, 23, 13, 13, 19, 121, 47, -21, 28, 39] }, { "part": "archer19", "scores": [119, 63, 63, 136, 46, 23, 42, 74, 144, 46, 31, 12, 27, 128, 90, 1, 66, 100, 121, 134, -30, 60, 88, 124, 35, 13, 68, 86, 145, 39, 35, 18, 38, 130, 64, 10, 77, 116, 117, 129, -39, 27, 54, 114, 40, 5, 56, 81, 120, 64, -2, 90, 125, 118, 61, -3, 56, 84, 111, 84, -31, 49, 80, 98, 48, -16, 65, 84, 104, 58, -16, 43, 76, 108, 56, -7, 61, 80, 107, 60, -7, 30, 42] }, { "part": "archer20", "scores": [41, 28, 64, 116, 39, 21, 10, 14, 116, 36, 23, 11, 17, 37, 69, -32, 51, 71, 24, 59, -34, 81, 114, 121, 27, 34, 5, 8, 121, 29, 32, 12, 28, 33, 119, -61, 33, 56, 24, 113, -44, 32, 44, 133, 22, 42, 2, 3, 87, 10, 22, 36, 47, 30, 109, -49, 59, 92, 24, 114, -53, 39, 60, 131, 21, 41, 3, 5, 132, 14, 29, 20, 26, 215, 6, 7, 18, 32, 22, 31, 7, 47, 63] }, { "part": "archer21", "scores": [27, 42, 71, 26, 56, -18, 95, 148, 22, 104, -39, 61, 89, 22, 48, -4, 20, 32, 133, 30, 37, 18, 25, 25, 100, -25, 77, 107, 26, 129, -46, 59, 81, 20, 65, 3, 26, 39, 136, 32, 25, 16, 22, 33, 115, -52, 48, 68, 25, 147, -49, 42, 66, 17, 31, 16, 35, 51, 145, 30, 38, 19, 27, 25, 30, 2, 73, 90, 185, 11, 32, 23, 39, 149, 32, 36, 11, 17, 158, 22, 47, 22, 41] }, { "part": "archer22", "scores": [188, 4, 47, 146, 25, 6, 45, 65, 147, 41, 0, 54, 71, 151, 35, 13, 10, 20, 152, 34, 13, 20, 40, 137, 9, 7, 63, 95, 153, 27, 7, 49, 70, 154, 27, 17, 25, 35, 212, 9, 16, 28, 39, 29, 23, -27, 111, 157, 142, 4, -5, 66, 102, 6, 33, -7, 32, 42, 254, 22, 2, 26, 36, 22, 29, -21, 92, 121, 21, 12, -19, 75, 125, 246, 14, 0, 47, 65, 6, 30, -4, 15, 30] }, { "part": "archer23", "scores": [186, 13, 40, 163, 18, 14, 18, 38, 196, 9, 7, 23, 33, 157, 21, 19, 6, 12, 139, 48, 7, 30, 40, 252, 19, -10, 53, 78, 202, 16, 0, 32, 46, 144, 31, 8, 45, 63, 139, 21, 18, 12, 17, 218, 12, 0, 69, 87, 242, 46, -18, 10, 16, 167, 21, -16, 25, 37, 138, 29, 12, 14, 22, 228, 20, -8, 72, 104, 244, 53, -16, 4, 10, 236, 34, -15, 18, 26, 148, 45, -3, 19, 27] },
-];
-
-
-/***/ }),
-
-/***/ "./skillbertssolver/cluesolver/textclue.ts":
-/*!*************************************************!*\
-  !*** ./skillbertssolver/cluesolver/textclue.ts ***!
-  \*************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   TextclueReader: () => (/* binding */ TextclueReader),
-/* harmony export */   sextant: () => (/* binding */ sextant),
-/* harmony export */   sextantToCoord: () => (/* binding */ sextantToCoord),
-/* harmony export */   solveScanClue: () => (/* binding */ solveScanClue),
-/* harmony export */   solvetextclue: () => (/* binding */ solvetextclue)
-/* harmony export */ });
-/* harmony import */ var _alt1_ocr__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @alt1/ocr */ "../node_modules/@alt1/ocr/dist/index.js");
-/* harmony import */ var _oldlib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./oldlib */ "./skillbertssolver/cluesolver/oldlib.ts");
-/* harmony import */ var _oldlib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../oldlib */ "./skillbertssolver/oldlib.ts");
-/* harmony import */ var data_clues__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! data/clues */ "./data/clues.ts");
-
-
-
-
-var cluefont = __webpack_require__(/*! ./fonts/cluefont.fontmeta.json.js */ "./skillbertssolver/cluesolver/fonts/cluefont.fontmeta.json.js");
-const sextant = {
-    offsetx: 2440,
-    offsetz: 3161,
-    minutespertile: 1.875
-};
-function sextantToCoord(comp) {
-    return {
-        x: sextant.offsetx + Math.round((60 * comp.longdeg + comp.longmin) * (comp.eastwest == "west" ? -1 : 1) / sextant.minutespertile),
-        z: sextant.offsetz + Math.round((60 * comp.latdeg + comp.latmin) * (comp.northsouth == "south" ? -1 : 1) / sextant.minutespertile),
-        mapid: 0,
-        level: 0
-    };
-}
-class TextclueReader {
-    constructor() {
-        this.pos = null;
-        this.cache = { coordsets: [], textclues: [] };
-    }
-    read(img) {
-        if (!this.pos) {
-            throw new Error("clue not found");
-        }
-        if (!img) {
-            img = this.pos.img;
-        }
-        return solvetextclue(this.cache, img, this.pos.rect);
-    }
-}
-function solveScanClue(text) {
-    let str = text.split("\n")[0];
-    let bestscore = 0;
-    let best = null;
-    for (let clue of (0,data_clues__WEBPACK_IMPORTED_MODULE_3__.byType)("scan")) {
-        let score = _oldlib__WEBPACK_IMPORTED_MODULE_1__.strcomparescore(str, clue.scantext);
-        if (score > bestscore) {
-            best = clue;
-            bestscore = score;
-        }
-    }
-    if (bestscore < 0.5 || !best) {
-        return null;
-    }
-    return best;
-}
-function solvetextclue(cache, imgref, pos) {
-    var buf = imgref.toData(pos.x, pos.y, 496, 293);
-    var str = [];
-    var linestart = 0;
-    for (var y = 60; y < 290; y++) {
-        var linescore = 0;
-        for (var x = 220; x < 320; x++) {
-            var i = 4 * x + 4 * buf.width * y;
-            var a = (0,_oldlib__WEBPACK_IMPORTED_MODULE_2__.coldiff)(buf.data[i], buf.data[i + 1], buf.data[i + 2], 84, 72, 56);
-            if (a < 80) {
-                linescore++;
-            }
-        }
-        if (linescore >= 3) {
-            if (linestart == 0) {
-                linestart = y;
-            }
-        }
-        else if (linestart != 0) {
-            a = Math.abs(linestart - y);
-            linestart = 0;
-            if (a >= 6 && a <= 18) {
-                var b = _alt1_ocr__WEBPACK_IMPORTED_MODULE_0__.findReadLine(buf, cluefont, [[84, 72, 56]], 255, y - 4)
-                    || _alt1_ocr__WEBPACK_IMPORTED_MODULE_0__.findReadLine(buf, cluefont, [[84, 72, 56]], 265, y - 4);
-                if (b) {
-                    str.push(b.text);
-                }
-            }
-        }
-    }
-    var cluetext = str.join(" ");
-    console.log(cluetext);
-    var res = null;
-    if (str.length != 0) {
-        res = checkcluetext(cache, cluetext);
-        if (res) {
-            return res;
-        }
-    }
-    res = matchimgclue(cache, buf);
-    if (res) {
-        return res;
-    }
-    throw new Error("no clue matched");
-}
-function matchimgclue(cache, buf) {
-    var _a, _b;
-    var tiledata = _oldlib__WEBPACK_IMPORTED_MODULE_1__.tiledata(buf, 20, 20, 90, 25, 300, 240);
-    var best = null;
-    var bestscore = Infinity;
-    for (var a in cache.textclues) {
-        let clue = cache.textclues[a];
-        if (clue.type != "img" && clue.type != "emptyimg") {
-            continue;
-        }
-        var score = _oldlib__WEBPACK_IMPORTED_MODULE_1__.comparetiledata(tiledata, cache.textclues[a].clue);
-        console.log("score: " + _oldlib__WEBPACK_IMPORTED_MODULE_1__.spacednr(score));
-        if (score < bestscore) {
-            bestscore = score;
-            best = cache.textclues[a];
-        }
-    }
-    if (best) {
-        //TODO remove indexof
-        console.log("img matched " + best.clueid + ", score: " + _oldlib__WEBPACK_IMPORTED_MODULE_1__.spacednr(bestscore));
-        return { inner: best, cluetext: "Image clue", answer: best.answer, points: [{ x: best.x, z: best.z, level: (_a = best.level) !== null && _a !== void 0 ? _a : 0, mapid: (_b = best.mapid) !== null && _b !== void 0 ? _b : 0 }], mapid: best.mapid || 0 };
-    }
-    return null;
-    //if (tiledata) { dlpage("/node/clue/logclue?cluetext=" + encodeURIComponent(jsonEncode(tiledata)) + "&score=" + bestscore); }
-}
-function checkcluetext(cache, str) {
-    var _a;
-    var coordmatch = str.match(/^(\d{1,2}) degrees (\d{1,2}) minutes (north|south)\s+(\d{1,2}) degrees (\d{1,2}) minutes (east|west)$/mi);
-    if (!coordmatch) {
-        coordmatch = str.match(/^(\d{1,2}) ?graus? (\d{1,2}) minutos? (norte|sul)\s+(\d{1,2}) graus? (\d{1,2}) minutos? (leste|oeste)$/mi);
-    }
-    if (!coordmatch) {
-        coordmatch = str.match(/^(\d{1,2}) Grad (\d{1,2}) Minuten (Nord|Sud)\s+(\d{1,2}) Grad (\d{1,2}) Minuten (Ost|Westen)$/mi);
-    }
-    if (coordmatch) {
-        var comp = {
-            northsouth: (["north", "norte", "Nord"].indexOf(coordmatch[3]) != -1 ? "north" : "south"),
-            latdeg: +coordmatch[1],
-            latmin: +coordmatch[2],
-            eastwest: (["west", "oeste", "Westen"].indexOf(coordmatch[6]) != -1 ? "west" : "east"),
-            longdeg: +coordmatch[4],
-            longmin: +coordmatch[5]
-        };
-        let pos = sextantToCoord(comp);
-        let text = `${comp.latmin}.${comp.latdeg} ${comp.northsouth == "north" ? "North" : "South"} ${comp.longmin}.${comp.longdeg} ${comp.eastwest == "west" ? "West" : "East"}`;
-        return {
-            cluetext: text,
-            answer: "",
-            mapid: 0,
-            points: [pos],
-            inner: { clueid: -1, type: "coordinate", answer: text, clue: str, coord: comp, x: 0, z: 0 }
-        };
-    }
-    else {
-        var bestscore = 0;
-        var best = null;
-        for (var a in cache.textclues) {
-            if (cache.textclues[a].type == "img" || cache.textclues[a].type == "emptyimg") {
-                continue;
-            }
-            var score = _oldlib__WEBPACK_IMPORTED_MODULE_1__.strcomparescore(str, cache.textclues[a].clue);
-            if (score > bestscore) {
-                best = cache.textclues[a];
-                bestscore = score;
-            }
-        }
-        //need to know which ones we're missing
-        //if (str) { dlpage("/node/clue/logclue?cluetext=" + encodeURIComponent(str) + "&score=" + bestscore); }
-        if (bestscore < 0.5 || !best) {
-            return null;
-        }
-        console.log("Text clue match score: " + bestscore);
-        console.log("Text clue match: " + best.clue);
-        if (best.type == "scan") {
-            var b = best;
-            return {
-                cluetext: best.clue,
-                answer: "Scan clue",
-                mapid: (_a = best.mapid) !== null && _a !== void 0 ? _a : 0,
-                points: cache.coordsets.filter(c => c.clueid == b.scan).map(c => { var _a; return ({ x: c.x, z: c.z, mapid: (_a = best.mapid) !== null && _a !== void 0 ? _a : 0, level: c.level }); }),
-                inner: best
-            };
-        }
-        else {
-            let alternatives = {
-                clueid: best.clueid,
-                opts: []
-            };
-            let allanswers = cache.textclues.filter(q => q.clueid == best.clueid);
-            let allsolutions = allanswers.map(ans => {
-                var _a, _b, _c;
-                var answer = "";
-                if (ans.type == "emote") {
-                    if (ans.answer) {
-                        answer = ans.answer;
-                    }
-                }
-                else {
-                    answer = (ans.answer ? "<b>Answer:</b> " + ans.answer : "");
-                }
-                let r = {
-                    cluetext: ans.clue,
-                    answer: answer,
-                    mapid: (_a = ans.mapid) !== null && _a !== void 0 ? _a : 0,
-                    points: [{ x: ans.x, z: ans.z, level: (_b = ans.level) !== null && _b !== void 0 ? _b : 0, mapid: (_c = ans.mapid) !== null && _c !== void 0 ? _c : 0 }],
-                    inner: ans,
-                    alternatives
-                };
-                let subid = ans.subid;
-                if (subid) {
-                    alternatives.opts.push(r);
-                }
-                return r;
-            });
-            return allsolutions[0];
-        }
-    }
-}
-
-
-/***/ }),
-
-/***/ "./skillbertssolver/cluesolver/towersreader.ts":
-/*!*****************************************************!*\
-  !*** ./skillbertssolver/cluesolver/towersreader.ts ***!
-  \*****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   TowersReader: () => (/* binding */ TowersReader)
-/* harmony export */ });
-/* harmony import */ var _alt1_base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js");
-/* harmony import */ var _alt1_ocr__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @alt1/ocr */ "../node_modules/@alt1/ocr/dist/index.js");
-
-
-let font = __webpack_require__(/*! @alt1/ocr/fonts/aa_10px_mono.js */ "../node_modules/@alt1/ocr/fonts/aa_10px_mono.js");
-let fontclone = { ...font, chars: font.chars.filter(c => !isNaN(+c.chr)) };
-class TowersReader {
-    constructor() {
-        this.pos = null;
-    }
-    innerRect() {
-        return this.pos ? new _alt1_base__WEBPACK_IMPORTED_MODULE_0__.Rect(this.pos.rect.x + 15, this.pos.rect.y + 12, 270, 270) : null;
-    }
-    read(img) {
-        if (!this.pos) {
-            throw new Error("pos not found");
-        }
-        if (!img) {
-            img = this.pos.img;
-        }
-        let innerpos = this.innerRect();
-        var buf = img.toData(innerpos.x, innerpos.y, innerpos.width, innerpos.height);
-        var state = { left: [], right: [], top: [], bot: [], filled: [] };
-        var readn = function (x, y, col, req) {
-            let str = null;
-            for (let wiggle = -2; wiggle < 2; wiggle++) {
-                str = str || _alt1_ocr__WEBPACK_IMPORTED_MODULE_1__.readChar(buf, fontclone, col, x + wiggle, y, false, true);
-            }
-            if (!str) {
-                if (req) {
-                    throw new Error("charfail");
-                }
-                else {
-                    return 0;
-                }
-            }
-            return +str.chr;
-        };
-        let col = [255, 205, 10];
-        //top
-        for (var i = 0; i < 5; i++) {
-            state.top.push(readn(43 + 44 * i, 13, col, true));
-        }
-        //bot
-        for (var i = 0; i < 5; i++) {
-            state.bot.push(readn(43 + 44 * i, 263, col, true));
-        }
-        //left
-        for (var i = 0; i < 5; i++) {
-            state.left.push(readn(6, 50 + 44 * i, col, true));
-        }
-        //right
-        for (var i = 0; i < 5; i++) {
-            state.right.push(readn(256, 50 + 44 * i, col, true));
-        }
-        for (var y = 0; y < 5; y++) {
-            for (var x = 0; x < 5; x++) {
-                // OCR.readChar(buf, font, [255, 255, 255], 43 + 44 * x, 50 + 44 * y, false, true);
-                var str = readn(43 + 44 * x, 50 + 44 * y, [255, 255, 255], false);
-                state.filled[x + y * 5] = (str ? +str : -1);
-            }
-        }
-        console.log(state);
-        return state;
-    }
-}
-
-
-/***/ }),
-
-/***/ "./skillbertssolver/eventemitter.ts":
-/*!******************************************!*\
-  !*** ./skillbertssolver/eventemitter.ts ***!
-  \******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   TypedEmitter: () => (/* binding */ TypedEmitter)
-/* harmony export */ });
-class TypedEmitter {
-    constructor() {
-        this.listeners = {};
-    }
-    on(event, listener) {
-        var _a;
-        let listeners = (_a = this.listeners[event]) !== null && _a !== void 0 ? _a : (this.listeners[event] = new Set());
-        listeners.add(listener);
-        return this;
-    }
-    once(event, listener) {
-        var _a;
-        let listeners = (_a = this.listeners[event]) !== null && _a !== void 0 ? _a : (this.listeners[event] = new Set());
-        let oncer = (v) => {
-            listeners.delete(oncer);
-            listener(v);
-        };
-        listeners.add(oncer);
-    }
-    // promise<K extends keyof T>(event: K, abort: AbortSignal) {
-    // 	return new Promise((done, err) => {
-    // 		abort.throwIfAborted();
-    // 		let listeners = this.listeners[event] ?? (this.listeners[event] = new Set());
-    // 		let aborted = (reason: unknown) => {
-    // 			listeners.delete(cb);
-    // 			abort.removeEventListener("abort", aborted);
-    // 			err(reason);
-    // 		};
-    // 		let cb = (data: T[K]) => {
-    // 			listeners.delete(cb);
-    // 			abort.removeEventListener("abort", aborted)
-    // 			done(data);
-    // 		}
-    // 		listeners.add(done);
-    // 		abort.addEventListener("abort", aborted);
-    // 	});
-    // }
-    off(event, listener) {
-        var _a;
-        let listeners = (_a = this.listeners[event]) !== null && _a !== void 0 ? _a : (this.listeners[event] = new Set());
-        listeners.delete(listener);
-    }
-    async emitAsync(event, value) {
-        var _a;
-        let listeners = (_a = this.listeners[event]) !== null && _a !== void 0 ? _a : (this.listeners[event] = new Set());
-        for (let cb of Array.from(listeners)) {
-            await cb(value);
-        }
-    }
-    async emit(event, value) {
-        var _a;
-        let listeners = (_a = this.listeners[event]) !== null && _a !== void 0 ? _a : (this.listeners[event] = new Set());
-        listeners.forEach(cb => cb(value));
-    }
-}
-
-
-/***/ }),
-
-/***/ "./skillbertssolver/oldlib.ts":
-/*!************************************!*\
-  !*** ./skillbertssolver/oldlib.ts ***!
-  \************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   OldDom: () => (/* binding */ OldDom),
-/* harmony export */   addzeros: () => (/* binding */ addzeros),
-/* harmony export */   checkaccess: () => (/* binding */ checkaccess),
-/* harmony export */   coldiff: () => (/* binding */ coldiff),
-/* harmony export */   coltohex: () => (/* binding */ coltohex),
-/* harmony export */   compatAtob: () => (/* binding */ compatAtob),
-/* harmony export */   compatBtoa: () => (/* binding */ compatBtoa),
-/* harmony export */   copyToClipboard: () => (/* binding */ copyToClipboard),
-/* harmony export */   delay: () => (/* binding */ delay),
-/* harmony export */   dlpageJsonAsync: () => (/* binding */ dlpageJsonAsync),
-/* harmony export */   dlpagejson: () => (/* binding */ dlpagejson),
-/* harmony export */   dlpagepost: () => (/* binding */ dlpagepost),
-/* harmony export */   filedownload: () => (/* binding */ filedownload),
-/* harmony export */   findParentMatch: () => (/* binding */ findParentMatch),
-/* harmony export */   initArray: () => (/* binding */ initArray),
-/* harmony export */   jsonTryDecode: () => (/* binding */ jsonTryDecode),
-/* harmony export */   listdate: () => (/* binding */ listdate),
-/* harmony export */   lowname: () => (/* binding */ lowname),
-/* harmony export */   modalDropdown: () => (/* binding */ modalDropdown),
-/* harmony export */   newDragHandler: () => (/* binding */ newDragHandler),
-/* harmony export */   nicetime: () => (/* binding */ nicetime),
-/* harmony export */   padLeft: () => (/* binding */ padLeft),
-/* harmony export */   pagepopup: () => (/* binding */ pagepopup),
-/* harmony export */   rgbToInt: () => (/* binding */ rgbToInt),
-/* harmony export */   roundx: () => (/* binding */ roundx),
-/* harmony export */   shoutboxtime: () => (/* binding */ shoutboxtime),
-/* harmony export */   showModalDropdown: () => (/* binding */ showModalDropdown),
-/* harmony export */   smallu: () => (/* binding */ smallu),
-/* harmony export */   spacednr: () => (/* binding */ spacednr),
-/* harmony export */   startCaps: () => (/* binding */ startCaps),
-/* harmony export */   stringdownload: () => (/* binding */ stringdownload),
-/* harmony export */   timegap: () => (/* binding */ timegap),
-/* harmony export */   urlArgs: () => (/* binding */ urlArgs),
-/* harmony export */   uuid: () => (/* binding */ uuid)
-/* harmony export */ });
-/* provided dependency */ var Buffer = __webpack_require__(/*! buffer */ "../node_modules/buffer/index.js")["Buffer"];
-function copyToClipboard(str) {
-    var el = document.createElement('textarea');
-    el.value = str;
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand('copy');
-    document.body.removeChild(el);
-}
-function newDragHandler(startevent, movefunc, mindist = 0) {
-    var locked = mindist != 0;
-    var mouseloc;
-    //type juggling because firefox doesnt know what touchevent is
-    if (window.TouchEvent && startevent instanceof TouchEvent) {
-        startevent = startevent.touches[0];
-    }
-    var mousedownevent = startevent;
-    var clientdx = mousedownevent.clientX - mousedownevent.screenX;
-    var clientdy = mousedownevent.clientY - mousedownevent.screenY;
-    //TODO screenX approach breaks when zoomed or clientx is required
-    var x = mousedownevent.screenX + clientdx;
-    var y = mousedownevent.screenY + clientdy;
-    var init = function () { mouseloc = { x: x, y: y, dx: 0, dy: 0, sx: x, sy: y, end: false, start: true }; };
-    init();
-    var moved = function (e, end) {
-        var x = e.screenX + clientdx;
-        var y = e.screenY + clientdy;
-        var dx = x - mouseloc.x;
-        var dy = y - mouseloc.y;
-        if (locked && Math.abs(dx) + Math.abs(dy) >= mindist) {
-            locked = false;
-        }
-        if (!locked) {
-            mouseloc.end = end;
-            mouseloc.dx = dx;
-            mouseloc.dy = dy;
-            mouseloc.x = x;
-            mouseloc.y = y;
-            movefunc && movefunc(mouseloc, end);
-            mouseloc.start = false;
-        }
-    };
-    var mousemove = function (e) {
-        if (e.touches) {
-            e = e.touches[0];
-        }
-        moved(e, false);
-    };
-    var mouseup = function (e) {
-        if (e.touches) {
-            e = e.touches[0];
-        }
-        if (e) {
-            moved(e, true);
-        }
-        for (var a in allframes) {
-            var frame = allframes[a];
-            frame.removeEventListener("mousemove", mousemove);
-            frame.removeEventListener("mouseup", mouseup);
-            frame.removeEventListener("touchmove", mousemove);
-            frame.removeEventListener("touchend", mouseup);
-        }
-    };
-    //damn this is a mess, skillbertssolver frames consume the event so add handlers to every frame
-    //currently still break when hovering over frame which arent parents of the current one
-    //EDIT: THIS IS MADNESS
-    var allframes = [];
-    var recurframe = function (frame) {
-        if (allframes.indexOf(frame) != -1) {
-            return;
-        }
-        try {
-            var qq = frame.document;
-        }
-        catch (e) {
-            return;
-        }
-        allframes.push(frame);
-        for (var a = 0; a < frame.frames.length; a++) {
-            recurframe(frame.frames[a]);
-        }
-    };
-    recurframe(top);
-    recurframe(window);
-    for (var a in allframes) {
-        var frame = allframes[a];
-        frame.addEventListener("mousemove", mousemove, { passive: true });
-        frame.addEventListener("mouseup", mouseup);
-        frame.addEventListener("touchmove", mousemove, { passive: true });
-        frame.addEventListener("touchend", mouseup);
-    }
-}
-function startCaps(s) {
-    return s.charAt(0).toUpperCase() + s.slice(1);
-}
-async function delay(t, ...args) {
-    return new Promise(done => setTimeout(done, t, ...args));
-}
-function uuid() {
-    //https://gist.github.com/jcxplorer/823878
-    var uuid = "", i, random;
-    for (i = 0; i < 32; i++) {
-        random = Math.random() * 16 | 0;
-        if (i == 8 || i == 12 || i == 16 || i == 20) {
-            uuid += "-";
-        }
-        uuid += (i == 12 ? 4 : (i == 16 ? (random & 3 | 8) : random)).toString(16);
-    }
-    return uuid;
-}
-//because js still has no proper way for this (ie11)
-function initArray(l, val) {
-    var r = [];
-    r.length = l;
-    for (var a = 0; a < l; a += 1) {
-        r[a] = val;
-    }
-    return r;
-}
-function stringdownload(filename, text) {
-    filedownload(filename, 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-}
-function filedownload(filename, url) {
-    var element = document.createElement('a');
-    element.setAttribute('href', url);
-    element.setAttribute('download', filename);
-    element.style.display = 'none';
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-}
-function listdate(time) {
-    var fullmonthnames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    var d = new Date(time);
-    return d.getDate() + " " + fullmonthnames[d.getMonth()] + " " + d.getFullYear();
-}
-function nicetime(time) {
-    if (time < 0) {
-        return "--:--";
-    }
-    return (time >= 1000 * 60 * 60 ? Math.floor(time / 1000 / 60 / 60) + ":" : "") + addzeros(Math.floor(time / 1000 / 60) % 60, 2) + ":" + addzeros(Math.floor(time / 1000) % 60, 2);
-}
-function dlpagepost(url, data, func, errorfunc) {
-    var req = new XMLHttpRequest();
-    if (func) {
-        req.onload = function () { func(req.responseText); };
-    }
-    if (errorfunc) {
-        req.onerror = errorfunc;
-    }
-    var post = "";
-    var b = "";
-    for (let a in data) {
-        var valstr;
-        if (typeof data[a] == "object") {
-            valstr = JSON.stringify(data[a]);
-        }
-        else {
-            valstr = data[a] + "";
-        }
-        post += b + encodeURIComponent(a) + "=" + encodeURIComponent(valstr);
-        b = "&";
-    }
-    req.open("POST", url, true);
-    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    req.send(post);
-}
-function dlpageJsonAsync(url, obj) {
-    return new Promise((done, fail) => dlpagejson(url, obj, done, fail));
-}
-function dlpagejson(url, obj, func, errorfunc) {
-    var req = new XMLHttpRequest();
-    req.onload = function () {
-        var obj = null;
-        try {
-            obj = JSON.parse(req.responseText);
-        }
-        catch (e) { }
-        if (obj == null) {
-            if (errorfunc) {
-                errorfunc();
-            }
-            return;
-        }
-        if (func) {
-            func(obj);
-        }
-    };
-    if (errorfunc) {
-        req.onerror = errorfunc;
-    }
-    if (obj) {
-        req.open("POST", url, true);
-        req.setRequestHeader("Content-type", "application/json");
-        req.send(JSON.stringify(obj));
-    }
-    else {
-        req.open("GET", url, true);
-        req.send();
-    }
-}
-function addzeros(str, l, ch = "0", after = false) {
-    str = str + "";
-    if (str.length == l) {
-        return str;
-    }
-    if (str.length > l && !after) {
-        return str.slice(-l);
-    }
-    if (str.length > l && after) {
-        return str.slice(0, l);
-    }
-    if (str.length < l) {
-        while (str.length < l) {
-            str = (after ? str : "") + ch + (after ? "" : str);
-        }
-        return str;
-    }
-}
-function rgbToInt(r, g, b) {
-    return (r << 16) + (g << 8) + b;
-}
-function spacednr(nr) {
-    var a, b, r, neg;
-    nr = Math.floor(nr);
-    if (nr < 0) {
-        neg = true;
-        nr = -nr;
-    }
-    else {
-        neg = false;
-    }
-    var str = "" + nr;
-    r = "";
-    b = str.length - 1;
-    for (a = 0; str[b - a]; a += 1) {
-        if (a % 3 == 0 && a != 0) {
-            r = "," + r;
-        }
-        r = str.slice(b - a, b - a + 1) + r;
-    }
-    return (neg ? "-" : "") + r;
-}
-function pagepopup(pagename, w, h) {
-    return window.open(location.origin + "/apps/alt1/help/" + pagename, undefined, "width=" + w + ",height=" + h);
-}
-function coltohex(col, g, b) {
-    if (g != undefined && b != undefined) {
-        col = rgbToInt(col, g, b);
-    } //allow rgb input
-    return "#" + addzeros((col & 0xffffff).toString(16), 6);
-}
-function modalDropdown(func, names, values, selected) {
-    //remove old fake select
-    if (OldDom.id("selectoverlay")) {
-        OldDom.id("selectoverlay").removeme();
-    }
-    let el = document.createElement("div");
-    el.id = "selectoverlay";
-    el.removeme = function () { el.parentNode.removeChild(el); };
-    el.select = function (elcl) {
-        var val = elcl.getAttribute("data-value");
-        el.removeme();
-        func && func(val);
-    };
-    let container = document.createElement("div");
-    container.className = "selectoverlayinner";
-    for (let a = 0; a < names.length; a++) {
-        let opt = document.createElement("div");
-        opt.classList.add("selectoverlayoption");
-        if (values[a] == selected) {
-            opt.classList.add("isselected");
-        }
-        opt.setAttribute("data-value", values[a]);
-        opt.onclick = () => el.select(opt);
-        opt.innerText = names[a];
-        container.appendChild(opt);
-    }
-    el.appendChild(container);
-    return el;
-}
-function showModalDropdown(func, names, values, selected) {
-    var el = modalDropdown(func, names, values, selected);
-    document.body.appendChild(el);
-    return el;
-}
-var OldDom;
-(function (OldDom) {
-    function toggleclass(el, classname, state) {
-        if (typeof el == "string") {
-            el = id(el);
-        }
-        if (state == undefined) {
-            state = !el.classList.contains(classname);
-        }
-        if (state) {
-            el.classList.add(classname);
-        }
-        else {
-            el.classList.remove(classname);
-        }
-        return state;
-    }
-    OldDom.toggleclass = toggleclass;
-    function id(id, sub) {
-        if (sub) {
-            return id.ownerDocument.getElementById(sub);
-        }
-        else {
-            return document.getElementById(id);
-        }
-    }
-    OldDom.id = id;
-    function cl(cl) {
-        return document.getElementsByClassName(cl);
-    }
-    OldDom.cl = cl;
-    function clear(el) {
-        if (typeof el == "string") {
-            el = document.getElementById(el);
-        }
-        while (el.firstChild) {
-            el.removeChild(el.firstChild);
-        }
-    }
-    OldDom.clear = clear;
-    function select(obj, selected) {
-        var frag = document.createDocumentFragment();
-        var add = function (value, name) { frag.appendChild(div({ tag: "option", value: value, selected: selected == value ? "" : null }, [name])); };
-        if (Array.isArray(obj)) {
-            for (var a = 0; a < obj.length; a++) {
-                add(a, obj[a]);
-            }
-        }
-        else {
-            for (let a in obj) {
-                add(a, obj[a]);
-            }
-        }
-        return frag;
-    }
-    OldDom.select = select;
-    ;
-    //export function div<TAG extends string>(...args: ARG<TAG>): AlphaString<TAG> extends never ? HTMLDivElement : AlphaString<TAG> extends keyof Eltypes ? Eltypes[AlphaString<TAG>] : Element {
-    function div(...args) {
-        var classname = "";
-        var attr;
-        var children = null;
-        var tag = "";
-        var tagarg = "";
-        var childfrag = null;
-        var el;
-        //reorder arguments
-        var argi = 0;
-        if (typeof arguments[argi] == "string") {
-            var typedata = arguments[argi++].split(":");
-            classname = typedata[0];
-            var tagdata = typedata[1] ? typedata[1].split("/") : [];
-            tag = tagdata[0];
-            tagarg = tagdata[1];
-        }
-        attr = {};
-        if (typeof arguments[argi] == "object" && !Array.isArray(arguments[argi]) && !(arguments[argi] instanceof DocumentFragment)) {
-            attr = arguments[argi++];
-        }
-        if (typeof arguments[argi] == "object" && Array.isArray(arguments[argi])) {
-            children = arguments[argi++];
-        }
-        else if (typeof arguments[argi] == "object" && arguments[argi] instanceof DocumentFragment) {
-            childfrag = arguments[argi++];
-        }
-        if (classname) {
-            attr["class"] = classname;
-        }
-        //start actual work
-        tag = attr && attr.tag || tag || "div";
-        if (tag == "input" && tagarg) {
-            attr.type = tagarg;
-        }
-        if (tag == "frag") {
-            el = document.createDocumentFragment();
-        }
-        else {
-            el = (attr && attr.namespace ? document.createElementNS(attr.namespace, tag) : document.createElement(tag));
-        }
-        if (attr) {
-            for (var a in attr) {
-                if (attr[a] === false || attr[a] == null || a == "tag" || a == "namespace") {
-                    continue;
-                }
-                if (a.substr(0, 2) == "on") {
-                    el[a] = attr[a];
-                }
-                else if (el instanceof Element) {
-                    el.setAttribute(a, attr[a] || "");
-                }
-            }
-        }
-        if (children != null && children != undefined) {
-            if (!Array.isArray(children)) {
-                children = [children];
-            }
-            for (var a in children) {
-                if (children[a] == null) {
-                    continue;
-                }
-                if (typeof children[a] != "object") {
-                    el.appendChild(document.createTextNode(children[a].toString()));
-                }
-                else {
-                    el.appendChild(children[a]);
-                }
-            }
-        }
-        else if (childfrag != null) {
-            el.appendChild(childfrag);
-        }
-        return el;
-    }
-    OldDom.div = div;
-    function frag(...args) {
-        var el = document.createDocumentFragment();
-        for (var a = 0; a < arguments.length; a++) {
-            if (arguments[a] == null) {
-                continue;
-            }
-            if (typeof arguments[a] != "object") {
-                el.appendChild(document.createTextNode(arguments[a].toString()));
-            }
-            else {
-                el.appendChild(arguments[a]);
-            }
-        }
-        return el;
-    }
-    OldDom.frag = frag;
-    function put(el, content) {
-        if (typeof el == "string") {
-            var selected = id(el);
-            if (!selected) {
-                return;
-            }
-            el = selected;
-        }
-        clear(el);
-        el.appendChild(content);
-    }
-    OldDom.put = put;
-    function elmap(...keys) {
-        var r = {};
-        for (let k of keys) {
-            r[k] = null;
-        }
-        return r;
-    }
-    OldDom.elmap = elmap;
-})(OldDom || (OldDom = {}));
-function roundx(a, b) {
-    return Math.round(a / b) * b;
-}
-function smallu(nr, gp) {
-    if (isNaN(nr)) {
-        return "-";
-    }
-    nr = Math.round(nr);
-    var sign = (nr < 0 ? "-" : "");
-    nr = Math.abs(nr);
-    if (nr >= 1000000000000000) {
-        return sign + "quite a bit";
-    }
-    if (nr % 1) {
-        if (nr < 100) {
-            return sign + (nr + "00").slice(0, 4);
-        }
-        nr = Math.floor(nr);
-    }
-    var nrstr = nr + "";
-    var original = nrstr;
-    if (nrstr.length <= 3) {
-        return sign + nrstr + (gp ? "gp" : "");
-    }
-    if (nrstr.length == 4) {
-        return sign + nrstr.slice(0, 1) + "," + nrstr.slice(1, 4) + (gp ? "gp" : "");
-    }
-    if (nrstr.length % 3 != 0) {
-        nrstr = nrstr.slice(0, nrstr.length % 3) + "." + nrstr.slice(nrstr.length % 3, 3);
-    }
-    else {
-        nrstr = nrstr.slice(0, 3);
-    }
-    if (original.length <= 6) {
-        return sign + nrstr + "k";
-    }
-    if (original.length <= 9) {
-        return sign + nrstr + "m";
-    }
-    if (original.length <= 12) {
-        return sign + nrstr + "b";
-    }
-    if (original.length <= 15) {
-        return sign + nrstr + "t";
-    }
-    return "error";
-}
-function jsonTryDecode(str) {
-    try {
-        return JSON.parse(str);
-    }
-    catch (e) {
-        return null;
-    }
-}
-function urlArgs(url) {
-    if (!url) {
-        url = document.location.search;
-    }
-    var reg = /(\?|&)(.*?)(=(.*?))?(?=$|&)/g;
-    var r = {};
-    for (var m; m = reg.exec(url);) {
-        r[m[2]] = m[4];
-    }
-    return r;
-}
-function padLeft(str, n, char = "0") {
-    str = str + "";
-    while (str.length < n) {
-        str = char + str;
-    }
-    return str;
-}
-//because nodejs doesnt have these...
-function compatAtob(str) {
-    if (typeof atob != "undefined") {
-        return atob(str);
-    }
-    else {
-        return Buffer.from(str, "base64").toString("binary");
-    }
-}
-//because nodejs doesnt have these...
-function compatBtoa(str) {
-    if (typeof btoa != "undefined") {
-        return btoa(str);
-    }
-    else {
-        return Buffer.from(str, "binary").toString("base64");
-    }
-}
-//compare color
-function coldiff(r1, g1, b1, r2, g2, b2) {
-    var r3 = Math.abs(r1 - r2);
-    var g3 = Math.abs(g1 - g2);
-    var b3 = Math.abs(b1 - b2);
-    return r3 + g3 + b3;
-}
-function lowname(name, validate, keeplook) {
-    name = name.replace(/\+/g, " ");
-    name = name.replace(/\%20/g, " ");
-    name = name.replace(/[^\w \-]/g, "");
-    if (!keeplook) {
-        name = name.replace(/[ +_\-]/g, "_").toLowerCase();
-    }
-    if (validate) {
-        name = name.replace(/^[ _\-]+/, ""); //cut down whitespace at start
-        name = name.replace(/[ _\-]+$/, ""); //cut down whitespace at end
-        name = name.replace(/[ _\-]{2,}/, function (a) { return "__________".slice(0, a.length); }); //replace more than one whitespace with _'s
-        if (name.length > 12 || name == "") {
-            return "";
-        }
-    }
-    return name;
-}
-var monthnames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-function shoutboxtime(time, mode = "full") {
-    var d = new Date(time);
-    var now = new Date();
-    var yday = new Date();
-    yday.setDate(yday.getDate() - 1);
-    var r = "";
-    if (mode != "date" && +now - +d < 1000 * 60 * 60) {
-        r = timegap(+now - +d) + " ago";
-    }
-    else {
-        //check if it was today or yday in local time
-        var todayyday = false;
-        if (d.getDate() == now.getDate() && d.getMonth() == now.getMonth() && d.getFullYear() == now.getFullYear()) {
-            r = "Today";
-            todayyday = true;
-        }
-        else if (d.getDate() == yday.getDate() && d.getMonth() == yday.getMonth() && d.getFullYear() == yday.getFullYear()) {
-            r = "Yesterday";
-            todayyday = true;
-        }
-        else {
-            r = d.getDate() + " " + monthnames[d.getMonth()];
-        }
-        //more precise, add year, time or neither
-        if (+d < +now - 1000 * 60 * 60 * 24 * 90) {
-            r += " " + d.getFullYear();
-        }
-        else if (mode != "date" && (mode != "short")) {
-            r += ", " + addzeros(d.getHours() + "", 2) + ":" + addzeros(d.getMinutes() + "", 2);
-        }
-    }
-    return r;
-}
-function timegap(milsec) {
-    var sec = Math.abs(milsec / 1000);
-    if (sec < 2) {
-        return "one second";
-    }
-    if (sec < 60) {
-        return Math.floor(sec) + " seconds";
-    }
-    if (sec < 2 * 60) {
-        return "one minute";
-    }
-    if (sec < 60 * 60) {
-        return Math.floor(sec / 60) + " minutes";
-    }
-    if (sec < 2 * 60 * 60) {
-        return "one hour";
-    }
-    if (sec < 24 * 60 * 60) {
-        return Math.floor(sec / 60 / 60) + " hours";
-    }
-    if (sec < 2 * 24 * 60 * 60) {
-        return "one day";
-    }
-    if (sec < 31 * 24 * 60 * 60) {
-        return Math.floor(sec / 24 / 60 / 60) + " days";
-    }
-    if (sec < 2 * 31 * 24 * 60 * 60) {
-        return "one month";
-    }
-    if (sec < 365 * 24 * 60 * 60) {
-        return Math.floor(sec / 31 / 24 / 60 / 60) + " months";
-    }
-    if (sec < 2 * 365 * 24 * 60 * 60) {
-        return "one year";
-    }
-    return Math.floor(sec / 365 / 24 / 60 / 60) + " years";
-}
-function findParentMatch(el, cssrule) {
-    while (el) {
-        if (el.matches(cssrule)) {
-            return el;
-        }
-        el = el.parentElement;
-    }
-    return null;
-}
-function checkaccess(frame) {
-    var e;
-    try {
-        //@ts-ignore
-        e = frame.contentWindow || frame.window;
-        //allow frame to deny acces
-        if (e.denyaccess) {
-            return false;
-        }
-        e.document;
-        return e;
-    }
-    catch (e) {
-        return false;
-    }
-}
-
-
-/***/ }),
-
-/***/ "./skillbertssolver/reader.ts":
-/*!************************************!*\
-  !*** ./skillbertssolver/reader.ts ***!
-  \************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   ClueReader: () => (/* binding */ ClueReader)
-/* harmony export */ });
-/* harmony import */ var _cluesolver_cluereader__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./cluesolver/cluereader */ "./skillbertssolver/cluesolver/cluereader.ts");
-
-class ClueReader {
-    constructor() {
-        this.reader = new _cluesolver_cluereader__WEBPACK_IMPORTED_MODULE_0__["default"]();
-    }
-    async find(img) {
-        let match = await this.reader.find();
-        if (!match)
-            return null;
-        if (match.intf.type == "scan") {
-            return this.reader.scantextreader.read(img);
-        }
-        return null;
-    }
-}
-
-
-/***/ }),
-
-/***/ "./skillbertssolver/util.ts":
-/*!**********************************!*\
-  !*** ./skillbertssolver/util.ts ***!
-  \**********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   arrayEnum: () => (/* binding */ arrayEnum),
-/* harmony export */   constrainedMap: () => (/* binding */ constrainedMap),
-/* harmony export */   mapObject: () => (/* binding */ mapObject),
-/* harmony export */   posmod: () => (/* binding */ posmod)
-/* harmony export */ });
-/**
- * Used to provide literal typing of map keys while also constraining each value
- */
-function constrainedMap() {
-    return function (v) {
-        return v;
-    };
-}
-/**
- * used to get an array with enum typing
- */
-function arrayEnum(v) {
-    return v;
-}
-function posmod(x, mod) {
-    return ((x % mod) + mod) % mod;
-}
-function mapObject(obj, cb) {
-    let r = {};
-    for (let k in obj) {
-        r[k] = cb(obj[k]);
-    }
-    return r;
-}
-
-
-/***/ }),
-
 /***/ "./trainer/application.ts":
 /*!********************************!*\
   !*** ./trainer/application.ts ***!
@@ -77284,25 +70963,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   initialize: () => (/* binding */ initialize)
 /* harmony export */ });
 /* harmony import */ var lib_util_storage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lib/util/storage */ "./lib/util/storage.ts");
-/* harmony import */ var trainer_ui_MenuBarControl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! trainer/ui/MenuBarControl */ "./trainer/ui/MenuBarControl.ts");
-/* harmony import */ var trainer_ui_widgets_modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! trainer/ui/widgets/modal */ "./trainer/ui/widgets/modal.ts");
-/* harmony import */ var lib_util_TemplateResolver__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lib/util/TemplateResolver */ "./lib/util/TemplateResolver.ts");
-/* harmony import */ var lib_gamemap_GameMap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! lib/gamemap/GameMap */ "./lib/gamemap/GameMap.ts");
-/* harmony import */ var trainer_query_functions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! trainer/query_functions */ "./trainer/query_functions.ts");
-/* harmony import */ var lib_util_exportString__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! lib/util/exportString */ "./lib/util/exportString.ts");
-/* harmony import */ var _ui_path_graphics__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./ui/path_graphics */ "./trainer/ui/path_graphics.ts");
-/* harmony import */ var lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! lib/ui/Behaviour */ "./lib/ui/Behaviour.ts");
-/* harmony import */ var _ui_MenuBar__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./ui/MenuBar */ "./trainer/ui/MenuBar.ts");
-/* harmony import */ var _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../lib/ui/Widget */ "./lib/ui/Widget.ts");
-/* harmony import */ var _main__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./main */ "./trainer/main.ts");
-/* harmony import */ var _model_MethodPackManager__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./model/MethodPackManager */ "./trainer/model/MethodPackManager.ts");
-/* harmony import */ var _ui_NotificationBar__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./ui/NotificationBar */ "./trainer/ui/NotificationBar.ts");
-/* harmony import */ var _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../lib/ui/constructors */ "./lib/ui/constructors.ts");
-/* harmony import */ var _lib_reactive__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../lib/reactive */ "./lib/reactive/index.ts");
-/* harmony import */ var _ui_neosolving_NeoSolvingBehaviour__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./ui/neosolving/NeoSolvingBehaviour */ "./trainer/ui/neosolving/NeoSolvingBehaviour.ts");
-/* harmony import */ var _favorites__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./favorites */ "./trainer/favorites.ts");
-/* harmony import */ var _dependencies__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./dependencies */ "./trainer/dependencies.ts");
-/* harmony import */ var _data_transports__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../data/transports */ "./data/transports.ts");
+/* harmony import */ var trainer_ui_widgets_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! trainer/ui/widgets/modal */ "./trainer/ui/widgets/modal.ts");
+/* harmony import */ var lib_util_TemplateResolver__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lib/util/TemplateResolver */ "./lib/util/TemplateResolver.ts");
+/* harmony import */ var lib_gamemap_GameMap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lib/gamemap/GameMap */ "./lib/gamemap/GameMap.ts");
+/* harmony import */ var trainer_query_functions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! trainer/query_functions */ "./trainer/query_functions.ts");
+/* harmony import */ var lib_util_exportString__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lib/util/exportString */ "./lib/util/exportString.ts");
+/* harmony import */ var _ui_path_graphics__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ui/path_graphics */ "./trainer/ui/path_graphics.ts");
+/* harmony import */ var lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! lib/ui/Behaviour */ "./lib/ui/Behaviour.ts");
+/* harmony import */ var _ui_MenuBar__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./ui/MenuBar */ "./trainer/ui/MenuBar.ts");
+/* harmony import */ var _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../lib/ui/Widget */ "./lib/ui/Widget.ts");
+/* harmony import */ var _main__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./main */ "./trainer/main.ts");
+/* harmony import */ var _model_MethodPackManager__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./model/MethodPackManager */ "./trainer/model/MethodPackManager.ts");
+/* harmony import */ var _ui_NotificationBar__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./ui/NotificationBar */ "./trainer/ui/NotificationBar.ts");
+/* harmony import */ var _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../lib/ui/constructors */ "./lib/ui/constructors.ts");
+/* harmony import */ var _lib_reactive__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../lib/reactive */ "./lib/reactive/index.ts");
+/* harmony import */ var _ui_neosolving_NeoSolvingBehaviour__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./ui/neosolving/NeoSolvingBehaviour */ "./trainer/ui/neosolving/NeoSolvingBehaviour.ts");
+/* harmony import */ var _favorites__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./favorites */ "./trainer/favorites.ts");
+/* harmony import */ var _dependencies__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./dependencies */ "./trainer/dependencies.ts");
+/* harmony import */ var _data_transports__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../data/transports */ "./data/transports.ts");
 
 
 
@@ -77317,19 +70995,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-var div = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_14__.C.div;
-var vbox = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_14__.C.vbox;
-var span = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_14__.C.span;
-var hbox = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_14__.C.hbox;
-var spacer = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_14__.C.spacer;
-
+var div = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_13__.C.div;
+var vbox = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_13__.C.vbox;
+var span = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_13__.C.span;
+var hbox = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_13__.C.hbox;
+var spacer = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_13__.C.spacer;
 
 
 
 
-var resolveTeleport = _data_transports__WEBPACK_IMPORTED_MODULE_19__.TransportData.resolveTeleport;
-class SimpleLayerBehaviour extends lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_8__["default"] {
+
+var resolveTeleport = _data_transports__WEBPACK_IMPORTED_MODULE_18__.TransportData.resolveTeleport;
+class SimpleLayerBehaviour extends lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_7__["default"] {
     constructor(map, layer) {
         super();
         this.map = map;
@@ -77347,7 +71024,7 @@ var ScanTrainerCommands;
     ScanTrainerCommands.load_path = {
         name: "load_path",
         parser: {
-            steps: lib_util_exportString__WEBPACK_IMPORTED_MODULE_6__.ExportImport.imp({ expected_type: "path", expected_version: 0 }), // import is idempotent if it's not a serialized payload string
+            steps: lib_util_exportString__WEBPACK_IMPORTED_MODULE_5__.ExportImport.imp({ expected_type: "path", expected_version: 0 }), // import is idempotent if it's not a serialized payload string
         },
         default: {},
         serializer: {},
@@ -77400,7 +71077,7 @@ var ScanTrainerCommands;
         ScanTrainerCommands.load_path, ScanTrainerCommands.load_overview, ScanTrainerCommands.load_method
     ];
 })(ScanTrainerCommands || (ScanTrainerCommands = {}));
-class PatchNotesModal extends trainer_ui_widgets_modal__WEBPACK_IMPORTED_MODULE_2__.Modal {
+class PatchNotesModal extends trainer_ui_widgets_modal__WEBPACK_IMPORTED_MODULE_1__.Modal {
     constructor(id, app) {
         super(id);
         this.app = app;
@@ -77423,7 +71100,7 @@ class PatchNotesModal extends trainer_ui_widgets_modal__WEBPACK_IMPORTED_MODULE_
         return this.show();
     }
 }
-class AboutModal extends trainer_ui_widgets_modal__WEBPACK_IMPORTED_MODULE_2__.Modal {
+class AboutModal extends trainer_ui_widgets_modal__WEBPACK_IMPORTED_MODULE_1__.Modal {
     constructor(id, app) {
         super(id);
         this.app = app;
@@ -77435,19 +71112,18 @@ class AboutModal extends trainer_ui_widgets_modal__WEBPACK_IMPORTED_MODULE_2__.M
         $("#current-version").text(app.patch_notes_modal.sections[0].patchnotes);
     }
 }
-class Application extends lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_8__["default"] {
+class Application extends lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_7__["default"] {
     constructor() {
         super();
         this.version = "b0.3.1";
         this.in_alt1 = !!window.alt1;
         this.main_content = null;
-        this.menubar = new trainer_ui_MenuBarControl__WEBPACK_IMPORTED_MODULE_1__["default"](this);
-        this.main_behaviour = this.withSub(new lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_8__.SingleBehaviour());
+        this.main_behaviour = this.withSub(new lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_7__.SingleBehaviour());
         this.teleport_settings = {
             fairy_ring_favourites: [],
             potas: [],
         };
-        this.template_resolver = new lib_util_TemplateResolver__WEBPACK_IMPORTED_MODULE_3__["default"](new Map([
+        this.template_resolver = new lib_util_TemplateResolver__WEBPACK_IMPORTED_MODULE_2__["default"](new Map([
             ["surge", () => "<img class='text-icon' src='assets/icons/surge.png' title='Surge'>"],
             ["dive", () => "<img class='text-icon' src='assets/icons/dive.png' title='Dive'>"],
             ["surgedive", () => "<img class='text-icon' src='assets/icons/surgedive.png' title='Surge'>"],
@@ -77460,7 +71136,7 @@ class Application extends lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_8__["default
                     let tele = resolveTeleport({ group: args[0], spot: args[1] });
                     if (!tele)
                         return "NULL";
-                    return _ui_path_graphics__WEBPACK_IMPORTED_MODULE_7__.PathGraphics.Teleport.asSpan(tele);
+                    return _ui_path_graphics__WEBPACK_IMPORTED_MODULE_6__.PathGraphics.Teleport.asSpan(tele);
                 }],
             ["icon", (args) => {
                     return `<img class='text-icon' src='assets/icons/${args[0]}.png'>`;
@@ -77476,21 +71152,21 @@ class Application extends lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_8__["default
                 }]
         ]));
         this.startup_settings_storage = new lib_util_storage__WEBPACK_IMPORTED_MODULE_0__.storage.Variable("preferences/startupsettings", () => ({}));
-        this.startup_settings = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_15__.observe)(this.startup_settings_storage.get());
+        this.startup_settings = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_14__.observe)(this.startup_settings_storage.get());
         this.patch_notes_modal = new PatchNotesModal("modal-patchnotes", this);
         this.about_modal = new AboutModal("modal-about", this);
-        this.favourites = new _favorites__WEBPACK_IMPORTED_MODULE_17__.FavoriteIndex(_model_MethodPackManager__WEBPACK_IMPORTED_MODULE_12__.MethodPackManager.instance());
+        this.favourites = new _favorites__WEBPACK_IMPORTED_MODULE_16__.FavoriteIndex(_model_MethodPackManager__WEBPACK_IMPORTED_MODULE_11__.MethodPackManager.instance());
     }
     async begin() {
-        let container = _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_10__["default"].wrap($("#main-content"));
+        let container = _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_9__["default"].wrap($("#main-content"));
         this.startup_settings.subscribe(s => this.startup_settings_storage.set(s));
         let map_widget;
-        this.notifications = new _ui_NotificationBar__WEBPACK_IMPORTED_MODULE_13__["default"]().appendTo($("body"));
-        container.append(new _ui_MenuBar__WEBPACK_IMPORTED_MODULE_9__["default"](this), this.main_content = c("<div style='display: flex; height: 100%; flex-grow: 1'></div>")
+        this.notifications = new _ui_NotificationBar__WEBPACK_IMPORTED_MODULE_12__["default"]().appendTo($("body"));
+        container.append(new _ui_MenuBar__WEBPACK_IMPORTED_MODULE_8__["default"](this), this.main_content = c("<div style='display: flex; height: 100%; flex-grow: 1'></div>")
             .append(map_widget = c("<div style='flex-grow: 1; height: 100%'></div>")));
-        this.map_widget = new lib_gamemap_GameMap__WEBPACK_IMPORTED_MODULE_4__.GameMapWidget(map_widget.container);
+        this.map_widget = new lib_gamemap_GameMap__WEBPACK_IMPORTED_MODULE_3__.GameMapWidget(map_widget.container);
         this.map = this.map_widget.map;
-        this.main_behaviour.set(new _ui_neosolving_NeoSolvingBehaviour__WEBPACK_IMPORTED_MODULE_16__["default"](this));
+        this.main_behaviour.set(new _ui_neosolving_NeoSolvingBehaviour__WEBPACK_IMPORTED_MODULE_15__["default"](this));
         if (this.mode() == "preview") {
             this.notifications.notify({ type: "information", duration: null }, div("This is a preview release of Scan Trainer and not recommended for general usage. Features may change or disappear without any notice. ", c("<a href='https://leridon.github.io/cluetrainer-live/' style='color: unset; text-decoration: underline'>Click here to get to the official release.</a>")));
         }
@@ -77507,11 +71183,11 @@ class Application extends lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_8__["default
             })));
         }
         this.startup_settings.update(s => s.last_loaded_version = this.version);
-        let query_function = trainer_query_functions__WEBPACK_IMPORTED_MODULE_5__.QueryLinks.get_from_params(ScanTrainerCommands.index, new URLSearchParams(window.location.search));
+        let query_function = trainer_query_functions__WEBPACK_IMPORTED_MODULE_4__.QueryLinks.get_from_params(ScanTrainerCommands.index, new URLSearchParams(window.location.search));
         if (query_function)
             query_function(this);
         //ExportStringModal.do(await makeshift_main())
-        await (0,_main__WEBPACK_IMPORTED_MODULE_11__.makeshift_main)();
+        await (0,_main__WEBPACK_IMPORTED_MODULE_10__.makeshift_main)();
     }
     end() {
     }
@@ -77532,7 +71208,7 @@ class Application extends lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_8__["default
 }
 function initialize() {
     let app = new Application();
-    _dependencies__WEBPACK_IMPORTED_MODULE_18__["default"].instance().app = app;
+    _dependencies__WEBPACK_IMPORTED_MODULE_17__["default"].instance().app = app;
     app.start();
     //scantrainer.select(clues.find((c) => c.id == 361)) // zanaris
     //scantrainer.select(clues.find((c) => c.id == 399)) // compass
@@ -78556,32 +72232,6 @@ class MenuBar extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["default"] {
 
 /***/ }),
 
-/***/ "./trainer/ui/MenuBarControl.ts":
-/*!**************************************!*\
-  !*** ./trainer/ui/MenuBarControl.ts ***!
-  \**************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ MenuBarControl)
-/* harmony export */ });
-/* harmony import */ var _SearchControl__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SearchControl */ "./trainer/ui/SearchControl.ts");
-/* harmony import */ var _SolveControl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SolveControl */ "./trainer/ui/SolveControl.ts");
-
-
-class MenuBarControl {
-    constructor(app) {
-        this.app = app;
-        this.search = new _SearchControl__WEBPACK_IMPORTED_MODULE_0__["default"](app);
-        this.solve = new _SolveControl__WEBPACK_IMPORTED_MODULE_1__["default"](app);
-    }
-}
-
-
-/***/ }),
-
 /***/ "./trainer/ui/NotificationBar.ts":
 /*!***************************************!*\
   !*** ./trainer/ui/NotificationBar.ts ***!
@@ -78665,105 +72315,6 @@ class NotificationBar extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["defau
 
 /***/ }),
 
-/***/ "./trainer/ui/SearchControl.ts":
-/*!*************************************!*\
-  !*** ./trainer/ui/SearchControl.ts ***!
-  \*************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ SearchControl)
-/* harmony export */ });
-/* harmony import */ var fuzzysort__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! fuzzysort */ "../node_modules/fuzzysort/fuzzysort.js");
-/* harmony import */ var fuzzysort__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(fuzzysort__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var trainer_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! trainer/constants */ "./trainer/constants.ts");
-/* harmony import */ var _data_clues__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../data/clues */ "./data/clues.ts");
-
-
-
-class SearchControl {
-    constructor(app) {
-        this.app = app;
-        this.menubarcontrols = $("#menubarcontrols");
-        this.are_controls_visible = true;
-        this.search_box = $("#cluesearchbox")
-            .on("input", (e) => {
-            this.update();
-            if (this.are_controls_visible) {
-                this.menubarcontrols.animate({ "width": 'toggle' });
-                this.are_controls_visible = false;
-            }
-        })
-            .on("focusin", () => {
-            this.search_box.val("");
-            this.update();
-            if (this.are_controls_visible) {
-                this.menubarcontrols.animate({ "width": 'toggle' });
-                this.are_controls_visible = false;
-            }
-        })
-            .on("focusout", (e) => {
-            let reltgt = $(e.relatedTarget);
-            this.search_box.val("");
-            if (reltgt.hasClass("cluesearchresult") && reltgt.data("clue")) {
-                //this.app.solveClue(reltgt.data("clue"))
-                this.search_box.val("");
-            }
-            this.search_results.hide();
-            if (!this.are_controls_visible) {
-                this.menubarcontrols.animate({ "width": 'toggle' });
-                this.are_controls_visible = true;
-            }
-        });
-        this.search_results = $("#searchresults").hide()
-            .on("click", (e) => {
-            if ($(e.target).data("clue")) {
-                //this.app.solveClue($(e.target).data("clue"))
-                this.search_box.val("");
-            }
-        });
-        $(".filterbutton").each((i, e) => {
-            let src = "";
-            if ($(e).data().type) {
-                src = trainer_constants__WEBPACK_IMPORTED_MODULE_1__.Constants.icons.types[$(e).data().type];
-            }
-            else if ($(e).data().tier) {
-                src = trainer_constants__WEBPACK_IMPORTED_MODULE_1__.Constants.icons.tiers[$(e).data().tier];
-            }
-            $(e).children("img").first().attr("src", src);
-        });
-    }
-    update() {
-        let term = this.search_box.val();
-        let results = fuzzysort__WEBPACK_IMPORTED_MODULE_0__.go(term, _data_clues__WEBPACK_IMPORTED_MODULE_2__.clue_data.all, {
-            key: "clue",
-            all: true,
-            threshold: -10000
-        });
-        if (results.length > 0)
-            this.search_results.show();
-        else
-            this.search_results.hide();
-        let box = this.search_results.empty();
-        for (let e of results) {
-            let inner = term
-                ? fuzzysort__WEBPACK_IMPORTED_MODULE_0__.highlight(e, `<span class="fuzzyhighlight">`, "</span>")
-                : e.target;
-            $("<div>")
-                .addClass("cluesearchresult")
-                .attr("tabindex", -1)
-                .data("clue", e.obj)
-                .html(inner)
-                .appendTo(box);
-        }
-    }
-}
-
-
-/***/ }),
-
 /***/ "./trainer/ui/SidePanelControl.ts":
 /*!****************************************!*\
   !*** ./trainer/ui/SidePanelControl.ts ***!
@@ -78829,66 +72380,6 @@ class SidePanelControl extends lib_ui_Widget__WEBPACK_IMPORTED_MODULE_2__["defau
         else
             panel.container.insertBefore(next);
         return this;
-    }
-}
-
-
-/***/ }),
-
-/***/ "./trainer/ui/SolveControl.ts":
-/*!************************************!*\
-  !*** ./trainer/ui/SolveControl.ts ***!
-  \************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ SolveControl)
-/* harmony export */ });
-/* harmony import */ var _widgets_togglebutton__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./widgets/togglebutton */ "./trainer/ui/widgets/togglebutton.ts");
-/* harmony import */ var lib_util_storage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lib/util/storage */ "./lib/util/storage.ts");
-/* harmony import */ var skillbertssolver_reader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! skillbertssolver/reader */ "./skillbertssolver/reader.ts");
-/* harmony import */ var _alt1_base__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js");
-
-
-
-
-class SolveControl {
-    constructor(app) {
-        this.app = app;
-        this.lockbutton = new _widgets_togglebutton__WEBPACK_IMPORTED_MODULE_0__["default"]($("#lockbutton"));
-        this.solvebutton = $("#solvebutton");
-        this.clue_reader = new skillbertssolver_reader__WEBPACK_IMPORTED_MODULE_2__.ClueReader();
-        this.should_autosolve = new lib_util_storage__WEBPACK_IMPORTED_MODULE_1__.storage.Variable("preferences/autosolve", () => false);
-        this.interval = null;
-        if (!this.app.in_alt1) {
-            this.lockbutton.button.hide();
-            this.solvebutton.hide();
-            return;
-        }
-        this.lockbutton = new _widgets_togglebutton__WEBPACK_IMPORTED_MODULE_0__["default"]($("#lockbutton"), this.should_autosolve.get())
-            .on_toggle((s) => {
-            this.should_autosolve.set(s);
-            this.update_autosolve();
-        });
-        this.solvebutton.on("click", async () => {
-            await this.try_solve();
-        });
-        this.update_autosolve();
-    }
-    async try_solve() {
-        let clue = await this.clue_reader.find(_alt1_base__WEBPACK_IMPORTED_MODULE_3__.captureHoldFullRs());
-        //if (clue) this.app.solveClue(clue)
-    }
-    update_autosolve() {
-        if (this.should_autosolve.get() && !this.interval) {
-            this.interval = window.setInterval(() => this.try_solve(), 300);
-        }
-        else if (!this.should_autosolve.get() && this.interval) {
-            window.clearInterval(this.interval);
-            this.interval = null;
-        }
     }
 }
 
@@ -79059,6 +72550,441 @@ class DrawTileAreaInteraction extends _lib_gamemap_interaction_ValueInteraction_
 
 /***/ }),
 
+/***/ "./trainer/ui/devutilitylayer/FilteredLocLayer.ts":
+/*!********************************************************!*\
+  !*** ./trainer/ui/devutilitylayer/FilteredLocLayer.ts ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   FilteredLocLayer: () => (/* binding */ FilteredLocLayer),
+/* harmony export */   LocFilter: () => (/* binding */ LocFilter),
+/* harmony export */   LocInstanceEntity: () => (/* binding */ LocInstanceEntity)
+/* harmony export */ });
+/* harmony import */ var _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../lib/gamemap/GameLayer */ "./lib/gamemap/GameLayer.ts");
+/* harmony import */ var _lib_gamemap_GameMapControl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../lib/gamemap/GameMapControl */ "./lib/gamemap/GameMapControl.ts");
+/* harmony import */ var _widgets_Properties__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../widgets/Properties */ "./trainer/ui/widgets/Properties.ts");
+/* harmony import */ var _lib_util_storage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../lib/util/storage */ "./lib/util/storage.ts");
+/* harmony import */ var _lib_reactive__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../lib/reactive */ "./lib/reactive/index.ts");
+/* harmony import */ var _cachetools_util_LocUtil__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./cachetools/util/LocUtil */ "./trainer/ui/devutilitylayer/cachetools/util/LocUtil.ts");
+/* harmony import */ var _lib_ui_controls_TextField__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../lib/ui/controls/TextField */ "./lib/ui/controls/TextField.ts");
+/* harmony import */ var _lib_gamemap_MapEntity__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../lib/gamemap/MapEntity */ "./lib/gamemap/MapEntity.ts");
+/* harmony import */ var _lib_gamemap_ZoomLevels__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../lib/gamemap/ZoomLevels */ "./lib/gamemap/ZoomLevels.ts");
+/* harmony import */ var _polygon_helpers__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../polygon_helpers */ "./trainer/ui/polygon_helpers.ts");
+/* harmony import */ var lib_math__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! lib/math */ "./lib/math/index.ts");
+/* harmony import */ var leaflet__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! leaflet */ "../node_modules/leaflet/dist/leaflet-src.js");
+/* harmony import */ var leaflet__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(leaflet__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../../lib/ui/constructors */ "./lib/ui/constructors.ts");
+/* harmony import */ var _lib_ui_controls_Checkbox__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../../lib/ui/controls/Checkbox */ "./lib/ui/controls/Checkbox.ts");
+/* harmony import */ var _widgets_LightButton__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../widgets/LightButton */ "./trainer/ui/widgets/LightButton.ts");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! lodash */ "../node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var _cachetools_LocInstanceProperties__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./cachetools/LocInstanceProperties */ "./trainer/ui/devutilitylayer/cachetools/LocInstanceProperties.ts");
+
+
+
+
+
+
+
+
+
+
+
+var getInstances = _cachetools_util_LocUtil__WEBPACK_IMPORTED_MODULE_5__.LocUtil.getInstances;
+
+
+var hbox = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_12__.C.hbox;
+
+
+
+
+var LocFilter;
+(function (LocFilter) {
+    var getActions = _cachetools_util_LocUtil__WEBPACK_IMPORTED_MODULE_5__.LocUtil.getActions;
+    function normalize(filter) {
+        if (!filter.names)
+            filter.names = [];
+        if (!filter.actions)
+            filter.actions = [];
+        return filter;
+    }
+    LocFilter.normalize = normalize;
+    function apply(filter, loc, parsing_table) {
+        if (filter.object_id != null && loc.id != filter.object_id)
+            return false;
+        if (filter.names && filter.names.length > 0 && !filter.names.some(n => loc.location.name.toLowerCase().includes(n.toLowerCase())))
+            return false;
+        if (filter.actions && filter.actions.length > 0) {
+            const actions = getActions(loc.location);
+            if (!actions.some(a => {
+                var _a;
+                return (_a = filter.actions) === null || _a === void 0 ? void 0 : _a.some(filter_action => a.name.toLowerCase().includes(filter_action.toLowerCase()));
+            }))
+                return false;
+        }
+        if (filter.parser != null) {
+            if (filter.parser != !!parsing_table.getGroupForLoc(loc.id))
+                return false;
+        }
+        return true;
+    }
+    LocFilter.apply = apply;
+})(LocFilter || (LocFilter = {}));
+class LocFilterControl extends _lib_gamemap_GameMapControl__WEBPACK_IMPORTED_MODULE_1__.GameMapControl {
+    constructor() {
+        var _a;
+        super({
+            type: "floating",
+            position: "top-right",
+        }, c());
+        this.storage = new _lib_util_storage__WEBPACK_IMPORTED_MODULE_3__.storage.Variable("devutility/locfilter", () => ({}));
+        this.go_to_first = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_4__.ewent)();
+        this.filter = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_4__.observe)((_a = this.storage.get()) !== null && _a !== void 0 ? _a : {});
+        const props = new _widgets_Properties__WEBPACK_IMPORTED_MODULE_2__["default"]();
+        props.named("Name", new _lib_ui_controls_TextField__WEBPACK_IMPORTED_MODULE_6__["default"]()
+            .setValue(this.filter.value().names ? this.filter.value().names.join(";") : "")
+            .onCommit(v => {
+            const names = v.split(";").map(l => l.trim().toLowerCase()).filter(l => l.length > 0);
+            this.filter.update(f => f.names = names);
+        }));
+        props.named("Action", new _lib_ui_controls_TextField__WEBPACK_IMPORTED_MODULE_6__["default"]()
+            .setValue(this.filter.value().actions ? this.filter.value().actions.join(";") : "")
+            .onCommit(v => {
+            const names = v.split(";").map(l => l.trim().toLowerCase()).filter(l => l.length > 0);
+            this.filter.update(f => f.actions = names);
+        }));
+        props.named("Loc ID", new _lib_ui_controls_TextField__WEBPACK_IMPORTED_MODULE_6__["default"]()
+            .setValue(this.filter.value().object_id != null ? this.filter.value().object_id.toString() : "")
+            .onCommit((v) => {
+            const numeric = Number(v);
+            this.filter.update(f => f.object_id = !v || isNaN(numeric) ? undefined : numeric);
+        }));
+        props.header("Parser");
+        const group = new _lib_ui_controls_Checkbox__WEBPACK_IMPORTED_MODULE_13__.Checkbox.Group([
+            { value: false, button: new _lib_ui_controls_Checkbox__WEBPACK_IMPORTED_MODULE_13__.Checkbox("No") },
+            { value: true, button: new _lib_ui_controls_Checkbox__WEBPACK_IMPORTED_MODULE_13__.Checkbox("Yes") },
+        ], true)
+            .setValue(this.filter.value().parser)
+            .onChange(v => {
+            this.filter.update(f => f.parser = v);
+        });
+        props.row(hbox(...group.checkboxes()));
+        this.filter.subscribe((f) => {
+            this.storage.set(f);
+        });
+        props.named("Results", this.count_widget = c());
+        props.row(new _widgets_LightButton__WEBPACK_IMPORTED_MODULE_14__["default"]("Go to entity")
+            .onClick(() => this.go_to_first.trigger(null)));
+        this.content.append(props);
+    }
+    setCount(count) {
+        this.count_widget.text(`${count} instances match filter`);
+    }
+}
+class LocInstanceEntity extends _lib_gamemap_MapEntity__WEBPACK_IMPORTED_MODULE_7__.MapEntity {
+    constructor(instance, parsing_table) {
+        super({
+            highlightable: true,
+            interactive: true
+        });
+        this.instance = instance;
+        this.parsing_table = parsing_table;
+        this.rendered_with_parser = undefined;
+        this.zoom_sensitivity_layers = _lib_gamemap_ZoomLevels__WEBPACK_IMPORTED_MODULE_8__.ZoomLevels.none;
+        this.floor_sensitivity_layers = _lib_gamemap_ZoomLevels__WEBPACK_IMPORTED_MODULE_8__.FloorLevels.single(instance.origin.level);
+    }
+    async render_implementation(props) {
+        var _a;
+        const has_parser = this.parsing_table && !!this.parsing_table.getPairing(this.instance).group;
+        const box = (0,_polygon_helpers__WEBPACK_IMPORTED_MODULE_9__.boxPolygon)(this.instance.box).setStyle({
+            color: has_parser ? "green" : "red",
+            stroke: true
+        }).addTo(this);
+        let true_west;
+        const rect = lib_math__WEBPACK_IMPORTED_MODULE_10__.Rectangle.extend(this.instance.box, 0.5);
+        switch ((_a = this.instance.rotation) !== null && _a !== void 0 ? _a : 0) {
+            case 0:
+                true_west = [lib_math__WEBPACK_IMPORTED_MODULE_10__.Rectangle.bottomLeft(rect), lib_math__WEBPACK_IMPORTED_MODULE_10__.Rectangle.topLeft(rect)];
+                break;
+            case 1:
+                true_west = [lib_math__WEBPACK_IMPORTED_MODULE_10__.Rectangle.topLeft(rect), lib_math__WEBPACK_IMPORTED_MODULE_10__.Rectangle.topRight(rect)];
+                break;
+            case 2:
+                true_west = [lib_math__WEBPACK_IMPORTED_MODULE_10__.Rectangle.topRight(rect), lib_math__WEBPACK_IMPORTED_MODULE_10__.Rectangle.bottomRight(rect)];
+                break;
+            case 3:
+                true_west = [lib_math__WEBPACK_IMPORTED_MODULE_10__.Rectangle.bottomRight(rect), lib_math__WEBPACK_IMPORTED_MODULE_10__.Rectangle.bottomLeft(rect)];
+                break;
+        }
+        leaflet__WEBPACK_IMPORTED_MODULE_11__.polyline(true_west.map(lib_math__WEBPACK_IMPORTED_MODULE_10__.Vector2.toLatLong), {
+            color: "blue"
+        }).addTo(this);
+        this.rendered_with_parser = has_parser;
+        return box.getElement();
+    }
+    bounds() {
+        return this.instance.box;
+    }
+    async renderTooltip() {
+        return {
+            content: new _cachetools_LocInstanceProperties__WEBPACK_IMPORTED_MODULE_16__.LocInstanceProperties(this.instance, this.parsing_table),
+            interactive: false
+        };
+    }
+    async contextMenu(event) {
+        var _a;
+        return {
+            type: "submenu",
+            text: (_a = this.instance.prototype.name) !== null && _a !== void 0 ? _a : "Entity",
+            children: []
+        };
+    }
+    checkParserRedraw() {
+        if (this.rendered_props.render_at_all && (this.parsing_table && !!this.parsing_table.getPairing(this.instance).group) != this.rendered_with_parser) {
+            this.render(true);
+        }
+    }
+}
+const pre_filter = {
+    actions: ["open", "use", "enter", "climb", "crawl", "scale", "pass", "jump", "leave", "teleport", "descend", "step"]
+};
+class FilteredLocLayer extends _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_0__.GameLayer {
+    constructor(data, parsing_table) {
+        super();
+        this.data = data;
+        this.parsing_table = parsing_table;
+        this.add(this.filter_control = new LocFilterControl());
+        this.init();
+        this.parsing_table.version.subscribe(() => {
+            this.entity_quadtree.forEachVisible(e => {
+                if (e instanceof LocInstanceEntity) {
+                    e.checkParserRedraw();
+                }
+            });
+            this.applyFilter();
+        });
+        this.filter_control.filter.subscribe(() => this.applyFilter());
+        this.filter_control.go_to_first.on(() => {
+            const a = lodash__WEBPACK_IMPORTED_MODULE_15__.maxBy(this.loc_entities, loc => {
+                const v = LocFilter.apply(pre_filter, loc.loc, this.parsing_table)
+                    && LocFilter.apply(this.filter_control.filter.value(), loc.loc, this.parsing_table);
+                return v ? -1 : loc.instances;
+            });
+            if (a)
+                this.getMap().fitView(a.instances[0].instance.box);
+        });
+    }
+    applyFilter() {
+        let count = 0;
+        console.log("Applying filter");
+        this.loc_entities.forEach(loc => {
+            const visible = LocFilter.apply(pre_filter, loc.loc, this.parsing_table)
+                && LocFilter.apply(this.filter_control.filter.value(), loc.loc, this.parsing_table);
+            if (visible)
+                count += loc.instances.length;
+            loc.instances.forEach(instance => instance.setVisible(visible));
+        });
+        this.filter_control.setCount(count);
+    }
+    init() {
+        (0,_lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_0__.timeSync)("Initializing loc_entities", () => {
+            this.loc_entities = this.data.getAll().map((loc) => {
+                return {
+                    loc: loc,
+                    instances: getInstances(loc).map(i => new LocInstanceEntity(i, this.parsing_table))
+                };
+            });
+        });
+        this.applyFilter();
+        this.loc_entities.forEach(l => l.instances.forEach(i => i.addTo(this)));
+    }
+}
+
+
+/***/ }),
+
+/***/ "./trainer/ui/devutilitylayer/ParserManagement.ts":
+/*!********************************************************!*\
+  !*** ./trainer/ui/devutilitylayer/ParserManagement.ts ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ParserManagementLayer: () => (/* binding */ ParserManagementLayer)
+/* harmony export */ });
+/* harmony import */ var _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../lib/gamemap/GameLayer */ "./lib/gamemap/GameLayer.ts");
+/* harmony import */ var _FilteredLocLayer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FilteredLocLayer */ "./trainer/ui/devutilitylayer/FilteredLocLayer.ts");
+/* harmony import */ var _lib_gamemap_GameMapControl__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../lib/gamemap/GameMapControl */ "./lib/gamemap/GameMapControl.ts");
+/* harmony import */ var _lib_ui_ButtonRow__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../lib/ui/ButtonRow */ "./lib/ui/ButtonRow.ts");
+/* harmony import */ var _cachetools_ParsingTable__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./cachetools/ParsingTable */ "./trainer/ui/devutilitylayer/cachetools/ParsingTable.ts");
+/* harmony import */ var _lib_util_KeyValueStore__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../lib/util/KeyValueStore */ "./lib/util/KeyValueStore.ts");
+/* harmony import */ var _widgets_LightButton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../widgets/LightButton */ "./trainer/ui/widgets/LightButton.ts");
+/* harmony import */ var _widgets_modals_ExportStringModal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../widgets/modals/ExportStringModal */ "./trainer/ui/widgets/modals/ExportStringModal.ts");
+/* harmony import */ var _lib_util_util__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../lib/util/util */ "./lib/util/util.ts");
+/* harmony import */ var _cachetools_parsers3__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./cachetools/parsers3 */ "./trainer/ui/devutilitylayer/cachetools/parsers3.ts");
+/* harmony import */ var _cachetools_Parsing__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./cachetools/Parsing */ "./trainer/ui/devutilitylayer/cachetools/Parsing.ts");
+/* harmony import */ var _cachetools_CacheTypes__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./cachetools/CacheTypes */ "./trainer/ui/devutilitylayer/cachetools/CacheTypes.ts");
+/* harmony import */ var _cachetools_ParserPairingModal__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./cachetools/ParserPairingModal */ "./trainer/ui/devutilitylayer/cachetools/ParserPairingModal.ts");
+/* harmony import */ var _lib_util_storage__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../../lib/util/storage */ "./lib/util/storage.ts");
+/* harmony import */ var _widgets_modals_ConfirmationModal__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../widgets/modals/ConfirmationModal */ "./trainer/ui/widgets/modals/ConfirmationModal.ts");
+
+
+
+
+
+
+
+
+
+var cleanedJSON = _lib_util_util__WEBPACK_IMPORTED_MODULE_8__.util.cleanedJSON;
+
+
+
+var LocDataFile = _cachetools_CacheTypes__WEBPACK_IMPORTED_MODULE_11__.CacheTypes.LocDataFile;
+
+var download = _lib_util_util__WEBPACK_IMPORTED_MODULE_8__.util.download;
+
+
+class RecentlyUsedParserGroups {
+    constructor(table) {
+        this.table = table;
+        this.last_used_groups = new _lib_util_storage__WEBPACK_IMPORTED_MODULE_13__.storage.Variable("devutility/locparsing/recentgroups", () => []);
+    }
+    use(group) {
+        this.last_used_groups.set([group].concat(this.last_used_groups.get().filter(i => i != group)).slice(0, 5));
+    }
+    get() {
+        return this.last_used_groups.get().map(i => this.table.getGroup(i)).filter(g => !!g && g.group_name.length > 0);
+    }
+}
+class ParserManagementLayer extends _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_0__.GameLayer {
+    constructor() {
+        super();
+        this.local_store = _lib_util_KeyValueStore__WEBPACK_IMPORTED_MODULE_5__["default"].instance().variable("devutility/locparsing/parserassociations");
+        new _lib_gamemap_GameMapControl__WEBPACK_IMPORTED_MODULE_2__.GameMapControl({ type: "gapless", position: "bottom-center" }, c())
+            .setContent(new _lib_ui_ButtonRow__WEBPACK_IMPORTED_MODULE_3__["default"]()
+            .buttons(new _widgets_LightButton__WEBPACK_IMPORTED_MODULE_6__["default"]("Export")
+            .onClick(() => {
+            download("parsingtable.json", cleanedJSON(this.parsing_table.data));
+        }), new _widgets_LightButton__WEBPACK_IMPORTED_MODULE_6__["default"]("Delete local table")
+            .onClick(async () => {
+            const really = await new _widgets_modals_ConfirmationModal__WEBPACK_IMPORTED_MODULE_14__.ConfirmationModal({
+                body: "Do you really want to delete local parsing associations?",
+                options: [
+                    { value: true, kind: "neutral", text: "Cancel" },
+                    { value: true, kind: "cancel", text: "Delete" }
+                ]
+            }).do();
+            if (really)
+                this.parsing_table.reset();
+        }), new _widgets_LightButton__WEBPACK_IMPORTED_MODULE_6__["default"]("Apply parsers")
+            .onClick(async () => {
+            const results = await _cachetools_Parsing__WEBPACK_IMPORTED_MODULE_10__.Parsing.applyParsing(_cachetools_parsers3__WEBPACK_IMPORTED_MODULE_9__.parsers3, this.data_file, this.parsing_table);
+            new _widgets_modals_ExportStringModal__WEBPACK_IMPORTED_MODULE_7__["default"](cleanedJSON(results)).show();
+        }))).addTo(this);
+        this.init();
+    }
+    async init() {
+        var _a, _b, _c;
+        let local_data = await this.local_store.get();
+        let repo_data = await (await fetch("map/parsing_associations.json")).json().catch(() => undefined);
+        this.repo_version_number = (_a = repo_data === null || repo_data === void 0 ? void 0 : repo_data.version) !== null && _a !== void 0 ? _a : -1;
+        let most_current_data = {
+            version: 0,
+            associations: []
+        };
+        if (((_b = local_data === null || local_data === void 0 ? void 0 : local_data.version) !== null && _b !== void 0 ? _b : -1) > most_current_data.version)
+            most_current_data = local_data;
+        if (((_c = repo_data === null || repo_data === void 0 ? void 0 : repo_data.version) !== null && _c !== void 0 ? _c : -1) > most_current_data.version)
+            most_current_data = repo_data;
+        this.parsing_table = new _cachetools_ParsingTable__WEBPACK_IMPORTED_MODULE_4__.LocParsingTable(most_current_data);
+        this.recents = new RecentlyUsedParserGroups(this.parsing_table);
+        this.parsing_table.version.subscribe(async () => {
+            await this.local_store.set(this.parsing_table.data);
+        });
+        this.data_file = await LocDataFile.fromURL("map/raw_loc_data.json");
+        this.loc_layer = new _FilteredLocLayer__WEBPACK_IMPORTED_MODULE_1__.FilteredLocLayer(this.data_file, this.parsing_table).addTo(this);
+    }
+    commitPairing(loc, pairing) {
+        const resultpair = this.parsing_table.setPairing(loc, pairing);
+        if (resultpair.group && resultpair.group.name != "")
+            this.recents.use(resultpair.group.id);
+    }
+    eventContextMenu(event) {
+        event.onPre(() => {
+            if (event.active_entity instanceof _FilteredLocLayer__WEBPACK_IMPORTED_MODULE_1__.LocInstanceEntity) {
+                const instance = event.active_entity.instance;
+                const pairing = this.parsing_table.getPairing(instance);
+                const recently_used = this.recents.get();
+                event.addForEntity({
+                    type: "basic",
+                    text: "Edit pairing",
+                    handler: async () => {
+                        let result = await new _cachetools_ParserPairingModal__WEBPACK_IMPORTED_MODULE_12__.ParserPairingModal(instance, this.parsing_table, pairing).do();
+                        if (result.type == "saved") {
+                            this.commitPairing(instance, result.pairing);
+                        }
+                    }
+                });
+                if (this.parsing_table.getPairing(instance).group) {
+                    event.addForEntity({
+                        type: "basic",
+                        text: "Remove pairing",
+                        handler: () => this.commitPairing(instance, { group: null, instance_group: null })
+                    });
+                }
+                else {
+                    recently_used.forEach(g => {
+                        event.addForEntity({
+                            type: "basic",
+                            text: `Pair with '${g.group_name}'`,
+                            handler: async () => {
+                                const pair = {
+                                    group: {
+                                        parser: _cachetools_parsers3__WEBPACK_IMPORTED_MODULE_9__.Parsers3.getById(g.parser_id),
+                                        id: g.group_id,
+                                        name: g.group_name,
+                                        argument: g.per_group_arg
+                                    },
+                                    instance_group: undefined
+                                };
+                                if (pair.group.parser.per_instance_parameter) {
+                                    let result = await new _cachetools_ParserPairingModal__WEBPACK_IMPORTED_MODULE_12__.ParserPairingModal(instance, this.parsing_table, pair).do();
+                                    if (result.type == "saved") {
+                                        this.commitPairing(instance, result.pairing);
+                                    }
+                                }
+                                else {
+                                    this.commitPairing(instance, pair);
+                                }
+                            }
+                        });
+                    });
+                    /*
+                    event.addForEntity({
+                        type: "basic",
+                        text: "Pair as standard door",
+                        handler: () => {
+                            this.commitPairing(instance, {
+                                group: this.parsing_table.getGroup2(Parsers3.getById("west-facing-doors"), -1),
+                                instance_group: null
+                            })
+                        }
+                    })*/
+                }
+            }
+        });
+    }
+}
+
+
+/***/ }),
+
 /***/ "./trainer/ui/devutilitylayer/UtilityLayer.ts":
 /*!****************************************************!*\
   !*** ./trainer/ui/devutilitylayer/UtilityLayer.ts ***!
@@ -79093,6 +73019,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _lib_runescape_coordinates_TileArea__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../../../lib/runescape/coordinates/TileArea */ "./lib/runescape/coordinates/TileArea.ts");
 /* harmony import */ var _lib_util_util__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../../../lib/util/util */ "./lib/util/util.ts");
 /* harmony import */ var _lib_util_storage__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ../../../lib/util/storage */ "./lib/util/storage.ts");
+/* harmony import */ var _ParserManagement__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./ParserManagement */ "./trainer/ui/devutilitylayer/ParserManagement.ts");
 
 
 
@@ -79118,6 +73045,7 @@ var spacer = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_14__.C.spacer;
 
 
 var cleanedJSON = _lib_util_util__WEBPACK_IMPORTED_MODULE_20__.util.cleanedJSON;
+
 
 class ChunkGridGraticule extends _lib_gamemap_defaultlayers_Graticule__WEBPACK_IMPORTED_MODULE_16__["default"] {
     constructor() {
@@ -79161,28 +73089,73 @@ class ChunkGridGraticule extends _lib_gamemap_defaultlayers_Graticule__WEBPACK_I
         }
     }
 }
-class UtilityLayer extends _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_0__.GameLayer {
+class HoverTileDisplay extends _lib_gamemap_GameMapControl__WEBPACK_IMPORTED_MODULE_11__.GameMapControl {
     constructor() {
-        super();
-        this.view_storage = new _lib_util_storage__WEBPACK_IMPORTED_MODULE_21__.storage.Variable("devutility/viewstore", () => undefined);
-        this.chunk_grid = null;
-        // new TransportLayer(true).addTo(this)
-        this.guard = new _lib_gamemap_interaction_InteractionLayer__WEBPACK_IMPORTED_MODULE_2__.InteractionGuard().setDefaultLayer(this);
-        let layer_control = new _map_ControlWithHeader__WEBPACK_IMPORTED_MODULE_4__["default"]("Utility");
-        layer_control.append(new _lib_ui_controls_Checkbox__WEBPACK_IMPORTED_MODULE_15__.Checkbox("Chunks")
-            .onCommit(v => {
-            var _a, _b;
-            (_a = this.chunk_grid) === null || _a === void 0 ? void 0 : _a.clearLayers();
-            (_b = this.chunk_grid) === null || _b === void 0 ? void 0 : _b.remove();
-            this.chunk_grid = null;
-            if (v) {
-                this.chunk_grid = new ChunkGridGraticule().addTo(this);
-            }
-        }));
-        new _lib_gamemap_GameMapControl__WEBPACK_IMPORTED_MODULE_11__.GameMapControl({
-            position: "top-right",
+        super({
+            type: "gapless",
+            position: "top-left"
+        }, c());
+    }
+    eventHover(event) {
+        event.onPre(() => {
+            this.content.text(_lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_10__.TileCoordinates.toString(event.tile()));
+        });
+    }
+}
+class LayerToggling extends _lib_gamemap_GameMapControl__WEBPACK_IMPORTED_MODULE_11__.GameMapControl {
+    constructor(layers) {
+        var _a;
+        super({
             type: "floating",
-        }, layer_control).addTo(this);
+            position: "top-right"
+        }, c());
+        this.layers = layers;
+        this.view_storage = new _lib_util_storage__WEBPACK_IMPORTED_MODULE_21__.storage.Variable("devutility/activelayers", () => []);
+        const load_now = (_a = this.view_storage.get()) !== null && _a !== void 0 ? _a : [];
+        this.data = new Array(layers.length);
+        this.data = layers.map((l, index) => {
+            return {
+                persistence_id: l.persistence_id,
+                layer: null,
+                checkbox: new _lib_ui_controls_Checkbox__WEBPACK_IMPORTED_MODULE_15__.Checkbox(l.name)
+                    .onCommit(v => {
+                    var _a;
+                    const entry = this.data[index];
+                    (_a = entry.layer) === null || _a === void 0 ? void 0 : _a.remove();
+                    entry.layer = null;
+                    if (l.persistence_id) {
+                        if (v) {
+                            let old = this.view_storage.get();
+                            if (!old.includes(l.persistence_id)) {
+                                old.push(l.persistence_id);
+                            }
+                            this.view_storage.set(old);
+                        }
+                        else {
+                            this.view_storage.set(this.view_storage.get().filter(i => i != l.persistence_id));
+                        }
+                    }
+                    if (v) {
+                        entry.layer = l.constructor().addTo(this);
+                    }
+                })
+            };
+        });
+        this.setContent(vbox(...this.data.map(d => d.checkbox)));
+    }
+    loadPersistence() {
+        const persist = this.view_storage.get();
+        this.data.forEach(e => {
+            if (e.persistence_id)
+                e.checkbox.setValue(persist.includes(e.persistence_id));
+        });
+        return this;
+    }
+}
+class GeometryDrawing extends _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_0__.GameLayer {
+    constructor(guard) {
+        super();
+        this.guard = guard;
         let bottom_control = new _map_ControlWithHeader__WEBPACK_IMPORTED_MODULE_4__["default"]("Utility");
         bottom_control.body.append(vbox(new _map_ActionBar__WEBPACK_IMPORTED_MODULE_5__.ActionBar([
             new _map_ActionBar__WEBPACK_IMPORTED_MODULE_5__.ActionBar.ActionBarButton("assets/icons/cursor_generic.png", () => {
@@ -79267,37 +73240,6 @@ class UtilityLayer extends _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_0__.G
             position: "bottom-center"
         }, bottom_control));
     }
-    onAdd(map) {
-        super.onAdd(map);
-        // Restore view
-        const view = this.view_storage.get();
-        if (view === null || view === void 0 ? void 0 : view.center) {
-            this.map.setView(view.center, view.zoom);
-        }
-        return this;
-    }
-    eventViewChanged(event) {
-        super.eventViewChanged(event);
-        event.onPre(() => {
-            this.view_storage.set({
-                center: this.map.getCenter(),
-                zoom: this.map.getZoom()
-            });
-        });
-    }
-    setLayer(l) {
-        if (this.preview) {
-            this.preview.remove();
-            this.preview = null;
-        }
-        this.preview = l.addTo(this);
-    }
-    setValue(s) {
-        this.value = cleanedJSON(s);
-        if (this.value)
-            navigator.clipboard.writeText(this.value);
-        this.output.text(this.value);
-    }
     startSelectTile() {
         let i = new _lib_gamemap_interaction_SelectTileInteraction__WEBPACK_IMPORTED_MODULE_12__["default"]();
         i.add(new _map_InteractionTopControl__WEBPACK_IMPORTED_MODULE_13__["default"]({
@@ -79326,7 +73268,1378 @@ class UtilityLayer extends _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_0__.G
             }
         });
     }
+    setLayer(l) {
+        if (this.preview) {
+            this.preview.remove();
+            this.preview = null;
+        }
+        this.preview = l.addTo(this);
+    }
+    setValue(s) {
+        this.value = cleanedJSON(s);
+        if (this.value)
+            navigator.clipboard.writeText(this.value);
+        this.output.text(this.value);
+    }
 }
+class UtilityLayer extends _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_0__.GameLayer {
+    constructor() {
+        super();
+        this.view_storage = new _lib_util_storage__WEBPACK_IMPORTED_MODULE_21__.storage.Variable("devutility/viewstore", () => undefined);
+        this.add(new HoverTileDisplay());
+        this.guard = new _lib_gamemap_interaction_InteractionLayer__WEBPACK_IMPORTED_MODULE_2__.InteractionGuard().setDefaultLayer(this);
+        new LayerToggling([
+            { persistence_id: "chunks", name: "Chunks", constructor: () => new ChunkGridGraticule() },
+            { persistence_id: "geometry", name: "Geometry", constructor: () => new GeometryDrawing(this.guard) },
+            { persistence_id: "locparsing", name: "Loc Parsing", constructor: () => new _ParserManagement__WEBPACK_IMPORTED_MODULE_22__.ParserManagementLayer() },
+        ])
+            .addTo(this)
+            .loadPersistence();
+    }
+    onAdd(map) {
+        super.onAdd(map);
+        // Restore view
+        const view = this.view_storage.get();
+        if (view === null || view === void 0 ? void 0 : view.center) {
+            this.map.setView(view.center, view.zoom);
+        }
+        return this;
+    }
+    eventViewChanged(event) {
+        super.eventViewChanged(event);
+        event.onPre(() => {
+            this.view_storage.set({
+                center: this.map.getCenter(),
+                zoom: this.map.getZoom()
+            });
+        });
+    }
+}
+
+
+/***/ }),
+
+/***/ "./trainer/ui/devutilitylayer/cachetools/CacheTypes.ts":
+/*!*************************************************************!*\
+  !*** ./trainer/ui/devutilitylayer/cachetools/CacheTypes.ts ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   CacheTypes: () => (/* binding */ CacheTypes)
+/* harmony export */ });
+/* harmony import */ var _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../lib/gamemap/GameLayer */ "./lib/gamemap/GameLayer.ts");
+/* harmony import */ var _util_LocUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./util/LocUtil */ "./trainer/ui/devutilitylayer/cachetools/util/LocUtil.ts");
+
+
+var CacheTypes;
+(function (CacheTypes) {
+    class LocDataFile {
+        constructor(data) {
+            this.data = data;
+            this.lookup_table = new Array(Math.max(...Object.values(data).map(o => o.id)) + 1);
+            Object.values(data).forEach(o => {
+                this.lookup_table[o.id] = o;
+            });
+            this.all = this.lookup_table.filter(i => !!i);
+        }
+        static async fromURL(url) {
+            const data = await (0,_lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_0__.time)("Fetching data", async () => await (await fetch("map/raw_loc_data.json")).json());
+            return await (0,_lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_0__.time)("Preparing data", () => new LocDataFile(data));
+        }
+        getById(id) {
+            return this.lookup_table[id];
+        }
+        get(id) {
+            return _util_LocUtil__WEBPACK_IMPORTED_MODULE_1__.LocUtil.getInstances(this.getById(id));
+        }
+        getAll() {
+            return this.all;
+        }
+    }
+    CacheTypes.LocDataFile = LocDataFile;
+})(CacheTypes || (CacheTypes = {}));
+
+
+/***/ }),
+
+/***/ "./trainer/ui/devutilitylayer/cachetools/LocInstanceProperties.ts":
+/*!************************************************************************!*\
+  !*** ./trainer/ui/devutilitylayer/cachetools/LocInstanceProperties.ts ***!
+  \************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   LocInstanceProperties: () => (/* binding */ LocInstanceProperties)
+/* harmony export */ });
+/* harmony import */ var _widgets_Properties__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../widgets/Properties */ "./trainer/ui/widgets/Properties.ts");
+/* harmony import */ var _lib_runescape_CursorType__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../lib/runescape/CursorType */ "./lib/runescape/CursorType.ts");
+/* harmony import */ var _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../lib/ui/constructors */ "./lib/ui/constructors.ts");
+/* harmony import */ var _util_LocUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./util/LocUtil */ "./trainer/ui/devutilitylayer/cachetools/util/LocUtil.ts");
+
+
+
+var staticentity = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_2__.C.staticentity;
+var vbox = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_2__.C.vbox;
+
+var getActions = _util_LocUtil__WEBPACK_IMPORTED_MODULE_3__.LocUtil.getActions;
+var inlineimg = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_2__.C.inlineimg;
+var hboxl = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_2__.C.hboxl;
+class LocInstanceProperties extends _widgets_Properties__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    constructor(instance, parsing_table) {
+        var _a, _b, _c, _d, _e, _f, _g;
+        super();
+        this.instance = instance;
+        this.parsing_table = parsing_table;
+        this.header(c().append(staticentity(this.instance.prototype.name), ` (${this.instance.loc_id})`));
+        this.named("Usages", c().text(this.instance.loc_with_usages.uses.length));
+        this.named("Actions", vbox(...getActions(this.instance.prototype).map(a => {
+            return hboxl(inlineimg(_lib_runescape_CursorType__WEBPACK_IMPORTED_MODULE_1__.CursorType.meta(a.cursor).icon_url).css("margin-right", "5px"), a.name);
+        })));
+        this.named("Size", `${(_a = this.instance.prototype.width) !== null && _a !== void 0 ? _a : 1} x ${(_b = this.instance.prototype.length) !== null && _b !== void 0 ? _b : 1}`);
+        this.named("Rotation", ((_c = this.instance.rotation) !== null && _c !== void 0 ? _c : 0).toString());
+        this.named("Origin", `${instance.origin.x} | ${instance.origin.y} | ${instance.origin.level}`);
+        if (parsing_table) {
+            const parser = this.parsing_table.getPairing(this.instance);
+            this.header("Parser");
+            this.named("Group", (_e = (_d = parser === null || parser === void 0 ? void 0 : parser.group) === null || _d === void 0 ? void 0 : _d.name) !== null && _e !== void 0 ? _e : "-");
+            this.named("IGroup", (_g = (_f = parser === null || parser === void 0 ? void 0 : parser.instance_group) === null || _f === void 0 ? void 0 : _f.name) !== null && _g !== void 0 ? _g : "-");
+        }
+    }
+}
+
+
+/***/ }),
+
+/***/ "./trainer/ui/devutilitylayer/cachetools/ParserPairingModal.ts":
+/*!*********************************************************************!*\
+  !*** ./trainer/ui/devutilitylayer/cachetools/ParserPairingModal.ts ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ParserPairingEdit: () => (/* binding */ ParserPairingEdit),
+/* harmony export */   ParserPairingModal: () => (/* binding */ ParserPairingModal)
+/* harmony export */ });
+/* harmony import */ var _lib_ui_controls_FormModal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../lib/ui/controls/FormModal */ "./lib/ui/controls/FormModal.ts");
+/* harmony import */ var _widgets_Properties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../widgets/Properties */ "./trainer/ui/widgets/Properties.ts");
+/* harmony import */ var _parsers3__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./parsers3 */ "./trainer/ui/devutilitylayer/cachetools/parsers3.ts");
+/* harmony import */ var _widgets_DropdownSelection__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../widgets/DropdownSelection */ "./trainer/ui/widgets/DropdownSelection.ts");
+/* harmony import */ var _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../lib/ui/Widget */ "./lib/ui/Widget.ts");
+/* harmony import */ var _widgets_BigNisButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../widgets/BigNisButton */ "./trainer/ui/widgets/BigNisButton.ts");
+/* harmony import */ var _widgets_SearchSelection__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../widgets/SearchSelection */ "./trainer/ui/widgets/SearchSelection.ts");
+/* harmony import */ var _lib_ui_controls_Checkbox__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../../lib/ui/controls/Checkbox */ "./lib/ui/controls/Checkbox.ts");
+/* harmony import */ var _lib_ui_controls_TextField__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../../lib/ui/controls/TextField */ "./lib/ui/controls/TextField.ts");
+/* harmony import */ var _lib_gamemap_GameMap__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../../lib/gamemap/GameMap */ "./lib/gamemap/GameMap.ts");
+/* harmony import */ var _FilteredLocLayer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../FilteredLocLayer */ "./trainer/ui/devutilitylayer/FilteredLocLayer.ts");
+/* harmony import */ var _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../../../lib/gamemap/GameLayer */ "./lib/gamemap/GameLayer.ts");
+/* harmony import */ var _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../../../lib/runescape/coordinates */ "./lib/runescape/coordinates/index.ts");
+/* harmony import */ var leaflet__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! leaflet */ "../node_modules/leaflet/dist/leaflet-src.js");
+/* harmony import */ var leaflet__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(leaflet__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../../../lib/ui/constructors */ "./lib/ui/constructors.ts");
+/* harmony import */ var _lib_math__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../../../lib/math */ "./lib/math/index.ts");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var img = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_14__.C.img;
+
+class ParserPairingEdit extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_4__["default"] {
+    constructor(loc, parsing_table, pairing) {
+        var _a;
+        super();
+        this.loc = loc;
+        this.parsing_table = parsing_table;
+        this.pairing = pairing;
+        if (!pairing)
+            this.pairing = { group: null, instance_group: null };
+        this.map = new _lib_gamemap_GameMap__WEBPACK_IMPORTED_MODULE_9__.GameMapWidget()
+            .css("width", "100%")
+            .css("height", "200px")
+            .appendTo(this).map;
+        setTimeout(() => {
+            this.map.invalidateSize(true);
+            this.map.fitView(_lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_12__.TileRectangle.extend(this.loc.box, 3), { maxZoom: 20 });
+        }, 0);
+        this.layer = new _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_11__.GameLayer().addTo(this.map);
+        new _FilteredLocLayer__WEBPACK_IMPORTED_MODULE_10__.LocInstanceEntity(this.loc, null)
+            .addTo(this.layer);
+        leaflet__WEBPACK_IMPORTED_MODULE_13__.marker(_lib_math__WEBPACK_IMPORTED_MODULE_15__.Vector2.toLatLong(_lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_12__.TileRectangle.center(this.loc.box, false)), {
+            icon: leaflet__WEBPACK_IMPORTED_MODULE_13__.divIcon({
+                iconSize: [33, 33],
+                iconAnchor: [16, 16],
+                className: "",
+                html: img(`./assets/icons/alignedcompass.png`)
+                    .css("rotate", `${((_a = this.loc.rotation) !== null && _a !== void 0 ? _a : 0) * 90}deg`)
+                    .css("scale", "0.9")
+                    .raw()
+            }),
+        }).addTo(this.layer);
+        this.properties = new _widgets_Properties__WEBPACK_IMPORTED_MODULE_1__["default"]();
+        this.renderProps();
+    }
+    renderProps() {
+        this.properties.empty();
+        /*        c().css("border", "1px dashed white")
+                    .append(new LocInstanceProperties(this.loc, this.parsing_table))
+                    .appendTo(this)
+        */
+        const props = this.properties;
+        props.header(new _lib_ui_controls_Checkbox__WEBPACK_IMPORTED_MODULE_7__.Checkbox("Pair with LOC-group")
+            .setValue(!!this.pairing.group)
+            .onCommit(v => {
+            if (v) {
+                this.pairing.group = {
+                    id: -1,
+                    name: "",
+                    parser: _parsers3__WEBPACK_IMPORTED_MODULE_2__.Parsers3.getById("ignore"),
+                    argument: undefined
+                };
+            }
+            else {
+                this.pairing.group = undefined;
+                this.pairing.instance_group = undefined;
+            }
+            this.renderProps();
+        }));
+        if (this.pairing.group) {
+            props.named("Group", new _widgets_SearchSelection__WEBPACK_IMPORTED_MODULE_6__.SearchSelection({
+                type_class: {
+                    toHTML: item => {
+                        if (item)
+                            return c().text(item.group_name);
+                        else
+                            return c().text("Create new group");
+                    },
+                },
+                search_term: item => {
+                    return item ? item.group_name : "Create new group";
+                }
+            }, []))
+                .setItems(() => [null].concat(this.parsing_table.data.associations))
+                .setValue(this.parsing_table.getGroup(this.pairing.group.id))
+                .onSelection(group => {
+                if (group) {
+                    this.pairing.group.id = group.group_id;
+                    this.pairing.group.name = group.group_name;
+                    this.pairing.group.parser = _parsers3__WEBPACK_IMPORTED_MODULE_2__.Parsers3.getById(group.parser_id);
+                    this.pairing.group.argument = group.per_group_arg;
+                }
+                else {
+                    this.pairing.group.id = -1;
+                    this.pairing.group.name = "";
+                    this.pairing.group.parser = _parsers3__WEBPACK_IMPORTED_MODULE_2__.Parsers3.getById("ignore");
+                    this.pairing.group.argument = undefined;
+                }
+                this.renderProps();
+            });
+            props.named("Parser", new _widgets_DropdownSelection__WEBPACK_IMPORTED_MODULE_3__.DropdownSelection({
+                type_class: {
+                    toHTML: (v) => c().text(v ? v.name : "None")
+                }
+            }, _parsers3__WEBPACK_IMPORTED_MODULE_2__.parsers3)
+                .setValue(this.pairing.group.parser)
+                .onSelection(parser => {
+                this.pairing.group.parser = parser;
+                this.pairing.group.argument = undefined;
+                if (parser.per_loc_group_parameter) {
+                    this.pairing.group.argument = parser.per_loc_group_parameter.getDefault(this.loc);
+                }
+                this.renderProps();
+            }));
+            props.named("Name", new _lib_ui_controls_TextField__WEBPACK_IMPORTED_MODULE_8__["default"]()
+                .setValue(this.pairing.group.name)
+                .onCommit(v => {
+                this.pairing.group.name = v;
+            }));
+            if (this.pairing.group.parser.per_loc_group_parameter) {
+                props.header("Loc ");
+            }
+            if (this.pairing.group.parser.per_loc_group_parameter) {
+                props.header("Group Parameter");
+                const test_par = this.pairing.group.parser.per_loc_group_parameter.renderForm(0, this.loc)
+                    .set(this.pairing.group.argument)
+                    .onChange(v => this.pairing.group.argument = v);
+                props.row(test_par.control);
+                props.row(test_par.additional);
+            }
+        }
+        props.appendTo(this);
+    }
+    get() {
+        return this.pairing;
+    }
+}
+class ParserPairingModal extends _lib_ui_controls_FormModal__WEBPACK_IMPORTED_MODULE_0__.FormModal {
+    constructor(loc, parsing_table, existing_pairing) {
+        super({
+            size: "medium"
+        });
+        this.loc = loc;
+        this.parsing_table = parsing_table;
+        this.existing_pairing = existing_pairing;
+        this.title.set("Edit Parser Pairing");
+    }
+    render() {
+        super.render();
+        this.edit = new ParserPairingEdit(this.loc, this.parsing_table, this.existing_pairing).appendTo(this.body);
+    }
+    getButtons() {
+        return [
+            new _widgets_BigNisButton__WEBPACK_IMPORTED_MODULE_5__.BigNisButton("Cancel", "neutral")
+                .onClick(() => this.confirm({ type: "cancelled" })),
+            new _widgets_BigNisButton__WEBPACK_IMPORTED_MODULE_5__.BigNisButton("Save", "confirm")
+                .onClick(() => this.confirm({ type: "saved", pairing: this.edit.get() })),
+        ];
+    }
+    getValueForCancel() {
+        return { type: "cancelled", pairing: this.edit.get() };
+    }
+}
+
+
+/***/ }),
+
+/***/ "./trainer/ui/devutilitylayer/cachetools/Parsing.ts":
+/*!**********************************************************!*\
+  !*** ./trainer/ui/devutilitylayer/cachetools/Parsing.ts ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Parsing: () => (/* binding */ Parsing)
+/* harmony export */ });
+/* harmony import */ var _parsers3__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./parsers3 */ "./trainer/ui/devutilitylayer/cachetools/parsers3.ts");
+/* harmony import */ var _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../lib/runescape/coordinates */ "./lib/runescape/coordinates/index.ts");
+
+
+var Parsing;
+(function (Parsing) {
+    async function applyParsing(parsers, data, parsing_table) {
+        var _a, _b;
+        let results = [];
+        for (const loc_group of parsing_table.data.associations) {
+            const parser = _parsers3__WEBPACK_IMPORTED_MODULE_0__.parsers3.find(p => p.id == loc_group.parser_id);
+            if (!parser) {
+                console.error(`Parser ${loc_group.parser_id} is not defined!`);
+                return;
+            }
+            for (const loc_id of loc_group.loc_ids) {
+                const instances = data.get(loc_id);
+                if (instances.length == 0) {
+                    console.error(`Zero instances returned for loc ${loc_id}!`);
+                }
+                for (const instance of instances) {
+                    const per_instance_arg = parser.per_instance_parameter
+                        ? (_b = (_a = loc_group.instance_groups) === null || _a === void 0 ? void 0 : _a.find(igroup => igroup.instances.some(i => i.loc == loc_id && _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_1__.TileCoordinates.eq(i.origin, instance.origin)))) === null || _b === void 0 ? void 0 : _b.per_instance_argument
+                        : undefined;
+                    try {
+                        const res = await parser.apply(instance, { per_loc: loc_group.per_group_arg, per_instance: per_instance_arg });
+                        results.push(...res);
+                    }
+                    catch (e) {
+                        console.error(`Parser ${loc_group.parser_id} has thrown an exception!`);
+                        console.log(e);
+                    }
+                }
+            }
+        }
+        return results;
+    }
+    Parsing.applyParsing = applyParsing;
+})(Parsing || (Parsing = {}));
+
+
+/***/ }),
+
+/***/ "./trainer/ui/devutilitylayer/cachetools/ParsingParameters.ts":
+/*!********************************************************************!*\
+  !*** ./trainer/ui/devutilitylayer/cachetools/ParsingParameters.ts ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ParsingParameter: () => (/* binding */ ParsingParameter)
+/* harmony export */ });
+/* harmony import */ var _lib_ui_controls_Checkbox__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../lib/ui/controls/Checkbox */ "./lib/ui/controls/Checkbox.ts");
+/* harmony import */ var _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../lib/ui/constructors */ "./lib/ui/constructors.ts");
+/* harmony import */ var _lib_reactive__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../lib/reactive */ "./lib/reactive/index.ts");
+/* harmony import */ var _lib_util_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../lib/util/util */ "./lib/util/util.ts");
+/* harmony import */ var _lib_ui_controls_TextField__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../lib/ui/controls/TextField */ "./lib/ui/controls/TextField.ts");
+/* harmony import */ var _widgets_DropdownSelection__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../widgets/DropdownSelection */ "./trainer/ui/widgets/DropdownSelection.ts");
+/* harmony import */ var _lib_runescape_movement__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../../lib/runescape/movement */ "./lib/runescape/movement.ts");
+/* harmony import */ var _util_LocUtil__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./util/LocUtil */ "./trainer/ui/devutilitylayer/cachetools/util/LocUtil.ts");
+/* harmony import */ var _lib_runescape_CursorType__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../../lib/runescape/CursorType */ "./lib/runescape/CursorType.ts");
+/* harmony import */ var _lib_ui_controls_NumberInput__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../../lib/ui/controls/NumberInput */ "./lib/ui/controls/NumberInput.ts");
+
+
+
+
+
+
+
+
+
+
+class ParsingParameter {
+    constructor(_default_value) {
+        this._default_value = _default_value;
+    }
+    default(f) {
+        this._default_value = f;
+    }
+    getDefault(loc) {
+        return ParsingParameter.P.apply(this._default_value, loc);
+    }
+}
+(function (ParsingParameter) {
+    var copyUpdate2 = _lib_util_util__WEBPACK_IMPORTED_MODULE_3__.util.copyUpdate2;
+    var getNthAction = _util_LocUtil__WEBPACK_IMPORTED_MODULE_7__.LocUtil.getNthAction;
+    var hboxl = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_1__.C.hboxl;
+    var inlineimg = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_1__.C.inlineimg;
+    var getActions = _util_LocUtil__WEBPACK_IMPORTED_MODULE_7__.LocUtil.getActions;
+    let P;
+    (function (P) {
+        function apply(p, loc) {
+            if (typeof p == "function")
+                return p(loc);
+            else
+                return p;
+        }
+        P.apply = apply;
+    })(P = ParsingParameter.P || (ParsingParameter.P = {}));
+    function bool() {
+        return new class extends ParsingParameter {
+            constructor() {
+                super(() => false);
+            }
+            renderForm(depth) {
+                const self = this;
+                return new class extends ParsingParameter.Editor {
+                    constructor() {
+                        super(self);
+                    }
+                    render_implementation(value) {
+                        this.control.append(new _lib_ui_controls_Checkbox__WEBPACK_IMPORTED_MODULE_0__.Checkbox()
+                            .onCommit(v => this.commit(v))
+                            .setValue(value));
+                    }
+                };
+            }
+        };
+    }
+    ParsingParameter.bool = bool;
+    function int(bounds = [Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]) {
+        return new class extends ParsingParameter {
+            constructor() {
+                super((loc) => Math.max(P.apply(bounds, loc)[0], 0));
+            }
+            renderForm(depth, loc) {
+                const self = this;
+                return new class extends ParsingParameter.Editor {
+                    constructor() {
+                        super(self);
+                    }
+                    render_implementation(value) {
+                        const [min, max] = P.apply(bounds, loc);
+                        this.control.append(new _lib_ui_controls_NumberInput__WEBPACK_IMPORTED_MODULE_9__["default"](min, max)
+                            .onCommit(v => this.commit(v))
+                            .setValue(value));
+                    }
+                };
+            }
+        };
+    }
+    ParsingParameter.int = int;
+    function floor() {
+        return int([0, 3]);
+    }
+    ParsingParameter.floor = floor;
+    function string() {
+        return new class extends ParsingParameter {
+            constructor() {
+                super(() => "");
+            }
+            renderForm(depth) {
+                const self = this;
+                return new class extends ParsingParameter.Editor {
+                    constructor() {
+                        super(self);
+                    }
+                    render_implementation(value) {
+                        this.control.append(new _lib_ui_controls_TextField__WEBPACK_IMPORTED_MODULE_4__["default"]()
+                            .onCommit(v => this.commit(v))
+                            .setValue(value));
+                    }
+                };
+            }
+        };
+    }
+    ParsingParameter.string = string;
+    function choose(type_class, choices) {
+        return new class extends ParsingParameter {
+            constructor() {
+                super((loc) => P.apply(choices, loc)[0]);
+            }
+            renderForm(depth, loc) {
+                const self = this;
+                return new class extends ParsingParameter.Editor {
+                    render_implementation(value) {
+                        this.control.append(new _widgets_DropdownSelection__WEBPACK_IMPORTED_MODULE_5__.DropdownSelection({ type_class: P.apply(type_class, loc) }, P.apply(choices, loc))
+                            .onSelection(v => this.commit(v))
+                            .setValue(value));
+                    }
+                    constructor() {
+                        super(self);
+                    }
+                };
+            }
+        };
+    }
+    ParsingParameter.choose = choose;
+    function dir() {
+        return choose({
+            toHTML: (v) => c().text(_lib_runescape_movement__WEBPACK_IMPORTED_MODULE_6__.direction.toString(v))
+        }, () => _lib_runescape_movement__WEBPACK_IMPORTED_MODULE_6__.direction.all);
+    }
+    ParsingParameter.dir = dir;
+    function rec(elements) {
+        return new ParsingParameter.Rec(elements);
+    }
+    ParsingParameter.rec = rec;
+    function element(name, type, optional = false) {
+        return {
+            name: name,
+            type: type,
+            optional: optional,
+        };
+    }
+    ParsingParameter.element = element;
+    function locAction() {
+        return choose((loc) => ({
+            toHTML: (v) => {
+                const a = getNthAction(loc.prototype, v.id);
+                if (!a)
+                    return c().text("undefined");
+                return hboxl(inlineimg(_lib_runescape_CursorType__WEBPACK_IMPORTED_MODULE_8__.CursorType.meta(a.cursor).icon_url), " ", a.name);
+            }
+        }), (loc) => getActions(loc.prototype).map(a => ({ id: a.cache_id })));
+    }
+    ParsingParameter.locAction = locAction;
+    class Editor {
+        constructor(type) {
+            this.type = type;
+            this.control = c();
+            this.additional = c();
+            this.value_changed = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_2__.ewent)();
+        }
+        render() {
+            this.control.empty();
+            this.additional.empty();
+            this.render_implementation(this.value);
+        }
+        commit(v) {
+            this.value = v;
+            this.value_changed.trigger(v);
+        }
+        get() {
+            return this.value;
+        }
+        set(value) {
+            this.value = value;
+            this.render();
+            return this;
+        }
+        onChange(f) {
+            this.value_changed.on(f);
+            return this;
+        }
+    }
+    ParsingParameter.Editor = Editor;
+    class Rec extends ParsingParameter {
+        constructor(elements) {
+            super((loc) => {
+                return Object.fromEntries(Object.entries(elements).map(([key, value]) => [key, value.optional ? undefined : value.type.getDefault(loc)])); // There's probably an idiomatic way to get this to typecheck without this cast
+            });
+            this.elements = elements;
+        }
+        renderForm(depth, loc) {
+            const self = this;
+            return new class extends ParsingParameter.Editor {
+                constructor() {
+                    super(self);
+                }
+                render_implementation(value) {
+                    this.elements = Object.entries(self.elements).map(([id, element]) => new Rec.ElementWidget(element, element.optional ? "check" : "none", depth + 1, loc)
+                        .set(value === null || value === void 0 ? void 0 : value[id])
+                        .onChange(v => {
+                        this.commit(copyUpdate2(this.get(), e => e[id] = v));
+                    }));
+                    this.additional.append(...this.elements.map(e => e.additional));
+                }
+            };
+        }
+    }
+    ParsingParameter.Rec = Rec;
+    (function (Rec) {
+        var hbox = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_1__.C.hbox;
+        class ElementWidget extends Editor {
+            constructor(element, cb_type, depth, loc) {
+                super(element.type);
+                this.element = element;
+                this.cb_type = cb_type;
+                this.depth = depth;
+                this.loc = loc;
+                this.sub = null;
+            }
+            render_implementation(value) {
+                const name_column = c().css("min-width", "100px")
+                    .css("padding-left", `${this.depth * 5}px`);
+                const control_column = c().css("flex-grow", "1");
+                const el_content = c();
+                switch (this.cb_type) {
+                    case "check":
+                        this.checkbox = new _lib_ui_controls_Checkbox__WEBPACK_IMPORTED_MODULE_0__.Checkbox(this.element.name, "checkbox");
+                        break;
+                    case "radio":
+                        this.checkbox = new _lib_ui_controls_Checkbox__WEBPACK_IMPORTED_MODULE_0__.Checkbox(this.element.name, "radio");
+                        break;
+                }
+                if (this.checkbox) {
+                    this.checkbox
+                        .setValue(value !== undefined)
+                        .onCommit(v => {
+                        const value = v ? this.element.type.getDefault(this.loc) : undefined;
+                        this.commit(value);
+                        this.render();
+                    })
+                        .appendTo(name_column);
+                }
+                else {
+                    name_column.text(this.element.name);
+                }
+                this.additional.append(hbox(name_column, control_column), el_content);
+                this.sub = null;
+                if (value !== undefined) {
+                    this.sub = this.element.type
+                        .renderForm(this.depth + 1, this.loc)
+                        .onChange(v => this.commit(v))
+                        .set(value);
+                    control_column.append(this.sub.control);
+                    el_content.append(this.sub.additional);
+                }
+            }
+        }
+        Rec.ElementWidget = ElementWidget;
+    })(Rec = ParsingParameter.Rec || (ParsingParameter.Rec = {}));
+    class Either extends ParsingParameter {
+        renderForm(depth) {
+            return undefined;
+        }
+    }
+    ParsingParameter.Either = Either;
+})(ParsingParameter || (ParsingParameter = {}));
+
+
+/***/ }),
+
+/***/ "./trainer/ui/devutilitylayer/cachetools/ParsingTable.ts":
+/*!***************************************************************!*\
+  !*** ./trainer/ui/devutilitylayer/cachetools/ParsingTable.ts ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   LocParsingTable: () => (/* binding */ LocParsingTable)
+/* harmony export */ });
+/* harmony import */ var _lib_reactive__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../lib/reactive */ "./lib/reactive/index.ts");
+/* harmony import */ var _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../lib/runescape/coordinates */ "./lib/runescape/coordinates/index.ts");
+/* harmony import */ var _parsers3__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./parsers3 */ "./trainer/ui/devutilitylayer/cachetools/parsers3.ts");
+
+
+
+class LocParsingTable {
+    constructor(data) {
+        this.data = data;
+        this.version = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_0__.observe)(data.version);
+        this.loc_index = new Array(1000000);
+        this.data.associations.forEach(association => {
+            association.loc_ids.forEach(loc_id => {
+                this.loc_index[loc_id] = association;
+            });
+        });
+    }
+    setPairing(loc, pairing) {
+        (() => {
+            var _a, _b;
+            let currently_in_group = this.loc_index[loc.loc_id];
+            if (currently_in_group && currently_in_group.group_id != ((_a = pairing.group) === null || _a === void 0 ? void 0 : _a.id)) {
+                // There already is a pairing for that loc in the wrong group, remove it entirely
+                // The loc is in the wrong group, remove it entirely
+                // Remove entire loc from group
+                currently_in_group.loc_ids.splice(currently_in_group.loc_ids.indexOf(loc.loc_id), 1);
+                if (currently_in_group.loc_ids.length < 0) {
+                    // Group is now empty, remove it entirely
+                    this.data.associations.splice(this.data.associations.indexOf(currently_in_group), 1);
+                }
+                this.loc_index[loc.loc_id] = currently_in_group = undefined;
+            }
+            // If the pairing is "null", we are done
+            if (!pairing.group)
+                return;
+            if (!currently_in_group) {
+                // It's not (anymore) in a loc group but should be, add it
+                const correct_group = this.data.associations.find(group => group.group_id == pairing.group.id);
+                if (correct_group) {
+                    // there already is a group with the desired id
+                    correct_group.loc_ids.push(loc.loc_id);
+                    currently_in_group = correct_group;
+                }
+                else {
+                    // there is no correct group, create it
+                    this.data.associations.push(currently_in_group = {
+                        group_id: this.data.version,
+                        loc_ids: [loc.loc_id],
+                        per_group_arg: undefined,
+                        group_name: "",
+                        instance_groups: [],
+                        parser_id: ""
+                    });
+                }
+            }
+            pairing.group.id = currently_in_group.group_id;
+            // Update group data now
+            this.loc_index[loc.loc_id] = currently_in_group;
+            currently_in_group.parser_id = pairing.group.parser.id;
+            currently_in_group.per_group_arg = pairing.group.argument;
+            currently_in_group.group_name = pairing.group.name;
+            let currently_in_igroup = currently_in_group.instance_groups.find(igroup => igroup.instances.some(i => i.loc == loc.loc_id && _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_1__.TileCoordinates.eq(i.origin, loc.origin)));
+            if (currently_in_igroup && currently_in_igroup.id != ((_b = pairing.instance_group) === null || _b === void 0 ? void 0 : _b.id)) {
+                // this instance is already in an instance group, remove it
+                const i = currently_in_igroup.instances.findIndex(i => i.loc == loc.loc_id && _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_1__.TileCoordinates.eq(i.origin, loc.origin));
+                currently_in_igroup.instances.splice(i, 1);
+                currently_in_group.instance_groups = currently_in_group.instance_groups.filter(igroup => igroup.instances.length > 0);
+                currently_in_igroup = undefined;
+            }
+            if (!pairing.instance_group)
+                return;
+            if (!currently_in_igroup) {
+                const correct_group = currently_in_group.instance_groups.find(igroup => igroup.id == pairing.instance_group.id);
+                if (correct_group) {
+                    correct_group.instances.push({ loc: loc.loc_id, origin: loc.origin });
+                    currently_in_igroup = correct_group;
+                }
+                else {
+                    currently_in_group.instance_groups.push(currently_in_igroup = {
+                        id: this.data.version,
+                        name: "",
+                        instances: [{ loc: loc.loc_id, origin: loc.origin }],
+                        per_instance_argument: undefined,
+                    });
+                }
+            }
+            pairing.instance_group.id = currently_in_igroup.id;
+            // Finally set the instance group data
+            currently_in_igroup.per_instance_argument = pairing.instance_group.argument;
+            currently_in_igroup.name = pairing.instance_group.name;
+        })();
+        this.bumpVersion();
+        return pairing;
+    }
+    reset() {
+        this.data.version = -1;
+        this.data.associations = [];
+        this.bumpVersion();
+    }
+    getGroupForLoc(loc_id) {
+        return this.loc_index[loc_id];
+    }
+    getGroup(group_id) {
+        return this.data.associations.find(g => g.group_id == group_id);
+    }
+    getGroup2(parser, id) {
+        const a = this.data.associations.find(a => a.parser_id == parser.id && (id < 0 || a.group_id == id));
+        if (a) {
+            return {
+                parser: parser,
+                id: a.group_id,
+                name: a.group_name,
+                argument: a.per_group_arg
+            };
+        }
+        else {
+            return {
+                parser: parser,
+                id: -1,
+                name: "",
+                argument: undefined
+            };
+        }
+    }
+    getPairing(loc) {
+        var _a;
+        const group = this.loc_index[loc.loc_id];
+        if (!group)
+            return { group: null, instance_group: null };
+        const instance_group = (_a = group === null || group === void 0 ? void 0 : group.instance_groups) === null || _a === void 0 ? void 0 : _a.find(igroup => igroup.instances.some(i => i.loc == loc.loc_id && _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_1__.TileCoordinates.eq(i.origin, loc.origin)));
+        return {
+            group: group ? {
+                parser: _parsers3__WEBPACK_IMPORTED_MODULE_2__.parsers3.find(p => p.id == group.parser_id),
+                id: group.group_id,
+                name: group.group_name,
+                argument: group.per_group_arg
+            } : null,
+            instance_group: instance_group
+                ? {
+                    id: instance_group.id,
+                    name: instance_group.name,
+                    argument: instance_group.per_instance_argument,
+                } : null
+        };
+    }
+    bumpVersion() {
+        this.data.version += 1;
+        this.version.set(this.data.version);
+    }
+}
+
+
+/***/ }),
+
+/***/ "./trainer/ui/devutilitylayer/cachetools/TransportParser.ts":
+/*!******************************************************************!*\
+  !*** ./trainer/ui/devutilitylayer/cachetools/TransportParser.ts ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   TransportParser: () => (/* binding */ TransportParser),
+/* harmony export */   TransportParser2: () => (/* binding */ TransportParser2)
+/* harmony export */ });
+/* harmony import */ var _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../lib/runescape/coordinates */ "./lib/runescape/coordinates/index.ts");
+/* harmony import */ var _util_GeneralEntityTransportationBuilder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./util/GeneralEntityTransportationBuilder */ "./trainer/ui/devutilitylayer/cachetools/util/GeneralEntityTransportationBuilder.ts");
+/* harmony import */ var _lib_runescape_movement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../lib/runescape/movement */ "./lib/runescape/movement.ts");
+/* harmony import */ var _util_LocUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./util/LocUtil */ "./trainer/ui/devutilitylayer/cachetools/util/LocUtil.ts");
+
+
+
+
+var getInstances = _util_LocUtil__WEBPACK_IMPORTED_MODULE_3__.LocUtil.getInstances;
+class TransportParser {
+    constructor() {
+        this._name = "Unnamed";
+        this.instance_data_required = false;
+        this.locs = [];
+    }
+    requireInstanceData() {
+        this.instance_data_required = true;
+        return this;
+    }
+    gather(loc) {
+        const loc_data = this.locs.find(l => l.for.includes(loc.id));
+        const results = getInstances(loc).flatMap(instance => {
+            var _a;
+            try {
+                const instance_data = (_a = loc_data === null || loc_data === void 0 ? void 0 : loc_data.instance_data.find(t => _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_0__.TileCoordinates.eq2(t.instance, instance.origin))) === null || _a === void 0 ? void 0 : _a.data;
+                if (this.instance_data_required && instance_data == null)
+                    return [];
+                let result = this.apply(instance, {
+                    per_loc: loc_data === null || loc_data === void 0 ? void 0 : loc_data.data,
+                    per_instance: instance_data,
+                });
+                if (!Array.isArray(result))
+                    result = [result];
+                return result;
+            }
+            catch (e) {
+                console.error(`Parser ${this._name} failed!`);
+                console.error(e);
+                return [];
+            }
+        });
+        results.forEach(s => s.source_loc = loc.id);
+        return results;
+    }
+    loc(data = undefined) {
+        return (...loc) => (...instance_data) => {
+            this.locs.push({
+                for: loc,
+                data: data,
+                instance_data: instance_data.map(([instance, value]) => {
+                    return {
+                        instance: instance,
+                        data: value
+                    };
+                })
+            });
+            return this;
+        };
+    }
+    name(name) {
+        this._name = name;
+        return this;
+    }
+}
+class TransportParser2 {
+    constructor(id, name) {
+        this.id = id;
+        this.name = name;
+    }
+}
+(function (TransportParser) {
+    class Simple extends TransportParser {
+        constructor(f) {
+            super();
+            this.f = f;
+        }
+        map(f) {
+            const old = this.f;
+            this.f = (builder, data, instance) => {
+                old(builder, data, instance);
+                f(builder, data, instance);
+            };
+            return this;
+        }
+        apply(instance, data) {
+            var _a;
+            const builder = this.instantiate(instance, data);
+            this.f(builder, data, instance);
+            builder.finish();
+            if (((_a = data.per_loc) === null || _a === void 0 ? void 0 : _a.plane_offset) != null) {
+                builder.planeOffset(data.per_loc.plane_offset);
+            }
+            return [builder.value];
+        }
+    }
+    TransportParser.Simple = Simple;
+    function simple(name = "Anonymous") {
+        return (new class extends Simple {
+            constructor() { super(() => { }); }
+            instantiate(instance) {
+                return _util_GeneralEntityTransportationBuilder__WEBPACK_IMPORTED_MODULE_1__.GeneralEntityTransportationBuilder.from(instance);
+            }
+        }).name(name);
+    }
+    TransportParser.simple = simple;
+    function door(name = "Anonymous") {
+        return (new class extends Simple {
+            constructor() { super(() => { }); }
+            instantiate(instance, data) {
+                var _a;
+                return new _util_GeneralEntityTransportationBuilder__WEBPACK_IMPORTED_MODULE_1__.EntityTransportationBuilder(instance, {
+                    type: "door",
+                    name: instance.prototype.name,
+                    direction: (_a = data.per_loc.base_direction) !== null && _a !== void 0 ? _a : _lib_runescape_movement__WEBPACK_IMPORTED_MODULE_2__.direction.west,
+                    position: { x: 0, y: 0, level: 0 }
+                });
+            }
+        }).name(name);
+    }
+    TransportParser.door = door;
+    function ignore(name, ...locs) {
+        return (new class extends TransportParser {
+            apply(instance, data) {
+                return [];
+            }
+        })
+            .loc()(...locs)()
+            .name(name);
+    }
+    TransportParser.ignore = ignore;
+})(TransportParser || (TransportParser = {}));
+
+
+/***/ }),
+
+/***/ "./trainer/ui/devutilitylayer/cachetools/parsers3.ts":
+/*!***********************************************************!*\
+  !*** ./trainer/ui/devutilitylayer/cachetools/parsers3.ts ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Parsers3: () => (/* binding */ Parsers3),
+/* harmony export */   parsers3: () => (/* binding */ parsers3)
+/* harmony export */ });
+/* harmony import */ var _TransportParser__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TransportParser */ "./trainer/ui/devutilitylayer/cachetools/TransportParser.ts");
+/* harmony import */ var _lib_runescape_transportation__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../lib/runescape/transportation */ "./lib/runescape/transportation.ts");
+/* harmony import */ var _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../lib/runescape/coordinates */ "./lib/runescape/coordinates/index.ts");
+/* harmony import */ var _lib_runescape_movement__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../lib/runescape/movement */ "./lib/runescape/movement.ts");
+/* harmony import */ var _lib_runescape_coordinates_TileTransform__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../lib/runescape/coordinates/TileTransform */ "./lib/runescape/coordinates/TileTransform.ts");
+/* harmony import */ var _lib_math__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../../lib/math */ "./lib/math/index.ts");
+/* harmony import */ var _ParsingParameters__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ParsingParameters */ "./trainer/ui/devutilitylayer/cachetools/ParsingParameters.ts");
+/* harmony import */ var _lib_runescape_coordinates_TileArea__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../../lib/runescape/coordinates/TileArea */ "./lib/runescape/coordinates/TileArea.ts");
+/* harmony import */ var _util_GeneralEntityTransportationBuilder__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./util/GeneralEntityTransportationBuilder */ "./trainer/ui/devutilitylayer/cachetools/util/GeneralEntityTransportationBuilder.ts");
+/* harmony import */ var _util_MovementBuilder__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./util/MovementBuilder */ "./trainer/ui/devutilitylayer/cachetools/util/MovementBuilder.ts");
+
+
+
+
+
+
+
+var PP = _ParsingParameters__WEBPACK_IMPORTED_MODULE_6__.ParsingParameter;
+var rec = _ParsingParameters__WEBPACK_IMPORTED_MODULE_6__.ParsingParameter.rec;
+
+
+
+var offset = _util_MovementBuilder__WEBPACK_IMPORTED_MODULE_9__.MovementBuilder.offset;
+function parse(id, name, groupPar, instancePar, apply) {
+    return (new class extends _TransportParser__WEBPACK_IMPORTED_MODULE_0__.TransportParser2 {
+        constructor() {
+            super(id, name);
+            this.per_loc_group_parameter = groupPar;
+            this.per_instance_parameter = instancePar;
+        }
+        apply(instance, args) {
+            return apply(instance, args);
+        }
+    });
+}
+function transformWithLoc(transport, use) {
+    // Apply rotation
+    if (use.rotation != 0) {
+        transport = _lib_runescape_transportation__WEBPACK_IMPORTED_MODULE_1__.Transportation.transform(transport, _lib_runescape_coordinates_TileTransform__WEBPACK_IMPORTED_MODULE_4__.TileTransform.normalize(_lib_math__WEBPACK_IMPORTED_MODULE_5__.Transform.rotation((4 - use.rotation) % 4)));
+    }
+    const current_origin = transport.type == "entity"
+        ? _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_2__.TileRectangle.bl(transport.clickable_area)
+        : transport.position;
+    transport = _lib_runescape_transportation__WEBPACK_IMPORTED_MODULE_1__.Transportation.transform(transport, _lib_runescape_coordinates_TileTransform__WEBPACK_IMPORTED_MODULE_4__.TileTransform.translation(_lib_math__WEBPACK_IMPORTED_MODULE_5__.Vector2.sub(use.origin, current_origin), use.plane));
+    if (transport.type == "entity") {
+        transport.clickable_area = _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_2__.TileRectangle.extend(transport.clickable_area, 0.5);
+    }
+    return transport;
+}
+const parsers3 = [
+    parse("west-facing-doors", "Standard West Doors", null, null, async (instance) => {
+        var _a;
+        const door = {
+            type: "door",
+            position: instance.origin,
+            direction: _lib_runescape_movement__WEBPACK_IMPORTED_MODULE_3__.direction.west,
+            name: (_a = instance.prototype.name) !== null && _a !== void 0 ? _a : "Door",
+        };
+        return [transformWithLoc(door, instance)];
+    }),
+    parse("ignore", "Ignore", null, null, async (instance) => {
+        return [];
+    }),
+    parse("ladders", "Ladders", PP.rec({
+        across: PP.element("Across", PP.bool()),
+        single_side: PP.element("Side", PP.dir(), true),
+        up: PP.element("Up", PP.locAction(), true),
+        down: PP.element("Down", PP.locAction(), true),
+        top: PP.element("Top/Bottom", PP.rec({
+            action: PP.element("Action", PP.locAction()),
+            level: PP.element("Floor", PP.floor())
+        }), true),
+    }), null, async (instance, { per_loc }) => {
+        const builder = _util_GeneralEntityTransportationBuilder__WEBPACK_IMPORTED_MODULE_8__.EntityTransportationBuilder.from(instance);
+        const off = per_loc.single_side && per_loc.across
+            ? _lib_math__WEBPACK_IMPORTED_MODULE_5__.Vector2.scale(-2, _lib_runescape_movement__WEBPACK_IMPORTED_MODULE_3__.direction.toVector(per_loc.single_side))
+            : { x: 0, y: 0 };
+        const interactive = per_loc.single_side
+            ? _lib_runescape_coordinates_TileArea__WEBPACK_IMPORTED_MODULE_7__.TileArea.init({ ..._lib_runescape_movement__WEBPACK_IMPORTED_MODULE_3__.direction.toVector(per_loc.single_side), level: 0 })
+            : undefined;
+        if (per_loc.up != null) {
+            builder.action({
+                index: per_loc.up.id,
+                interactive_area: interactive
+            }, offset({ ...off, level: 1 })
+                .orientation("toentitybefore")
+                .time(3));
+        }
+        if (per_loc.down != null) {
+            builder.action({
+                index: per_loc.down.id,
+                interactive_area: interactive
+            }, offset({ ...off, level: -1 })
+                .orientation("toentitybefore")
+                .time(3));
+        }
+        if (per_loc.top != null) {
+            builder.action({
+                index: per_loc.top.action.id,
+                interactive_area: interactive
+            }, offset({ ...off, level: per_loc.top.level - instance.box.level })
+                .orientation("toentitybefore")
+                .time(3));
+        }
+        return [builder.finish()];
+    }),
+    parse("prototypecopyloc", "Prototype", rec({
+        name: PP.element("Name", PP.string(), true)
+    }), null, async (instance) => {
+        return [];
+    })
+];
+var Parsers3;
+(function (Parsers3) {
+    function getById(id) {
+        return parsers3.find(p => p.id == id);
+    }
+    Parsers3.getById = getById;
+})(Parsers3 || (Parsers3 = {}));
+
+
+/***/ }),
+
+/***/ "./trainer/ui/devutilitylayer/cachetools/util/GeneralEntityTransportationBuilder.ts":
+/*!******************************************************************************************!*\
+  !*** ./trainer/ui/devutilitylayer/cachetools/util/GeneralEntityTransportationBuilder.ts ***!
+  \******************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   EntityActionBuilder: () => (/* binding */ EntityActionBuilder),
+/* harmony export */   EntityTransportationBuilder: () => (/* binding */ EntityTransportationBuilder),
+/* harmony export */   GeneralEntityTransportationBuilder: () => (/* binding */ GeneralEntityTransportationBuilder)
+/* harmony export */ });
+/* harmony import */ var _lib_runescape_transportation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../lib/runescape/transportation */ "./lib/runescape/transportation.ts");
+/* harmony import */ var _LocUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LocUtil */ "./trainer/ui/devutilitylayer/cachetools/util/LocUtil.ts");
+/* harmony import */ var _lib_math__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../lib/math */ "./lib/math/index.ts");
+/* harmony import */ var _lib_runescape_coordinates_TileTransform__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../lib/runescape/coordinates/TileTransform */ "./lib/runescape/coordinates/TileTransform.ts");
+/* harmony import */ var _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../../lib/runescape/coordinates */ "./lib/runescape/coordinates/index.ts");
+
+
+
+
+
+var getAction = _LocUtil__WEBPACK_IMPORTED_MODULE_1__.LocUtil.getAction;
+var getNthAction = _LocUtil__WEBPACK_IMPORTED_MODULE_1__.LocUtil.getNthAction;
+class EntityActionBuilder {
+    constructor(value) {
+        this.value = value;
+    }
+    movement(...movement) {
+        this.value.movement.push(...movement.map(m => m.done()));
+        return this;
+    }
+}
+class EntityTransportationBuilder {
+    constructor(underlying, value) {
+        this.underlying = underlying;
+        this.value = value;
+        this.plane_offset = 0;
+    }
+    planeOffset(offset) {
+        this.plane_offset = offset;
+        return this;
+    }
+    finish() {
+        let transport = this.value;
+        let use = this.underlying;
+        // Apply rotation
+        if (use.rotation != 0) {
+            transport = _lib_runescape_transportation__WEBPACK_IMPORTED_MODULE_0__.Transportation.transform(transport, _lib_runescape_coordinates_TileTransform__WEBPACK_IMPORTED_MODULE_3__.TileTransform.normalize(_lib_math__WEBPACK_IMPORTED_MODULE_2__.Transform.rotation((4 - use.rotation) % 4)));
+        }
+        const current_origin = transport.type == "entity"
+            ? _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_4__.TileRectangle.bl(transport.clickable_area)
+            : transport.position;
+        transport = _lib_runescape_transportation__WEBPACK_IMPORTED_MODULE_0__.Transportation.transform(transport, _lib_runescape_coordinates_TileTransform__WEBPACK_IMPORTED_MODULE_3__.TileTransform.translation(_lib_math__WEBPACK_IMPORTED_MODULE_2__.Vector2.sub(use.origin, current_origin), use.plane + this.plane_offset));
+        if (transport.type == "entity") {
+            transport.clickable_area = _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_4__.TileRectangle.extend(transport.clickable_area, 0.5);
+        }
+        return this.value = transport;
+    }
+}
+class GeneralEntityTransportationBuilder extends EntityTransportationBuilder {
+    constructor(underlying, value) {
+        super(underlying, value);
+        this.underlying = underlying;
+        this.value = value;
+    }
+    action(override = {}, ...movements) {
+        var _a, _b, _c, _d, _e;
+        const action = override.index != null
+            ? getAction(this.underlying.prototype, override.index)
+            : getNthAction(this.underlying.prototype, 0);
+        const a = new EntityActionBuilder({
+            name: (_b = (_a = override.name) !== null && _a !== void 0 ? _a : action === null || action === void 0 ? void 0 : action.name) !== null && _b !== void 0 ? _b : "Unnamed Action",
+            cursor: (_d = (_c = override.cursor) !== null && _c !== void 0 ? _c : action.cursor) !== null && _d !== void 0 ? _d : "generic",
+            interactive_area: (_e = override.interactive_area) !== null && _e !== void 0 ? _e : undefined,
+            movement: [],
+        });
+        a.movement(...movements);
+        this.value.actions.push(a.value);
+        return this;
+    }
+}
+(function (EntityTransportationBuilder) {
+    function from(instance) {
+        var _a, _b;
+        const transport = {
+            type: "entity",
+            entity: { name: instance.prototype.name, kind: "static" },
+            clickable_area: _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_4__.TileRectangle.from({ x: 0, y: 0, level: 0 }, { x: ((_a = instance.prototype.width) !== null && _a !== void 0 ? _a : 1) - 1, y: ((_b = instance.prototype.length) !== null && _b !== void 0 ? _b : 1) - 1, level: 0 }),
+            actions: [],
+        };
+        return new GeneralEntityTransportationBuilder(instance, transport);
+    }
+    EntityTransportationBuilder.from = from;
+})(EntityTransportationBuilder || (EntityTransportationBuilder = {}));
+
+
+/***/ }),
+
+/***/ "./trainer/ui/devutilitylayer/cachetools/util/LocUtil.ts":
+/*!***************************************************************!*\
+  !*** ./trainer/ui/devutilitylayer/cachetools/util/LocUtil.ts ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   LocUtil: () => (/* binding */ LocUtil)
+/* harmony export */ });
+/* harmony import */ var _lib_runescape_CursorType__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../lib/runescape/CursorType */ "./lib/runescape/CursorType.ts");
+/* harmony import */ var _lib_math__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../../lib/math */ "./lib/math/index.ts");
+
+
+var LocUtil;
+(function (LocUtil) {
+    const transportation_rectangle_blacklists = [
+        { topleft: { "x": 3904, "y": 4991 }, botright: { "x": 5951, "y": 4032 } },
+        { topleft: { "x": 64, "y": 5583 }, botright: { "x": 255, "y": 4992 } },
+        { topleft: { "x": 64, "y": 4863 }, botright: { "x": 639, "y": 4224 } },
+        { topleft: { "x": 64, "y": 3711 }, botright: { "x": 703, "y": 1920 } },
+        { topleft: { "x": 960, "y": 6847 }, botright: { "x": 1151, "y": 6720 } },
+        { topleft: { "x": 1856, "y": 5119 }, botright: { "x": 1983, "y": 5056 } }, // PoH
+    ];
+    function getInstances(loc) {
+        if (!loc)
+            return [];
+        return loc.uses
+            .filter(use => !transportation_rectangle_blacklists.some(blacklist => _lib_math__WEBPACK_IMPORTED_MODULE_1__.Rectangle.contains(blacklist, use.origin)))
+            .map(use => {
+            return {
+                loc_with_usages: loc,
+                prototype: loc.location,
+                loc_id: loc.id,
+                ...use
+            };
+        });
+    }
+    LocUtil.getInstances = getInstances;
+    function getActions(loc) {
+        return [0, 1, 2, 3, 4].map(i => getAction(loc, i)).filter(a => a != null).map(a => a);
+    }
+    LocUtil.getActions = getActions;
+    function getNthAction(loc, n) {
+        return getActions(loc)[n];
+    }
+    LocUtil.getNthAction = getNthAction;
+    function getAction(loc, index = 0) {
+        let exists = !!loc[`actions_${index}`];
+        if (!exists)
+            return undefined;
+        return {
+            cache_id: index,
+            name: loc[`actions_${index}`],
+            cursor: _lib_runescape_CursorType__WEBPACK_IMPORTED_MODULE_0__.CursorType.fromCacheCursor(loc[`action_cursors_${index}`]),
+        };
+    }
+    LocUtil.getAction = getAction;
+})(LocUtil || (LocUtil = {}));
+
+
+/***/ }),
+
+/***/ "./trainer/ui/devutilitylayer/cachetools/util/MovementBuilder.ts":
+/*!***********************************************************************!*\
+  !*** ./trainer/ui/devutilitylayer/cachetools/util/MovementBuilder.ts ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   MovementBuilder: () => (/* binding */ MovementBuilder)
+/* harmony export */ });
+class MovementBuilder {
+    constructor(value) {
+        this.value = value;
+    }
+    time(t) {
+        this.value.time = t;
+        return this;
+    }
+    restrict(area) {
+        this.value.valid_from = area;
+        return this;
+    }
+    fixed(target, relative = false) {
+        this.value.fixed_target = relative ? { target: target, relative: true } : { target: target };
+        this.value.offset = undefined;
+        return this;
+    }
+    offset(offset) {
+        this.value.offset = offset;
+        this.value.fixed_target = undefined;
+        return this;
+    }
+    orientation(orientation) {
+        this.value.orientation = orientation;
+        this.value.forced_orientation = undefined;
+        return this;
+    }
+    forcedOrientation(orientation) {
+        this.value.orientation = "forced";
+        this.value.forced_orientation = { dir: orientation };
+        return this;
+    }
+    done() {
+        return this.value;
+    }
+}
+(function (MovementBuilder) {
+    function init() {
+        return move({ time: 1 });
+    }
+    MovementBuilder.init = init;
+    function move(value) {
+        return new MovementBuilder(value);
+    }
+    MovementBuilder.move = move;
+    function offset(offset) {
+        return init().offset(offset);
+    }
+    MovementBuilder.offset = offset;
+    function fixed(target) {
+        return init().fixed(target);
+    }
+    MovementBuilder.fixed = fixed;
+})(MovementBuilder || (MovementBuilder = {}));
 
 
 /***/ }),
@@ -86143,6 +81456,7 @@ class DisplayedRouteFilterEdit extends _widgets_AbstractEditWidget__WEBPACK_IMPO
             },
         }, await _model_MethodPackManager__WEBPACK_IMPORTED_MODULE_3__.MethodPackManager.instance().all())
             .setValue(await _model_MethodPackManager__WEBPACK_IMPORTED_MODULE_3__.MethodPackManager.instance().getPack(filter.local_pack_id))
+            .setItems(async () => await _model_MethodPackManager__WEBPACK_IMPORTED_MODULE_3__.MethodPackManager.instance().all())
             .setEnabled(filter.type == "pack")
             .onSelection(pack => {
             this.commit(copyUpdate(this.get(), filter => {
@@ -89426,6 +84740,53 @@ class Properties extends lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["default"] {
 
 /***/ }),
 
+/***/ "./trainer/ui/widgets/SearchSelection.ts":
+/*!***********************************************!*\
+  !*** ./trainer/ui/widgets/SearchSelection.ts ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   SearchSelection: () => (/* binding */ SearchSelection)
+/* harmony export */ });
+/* harmony import */ var _AbstractDropdownSelection__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AbstractDropdownSelection */ "./trainer/ui/widgets/AbstractDropdownSelection.ts");
+/* harmony import */ var fuzzysort__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! fuzzysort */ "../node_modules/fuzzysort/fuzzysort.js");
+/* harmony import */ var fuzzysort__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(fuzzysort__WEBPACK_IMPORTED_MODULE_1__);
+
+
+class SearchSelection extends _AbstractDropdownSelection__WEBPACK_IMPORTED_MODULE_0__.AbstractDropdownSelection {
+    constructor(options, items) {
+        super(options, items[0]);
+        this.options = options;
+        this.prepared_items = items.map(i => {
+            return { item: i, term: fuzzysort__WEBPACK_IMPORTED_MODULE_1__.prepare(this.options.search_term(i)) };
+        });
+        this.setItems([]);
+    }
+    onOpen() {
+        let search_box = c("<input type='text' class='nisl-selectdropdown-input' tabindex='-1'>")
+            .appendTo(this.input_container.empty())
+            .tapRaw(r => r
+            .val("")
+            .on("input", () => {
+            let term = search_box.container.val();
+            let results = fuzzysort__WEBPACK_IMPORTED_MODULE_1__.go(term, this.prepared_items, {
+                key: "term",
+                all: true,
+                threshold: -10000
+            });
+            this.setItems(Array.from(results).map(r => r.obj.item));
+        }));
+        this.setItems([this.selection.value()]);
+        return search_box;
+    }
+}
+
+
+/***/ }),
+
 /***/ "./trainer/ui/widgets/SmallImageButton.ts":
 /*!************************************************!*\
   !*** ./trainer/ui/widgets/SmallImageButton.ts ***!
@@ -89879,46 +85240,6 @@ class ImportStringModal extends _lib_ui_controls_FormModal__WEBPACK_IMPORTED_MOD
                 }
             })
         ];
-    }
-}
-
-
-/***/ }),
-
-/***/ "./trainer/ui/widgets/togglebutton.ts":
-/*!********************************************!*\
-  !*** ./trainer/ui/widgets/togglebutton.ts ***!
-  \********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ ToggleButton)
-/* harmony export */ });
-class ToggleButton {
-    constructor(button, state = false) {
-        this.button = button;
-        this.state = state;
-        this.handler = null;
-        this.update();
-        let self = this;
-        this.button.on("click", (e) => {
-            self.state = !self.state;
-            self.update();
-            if (self.handler)
-                self.handler(self.state, e);
-        });
-    }
-    update() {
-        if (this.state)
-            this.button.addClass("active");
-        else
-            this.button.removeClass("active");
-    }
-    on_toggle(f) {
-        this.handler = f;
-        return this;
     }
 }
 
@@ -91293,196 +86614,6 @@ module.exports = function whichTypedArray(value) {
 	return tryTypedArrays(value);
 };
 
-
-/***/ }),
-
-/***/ "./skillbertssolver/cluesolver/fonts/cluefont.fontmeta.json.js":
-/*!*********************************************************************!*\
-  !*** ./skillbertssolver/cluesolver/fonts/cluefont.fontmeta.json.js ***!
-  \*********************************************************************/
-/***/ ((module) => {
-
-module.exports = {"chars":[{"width":4,"bonus":40,"chr":"!","pixels":[1,0,238,1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,9,238],"secondary":true},{"width":4,"bonus":10,"chr":"'","pixels":[2,0,221,2,1,187],"secondary":true},{"width":4,"bonus":20,"chr":",","pixels":[1,9,187,1,10,170,2,8,255,2,9,153],"secondary":true},{"width":6,"bonus":20,"chr":"-","pixels":[1,6,255,2,6,255,3,6,255,4,6,170],"secondary":true},{"width":4,"bonus":5,"chr":".","pixels":[1,9,255],"secondary":true},{"width":9,"bonus":110,"chr":"0","pixels":[1,2,187,1,3,238,1,4,255,1,5,255,1,6,238,1,7,187,2,1,255,2,8,255,3,0,238,3,9,238,4,0,255,4,9,255,5,0,238,5,9,238,6,1,255,6,8,255,7,2,187,7,3,238,7,4,255,7,5,255,7,6,238,7,7,187],"secondary":false},{"width":7,"bonus":80,"chr":"1","pixels":[1,2,204,1,9,255,2,1,238,2,9,255,3,0,255,3,1,255,3,2,255,3,3,255,3,4,255,3,5,255,3,6,255,3,7,255,3,8,255,3,9,255,4,9,255,5,9,255],"secondary":false},{"width":8,"bonus":110,"chr":"2","pixels":[2,1,255,2,7,204,2,8,255,2,9,255,3,0,204,3,6,221,3,7,170,3,9,255,4,0,255,4,5,204,4,6,170,4,9,255,5,0,221,5,1,153,5,4,187,5,5,204,5,9,255,6,1,221,6,2,255,6,3,255,6,4,170,6,9,255],"secondary":false},{"width":8,"bonus":120,"chr":"3","pixels":[1,8,170,2,0,255,2,8,187,2,9,170,3,0,255,3,4,255,3,9,255,4,0,255,4,2,170,4,3,221,4,4,238,4,9,255,5,0,255,5,1,238,5,2,187,5,4,170,5,5,187,5,8,187,5,9,170,6,0,255,6,5,187,6,6,255,6,7,255,6,8,187],"secondary":false},{"width":9,"bonus":115,"chr":"4","pixels":[1,5,187,1,6,255,2,4,221,2,5,153,2,6,255,3,3,238,3,6,255,4,2,238,4,6,255,5,0,170,5,1,255,5,6,255,6,0,255,6,1,255,6,2,255,6,3,255,6,4,255,6,5,255,6,6,255,6,7,255,6,8,255,6,9,255,7,6,255],"secondary":false},{"width":8,"bonus":120,"chr":"5","pixels":[1,8,153,2,0,255,2,1,255,2,2,255,2,3,221,2,4,255,2,8,153,2,9,187,3,0,255,3,4,255,3,9,255,4,0,255,4,4,255,4,9,255,5,0,255,5,4,187,5,5,187,5,8,187,5,9,170,6,0,170,6,5,187,6,6,255,6,7,255,6,8,187],"secondary":false},{"width":9,"bonus":150,"chr":"6","pixels":[1,3,187,1,4,238,1,5,255,1,6,255,1,7,187,2,1,153,2,2,255,2,3,170,2,4,204,2,5,204,2,7,170,2,8,255,3,1,238,3,4,238,3,9,221,4,0,238,4,4,255,4,9,255,5,0,255,5,4,255,5,9,255,6,0,255,6,4,170,6,5,204,6,8,221,6,9,153,7,5,170,7,6,255,7,7,255,7,8,153],"secondary":false},{"width":9,"bonus":95,"chr":"7","pixels":[1,0,255,2,0,255,2,7,153,2,8,255,2,9,204,3,0,255,3,5,153,3,6,255,3,7,187,4,0,255,4,3,153,4,4,255,4,5,187,5,0,255,5,1,187,5,2,255,5,3,187,6,0,255,6,1,170],"secondary":false},{"width":9,"bonus":170,"chr":"8","pixels":[1,1,204,1,2,255,1,3,204,1,5,153,1,6,255,1,7,255,1,8,153,2,0,187,2,1,187,2,3,187,2,4,255,2,5,204,2,8,221,2,9,153,3,0,255,3,4,255,3,9,255,4,0,255,4,4,170,4,9,255,5,0,204,5,1,153,5,4,204,5,5,204,5,9,238,6,1,238,6,2,255,6,3,255,6,4,170,6,5,255,6,8,221,7,6,238,7,7,255,7,8,153],"secondary":false},{"width":9,"bonus":140,"chr":"9","pixels":[1,2,238,1,3,255,1,4,238,2,1,238,2,5,238,2,9,255,3,0,255,3,6,238,3,9,255,4,0,255,4,6,255,4,9,238,5,0,204,5,1,153,5,6,204,5,8,204,5,9,153,6,1,238,6,2,187,6,5,238,6,6,187,6,7,221,6,8,204,7,2,153,7,3,221,7,4,255,7,5,255,7,6,221],"secondary":false},{"width":3,"bonus":10,"chr":":","pixels":[1,2,255,1,8,255],"secondary":true},{"width":6,"bonus":55,"chr":"?","pixels":[1,0,204,2,0,255,2,5,187,2,6,255,2,9,255,3,0,238,3,4,238,3,5,153,4,1,238,4,2,255,4,3,255],"secondary":true},{"width":10,"bonus":140,"chr":"A","pixels":[1,8,153,1,9,238,2,6,221,2,7,255,2,8,204,3,3,204,3,4,255,3,5,204,3,6,255,4,0,187,4,1,255,4,2,204,4,6,255,5,0,238,5,1,255,5,2,187,5,6,255,6,2,153,6,3,238,6,4,255,6,5,187,6,6,255,7,5,153,7,6,255,7,7,255,7,8,170,8,8,187,8,9,255],"secondary":false},{"width":9,"bonus":160,"chr":"B","pixels":[1,0,255,1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,2,0,255,2,5,255,2,9,255,3,0,255,3,5,255,3,9,255,4,0,255,4,5,255,4,9,255,5,0,221,5,1,153,5,4,170,5,5,255,5,8,153,5,9,204,6,1,238,6,2,255,6,3,255,6,4,204,6,6,238,6,7,255,6,8,238],"secondary":false},{"width":10,"bonus":105,"chr":"C","pixels":[1,2,153,1,3,255,1,4,255,1,5,255,1,6,238,2,1,204,2,2,204,2,7,204,2,8,204,3,1,187,3,8,204,4,0,221,4,9,221,5,0,255,5,9,255,6,0,238,6,9,238,7,0,187,7,9,187,8,1,221,8,8,255],"secondary":false},{"width":10,"bonus":160,"chr":"D","pixels":[1,0,255,1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,2,0,255,2,9,255,3,0,255,3,9,255,4,0,255,4,9,255,5,0,238,5,9,238,6,0,153,6,1,204,6,8,204,6,9,153,7,1,221,7,2,204,7,7,204,7,8,221,8,2,170,8,3,255,8,4,255,8,5,255,8,6,255,8,7,170],"secondary":false},{"width":8,"bonus":105,"chr":"E","pixels":[1,0,255,1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,2,0,255,2,5,255,2,9,255,3,0,255,3,5,255,3,9,255,4,0,255,4,5,255,4,9,255,5,0,255,5,9,255],"secondary":false},{"width":7,"bonus":85,"chr":"F","pixels":[1,0,255,1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,2,0,255,2,5,255,3,0,255,3,5,255,4,0,255,4,5,255,5,0,255],"secondary":false},{"width":10,"bonus":145,"chr":"G","pixels":[1,2,153,1,3,255,1,4,255,1,5,255,1,6,255,1,7,153,2,1,204,2,2,187,2,7,204,2,8,221,3,0,153,3,1,187,3,8,187,3,9,170,4,0,255,4,9,255,5,0,255,5,9,255,6,0,238,6,5,170,6,9,204,7,1,204,7,5,255,7,8,238,8,5,255,8,6,255,8,7,255,8,8,255,8,9,255],"secondary":false},{"width":9,"bonus":125,"chr":"H","pixels":[1,0,255,1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,2,5,255,3,5,255,4,5,255,5,5,255,6,5,255,7,0,255,7,1,255,7,2,255,7,3,255,7,4,255,7,5,255,7,6,255,7,7,255,7,8,255,7,9,255],"secondary":false},{"width":5,"bonus":70,"chr":"I","pixels":[1,0,255,1,9,255,2,0,255,2,1,255,2,2,255,2,3,255,2,4,255,2,5,255,2,6,255,2,7,255,2,8,255,2,9,255,3,0,255,3,9,255],"secondary":false},{"width":8,"bonus":100,"chr":"J","pixels":[1,7,255,1,8,187,2,8,187,2,9,187,3,0,221,3,9,255,4,0,255,4,9,255,5,0,255,5,8,187,5,9,187,6,0,255,6,1,255,6,2,255,6,3,255,6,4,255,6,5,255,6,6,255,6,7,255,6,8,187],"secondary":false},{"width":9,"bonus":120,"chr":"K","pixels":[1,0,255,1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,2,5,255,3,5,255,4,3,187,4,4,255,4,5,170,4,6,255,5,1,187,5,2,255,5,7,221,5,8,204,6,0,255,6,1,153,6,8,153,6,9,255],"secondary":false},{"width":8,"bonus":75,"chr":"L","pixels":[1,0,255,1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,2,9,255,3,9,255,4,9,255,5,9,255,6,9,170],"secondary":false},{"width":11,"bonus":180,"chr":"M","pixels":[1,2,170,1,3,170,1,4,204,1,5,221,1,6,238,1,7,255,1,8,255,1,9,255,2,0,255,2,1,255,2,2,255,2,3,170,3,2,204,3,3,255,3,4,170,4,4,153,4,5,255,4,6,221,5,6,221,5,7,255,6,4,187,6,5,255,6,6,187,7,2,221,7,3,238,8,0,255,8,1,255,8,2,255,8,3,187,8,4,153,9,4,170,9,5,187,9,6,204,9,7,221,9,8,238,9,9,255],"secondary":false},{"width":10,"bonus":145,"chr":"N","pixels":[1,0,255,1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,2,1,238,2,2,221,3,2,170,3,3,255,4,4,221,4,5,204,5,6,255,6,7,204,6,8,221,7,0,255,7,1,255,7,2,255,7,3,255,7,4,255,7,5,255,7,6,255,7,7,255,7,8,255,7,9,255],"secondary":false},{"width":11,"bonus":130,"chr":"O","pixels":[1,3,255,1,4,255,1,5,255,1,6,238,2,1,204,2,2,204,2,7,204,2,8,204,3,1,187,3,8,187,4,0,221,4,9,221,5,0,255,5,9,255,6,0,221,6,9,221,7,1,204,7,8,221,8,1,187,8,2,221,8,7,221,8,8,170,9,3,221,9,4,255,9,5,255,9,6,204],"secondary":false},{"width":9,"bonus":125,"chr":"P","pixels":[1,0,255,1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,2,0,255,2,6,255,3,0,255,3,6,255,4,0,255,4,6,255,5,0,187,5,1,187,5,5,187,5,6,187,6,1,187,6,2,255,6,3,255,6,4,255,6,5,187],"secondary":false},{"width":11,"bonus":140,"chr":"Q","pixels":[1,3,255,1,4,255,1,5,255,1,6,238,2,1,204,2,2,204,2,7,204,2,8,204,3,1,187,3,8,187,4,0,238,4,9,238,5,0,255,5,9,255,6,0,221,6,9,221,7,1,204,7,7,238,7,8,221,8,1,187,8,2,221,8,7,238,8,8,255,9,3,221,9,4,255,9,5,255,9,6,204,9,9,187],"secondary":false},{"width":9,"bonus":140,"chr":"R","pixels":[1,0,255,1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,2,0,255,2,5,255,3,0,255,3,5,255,4,0,255,4,5,255,5,0,204,5,1,153,5,4,153,5,5,221,5,6,238,5,7,238,6,1,221,6,2,255,6,3,255,6,4,221,6,8,238,6,9,221],"secondary":false},{"width":7,"bonus":95,"chr":"S","pixels":[1,1,221,1,2,255,1,3,255,1,8,238,2,0,204,2,1,153,2,4,255,2,9,238,3,0,255,3,4,187,3,5,153,3,9,255,4,0,238,4,5,255,4,9,221,5,1,170,5,6,255,5,7,255,5,8,238],"secondary":false},{"width":10,"bonus":80,"chr":"T","pixels":[1,0,255,2,0,255,3,0,255,4,0,255,4,1,255,4,2,255,4,3,255,4,4,255,4,5,255,4,6,255,4,7,255,4,8,255,4,9,255,5,0,255,6,0,255,7,0,255],"secondary":false},{"width":10,"bonus":110,"chr":"U","pixels":[1,0,255,1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,238,2,8,238,3,9,204,4,9,255,5,9,255,6,9,204,7,8,238,8,0,255,8,1,255,8,2,255,8,3,255,8,4,255,8,5,255,8,6,255,8,7,221],"secondary":false},{"width":10,"bonus":110,"chr":"V","pixels":[1,0,238,1,1,153,2,1,187,2,2,255,2,3,221,3,4,187,3,5,255,3,6,204,4,7,204,4,8,255,4,9,204,5,7,204,5,8,255,5,9,204,6,4,187,6,5,255,6,6,204,7,1,187,7,2,255,7,3,221,8,0,238,8,1,153],"secondary":false},{"width":13,"bonus":195,"chr":"W","pixels":[1,0,255,1,1,187,2,2,187,2,3,255,2,4,255,2,5,204,3,6,170,3,7,221,3,8,255,3,9,221,4,6,170,4,7,238,4,8,255,4,9,187,5,2,187,5,3,255,5,4,255,5,5,187,6,0,255,6,1,255,6,2,255,7,2,170,7,3,238,7,4,255,7,5,204,8,6,153,8,7,221,8,8,255,8,9,204,9,6,187,9,7,255,9,8,255,9,9,204,10,2,204,10,3,255,10,4,255,10,5,187,11,0,255,11,1,187],"secondary":false},{"width":9,"bonus":125,"chr":"X","pixels":[1,0,221,1,9,255,2,0,153,2,1,255,2,2,187,2,7,238,2,8,221,3,2,170,3,3,255,3,4,153,3,5,204,3,6,238,4,3,187,4,4,255,4,5,255,5,2,238,5,3,221,5,6,255,5,7,170,6,0,221,6,1,238,6,7,187,6,8,255,7,0,153,7,9,221],"secondary":false},{"width":9,"bonus":80,"chr":"Y","pixels":[1,0,238,2,1,238,2,2,204,3,3,255,3,4,187,4,4,255,4,5,255,4,6,255,4,7,255,4,8,255,4,9,255,5,3,238,5,4,204,6,1,221,6,2,238,7,0,255],"secondary":false},{"width":9,"bonus":115,"chr":"Z","pixels":[1,9,170,2,0,255,2,7,153,2,8,255,2,9,255,3,0,255,3,6,238,3,7,221,3,9,255,4,0,255,4,4,187,4,5,255,4,9,255,5,0,255,5,3,255,5,4,187,5,9,255,6,0,255,6,1,204,6,2,221,6,9,255,7,0,255,7,9,255],"secondary":false},{"width":8,"bonus":110,"chr":"a","pixels":[1,7,221,1,8,255,2,3,187,2,6,170,2,7,153,2,9,221,3,3,255,3,6,221,3,9,255,4,3,255,4,6,255,4,9,238,5,3,204,5,4,170,5,6,255,5,8,204,6,4,204,6,5,255,6,6,255,6,7,255,6,8,255,6,9,255],"secondary":false},{"width":8,"bonus":135,"chr":"b","pixels":[1,0,255,1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,2,3,153,2,4,221,2,8,221,2,9,153,3,3,238,3,9,238,4,3,255,4,9,255,5,3,187,5,4,187,5,8,187,5,9,170,6,4,187,6,5,255,6,6,255,6,7,255,6,8,170],"secondary":false},{"width":8,"bonus":60,"chr":"c","pixels":[1,5,255,1,6,255,1,7,255,2,4,221,2,8,221,3,3,238,3,9,238,4,3,255,4,9,255,5,3,221,5,9,221,6,8,204],"secondary":false},{"width":8,"bonus":135,"chr":"d","pixels":[1,4,170,1,5,255,1,6,255,1,7,255,1,8,187,2,3,170,2,4,187,2,8,187,2,9,170,3,3,255,3,9,255,4,3,238,4,9,238,5,3,153,5,4,221,5,8,221,5,9,153,6,0,255,6,1,255,6,2,255,6,3,255,6,4,255,6,5,255,6,6,255,6,7,255,6,8,255,6,9,255],"secondary":false},{"width":8,"bonus":100,"chr":"e","pixels":[1,5,255,1,6,255,1,7,255,1,8,153,2,4,204,2,6,255,2,8,204,3,3,255,3,6,255,3,9,238,4,3,255,4,6,255,4,9,255,5,3,170,5,4,187,5,6,255,5,9,221,6,4,153,6,5,238,6,6,255],"secondary":false},{"width":6,"bonus":70,"chr":"f","pixels":[1,3,221,2,1,221,2,2,255,2,3,255,2,4,255,2,5,255,2,6,255,2,7,255,2,8,255,2,9,255,3,0,221,3,3,255,4,0,255,4,3,221],"secondary":false},{"width":8,"bonus":135,"chr":"g","pixels":[1,4,187,1,5,255,1,6,255,1,7,255,1,8,187,2,3,204,2,4,170,2,8,170,2,9,221,2,12,238,3,3,255,3,9,255,3,12,255,4,3,187,4,4,153,4,9,204,4,11,170,4,12,187,5,3,255,5,4,255,5,5,255,5,6,255,5,7,255,5,8,255,5,9,255,5,10,255,5,11,204],"secondary":false},{"width":9,"bonus":100,"chr":"h","pixels":[1,0,255,1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,2,4,238,3,3,204,4,3,255,5,3,238,6,4,255,6,5,255,6,6,255,6,7,255,6,8,255,6,9,255],"secondary":false},{"width":4,"bonus":40,"chr":"i","pixels":[1,0,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255],"secondary":false},{"width":5,"bonus":60,"chr":"j","pixels":[0,12,221,1,12,238,2,0,255,2,3,255,2,4,255,2,5,255,2,6,255,2,7,255,2,8,255,2,9,255,2,10,255,2,11,255],"secondary":false},{"width":7,"bonus":100,"chr":"k","pixels":[1,0,255,1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,2,6,255,3,5,187,3,6,255,3,7,170,4,4,255,4,5,170,4,7,187,4,8,221,5,3,255,5,9,255],"secondary":false},{"width":5,"bonus":50,"chr":"l","pixels":[1,0,255,1,1,255,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,2,9,255],"secondary":false},{"width":12,"bonus":130,"chr":"m","pixels":[1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,2,4,238,3,3,204,4,3,255,5,3,221,6,4,238,6,5,255,6,6,255,6,7,255,6,8,255,6,9,255,7,4,204,8,3,255,9,3,255,10,4,255,10,5,255,10,6,255,10,7,255,10,8,255,10,9,255],"secondary":false},{"width":8,"bonus":85,"chr":"n","pixels":[1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,2,4,238,3,3,204,4,3,255,5,3,238,6,4,255,6,5,255,6,6,255,6,7,255,6,8,255,6,9,255],"secondary":false},{"width":9,"bonus":80,"chr":"o","pixels":[1,5,255,1,6,255,1,7,255,2,4,221,2,8,221,3,3,221,3,9,221,4,3,255,4,9,255,5,3,221,5,9,221,6,4,238,6,8,238,7,5,221,7,6,255,7,7,221],"secondary":false},{"width":8,"bonus":130,"chr":"p","pixels":[1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,1,10,255,1,11,255,2,3,153,2,4,204,2,8,221,2,9,153,3,3,238,3,9,238,4,3,255,4,9,255,5,3,187,5,4,187,5,8,187,5,9,170,6,4,187,6,5,255,6,6,255,6,7,255,6,8,170],"secondary":false},{"width":8,"bonus":130,"chr":"q","pixels":[1,4,170,1,5,255,1,6,255,1,7,255,1,8,187,2,3,170,2,4,187,2,8,187,2,9,187,3,3,255,3,9,255,4,3,238,4,9,238,5,3,153,5,4,204,5,8,221,5,9,153,6,3,255,6,4,255,6,5,255,6,6,255,6,7,255,6,8,255,6,9,255,6,10,255,6,11,255],"secondary":false},{"width":6,"bonus":45,"chr":"r","pixels":[1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,255,1,9,255,2,4,238,3,3,238],"secondary":false},{"width":6,"bonus":65,"chr":"s","pixels":[1,4,255,1,5,255,1,8,153,1,9,170,2,3,255,2,6,221,2,9,255,3,3,255,3,6,238,3,9,255,4,3,153,4,7,255,4,8,255],"secondary":false},{"width":5,"bonus":65,"chr":"t","pixels":[0,3,255,1,1,238,1,2,255,1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,221,2,3,255,2,9,221,3,3,221,3,9,255],"secondary":false},{"width":9,"bonus":85,"chr":"u","pixels":[1,3,255,1,4,255,1,5,255,1,6,255,1,7,255,1,8,238,2,9,221,3,9,255,4,9,221,5,8,221,6,3,255,6,4,255,6,5,255,6,6,255,6,7,255,6,8,255,6,9,255],"secondary":false},{"width":8,"bonus":75,"chr":"v","pixels":[1,3,238,2,4,187,2,5,255,2,6,204,3,7,221,3,8,255,3,9,170,4,7,153,4,8,255,4,9,238,5,5,221,5,6,255,5,7,170,6,3,255,6,4,204],"secondary":false},{"width":12,"bonus":135,"chr":"w","pixels":[1,3,238,1,4,153,2,4,170,2,5,255,2,6,238,2,7,153,3,7,153,3,8,255,3,9,255,4,7,204,4,8,255,4,9,170,5,4,187,5,5,255,5,6,187,6,4,255,6,5,221,7,6,187,7,7,255,7,8,187,8,8,255,8,9,255,9,5,187,9,6,255,9,7,221,10,3,255,10,4,204],"secondary":false},{"width":8,"bonus":90,"chr":"x","pixels":[1,3,153,1,9,221,2,3,204,2,4,238,2,8,255,2,9,153,3,5,238,3,6,238,3,7,221,4,5,238,4,6,238,4,7,221,5,3,204,5,4,238,5,8,255,5,9,153,6,3,153,6,9,221],"secondary":false},{"width":9,"bonus":100,"chr":"y","pixels":[1,3,238,1,12,204,2,4,221,2,5,255,2,6,170,2,12,255,3,6,153,3,7,238,3,8,238,3,11,238,3,12,153,4,8,255,4,9,255,4,10,187,5,5,170,5,6,255,5,7,221,6,3,238,6,4,255,6,5,170],"secondary":false},{"width":8,"bonus":95,"chr":"z","pixels":[1,3,255,1,9,255,2,3,255,2,7,187,2,8,255,2,9,255,3,3,255,3,6,221,3,7,187,3,9,255,4,3,255,4,5,238,4,6,153,4,9,255,5,3,255,5,4,255,5,9,255,6,3,238,6,9,255],"secondary":false}],"width":13,"spacewidth":3,"shadow":false,"height":13,"basey":9}
-
-/***/ }),
-
-/***/ "./skillbertssolver/cluesolver/imgs/bordermatch.data.png.js":
-/*!******************************************************************!*\
-  !*** ./skillbertssolver/cluesolver/imgs/bordermatch.data.png.js ***!
-  \******************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports=(__webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js").ImageDetect.imageDataFromBase64)("iVBORw0KGgoAAAANSUhEUgAAACMAAAAjCAYAAAAe2bNZAAAEa0lEQVRYR+2XbUxbZRTHz730hXZQoK6jYxPYQGGahb1lMZjoyLYYNSa6aDQB4wf3RaMmGk3UJRqjUaPxmyZ80Jgl+MWoM7osy+bMWJbBcOLIhrVToGXjpRtQbB0vpfTx+R9u9cK9LS0Uwwd/SUO59/be/z3nPOf8H0UIQasFVfu7KvhfTCqWVDP7Du0S1XvKqNDrpKk/YzQzGaf49Kx2do6QL0w9rYP069GAoh1alKzEHPj4HrH14U0UGZ6gcCDKAibC0yxmNpag/CIbWfPzyFFs5+st8ntUXnv52z7qzkBUxmIaXt4utj1RTcH2EPWcHqDJ8RjFp+La2TnypQgIccmIOUrslGdTqahsDVnseXSuuZuu/HA1raCMxLw98jRf9OP7nXTpSC/ZnBYavDSa8sZVNeWiqC6fvHVuKix10MzULAu87h+nY4faU/5u0QJ+89pTwum201ggIqMxTRRX0woBPf5+pfPLKwoeHA7c5DRW3FVKe1/bQQePPpjy7dOKwQ8R+omxaQ61e5OLRoLhRXOv58Q7HXy9S6YLbNi2llPO/ywgpZjnzx4QJRWFdOq9Tur43Ef950NcA0sBAiKDN+la5w0auDjC9XT7vlsNgkzv/tCH9aKy3ksn3vqJ2povk++bqzR0Mkrfv3Iuq6gk6WsN0ekPuujCYT8XuLuykEq3lGhn/8W0gF//o0kgEsff6CBVVen679mlJh0vXnhMIOXd3wUo2DY8b8kbIlN/8A6BXoElbJWrJpdCwJg/St473Rwd1KMeg5hyWfUQMtoXoZmJ+X0kFxxuPK6M9kbIU1NMqEk9BjGe2rlcxmVvmInOb/G5Ai0CfWd2wQgxLeDknFGF6ellY7VZ5KiwGOaZ4WloUPgARVkZMUlQyHoMT0uqxZBbykRfDqavbnVYuB8kEitTM8lX5PGiw1QMwueUXTKhJrQjOUYRPPExQPUYxIxpPsXussnlV6QdzS2IPHwQ+pkeg5ihX25wZBzFNjlpvdrR3PFky33ils0unnUwaXoMYto+83HHRZoKpBepe7Qqp1XsrSthFzDYNcq9TI9pzfTLDowCRjjdlS7a2VQjYDl3NdYuS1jTF/sFRkGwfZgCci4tdH4pnR4isvWRzVSwzsETFjk+3/wbnfnkYtaz6qPEs8J3LMgGHiXw9TOt1Ht2yHAf08iArq96+OLb9m7kbgmnPxIY53PZgrRseaCCNu7w8G5iUn7MSCkGtDSeVGCIYDlR+bX3l9Oel8xdmhkNz+0Uj3/aIAbkogAxOXiRnqEUtjUjQ459kmu9k30sagg3D/nG6cgLZ0xvuv/V3aLibg9t2L6WbQJ8Cyzru9UtaVOc8VYFRYzaKd+9Tj7E88+eiDdwclUkxwj2Tq71awgmHlYBuwmsnJ9b/GmFgIzFAAjCkkchwhxV3VvG9QT0eyg0TqQDvQRdNhyMpkyNnqzEJIGZRlO0FdgoEU9wTwJYcapFpdhfMY6aVQr1L7Jx07MkMStF2tX0X7OKxBD9DXg26kOizo/yAAAAAElFTkSuQmCC")
-
-/***/ }),
-
-/***/ "./skillbertssolver/cluesolver/imgs/bordernomatch.data.png.js":
-/*!********************************************************************!*\
-  !*** ./skillbertssolver/cluesolver/imgs/bordernomatch.data.png.js ***!
-  \********************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports=(__webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js").ImageDetect.imageDataFromBase64)("iVBORw0KGgoAAAANSUhEUgAAACMAAAAjCAYAAAAe2bNZAAAC3UlEQVRYR+2XQWvUQBiGE7u1JdYFsYiKiAehRTwIHgRFL948+W88iWevIv4Bf4EXPfagIl5EqBargl6sIrZF7Zq43Sa+zyQj22aSzW6yuAdfeJlMup08mfm+byZ+kiTepGhf1k6EJgqm1jL5vp8Eag+kXe+33JN/yRrX594wGgnmjCCOqT0o/zR3PK8r708vjdblNfnrEFBDwVwQxCm1AFgIgIAAhnv9ULRb8vOKQJVgjgjiotoZ+aP8SeahaF5mlngosxHJbdkCWdjP8soAqIEwJwRyKbtekjuyYsXbimMz8MkgSObCkMvcw87pf3kBNCcD+7IEqBTGghCYD2Qg4gyiqs62WsmhnZ2sly5lEVBpatcFQa96PX9jdtZcs1x2plwqhLmuWaGtA2L1Ogz9L0FgQFguls/8YY+cMPyYwHuadmuBWL3rdPzNqSkT8IztkhOG9CVrNmXFVG0Qq2daMmLmcNrNyQnDdJKKLdNrVuH0tIG57FgqJwyV84f8vcFZsVrqdn1qlGt2cjDXRGwL1rjE+JVgSGWCbMH0mtctFUnGT5N9t5zLhCC/WpCCo+qGxotUrdk6XMrB9G94lO8mdVsxSDyyf7mUg2E9gSG138yU1cvRdF9AlWfGipmJoqjxbELzquiuspGDsdTjzKiWNueN7LpfORh7EALmdMMBbMV5xxWPhctEtBSV7boiBN6ml7vkhHms2WF3peZw1DQ3G9JNjbes9r2jupcGsD0yNgUECNvMo7SbUyEMs0MLFLNUF4iCR3tHLjoJDDwDA2H3EoJuXWm5sud8w4OWdVZ5qCNCduuv2OvOq+Wl7sqdAhBU6evAHrYAIrApikB15StxbD7cPsgUyrV22zsaRd7i9ra3oLF5EdL4njzobFQJBvHhxsDHZRtLmCXkYbz5N3lRpqCxEVL2X8hP5EEgqDIMsnUHAIA4EVoBBhAyMyevymP7ohy3CrPpX+g/jFue9wcSUBAlcS6VjgAAAABJRU5ErkJggg==")
-
-/***/ }),
-
-/***/ "./skillbertssolver/cluesolver/imgs/compassnorth.data.png.js":
-/*!*******************************************************************!*\
-  !*** ./skillbertssolver/cluesolver/imgs/compassnorth.data.png.js ***!
-  \*******************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports=(__webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js").ImageDetect.imageDataFromBase64)("iVBORw0KGgoAAAANSUhEUgAAABUAAAAUCAYAAABiS3YzAAAAq0lEQVQ4T52MCQ4DIQwD+Ubf0f+/rY2X0J2GcO1IlgAPLo33q3wUv05pbhZXKsMigW6M1ff/pFxxDcBnKhyEuARu73OM8XoIvP1RxZUUOGejimsd6M9HFVf/QDcftevvHFPtG7yvR+Mbo66Bt71RwXfG62ejgh3Dzo5no4J9FlPORwWdGKufjQp6jFXPRwXd6Z+lEKDf/Ykl48qQ4G6Pbg/bsXPbY5Yd4JbyBTJKDw3yWqWfAAAAAElFTkSuQmCC")
-
-/***/ }),
-
-/***/ "./skillbertssolver/cluesolver/imgs/differentlevel.data.png.js":
-/*!*********************************************************************!*\
-  !*** ./skillbertssolver/cluesolver/imgs/differentlevel.data.png.js ***!
-  \*********************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports=(__webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js").ImageDetect.imageDataFromBase64)("iVBORw0KGgoAAAANSUhEUgAAAIQAAAAVCAMAAACwoLZzAAAAAW5vUEUAYtdMlAAAAARub1BFAAAAAEEgjiIAAAAJUExURf///wAAAAAAAH5RqV0AAAADdFJOU///ANfKDUEAAAAJbm9QRQAAAAAAAAAAAKGKctUAAADlSURBVEhL7ZZLEsQgCESV+x96BJsZCGr8VGo2eQsFFaolWiZV6Dk4903+RJko59I8Buce5zcak3FQHJRIK+W7gp9uWmyIgxFj1vDiwBWsXNQGQ+ONmOmGxZkkG0aMCbIV0Uel39JfaE5eOISz2c8pB08LYExhUsS01q1NXYLUdQezX+OKqTOMVsxg8rrWVKx2v7bPd9osjDH9ySD4H7wilFeEciDCXbR4JRc4iXX3LNzIBfZFuBcgPAdLHITqCyAprs/BEgcigPwWnbEpgsPwAdBK5/9PptkKKvDu8QHQSpc3ykL0AXvCFK/BzJhoAAAAAElFTkSuQmCC")
-
-/***/ }),
-
-/***/ "./skillbertssolver/cluesolver/imgs/eocbotleft.data.png.js":
-/*!*****************************************************************!*\
-  !*** ./skillbertssolver/cluesolver/imgs/eocbotleft.data.png.js ***!
-  \*****************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports=(__webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js").ImageDetect.imageDataFromBase64)("iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAW5vUEUAYtdMlAAAAARub1BFAAAAAEEgjiIAAAAJbm9QRQAAAAAAAAAAAKGKctUAAAE4SURBVChTfZFNS8NAEIbfbrLpbto0ba0KWqTYQg89CMUKghf/mb/MkyB40IOIHxfRSimWSkNtkzTZrMlYbzUPzO7szs7wziy6g3PNnIY26/u60z/TKcgzZnIDGUIIqFiRnweLIwXGi3SwioL2PJglinCrLoIggFLR+vp/2CoIEab2x17vWK/djVAPKlqBGww68jEZDXOT2PJ7gUglZEnBAk/7mYzHaLR7G5NYtmTVsynZ5RJsx6HAcj7fmGQyvaLqYeCBGSY9zJIzatU6yeufnOLu6hLakmAFLiloOy4aO7s4aHXobKXfI0tlknd7c43u0QCfr88wtpvti0THWKS9eLMpmq1DyHTU3N3Cx/AdJVugUq7Am4ww+5r+TskSkmToKMTL4z2ElHh7ekBicpLl1mrwfR+tThc/Sc6HTgcfco4AAAAASUVORK5CYII=")
-
-/***/ }),
-
-/***/ "./skillbertssolver/cluesolver/imgs/eoctopleft.data.png.js":
-/*!*****************************************************************!*\
-  !*** ./skillbertssolver/cluesolver/imgs/eoctopleft.data.png.js ***!
-  \*****************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports=(__webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js").ImageDetect.imageDataFromBase64)("iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAMAAABhq6zVAAAAAW5vUEUAYtdMlAAAAARub1BFAAAAAEEgjiIAAABmUExURQwaIxMiKhsrNCItNSs6RCMyPCg1Px8KCRolLCsODTQRDzNDTREdJEQaFkIUEzsTEgkVHEoVFEsaFUwcGlIeGjwZFVEkI2mAjXOLl2B2g1pvey09SBMYHFRmcRMlMDlLVyM6RgQSG8bROHQAAAAJbm9QRQAAAAAAAAAAAKGKctUAAABzSURBVBhXNcnbFsIgDETRtI3FIKSQBPBe/f+fFHE5T2evAYBpXhDxsODae3X/wRGdI0/kPXk4hd6Rt8iRISTnOYuIqkFKVNiymKl+sbGJZYvj8cKqVcfjiGNW5fpDabWUer4MtPlaarthx/0xT8+9vd7hA+tIB9rzLA2SAAAAAElFTkSuQmCC")
-
-/***/ }),
-
-/***/ "./skillbertssolver/cluesolver/imgs/eocx.data.png.js":
-/*!***********************************************************!*\
-  !*** ./skillbertssolver/cluesolver/imgs/eocx.data.png.js ***!
-  \***********************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports=(__webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js").ImageDetect.imageDataFromBase64)("iVBORw0KGgoAAAANSUhEUgAAABcAAAAWCAMAAAAcqPc3AAAAAW5vUEUAYtdMlAAAAARub1BFAAAAAEEgjiIAAAFKUExURQAAABkqMxIdIxMiKgQSGwINFAIVIUFTXyQyPAkVHRIgKCYtNUAJBn4xGKUyKNBaSj4JBicuNhMlMAwaIxEcISEnLz8IBe/FY+mcV8ZPQj8JByAkKBwwPGEKBJYlHeGQSP7KXEAKBzlLVyEmKzYGBYgaFNWDOvy/SSEuOTE6Q0sKB2sKB811Kvy0NXIKBgwYHjNDTQMJDBsnL0BETGMLCX4PCcVpG/upI2IMCgMDBBgmLzU5QWIKCJYwCPqgEr9eDjU9Ris6RAYMDxYiKWUWDWQWDTM5QDpOWixBTRwoMDE0OlsMDVoMDSsxOQcVHl1xfS09SAYNEBgkKlsLDCsuNUBQWg8dJic1QRItOwYRGDExNlwLDDY9RjlIUlNmcQweKSYuNTQ+RkxeagEFC0daZSM6RgoiLhokKktgbAIbJwQQFgwRFRMdIwAAAMy8RMYAAABudFJOU/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8AoAU8MwAAAAlub1BFAAAAAAAAAAAAoYpy1QAAAa1JREFUKFMlkf9T00AQxe+ye/QWbdA8FdBr0GihWmgStYjWggWVICj1Wyl+i4opWvX//9VjfPNmduYzO/vezKq/OiDNZqZmZfbc+Xo4NxfWL1ycVRGTZXDN4tLlK/X5hcXFhfn61WuKyRkJ/uNGvHR9yTtu3FBwLJzYQG7eajTDcHllZTkMmw1lhdnUWmJu32k343h1bW01jpsdZVKBQYb87r37ne76g3XvbmdDsYAYyOTho97j/uZWt7u12d94ooRhWCgbpNs7vaf9jlf/2fNdZQFf05ItsL33Yr/tdfBy95WyTpPVdOh4iNdvem8b7YN370es7JCgB4dHGFMhx3sfPu5/+jyCVrnWMF9KcQxd4Hjn67fvIzitTiTTPyJUgWGKCuSScemQK2bKHFXMKYHLISWAx4ECs05kAi8GnSaYWOSoVIkJbJUlw2rA3KoxjoI8qCI1LlFGtUIDlOifAXwEKg3lyplfhSNMzFQnZ/l5WkWcqnFVFQ4li8lzgaVcrAafKn+FzjKn/jvsKP+dkoj1nCBIxQgk8k3EU9GBUX5Mp2yMYb9tTJoSt/6cmH+D5EJZGWljEQAAAABJRU5ErkJggg==")
-
-/***/ }),
-
-/***/ "./skillbertssolver/cluesolver/imgs/legacybotleft.data.png.js":
-/*!********************************************************************!*\
-  !*** ./skillbertssolver/cluesolver/imgs/legacybotleft.data.png.js ***!
-  \********************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports=(__webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js").ImageDetect.imageDataFromBase64)("iVBORw0KGgoAAAANSUhEUgAAAAwAAAAHCAIAAACz0DtzAAAAAW5vUEUAYtdMlAAAAARub1BFAAAAAEEgjiIAAAAJbm9QRQAAAAAAAAAAAKGKctUAAADVSURBVChTY5zQWSYsJLZl6xYWZtY/f39fuXaDgYGBjYX515+/fDy8P358AzJAip4/f6mjrbt3376PHz8AVfz99wdIQgAzEwuQywThXLl62dnJiY2NDSjEy80vJCgCJIGIn18AyAYpsnP2sbRxA6rz8fYBcoGWfv/+DUhCGEARxr72skuXrrx4eE/fzBzIB9q7eu0qIAMCINYxa6gp/fzxnUdA8OvXb0B0//797z9AuiEqgNYBuYwJkV6/f4FMhkgAgaiIMCc72+9/v//8/s/Cyvjn938ASgxr+1oDceAAAAAASUVORK5CYII=")
-
-/***/ }),
-
-/***/ "./skillbertssolver/cluesolver/imgs/legacytopleft.data.png.js":
-/*!********************************************************************!*\
-  !*** ./skillbertssolver/cluesolver/imgs/legacytopleft.data.png.js ***!
-  \********************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports=(__webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js").ImageDetect.imageDataFromBase64)("iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAIAAADZF8uwAAAAAW5vUEUAYtdMlAAAAARub1BFAAAAAEEgjiIAAAAJbm9QRQAAAAAAAAAAAKGKctUAAAEmSURBVChTTZDJSgNBEIZ7melk9kFRRk0i+ALe9OojePMJvXnw7FkQvXkRNzwFFEVISDJLT3ePf9uDsSh+vir+ql7o5cX5zfUVIeT+7lakKYAzTwgB8LivdGs7s+lDsTeCI9sufM/vTKeNAkgpa1kp1SLZ4dExHJs7Y8whsyzHaBCEPQxDuylhTbF/kKXx1/enbBu0MAoty1XXGcf07PQkzzfeP6aT0Rj1/1iuqjgKANaE5fP57PHpRWnjceZUDKKyXLhybXp+fZvsbmFOGeIxMgyTulyAGaMMr/jdTYTHO8rR5dzqcmkdCGM6FgYRyKkYCDgAcZwAEHYNEt/VyhYqlZZNv7WqSgeUMiRzxV/g2T0RorWGomPv5Au/qtejDhA4DheglP0Aa2SQg761+aoAAAAASUVORK5CYII=")
-
-/***/ }),
-
-/***/ "./skillbertssolver/cluesolver/imgs/legacyx.data.png.js":
-/*!**************************************************************!*\
-  !*** ./skillbertssolver/cluesolver/imgs/legacyx.data.png.js ***!
-  \**************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports=(__webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js").ImageDetect.imageDataFromBase64)("iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAB00lEQVQ4T6WTsWvbUBDGP4MHZegf4S0uZLChQ7QlkKHOlECXGjzUY8dAps6dsmYqmYrJ1GQIOENAHgzq0GIPLWRUIIFnsOG9QaCDCBru7j3ZMZmaWyQ97n7f3XdPtdZm4x9eETUGnHw9wmxmYBYOeASiN5EiS5IHlSsKj/xNsHmB028XEMCX4z6yzMDmFkSEqB5JkkQ9qkABwznWWVxcTxXQ7x3CGLMs8ooMIQIi31AA8xmLDW884POnQ2QMIMLZeSJC3Q+7kOq66g4uUz0/iOXYLAyS8a120P3YgZ1bST77PqzmZgiLDy4VyrG/F8tIJrdIRh7Q73WQ3RstJMKPK1UL6lXxToyC5QE4BoQOGODmFianyrDhjYf46t3ttgAL7y3nJ79XOjDGwuVOXQeQjFJZX+Q9iN+1FVUSinKtg+CB4/ZKQjKeANio5taXAnHrrRRzzJxF+vOFDniuMH+81ZDX9E9WwVrNBlAWYLFnWzD3usb0lwLaLU5cGjmZKqTZbIBQwM0JafCA15U9GClgSPCBC9gDvlDBPNkUd2BXAJ3323ALpzexRDVnmF2LlpbIVbaE6d9MLxK3yz+HJMqa/K7WbCROqbZAyO6MAm7v9BL9TzwBIN4z8nZ7bgEAAAAASUVORK5CYII=")
-
-/***/ }),
-
-/***/ "./skillbertssolver/cluesolver/imgs/lockboxmage.data.png.js":
-/*!******************************************************************!*\
-  !*** ./skillbertssolver/cluesolver/imgs/lockboxmage.data.png.js ***!
-  \******************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports=(__webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js").ImageDetect.imageDataFromBase64)("iVBORw0KGgoAAAANSUhEUgAAACYAAAAmCAYAAACoPemuAAAAAW5vUEUAYtdMlAAAAARub1BFAAAAAEEgjiIAAAAJbm9QRQAAAAAAAAAAAKGKctUAAANKSURBVFhH7ZZLaBNBGMf/u5t95FFba9PUF6KgleKDHgpKDz0pgqAonnyDIoJ6UESk1IOCFz0I2noRX4iKxx7EHnxBrYpUa5u2aaWtsTaNaZOadJPs5rEZp5vFmzZNIgXZH4TZ+WZ2vn++75uZhYmJiYnJv4Ex2qJx9dkE6XH/xHD3EOSQH+62o3n5KKqw8499ZKjLB29fD6KyjJQ8iWg8gsBgy5z9sEZbFNztAwiNf0OakSAKFoALQuDGjNG5UVRhVkcJ/N5BKEEPeNEKodSO7/2t85vKuu03iByJQJRKkVAjdGEFnjeX816/4IjN1NWZ215SuaIGjtIqGjWHLo4Xy4wZ+VGQsAMXXpCu568w0NWn910rVurCZiKWgarb8qWgVJ5o6SXut+8Q9nsR+jEKq1QChpNgofWVTihYtKYC7x82zk+N7W1qJ+HwNCa/joDjHYjLQd2eiIXB2uPwvLg2P8JWrT9EFCUK19J1UFJRICPpdi35kwpj8aW9OS8fBRf/5j3HsaFhF2JxWe+z9Pia+c3AaGL2IQ8KFvbZI6Cyug5r6rZjYeU6fTdmMioUVQZrzWDT/nPEmDonOKPNi+62rcTJdOLWzQ78mPRDplGT5TC4RBAWlkGtU0C9M45XnZ0XjVdyJu8a671VQ767GdQfdqHjXgA3H/Goq5bgVxkslgiqrBoC9Cb4rFkRZByYiC0BT2zoeZnboZtzKrcc+0Aazg6R1fV3ie9+Len/YMGe633o7dAgKxzW8mNwakGUp0YxkpTROp7Eu8m0/m4FidKzje7c0QGUL9mWU2r/qP7AlUHi9yaQUcOGhebdIqHz4yccqf2EUztUaPKUbr90+jU2ukr05yDDQrGXIRqcQti1DIGkgJFoBdLJ7I6w00gqWgl8/Q/+Grk/Du6+MEjkQIRu++msgRXoUZBEaMyDoXHAwcTRtI9HaGQYrU/dWF3FIJYIY1rJTp/K2DCRXoCMxQnJzkDksslhRFG/3Gc733LK987G7t/hV+lFHfENI6ZqGKOpSiopVCwX6fdXRB/nNEMZpZxnqQMFPP1PkCTYJBF8mQ3td07O6jcnYbPRcOQJIemU0aOkDXFCdnmbXUBb88Gi+DIxMTEx+T8BfgEjPUmx7pYZZAAAAABJRU5ErkJggg==")
-
-/***/ }),
-
-/***/ "./skillbertssolver/cluesolver/imgs/lockboxmelee.data.png.js":
-/*!*******************************************************************!*\
-  !*** ./skillbertssolver/cluesolver/imgs/lockboxmelee.data.png.js ***!
-  \*******************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports=(__webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js").ImageDetect.imageDataFromBase64)("iVBORw0KGgoAAAANSUhEUgAAACYAAAAmCAYAAACoPemuAAAAAW5vUEUAYtdMlAAAAARub1BFAAAAAEEgjiIAAAAJbm9QRQAAAAAAAAAAAKGKctUAAAFASURBVFhH7dQ/S8NAGMfxRyddRKpSRQURTAerg+Kg9A04+Qqcuumim++pOIiJfxMQG9C0pRooWIOaVqKipaiLUqj+5CBuIjYm5RnusxyXIfflOTiSJElirPnxiadaHf72R53+2jZv7w0UCwXKF8/8Lww8PNah7etwHOfXabXVrXePbW0PV26VT5SIEVGtTKrDXyNTKjtwr28oMTFOiqL8+bxIw07tMmpehcZGR2hqOtnSWZGFmecXeL6rBooSInkudq0SXjyX4v2xQFFC6BPL6CfoarzSYKyH5uYXAv8/1LCMeoBualK8r/dfUaHa3NKgqjt83iiBZZRxbDKMMo5wqBu8orJZEyLM3/KQt23krByvqMXlNNIra7yi1lOzvIKEjclhflGriSF+UcLl0gy/MC05wC/Kqng8r1CSJOkb0RfhAI40L3UOhQAAAABJRU5ErkJggg==")
-
-/***/ }),
-
-/***/ "./skillbertssolver/cluesolver/imgs/lockboxrange.data.png.js":
-/*!*******************************************************************!*\
-  !*** ./skillbertssolver/cluesolver/imgs/lockboxrange.data.png.js ***!
-  \*******************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports=(__webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js").ImageDetect.imageDataFromBase64)("iVBORw0KGgoAAAANSUhEUgAAACYAAAAmCAYAAACoPemuAAAAAW5vUEUAYtdMlAAAAARub1BFAAAAAEEgjiIAAAAJbm9QRQAAAAAAAAAAAKGKctUAAAHESURBVFhHYxgFo2AUDDLACKUxQHeMzf/rz98zKEqKMAhysjKI/fnL8PvvPwZWZiaGj3//M6QuOoBTLzUAXsNvdzn/37vhAQMvIzMDGw8bgxgfMwM7KyODuBIHA7cwkF94iKaOwwmWNAT+hzJxghdtlv8/b/ElqI7q4MjyPKIspbbjmKA0TnD9MRPD4YWpBC29Pe8Zw/cdXvQPOWIcBwLYQm7G2t3/v//4+X/PwUNEO5xgiMHAjVc8UBZ+8PvheygLAiIjAv7bOdgwPH/zkcHF3o42mWV2dyFRPv600JH+UdpankCUpUeqzAaf45Kdtf//vGxPf4eBAC7HVUdbYIifznOhnyNDAlz/t1YkYlj4/ZwzVkfQvRBuKIr93xRqB7YU5Ch3A0GcDqB7OTepJoboNEVXx4FCykVXiGgL6RKtyGkKFK0H5iYRtBRU8UOZ1AeNCTb/cSV0UPUVFzgAhWx7tB5BS4mtW6kGkkOc/n+fK0KUpfgcd7eUijXD569fSTIMXw1xIsqAeg77/fsXyYaBHIct5A6G6lPHYeQ4ChmgO26juw51HEYNgOy4pdZqg8dhyGCGlfLgdNgoGAWjYBRQBTAwAACCNM2hwMRS7AAAAABJRU5ErkJggg==")
-
-/***/ }),
-
-/***/ "./skillbertssolver/cluesolver/imgs/runearea.data.png.js":
-/*!***************************************************************!*\
-  !*** ./skillbertssolver/cluesolver/imgs/runearea.data.png.js ***!
-  \***************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports=(__webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js").ImageDetect.imageDataFromBase64)("iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAAfklEQVRIS+2W4QrAIAiEbe//zo6gIrcZXmhjse9PEeWlJ1FiZormKGMo+4hYPek3pTJeD9b1GzOZ5OBQt+zvCVQOhebRUyYeAoLIcrXLRooMy6X2O4CI8WlPxEVfM97Dk8zQeHcsr7C1EdQKLMlkRgT2zCLSB61zSOj/rQAQnarFGiH1JGtPAAAAAElFTkSuQmCC")
-
-/***/ }),
-
-/***/ "./skillbertssolver/cluesolver/imgs/slide.data.png.js":
-/*!************************************************************!*\
-  !*** ./skillbertssolver/cluesolver/imgs/slide.data.png.js ***!
-  \************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports=(__webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js").ImageDetect.imageDataFromBase64)("iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAACh0lEQVRIS7WUz2sTQRTH35Y0v3806Tahkh9aRZtiNQTJNpFWUELFg4ci6EEFQRBvXrz4B3jx4k0EQVAPCtKjWIKCFptukBCtNFU02jZYkm6tSdokTUMiM8tsdtykKRLfZXbevPeZ73szs4ymp68O/8EYBH54MdxR9JUnEWC0dlf99pCjo+Bb85kGeL3amY5YVQw0Bd94cB2rn3rOQ/JlfMdKvKf9MH6OwzF3r97DY1swgfOTUTDrNdQG+eIWcBNBCborcOisB4ZPiCqQvY18BQSXG4KOhQ9Irrk3PMxElwFWa0rFi/kyVlaw2mF8VEfDH38AfuYjBnGhIzB26SgFnZougWk9C6gSj1lL9xiBkRF4gHPCsYBNArx4vYK/z5zsl3zvY78gxqclKMm/8yUr3oqbB+14N2Kt4PJ2NIO2BZMANHp9h2D/cZbq8bd3AiQTn7FPLmhX4N/lbZw4Eu4D/4ifAsdn4zAbWcW+Hm03tYaqlVpxzWkBApJHDXJOCHIuKpFMovwyLPBpxZrbZmwNzlcqEBgdoKCJHzUM8e3tkmAIHptOgVmtlnyogvvpnHh4csUE6vNapOBEMgcZQUx2sBX4e00OV4CX8ps48fAwC6GgC/LlEp6nvlcgOZ+jSvYOWWBgn7iRWavDj+PTnIDnbrOBVkzAFy4PShACZQoFQJVgkFoNdZMJ5HDkf/poQQk+z+pxYhfLwsQpIw5Y+tmFlRbW1poenqm3F8Pde8TeT77agJog0IrlYI1FD1qdEaormZZQshOCq/odUC5twFauqASjw0tlsk2VyZ0qnQGqJfEsWn3bLFZ4JhQbT3pxm4FNhgFDXfnDR35kZG2nuae73rjHbaX+Q8AfQ2JhBFGRM4EAAAAASUVORK5CYII=")
-
-/***/ }),
-
-/***/ "./skillbertssolver/cluesolver/imgs/slidelegacy.data.png.js":
-/*!******************************************************************!*\
-  !*** ./skillbertssolver/cluesolver/imgs/slidelegacy.data.png.js ***!
-  \******************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports=(__webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js").ImageDetect.imageDataFromBase64)("iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAIAAABL1vtsAAAA4ElEQVQ4T7WSMQrCUBBEvUhIYWtjYWFpYQortbKx095KPIFg7SUE72HnLTyIG+YzmWw2CRKER3B3Zx4RMhrn2UBKxe2yDTkfCuD2SlIwCo67BZ5Er8QrtBCiZSUpmPu87wbHEJeJFR2WZsArjGaIhKeaYr+aAka50SXLICmYWxczw368nieApY6OSoEmFIA1oleSFG5LevvGnxXaB7Zczifu2apgzXKGG5VY8bhugEbDpVEpMLf1QXhKCs5hSGkGYgXHkFjBP/IrVkwKfKru3Iv1ax+4YreO90KTJMUg8uwLeaHDAGhF14sAAAAASUVORK5CYII=")
-
-/***/ }),
-
-/***/ "./skillbertssolver/cluesolver/imgs/youaretoofaraway.data.png.js":
-/*!***********************************************************************!*\
-  !*** ./skillbertssolver/cluesolver/imgs/youaretoofaraway.data.png.js ***!
-  \***********************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports=(__webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js").ImageDetect.imageDataFromBase64)("iVBORw0KGgoAAAANSUhEUgAAAIcAAAATCAYAAAC6EB5fAAAAAW5vUEUAYtdMlAAAAARub1BFAAAAAEEgjiIAAAAJbm9QRQAAAAAAAAAAAKGKctUAAAGZSURBVGhD7ZcLjsMgDETJ3v/OLYPiiGX9AzaEqn5Sq8j2TBxiIXK8MimlI/9apLgX6IHHW6slevxarDzg/Efvqem8SP14Pa0eJK9L94O/DAVqpLgX6M/LP7TeWi2BglZHSHHCygPU4M/bF3KSp6YjXP00mKYVVg9S8tJh5ygXN0HmWpdtAz0LsALPM3CM6mpmPab0dw+Hizypv5rIPe02IF/J7HBAbL1IT83ujD7Df6zP7PoN67XhoARn7Hkg4G2qt77F0o/4j/Y0+yzA8zya/0wPlxYHUolyMGm3/BPkuDihaTl661ssvZXnGNGAUV2N5YG85m/pNS7tFmeOYE+0nSP4cmI4ApEYjkAkhiMQeWo4tFOwlEOcy0lxjl7vGqrh6jS9lgOan6a7naeGQ/v+xqcUtyjQcDnEzksTqdDjUWqEOk2v5QCXLBpDdzvxKbsGWuRn33YnceZYA4biowYDxHCs4+O26B2HA4u4eiE996Qars4T79k5SFd71tdL2HE46DC2cjHKPQ2oL643ynnjFqSrtYgtXJOU3tKQhbhSTqGmAAAAAElFTkSuQmCC")
-
-/***/ }),
-
-/***/ "./skillbertssolver/cluesolver/imgs/youaretoofaraway_pt.data.png.js":
-/*!**************************************************************************!*\
-  !*** ./skillbertssolver/cluesolver/imgs/youaretoofaraway_pt.data.png.js ***!
-  \**************************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports=(__webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js").ImageDetect.imageDataFromBase64)("iVBORw0KGgoAAAANSUhEUgAAAIcAAAATCAMAAACNzu5tAAAAAW5vUEUAYtdMlAAAAARub1BFAAAAAEEgjiIAAAAJUExURf///wAAAAAAAH5RqV0AAAADdFJOU///ANfKDUEAAAAJbm9QRQAAAAAAAAAAAKGKctUAAAEUSURBVEhL7ZRZbsMwDEQt3//Q5TIUVxcOYrT5yAOiGY2oJUrs4zgFqHXNHSLmuWXIbC9gqIRJrWTXuNP1lvoshLoFkXbjSxhT2djzMAyvsiJ9fQTunL77y1xuUNZeRHWPcrXBu9/xgTsS7HayEOri5bnblGgXY654gJ6HceWDZtg/MQmhLl6eu02JdjHmigfo1A2EtdKZ/5HvOTJ3zvEXZ/2c+8BJWNqzhUHLpWVSYWyniImDRRTy9kDh49IID1qX68gZakA8EyhvfmaoImLhMIlDGCMHsdcn0znTm/8XYuHtSTPTOZ6jrZ6DdB/hdmD7dUJ2PhT2KI4KFqii5UY1veejOOjHXyGK0KM4Kligipab8/wB5pASbdlEa+gAAAAASUVORK5CYII=")
 
 /***/ }),
 

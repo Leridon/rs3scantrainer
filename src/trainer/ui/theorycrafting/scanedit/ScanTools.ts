@@ -9,10 +9,13 @@ import {observe} from "../../../../lib/reactive";
 import ScanEditor from "./ScanEditor";
 import ButtonRow from "../../../../lib/ui/ButtonRow";
 import {Checkbox} from "../../../../lib/ui/controls/Checkbox";
+import span = C.span;
 
 export default class ScanTools extends Widget {
     normal = observe(false)
     complement = observe(false)
+
+    expected_timing_display: Widget
 
     constructor(private editor: ScanEditor) {
         super();
@@ -54,7 +57,21 @@ export default class ScanTools extends Widget {
                 new Checkbox("Complement").onCommit((v) => {
                     this.complement.set(v)
                 })
-            )
+            ),
+
+            c("<div style='font-weight: bold'>Expected Average Time</div>"),
+            this.expected_timing_display = c().css("text-align", "center").css("font-family", "monospace"),
         ).appendTo(this)
+
+        this.editor.builder.augmented.subscribe(t => {
+            const avg = span(t.state.timing_analysis.average.toFixed(2) + " ticks")
+
+            const any_incomplete = t.state.timing_analysis.spots.some(s => s.timings.some(t => t.incomplete))
+
+            if (any_incomplete) avg.css("color", "yellow").tooltip("Incomplete path")
+
+            this.expected_timing_display.empty().append(avg)
+        })
+
     }
 }

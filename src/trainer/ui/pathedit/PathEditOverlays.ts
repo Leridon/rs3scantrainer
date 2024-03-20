@@ -161,9 +161,9 @@ export class PathEditOverlayControl extends GameMapControl {
 
         this.lens_layer.enabled1.set(false)
 
-        this.setContent(new ControlWithHeader("Overlay")
+        this.setContent(new ControlWithHeader("Path Tools")
             .append(
-                this.lens_checkbox = new Checkbox("Ability Lens")
+                this.lens_checkbox = new Checkbox("Show Ability Lens")
                     .onCommit(v => {
                         this.lens_layer.enabled1.set(v)
 

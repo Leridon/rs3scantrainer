@@ -38,6 +38,7 @@ export namespace ScanTree {
 
     export namespace Augmentation {
         import avg = util.avg;
+        import ends_up = Path.ends_up;
 
         export type AugmentedScanTree = {
             raw: ScanTree,
@@ -250,6 +251,13 @@ export namespace ScanTree {
                     node.completeness = "incomplete"
                 else if (cs.some(c => c.completeness == "incomplete" || c.completeness == "incomplete_children"))
                     node.completeness = "incomplete_children"
+                else if (node.remaining_candidates.length == 1) {
+                    const e = ends_up(node.raw.path)
+
+                    if (!e || !TileRectangle.contains(digSpotArea(node.remaining_candidates[0]), e)) {
+                        node.completeness = "incomplete"
+                    }
+                }
             }
 
             if (!tree.state.completeness_analyzed) {

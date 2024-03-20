@@ -74331,7 +74331,7 @@ function transformWithLoc(transport, use) {
     const current_origin = transport.type == "entity"
         ? _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_2__.TileRectangle.bl(transport.clickable_area)
         : transport.position;
-    transport = _lib_runescape_transportation__WEBPACK_IMPORTED_MODULE_1__.Transportation.transform(transport, _lib_runescape_coordinates_TileTransform__WEBPACK_IMPORTED_MODULE_4__.TileTransform.translation(_lib_math__WEBPACK_IMPORTED_MODULE_5__.Vector2.sub(use.origin, current_origin), use.plane));
+    transport = _lib_runescape_transportation__WEBPACK_IMPORTED_MODULE_1__.Transportation.transform(transport, _lib_runescape_coordinates_TileTransform__WEBPACK_IMPORTED_MODULE_4__.TileTransform.translation(_lib_math__WEBPACK_IMPORTED_MODULE_5__.Vector2.sub(use.origin, current_origin), use.plane - current_origin.level));
     if (transport.type == "entity") {
         transport.clickable_area = _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_2__.TileRectangle.extend(transport.clickable_area, 0.5);
     }

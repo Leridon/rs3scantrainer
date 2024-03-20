@@ -280,6 +280,7 @@ class StepEditWidget extends Widget {
     }
 }
 */
+
 export class EditedPathOverview extends Widget {
     steps_container: Widget
 

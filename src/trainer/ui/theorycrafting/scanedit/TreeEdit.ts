@@ -29,6 +29,9 @@ import Pulse = Scans.Pulse;
 import * as assert from "assert";
 import Order = util.Order;
 import ScanEditor from "./ScanEditor";
+import {timeSync} from "../../../../lib/gamemap/GameLayer";
+import hbox = C.hbox;
+import vbox = C.vbox;
 
 export class DrawRegionAction extends ValueInteraction<ScanRegion> {
     constructor(name: string) {
@@ -162,12 +165,28 @@ class TreeNodeEdit extends Widget {
     constructor(public parent: TreeEdit, public node: AugmentedScanTreeNode) {
         super()
 
-        this.self_content = c().addClass("ctr-scantreeedit-node")
+        this.self_content = hbox().addClass("ctr-scantreeedit-node")
         this.child_content = c()
 
         {
             let self = this
 
+            this.self_content.append(
+                hbox(
+                    c().css("background-color", ["blue", "purple", "green"][node.depth % 3])
+                        .css("width", "3px")
+                ).css2({
+                    "padding-left": `${node.depth * 7}px`,
+                    "padding-right": "4px",
+                })
+                    .tooltip("Click to collapse")
+                    .on("click", () => {
+                    this.is_collapsed = !this.is_collapsed
+
+                    this.child_content.setVisible(!this.is_collapsed)
+                    this.body.setVisible(!this.is_collapsed)
+                })
+            )
 
             let spot_text = natural_join(shorten_integer_list(node.remaining_candidates.map((c) => ScanTree.spotNumber(parent.parent.builder.tree, c)),
                 (n) => `<span class="ctr-digspot-inline">${n}</span>`
@@ -178,7 +197,7 @@ class TreeNodeEdit extends Widget {
             }
 
             let collapse_control = c(`<div style='margin-right: 5px; cursor: pointer'><img src='${get_ar()}'></div>`)
-                .css("margin-left", `${(node.depth + 1) * 5}px`)
+                //.css("margin-left", `${(node.depth + 1) * 5}px`)
                 .tapRaw(r => r.on("click", () => {
                     this.is_collapsed = !this.is_collapsed
 
@@ -192,15 +211,15 @@ class TreeNodeEdit extends Widget {
                 .tapRaw(r => r.on("click", () => this.parent.setActiveNode(this.isActive() ? null : this)))
 
             this.header = c(`<div style="padding-left: 5px; padding-right: 5px; display:flex; overflow: hidden; text-overflow: ellipsis; text-wrap: none; white-space: nowrap; font-weight: bold;"></div>`)
-                .append(this.you_are_here_marker)
-                .append(collapse_control)
-                .append(this.decision_span = c(`<span class='nisl-textlink'></span>`).tooltip("Load decisions into map")
-                    .tapRaw(r => r.on("click", () => this.parent.setActiveNode(this.isActive() ? null : this)))
-                )
-                .append(spacer())
-                .append(span(`${node.remaining_candidates.length}`)
-                    //.addClass(ScanTree.completeness_meta(node.completeness).cls)
-                    .addTippy(c(`<span>${spot_text}</span>`))
+                .append(
+                    //collapse_control,
+                    this.decision_span = c(`<span class='nisl-textlink'></span>`).tooltip("Load decisions into map")
+                        .tapRaw(r => r.on("click", () => this.parent.setActiveNode(this.isActive() ? null : this))),
+                    this.you_are_here_marker,
+                    spacer(),
+                    span(`${node.remaining_candidates.length}`)
+                        //.addClass(ScanTree.completeness_meta(node.completeness).cls)
+                        .addTippy(c(`<span>${spot_text}</span>`))
                 )
         }
 
@@ -216,7 +235,7 @@ class TreeNodeEdit extends Widget {
             this.region_edit = this.body.named("Region", new RegionEdit(this))
         }
 
-        this.body.named("Direction",
+        this.body.named("Instructions",
             this.description_input = new TemplateStringEdit({
                 resolver: this.parent.parent.app.template_resolver.with(scan_tree_template_resolvers(node)),
                 generator: () => {
@@ -236,9 +255,10 @@ class TreeNodeEdit extends Widget {
                 .setValue(this.node.raw.directions)
         )
 
-        this
-            .append(this.self_content.append(this.header).append(this.body))
-            .append(this.child_content)
+        this.append(
+            this.self_content.append(vbox(this.header, this.body).css("flex-grow", "1")),
+            this.child_content
+        )
 
         this.renderValue(node)
     }
@@ -333,8 +353,11 @@ export default class TreeEdit extends Widget {
 
         this.parent.builder.augmented.subscribe(async (tree) => {
             if (tree) {
-                if (this.root_widget) this.root_widget.renderValue(tree.root_node)
-                else this.root_widget = new TreeNodeEdit(this, tree.root_node).appendTo(this)
+                timeSync("Render tree", () => {
+                    if (this.root_widget) {
+                        this.root_widget.renderValue(tree.root_node)
+                    } else this.root_widget = new TreeNodeEdit(this, tree.root_node).appendTo(this)
+                })
             }
         }, true)
     }
@@ -352,9 +375,14 @@ export default class TreeEdit extends Widget {
     }
 
     setActiveNode(node: TreeNodeEdit) {
-        if (this.active.value()) this.active.value().setActive(false)
-        this.active.set(node)
-        if (this.active.value()) this.active.value().setActive(true)
+        timeSync("Set active", () => {
+            if (this.active.value()) this.active.value().setActive(false)
+
+            this.active.set(node)
+
+            if (this.active.value()) this.active.value().setActive(true)
+        })
+
 
         // TODO: Update preview
         //      - You are here marker

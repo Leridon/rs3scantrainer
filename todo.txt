@@ -9,15 +9,10 @@ Planned for next release (b0.4):
     - [Feature, 4] Implement areaPolygon properly!
 
 - Data
-    - [Dev Tool, 5] Utility Layer for shortcut parsing
-        - Quick-access 5 most recently used parser groups.
-        - "Associate with parser"
+    - [Dev Tool, 3] Utility Layer for shortcut parsing
         - Option to overlay parsed transports
             - Dialog "Parsed <x> methods of transportation. [Export] [Show on Map]"
         - "Go to next entity"
-        - Define parsers:
-            - "Prototype parser"
-                - UI to create a transportation method
 
 - Path Editor
     - [Feature, 3] Highlight step on hover

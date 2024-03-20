@@ -64184,6 +64184,7 @@ class GameMapContextMenuEvent extends GameMapEvent {
         this.leaflet = leaflet;
         this.coordinates = coordinates;
         this.entries = [];
+        this.title = "";
         this.for_entity_entries = [];
     }
     add(...entries) {
@@ -64207,7 +64208,7 @@ class GameMapContextMenuEvent extends GameMapEvent {
             }
             return {
                 type: "submenu",
-                text: "",
+                text: this.title,
                 children: this.entries.concat({
                     type: "submenu",
                     text: for_entity.text,
@@ -64217,9 +64218,12 @@ class GameMapContextMenuEvent extends GameMapEvent {
         }
         return {
             type: "submenu",
-            text: "",
+            text: this.title,
             children: this.entries
         };
+    }
+    setTitle(title) {
+        this.title = title;
     }
 }
 class GameMapViewChangedEvent extends GameMapEvent {
@@ -78969,6 +78973,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _map_entities_TeleportAccessEntity__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ../map/entities/TeleportAccessEntity */ "./trainer/ui/map/entities/TeleportAccessEntity.ts");
 /* harmony import */ var _data_transports__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ../../../data/transports */ "./data/transports.ts");
 /* harmony import */ var _map_entities_RemoteEntityTransportTarget__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! ../map/entities/RemoteEntityTransportTarget */ "./trainer/ui/map/entities/RemoteEntityTransportTarget.ts");
+/* harmony import */ var _interactions_DrawCheatInteraction__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! ./interactions/DrawCheatInteraction */ "./trainer/ui/pathedit/interactions/DrawCheatInteraction.ts");
 
 
 
@@ -79014,6 +79019,7 @@ var TeleportGroup = _lib_runescape_transportation__WEBPACK_IMPORTED_MODULE_5__.T
 
 var resolveTeleport = _data_transports__WEBPACK_IMPORTED_MODULE_36__.TransportData.resolveTeleport;
 
+
 function needRepairing(state, shortcut) {
     var _a;
     return state.position.tile
@@ -79034,6 +79040,7 @@ class PathEditorGameLayer extends lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE
         event.onPost(() => {
             var _a, _b, _c;
             if (this.editor.isActive()) {
+                event.setTitle(`${event.tile().x} | ${event.tile().y} | ${event.tile().level}`);
                 if (!event.active_entity) {
                     const current_tile = (_c = (_b = (_a = this.editor.value.cursor_state.value()) === null || _a === void 0 ? void 0 : _a.state) === null || _b === void 0 ? void 0 : _b.position) === null || _c === void 0 ? void 0 : _c.tile;
                     const target_tile = event.tile();
@@ -79352,6 +79359,10 @@ class PathEditor extends lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_4__["default"
         else if (v.type == "run") {
             this.editStep(value, new _interactions_DrawRunInteraction__WEBPACK_IMPORTED_MODULE_17__["default"]()
                 .setStartPosition(v.waypoints[0])
+                .onCommit(new_s => value.update(v => Object.assign(v, new_s))));
+        }
+        else if (v.type == "cheat") {
+            this.editStep(value, new _interactions_DrawCheatInteraction__WEBPACK_IMPORTED_MODULE_38__.DrawCheatInteraction(v.assumed_start)
                 .onCommit(new_s => value.update(v => Object.assign(v, new_s))));
         }
     }

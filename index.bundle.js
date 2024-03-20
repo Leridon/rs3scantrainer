@@ -61781,6 +61781,25 @@ spots: [{
     },
     {
         type: "teleports",
+        id: "explorersring",
+        name: "Explorer's ring",
+        img: { url: "explorersring.png" },
+        menu_ticks: 0,
+        animation_ticks: 10,
+        spots: [{
+                id: "cabbagefield",
+                target: { "origin": { "x": 3053, "y": 3291, "level": 0 } },
+                name: "Cabbage field",
+            }],
+        access: [{
+                type: "item",
+                id: "ring",
+                name: { name: "Explorer's ring 4", kind: "item" },
+                action_name: "Cabbage-port",
+            }]
+    },
+    {
+        type: "teleports",
         id: "karamjagloves",
         name: "Karamja gloves",
         img: { url: "karamjagloves.gif" },
@@ -61940,6 +61959,52 @@ spots: [{
                 action_name: "Teleport",
             }
         ]
+    },
+    {
+        type: "teleports",
+        id: "wildernesssword",
+        name: "Wilderness sword",
+        img: { url: "wildernesssword.png" },
+        spots: [
+            {
+                id: "edgeville",
+                target: { "origin": { "x": 3083, "y": 3499, "level": 0 }, "size": { "x": 7, "y": 7 }, "data": "fz7/////AA==" },
+                code: "1,1",
+                name: "Edgeville",
+                menu_ticks: 3,
+                animation_ticks: 5
+            },
+            {
+                id: "herbpatch",
+                target: { "origin": { "x": 3140, "y": 3822, "level": 0 }, "size": { "x": 7, "y": 7 }, "data": "8/n/////AQ==" },
+                code: "1,2",
+                name: "Herb patch",
+                menu_ticks: 3,
+                animation_ticks: 5
+            },
+            {
+                id: "forinthry",
+                target: { "origin": { "x": 3078, "y": 10056, "level": 0 }, "size": { "x": 6, "y": 6 }, "data": "/P//PQ4=" },
+                code: "1,3",
+                name: "Forinthry Dungeon",
+                menu_ticks: 3,
+                animation_ticks: 5
+            },
+            {
+                id: "agility",
+                target: { "origin": { "x": 2995, "y": 3910, "level": 0 }, "size": { "x": 7, "y": 6 }, "data": "//////MA" },
+                code: "1,5",
+                name: "Wilderness Agility course",
+                menu_ticks: 3,
+                animation_ticks: 5
+            },
+        ],
+        access: [{
+                type: "item",
+                id: "sword",
+                name: { name: "Wilderness Sword 4", kind: "item" },
+                action_name: "Operate",
+            }]
     },
     {
         type: "teleports",
@@ -62177,6 +62242,87 @@ spots: [{
                 img: { url: "Grand_seed_pod.png" },
                 action_name: "Squash"
             }]
+    },
+    {
+        type: "teleports",
+        id: "sandseed",
+        name: "Mystical sand seed",
+        menu_ticks: 1,
+        animation_ticks: 7,
+        spots: [{
+                id: "garden",
+                target: { "origin": { "x": 3320, "y": 3307, "level": 0 } },
+                name: "Garden of Kharid",
+            }],
+        access: [{
+                type: "item",
+                id: "seed",
+                name: { name: "Mystical sand seed", kind: "item" },
+                img: { url: "Mystical_sand_seed.png" },
+                action_name: "Plant"
+            }]
+    },
+    {
+        type: "teleports",
+        id: "passingbracelet",
+        name: "Passing bracelet",
+        menu_ticks: 1,
+        animation_ticks: 4,
+        spots: [
+            {
+                id: "gardens",
+                target: { "origin": { "x": 1169, "y": 1787, "level": 1 } },
+                name: "City of Um: Hanging Gardens",
+                code: "1",
+                facing: lib_runescape_movement__WEBPACK_IMPORTED_MODULE_0__.direction.south
+            }, {
+                id: "haunt",
+                target: { "origin": { "x": 1164, "y": 1838, "level": 1 } },
+                name: "City of Um: Haunt on the Hill",
+                code: "2",
+                facing: lib_runescape_movement__WEBPACK_IMPORTED_MODULE_0__.direction.north
+            }, {
+                id: "reflection",
+                target: { "origin": { "x": 1134, "y": 1723, "level": 1 } },
+                name: "City of Um: Reflection Pool",
+                code: "3",
+                facing: lib_runescape_movement__WEBPACK_IMPORTED_MODULE_0__.direction.north
+            },
+        ],
+        access: [{
+                type: "item",
+                id: "bracelet",
+                name: { name: "Passing bracelet", kind: "item" },
+                img: { url: "Passing_bracelet.png" },
+                action_name: "Rub"
+            }]
+    },
+    {
+        type: "teleports",
+        id: "tomeofum",
+        name: "Tome of Um",
+        menu_ticks: 1,
+        animation_ticks: 4,
+        spots: [
+            {
+                id: "smithy",
+                target: { "origin": { "x": 1145, "y": 1805, "level": 1 }, "size": { "x": 5, "y": 5 }, "data": "//v/AA==" },
+                name: "Um Smithy",
+                code: "1,1",
+            }, {
+                id: "ritualsite",
+                target: { "origin": { "x": 1038, "y": 1760, "level": 1 } },
+                name: "Um Ritual Site",
+                code: "1,2",
+            }
+        ],
+        access: [{
+                type: "item",
+                id: "tome",
+                name: { name: "Tome of Um", kind: "item" },
+                img: { url: "Tome_of_Um_2.webp" },
+                action_name: "Operate"
+            }]
     }
     //TODO: Eagle transport system
     //TODO: Canoes
@@ -62186,7 +62332,6 @@ spots: [{
     //      - 1912 4367 Dagannoth Kings
     // TODO: Slayer masks
     // TODO: Ritual Site teleport incantation
-    // TODO: Tome of Um teleports
 ];
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (raw_data);
 

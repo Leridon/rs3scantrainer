@@ -18,9 +18,6 @@ import {Path} from "../../../../lib/runescape/pathing";
 import {GameMapControl} from "../../../../lib/gamemap/GameMapControl";
 import ScanTools from "./ScanTools";
 import {C} from "../../../../lib/ui/constructors";
-import vbox = C.vbox;
-import SpotOverview from "./SpotOverview";
-import spacer = C.spacer;
 import {Clues} from "../../../../lib/runescape/clues";
 import {ScanTree} from "../../../../lib/cluetheory/scans/ScanTree";
 import {AugmentedMethod} from "../../../model/MethodPackManager";
@@ -50,6 +47,7 @@ import {ConfirmationModal} from "../../widgets/modals/ConfirmationModal";
 import {NisModal} from "../../../../lib/ui/NisModal";
 import span = C.span;
 import ControlWithHeader from "../../map/ControlWithHeader";
+import {deps} from "../../../dependencies";
 
 class ScanEditLayer extends GameLayer {
     private markers: ScanEditLayer.MarkerPair[]
@@ -198,7 +196,7 @@ namespace ScanEditLayer {
                 this.timing_information.timings.forEach((t, i) => {
                     if (i != 0) timing.append(" | ")
 
-                    let s = span(t.ticks.toString() + "t")
+                    let s = span(t.ticks.toString() + " ticks")
 
                     if (t.incomplete) s.css("color", "yellow").tooltip("Incomplete path")
 
@@ -208,7 +206,7 @@ namespace ScanEditLayer {
                 const any_incomplete = this.timing_information.timings.some(t => t.incomplete)
 
                 if (this.timing_information.timings.length > 1) {
-                    const avg = span(this.timing_information.average.toFixed(2) + "t")
+                    const avg = span(this.timing_information.average.toFixed(2) + " ticks")
 
                     if (any_incomplete) avg.css("color", "yellow").tooltip("Incomplete path")
 
@@ -624,6 +622,11 @@ export default class ScanEditor extends MethodSubEditor {
     }
 
     begin() {
+
+        deps().app.notifications.notify({
+            type: "error",
+            duration: null,
+        }, "The editor for scan tree methods is currently undergoing major revamps. Methods created with this version may no longer be compatible after this.")
 
         new GameMapControl({
                 position: "top-right",

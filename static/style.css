@@ -645,6 +645,14 @@ video {
     background-position: center;
 }
 
+.ctr-scantreeedit-node-path {
+    color: #3b83ee;
+    font-size: 0.8em;
+    text-wrap: none;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 .ctr-scantreeedit-node.active .ctr-scantreeedit-youarehere {
     background-image: url("assets/icons/youarehere.png");
     background-size: contain;

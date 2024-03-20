@@ -6249,26 +6249,6 @@
   },
   {
     "type": "door",
-    "name": "Ardougne wall door",
-    "position": {
-      "x": 2558,
-      "y": 3300,
-      "level": 0
-    },
-    "direction": 3
-  },
-  {
-    "type": "door",
-    "name": "Ardougne wall door",
-    "position": {
-      "x": 2558,
-      "y": 3299,
-      "level": 0
-    },
-    "direction": 3
-  },
-  {
-    "type": "door",
     "name": "Door",
     "position": {
       "x": 2467,

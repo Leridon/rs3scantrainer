@@ -9968,6 +9968,1346 @@
     "direction": 3
   },
   {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3012,
+      "y": 3241,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3017,
+      "y": 3206,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3017,
+      "y": 3259,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3028,
+      "y": 3258,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3031,
+      "y": 3248,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3053,
+      "y": 3260,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3028,
+      "y": 3251,
+      "level": 1
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3031,
+      "y": 3261,
+      "level": 1
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3043,
+      "y": 3257,
+      "level": 1
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3054,
+      "y": 3257,
+      "level": 2
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3016,
+      "y": 3246,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3013,
+      "y": 3204,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Church door",
+    "position": {
+      "x": 3001,
+      "y": 3178,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Church door",
+    "position": {
+      "x": 3001,
+      "y": 3177,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2949,
+      "y": 3205,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3525,
+      "y": 7045,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2964,
+      "y": 3206,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3540,
+      "y": 7046,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Tower door",
+    "position": {
+      "x": 2649,
+      "y": 3225,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Large door",
+    "position": {
+      "x": 3109,
+      "y": 3353,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Large door",
+    "position": {
+      "x": 4645,
+      "y": 11481,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Large door",
+    "position": {
+      "x": 3108,
+      "y": 3353,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Large door",
+    "position": {
+      "x": 4644,
+      "y": 11481,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3099,
+      "y": 3366,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3101,
+      "y": 3371,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3103,
+      "y": 3363,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3105,
+      "y": 3360,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3112,
+      "y": 3360,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3120,
+      "y": 3357,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3100,
+      "y": 3362,
+      "level": 1
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3103,
+      "y": 3366,
+      "level": 1
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3111,
+      "y": 3358,
+      "level": 1
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3112,
+      "y": 3362,
+      "level": 1
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3114,
+      "y": 3366,
+      "level": 1
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3116,
+      "y": 3369,
+      "level": 1
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3119,
+      "y": 3358,
+      "level": 1
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3108,
+      "y": 3364,
+      "level": 2
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 4635,
+      "y": 11494,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 4637,
+      "y": 11499,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 4639,
+      "y": 11491,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 4641,
+      "y": 11488,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 4648,
+      "y": 11488,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 4656,
+      "y": 11485,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 4636,
+      "y": 11490,
+      "level": 1
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 4639,
+      "y": 11494,
+      "level": 1
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 4647,
+      "y": 11486,
+      "level": 1
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 4648,
+      "y": 11490,
+      "level": 1
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 4650,
+      "y": 11494,
+      "level": 1
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 4652,
+      "y": 11497,
+      "level": 1
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 4655,
+      "y": 11486,
+      "level": 1
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 4644,
+      "y": 11492,
+      "level": 2
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3107,
+      "y": 3368,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 4643,
+      "y": 11496,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3123,
+      "y": 3364,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 4659,
+      "y": 11492,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3106,
+      "y": 3361,
+      "level": 2
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 4642,
+      "y": 11489,
+      "level": 2
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2701,
+      "y": 3477,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2713,
+      "y": 3483,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2740,
+      "y": 3502,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2706,
+      "y": 3472,
+      "level": 1
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2709,
+      "y": 3472,
+      "level": 1
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Large door",
+    "position": {
+      "x": 2704,
+      "y": 3463,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Large door",
+    "position": {
+      "x": 2704,
+      "y": 3462,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2698,
+      "y": 3494,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Large door",
+    "position": {
+      "x": 2010,
+      "y": 4747,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Large door",
+    "position": {
+      "x": 2612,
+      "y": 3481,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Large door",
+    "position": {
+      "x": 2634,
+      "y": 4693,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Large door",
+    "position": {
+      "x": 2713,
+      "y": 3292,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Large door",
+    "position": {
+      "x": 2712,
+      "y": 3292,
+      "level": 1
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Large door",
+    "position": {
+      "x": 2009,
+      "y": 4747,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Large door",
+    "position": {
+      "x": 2613,
+      "y": 3481,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Large door",
+    "position": {
+      "x": 2635,
+      "y": 4693,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Large door",
+    "position": {
+      "x": 2713,
+      "y": 3291,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Large door",
+    "position": {
+      "x": 2712,
+      "y": 3291,
+      "level": 1
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2677,
+      "y": 3289,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2610,
+      "y": 3316,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2592,
+      "y": 3339,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2635,
+      "y": 3319,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2633,
+      "y": 3322,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 1501,
+      "y": 4324,
+      "level": 1
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2713,
+      "y": 3283,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2714,
+      "y": 3306,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2718,
+      "y": 3274,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2718,
+      "y": 3283,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2723,
+      "y": 3276,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2729,
+      "y": 3276,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2730,
+      "y": 3292,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2734,
+      "y": 3296,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2768,
+      "y": 3276,
+      "level": 1
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2768,
+      "y": 3288,
+      "level": 1
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2767,
+      "y": 3285,
+      "level": 2
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2063,
+      "y": 6197,
+      "level": 1
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2312,
+      "y": 5707,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2311,
+      "y": 5710,
+      "level": 1
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2311,
+      "y": 5718,
+      "level": 1
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3157,
+      "y": 1630,
+      "level": 1
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3207,
+      "y": 3222,
+      "level": 1
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 4757,
+      "y": 6622,
+      "level": 1
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2063,
+      "y": 6185,
+      "level": 1
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2063,
+      "y": 6202,
+      "level": 1
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2292,
+      "y": 5768,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2293,
+      "y": 5772,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2305,
+      "y": 5715,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2308,
+      "y": 5741,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2323,
+      "y": 5737,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2330,
+      "y": 5710,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2330,
+      "y": 5719,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2334,
+      "y": 5731,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2338,
+      "y": 5703,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2350,
+      "y": 5739,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2361,
+      "y": 5728,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2305,
+      "y": 5737,
+      "level": 1
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2311,
+      "y": 5706,
+      "level": 1
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2311,
+      "y": 5723,
+      "level": 1
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2316,
+      "y": 5737,
+      "level": 1
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2319,
+      "y": 5738,
+      "level": 1
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2332,
+      "y": 5736,
+      "level": 1
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2334,
+      "y": 5734,
+      "level": 1
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2323,
+      "y": 5761,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2328,
+      "y": 5789,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2335,
+      "y": 5787,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2330,
+      "y": 5787,
+      "level": 1
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2332,
+      "y": 5785,
+      "level": 1
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2522,
+      "y": 6414,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2522,
+      "y": 6423,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3157,
+      "y": 1618,
+      "level": 1
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3157,
+      "y": 1635,
+      "level": 1
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3207,
+      "y": 3210,
+      "level": 1
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3207,
+      "y": 3227,
+      "level": 1
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 4757,
+      "y": 6610,
+      "level": 1
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 4757,
+      "y": 6627,
+      "level": 1
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Church door",
+    "position": {
+      "x": 3239,
+      "y": 3210,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Church door",
+    "position": {
+      "x": 3239,
+      "y": 3209,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
     "type": "entity",
     "entity": {
       "name": "Ladder",
@@ -21451,6 +22791,466 @@
             "offset": {
               "x": 0,
               "y": 0,
+              "level": -1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2705.5,
+        "y": 3291.5
+      },
+      "botright": {
+        "x": 2706.5,
+        "y": 3290.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2706,
+            "y": 3292,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 1
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": -2,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2707.5,
+        "y": 3283.5
+      },
+      "botright": {
+        "x": 2708.5,
+        "y": 3282.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2708,
+            "y": 3284,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 1
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": -2,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2713.5,
+        "y": 3311.5
+      },
+      "botright": {
+        "x": 2714.5,
+        "y": 3310.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2713,
+            "y": 3311,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 1
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 2,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2720.5,
+        "y": 3273.5
+      },
+      "botright": {
+        "x": 2721.5,
+        "y": 3272.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2721,
+            "y": 3274,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 1
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": -2,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2731.5,
+        "y": 3289.5
+      },
+      "botright": {
+        "x": 2732.5,
+        "y": 3288.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2732,
+            "y": 3290,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 1
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": -2,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2705.5,
+        "y": 3291.5
+      },
+      "botright": {
+        "x": 2706.5,
+        "y": 3290.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 2706,
+            "y": 3290,
+            "level": 1
+          },
+          "size": {
+            "x": 1,
+            "y": 1
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 2,
+              "level": -1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2707.5,
+        "y": 3283.5
+      },
+      "botright": {
+        "x": 2708.5,
+        "y": 3282.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 2708,
+            "y": 3282,
+            "level": 1
+          },
+          "size": {
+            "x": 1,
+            "y": 1
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 2,
+              "level": -1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2713.5,
+        "y": 3311.5
+      },
+      "botright": {
+        "x": 2714.5,
+        "y": 3310.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 2715,
+            "y": 3311,
+            "level": 1
+          },
+          "size": {
+            "x": 1,
+            "y": 1
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": -2,
+              "y": 0,
+              "level": -1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2720.5,
+        "y": 3273.5
+      },
+      "botright": {
+        "x": 2721.5,
+        "y": 3272.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 2721,
+            "y": 3272,
+            "level": 1
+          },
+          "size": {
+            "x": 1,
+            "y": 1
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 2,
+              "level": -1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2731.5,
+        "y": 3289.5
+      },
+      "botright": {
+        "x": 2732.5,
+        "y": 3288.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 2732,
+            "y": 3288,
+            "level": 1
+          },
+          "size": {
+            "x": 1,
+            "y": 1
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 2,
               "level": -1
             },
             "orientation": "toentitybefore"

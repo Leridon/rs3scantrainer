@@ -713,7 +713,7 @@
     "position": {
       "x": 1881,
       "y": 5517,
-      "level": 2
+      "level": 1
     },
     "direction": 2
   },
@@ -723,7 +723,7 @@
     "position": {
       "x": 1893,
       "y": 5517,
-      "level": 2
+      "level": 1
     },
     "direction": 3
   },
@@ -733,7 +733,7 @@
     "position": {
       "x": 1893,
       "y": 5531,
-      "level": 2
+      "level": 1
     },
     "direction": 4
   },
@@ -743,7 +743,7 @@
     "position": {
       "x": 1898,
       "y": 5513,
-      "level": 2
+      "level": 1
     },
     "direction": 3
   },
@@ -753,7 +753,7 @@
     "position": {
       "x": 1900,
       "y": 5519,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -763,7 +763,7 @@
     "position": {
       "x": 1902,
       "y": 5515,
-      "level": 2
+      "level": 1
     },
     "direction": 4
   },
@@ -773,7 +773,7 @@
     "position": {
       "x": 1903,
       "y": 5519,
-      "level": 2
+      "level": 1
     },
     "direction": 4
   },
@@ -783,7 +783,7 @@
     "position": {
       "x": 1906,
       "y": 5515,
-      "level": 2
+      "level": 1
     },
     "direction": 4
   },
@@ -903,7 +903,7 @@
     "position": {
       "x": 3205,
       "y": 3399,
-      "level": 2
+      "level": 1
     },
     "direction": 2
   },
@@ -913,7 +913,7 @@
     "position": {
       "x": 3217,
       "y": 3399,
-      "level": 2
+      "level": 1
     },
     "direction": 3
   },
@@ -923,7 +923,7 @@
     "position": {
       "x": 3217,
       "y": 3413,
-      "level": 2
+      "level": 1
     },
     "direction": 4
   },
@@ -933,7 +933,7 @@
     "position": {
       "x": 3222,
       "y": 3395,
-      "level": 2
+      "level": 1
     },
     "direction": 3
   },
@@ -943,7 +943,7 @@
     "position": {
       "x": 3224,
       "y": 3401,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -953,7 +953,7 @@
     "position": {
       "x": 3226,
       "y": 3397,
-      "level": 2
+      "level": 1
     },
     "direction": 4
   },
@@ -963,7 +963,7 @@
     "position": {
       "x": 3227,
       "y": 3401,
-      "level": 2
+      "level": 1
     },
     "direction": 4
   },
@@ -973,7 +973,7 @@
     "position": {
       "x": 3230,
       "y": 3397,
-      "level": 2
+      "level": 1
     },
     "direction": 4
   },
@@ -1063,7 +1063,7 @@
     "position": {
       "x": 3717,
       "y": 9031,
-      "level": 2
+      "level": 1
     },
     "direction": 2
   },
@@ -1073,7 +1073,7 @@
     "position": {
       "x": 3729,
       "y": 9031,
-      "level": 2
+      "level": 1
     },
     "direction": 3
   },
@@ -1083,7 +1083,7 @@
     "position": {
       "x": 3729,
       "y": 9045,
-      "level": 2
+      "level": 1
     },
     "direction": 4
   },
@@ -1093,7 +1093,7 @@
     "position": {
       "x": 3734,
       "y": 9027,
-      "level": 2
+      "level": 1
     },
     "direction": 3
   },
@@ -1103,7 +1103,7 @@
     "position": {
       "x": 3736,
       "y": 9033,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -1113,7 +1113,7 @@
     "position": {
       "x": 3738,
       "y": 9029,
-      "level": 2
+      "level": 1
     },
     "direction": 4
   },
@@ -1123,7 +1123,7 @@
     "position": {
       "x": 3739,
       "y": 9033,
-      "level": 2
+      "level": 1
     },
     "direction": 4
   },
@@ -1133,7 +1133,7 @@
     "position": {
       "x": 3742,
       "y": 9029,
-      "level": 2
+      "level": 1
     },
     "direction": 4
   },
@@ -1153,7 +1153,7 @@
     "position": {
       "x": 4626,
       "y": 6023,
-      "level": 2
+      "level": 1
     },
     "direction": 3
   },
@@ -1903,7 +1903,7 @@
     "position": {
       "x": 1878,
       "y": 5593,
-      "level": 2
+      "level": 1
     },
     "direction": 4
   },
@@ -1913,7 +1913,7 @@
     "position": {
       "x": 1880,
       "y": 5606,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -1923,7 +1923,7 @@
     "position": {
       "x": 1883,
       "y": 5591,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -1933,7 +1933,7 @@
     "position": {
       "x": 1887,
       "y": 5586,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -1943,7 +1943,7 @@
     "position": {
       "x": 1892,
       "y": 5608,
-      "level": 2
+      "level": 1
     },
     "direction": 4
   },
@@ -1953,7 +1953,7 @@
     "position": {
       "x": 1895,
       "y": 5590,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -1963,7 +1963,7 @@
     "position": {
       "x": 1897,
       "y": 5611,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -1973,7 +1973,7 @@
     "position": {
       "x": 1897,
       "y": 5614,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -1983,7 +1983,7 @@
     "position": {
       "x": 1894,
       "y": 5590,
-      "level": 3
+      "level": 2
     },
     "direction": 3
   },
@@ -2073,7 +2073,7 @@
     "position": {
       "x": 3150,
       "y": 3435,
-      "level": 2
+      "level": 1
     },
     "direction": 3
   },
@@ -2083,7 +2083,7 @@
     "position": {
       "x": 3157,
       "y": 3430,
-      "level": 2
+      "level": 1
     },
     "direction": 2
   },
@@ -2093,7 +2093,7 @@
     "position": {
       "x": 3158,
       "y": 3426,
-      "level": 2
+      "level": 1
     },
     "direction": 2
   },
@@ -2103,7 +2103,7 @@
     "position": {
       "x": 3159,
       "y": 3438,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -2113,7 +2113,7 @@
     "position": {
       "x": 3165,
       "y": 3433,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -2173,7 +2173,7 @@
     "position": {
       "x": 3237,
       "y": 3384,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -2323,7 +2323,7 @@
     "position": {
       "x": 3202,
       "y": 3475,
-      "level": 2
+      "level": 1
     },
     "direction": 4
   },
@@ -2333,7 +2333,7 @@
     "position": {
       "x": 3204,
       "y": 3488,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -2343,7 +2343,7 @@
     "position": {
       "x": 3216,
       "y": 3490,
-      "level": 2
+      "level": 1
     },
     "direction": 4
   },
@@ -2353,7 +2353,7 @@
     "position": {
       "x": 3219,
       "y": 3472,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -2363,7 +2363,7 @@
     "position": {
       "x": 3221,
       "y": 3493,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -2373,7 +2373,7 @@
     "position": {
       "x": 3221,
       "y": 3496,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -2383,7 +2383,7 @@
     "position": {
       "x": 3218,
       "y": 3472,
-      "level": 3
+      "level": 2
     },
     "direction": 3
   },
@@ -2433,7 +2433,7 @@
     "position": {
       "x": 3281,
       "y": 3401,
-      "level": 2
+      "level": 1
     },
     "direction": 4
   },
@@ -2443,7 +2443,7 @@
     "position": {
       "x": 3274,
       "y": 3490,
-      "level": 2
+      "level": 1
     },
     "direction": 3
   },
@@ -2453,7 +2453,7 @@
     "position": {
       "x": 3287,
       "y": 3499,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -2513,7 +2513,7 @@
     "position": {
       "x": 3662,
       "y": 9067,
-      "level": 2
+      "level": 1
     },
     "direction": 3
   },
@@ -2523,7 +2523,7 @@
     "position": {
       "x": 3669,
       "y": 9062,
-      "level": 2
+      "level": 1
     },
     "direction": 2
   },
@@ -2533,7 +2533,7 @@
     "position": {
       "x": 3670,
       "y": 9058,
-      "level": 2
+      "level": 1
     },
     "direction": 2
   },
@@ -2543,7 +2543,7 @@
     "position": {
       "x": 3671,
       "y": 9070,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -2553,7 +2553,7 @@
     "position": {
       "x": 3677,
       "y": 9065,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -2613,7 +2613,7 @@
     "position": {
       "x": 3749,
       "y": 9016,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -2653,7 +2653,7 @@
     "position": {
       "x": 3786,
       "y": 9122,
-      "level": 2
+      "level": 1
     },
     "direction": 3
   },
@@ -2663,7 +2663,7 @@
     "position": {
       "x": 3799,
       "y": 9131,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -3833,7 +3833,7 @@
     "position": {
       "x": 2071,
       "y": 6217,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -3843,7 +3843,7 @@
     "position": {
       "x": 2082,
       "y": 6266,
-      "level": 2
+      "level": 1
     },
     "direction": 2
   },
@@ -3853,7 +3853,7 @@
     "position": {
       "x": 2084,
       "y": 6215,
-      "level": 2
+      "level": 1
     },
     "direction": 3
   },
@@ -3863,7 +3863,7 @@
     "position": {
       "x": 2084,
       "y": 6264,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -3873,7 +3873,7 @@
     "position": {
       "x": 2086,
       "y": 6213,
-      "level": 2
+      "level": 1
     },
     "direction": 2
   },
@@ -3913,7 +3913,7 @@
     "position": {
       "x": 2497,
       "y": 6441,
-      "level": 2
+      "level": 1
     },
     "direction": 3
   },
@@ -3953,7 +3953,7 @@
     "position": {
       "x": 2522,
       "y": 6491,
-      "level": 2
+      "level": 1
     },
     "direction": 2
   },
@@ -3963,7 +3963,7 @@
     "position": {
       "x": 2524,
       "y": 6489,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -3993,7 +3993,7 @@
     "position": {
       "x": 3194,
       "y": 3252,
-      "level": 2
+      "level": 1
     },
     "direction": 3
   },
@@ -4063,7 +4063,7 @@
     "position": {
       "x": 3201,
       "y": 3241,
-      "level": 2
+      "level": 1
     },
     "direction": 3
   },
@@ -4073,7 +4073,7 @@
     "position": {
       "x": 3215,
       "y": 3242,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -4083,7 +4083,7 @@
     "position": {
       "x": 3228,
       "y": 3240,
-      "level": 2
+      "level": 1
     },
     "direction": 3
   },
@@ -4093,7 +4093,7 @@
     "position": {
       "x": 3230,
       "y": 3238,
-      "level": 2
+      "level": 1
     },
     "direction": 2
   },
@@ -4153,7 +4153,7 @@
     "position": {
       "x": 3226,
       "y": 3291,
-      "level": 2
+      "level": 1
     },
     "direction": 2
   },
@@ -4163,7 +4163,7 @@
     "position": {
       "x": 3228,
       "y": 3289,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -4193,7 +4193,7 @@
     "position": {
       "x": 2522,
       "y": 3495,
-      "level": 2
+      "level": 1
     },
     "direction": 4
   },
@@ -4223,7 +4223,7 @@
     "position": {
       "x": 2656,
       "y": 3152,
-      "level": 2
+      "level": 1
     },
     "direction": 2
   },
@@ -4433,7 +4433,7 @@
     "position": {
       "x": 2591,
       "y": 3106,
-      "level": 2
+      "level": 1
     },
     "direction": 2
   },
@@ -4443,7 +4443,7 @@
     "position": {
       "x": 2597,
       "y": 3105,
-      "level": 2
+      "level": 1
     },
     "direction": 2
   },
@@ -4613,7 +4613,7 @@
     "position": {
       "x": 2638,
       "y": 4688,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -4743,7 +4743,7 @@
     "position": {
       "x": 2766,
       "y": 4684,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -4753,7 +4753,7 @@
     "position": {
       "x": 2766,
       "y": 4688,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -4843,7 +4843,7 @@
     "position": {
       "x": 2924,
       "y": 3242,
-      "level": 2
+      "level": 1
     },
     "direction": 4
   },
@@ -4853,7 +4853,7 @@
     "position": {
       "x": 2925,
       "y": 3243,
-      "level": 2
+      "level": 1
     },
     "direction": 2
   },
@@ -4863,7 +4863,7 @@
     "position": {
       "x": 2926,
       "y": 3258,
-      "level": 2
+      "level": 1
     },
     "direction": 4
   },
@@ -4873,7 +4873,7 @@
     "position": {
       "x": 2928,
       "y": 3246,
-      "level": 2
+      "level": 1
     },
     "direction": 2
   },
@@ -4883,7 +4883,7 @@
     "position": {
       "x": 2935,
       "y": 3256,
-      "level": 2
+      "level": 1
     },
     "direction": 2
   },
@@ -4893,7 +4893,7 @@
     "position": {
       "x": 2938,
       "y": 3244,
-      "level": 2
+      "level": 1
     },
     "direction": 2
   },
@@ -4903,7 +4903,7 @@
     "position": {
       "x": 2926,
       "y": 3258,
-      "level": 3
+      "level": 2
     },
     "direction": 4
   },
@@ -4913,7 +4913,7 @@
     "position": {
       "x": 2934,
       "y": 3252,
-      "level": 3
+      "level": 2
     },
     "direction": 2
   },
@@ -5083,7 +5083,7 @@
     "position": {
       "x": 3539,
       "y": 3554,
-      "level": 2
+      "level": 1
     },
     "direction": 3
   },
@@ -5093,7 +5093,7 @@
     "position": {
       "x": 3558,
       "y": 3554,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -5363,7 +5363,7 @@
     "position": {
       "x": 2616,
       "y": 3146,
-      "level": 2
+      "level": 1
     },
     "direction": 4
   },
@@ -5623,7 +5623,7 @@
     "position": {
       "x": 2519,
       "y": 3315,
-      "level": 2
+      "level": 1
     },
     "direction": 3
   },
@@ -5713,7 +5713,7 @@
     "position": {
       "x": 2568,
       "y": 3269,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -5723,7 +5723,7 @@
     "position": {
       "x": 2568,
       "y": 3272,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -5733,7 +5733,7 @@
     "position": {
       "x": 2570,
       "y": 3271,
-      "level": 2
+      "level": 1
     },
     "direction": 3
   },
@@ -5743,7 +5743,7 @@
     "position": {
       "x": 2574,
       "y": 3290,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -5753,7 +5753,7 @@
     "position": {
       "x": 2577,
       "y": 3305,
-      "level": 2
+      "level": 1
     },
     "direction": 2
   },
@@ -5783,7 +5783,7 @@
     "position": {
       "x": 2576,
       "y": 3336,
-      "level": 2
+      "level": 1
     },
     "direction": 4
   },
@@ -5793,7 +5793,7 @@
     "position": {
       "x": 2586,
       "y": 3336,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -5803,7 +5803,7 @@
     "position": {
       "x": 2589,
       "y": 3335,
-      "level": 2
+      "level": 1
     },
     "direction": 3
   },
@@ -5883,7 +5883,7 @@
     "position": {
       "x": 2632,
       "y": 3321,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -5893,7 +5893,7 @@
     "position": {
       "x": 2634,
       "y": 3319,
-      "level": 2
+      "level": 1
     },
     "direction": 2
   },
@@ -5903,7 +5903,7 @@
     "position": {
       "x": 2637,
       "y": 3321,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -5933,7 +5933,7 @@
     "position": {
       "x": 2467,
       "y": 3285,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -5993,7 +5993,7 @@
     "position": {
       "x": 2574,
       "y": 3322,
-      "level": 2
+      "level": 1
     },
     "direction": 2
   },
@@ -6003,7 +6003,7 @@
     "position": {
       "x": 2614,
       "y": 3292,
-      "level": 2
+      "level": 1
     },
     "direction": 2
   },
@@ -6013,7 +6013,7 @@
     "position": {
       "x": 2614,
       "y": 3325,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -6023,7 +6023,7 @@
     "position": {
       "x": 2617,
       "y": 3293,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -6093,7 +6093,7 @@
     "position": {
       "x": 2648,
       "y": 3300,
-      "level": 2
+      "level": 1
     },
     "direction": 3
   },
@@ -6103,7 +6103,7 @@
     "position": {
       "x": 2661,
       "y": 3320,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -6143,7 +6143,7 @@
     "position": {
       "x": 2670,
       "y": 3330,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -6223,7 +6223,7 @@
     "position": {
       "x": 2573,
       "y": 3296,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -6243,7 +6243,7 @@
     "position": {
       "x": 2573,
       "y": 3297,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -6313,7 +6313,7 @@
     "position": {
       "x": 2478,
       "y": 3286,
-      "level": 2
+      "level": 1
     },
     "direction": 3
   },
@@ -6793,7 +6793,7 @@
     "position": {
       "x": 2590,
       "y": 3405,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -6803,7 +6803,7 @@
     "position": {
       "x": 2609,
       "y": 3397,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -6813,7 +6813,7 @@
     "position": {
       "x": 2607,
       "y": 3397,
-      "level": 3
+      "level": 2
     },
     "direction": 1
   },
@@ -6823,7 +6823,7 @@
     "position": {
       "x": 2611,
       "y": 3397,
-      "level": 3
+      "level": 2
     },
     "direction": 1
   },
@@ -6923,7 +6923,7 @@
     "position": {
       "x": 2762,
       "y": 3505,
-      "level": 2
+      "level": 1
     },
     "direction": 2
   },
@@ -6943,7 +6943,7 @@
     "position": {
       "x": 2761,
       "y": 3505,
-      "level": 2
+      "level": 1
     },
     "direction": 2
   },
@@ -6973,7 +6973,7 @@
     "position": {
       "x": 2749,
       "y": 3496,
-      "level": 3
+      "level": 2
     },
     "direction": 4
   },
@@ -7003,7 +7003,7 @@
     "position": {
       "x": 2752,
       "y": 3494,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -7013,7 +7013,7 @@
     "position": {
       "x": 2764,
       "y": 3494,
-      "level": 2
+      "level": 1
     },
     "direction": 3
   },
@@ -7023,7 +7023,7 @@
     "position": {
       "x": 2764,
       "y": 3503,
-      "level": 2
+      "level": 1
     },
     "direction": 3
   },
@@ -7143,7 +7143,7 @@
     "position": {
       "x": 2735,
       "y": 3578,
-      "level": 2
+      "level": 1
     },
     "direction": 3
   },
@@ -7153,7 +7153,7 @@
     "position": {
       "x": 2735,
       "y": 3580,
-      "level": 2
+      "level": 1
     },
     "direction": 3
   },
@@ -7163,7 +7163,7 @@
     "position": {
       "x": 2736,
       "y": 3577,
-      "level": 2
+      "level": 1
     },
     "direction": 4
   },
@@ -7173,7 +7173,7 @@
     "position": {
       "x": 2740,
       "y": 3578,
-      "level": 2
+      "level": 1
     },
     "direction": 4
   },
@@ -7183,7 +7183,7 @@
     "position": {
       "x": 2744,
       "y": 3577,
-      "level": 2
+      "level": 1
     },
     "direction": 4
   },
@@ -7193,7 +7193,7 @@
     "position": {
       "x": 2745,
       "y": 3578,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -7203,7 +7203,7 @@
     "position": {
       "x": 2745,
       "y": 3581,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -7923,7 +7923,7 @@
     "position": {
       "x": 2500,
       "y": 3849,
-      "level": 2
+      "level": 1
     },
     "direction": 4
   },
@@ -7933,7 +7933,7 @@
     "position": {
       "x": 2500,
       "y": 3871,
-      "level": 2
+      "level": 1
     },
     "direction": 2
   },
@@ -7943,7 +7943,7 @@
     "position": {
       "x": 2504,
       "y": 3853,
-      "level": 2
+      "level": 1
     },
     "direction": 3
   },
@@ -7953,7 +7953,7 @@
     "position": {
       "x": 2504,
       "y": 3867,
-      "level": 2
+      "level": 1
     },
     "direction": 3
   },
@@ -7963,7 +7963,7 @@
     "position": {
       "x": 2506,
       "y": 3851,
-      "level": 2
+      "level": 1
     },
     "direction": 2
   },
@@ -8053,7 +8053,7 @@
     "position": {
       "x": 2609,
       "y": 3875,
-      "level": 2
+      "level": 1
     },
     "direction": 3
   },
@@ -8063,7 +8063,7 @@
     "position": {
       "x": 2611,
       "y": 3866,
-      "level": 2
+      "level": 1
     },
     "direction": 3
   },
@@ -8073,7 +8073,7 @@
     "position": {
       "x": 2611,
       "y": 3883,
-      "level": 2
+      "level": 1
     },
     "direction": 3
   },
@@ -8083,7 +8083,7 @@
     "position": {
       "x": 2613,
       "y": 3865,
-      "level": 2
+      "level": 1
     },
     "direction": 4
   },
@@ -8093,7 +8093,7 @@
     "position": {
       "x": 2613,
       "y": 3885,
-      "level": 2
+      "level": 1
     },
     "direction": 2
   },
@@ -8103,7 +8103,7 @@
     "position": {
       "x": 2615,
       "y": 3870,
-      "level": 2
+      "level": 1
     },
     "direction": 2
   },
@@ -8113,7 +8113,7 @@
     "position": {
       "x": 2615,
       "y": 3880,
-      "level": 2
+      "level": 1
     },
     "direction": 4
   },
@@ -8943,7 +8943,7 @@
     "position": {
       "x": 3038,
       "y": 3376,
-      "level": 3
+      "level": 2
     },
     "direction": 4
   },
@@ -8953,7 +8953,7 @@
     "position": {
       "x": 3041,
       "y": 3373,
-      "level": 3
+      "level": 2
     },
     "direction": 1
   },
@@ -8963,7 +8963,7 @@
     "position": {
       "x": 3050,
       "y": 3373,
-      "level": 3
+      "level": 2
     },
     "direction": 3
   },
@@ -9033,7 +9033,7 @@
     "position": {
       "x": 4574,
       "y": 11504,
-      "level": 3
+      "level": 2
     },
     "direction": 4
   },
@@ -9043,7 +9043,7 @@
     "position": {
       "x": 4577,
       "y": 11501,
-      "level": 3
+      "level": 2
     },
     "direction": 1
   },
@@ -9053,7 +9053,7 @@
     "position": {
       "x": 4586,
       "y": 11501,
-      "level": 3
+      "level": 2
     },
     "direction": 3
   },
@@ -9113,7 +9113,7 @@
     "position": {
       "x": 2959,
       "y": 3333,
-      "level": 2
+      "level": 1
     },
     "direction": 2
   },
@@ -9123,7 +9123,7 @@
     "position": {
       "x": 2960,
       "y": 3349,
-      "level": 2
+      "level": 1
     },
     "direction": 2
   },
@@ -9133,7 +9133,7 @@
     "position": {
       "x": 2966,
       "y": 3338,
-      "level": 2
+      "level": 1
     },
     "direction": 3
   },
@@ -9143,7 +9143,7 @@
     "position": {
       "x": 2972,
       "y": 3332,
-      "level": 2
+      "level": 1
     },
     "direction": 4
   },
@@ -9153,7 +9153,7 @@
     "position": {
       "x": 2976,
       "y": 3329,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -9163,7 +9163,7 @@
     "position": {
       "x": 2983,
       "y": 3348,
-      "level": 2
+      "level": 1
     },
     "direction": 2
   },
@@ -9173,7 +9173,7 @@
     "position": {
       "x": 2985,
       "y": 3342,
-      "level": 2
+      "level": 1
     },
     "direction": 3
   },
@@ -9183,7 +9183,7 @@
     "position": {
       "x": 2990,
       "y": 3337,
-      "level": 2
+      "level": 1
     },
     "direction": 4
   },
@@ -9193,7 +9193,7 @@
     "position": {
       "x": 2991,
       "y": 3341,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -9203,7 +9203,7 @@
     "position": {
       "x": 2982,
       "y": 3337,
-      "level": 3
+      "level": 2
     },
     "direction": 4
   },
@@ -9213,7 +9213,7 @@
     "position": {
       "x": 2983,
       "y": 3348,
-      "level": 3
+      "level": 2
     },
     "direction": 2
   },
@@ -9986,466 +9986,6 @@
       "level": 0
     },
     "direction": 3
-  },
-  {
-    "type": "door",
-    "name": "Large door",
-    "position": {
-      "x": 2010,
-      "y": 4747,
-      "level": 0
-    },
-    "direction": 2
-  },
-  {
-    "type": "door",
-    "name": "Large door",
-    "position": {
-      "x": 2612,
-      "y": 3481,
-      "level": 0
-    },
-    "direction": 4
-  },
-  {
-    "type": "door",
-    "name": "Large door",
-    "position": {
-      "x": 2634,
-      "y": 4693,
-      "level": 0
-    },
-    "direction": 4
-  },
-  {
-    "type": "door",
-    "name": "Large door",
-    "position": {
-      "x": 2713,
-      "y": 3292,
-      "level": 0
-    },
-    "direction": 1
-  },
-  {
-    "type": "door",
-    "name": "Large door",
-    "position": {
-      "x": 2712,
-      "y": 3292,
-      "level": 2
-    },
-    "direction": 1
-  },
-  {
-    "type": "door",
-    "name": "Large door",
-    "position": {
-      "x": 2009,
-      "y": 4747,
-      "level": 0
-    },
-    "direction": 2
-  },
-  {
-    "type": "door",
-    "name": "Large door",
-    "position": {
-      "x": 2613,
-      "y": 3481,
-      "level": 0
-    },
-    "direction": 4
-  },
-  {
-    "type": "door",
-    "name": "Large door",
-    "position": {
-      "x": 2635,
-      "y": 4693,
-      "level": 0
-    },
-    "direction": 4
-  },
-  {
-    "type": "door",
-    "name": "Large door",
-    "position": {
-      "x": 2713,
-      "y": 3291,
-      "level": 0
-    },
-    "direction": 1
-  },
-  {
-    "type": "door",
-    "name": "Large door",
-    "position": {
-      "x": 2712,
-      "y": 3291,
-      "level": 2
-    },
-    "direction": 1
-  },
-  {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 1501,
-      "y": 4324,
-      "level": 2
-    },
-    "direction": 1
-  },
-  {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2713,
-      "y": 3283,
-      "level": 0
-    },
-    "direction": 1
-  },
-  {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2714,
-      "y": 3306,
-      "level": 0
-    },
-    "direction": 2
-  },
-  {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2718,
-      "y": 3274,
-      "level": 0
-    },
-    "direction": 1
-  },
-  {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2718,
-      "y": 3283,
-      "level": 0
-    },
-    "direction": 3
-  },
-  {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2723,
-      "y": 3276,
-      "level": 0
-    },
-    "direction": 4
-  },
-  {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2729,
-      "y": 3276,
-      "level": 0
-    },
-    "direction": 3
-  },
-  {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2730,
-      "y": 3292,
-      "level": 0
-    },
-    "direction": 3
-  },
-  {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2734,
-      "y": 3296,
-      "level": 0
-    },
-    "direction": 4
-  },
-  {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2768,
-      "y": 3276,
-      "level": 2
-    },
-    "direction": 1
-  },
-  {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2768,
-      "y": 3288,
-      "level": 2
-    },
-    "direction": 1
-  },
-  {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2767,
-      "y": 3285,
-      "level": 3
-    },
-    "direction": 1
-  },
-  {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2677,
-      "y": 3289,
-      "level": 0
-    },
-    "direction": 3
-  },
-  {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2635,
-      "y": 3319,
-      "level": 0
-    },
-    "direction": 2
-  },
-  {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2633,
-      "y": 3322,
-      "level": 0
-    },
-    "direction": 1
-  },
-  {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2610,
-      "y": 3316,
-      "level": 0
-    },
-    "direction": 3
-  },
-  {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2592,
-      "y": 3339,
-      "level": 0
-    },
-    "direction": 4
-  },
-  {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2551,
-      "y": 3320,
-      "level": 0
-    },
-    "direction": 2
-  },
-  {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2551,
-      "y": 3328,
-      "level": 0
-    },
-    "direction": 4
-  },
-  {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2533,
-      "y": 3273,
-      "level": 0
-    },
-    "direction": 4
-  },
-  {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2540,
-      "y": 3273,
-      "level": 0
-    },
-    "direction": 4
-  },
-  {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2442,
-      "y": 3183,
-      "level": 0
-    },
-    "direction": 2
-  },
-  {
-    "type": "door",
-    "name": "Gate",
-    "position": {
-      "x": 2513,
-      "y": 3495,
-      "level": 0
-    },
-    "direction": 1
-  },
-  {
-    "type": "door",
-    "name": "Gate",
-    "position": {
-      "x": 2528,
-      "y": 3496,
-      "level": 0
-    },
-    "direction": 1
-  },
-  {
-    "type": "door",
-    "name": "Gate",
-    "position": {
-      "x": 2766,
-      "y": 3443,
-      "level": 0
-    },
-    "direction": 3
-  },
-  {
-    "type": "door",
-    "name": "Gate",
-    "position": {
-      "x": 2855,
-      "y": 3371,
-      "level": 0
-    },
-    "direction": 1
-  },
-  {
-    "type": "door",
-    "name": "Gate",
-    "position": {
-      "x": 2923,
-      "y": 3292,
-      "level": 0
-    },
-    "direction": 4
-  },
-  {
-    "type": "door",
-    "name": "Gate",
-    "position": {
-      "x": 4390,
-      "y": 11498,
-      "level": 0
-    },
-    "direction": 3
-  },
-  {
-    "type": "door",
-    "name": "Gate",
-    "position": {
-      "x": 2513,
-      "y": 3494,
-      "level": 0
-    },
-    "direction": 1
-  },
-  {
-    "type": "door",
-    "name": "Gate",
-    "position": {
-      "x": 2528,
-      "y": 3495,
-      "level": 0
-    },
-    "direction": 1
-  },
-  {
-    "type": "door",
-    "name": "Gate",
-    "position": {
-      "x": 2766,
-      "y": 3444,
-      "level": 0
-    },
-    "direction": 3
-  },
-  {
-    "type": "door",
-    "name": "Gate",
-    "position": {
-      "x": 2855,
-      "y": 3370,
-      "level": 0
-    },
-    "direction": 1
-  },
-  {
-    "type": "door",
-    "name": "Gate",
-    "position": {
-      "x": 2924,
-      "y": 3292,
-      "level": 0
-    },
-    "direction": 4
-  },
-  {
-    "type": "door",
-    "name": "Gate",
-    "position": {
-      "x": 4390,
-      "y": 11499,
-      "level": 0
-    },
-    "direction": 3
-  },
-  {
-    "type": "door",
-    "name": "Hardwood grove doors",
-    "position": {
-      "x": 2817,
-      "y": 3084,
-      "level": 0
-    },
-    "direction": 1
-  },
-  {
-    "type": "door",
-    "name": "Hardwood grove doors",
-    "position": {
-      "x": 2817,
-      "y": 3083,
-      "level": 0
-    },
-    "direction": 1
   },
   {
     "type": "entity",
@@ -21932,4120 +21472,6 @@
               "x": 0,
               "y": 0,
               "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2705.5,
-        "y": 3291.5
-      },
-      "botright": {
-        "x": 2706.5,
-        "y": 3290.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "interactive_area": {
-          "origin": {
-            "x": 2706,
-            "y": 3292,
-            "level": 0
-          },
-          "size": {
-            "x": 1,
-            "y": 1
-          }
-        },
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": -2,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2707.5,
-        "y": 3283.5
-      },
-      "botright": {
-        "x": 2708.5,
-        "y": 3282.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "interactive_area": {
-          "origin": {
-            "x": 2708,
-            "y": 3284,
-            "level": 0
-          },
-          "size": {
-            "x": 1,
-            "y": 1
-          }
-        },
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": -2,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2713.5,
-        "y": 3311.5
-      },
-      "botright": {
-        "x": 2714.5,
-        "y": 3310.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "interactive_area": {
-          "origin": {
-            "x": 2713,
-            "y": 3311,
-            "level": 0
-          },
-          "size": {
-            "x": 1,
-            "y": 1
-          }
-        },
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 2,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2720.5,
-        "y": 3273.5
-      },
-      "botright": {
-        "x": 2721.5,
-        "y": 3272.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "interactive_area": {
-          "origin": {
-            "x": 2721,
-            "y": 3274,
-            "level": 0
-          },
-          "size": {
-            "x": 1,
-            "y": 1
-          }
-        },
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": -2,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2731.5,
-        "y": 3289.5
-      },
-      "botright": {
-        "x": 2732.5,
-        "y": 3288.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "interactive_area": {
-          "origin": {
-            "x": 2732,
-            "y": 3290,
-            "level": 0
-          },
-          "size": {
-            "x": 1,
-            "y": 1
-          }
-        },
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": -2,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2705.5,
-        "y": 3291.5
-      },
-      "botright": {
-        "x": 2706.5,
-        "y": 3290.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "interactive_area": {
-          "origin": {
-            "x": 2706,
-            "y": 3290,
-            "level": 1
-          },
-          "size": {
-            "x": 1,
-            "y": 1
-          }
-        },
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 2,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2707.5,
-        "y": 3283.5
-      },
-      "botright": {
-        "x": 2708.5,
-        "y": 3282.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "interactive_area": {
-          "origin": {
-            "x": 2708,
-            "y": 3282,
-            "level": 1
-          },
-          "size": {
-            "x": 1,
-            "y": 1
-          }
-        },
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 2,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2713.5,
-        "y": 3311.5
-      },
-      "botright": {
-        "x": 2714.5,
-        "y": 3310.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "interactive_area": {
-          "origin": {
-            "x": 2715,
-            "y": 3311,
-            "level": 1
-          },
-          "size": {
-            "x": 1,
-            "y": 1
-          }
-        },
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": -2,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2720.5,
-        "y": 3273.5
-      },
-      "botright": {
-        "x": 2721.5,
-        "y": 3272.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "interactive_area": {
-          "origin": {
-            "x": 2721,
-            "y": 3272,
-            "level": 1
-          },
-          "size": {
-            "x": 1,
-            "y": 1
-          }
-        },
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 2,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 1963.5,
-        "y": 5316.5
-      },
-      "botright": {
-        "x": 1964.5,
-        "y": 5315.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 1971.5,
-        "y": 5315.5
-      },
-      "botright": {
-        "x": 1972.5,
-        "y": 5314.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2433.5,
-        "y": 3346.5
-      },
-      "botright": {
-        "x": 2434.5,
-        "y": 3345.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2436.5,
-        "y": 3346.5
-      },
-      "botright": {
-        "x": 2437.5,
-        "y": 3345.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2520.5,
-        "y": 3493.5
-      },
-      "botright": {
-        "x": 2521.5,
-        "y": 3492.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2531.5,
-        "y": 3545.5
-      },
-      "botright": {
-        "x": 2532.5,
-        "y": 3544.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2569.5,
-        "y": 3441.5
-      },
-      "botright": {
-        "x": 2570.5,
-        "y": 3440.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2611.5,
-        "y": 3475.5
-      },
-      "botright": {
-        "x": 2612.5,
-        "y": 3474.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2651.5,
-        "y": 3428.5
-      },
-      "botright": {
-        "x": 2652.5,
-        "y": 3427.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2667.5,
-        "y": 3412.5
-      },
-      "botright": {
-        "x": 2668.5,
-        "y": 3411.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2667.5,
-        "y": 3444.5
-      },
-      "botright": {
-        "x": 2668.5,
-        "y": 3443.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2683.5,
-        "y": 3428.5
-      },
-      "botright": {
-        "x": 2684.5,
-        "y": 3427.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2667.5,
-        "y": 3428.5
-      },
-      "botright": {
-        "x": 2668.5,
-        "y": 3427.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2650.5,
-        "y": 4684.5
-      },
-      "botright": {
-        "x": 2651.5,
-        "y": 4683.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2700.5,
-        "y": 3408.5
-      },
-      "botright": {
-        "x": 2701.5,
-        "y": 3407.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2703.5,
-        "y": 3403.5
-      },
-      "botright": {
-        "x": 2704.5,
-        "y": 3402.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2698.5,
-        "y": 3405.5
-      },
-      "botright": {
-        "x": 2699.5,
-        "y": 3404.5
-      },
-      "level": 2
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2788.5,
-        "y": 2979.5
-      },
-      "botright": {
-        "x": 2789.5,
-        "y": 2978.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2808.5,
-        "y": 3065.5
-      },
-      "botright": {
-        "x": 2809.5,
-        "y": 3064.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2765.5,
-        "y": 3121.5
-      },
-      "botright": {
-        "x": 2766.5,
-        "y": 3120.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2781.5,
-        "y": 3087.5
-      },
-      "botright": {
-        "x": 2782.5,
-        "y": 3086.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2795.5,
-        "y": 3076.5
-      },
-      "botright": {
-        "x": 2796.5,
-        "y": 3075.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2803.5,
-        "y": 3075.5
-      },
-      "botright": {
-        "x": 2804.5,
-        "y": 3074.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2807.5,
-        "y": 3161.5
-      },
-      "botright": {
-        "x": 2808.5,
-        "y": 3160.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2823.5,
-        "y": 2958.5
-      },
-      "botright": {
-        "x": 2824.5,
-        "y": 2957.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2834.5,
-        "y": 2988.5
-      },
-      "botright": {
-        "x": 2835.5,
-        "y": 2987.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2843.5,
-        "y": 2954.5
-      },
-      "botright": {
-        "x": 2844.5,
-        "y": 2953.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2859.5,
-        "y": 2954.5
-      },
-      "botright": {
-        "x": 2860.5,
-        "y": 2953.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2870.5,
-        "y": 2971.5
-      },
-      "botright": {
-        "x": 2871.5,
-        "y": 2970.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2815.5,
-        "y": 3352.5
-      },
-      "botright": {
-        "x": 2816.5,
-        "y": 3351.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2856.5,
-        "y": 3346.5
-      },
-      "botright": {
-        "x": 2857.5,
-        "y": 3345.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2861.5,
-        "y": 5092.5
-      },
-      "botright": {
-        "x": 2862.5,
-        "y": 5091.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2922.5,
-        "y": 3240.5
-      },
-      "botright": {
-        "x": 2923.5,
-        "y": 3239.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2927.5,
-        "y": 3256.5
-      },
-      "botright": {
-        "x": 2928.5,
-        "y": 3255.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2931.5,
-        "y": 3244.5
-      },
-      "botright": {
-        "x": 2932.5,
-        "y": 3243.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2933.5,
-        "y": 3244.5
-      },
-      "botright": {
-        "x": 2934.5,
-        "y": 3243.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2933.5,
-        "y": 3254.5
-      },
-      "botright": {
-        "x": 2934.5,
-        "y": 3253.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2937.5,
-        "y": 3250.5
-      },
-      "botright": {
-        "x": 2938.5,
-        "y": 3249.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2939.5,
-        "y": 3257.5
-      },
-      "botright": {
-        "x": 2940.5,
-        "y": 3256.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2939.5,
-        "y": 4681.5
-      },
-      "botright": {
-        "x": 2940.5,
-        "y": 4680.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 3547.5,
-        "y": 3539.5
-      },
-      "botright": {
-        "x": 3548.5,
-        "y": 3538.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 3547.5,
-        "y": 3554.5
-      },
-      "botright": {
-        "x": 3548.5,
-        "y": 3553.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 4351.5,
-        "y": 11480.5
-      },
-      "botright": {
-        "x": 4352.5,
-        "y": 11479.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 4392.5,
-        "y": 11474.5
-      },
-      "botright": {
-        "x": 4393.5,
-        "y": 11473.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 1963.5,
-        "y": 5316.5
-      },
-      "botright": {
-        "x": 1964.5,
-        "y": 5315.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 1971.5,
-        "y": 5315.5
-      },
-      "botright": {
-        "x": 1972.5,
-        "y": 5314.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2433.5,
-        "y": 3346.5
-      },
-      "botright": {
-        "x": 2434.5,
-        "y": 3345.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2436.5,
-        "y": 3346.5
-      },
-      "botright": {
-        "x": 2437.5,
-        "y": 3345.5
-      },
-      "level": 2
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2520.5,
-        "y": 3493.5
-      },
-      "botright": {
-        "x": 2521.5,
-        "y": 3492.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2569.5,
-        "y": 3441.5
-      },
-      "botright": {
-        "x": 2570.5,
-        "y": 3440.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2569.5,
-        "y": 3443.5
-      },
-      "botright": {
-        "x": 2570.5,
-        "y": 3442.5
-      },
-      "level": 2
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2611.5,
-        "y": 3475.5
-      },
-      "botright": {
-        "x": 2612.5,
-        "y": 3474.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2651.5,
-        "y": 3428.5
-      },
-      "botright": {
-        "x": 2652.5,
-        "y": 3427.5
-      },
-      "level": 2
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2667.5,
-        "y": 3412.5
-      },
-      "botright": {
-        "x": 2668.5,
-        "y": 3411.5
-      },
-      "level": 2
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2667.5,
-        "y": 3444.5
-      },
-      "botright": {
-        "x": 2668.5,
-        "y": 3443.5
-      },
-      "level": 2
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2683.5,
-        "y": 3428.5
-      },
-      "botright": {
-        "x": 2684.5,
-        "y": 3427.5
-      },
-      "level": 2
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2650.5,
-        "y": 4684.5
-      },
-      "botright": {
-        "x": 2651.5,
-        "y": 4683.5
-      },
-      "level": 2
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2724.5,
-        "y": 3375.5
-      },
-      "botright": {
-        "x": 2725.5,
-        "y": 3374.5
-      },
-      "level": 2
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2731.5,
-        "y": 3375.5
-      },
-      "botright": {
-        "x": 2732.5,
-        "y": 3374.5
-      },
-      "level": 2
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2700.5,
-        "y": 3408.5
-      },
-      "botright": {
-        "x": 2701.5,
-        "y": 3407.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2703.5,
-        "y": 3403.5
-      },
-      "botright": {
-        "x": 2704.5,
-        "y": 3402.5
-      },
-      "level": 2
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2698.5,
-        "y": 3405.5
-      },
-      "botright": {
-        "x": 2699.5,
-        "y": 3404.5
-      },
-      "level": 3
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2788.5,
-        "y": 2979.5
-      },
-      "botright": {
-        "x": 2789.5,
-        "y": 2978.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2803.5,
-        "y": 3075.5
-      },
-      "botright": {
-        "x": 2804.5,
-        "y": 3074.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2807.5,
-        "y": 3161.5
-      },
-      "botright": {
-        "x": 2808.5,
-        "y": 3160.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2778.5,
-        "y": 4684.5
-      },
-      "botright": {
-        "x": 2779.5,
-        "y": 4683.5
-      },
-      "level": 2
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2823.5,
-        "y": 2958.5
-      },
-      "botright": {
-        "x": 2824.5,
-        "y": 2957.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2834.5,
-        "y": 2988.5
-      },
-      "botright": {
-        "x": 2835.5,
-        "y": 2987.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2843.5,
-        "y": 2954.5
-      },
-      "botright": {
-        "x": 2844.5,
-        "y": 2953.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2859.5,
-        "y": 2954.5
-      },
-      "botright": {
-        "x": 2860.5,
-        "y": 2953.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2860.5,
-        "y": 2997.5
-      },
-      "botright": {
-        "x": 2861.5,
-        "y": 2996.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2870.5,
-        "y": 2971.5
-      },
-      "botright": {
-        "x": 2871.5,
-        "y": 2970.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2815.5,
-        "y": 3352.5
-      },
-      "botright": {
-        "x": 2816.5,
-        "y": 3351.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2856.5,
-        "y": 3346.5
-      },
-      "botright": {
-        "x": 2857.5,
-        "y": 3345.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2861.5,
-        "y": 5092.5
-      },
-      "botright": {
-        "x": 2862.5,
-        "y": 5091.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2922.5,
-        "y": 3240.5
-      },
-      "botright": {
-        "x": 2923.5,
-        "y": 3239.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2922.5,
-        "y": 3247.5
-      },
-      "botright": {
-        "x": 2923.5,
-        "y": 3246.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2927.5,
-        "y": 3256.5
-      },
-      "botright": {
-        "x": 2928.5,
-        "y": 3255.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2928.5,
-        "y": 3240.5
-      },
-      "botright": {
-        "x": 2929.5,
-        "y": 3239.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2936.5,
-        "y": 3240.5
-      },
-      "botright": {
-        "x": 2937.5,
-        "y": 3239.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2928.5,
-        "y": 3245.5
-      },
-      "botright": {
-        "x": 2929.5,
-        "y": 3244.5
-      },
-      "level": 2
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2929.5,
-        "y": 3258.5
-      },
-      "botright": {
-        "x": 2930.5,
-        "y": 3257.5
-      },
-      "level": 2
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2931.5,
-        "y": 3244.5
-      },
-      "botright": {
-        "x": 2932.5,
-        "y": 3243.5
-      },
-      "level": 2
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2933.5,
-        "y": 3243.5
-      },
-      "botright": {
-        "x": 2934.5,
-        "y": 3242.5
-      },
-      "level": 2
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2933.5,
-        "y": 3244.5
-      },
-      "botright": {
-        "x": 2934.5,
-        "y": 3243.5
-      },
-      "level": 2
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2933.5,
-        "y": 3254.5
-      },
-      "botright": {
-        "x": 2934.5,
-        "y": 3253.5
-      },
-      "level": 2
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2936.5,
-        "y": 3247.5
-      },
-      "botright": {
-        "x": 2937.5,
-        "y": 3246.5
-      },
-      "level": 2
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2937.5,
-        "y": 3250.5
-      },
-      "botright": {
-        "x": 2938.5,
-        "y": 3249.5
-      },
-      "level": 2
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2937.5,
-        "y": 3255.5
-      },
-      "botright": {
-        "x": 2938.5,
-        "y": 3254.5
-      },
-      "level": 2
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2939.5,
-        "y": 3240.5
-      },
-      "botright": {
-        "x": 2940.5,
-        "y": 3239.5
-      },
-      "level": 2
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2939.5,
-        "y": 3257.5
-      },
-      "botright": {
-        "x": 2940.5,
-        "y": 3256.5
-      },
-      "level": 2
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2939.5,
-        "y": 4681.5
-      },
-      "botright": {
-        "x": 2940.5,
-        "y": 4680.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 3547.5,
-        "y": 3539.5
-      },
-      "botright": {
-        "x": 3548.5,
-        "y": 3538.5
-      },
-      "level": 2
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 3547.5,
-        "y": 3554.5
-      },
-      "botright": {
-        "x": 3548.5,
-        "y": 3553.5
-      },
-      "level": 2
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 4351.5,
-        "y": 11480.5
-      },
-      "botright": {
-        "x": 4352.5,
-        "y": 11479.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 4392.5,
-        "y": 11474.5
-      },
-      "botright": {
-        "x": 4393.5,
-        "y": 11473.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2465.5,
-        "y": 3495.5
-      },
-      "botright": {
-        "x": 2466.5,
-        "y": 3494.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "interactive_area": {
-          "origin": {
-            "x": 2466,
-            "y": 3494,
-            "level": 0
-          },
-          "size": {
-            "x": 1,
-            "y": 1
-          }
-        },
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      },
-      {
-        "cursor": "generic",
-        "interactive_area": {
-          "origin": {
-            "x": 2466,
-            "y": 3494,
-            "level": 0
-          },
-          "size": {
-            "x": 1,
-            "y": 1
-          }
-        },
-        "name": "Top Floor",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 3
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2465.5,
-        "y": 3495.5
-      },
-      "botright": {
-        "x": 2466.5,
-        "y": 3494.5
-      },
-      "level": 1
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "interactive_area": {
-          "origin": {
-            "x": 2466,
-            "y": 3494,
-            "level": 1
-          },
-          "size": {
-            "x": 1,
-            "y": 1
-          }
-        },
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      },
-      {
-        "cursor": "ladderdown",
-        "interactive_area": {
-          "origin": {
-            "x": 2466,
-            "y": 3494,
-            "level": 1
-          },
-          "size": {
-            "x": 1,
-            "y": 1
-          }
-        },
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      },
-      {
-        "cursor": "generic",
-        "interactive_area": {
-          "origin": {
-            "x": 2466,
-            "y": 3494,
-            "level": 1
-          },
-          "size": {
-            "x": 1,
-            "y": 1
-          }
-        },
-        "name": "Top Floor",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 2
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2465.5,
-        "y": 3495.5
-      },
-      "botright": {
-        "x": 2466.5,
-        "y": 3494.5
-      },
-      "level": 2
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "interactive_area": {
-          "origin": {
-            "x": 2466,
-            "y": 3494,
-            "level": 2
-          },
-          "size": {
-            "x": 1,
-            "y": 1
-          }
-        },
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      },
-      {
-        "cursor": "ladderdown",
-        "interactive_area": {
-          "origin": {
-            "x": 2466,
-            "y": 3494,
-            "level": 2
-          },
-          "size": {
-            "x": 1,
-            "y": 1
-          }
-        },
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      },
-      {
-        "cursor": "generic",
-        "interactive_area": {
-          "origin": {
-            "x": 2466,
-            "y": 3494,
-            "level": 2
-          },
-          "size": {
-            "x": 1,
-            "y": 1
-          }
-        },
-        "name": "Top Floor",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": 1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Ladder",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2465.5,
-        "y": 3495.5
-      },
-      "botright": {
-        "x": 2466.5,
-        "y": 3494.5
-      },
-      "level": 3
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "interactive_area": {
-          "origin": {
-            "x": 2466,
-            "y": 3494,
-            "level": 3
-          },
-          "size": {
-            "x": 1,
-            "y": 1
-          }
-        },
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -1
-            },
-            "orientation": "toentitybefore"
-          }
-        ]
-      },
-      {
-        "cursor": "generic",
-        "interactive_area": {
-          "origin": {
-            "x": 2466,
-            "y": 3494,
-            "level": 3
-          },
-          "size": {
-            "x": 1,
-            "y": 1
-          }
-        },
-        "name": "Bottom Floor",
-        "movement": [
-          {
-            "time": 3,
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "level": -3
             },
             "orientation": "toentitybefore"
           }

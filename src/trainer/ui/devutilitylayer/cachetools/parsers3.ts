@@ -50,7 +50,7 @@ function transformWithLoc(transport: Transportation.EntityTransportation, use: L
         : transport.position
 
     transport = Transportation.transform(transport,
-        TileTransform.translation(Vector2.sub(use.origin, current_origin), use.plane),
+        TileTransform.translation(Vector2.sub(use.origin, current_origin), use.plane - current_origin.level),
     )
 
     if (transport.type == "entity") {
@@ -125,7 +125,7 @@ export const parsers3: TransportParser2[] = [
                         index: per_loc.top.action.id,
                         interactive_area: interactive
                     },
-                    offset({...off, level: per_loc.top.level - instance.box.level })
+                    offset({...off, level: per_loc.top.level - instance.box.level})
                         .orientation("toentitybefore")
                         .time(3)
                 )

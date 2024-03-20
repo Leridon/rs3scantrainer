@@ -676,6 +676,14 @@ export namespace Path {
                     return Rectangle.from(step.where)
                 case "cheat":
                     return Rectangle.from(step.target)
+                case "transport":
+                    let bounds: Rectangle = step.internal.clickable_area
+                    bounds = Rectangle.extendTo(bounds, step.assumed_start)
+                    bounds = Rectangle.extendTo(bounds, Path.ends_up([step]))
+
+                    return bounds
+                case "orientation":
+                    return Rectangle.from({x: 0, y: 0})
                 default:
                     return null
             }

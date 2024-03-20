@@ -7,6 +7,7 @@ import {util} from "../../util/util";
 import {ScanTheory} from "./Scans";
 import {TileRectangle} from "../../runescape/coordinates";
 import {TileCoordinates} from "../../runescape/coordinates";
+import {PathingGraphics} from "../../../trainer/ui/path_graphics";
 
 export namespace ScanTree {
     import movement_state = Path.movement_state;
@@ -387,7 +388,7 @@ export namespace ScanTree {
     export function init_leaf(): ScanTreeNode {
         return {
             children: [],
-            directions: "Missing directions",
+            directions: "",
             path: [],
         }
     }
@@ -443,5 +444,18 @@ export namespace ScanTree {
 
     export type ScanInformation = PulseInformation & {
         area: TileRectangle
+    }
+
+    export function defaultScanTreeInstructions(node: ScanTreeNode): string {
+        let path_short =
+            node.path.length > 0
+                ? node.path.map(PathingGraphics.templateString).join(" - ")
+                : "Go"
+
+        return path_short + " to {{target}}"
+    }
+
+    export function getInstruction(node: ScanTreeNode): string {
+        return node.directions || defaultScanTreeInstructions(node)
     }
 }

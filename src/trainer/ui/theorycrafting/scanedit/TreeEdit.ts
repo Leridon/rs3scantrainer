@@ -148,12 +148,13 @@ class TreeNodeEdit extends Widget {
     header: Widget
     body: Properties
 
+    instruction_preview: Widget
+
     you_are_here_marker: Widget
 
     children: TreeNodeEdit[] = []
     child_content: Widget
-    completeness_marker: Widget
-    correctness_marker: Widget
+    completeness_container: Widget
     description_input: TemplateStringEdit = null
     region_edit: RegionEdit = null
     path_property: PathProperty = null
@@ -167,9 +168,9 @@ class TreeNodeEdit extends Widget {
         super()
 
         this.self_content = hbox().addClass("ctr-scantreeedit-node")
-        this.child_content = c()
 
-        let self = this
+
+        this.child_content = c()
 
         const collapse_bar =
             hbox(
@@ -190,106 +191,89 @@ class TreeNodeEdit extends Widget {
                     this.body.setVisible(!this.is_collapsed)
                 })
 
-
         let spot_text = natural_join(shorten_integer_list(node.remaining_candidates.map((c) => ScanTree.spotNumber(parent.parent.builder.tree, c)),
             (n) => `<span class="ctr-digspot-inline">${n}</span>`
         ), "and")
 
-        function get_ar(): string {
-            return `assets/nis/${self.is_collapsed ? "arrow_right" : "arrow_down"}.png`
-        }
-
-        let collapse_control = c(`<div style='margin-right: 5px; cursor: pointer'><img src='${get_ar()}'></div>`)
-            //.css("margin-left", `${(node.depth + 1) * 5}px`)
-            .tapRaw(r => r.on("click", () => {
-                this.is_collapsed = !this.is_collapsed
-
-                collapse_control.container.children("img").attr("src", get_ar)
-
-                this.child_content.setVisible(!this.is_collapsed)
-                this.body.setVisible(!this.is_collapsed)
-            }))
-
-        this.you_are_here_marker = c().addClass("ctr-scantreeedit-youarehere")
-            .tapRaw(r => r.on("click", () => this.parent.setActiveNode(this.isActive() ? null : this)))
-
-        this.header = c(`<div style="padding-right: 5px; display:flex; overflow: hidden;"></div>`)
+        this.header = c()
+            .addClass("ctr-scantreeedit-node-header")
             .append(
                 //collapse_control,
                 this.decision_span = c().addClass("ctr-scantreeedit-node-path")
                     .on("click", () => this.parent.setActiveNode(this.isActive() ? null : this)),
-                this.you_are_here_marker,
+                this.you_are_here_marker = c().addClass("ctr-scantreeedit-youarehere"),
                 spacer(),
                 span(`${node.remaining_candidates.length}`)
-                    //.addClass(ScanTree.completeness_meta(node.completeness).cls)
-                    .addTippy(c(`<span>${spot_text}</span>`))
+                    .addTippy(c(`<span>${spot_text}</span>`)),
+                this.completeness_container = hbox(),
+                c().setInnerHtml("&#x22EE;")
+                    .addClass("ctr-path-edit-overview-step-options")
+                    .on("click", (event) => {
+                        this.contextMenu(event.originalEvent)
+                    })
             )
-
 
         this.body = new Properties()
 
-        this.path_property = this.body.named("Path", new PathProperty({
-            target: this.node.path.target,
-            start_state: this.node.path.pre_state,
-        })
-            .setValue(this.node.raw.path))
+        this.body.row(this.instruction_preview = c())
+        this.body.row("Ticks 1 to 4")
 
         if (node.remaining_candidates.length > 1 && (!node.parent || node.parent.key.pulse != 3)) {
-            this.region_edit = this.body.named("Region", new RegionEdit(this))
+            // this.region_edit = this.body.named("Region", new RegionEdit(this))
         }
 
-        this.body.named("Instructions",
+        /*this.body.named("Instructions",
             this.description_input = new TemplateStringEdit({
                 resolver: this.parent.parent.app.template_resolver.with(scan_tree_template_resolvers(node)),
-                generator: () => {
-                    let path_short =
-                        this.node.path.steps.length > 0
-                            ? this.node.raw.path.map(PathingGraphics.templateString).join(" - ")
-                            : "Go"
-
-                    let target = "{{target}}"
-
-                    return path_short + " to " + target
-                }
+                generator: () => ScanTree.defaultScanTreeInstructions(this.node.raw)
             })
                 .onCommit((v) => {
                     this.node.raw.directions = v
+                    this.updateInstructionPreview()
                 })
                 .setValue(this.node.raw.directions)
-        )
+        )*/
 
         this.append(
             this.self_content = hbox().addClass("ctr-scantreeedit-node").append(
                 collapse_bar,
                 vbox(this.header, this.body).css("flex-grow", "1")
+                    .on("click", (e) => {
+                        e.stopPropagation()
+                        e.preventDefault()
+
+                        this.parent.setActiveNode(this.isActive() ? null : this)
+                    })
             ),
             this.child_content
         )
 
-        this.self_content.on("contextmenu", e => {
-            e.preventDefault()
-            e.stopPropagation()
-
-            new ContextMenu({
-                type: "submenu",
-                text: "",
-                children: [
-                    /* {
-                         type: "basic",
-                         text: "Hello",
-                         handler: () => {}
-                     }*/
-                ]
-            }).showFromEvent2(e.originalEvent)
-        })
+        this.self_content.on("contextmenu", e => this.contextMenu(e.originalEvent))
 
         this.renderValue(node)
+    }
+
+    contextMenu(event: MouseEvent) {
+        event.preventDefault()
+        event.stopPropagation()
+
+        new ContextMenu({
+            type: "submenu",
+            text: "",
+            children: [
+                {
+                    type: "basic",
+                    text: "Edit instruction override",
+                    handler: () => {}
+                }
+            ]
+        }).showFromEvent2(event)
     }
 
     renderValue(node: AugmentedScanTreeNode) {
         this.node = node
 
-        this.description_input.setResolver(this.parent.parent.app.template_resolver.with(scan_tree_template_resolvers(node)))
+        // this.description_input.setResolver(this.parent.parent.app.template_resolver.with(scan_tree_template_resolvers(node)))
 
         {
             let decision_path_text = ""
@@ -312,26 +296,25 @@ class TreeNodeEdit extends Widget {
             this.decision_span.text(`${decision_path_text}: `)
         }
 
-        if (this.completeness_marker) this.completeness_marker.remove()
-        if (this.correctness_marker) this.correctness_marker.remove()
-
         function render_completeness(completeness: ScanTree.Augmentation.completeness_t | ScanTree.Augmentation.correctness_t): Widget {
             let {char, cls, desc} = ScanTree.Augmentation.completeness_meta(completeness)
 
             return c("<span>").addClass(cls).text(char).tooltip(desc)
         }
 
-        this.header
-            .append(this.completeness_marker = render_completeness(node.completeness).css("margin-left", "5px"))
-            .append(this.correctness_marker = render_completeness(node.correctness).css("margin-left", "5px"))
+        this.completeness_container.empty()
+            .append(
+                render_completeness(node.completeness).css("margin-left", "5px"),
+                render_completeness(node.correctness).css("margin-left", "5px")
+            )
 
         this.children.forEach(c => c.detach())
 
         if (this.region_edit) this.region_edit.render()
 
-        this.path_property.options.target = this.node.path.target
-        this.path_property.options.start_state = this.node.path.pre_state
-        this.path_property.setValue(this.node.path.raw)
+        this.updateInstructionPreview()
+
+        // TODO: Display path issues
 
         this.children = this.node.children.map(child => {
             let existing = this.children.find(c => c.node.raw == child.value.raw)
@@ -354,6 +337,13 @@ class TreeNodeEdit extends Widget {
             )
 
         this.children.forEach(c => c.appendTo(this.child_content))
+    }
+
+    private updateInstructionPreview() {
+        const resolver = this.parent.parent.app.template_resolver.with(scan_tree_template_resolvers(this.node))
+
+        this.instruction_preview.setInnerHtml(resolver.resolve(ScanTree.getInstruction(this.node.raw)))
+
     }
 
     setActive(v: boolean) {

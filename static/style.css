@@ -643,11 +643,19 @@ video {
     cursor: pointer;
     background-repeat: no-repeat;
     background-position: center;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.ctr-scantreeedit-node-header {
+    padding-right: 5px;
+    display: flex;
+    overflow: hidden;
+    /*font-size: 0.8em*/
 }
 
 .ctr-scantreeedit-node-path {
     color: #3b83ee;
-    font-size: 0.8em;
     text-wrap: none;
     white-space: nowrap;
     text-overflow: ellipsis;

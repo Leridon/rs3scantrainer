@@ -62642,6 +62642,7 @@ var ScanTree;
     let Augmentation;
     (function (Augmentation) {
         var avg = _util_util__WEBPACK_IMPORTED_MODULE_4__.util.avg;
+        var ends_up = lib_runescape_pathing__WEBPACK_IMPORTED_MODULE_0__.Path.ends_up;
         function completeness_meta(completeness) {
             let meta = {
                 complete: { char: "\u2713", cls: "ctr-correct", desc: "This branch is complete." },
@@ -62772,6 +62773,12 @@ var ScanTree;
                     node.completeness = "incomplete";
                 else if (cs.some(c => c.completeness == "incomplete" || c.completeness == "incomplete_children"))
                     node.completeness = "incomplete_children";
+                else if (node.remaining_candidates.length == 1) {
+                    const e = ends_up(node.raw.path);
+                    if (!e || !_runescape_coordinates__WEBPACK_IMPORTED_MODULE_6__.TileRectangle.contains(digSpotArea(node.remaining_candidates[0]), e)) {
+                        node.completeness = "incomplete";
+                    }
+                }
             }
             if (!tree.state.completeness_analyzed) {
                 helper(tree.root_node);
@@ -63398,6 +63405,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   blue_marker: () => (/* binding */ blue_marker),
 /* harmony export */   green_icon: () => (/* binding */ green_icon),
 /* harmony export */   green_marker: () => (/* binding */ green_marker),
+/* harmony export */   levelIcon: () => (/* binding */ levelIcon),
 /* harmony export */   red_icon: () => (/* binding */ red_icon),
 /* harmony export */   red_marker: () => (/* binding */ red_marker),
 /* harmony export */   yellow_icon: () => (/* binding */ yellow_icon),
@@ -63463,6 +63471,22 @@ const yellow_icon = leaflet__WEBPACK_IMPORTED_MODULE_0__.icon({
     iconAnchor: [9, 30],
     className: "marker-icon"
 });
+function levelIcon(floor, scale = 1) {
+    const levels = [
+        "assets/icons/marker_red.png",
+        "assets/icons/marker_blue.png",
+        "assets/icons/marker_green.png",
+        "assets/icons/marker_yellow.png",
+    ];
+    // Original size: 46 x 62
+    // 23 x 31
+    return leaflet__WEBPACK_IMPORTED_MODULE_0__.icon({
+        iconUrl: levels[floor],
+        iconSize: [scale * 18, scale * 24],
+        iconAnchor: [scale * 9, scale * 24],
+        className: "marker-icon"
+    });
+}
 /**
  * This map class wraps a leaflet map view and provides features needed for the solver.
  * Map data is sourced from Skillbert's amazing runeapps.org.
@@ -64092,11 +64116,10 @@ class TileMarker extends _layers_OpacityLayer__WEBPACK_IMPORTED_MODULE_2__.Activ
         this.setOpacity(1);
     }
     withMarker(icon = null, scale = 1) {
-        const level_markers = [_GameMap__WEBPACK_IMPORTED_MODULE_1__.red_icon, _GameMap__WEBPACK_IMPORTED_MODULE_1__.blue_icon, _GameMap__WEBPACK_IMPORTED_MODULE_1__.green_icon, _GameMap__WEBPACK_IMPORTED_MODULE_1__.yellow_icon];
         if (this.marker)
             this.marker.remove();
         this.marker = leaflet__WEBPACK_IMPORTED_MODULE_0__.marker([this.spot.y, this.spot.x], {
-            icon: icon !== null && icon !== void 0 ? icon : level_markers[this.spot.level],
+            icon: icon !== null && icon !== void 0 ? icon : (0,_GameMap__WEBPACK_IMPORTED_MODULE_1__.levelIcon)(this.spot.level, scale),
             //title: `[${this.spot.x}, ${this.spot.y}]`,
             opacity: this.options.opacity
         }).addTo(this);
@@ -78725,8 +78748,8 @@ class PathEditOverlayControl extends _lib_gamemap_GameMapControl__WEBPACK_IMPORT
         }, c());
         this.lens_layer = new StateAbilityLensLayer(editor.value).addTo(this);
         this.lens_layer.enabled1.set(false);
-        this.setContent(new _map_ControlWithHeader__WEBPACK_IMPORTED_MODULE_1__["default"]("Overlay")
-            .append(this.lens_checkbox = new _lib_ui_controls_Checkbox__WEBPACK_IMPORTED_MODULE_2__.Checkbox("Ability Lens")
+        this.setContent(new _map_ControlWithHeader__WEBPACK_IMPORTED_MODULE_1__["default"]("Path Tools")
+            .append(this.lens_checkbox = new _lib_ui_controls_Checkbox__WEBPACK_IMPORTED_MODULE_2__.Checkbox("Show Ability Lens")
             .onCommit(v => {
             this.lens_layer.enabled1.set(v);
             this.lens_static_checkbox.setEnabled(v);
@@ -83125,27 +83148,40 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   ScanTreeBuilder: () => (/* binding */ ScanTreeBuilder),
 /* harmony export */   "default": () => (/* binding */ ScanEditor)
 /* harmony export */ });
-/* harmony import */ var _lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../lib/ui/Behaviour */ "./lib/ui/Behaviour.ts");
-/* harmony import */ var _lib_properties_Lazy__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../lib/properties/Lazy */ "./lib/properties/Lazy.ts");
-/* harmony import */ var leaflet__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! leaflet */ "../node_modules/leaflet/dist/leaflet-src.js");
-/* harmony import */ var leaflet__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(leaflet__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _lib_cluetheory_scans_EquivalenceClasses__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../lib/cluetheory/scans/EquivalenceClasses */ "./lib/cluetheory/scans/EquivalenceClasses.ts");
-/* harmony import */ var _polygon_helpers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../polygon_helpers */ "./trainer/ui/polygon_helpers.ts");
-/* harmony import */ var _neosolving_ScanLayer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../neosolving/ScanLayer */ "./trainer/ui/neosolving/ScanLayer.ts");
-/* harmony import */ var _pathedit_PathEditor__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../pathedit/PathEditor */ "./trainer/ui/pathedit/PathEditor.ts");
-/* harmony import */ var _lib_gamemap_layers_OpacityLayer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../../lib/gamemap/layers/OpacityLayer */ "./lib/gamemap/layers/OpacityLayer.ts");
-/* harmony import */ var _lib_reactive__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../../lib/reactive */ "./lib/reactive/index.ts");
-/* harmony import */ var _lib_gamemap_interaction_InteractionLayer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../../lib/gamemap/interaction/InteractionLayer */ "./lib/gamemap/interaction/InteractionLayer.ts");
-/* harmony import */ var _lib_gamemap_GameMapControl__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../../../lib/gamemap/GameMapControl */ "./lib/gamemap/GameMapControl.ts");
-/* harmony import */ var _ScanTools__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./ScanTools */ "./trainer/ui/theorycrafting/scanedit/ScanTools.ts");
-/* harmony import */ var _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../../../lib/ui/constructors */ "./lib/ui/constructors.ts");
-/* harmony import */ var _SpotOverview__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./SpotOverview */ "./trainer/ui/theorycrafting/scanedit/SpotOverview.ts");
-/* harmony import */ var _lib_cluetheory_scans_ScanTree__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../../lib/cluetheory/scans/ScanTree */ "./lib/cluetheory/scans/ScanTree.ts");
+/* harmony import */ var _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../lib/runescape/coordinates */ "./lib/runescape/coordinates/index.ts");
+/* harmony import */ var _lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../lib/ui/Behaviour */ "./lib/ui/Behaviour.ts");
+/* harmony import */ var _lib_properties_Lazy__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../lib/properties/Lazy */ "./lib/properties/Lazy.ts");
+/* harmony import */ var leaflet__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! leaflet */ "../node_modules/leaflet/dist/leaflet-src.js");
+/* harmony import */ var leaflet__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(leaflet__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _lib_cluetheory_scans_EquivalenceClasses__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../lib/cluetheory/scans/EquivalenceClasses */ "./lib/cluetheory/scans/EquivalenceClasses.ts");
+/* harmony import */ var _polygon_helpers__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../polygon_helpers */ "./trainer/ui/polygon_helpers.ts");
+/* harmony import */ var _neosolving_ScanLayer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../neosolving/ScanLayer */ "./trainer/ui/neosolving/ScanLayer.ts");
+/* harmony import */ var _pathedit_PathEditor__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../pathedit/PathEditor */ "./trainer/ui/pathedit/PathEditor.ts");
+/* harmony import */ var _lib_gamemap_layers_OpacityLayer__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../../lib/gamemap/layers/OpacityLayer */ "./lib/gamemap/layers/OpacityLayer.ts");
+/* harmony import */ var _lib_reactive__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../../lib/reactive */ "./lib/reactive/index.ts");
+/* harmony import */ var _lib_gamemap_interaction_InteractionLayer__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../../../lib/gamemap/interaction/InteractionLayer */ "./lib/gamemap/interaction/InteractionLayer.ts");
+/* harmony import */ var _lib_gamemap_GameMapControl__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../../../lib/gamemap/GameMapControl */ "./lib/gamemap/GameMapControl.ts");
+/* harmony import */ var _ScanTools__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./ScanTools */ "./trainer/ui/theorycrafting/scanedit/ScanTools.ts");
+/* harmony import */ var _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../../../lib/ui/constructors */ "./lib/ui/constructors.ts");
+/* harmony import */ var _lib_cluetheory_scans_ScanTree__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../../lib/cluetheory/scans/ScanTree */ "./lib/cluetheory/scans/ScanTree.ts");
 /* harmony import */ var _TreeEdit__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./TreeEdit */ "./trainer/ui/theorycrafting/scanedit/TreeEdit.ts");
 /* harmony import */ var _MethodSubEditor__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../MethodSubEditor */ "./trainer/ui/theorycrafting/MethodSubEditor.ts");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! lodash */ "../node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_17__);
 /* harmony import */ var _map_entities_PathStepEntity__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../../map/entities/PathStepEntity */ "./trainer/ui/map/entities/PathStepEntity.ts");
+/* harmony import */ var _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../../../../lib/gamemap/GameLayer */ "./lib/gamemap/GameLayer.ts");
+/* harmony import */ var _lib_gamemap_MapEntity__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../../../../lib/gamemap/MapEntity */ "./lib/gamemap/MapEntity.ts");
+/* harmony import */ var _lib_math__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ../../../../lib/math */ "./lib/math/index.ts");
+/* harmony import */ var _lib_runescape_clues_scans__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ../../../../lib/runescape/clues/scans */ "./lib/runescape/clues/scans.ts");
+/* harmony import */ var _lib_gamemap_GameMap__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ../../../../lib/gamemap/GameMap */ "./lib/gamemap/GameMap.ts");
+/* harmony import */ var _widgets_Properties__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ../../widgets/Properties */ "./trainer/ui/widgets/Properties.ts");
+/* harmony import */ var _TextRendering__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ../../TextRendering */ "./trainer/ui/TextRendering.ts");
+/* harmony import */ var _lib_ui_controls_FormModal__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ../../../../lib/ui/controls/FormModal */ "./lib/ui/controls/FormModal.ts");
+/* harmony import */ var _lib_ui_controls_NumberInput__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ../../../../lib/ui/controls/NumberInput */ "./lib/ui/controls/NumberInput.ts");
+/* harmony import */ var _widgets_BigNisButton__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ../../widgets/BigNisButton */ "./trainer/ui/widgets/BigNisButton.ts");
+/* harmony import */ var _lib_ui_NisModal__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ../../../../lib/ui/NisModal */ "./lib/ui/NisModal.ts");
+/* harmony import */ var _map_ControlWithHeader__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ../../map/ControlWithHeader */ "./trainer/ui/map/ControlWithHeader.ts");
+/* harmony import */ var _dependencies__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ../../../dependencies */ "./trainer/dependencies.ts");
 
 
 
@@ -83153,49 +83189,212 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var AugmentedScanTree = _lib_cluetheory_scans_ScanTree__WEBPACK_IMPORTED_MODULE_7__.ScanTree.Augmentation.AugmentedScanTree;
+
+var AugmentedScanTree = _lib_cluetheory_scans_ScanTree__WEBPACK_IMPORTED_MODULE_8__.ScanTree.Augmentation.AugmentedScanTree;
 
 
 
 
 
 
-var vbox = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_13__.C.vbox;
-
-var spacer = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_13__.C.spacer;
 
 
 
 
 
-class ScanEditLayerLight extends _neosolving_ScanLayer__WEBPACK_IMPORTED_MODULE_5__.ScanLayer {
-    constructor(editor) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+class ScanEditLayer extends _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_19__.GameLayer {
+    constructor(editor, spots) {
         super();
         this.editor = editor;
+        this.spots = spots;
+        this.markers = spots.map(s => new ScanEditLayer.MarkerPair(s));
+        this.markers.forEach((m, i) => {
+            m.setNumber(i + 1);
+            m.regular.addTo(this);
+            m.complement.addTo(this);
+        });
+    }
+    setActiveCandidates(coords) {
+        this.markers.forEach(m => m.setActive(coords.some(c => _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_0__.TileCoordinates.eq2(c, m.spot))));
+    }
+    getMarker(coords) {
+        return this.markers.find(m => _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_0__.TileCoordinates.eq2(m.spot, coords));
+    }
+    setSpotOrder(order) {
+        order.forEach((spot, i) => {
+            var _a;
+            (_a = this.getMarker(spot)) === null || _a === void 0 ? void 0 : _a.setNumber(i + 1);
+        });
+    }
+    setTiming(timing) {
+        this.markers.forEach(m => {
+            m.setTiming(timing.spots.find(t => _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_0__.TileCoordinates.eq(t.spot, m.spot)));
+        });
     }
 }
-class EquivalenceClassHandling extends _lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_0__["default"] {
+(function (ScanEditLayer) {
+    var render_digspot = _TextRendering__WEBPACK_IMPORTED_MODULE_25__.TextRendering.render_digspot;
+    class MarkerPair {
+        constructor(spot) {
+            this.spot = spot;
+            this.regular = new ScanEditLayer.SpotMarker(spot, false);
+            this.complement = new ScanEditLayer.SpotMarker(spot, true);
+        }
+        setNumber(n) {
+            this.regular.setNumber(n);
+            this.complement.setNumber(n);
+        }
+        setActive(v) {
+            const opacity = v ? 1 : 0.2;
+            this.regular.opacity.set(opacity);
+            this.complement.opacity.set(opacity);
+        }
+        setTiming(timing) {
+            this.regular.setTiming(timing);
+            this.complement.setTiming(timing);
+        }
+    }
+    ScanEditLayer.MarkerPair = MarkerPair;
+    var complementSpot = _lib_runescape_clues_scans__WEBPACK_IMPORTED_MODULE_22__.Scans.complementSpot;
+    var span = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_14__.C.span;
+    var inlineimg = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_14__.C.inlineimg;
+    class SpotMarker extends _lib_gamemap_MapEntity__WEBPACK_IMPORTED_MODULE_20__.MapEntity {
+        constructor(spot, is_complement) {
+            super({
+                interactive: true,
+                highlightable: true
+            });
+            this.spot = spot;
+            this.is_complement = is_complement;
+            this.spot_on_map = null;
+            this.number = undefined;
+            this.spot_on_map = is_complement ? complementSpot(spot) : spot;
+        }
+        bounds() {
+            return _lib_math__WEBPACK_IMPORTED_MODULE_21__.Rectangle.from(this.spot_on_map);
+        }
+        async render_implementation(props) {
+            const marker = leaflet__WEBPACK_IMPORTED_MODULE_3__.marker(_lib_math__WEBPACK_IMPORTED_MODULE_21__.Vector2.toLatLong(this.spot_on_map), {
+                icon: (0,_lib_gamemap_GameMap__WEBPACK_IMPORTED_MODULE_23__.levelIcon)(this.spot.level, props.highlight ? 1.5 : 1),
+                opacity: props.opacity
+            }).addTo(this);
+            if (this.number) {
+                marker.bindTooltip(leaflet__WEBPACK_IMPORTED_MODULE_3__.tooltip({
+                    content: this.number.toString(),
+                    className: "spot-number-on-map",
+                    offset: [0, 10],
+                    permanent: true,
+                    direction: "center",
+                    opacity: props.opacity
+                }));
+            }
+            return marker.getElement();
+        }
+        setNumber(n) {
+            this.number = n;
+            this.render(true);
+        }
+        async renderTooltip() {
+            const props = new _widgets_Properties__WEBPACK_IMPORTED_MODULE_24__["default"]();
+            if (this.is_complement) {
+                props.header(c().append("Complement of Spot ", render_digspot(this.number)));
+            }
+            else {
+                props.header(c().append("Spot ", render_digspot(this.number)));
+            }
+            if (this.is_complement) {
+                props.row(c().addClass("ctr-step-properties-explanation")
+                    .append(inlineimg("assets/icons/info.png"), " This is the complement of a dig spot. Right click to learn more about complement spots."));
+            }
+            if (this.timing_information) {
+                let timing = c();
+                this.timing_information.timings.forEach((t, i) => {
+                    if (i != 0)
+                        timing.append(" | ");
+                    let s = span(t.ticks.toString() + " ticks");
+                    if (t.incomplete)
+                        s.css("color", "yellow").tooltip("Incomplete path");
+                    timing.append(s);
+                });
+                const any_incomplete = this.timing_information.timings.some(t => t.incomplete);
+                if (this.timing_information.timings.length > 1) {
+                    const avg = span(this.timing_information.average.toFixed(2) + " ticks");
+                    if (any_incomplete)
+                        avg.css("color", "yellow").tooltip("Incomplete path");
+                    timing.append(", Average ", avg);
+                }
+                props.named("Expected time", timing);
+                if (any_incomplete) {
+                    props.row(c().css("font-style", "italic").text("Timings in yellow are from incomplete branches."));
+                }
+            }
+            return {
+                content: props,
+                interactive: true
+            };
+        }
+        setTiming(timing) {
+            this.timing_information = timing;
+        }
+        async contextMenu(event) {
+            if (this.is_complement) {
+                event.addForEntity({
+                    type: "basic",
+                    text: "About complement spots",
+                    handler: () => {
+                        (new class extends _lib_ui_NisModal__WEBPACK_IMPORTED_MODULE_29__.NisModal {
+                            render() {
+                                super.render();
+                                this.body.text("Sorry, this explanation is still missing.");
+                            }
+                        }).show();
+                    }
+                });
+            }
+            return {
+                type: "submenu",
+                text: () => c().append("Spot ", render_digspot(this.number)),
+                children: []
+            };
+        }
+    }
+    ScanEditLayer.SpotMarker = SpotMarker;
+})(ScanEditLayer || (ScanEditLayer = {}));
+class EquivalenceClassHandling extends _lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_1__["default"] {
     constructor(parent) {
         super();
         this.parent = parent;
         this.equivalence_classes = [];
     }
     render_equivalence_classes(ecs) {
-        let layer = leaflet__WEBPACK_IMPORTED_MODULE_2__.featureGroup();
+        let layer = leaflet__WEBPACK_IMPORTED_MODULE_3__.featureGroup();
         ecs.equivalence_classes.map((c) => {
             let color = Math.abs(c.information_gain - ecs.max_information) < 0.01
                 ? "blue"
                 : `rgb(${255 * (1 - (c.information_gain / ecs.max_information))}, ${255 * c.information_gain / ecs.max_information}, 0)`;
-            let polygon = leaflet__WEBPACK_IMPORTED_MODULE_2__.featureGroup();
-            (0,_polygon_helpers__WEBPACK_IMPORTED_MODULE_4__.areaToPolygon)(ecs.raster, (p) => p.id == c.id, c.area[0]).setStyle({
+            let polygon = leaflet__WEBPACK_IMPORTED_MODULE_3__.featureGroup();
+            (0,_polygon_helpers__WEBPACK_IMPORTED_MODULE_5__.areaToPolygon)(ecs.raster, (p) => p.id == c.id, c.area[0]).setStyle({
                 color: "black",
                 opacity: 1,
                 weight: 3,
                 fillOpacity: 0.25,
                 fillColor: color
             }).addTo(polygon);
-            leaflet__WEBPACK_IMPORTED_MODULE_2__.marker(polygon.getBounds().getCenter(), {
-                icon: leaflet__WEBPACK_IMPORTED_MODULE_2__.divIcon({
+            leaflet__WEBPACK_IMPORTED_MODULE_3__.marker(polygon.getBounds().getCenter(), {
+                icon: leaflet__WEBPACK_IMPORTED_MODULE_3__.divIcon({
                     iconSize: [50, 20],
                     className: "equivalence-class-information",
                     html: `${c.information_gain.toFixed(2)}b`,
@@ -83208,8 +83407,8 @@ class EquivalenceClassHandling extends _lib_ui_Behaviour__WEBPACK_IMPORTED_MODUL
     begin() {
         let self = this;
         function setup(o, visibility) {
-            let options = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_9__.observe)(o);
-            let layer = options.map(o => (0,_lib_properties_Lazy__WEBPACK_IMPORTED_MODULE_1__.lazy)(() => self.render_equivalence_classes(new _lib_cluetheory_scans_EquivalenceClasses__WEBPACK_IMPORTED_MODULE_3__.ScanEquivalenceClasses(o))));
+            let options = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_10__.observe)(o);
+            let layer = options.map(o => (0,_lib_properties_Lazy__WEBPACK_IMPORTED_MODULE_2__.lazy)(() => self.render_equivalence_classes(new _lib_cluetheory_scans_EquivalenceClasses__WEBPACK_IMPORTED_MODULE_4__.ScanEquivalenceClasses(o))));
             layer.subscribe((l, old) => {
                 if (old.hasValue())
                     self.parent.layer.removeLayer(old.get());
@@ -83257,15 +83456,16 @@ class ScanTreeBuilder {
     constructor(clue) {
         this.clue = clue;
         this.tree = null;
-        this.augmented = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_9__.observe)(null);
-        this.preview_invalid = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_9__.ewent)();
-        this.assumptions = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_9__.observe)({}).equality((a, b) => {
+        this.augmented = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_10__.observe)(null);
+        this.preview_invalid = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_10__.ewent)();
+        this.assumptions = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_10__.observe)({}).equality((a, b) => {
             return a.meerkats_active == b.meerkats_active
                 && a.mobile_perk == b.mobile_perk
                 && a.double_escape == b.double_escape
                 && a.double_surge == b.double_surge;
         });
-        this.any_change = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_9__.ewent)();
+        this.order_changed = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_10__.ewent)();
+        this.any_change = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_10__.ewent)();
         this.assumptions.subscribe((v) => {
             this.cleanTree();
         });
@@ -83274,13 +83474,13 @@ class ScanTreeBuilder {
         if (!this.tree)
             return;
         this.tree.assumed_range = this.clue.range + (this.assumptions.value().meerkats_active ? 5 : 0);
-        this.augmented.set(await _lib_cluetheory_scans_ScanTree__WEBPACK_IMPORTED_MODULE_7__.ScanTree.Augmentation.augment({
+        this.augmented.set(await _lib_cluetheory_scans_ScanTree__WEBPACK_IMPORTED_MODULE_8__.ScanTree.Augmentation.augment({
             augment_paths: true,
             analyze_completeness: true,
             analyze_correctness: true,
             analyze_timing: true,
             path_assumptions: this.assumptions.value()
-        }, _lib_cluetheory_scans_ScanTree__WEBPACK_IMPORTED_MODULE_7__.ScanTree.normalize(this.tree), this.clue));
+        }, _lib_cluetheory_scans_ScanTree__WEBPACK_IMPORTED_MODULE_8__.ScanTree.normalize(this.tree), this.clue));
         this.preview_invalid.trigger(null);
     }
     set(tree) {
@@ -83297,26 +83497,30 @@ class ScanTreeBuilder {
         this.cleanTree();
         this.any_change.trigger(null);
     }
+    setOrder(order) {
+        this.tree.ordered_spots = order;
+        this.order_changed.trigger(order);
+    }
 }
-class PreviewLayerControl extends _lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_0__["default"] {
+class PreviewLayerControl extends _lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_1__["default"] {
     constructor(parent) {
         super();
         this.parent = parent;
         this.path_layer = null;
     }
     begin() {
-        this.layer = new _lib_gamemap_layers_OpacityLayer__WEBPACK_IMPORTED_MODULE_8__.OpacityGroup().addTo(this.parent.layer);
+        this.layer = new _lib_gamemap_layers_OpacityLayer__WEBPACK_IMPORTED_MODULE_9__.OpacityGroup().addTo(this.parent.layer);
         // Render path preview
         this.parent.tree_edit.active.subscribe(() => this.updatePreview(), true);
         this.parent.builder.preview_invalid.on(() => this.updatePreview());
     }
     async updatePreview() {
         let a = this.parent.tree_edit.active_node.value();
-        let layer = new _lib_gamemap_layers_OpacityLayer__WEBPACK_IMPORTED_MODULE_8__.OpacityGroup();
+        let layer = new _lib_gamemap_layers_OpacityLayer__WEBPACK_IMPORTED_MODULE_9__.OpacityGroup();
         if (a) {
             for (const n of AugmentedScanTree.collect_parents(a, true)) {
                 if (n.raw.region) {
-                    (await this.parent.tree_edit.getNode(n)).region_preview = new _neosolving_ScanLayer__WEBPACK_IMPORTED_MODULE_5__.ScanRegionPolygon(n.raw.region).addTo(layer);
+                    (await this.parent.tree_edit.getNode(n)).region_preview = new _neosolving_ScanLayer__WEBPACK_IMPORTED_MODULE_6__.ScanRegionPolygon(n.raw.region).addTo(layer);
                 }
                 if (n != a)
                     _map_entities_PathStepEntity__WEBPACK_IMPORTED_MODULE_18__.PathStepEntity.renderPath(n.raw.path).addTo(layer);
@@ -83326,7 +83530,7 @@ class PreviewLayerControl extends _lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_0__
             if (this.parent.tree_edit.root_widget) {
                 AugmentedScanTree.traverse(this.parent.tree_edit.root_widget.node, async (n) => {
                     if (n.raw.region) {
-                        (await this.parent.tree_edit.getNode(n)).region_preview = new _neosolving_ScanLayer__WEBPACK_IMPORTED_MODULE_5__.ScanRegionPolygon(n.raw.region).addTo(layer);
+                        (await this.parent.tree_edit.getNode(n)).region_preview = new _neosolving_ScanLayer__WEBPACK_IMPORTED_MODULE_6__.ScanRegionPolygon(n.raw.region).addTo(layer);
                     }
                     return _map_entities_PathStepEntity__WEBPACK_IMPORTED_MODULE_18__.PathStepEntity.renderPath(n.raw.path).addTo(layer);
                 }, true);
@@ -83347,25 +83551,77 @@ class ScanEditor extends _MethodSubEditor__WEBPACK_IMPORTED_MODULE_16__["default
         this.side_panel = side_panel;
         this.builder = new ScanTreeBuilder(value.clue);
         this.builder.assumptions.set(lodash__WEBPACK_IMPORTED_MODULE_17__.cloneDeep(value.method.assumptions));
+        this.builder.augmented.subscribe((t) => {
+            this.layer.setTiming(t.state.timing_analysis);
+        });
         this.builder.any_change.on(() => {
             this.parent.registerChange();
         });
-        this.layer = new ScanEditLayerLight(this);
-        this.interaction_guard = new _lib_gamemap_interaction_InteractionLayer__WEBPACK_IMPORTED_MODULE_10__.InteractionGuard().setDefaultLayer(this.layer);
+        this.builder.order_changed.on((order) => {
+            this.layer.setSpotOrder(order);
+        });
+        this.layer = new ScanEditLayer(this, value.clue.spots);
+        const self = this;
+        this.layer.add(new class extends _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_19__.GameLayer {
+            eventContextMenu(event) {
+                event.onPre(() => {
+                    if (event.active_entity instanceof ScanEditLayer.SpotMarker) {
+                        const spot = event.active_entity.spot;
+                        event.addForEntity({
+                            type: "basic",
+                            text: "Set spot number",
+                            handler: async () => {
+                                const id = await (new class extends _lib_ui_controls_FormModal__WEBPACK_IMPORTED_MODULE_26__.FormModal {
+                                    constructor() {
+                                        super({ size: "small" });
+                                        this.title.set("Set spot number");
+                                    }
+                                    render() {
+                                        super.render();
+                                        const props = new _widgets_Properties__WEBPACK_IMPORTED_MODULE_24__["default"]().appendTo(this.body);
+                                        props.named("New Spot Number", this.input = new _lib_ui_controls_NumberInput__WEBPACK_IMPORTED_MODULE_27__["default"](1, self.value.clue.spots.length)
+                                            .setValue(self.builder.tree.ordered_spots.findIndex(c => _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_0__.TileCoordinates.eq(c, spot)) + 1));
+                                        this.input.raw().focus();
+                                    }
+                                    getButtons() {
+                                        return [
+                                            new _widgets_BigNisButton__WEBPACK_IMPORTED_MODULE_28__.BigNisButton("Cancel", "cancel").onClick(() => this.cancel()),
+                                            new _widgets_BigNisButton__WEBPACK_IMPORTED_MODULE_28__.BigNisButton("Save", "confirm").onClick(() => this.confirm(this.input.get() - 1)),
+                                        ];
+                                    }
+                                    getValueForCancel() {
+                                        return undefined;
+                                    }
+                                }).do();
+                                if (id !== undefined) {
+                                    const old = lodash__WEBPACK_IMPORTED_MODULE_17__.clone(self.builder.tree.ordered_spots);
+                                    const old_id = old.findIndex(c => _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_0__.TileCoordinates.eq(spot, c));
+                                    const tmp = old[id];
+                                    old[id] = old[old_id];
+                                    old[old_id] = tmp;
+                                    self.builder.setOrder(old);
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        });
+        this.interaction_guard = new _lib_gamemap_interaction_InteractionLayer__WEBPACK_IMPORTED_MODULE_11__.InteractionGuard().setDefaultLayer(this.layer);
         this.equivalence_classes = this.withSub(new EquivalenceClassHandling(this));
         this.preview_layer = this.withSub(new PreviewLayerControl(this));
-        this.path_editor = this.withSub(new _lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_0__.SingleBehaviour());
+        this.path_editor = this.withSub(new _lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_1__.SingleBehaviour());
         this.assumptions.subscribe((v) => {
             this.value.method.tree.assumed_range = this.value.clue.range + (v.meerkats_active ? 5 : 0);
             this.builder.assumptions.set(lodash__WEBPACK_IMPORTED_MODULE_17__.cloneDeep(v));
-            this.layer.scan_range.set(this.value.method.tree.assumed_range);
+            //TODO: this.layer.scan_range.set(this.value.method.tree.assumed_range)
         });
         this.builder.augmented.subscribe(a => {
             this.value.method.expected_time = a.state.timing_analysis.average + 1;
         });
     }
     setPathEditor(node) {
-        this.path_editor.set(new _pathedit_PathEditor__WEBPACK_IMPORTED_MODULE_6__.PathEditor(this.layer, this.app.template_resolver, {
+        this.path_editor.set(new _pathedit_PathEditor__WEBPACK_IMPORTED_MODULE_7__.PathEditor(this.layer, this.app.template_resolver, {
             initial: node.path.raw,
             target: node.path.target,
             start_state: node.path.pre_state,
@@ -83380,27 +83636,24 @@ class ScanEditor extends _MethodSubEditor__WEBPACK_IMPORTED_MODULE_16__["default
         }));
     }
     begin() {
+        (0,_dependencies__WEBPACK_IMPORTED_MODULE_31__.deps)().app.notifications.notify({
+            type: "error",
+            duration: null,
+        }, "The editor for scan tree methods is currently undergoing major revamps. Methods created with this version may no longer be compatible after this.");
+        new _lib_gamemap_GameMapControl__WEBPACK_IMPORTED_MODULE_12__.GameMapControl({
+            position: "top-right",
+            type: "floating"
+        }, new _map_ControlWithHeader__WEBPACK_IMPORTED_MODULE_30__["default"]("Scan Tools")
+            .setContent(this.tools = new _ScanTools__WEBPACK_IMPORTED_MODULE_13__["default"](this))).addTo(this.layer);
         this.builder.set(this.value.method.tree);
         c("<div style='font-weight: bold; text-align: center'>Scan Tree</div>").appendTo(this.side_panel);
         this.tree_edit = new _TreeEdit__WEBPACK_IMPORTED_MODULE_15__["default"](this, this.builder.tree.root)
             .css("overflow-y", "auto").appendTo(this.side_panel);
-        new _lib_gamemap_GameMapControl__WEBPACK_IMPORTED_MODULE_11__.GameMapControl({
-            position: "top-right",
-            type: "floating"
-        }, vbox(c("<div class='ctr-interaction-control-header'></div>")
-            .append(c().text(`Scan Tools`))
-            .append(spacer()), this.tools = new _ScanTools__WEBPACK_IMPORTED_MODULE_12__["default"](this), c("<div style='text-align: center; font-weight: bold'>Spot Overview</div>"), this.overview = new _SpotOverview__WEBPACK_IMPORTED_MODULE_14__["default"](this.builder)).css2({
-            "min-width": "300px",
-            "max-height": "80vh",
-            "padding": "5px"
-        })).addTo(this.layer);
         this.candidates_at_active_node = this.tree_edit.active
             .map(n => n ? n.node.remaining_candidates : this.value.clue.spots);
-        // Initialize and set the main game layer
-        this.layer.spots.set(this.value.clue.spots);
-        this.layer.spot_order.set(this.builder.tree.ordered_spots);
-        this.layer.active_spots.bindTo(this.candidates_at_active_node);
-        this.layer.scan_range.set(this.builder.tree.assumed_range);
+        this.candidates_at_active_node.subscribe(n => {
+            this.layer.setActiveCandidates(n);
+        });
         this.app.map.addGameLayer(this.layer);
         this.tree_edit.active_node.subscribe(async (node) => {
             if (node)
@@ -83412,6 +83665,9 @@ class ScanEditor extends _MethodSubEditor__WEBPACK_IMPORTED_MODULE_16__["default
     end() {
         this.layer.remove();
         this.tree_edit.remove();
+    }
+    setSpotOrder(order) {
+        this.value.method.tree.ordered_spots;
     }
 }
 
@@ -83448,6 +83704,7 @@ var centered = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_4__.C.centered;
 
 
 
+var span = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_4__.C.span;
 class ScanTools extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["default"] {
     constructor(editor) {
         super();
@@ -83475,82 +83732,14 @@ class ScanTools extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["default"] {
             this.normal.set(v);
         }), new _lib_ui_controls_Checkbox__WEBPACK_IMPORTED_MODULE_7__.Checkbox("Complement").onCommit((v) => {
             this.complement.set(v);
-        }))).appendTo(this);
-    }
-}
-
-
-/***/ }),
-
-/***/ "./trainer/ui/theorycrafting/scanedit/SpotOverview.ts":
-/*!************************************************************!*\
-  !*** ./trainer/ui/theorycrafting/scanedit/SpotOverview.ts ***!
-  \************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ SpotOverview)
-/* harmony export */ });
-/* harmony import */ var _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../lib/ui/Widget */ "./lib/ui/Widget.ts");
-/* harmony import */ var _lib_runescape_coordinates_TileCoordinates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../lib/runescape/coordinates/TileCoordinates */ "./lib/runescape/coordinates/TileCoordinates.ts");
-/* harmony import */ var _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../lib/ui/constructors */ "./lib/ui/constructors.ts");
-
-
-
-var span = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_2__.C.span;
-var vbox = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_2__.C.vbox;
-class SpotOverview extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["default"] {
-    constructor(builder) {
-        super();
-        this.builder = builder;
-        this.css("font-family", "monospace");
-        /*
-        this.reselect_button = new LightButton("Select new spot numbering")
-            .onClick((e) => {
-                if (this.interaction) {
-                    this.interaction.deactivate()
-                    this.interaction = null
-                } else this.startSelection()
-            })
-            .appendTo($("<div style='text-align: center'></div>").appendTo(this.container))*/
-        this.append(this.list = c("<div style='display: flex; flex-direction: column'></div>"));
-        this.builder.augmented.subscribe((tree) => { if (tree)
-            this.update(tree); }, true);
-    }
-    update(tree) {
-        this.list.empty();
-        c("<div class='row'>")
-            .append(c("<div class='col-2' style='text-align: center'>").text("#"))
-            .append(c("<div class='col-6' style='text-align: center'>").text("Spot"))
-            .append(c("<div class='col-4' style='text-align: center'>").text("Timing"))
-            .appendTo(this.list);
-        vbox(...tree.raw.ordered_spots.map((v, i) => {
-            let timing = c("<div class='col-4' style='text-align: center'>");
-            tree.state.timing_analysis.spots.find(t => _lib_runescape_coordinates_TileCoordinates__WEBPACK_IMPORTED_MODULE_1__.TileCoordinates.eq2(t.spot, v)).timings.forEach((t, i) => {
-                if (i != 0)
-                    timing.append(span(" | "));
-                let s = span(t.ticks.toString() + "t");
-                if (t.incomplete)
-                    s.css("color", "red").tooltip("Incomplete path");
-                timing.append(s);
-            });
-            return c("<div class='row'>")
-                .append(c("<div class='col-2' style='text-align: center'>").text(i + 1))
-                .append(c("<div class='col-6' style='text-align: center'>").text(_lib_runescape_coordinates_TileCoordinates__WEBPACK_IMPORTED_MODULE_1__.TileCoordinates.toString(v)))
-                .append(timing);
-        })).css2({
-            "overflow-y": "auto",
-            "overflow-x": "hidden",
-            "max-height": "50vh"
-        })
-            .appendTo(this.list);
-        c("<div class='row'>")
-            .append(c("<div class='col-2' style='text-align: center'>"))
-            .append(c("<div class='col-6' style='text-align: center'>").text("Average"))
-            .append(c("<div class='col-4' style='text-align: center'>").text(tree.state.timing_analysis.average.toFixed(2) + "t"))
-            .appendTo(this.list);
+        })), c("<div style='font-weight: bold'>Expected Average Time</div>"), this.expected_timing_display = c().css("text-align", "center").css("font-family", "monospace")).appendTo(this);
+        this.editor.builder.augmented.subscribe(t => {
+            const avg = span(t.state.timing_analysis.average.toFixed(2) + " ticks");
+            const any_incomplete = t.state.timing_analysis.spots.some(s => s.timings.some(t => t.incomplete));
+            if (any_incomplete)
+                avg.css("color", "yellow").tooltip("Incomplete path");
+            this.expected_timing_display.empty().append(avg);
+        });
     }
 }
 
@@ -83590,6 +83779,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _lib_runescape_clues_scans__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../../../../lib/runescape/clues/scans */ "./lib/runescape/clues/scans.ts");
 /* harmony import */ var assert__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! assert */ "../node_modules/assert/build/assert.js");
 /* harmony import */ var assert__WEBPACK_IMPORTED_MODULE_19___default = /*#__PURE__*/__webpack_require__.n(assert__WEBPACK_IMPORTED_MODULE_19__);
+/* harmony import */ var _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../../../../lib/gamemap/GameLayer */ "./lib/gamemap/GameLayer.ts");
+/* harmony import */ var _widgets_ContextMenu__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ../../widgets/ContextMenu */ "./trainer/ui/widgets/ContextMenu.ts");
 
 
 
@@ -83617,6 +83808,10 @@ var spacer = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_17__.C.spacer;
 var Pulse = _lib_runescape_clues_scans__WEBPACK_IMPORTED_MODULE_18__.Scans.Pulse;
 
 var Order = _lib_util_util__WEBPACK_IMPORTED_MODULE_2__.util.Order;
+
+var hbox = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_17__.C.hbox;
+var vbox = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_17__.C.vbox;
+
 class DrawRegionAction extends _lib_gamemap_interaction_ValueInteraction__WEBPACK_IMPORTED_MODULE_15__.ValueInteraction {
     constructor(name) {
         super({
@@ -83732,34 +83927,43 @@ class TreeNodeEdit extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["default"
         this.decision_span = null;
         this.is_collapsed = false;
         this.region_preview = null;
-        this.self_content = c().addClass("ctr-scantreeedit-node");
+        this.self_content = hbox().addClass("ctr-scantreeedit-node");
         this.child_content = c();
-        {
-            let self = this;
-            let spot_text = natural_join(shorten_integer_list(node.remaining_candidates.map((c) => _lib_cluetheory_scans_ScanTree__WEBPACK_IMPORTED_MODULE_1__.ScanTree.spotNumber(parent.parent.builder.tree, c)), (n) => `<span class="ctr-digspot-inline">${n}</span>`), "and");
-            function get_ar() {
-                return `assets/nis/${self.is_collapsed ? "arrow_right" : "arrow_down"}.png`;
-            }
-            let collapse_control = c(`<div style='margin-right: 5px; cursor: pointer'><img src='${get_ar()}'></div>`)
-                .css("margin-left", `${(node.depth + 1) * 5}px`)
-                .tapRaw(r => r.on("click", () => {
-                this.is_collapsed = !this.is_collapsed;
-                collapse_control.container.children("img").attr("src", get_ar);
-                this.child_content.setVisible(!this.is_collapsed);
-                this.body.setVisible(!this.is_collapsed);
-            }));
-            this.you_are_here_marker = c().addClass("ctr-scantreeedit-youarehere")
-                .tapRaw(r => r.on("click", () => this.parent.setActiveNode(this.isActive() ? null : this)));
-            this.header = c(`<div style="padding-left: 5px; padding-right: 5px; display:flex; overflow: hidden; text-overflow: ellipsis; text-wrap: none; white-space: nowrap; font-weight: bold;"></div>`)
-                .append(this.you_are_here_marker)
-                .append(collapse_control)
-                .append(this.decision_span = c(`<span class='nisl-textlink'></span>`).tooltip("Load decisions into map")
-                .tapRaw(r => r.on("click", () => this.parent.setActiveNode(this.isActive() ? null : this))))
-                .append(spacer())
-                .append(span(`${node.remaining_candidates.length}`)
-                //.addClass(ScanTree.completeness_meta(node.completeness).cls)
-                .addTippy(c(`<span>${spot_text}</span>`)));
+        let self = this;
+        const collapse_bar = hbox(c().css("background-color", ["blue", "purple", "green"][node.depth % 3])
+            .css("width", "3px")).css2({
+            "padding-left": `${node.depth * 7}px`,
+            "padding-right": "4px",
+        })
+            .tooltip("Click to collapse/expand")
+            .on("click", (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            this.is_collapsed = !this.is_collapsed;
+            this.child_content.setVisible(!this.is_collapsed);
+            this.body.setVisible(!this.is_collapsed);
+        });
+        let spot_text = natural_join(shorten_integer_list(node.remaining_candidates.map((c) => _lib_cluetheory_scans_ScanTree__WEBPACK_IMPORTED_MODULE_1__.ScanTree.spotNumber(parent.parent.builder.tree, c)), (n) => `<span class="ctr-digspot-inline">${n}</span>`), "and");
+        function get_ar() {
+            return `assets/nis/${self.is_collapsed ? "arrow_right" : "arrow_down"}.png`;
         }
+        let collapse_control = c(`<div style='margin-right: 5px; cursor: pointer'><img src='${get_ar()}'></div>`)
+            //.css("margin-left", `${(node.depth + 1) * 5}px`)
+            .tapRaw(r => r.on("click", () => {
+            this.is_collapsed = !this.is_collapsed;
+            collapse_control.container.children("img").attr("src", get_ar);
+            this.child_content.setVisible(!this.is_collapsed);
+            this.body.setVisible(!this.is_collapsed);
+        }));
+        this.you_are_here_marker = c().addClass("ctr-scantreeedit-youarehere")
+            .tapRaw(r => r.on("click", () => this.parent.setActiveNode(this.isActive() ? null : this)));
+        this.header = c(`<div style="padding-right: 5px; display:flex; overflow: hidden;"></div>`)
+            .append(
+        //collapse_control,
+        this.decision_span = c().addClass("ctr-scantreeedit-node-path")
+            .on("click", () => this.parent.setActiveNode(this.isActive() ? null : this)), this.you_are_here_marker, spacer(), span(`${node.remaining_candidates.length}`)
+            //.addClass(ScanTree.completeness_meta(node.completeness).cls)
+            .addTippy(c(`<span>${spot_text}</span>`)));
         this.body = new _widgets_Properties__WEBPACK_IMPORTED_MODULE_3__["default"]();
         this.path_property = this.body.named("Path", new _pathedit_PathProperty__WEBPACK_IMPORTED_MODULE_5__["default"]({
             target: this.node.path.target,
@@ -83769,7 +83973,7 @@ class TreeNodeEdit extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["default"
         if (node.remaining_candidates.length > 1 && (!node.parent || node.parent.key.pulse != 3)) {
             this.region_edit = this.body.named("Region", new RegionEdit(this));
         }
-        this.body.named("Direction", this.description_input = new _widgets_TemplateStringEdit__WEBPACK_IMPORTED_MODULE_4__["default"]({
+        this.body.named("Instructions", this.description_input = new _widgets_TemplateStringEdit__WEBPACK_IMPORTED_MODULE_4__["default"]({
             resolver: this.parent.parent.app.template_resolver.with((0,_solving_scans_ScanSolving__WEBPACK_IMPORTED_MODULE_12__.scan_tree_template_resolvers)(node)),
             generator: () => {
                 let path_short = this.node.path.steps.length > 0
@@ -83783,9 +83987,22 @@ class TreeNodeEdit extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["default"
             this.node.raw.directions = v;
         })
             .setValue(this.node.raw.directions));
-        this
-            .append(this.self_content.append(this.header).append(this.body))
-            .append(this.child_content);
+        this.append(this.self_content = hbox().addClass("ctr-scantreeedit-node").append(collapse_bar, vbox(this.header, this.body).css("flex-grow", "1")), this.child_content);
+        this.self_content.on("contextmenu", e => {
+            e.preventDefault();
+            e.stopPropagation();
+            new _widgets_ContextMenu__WEBPACK_IMPORTED_MODULE_21__["default"]({
+                type: "submenu",
+                text: "",
+                children: [
+                /* {
+                     type: "basic",
+                     text: "Hello",
+                     handler: () => {}
+                 }*/
+                ]
+            }).showFromEvent2(e.originalEvent);
+        });
         this.renderValue(node);
     }
     renderValue(node) {
@@ -83856,10 +84073,13 @@ class TreeEdit extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["default"] {
         this.active_node = this.active.map(a => a === null || a === void 0 ? void 0 : a.node);
         this.parent.builder.augmented.subscribe(async (tree) => {
             if (tree) {
-                if (this.root_widget)
-                    this.root_widget.renderValue(tree.root_node);
-                else
-                    this.root_widget = new TreeNodeEdit(this, tree.root_node).appendTo(this);
+                (0,_lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_20__.timeSync)("Render tree", () => {
+                    if (this.root_widget) {
+                        this.root_widget.renderValue(tree.root_node);
+                    }
+                    else
+                        this.root_widget = new TreeNodeEdit(this, tree.root_node).appendTo(this);
+                });
             }
         }, true);
     }
@@ -83872,11 +84092,13 @@ class TreeEdit extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["default"] {
         return edit;
     }
     setActiveNode(node) {
-        if (this.active.value())
-            this.active.value().setActive(false);
-        this.active.set(node);
-        if (this.active.value())
-            this.active.value().setActive(true);
+        (0,_lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_20__.timeSync)("Set active", () => {
+            if (this.active.value())
+                this.active.value().setActive(false);
+            this.active.set(node);
+            if (this.active.value())
+                this.active.value().setActive(true);
+        });
         // TODO: Update preview
         //      - You are here marker
         //      - Errors on map?

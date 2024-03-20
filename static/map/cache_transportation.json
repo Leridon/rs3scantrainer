@@ -5131,56 +5131,6 @@
     "type": "door",
     "name": "Door",
     "position": {
-      "x": 2654,
-      "y": 3427,
-      "level": 0
-    },
-    "direction": 3
-  },
-  {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2667,
-      "y": 3414,
-      "level": 0
-    },
-    "direction": 1
-  },
-  {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2669,
-      "y": 3442,
-      "level": 0
-    },
-    "direction": 3
-  },
-  {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2682,
-      "y": 3429,
-      "level": 0
-    },
-    "direction": 1
-  },
-  {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2789,
-      "y": 3197,
-      "level": 0
-    },
-    "direction": 1
-  },
-  {
-    "type": "door",
-    "name": "Door",
-    "position": {
       "x": 2788,
       "y": 3189,
       "level": 0
@@ -11303,6 +11253,276 @@
     "position": {
       "x": 3239,
       "y": 3209,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3201,
+      "y": 3169,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2503,
+      "y": 6352,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3207,
+      "y": 3152,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Gate",
+    "position": {
+      "x": 2513,
+      "y": 3495,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Gate",
+    "position": {
+      "x": 2528,
+      "y": 3496,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Gate",
+    "position": {
+      "x": 2766,
+      "y": 3443,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Gate",
+    "position": {
+      "x": 2855,
+      "y": 3371,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Gate",
+    "position": {
+      "x": 2923,
+      "y": 3292,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Gate",
+    "position": {
+      "x": 4390,
+      "y": 11498,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Gate",
+    "position": {
+      "x": 2513,
+      "y": 3494,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Gate",
+    "position": {
+      "x": 2528,
+      "y": 3495,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Gate",
+    "position": {
+      "x": 2766,
+      "y": 3444,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Gate",
+    "position": {
+      "x": 2855,
+      "y": 3370,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Gate",
+    "position": {
+      "x": 2924,
+      "y": 3292,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Gate",
+    "position": {
+      "x": 4390,
+      "y": 11499,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Gate",
+    "position": {
+      "x": 2545,
+      "y": 3570,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Gate",
+    "position": {
+      "x": 2545,
+      "y": 3569,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Barbarian door",
+    "position": {
+      "x": 2521,
+      "y": 3571,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Barbarian door",
+    "position": {
+      "x": 2521,
+      "y": 3570,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2551,
+      "y": 3570,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2551,
+      "y": 3569,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2319,
+      "y": 3677,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2319,
+      "y": 3690,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2322,
+      "y": 3667,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2326,
+      "y": 3672,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2337,
+      "y": 3675,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2351,
+      "y": 3679,
       "level": 0
     },
     "direction": 3

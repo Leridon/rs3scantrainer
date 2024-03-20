@@ -201,7 +201,6 @@ const raw_data: Transportation.TeleportGroup[] = [
             },
             {
                 id: "wilderness",
-
                 img: {url: "lode_wilderness.png", height: 28},
                 code: "W",
                 target: {origin: {x: 3143, y: 3635, level: 0}},
@@ -762,61 +761,61 @@ const raw_data: Transportation.TeleportGroup[] = [
         spots: [
             {
                 id: "lletya",
-                target: {"origin":{"x":2328,"y":3169,"level":0},"size":{"x":5,"y":5},"data":"EP+PAQ=="},
+                target: {"origin": {"x": 2328, "y": 3169, "level": 0}, "size": {"x": 5, "y": 5}, "data": "EP+PAQ=="},
                 name: "Lletya",
                 code: "1",
             },
             {
                 id: "templeoflight",
-                target: {"origin":{"x":1938,"y":4639,"level":0},"size":{"x":5,"y":5}},
+                target: {"origin": {"x": 1938, "y": 4639, "level": 0}, "size": {"x": 5, "y": 5}},
                 name: "Temple of Light",
                 code: "2",
             },
             {
                 id: "amlodd",
-                target: {"origin":{"x":2153,"y":3381,"level":1},"size":{"x":5,"y":5}},
+                target: {"origin": {"x": 2153, "y": 3381, "level": 1}, "size": {"x": 5, "y": 5}},
                 name: "Amlodd",
                 code: "3",
             },
             {
                 id: "cadarn",
-                target: {"origin":{"x":2259,"y":3337,"level":1},"size":{"x":5,"y":5}},
+                target: {"origin": {"x": 2259, "y": 3337, "level": 1}, "size": {"x": 5, "y": 5}},
                 name: "Cadarn",
                 code: "4",
             },
             {
                 id: "crwys",
-                target: {"origin":{"x":2259,"y":3381,"level":1},"size":{"x":5,"y":5}},
+                target: {"origin": {"x": 2259, "y": 3381, "level": 1}, "size": {"x": 5, "y": 5}},
                 name: "Crwys",
                 code: "5",
             },
             {
                 id: "hefin",
-                target: {"origin":{"x":2184,"y":3409,"level":1},"size":{"x":5,"y":5}},
+                target: {"origin": {"x": 2184, "y": 3409, "level": 1}, "size": {"x": 5, "y": 5}},
                 name: "Hefin",
                 code: "6",
             },
             {
                 id: "iorwerth",
-                target: {"origin":{"x":2183,"y":3309,"level":1},"size":{"x":5,"y":5}},
+                target: {"origin": {"x": 2183, "y": 3309, "level": 1}, "size": {"x": 5, "y": 5}},
                 name: "Iorwerth",
                 code: "7",
             },
             {
                 id: "Ithell",
-                target: {"origin":{"x":2153,"y":3337,"level":1},"size":{"x":5,"y":5},"data":"///vAQ=="},
+                target: {"origin": {"x": 2153, "y": 3337, "level": 1}, "size": {"x": 5, "y": 5}, "data": "///vAQ=="},
                 name: "Ithell",
                 code: "8",
             },
             {
                 id: "Meilyr",
-                target: {"origin":{"x":2228,"y":3409,"level":1},"size":{"x":5,"y":5}},
+                target: {"origin": {"x": 2228, "y": 3409, "level": 1}, "size": {"x": 5, "y": 5}},
                 name: "Meilyr",
                 code: "9",
             },
             {
                 id: "Trahaearn",
-                target: {"origin":{"x":2229,"y":3309,"level":1},"size":{"x":5,"y":5},"data":"7///AA=="},
+                target: {"origin": {"x": 2229, "y": 3309, "level": 1}, "size": {"x": 5, "y": 5}, "data": "7///AA=="},
                 name: "Trahaearn",
                 code: "0",
             },
@@ -3500,20 +3499,26 @@ spots: [{
             name: {name: "Ectophial", kind: "item"},
             action_name: "Empty"
         }]
-    },/*
-            {
-                type: "teleports",
-                id: "explorersring",
-                name: "Explorer's ring",
-                img: {url: "explorersring.png"},
-                spots: [{
-                    id: "cabbagefield",
-                    target: {origin: {x: 3053, y: 3290, level: 0}},
-                    name: "Cabbage field",
-                    menu_ticks: 1,
-                    animation_ticks: 5
-                }]
-            },*/
+    },
+    {
+        type: "teleports",
+        id: "explorersring",
+        name: "Explorer's ring",
+        img: {url: "explorersring.png"},
+        menu_ticks: 0,
+        animation_ticks: 10,
+        spots: [{
+            id: "cabbagefield",
+            target: {"origin": {"x": 3053, "y": 3291, "level": 0}},
+            name: "Cabbage field",
+        }],
+        access: [{
+            type: "item",
+            id: "ring",
+            name: {name: "Explorer's ring 4", kind: "item"},
+            action_name: "Cabbage-port",
+        }]
+    },
     {
         type: "teleports",
         id: "karamjagloves",
@@ -3720,48 +3725,53 @@ spots: [{
                 action_name: "Teleport",
             }
         ]
-    }
-    ,/*
+    },
     {
         type: "teleports",
         id: "wildernesssword",
-name: "Wilderness sword",
-img: {url: "wildernesssword.png"},
+        name: "Wilderness sword",
+        img: {url: "wildernesssword.png"},
         spots: [
             {
                 id: "edgeville",
-target: {origin: {x: 3086, y: 3501, level: 0}},
-code: "1,1",
-name: "Edgeville",
+                target: {"origin": {"x": 3083, "y": 3499, "level": 0}, "size": {"x": 7, "y": 7}, "data": "fz7/////AA=="},
+                code: "1,1",
+                name: "Edgeville",
                 menu_ticks: 3,
                 animation_ticks: 5
             },
             {
                 id: "herbpatch",
-target: {origin: {x: 3143, y: 3820, level: 0}},
-code: "1,2",
-name: "Herb patch",
+                target: {"origin": {"x": 3140, "y": 3822, "level": 0}, "size": {"x": 7, "y": 7}, "data": "8/n/////AQ=="},
+                code: "1,2",
+                name: "Herb patch",
                 menu_ticks: 3,
                 animation_ticks: 5
             },
             {
                 id: "forinthry",
-target: {origin: {x: 3071, y: 3649, level: 0}},
-code: "1,3",
-name: "Forinthry Dungeon",
+                target: {"origin": {"x": 3078, "y": 10056, "level": 0}, "size": {"x": 6, "y": 6}, "data": "/P//PQ4="},
+                code: "1,3",
+                name: "Forinthry Dungeon",
                 menu_ticks: 3,
                 animation_ticks: 5
             },
             {
                 id: "agility",
-target: {origin: {x: 2998, y: 3913, level: 0}},
-code: "1,5",
-name: "Wilderness Agility course",
+                target: {"origin": {"x": 2995, "y": 3910, "level": 0}, "size": {"x": 7, "y": 6}, "data": "//////MA"},
+                code: "1,5",
+                name: "Wilderness Agility course",
                 menu_ticks: 3,
                 animation_ticks: 5
             },
-        ]
-    },*/
+        ],
+        access: [{
+            type: "item",
+            id: "sword",
+            name: {name: "Wilderness Sword 4", kind: "item"},
+            action_name: "Operate",
+        }]
+    },
     {
         type: "teleports",
         id: "lyre",
@@ -4134,7 +4144,87 @@ code: "5",
             img: {url: "Grand_seed_pod.png"},
             action_name: "Squash"
         }]
-
+    },
+    {
+        type: "teleports",
+        id: "sandseed",
+        name: "Mystical sand seed",
+        menu_ticks: 1,
+        animation_ticks: 7,
+        spots: [{
+            id: "garden",
+            target: {"origin": {"x": 3320, "y": 3307, "level": 0}},
+            name: "Garden of Kharid",
+        }],
+        access: [{
+            type: "item",
+            id: "seed",
+            name: {name: "Mystical sand seed", kind: "item"},
+            img: {url: "Mystical_sand_seed.png"},
+            action_name: "Plant"
+        }]
+    },
+    {
+        type: "teleports",
+        id: "passingbracelet",
+        name: "Passing bracelet",
+        menu_ticks: 1,
+        animation_ticks: 4,
+        spots: [
+            {
+                id: "gardens",
+                target: {"origin": {"x": 1169, "y": 1787, "level": 1}},
+                name: "City of Um: Hanging Gardens",
+                code: "1",
+                facing: direction.south
+            }, {
+                id: "haunt",
+                target: {"origin": {"x": 1164, "y": 1838, "level": 1}},
+                name: "City of Um: Haunt on the Hill",
+                code: "2",
+                facing: direction.north
+            }, {
+                id: "reflection",
+                target: {"origin": {"x": 1134, "y": 1723, "level": 1}},
+                name: "City of Um: Reflection Pool",
+                code: "3",
+                facing: direction.north
+            },
+        ],
+        access: [{
+            type: "item",
+            id: "bracelet",
+            name: {name: "Passing bracelet", kind: "item"},
+            img: {url: "Passing_bracelet.png"},
+            action_name: "Rub"
+        }]
+    },
+    {
+        type: "teleports",
+        id: "tomeofum",
+        name: "Tome of Um",
+        menu_ticks: 1,
+        animation_ticks: 4,
+        spots: [
+            {
+                id: "smithy",
+                target: {"origin": {"x": 1145, "y": 1805, "level": 1}, "size": {"x": 5, "y": 5}, "data": "//v/AA=="},
+                name: "Um Smithy",
+                code: "1,1",
+            }, {
+                id: "ritualsite",
+                target: {"origin": {"x": 1038, "y": 1760, "level": 1}},
+                name: "Um Ritual Site",
+                code: "1,2",
+            }
+        ],
+        access: [{
+            type: "item",
+            id: "tome",
+            name: {name: "Tome of Um", kind: "item"},
+            img: {url: "Tome_of_Um_2.webp"},
+            action_name: "Operate"
+        }]
     }
 //TODO: Eagle transport system
 //TODO: Canoes
@@ -4144,7 +4234,6 @@ code: "5",
 //      - 1912 4367 Dagannoth Kings
 // TODO: Slayer masks
 // TODO: Ritual Site teleport incantation
-// TODO: Tome of Um teleports
 ]
 
 export default raw_data

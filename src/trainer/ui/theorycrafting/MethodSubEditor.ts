@@ -11,7 +11,9 @@ export default abstract class MethodSubEditor extends Behaviour {
 
     assumptions: Observable<ClueAssumptions> = observe(ClueAssumptions.init())
 
-    protected constructor(protected parent: MethodEditor) {super();}
+    protected constructor(protected parent: MethodEditor) {
+        super();
+    }
 
     protected begin() {
         this.layer.add(new TransportLayer(true))

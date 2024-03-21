@@ -42,6 +42,8 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
     ) {
         super(parent);
 
+        this.layer = new GameLayer()
+
         this.assumptions.subscribe((v) => {
             this.updateSequence()
         })
@@ -65,9 +67,10 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
 
     protected begin() {
         super.begin()
+        
         this.sidepanel_widget = c().appendTo(this.parent.sidebar.body)
 
-        this.layer = new GameLayer().addTo(deps().app.map)
+        this.layer.addTo(deps().app.map)
 
         this.updateSequence()
     }

@@ -29,6 +29,8 @@ import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import {AugmentedMethod} from "../../../model/MethodPackManager";
 import {Clues} from "../../../../lib/runescape/clues";
 import {PathStepEntity} from "../../map/entities/PathStepEntity";
+import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
+import activate = TileArea.activate;
 
 
 export function scan_tree_template_resolvers(node: AugmentedScanTreeNode): Record<string, (args: string[]) => string> {
@@ -80,17 +82,21 @@ class ScanTreeSolvingLayer extends ScanLayer {
          */
 
         //4. "Where"
-        if (node.region) {
-            bounds.extend(Vector2.toPoint(node.region.area.topleft))
-            bounds.extend(Vector2.toPoint(node.region.area.botright))
+        if (node.region?.area) {
+            const rect = TileArea.toRect(node.region.area)
+
+            bounds.extend(Vector2.toPoint(rect.topleft))
+            bounds.extend(Vector2.toPoint(rect.botright))
         }
 
         // 5. parent.where if not far away
-        if (node.parent && node.parent.node.region) {
+        if (node.parent && node.parent.node.region?.area) {
             let o = leaflet.bounds([])
 
-            o.extend(Vector2.toPoint(node.parent.node.region.area.topleft))
-            o.extend(Vector2.toPoint(node.parent.node.region.area.botright))
+            const rect = TileArea.toRect(node.parent.node.region.area)
+
+            o.extend(Vector2.toPoint(rect.topleft))
+            o.extend(Vector2.toPoint(rect.botright))
 
             if (o.getCenter().distanceTo(bounds.getCenter()) < 60) {
                 bounds.extend(o)
@@ -116,9 +122,9 @@ class ScanTreeSolvingLayer extends ScanLayer {
 
         // Set marker and map floor
         if (node.region) {
-            this.getMap().floor.set(node.region.area.level)
+            this.getMap().floor.set(node.region.area.origin.level)
 
-            let c = TileRectangle.center(node.region.area)
+            let c = activate(node.region.area).center()
 
             this.marker_spot.set({coordinates: c, with_marker: false, click_to_remove: false})
         } else {

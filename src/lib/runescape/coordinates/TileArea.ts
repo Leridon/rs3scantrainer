@@ -208,12 +208,11 @@ export namespace TileArea {
     }
 
     export function transform(area: TileArea, transform: TileTransform): TileArea {
+        // TODO: Transform actual tiles!
 
         return {
             origin: TileCoordinates.transform(area.origin, transform),
             size: area.size ? Vector2.abs(Vector2.snap(Vector2.transform(area.size, transform.matrix))) : undefined,
         }
-
-        // TODO: Transform actual tiles!
     }
 }

@@ -8,6 +8,7 @@ import {ScanTheory} from "./Scans";
 import {TileRectangle} from "../../runescape/coordinates";
 import {TileCoordinates} from "../../runescape/coordinates";
 import {PathingGraphics} from "../../../trainer/ui/path_graphics";
+import {TileArea} from "../../runescape/coordinates/TileArea";
 
 export namespace ScanTree {
     import movement_state = Path.movement_state;
@@ -19,7 +20,7 @@ export namespace ScanTree {
 
     export type ScanRegion = {
         name: string
-        area: TileRectangle
+        area: TileArea
     }
 
     export type ScanTree = {
@@ -41,6 +42,7 @@ export namespace ScanTree {
     export namespace Augmentation {
         import avg = util.avg;
         import ends_up = Path.ends_up;
+        import activate = TileArea.activate;
 
         export type AugmentedScanTree = {
             raw: ScanTree,
@@ -64,7 +66,7 @@ export namespace ScanTree {
                 key: PulseInformation
                 node: AugmentedScanTreeNode,
             } | null,
-            region?: ScanRegion,
+            region: ScanRegion,
             path?: Path.augmented,
             depth: number,
             remaining_candidates: TileCoordinates[],
@@ -116,7 +118,7 @@ export namespace ScanTree {
 
                 node.path = await Path.augment(node.raw.path,
                     start_state,
-                    node.remaining_candidates.length == 1 ? digSpotArea(node.remaining_candidates[0]) : node.region?.area)
+                    activate(node.remaining_candidates.length == 1 ? digSpotArea(node.remaining_candidates[0]) : node.region?.area))
 
                 if (node.children.length > 0) {
                     let cloned_state = lodash.cloneDeep(node.path.post_state)
@@ -164,13 +166,13 @@ export namespace ScanTree {
                 } | null,
                 depth: number,
                 remaining_candidates: TileCoordinates[],
-                last_known_position: TileRectangle
+                last_known_position: TileArea
             ): AugmentedScanTreeNode {
                 let t: AugmentedScanTreeNode = {
                     root: root,
                     parent: parent,
                     region: node.region || {
-                        area: TileRectangle.fromTile(Path.ends_up(node.path)) || last_known_position,
+                        area: Path.endsUpArea(node.path) || last_known_position,
                         name: ""
                     },
                     raw: node,
@@ -201,7 +203,6 @@ export namespace ScanTree {
             }
 
             root.root_node = helper(tree.root, null, 0, tree.ordered_spots, null)
-
 
             return root
         }
@@ -256,7 +257,7 @@ export namespace ScanTree {
                 else if (node.remaining_candidates.length == 1) {
                     const e = ends_up(node.raw.path)
 
-                    if (!e || !TileRectangle.contains(digSpotArea(node.remaining_candidates[0]), e)) {
+                    if (!e || !activate(digSpotArea(node.remaining_candidates[0])).query(e)) {
                         node.completeness = "incomplete"
                     }
                 }
@@ -396,7 +397,7 @@ export namespace ScanTree {
 
     export function normalize(tree: ScanTree): ScanTree {
         function helper(node: ScanTreeNode, candidates: TileCoordinates[]) {
-            let where = node.region?.area || TileRectangle.fromTile(Path.ends_up(node.path))
+            let where = node.region?.area || Path.endsUpArea(node.path)
 
             // Update children to remove all dead branches and add missing branches
             let pruned_children: {
@@ -444,7 +445,7 @@ export namespace ScanTree {
     }
 
     export type ScanInformation = PulseInformation & {
-        area: TileRectangle
+        area: TileArea
     }
 
     export function defaultScanTreeInstructions(node: AugmentedScanTreeNode): string {
@@ -462,5 +463,9 @@ export namespace ScanTree {
 
     export function getInstruction(node: AugmentedScanTreeNode): string {
         return node.raw.directions || defaultScanTreeInstructions(node)
+    }
+
+    export function getTargetRegion(node: ScanTreeNode): TileArea {
+        return node.region?.area ?? Path.endsUpArea(node.path)
     }
 }

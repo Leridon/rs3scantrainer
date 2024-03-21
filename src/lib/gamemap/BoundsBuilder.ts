@@ -1,5 +1,7 @@
 import {floor_t, TileCoordinates, TileRectangle} from "../runescape/coordinates";
 import {Rectangle, Vector2} from "../math";
+import {TileArea} from "../runescape/coordinates/TileArea";
+import * as leaflet from "leaflet"
 
 export default class BoundsBuilder {
     private bounds: Rectangle = null
@@ -24,10 +26,20 @@ export default class BoundsBuilder {
         }
     }
 
-    addRectangle(rect: TileRectangle): void {
+    addRectangle(rect: TileRectangle | Rectangle): void {
         if (!rect) return
-        this.addTile(TileRectangle.tl(rect))
-        this.addTile(TileRectangle.br(rect))
+        this.addTile(rect.topleft)
+        this.addTile(rect.botright)
+
+        if ("level" in rect) {
+            if (this.level == null) this.level = rect.level
+            else this.level = Math.min(this.level, rect.level) as floor_t
+        }
+    }
+
+    addArea(area: TileArea): void {
+        if (!area) return
+        this.addRectangle(TileArea.toRect(area))
     }
 
     get(): TileRectangle {

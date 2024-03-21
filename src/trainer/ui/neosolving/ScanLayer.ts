@@ -6,7 +6,7 @@ import {Constants} from "../../constants";
 import ScanRegion = ScanTree.ScanRegion;
 import {TileMarker} from "../../../lib/gamemap/TileMarker";
 import {ActiveOpacityGroup, OpacityGroup} from "../../../lib/gamemap/layers/OpacityLayer";
-import {boxPolygon} from "../polygon_helpers";
+import {areaPolygon, boxPolygon} from "../polygon_helpers";
 import {Scans} from "../../../lib/runescape/clues/scans";
 import {GameLayer} from "../../../lib/gamemap/GameLayer";
 import complementSpot = Scans.complementSpot;
@@ -42,7 +42,7 @@ export class ScanRegionPolygon extends ActiveOpacityGroup {
             this.label = null
         }
 
-        this.polygon = boxPolygon(this._spot.area)
+        this.polygon = areaPolygon(this._spot.area)
 
         this.label = leaflet.tooltip({
             interactive: false,

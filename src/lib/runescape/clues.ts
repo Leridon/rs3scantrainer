@@ -4,6 +4,7 @@ import {GieliCoordinates} from "./coordinates";
 import {Vector2} from "../math";
 import {Path} from "./pathing";
 import {CursorType} from "./CursorType";
+import {TileArea} from "./coordinates/TileArea";
 
 export type ClueTier = "easy" | "medium" | "hard" | "elite" | "master"
 
@@ -73,7 +74,7 @@ export namespace Clues {
             npc: string
             spots: {
                 id?: string,
-                range: TileRectangle,
+                range: TileArea,
                 note?: string,  // Describing conditions for the npc to be at that spot, such as "After completing quest X"
                 description: string // Strings like "in City of Um", "at the Bank" etc.
             }[],
@@ -84,7 +85,9 @@ export namespace Clues {
             description: string | null// Strings like "on top of the fern", "next to the window" etc.
         }
         export type Search = {
-            type: "search", spot: TileCoordinates, entity: string,
+            type: "search",
+            spot: TileRectangle,
+            entity: string,
             key?: {
                 instructions: string,
                 answer: string,
@@ -108,7 +111,7 @@ export namespace Clues {
     export type Cryptic = StepShared & { type: "cryptic", solution: Solution }
     export type Emote = StepShared & {
         type: "emote",
-        area: TileRectangle,
+        area: TileArea,
         items: string[],
         emotes: string[],
         double_agent: boolean,
@@ -176,7 +179,7 @@ export namespace Clues {
             else return Step.shortString(spot.clue, text_variant)
         }
 
-        export function targetArea(spot: Clues.ClueSpot): TileRectangle {
+        export function targetArea(spot: Clues.ClueSpot): TileArea {
             if (spot.spot) return digSpotArea(spot.spot)
 
             const sol = Clues.Step.solution(spot.clue)
@@ -184,7 +187,7 @@ export namespace Clues {
             if (sol) {
                 switch (sol.type) {
                     case "search":
-                        return TileRectangle.extend(TileRectangle.from(sol.spot), 1)
+                        return TileArea.fromRect(TileRectangle.extend(sol.spot, 1))
                     case "dig":
                         return digSpotArea(sol.spot)
                     case "talkto":
@@ -200,12 +203,12 @@ export namespace Clues {
         }
     }
 
-    export function digSpotArea(spot: TileCoordinates): TileRectangle {
-        return {
+    export function digSpotArea(spot: TileCoordinates): TileArea {
+        return TileArea.fromRect({
             topleft: {x: spot.x - 1, y: spot.y + 1},
             botright: {x: spot.x + 1, y: spot.y - 1},
             level: spot.level
-        }
+        })
     }
 
     export function requiresKey(clue: Step): clue is Step & { solution: { type: "search" } } {

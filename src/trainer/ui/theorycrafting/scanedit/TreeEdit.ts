@@ -40,6 +40,7 @@ import AbstractEditWidget from "../../widgets/AbstractEditWidget";
 import TemplateResolver from "../../../../lib/util/TemplateResolver";
 import hboxl = C.hboxl;
 import {ConfirmationModal} from "../../widgets/modals/ConfirmationModal";
+import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
 
 export class DrawRegionAction extends ValueInteraction<ScanRegion> {
     constructor(name: string) {
@@ -50,10 +51,10 @@ export class DrawRegionAction extends ValueInteraction<ScanRegion> {
         new GameMapDragAction({})
             .addTo(this)
             .onPreview((area) => {
-                this.preview({area: area, name: name})
+                this.preview({area: TileArea.fromRect(area), name: name})
             })
             .onCommit((area) => {
-                this.commit({area: area, name: name})
+                this.commit({area: TileArea.fromRect(area), name: name})
             })
 
         this.attachTopControl(new InteractionTopControl({name: "Draw Scan Region"})
@@ -107,10 +108,10 @@ class RegionEdit extends Widget {
             SmallImageButton.new("assets/icons/regenerate.png")
                 .css("margin-left", "2px")
                 .onClick(async () => {
-                    this.parent.parent.parent.builder.setRegion(this.parent.node.raw, {
+                    /*this.parent.parent.parent.builder.setRegion(this.parent.node.raw, {
                         name: this.parent.node.region?.name || "",
                         area: TileRectangle.fromTile(this.parent.node.path.post_state?.position?.tile)
-                    })
+                    })*/
                 })
                 .setEnabled(this.parent.node.path.steps.length > 0 && !!this.parent.node.path.post_state?.position?.tile)
                 .appendTo(this)
@@ -127,10 +128,10 @@ class RegionEdit extends Widget {
                     if (this.parent.node.path.steps.length > 0 && this.parent.node.path.post_state?.position?.tile) {
                         let area = TileRectangle.fromTile(this.parent.node.path.post_state?.position?.tile)
 
-                        this.parent.parent.parent.builder.setRegion(this.parent.node.raw, {
+                        /*this.parent.parent.parent.builder.setRegion(this.parent.node.raw, {
                             name: "",
                             area: area
-                        })
+                        })*/
                     } else {
                         this.parent.parent.parent.interaction_guard.set(
                             new DrawRegionAction("")

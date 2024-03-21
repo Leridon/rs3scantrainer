@@ -1,4 +1,3 @@
-import {TransportParsers} from "./parsers2";
 import {TransportParser2} from "./TransportParser";
 import {CacheTypes} from "./CacheTypes";
 import {LocParsingTable} from "./ParsingTable";

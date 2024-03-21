@@ -8,6 +8,8 @@ Planned for next release (b0.4):
                 - Rename
                 - Auto
                 - Autoname
+    - Show Errors in Tree Node Edit!
+        - Tooltip of error indicator?
     - [QOL, 4] Include uncertainty from non-static teleports into path analysis
     - [Feature, 4] Scan range lens/marker
     - Auto-size region based on teleport areas!

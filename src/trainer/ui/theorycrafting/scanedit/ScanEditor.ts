@@ -454,8 +454,10 @@ class PreviewLayerControl extends Behaviour {
         if (a) {
             for (const n of AugmentedScanTree.collect_parents(a, true)) {
 
-                if (n.raw.region) {
-                    (await this.parent.tree_edit.getNode(n)).region_preview = new ScanRegionPolygon(n.raw.region).addTo(layer)
+                const area = ScanTree.getTargetRegion(n.raw)
+
+                if (area) {
+                    (await this.parent.tree_edit.getNode(n)).region_preview = new ScanRegionPolygon({name: n.raw.region?.name || "", area: area}).addTo(layer)
                 }
 
                 if (n != a) PathStepEntity.renderPath(n.raw.path).addTo(layer);
@@ -464,8 +466,11 @@ class PreviewLayerControl extends Behaviour {
         } else {
             if (this.parent.tree_edit.root_widget) {
                 AugmentedScanTree.traverse(this.parent.tree_edit.root_widget.node, async (n) => {
-                    if (n.raw.region) {
-                        (await this.parent.tree_edit.getNode(n)).region_preview = new ScanRegionPolygon(n.raw.region).addTo(layer)
+
+                    const area = ScanTree.getTargetRegion(n.raw)
+
+                    if (area) {
+                        (await this.parent.tree_edit.getNode(n)).region_preview = new ScanRegionPolygon({name: n.raw.region?.name || "", area: area}).addTo(layer)
                     }
 
                     return PathStepEntity.renderPath(n.raw.path).addTo(layer)

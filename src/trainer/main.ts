@@ -3,9 +3,21 @@ import Order = util.Order;
 import {Clues, ClueType} from "../lib/runescape/clues";
 import ExportStringModal from "./ui/widgets/modals/ExportStringModal";
 import {clue_data} from "../data/clues";
+import cleanedJSON = util.cleanedJSON;
+import {TileArea} from "../lib/runescape/coordinates/TileArea";
 
 export async function makeshift_main(): Promise<string> {
     let output = ""
+
+    JSON.stringify(clue_data.all, (key, value) => {
+        if (key == "range") return TileArea.fromRect(value)
+
+    }, 4)
+
+    clue_data.all.map(step => {
+        JSON.stringify(ste)
+
+    })
 
 
     /*

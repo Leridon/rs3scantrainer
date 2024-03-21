@@ -14,6 +14,8 @@ import entity = C.entity;
 import Widget from "../../../../lib/ui/Widget";
 import Properties from "../../widgets/Properties";
 import {direction} from "../../../../lib/runescape/movement";
+import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
+import activate = TileArea.activate;
 
 export class RemoteEntityTransportTarget extends MapEntity {
 
@@ -31,19 +33,19 @@ export class RemoteEntityTransportTarget extends MapEntity {
         ])
 
         this.floor_sensitivity_layers = new FloorLevels<{ correct_level: boolean }>([
-            {floors: [config.movement.fixed_target.target.level], value: {correct_level: true}},
+            {floors: [config.movement.fixed_target.target.origin.level], value: {correct_level: true}},
             {floors: floor_t.all, hidden_here: true, value: {correct_level: false}},
         ])
     }
 
     bounds(): Rectangle {
-        return Rectangle.from(this.config.movement.fixed_target.target)
+        return TileArea.toRect(this.config.movement.fixed_target.target)
     }
 
     protected async render_implementation(props: MapEntity.RenderProps): Promise<Element> {
         const scale = (props.highlight ? 1.5 : (this.zoom_sensitivity_layers.get(props.zoom_group_index).value.scale))
 
-        const circle = leaflet.circle(Vector2.toLatLong(this.config.movement.fixed_target.target), {
+        const circle = leaflet.circle(Vector2.toLatLong(activate(this.config.movement.fixed_target.target).center()), {
             color: COLORS.target_area,
             weight: 2,
             radius: scale * 0.4,

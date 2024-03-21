@@ -91,7 +91,7 @@ export namespace Clues {
             key?: {
                 instructions: string,
                 answer: string,
-                area?: TileRectangle
+                area?: TileArea
             }
         }
     }

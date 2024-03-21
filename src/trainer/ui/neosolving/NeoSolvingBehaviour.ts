@@ -516,7 +516,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
                                 inlineimg("assets/icons/key.png"),
                                 " ",
                                 span(sol.key.answer).addClass("ctr-clickable").on("click", () => {
-                                    this.layer.fit(sol.key.area)
+                                    this.layer.fit(TileArea.toRect(sol.key.area))
                                 }),
                             ))
                         }

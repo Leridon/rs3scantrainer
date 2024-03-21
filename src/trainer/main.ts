@@ -5,19 +5,24 @@ import ExportStringModal from "./ui/widgets/modals/ExportStringModal";
 import {clue_data} from "../data/clues";
 import cleanedJSON = util.cleanedJSON;
 import {TileArea} from "../lib/runescape/coordinates/TileArea";
+import {TileCoordinates, TileRectangle} from "../lib/runescape/coordinates";
 
-export async function makeshift_main(): Promise<string> {
-    let output = ""
+export async function makeshift_main(): Promise<void> {
+   /* let output = ""
 
-    JSON.stringify(clue_data.all, (key, value) => {
-        if (key == "range") return TileArea.fromRect(value)
+    for (let step of clue_data.all) {
+        if (step.solution?.type == "search") {
+            if ("x" in step.solution.spot) {
+                step.solution.spot = TileRectangle.fromTile(step.solution.spot as unknown as TileCoordinates)
+            }
+        }
+    }
 
-    }, 4)
+    new ExportStringModal(JSON.stringify(clue_data.all, (key, value) => {
+        if ((key == "range" || key == "area") && value["topleft"]) return TileArea.fromRect(value)
 
-    clue_data.all.map(step => {
-        JSON.stringify(ste)
-
-    })
+        return value
+    }, 4)).show()*/
 
 
     /*
@@ -38,11 +43,8 @@ export async function makeshift_main(): Promise<string> {
             await ExportStringModal.do(JSON.stringify(obj, allKeys, 4))
         }*/
 
-    let maps = clue_data.all.filter(c => c.type == "map")
 
     //console.log(`Length: ${c["map"].length}`)
 
-
-    return output
-    // return JSON.stringify(await Promise.all(old_methods.map(async m => await translate(m))), null, 4)
+        // return JSON.stringify(await Promise.all(old_methods.map(async m => await translate(m))), null, 4)
 }

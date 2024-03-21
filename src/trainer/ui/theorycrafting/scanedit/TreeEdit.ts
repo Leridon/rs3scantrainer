@@ -321,6 +321,7 @@ class TreeNodeEdit extends Widget {
                                 n.path = []
                                 n.directions = ""
                                 n.children = []
+                                n.region = undefined
                             })
                         }
                     }

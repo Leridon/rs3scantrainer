@@ -8,13 +8,11 @@ Planned for next release (b0.4):
                 - Rename
                 - Auto
                 - Autoname
-            - Reset Node
-    - [Style, 3] Incoroporate ticks into the display at a sensible spot
     - [QOL, 4] Include uncertainty from non-static teleports into path analysis
     - [Feature, 4] Scan range lens/marker
     - Auto-size region based on teleport areas!
     - Autoname areas
-    - Better placement of information marker to guaranteee it's always inside the area.
+    - Better placement of information marker to guarantee it's always inside the area.
     - Scale information gain down when zoomed out
 
 - Issues

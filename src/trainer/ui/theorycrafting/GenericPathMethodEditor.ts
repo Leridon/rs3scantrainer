@@ -35,7 +35,7 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
 
     sidepanel_widget: Widget
 
-    sequence: { path?: { section: "pre" | "post" | "main", target: TileArea.ActiveTileArea, prop?: PathProperty } | null, name: string, ticks?: number } [] = []
+    sequence: GenericPathMethodEditor.Sequence = []
 
     constructor(parent: MethodEditor,
                 public value: AugmentedMethod<GenericPathMethod>,
@@ -67,7 +67,7 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
 
     protected begin() {
         super.begin()
-        
+
         this.sidepanel_widget = c().appendTo(this.parent.sidebar.body)
 
         this.layer.addTo(deps().app.map)
@@ -80,7 +80,7 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
      * The sequence is the "blueprint" of things that need to be done to complete the step.
      */
     private updateSequence() {
-        let sequence = []
+        let sequence: GenericPathMethodEditor.Sequence = []
 
         const value = this.value
         const clue = this.value.clue
@@ -93,12 +93,12 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
                 if (hidey_hole_in_target) {
                     sequence.push({
                         name: `Path to Hidey Hole (${clue.hidey_hole.name}) in Target Area`,
-                        path: {section: "main", target: TileRectangle.from(clue.hidey_hole.location)}
+                        path: {section: "main", target: activate(TileArea.init(clue.hidey_hole.location))}
                     })
                 } else if (clue.hidey_hole) {
                     sequence.push({
                         name: `Path to Hidey Hole (${clue.hidey_hole.name})`,
-                        path: {section: "pre", target: TileRectangle.from(clue.hidey_hole.location)}
+                        path: {section: "pre", target: activate(TileArea.init(clue.hidey_hole.location))}
                     })
                 }
 
@@ -108,7 +108,7 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
 
             if (assumptions.full_globetrotter || !hidey_hole_in_target) sequence.push({
                 name: "Path to Emote Area",
-                path: {section: "main", target: clue.area}
+                path: {section: "main", target: activate(clue.area)}
             })
 
             sequence.push({name: "Summon Uri", ticks: 1})
@@ -118,14 +118,14 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
             if (clue.hidey_hole && !hidey_hole_in_target && !assumptions.full_globetrotter) {
                 sequence.push({
                     name: "Return to Hidey Hole",
-                    path: {section: "post", target: TileRectangle.from(clue.hidey_hole.location)}
+                    path: {section: "post", target: activate(TileArea.init(clue.hidey_hole.location))}
                 })
 
                 sequence.push({name: "Return Items", ticks: 1})
             }
         } else {
             if (Clues.requiresKey(clue) && !assumptions.way_of_the_footshaped_key) {
-                sequence.push({name: "Path to Key", path: {section: "pre", target: clue.solution.key.area}})
+                sequence.push({name: "Path to Key", path: {section: "pre", target: activate(clue.solution.key.area)}})
 
                 sequence.push({name: `Get Key (${clue.solution.key.instructions})`, ticks: 2})
             }
@@ -133,7 +133,7 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
             sequence.push({
                 name: "To target", path: {
                     section: "main",
-                    target: Clues.ClueSpot.targetArea({clue: clue, spot: value.method.for.spot})
+                    target: activate(Clues.ClueSpot.targetArea({clue: clue, spot: value.method.for.spot}))
                 }
             })
         }
@@ -214,4 +214,12 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
 
         this.value.method.expected_time = end_state.tick
     }
+}
+
+export namespace GenericPathMethodEditor {
+
+    export type Sequence = {
+        path?: { section: "pre" | "post" | "main", target: TileArea.ActiveTileArea, prop?: PathProperty } | null,
+        name: string,
+        ticks?: number } []
 }

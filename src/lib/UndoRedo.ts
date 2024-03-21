@@ -58,8 +58,6 @@ export class StateStack<T> {
         this.state.redo = []
         this.state.current_state = undefined
 
-        debugger
-
         this.update()
     }
 }

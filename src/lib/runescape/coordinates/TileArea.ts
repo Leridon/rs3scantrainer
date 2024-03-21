@@ -162,7 +162,7 @@ export namespace TileArea {
     }
 
     export function activate(area: TileArea): ActiveTileArea {
-        if (!area.origin) debugger
+        if (!area) return null
 
         if (area._active?.query) return area._active
         else return area._active = new ActiveTileArea(area)

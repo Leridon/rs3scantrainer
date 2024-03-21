@@ -319,17 +319,17 @@ class ScanTreeSolvingControl extends Behaviour {
 
         this.parent.layer.scan_layer.active_spots.set(node.remaining_candidates)
 
-        if (node.raw.region) new ScanRegionPolygon(node.raw.region).setOpacity(1).addTo(this.layer)
+        new ScanRegionPolygon(ScanTree.getTargetRegion(node)).setOpacity(1).addTo(this.layer)
 
         AugmentedScanTree.collect_parents(node, false).forEach(n => {
-            new ScanRegionPolygon(n.raw.region).setOpacity(0.2).addTo(this.layer)
+            new ScanRegionPolygon(ScanTree.getTargetRegion(n)).setOpacity(0.2).addTo(this.layer)
             PathStepEntity.renderPath(n.raw.path).eachEntity(e => e.setOpacity(0.2)).addTo(this.layer)
         })
 
         // Children paths to dig spots are rendered with 0.5
         node.children.forEach(c => {
             PathStepEntity.renderPath(c.value.raw.path).eachEntity(l => l.setOpacity(0.5)).addTo(this.layer)
-            if (c.value.raw.region) new ScanRegionPolygon(c.value.raw.region).setOpacity(0.5).addTo(this.layer)
+            new ScanRegionPolygon(ScanTree.getTargetRegion(c.value)).setOpacity(0.5).addTo(this.layer)
         })
     }
 
@@ -359,7 +359,7 @@ class ScanTreeSolvingControl extends Behaviour {
             AugmentedScanTree.collect_parents(node)
                 .map(n =>
                     c("<span class='nisl-textlink'>")
-                        .tapRaw(e => e.on("click", () => this.setNode(n)))
+                        .on("click", () => this.setNode(n))
                         .text(AugmentedScanTree.decision_string(n))
                 ).forEach(w => w.appendTo(c("<li>").addClass("breadcrumb-item").appendTo(list)))
 
@@ -370,7 +370,12 @@ class ScanTreeSolvingControl extends Behaviour {
             content.append(ui_nav)
         }
 
-        content.append(c().addClass('ctr-neosolving-nextscanstep').setInnerHtml(this.parent.app.template_resolver.with(scan_tree_template_resolvers(node)).resolve(node.raw.directions)))
+        content.append(c().addClass('ctr-neosolving-nextscanstep')
+            .setInnerHtml(
+                "Next: " +
+                this.parent.app.template_resolver.with(scan_tree_template_resolvers(node))
+                    .resolve(ScanTree.getInstruction(node)))
+        )
 
         {
 
@@ -388,7 +393,9 @@ class ScanTreeSolvingControl extends Behaviour {
                                 .onClick(() => {
                                     this.setNode(child.value)
                                 }),
-                            c().setInnerHtml(resolvers.resolve(child.value.raw.directions))
+                            c().setInnerHtml(resolvers.resolve(
+                                ScanTree.getInstruction(child.value)
+                            ))
                         ).appendTo(content)
                 })
 

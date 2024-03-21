@@ -2170,10 +2170,6 @@ export namespace clue_data {
                                 "y": 674,
                                 "level": 0
                             },
-                            "size": {
-                                "x": 1,
-                                "y": 1
-                            }
                         },
                         "description": "in Death's Office",
                         "note": "Death's Office"

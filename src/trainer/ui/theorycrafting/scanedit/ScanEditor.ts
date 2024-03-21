@@ -196,7 +196,7 @@ namespace ScanEditLayer {
                 this.timing_information.timings.forEach((t, i) => {
                     if (i != 0) timing.append(" | ")
 
-                    let s = span(t.ticks.toString() + " ticks")
+                    let s = span(t.ticks.toFixed(2) + " ticks")
 
                     if (t.incomplete) s.css("color", "yellow").tooltip("Incomplete path")
 
@@ -447,6 +447,8 @@ class PreviewLayerControl extends Behaviour {
     }
 
     private async updatePreview() {
+        console.log("Updating preview")
+
         let a = this.parent.tree_edit.active_node.value()
 
         let layer = new OpacityGroup()
@@ -454,10 +456,10 @@ class PreviewLayerControl extends Behaviour {
         if (a) {
             for (const n of AugmentedScanTree.collect_parents(a, true)) {
 
-                const area = ScanTree.getTargetRegion(n.raw)
+                const area = ScanTree.getTargetRegion(n)
 
                 if (area) {
-                    (await this.parent.tree_edit.getNode(n)).region_preview = new ScanRegionPolygon({name: n.raw.region?.name || "", area: area}).addTo(layer)
+                    this.parent.tree_edit.getNode(n).region_preview = new ScanRegionPolygon(area).addTo(layer)
                 }
 
                 if (n != a) PathStepEntity.renderPath(n.raw.path).addTo(layer);
@@ -467,10 +469,10 @@ class PreviewLayerControl extends Behaviour {
             if (this.parent.tree_edit.root_widget) {
                 AugmentedScanTree.traverse(this.parent.tree_edit.root_widget.node, async (n) => {
 
-                    const area = ScanTree.getTargetRegion(n.raw)
+                    const area = ScanTree.getTargetRegion(n)
 
-                    if (area) {
-                        (await this.parent.tree_edit.getNode(n)).region_preview = new ScanRegionPolygon({name: n.raw.region?.name || "", area: area}).addTo(layer)
+                    if (area?.area) {
+                        this.parent.tree_edit.getNode(n).region_preview = new ScanRegionPolygon(area).addTo(layer)
                     }
 
                     return PathStepEntity.renderPath(n.raw.path).addTo(layer)

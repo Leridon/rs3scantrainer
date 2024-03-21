@@ -118,7 +118,9 @@ export namespace ScanTree {
 
                 node.path = await Path.augment(node.raw.path,
                     start_state,
-                    activate(node.remaining_candidates.length == 1 ? digSpotArea(node.remaining_candidates[0]) : node.region?.area))
+                    node.remaining_candidates.length == 1
+                        ? activate(digSpotArea(node.remaining_candidates[0]))
+                        : node.region?.area ? activate(node.region.area) : null)
 
                 if (node.children.length > 0) {
                     let cloned_state = lodash.cloneDeep(node.path.post_state)
@@ -450,12 +452,12 @@ export namespace ScanTree {
 
     export function defaultScanTreeInstructions(node: AugmentedScanTreeNode): string {
         let path_short =
-            node.path.raw.length > 0
-                ? node.path.raw.map(PathingGraphics.templateString).join(" - ")
+            node.raw.path.length > 0
+                ? node.raw.path.map(PathingGraphics.templateString).join(" - ")
                 : "Go"
 
         const target =
-            node.path.raw.length == 0 || node.raw.region?.name
+            node.raw.path.length == 0 || node.raw.region?.name || node.remaining_candidates.length == 1
                 ? " to {{target}}" : ""
 
         return path_short + target
@@ -465,7 +467,9 @@ export namespace ScanTree {
         return node.raw.directions || defaultScanTreeInstructions(node)
     }
 
-    export function getTargetRegion(node: ScanTreeNode): TileArea {
-        return node.region?.area ?? Path.endsUpArea(node.path)
+    export function getTargetRegion(node: AugmentedScanTreeNode): ScanRegion {
+        if (node.remaining_candidates.length == 1) return null
+
+        return {area: node.raw.region?.area ?? Path.endsUpArea(node.raw.path), name: node.region?.name ?? ""}
     }
 }

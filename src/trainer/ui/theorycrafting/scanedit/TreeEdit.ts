@@ -318,12 +318,16 @@ class TreeNodeEdit extends Widget {
                                 ]
                             })).do()
 
-                            if (really) this.parent.parent.builder.updateNode(this.node.raw, n => {
-                                n.path = []
-                                n.directions = ""
-                                n.children = []
-                                n.region = undefined
-                            })
+                            if (really) {
+                                if(this.isActive()) this.parent.requestActivation(null)
+
+                                this.parent.parent.builder.updateNode(this.node.raw, n => {
+                                    n.path = []
+                                    n.directions = ""
+                                    n.children = []
+                                    n.region = undefined
+                                })
+                            }
                         }
                     }
                 ]
@@ -535,10 +539,10 @@ export default class TreeEdit extends Widget {
         }, true)
     }
 
-    public async getNode(node: AugmentedScanTreeNode): Promise<TreeNodeEdit> {
+    public getNode(node: AugmentedScanTreeNode): TreeNodeEdit {
         let path = ScanTree.Augmentation.AugmentedScanTree.collect_parents(node)
 
-        let edit = await this.root_widget
+        let edit = this.root_widget
 
         for (let i = 1; i < path.length; i++) {
             edit = edit.children.find(c => c.node.raw == path[i].raw)

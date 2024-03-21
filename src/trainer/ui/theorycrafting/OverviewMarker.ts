@@ -11,6 +11,7 @@ import {GameMapContextMenuEvent} from "../../../lib/gamemap/MapEvents";
 import {Menu} from "../widgets/ContextMenu";
 import {blue_icon, blue_marker, green_icon, green_marker, red_icon, red_marker, yellow_icon, yellow_marker} from "../../../lib/gamemap/GameMap";
 import * as leaflet from "leaflet";
+import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
 
 export class ClueOverviewMarker extends MapEntity {
     constructor(private clue: Clues.ClueSpot,
@@ -67,6 +68,8 @@ export class ClueOverviewMarker extends MapEntity {
 }
 
 export namespace ClueOverviewMarker {
+    import activate = TileArea.activate;
+
     export function position(clue: Clues.ClueSpot, alternative_index?: number): TileCoordinates {
         switch (clue.clue.type) {
             case "anagram":
@@ -77,10 +80,11 @@ export namespace ClueOverviewMarker {
                     case "talkto":
                         let i = Math.min(alternative_index || 0, clue.clue.solution.spots.length)
 
-                        return TileRectangle.center(clue.clue.solution.spots[i].range)
+                        return activate(clue.clue.solution.spots[i].range).center()
                     case "dig":
-                    case "search":
                         return clue.clue.solution.spot
+                    case "search":
+                        return TileRectangle.center(clue.clue.solution.spot)
                 }
                 return {x: 0, y: 0, level: 0}
             case "compass":
@@ -88,7 +92,7 @@ export namespace ClueOverviewMarker {
             case "coordinates":
                 return GieliCoordinates.toCoords(clue.clue.coordinates)
             case "emote":
-                return TileRectangle.center(clue.clue.area)
+                return activate(clue.clue.area).center()
             case "scan":
                 return TileCoordinates.lift(Rectangle.center(Rectangle.from(...clue.clue.spots)), Math.min(...clue.clue.spots.map(s => s.level)) as floor_t)
             case "skilling":

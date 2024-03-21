@@ -8,6 +8,7 @@ import movement_state = Path.movement_state;
 import * as lodash from "lodash";
 import {util} from "../../../lib/util/util";
 import copyUpdate = util.copyUpdate;
+import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
 
 export class PathBuilder {
     private commit_lock: Promise<void> = Promise.resolve()
@@ -24,7 +25,7 @@ export class PathBuilder {
     private path: Path = []
 
     constructor(private meta: {
-                    target?: TileRectangle,
+                    target?: TileArea.ActiveTileArea,
                     start_state?: movement_state
                 } = {},
                 initial_value: Path = []) {

@@ -16,6 +16,8 @@ import {Clues} from "../../../lib/runescape/clues";
 import {TileRectangle} from "../../../lib/runescape/coordinates";
 import * as lodash from "lodash";
 import {deps} from "../../dependencies";
+import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
+import activate = TileArea.activate;
 
 function getSection(method: GenericPathMethod, section: "pre" | "post" | "main") {
     switch (section) {
@@ -33,7 +35,7 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
 
     sidepanel_widget: Widget
 
-    sequence: { path?: { section: "pre" | "post" | "main", target: TileRectangle, prop?: PathProperty } | null, name: string, ticks?: number } [] = []
+    sequence: { path?: { section: "pre" | "post" | "main", target: TileArea.ActiveTileArea, prop?: PathProperty } | null, name: string, ticks?: number } [] = []
 
     constructor(parent: MethodEditor,
                 public value: AugmentedMethod<GenericPathMethod>,
@@ -82,7 +84,7 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
         const assumptions = this.assumptions.value()
 
         if (clue.type == "emote") {
-            const hidey_hole_in_target = clue.hidey_hole && TileRectangle.contains(clue.area, clue.hidey_hole.location)
+            const hidey_hole_in_target = clue.hidey_hole && activate(clue.area).query(clue.hidey_hole.location)
 
             if (!assumptions.full_globetrotter) {
                 if (hidey_hole_in_target) {

@@ -44,6 +44,8 @@ import GenericPathMethod = SolvingMethods.GenericPathMethod;
 import {PathStepEntity} from "../map/entities/PathStepEntity";
 import inlineimg = C.inlineimg;
 import {CursorType} from "../../../lib/runescape/CursorType";
+import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
+import activate = TileArea.activate;
 
 class NeoReader {
     read: Ewent<{ step: Clues.Step, text_index: number }>
@@ -264,11 +266,11 @@ class ScanTreeSolvingControl extends Behaviour {
         // TODO: This is a copy of the old implementation
         let node = this.node
 
-        let bounds = leaflet.bounds([])
+        let bounds = new BoundsBuilder()
 
         //1. If no children: All Candidates
         if (node.children.length == 0)
-            node.remaining_candidates.map(Vector2.toPoint).forEach((c) => bounds.extend(c))
+            node.remaining_candidates.forEach((c) => bounds.addTile(c))
 
         //2. All children that are leafs in the augmented tree (i.e. spots directly reached from here)
         /* //TODO: Rethink this, disabled to get the build working again
@@ -278,27 +280,17 @@ class ScanTreeSolvingControl extends Behaviour {
          */
 
         //4. "Where"
-        if (node.region) {
-            bounds.extend(Vector2.toPoint(node.region.area.topleft))
-            bounds.extend(Vector2.toPoint(node.region.area.botright))
-        }
-
-        // 5. parent.where if not far away
-        if (node.parent && node.parent.node.region) {
-            let o = leaflet.bounds([])
-
-            o.extend(Vector2.toPoint(node.parent.node.region.area.topleft))
-            o.extend(Vector2.toPoint(node.parent.node.region.area.botright))
-
-            if (o.getCenter().distanceTo(bounds.getCenter()) < 60) {
-                bounds.extend(o)
-            }
+        if (node.region?.area) {
+            bounds.addArea(node.region.area)
+            bounds.addArea(node.region.area)
         }
 
         // 6. The path
         // TODO: Include path bounds, without augmenting it!
 
-        this.parent.layer.getMap().fitBounds(util.convert_bounds(bounds).pad(0.1), {
+        bounds.addRectangle(Path.bounds(node.raw.path))
+
+        this.parent.layer.getMap().fitView(bounds.get(), {
             maxZoom: 4,
             animate: true,
         })
@@ -310,7 +302,7 @@ class ScanTreeSolvingControl extends Behaviour {
         this.layer.clearLayers()
 
         let pos = node.region
-            ? TileRectangle.center(node.region.area)
+            ? activate(node.region.area).center()
             : Path.ends_up(node.raw.path)
 
         if (pos) {
@@ -327,17 +319,17 @@ class ScanTreeSolvingControl extends Behaviour {
 
         this.parent.layer.scan_layer.active_spots.set(node.remaining_candidates)
 
-        if (node.raw.region) new ScanRegionPolygon(node.raw.region).setOpacity(1).addTo(this.layer)
+        new ScanRegionPolygon(ScanTree.getTargetRegion(node)).setOpacity(1).addTo(this.layer)
 
         AugmentedScanTree.collect_parents(node, false).forEach(n => {
-            new ScanRegionPolygon(n.raw.region).setOpacity(0.2).addTo(this.layer)
+            new ScanRegionPolygon(ScanTree.getTargetRegion(n)).setOpacity(0.2).addTo(this.layer)
             PathStepEntity.renderPath(n.raw.path).eachEntity(e => e.setOpacity(0.2)).addTo(this.layer)
         })
 
         // Children paths to dig spots are rendered with 0.5
         node.children.forEach(c => {
             PathStepEntity.renderPath(c.value.raw.path).eachEntity(l => l.setOpacity(0.5)).addTo(this.layer)
-            if (c.value.raw.region) new ScanRegionPolygon(c.value.raw.region).setOpacity(0.5).addTo(this.layer)
+            new ScanRegionPolygon(ScanTree.getTargetRegion(c.value)).setOpacity(0.5).addTo(this.layer)
         })
     }
 
@@ -367,7 +359,7 @@ class ScanTreeSolvingControl extends Behaviour {
             AugmentedScanTree.collect_parents(node)
                 .map(n =>
                     c("<span class='nisl-textlink'>")
-                        .tapRaw(e => e.on("click", () => this.setNode(n)))
+                        .on("click", () => this.setNode(n))
                         .text(AugmentedScanTree.decision_string(n))
                 ).forEach(w => w.appendTo(c("<li>").addClass("breadcrumb-item").appendTo(list)))
 
@@ -378,7 +370,12 @@ class ScanTreeSolvingControl extends Behaviour {
             content.append(ui_nav)
         }
 
-        content.append(c().addClass('ctr-neosolving-nextscanstep').setInnerHtml(this.parent.app.template_resolver.with(scan_tree_template_resolvers(node)).resolve(node.raw.directions)))
+        content.append(c().addClass('ctr-neosolving-nextscanstep')
+            .setInnerHtml(
+                "Next: " +
+                this.parent.app.template_resolver.with(scan_tree_template_resolvers(node))
+                    .resolve(ScanTree.getInstruction(node)))
+        )
 
         {
 
@@ -396,7 +393,9 @@ class ScanTreeSolvingControl extends Behaviour {
                                 .onClick(() => {
                                     this.setNode(child.value)
                                 }),
-                            c().setInnerHtml(resolvers.resolve(child.value.raw.directions))
+                            c().setInnerHtml(resolvers.resolve(
+                                ScanTree.getInstruction(child.value)
+                            ))
                         ).appendTo(content)
                 })
 
@@ -502,7 +501,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
                                 C.npc(sol.npc, true)
                                     .tooltip("Click to center")
                                     .on("click", () => {
-                                        this.layer.fit(spot.range)
+                                        this.layer.fit(TileArea.toRect(spot.range))
                                     }),
                                 settings.talks.description && spot.description
                                     ? span(" " + spot.description)
@@ -510,10 +509,10 @@ export default class NeoSolvingBehaviour extends Behaviour {
                             ))
 
 
-                        interactionMarker(TileRectangle.center(spot.range), "talk", false, false)
+                        interactionMarker(activate(spot.range).center(), "talk", false, false)
                             .addTo(this.layer.generic_solution_layer)
 
-                        bounds.addRectangle(spot.range)
+                        bounds.addArea(spot.range)
 
                         break;
                     case "search":
@@ -524,7 +523,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
                                 inlineimg("assets/icons/key.png"),
                                 " ",
                                 span(sol.key.answer).addClass("ctr-clickable").on("click", () => {
-                                    this.layer.fit(sol.key.area)
+                                    this.layer.fit(TileArea.toRect(sol.key.area))
                                 }),
                             ))
                         }
@@ -536,13 +535,13 @@ export default class NeoSolvingBehaviour extends Behaviour {
                             C.staticentity(sol.entity, true)
                                 .tooltip("Click to center")
                                 .on("click", () => {
-                                    this.layer.fit(TileRectangle.from(sol.spot))
+                                    this.layer.fit(sol.spot)
                                 })
                         ))
 
-                        bounds.addTile(sol.spot)
+                        bounds.addRectangle(sol.spot)
 
-                        interactionMarker(sol.spot, "search", false, false)
+                        interactionMarker(TileRectangle.center(sol.spot, false), "search", false, false)
                             .addTo(this.layer.generic_solution_layer)
 
                         break;
@@ -633,9 +632,9 @@ export default class NeoSolvingBehaviour extends Behaviour {
                     ))
                 }
 
-                bounds.addRectangle(clue.area)
+                bounds.addArea(clue.area)
 
-                new TileMarker(TileRectangle.center(clue.area)).withMarker().addTo(this.layer.generic_solution_layer)
+                new TileMarker(activate(clue.area).center()).withMarker().addTo(this.layer.generic_solution_layer)
             } else if (clue.type == "skilling") {
                 w.append(c().addClass("ctr-neosolving-solution-row").append(
                     c(`<img src="${CursorType.meta(clue.cursor).icon_url}">`),

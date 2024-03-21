@@ -6,7 +6,7 @@ import TextField from "../../../lib/ui/controls/TextField";
 import ControlWithHeader from "../map/ControlWithHeader";
 import {ActionBar} from "../map/ActionBar";
 import {DrawRegionAction} from "../theorycrafting/scanedit/TreeEdit";
-import {boxPolygon, tilePolygon} from "../polygon_helpers";
+import {areaPolygon, boxPolygon, tilePolygon} from "../polygon_helpers";
 import LightButton from "../widgets/LightButton";
 import {Rectangle, Vector2} from "../../../lib/math";
 import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
@@ -194,7 +194,7 @@ class GeometryDrawing extends GameLayer {
 
                         this.guard.set(new DrawRegionAction(""))
                             .onCommit((a) => {
-                                this.setLayer(boxPolygon(a.area))
+                                this.setLayer(areaPolygon(a.area))
 
                                 this.setValue({range: a.area})
                             })
@@ -318,7 +318,7 @@ class GeometryDrawing extends GameLayer {
     private startSelectArea() {
         this.guard.set(new DrawRegionAction(""))
             .onCommit((a) => {
-                this.setLayer(boxPolygon(a.area))
+                this.setLayer(areaPolygon(a.area))
 
                 this.setValue(a.area)
             })

@@ -12,6 +12,7 @@ import {Lazy} from "../../../../lib/properties/Lazy";
 import {util} from "../../../../lib/util/util";
 import { TransportParser } from "./TransportParser";
 
+/*
 export namespace TransportParsers {
     import Order = util.Order;
 
@@ -298,4 +299,4 @@ export namespace TransportParsers {
     export function lookup_parser(loc_id: number) {
         return _parser_index_by_locid.get()[loc_id]
     }
-}
+}*/

@@ -6,7 +6,7 @@ import {Constants} from "../../constants";
 import ScanRegion = ScanTree.ScanRegion;
 import {TileMarker} from "../../../lib/gamemap/TileMarker";
 import {ActiveOpacityGroup, OpacityGroup} from "../../../lib/gamemap/layers/OpacityLayer";
-import {boxPolygon} from "../polygon_helpers";
+import {areaPolygon, boxPolygon} from "../polygon_helpers";
 import {Scans} from "../../../lib/runescape/clues/scans";
 import {GameLayer} from "../../../lib/gamemap/GameLayer";
 import complementSpot = Scans.complementSpot;
@@ -42,25 +42,28 @@ export class ScanRegionPolygon extends ActiveOpacityGroup {
             this.label = null
         }
 
-        this.polygon = boxPolygon(this._spot.area)
+        if(this._spot?.area) {
 
-        this.label = leaflet.tooltip({
-            interactive: false,
-            permanent: true,
-            className: "area-name",
-            offset: [0, 0],
-            direction: "center",
-            content: this._spot.name
-        })
+            this.polygon = areaPolygon(this._spot.area)
 
-        this.polygon
-            .setStyle({
-                color: Constants.colors.scan_area,
-                fillColor: Constants.colors.scan_area,
+            this.label = leaflet.tooltip({
                 interactive: false,
+                permanent: true,
+                className: "area-name",
+                offset: [0, 0],
+                direction: "center",
+                content: this._spot.name
             })
-            .bindTooltip(this.label)
-            .addTo(this)
+
+            this.polygon
+                .setStyle({
+                    color: Constants.colors.scan_area,
+                    fillColor: Constants.colors.scan_area,
+                    interactive: false,
+                })
+                .bindTooltip(this.label)
+                .addTo(this)
+        }
 
         this.setActive(this.isActive())
     }

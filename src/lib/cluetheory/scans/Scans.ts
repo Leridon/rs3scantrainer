@@ -4,6 +4,7 @@ import {Rectangle} from "lib/math"
 import {rangeRight} from "lodash";
 import {TileRectangle} from "../../runescape/coordinates";
 import {TileCoordinates} from "../../runescape/coordinates";
+import {TileArea} from "../../runescape/coordinates/TileArea";
 
 export namespace ScanTheory {
 
@@ -25,7 +26,7 @@ export namespace ScanTheory {
         }
     }
 
-    export function spot_narrowing(candidates: TileCoordinates[], area: TileRectangle, range: number): {
+    export function spot_narrowing(candidates: TileCoordinates[], area: TileArea, range: number): {
         pulse: PulseInformation,
         narrowed_candidates: TileCoordinates[]
     }[] {
@@ -52,8 +53,10 @@ export namespace ScanTheory {
         })
     }
 
-    export function area_pulse(spot: TileCoordinates, area: TileRectangle, range: number): Pulse[] {
+    export function area_pulse(spot: TileCoordinates, area2: TileArea, range: number): Pulse[] {
         let pulses: Pulse[]
+
+        const area = TileArea.toRect(area2) // TODO: Remove, this breaks the thing!
 
         let max = get_pulse(spot, TileRectangle.clampInto(spot, area), range).pulse
 

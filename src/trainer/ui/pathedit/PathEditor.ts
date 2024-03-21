@@ -398,15 +398,15 @@ export class PathEditor extends Behaviour {
 
         this.game_layer.getMap().container.focus()
 
-        const bounds = Rectangle.combine(Path.bounds(this.options.initial), Rectangle.from(this.options.start_state?.position?.tile), this.options.target)
+        //const bounds = Rectangle.combine(Path.bounds(this.options.initial), Rectangle.from(this.options.start_state?.position?.tile), TileArea.toRect(this.options.target?.parent))
 
         if (this.options.target) {
-            boxPolygon(this.options.target).addTo(this.handler_layer)
+            areaPolygon(this.options.target.parent).addTo(this.handler_layer)
         }
 
-        const level = this.options.target?.level ?? this.options.start_state?.position?.tile?.level ?? Math.min(...this.options.initial.map(Path.Step.level))
+        //const level = this.options.target?.origin?.level ?? this.options.start_state?.position?.tile?.level ?? Math.min(...this.options.initial.map(Path.Step.level))
 
-        if (bounds) this.game_layer.getMap().fitView(TileRectangle.lift(bounds, level as floor_t), {maxZoom: 3})
+        // if (bounds) this.game_layer.getMap().fitView(TileRectangle.lift(bounds, level as floor_t), {maxZoom: 7})
     }
 
     protected end() {
@@ -433,14 +433,10 @@ export class PathEditor extends Behaviour {
     editStep(value: PathBuilder.Step, interaction: InteractionLayer) {
         this.interaction_guard.set(interaction
             .onStart(() => {
-                console.log("Start")
-
                 value.associated_preview?.setVisible(false)
                 this.overlay_control.lens_layer.enabled2.set(false)
             })
             .onEnd(() => {
-                console.log("End")
-
                 value.associated_preview?.setVisible(true)
                 this.overlay_control.lens_layer.enabled2.set(true)
             })
@@ -645,7 +641,7 @@ export namespace PathEditor {
         initial: Path.raw,
         commit_handler?: (p: Path.raw) => any,
         discard_handler?: () => any,
-        target?: TileRectangle,
+        target?: TileArea.ActiveTileArea,
         start_state?: movement_state
     }
 }

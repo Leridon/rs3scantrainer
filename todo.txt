@@ -13,12 +13,12 @@ Planned for next release (b0.4):
                 - Autoname
             - Reset
     - [Bug, 3] Changing active nodes has some kind of delay
-    - [Style, 3] Incoroporate ticks into the display
+        - It's the transport layer that is rerendered every time the path editor is started
+        - Keep active throughout scan editor
+    - [Style, 3] Incoroporate ticks into the display at a sensible spot
     - [QOL, 4] Include uncertainty from non-static teleports into path analysis
     - [Feature, 4] Scan range lens/marker
     - Auto-size region based on teleport areas!
-    - Do the same on augmenting scan trees.
-    - Update target for path editor when needed
     - Autoname areas
     - Better placement of information marker to guaranteee it's always inside the area.
     - Scale information gain down when zoomed out

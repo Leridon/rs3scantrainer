@@ -614,7 +614,7 @@ export default class ScanEditor extends MethodSubEditor {
                 commit_handler: (p) => {
                     this.builder.setPath(node.raw, p)
                 }
-            })
+            }, false)
             .onStop(() => {
                 if (this.tree_edit.active_node.value() == node) this.tree_edit.setActiveNode(null)
             })
@@ -622,6 +622,7 @@ export default class ScanEditor extends MethodSubEditor {
     }
 
     begin() {
+        super.begin()
 
         deps().app.notifications.notify({
             type: "error",

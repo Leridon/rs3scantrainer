@@ -62,10 +62,10 @@ function repairShortcutStep(state: movement_state, shortcut: Path.step_transport
 }
 
 class PathEditorGameLayer extends GameLayer {
-    constructor(private editor: PathEditor) {
+    constructor(private editor: PathEditor, add_transport_layer: boolean) {
         super();
 
-        new TransportLayer(true).addTo(this)
+        if (add_transport_layer) new TransportLayer(true).addTo(this)
     }
 
     eventContextMenu(event: GameMapContextMenuEvent) {
@@ -342,12 +342,13 @@ export class PathEditor extends Behaviour {
 
     constructor(public game_layer: GameLayer,
                 public template_resolver: TemplateResolver,
-                public options: PathEditor.options_t
+                public options: PathEditor.options_t,
+                add_transport_layer: boolean
     ) {
         super()
 
         // Set up handler layer, but don't add it anywhere yet.
-        this.handler_layer = new PathEditorGameLayer(this)
+        this.handler_layer = new PathEditorGameLayer(this, add_transport_layer)
 
         this.value = new PathBuilder({
             target: this.options.target,

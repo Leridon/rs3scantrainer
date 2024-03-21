@@ -30,7 +30,6 @@ function getSection(method: GenericPathMethod, section: "pre" | "post" | "main")
 
 export default class GenericPathMethodEditor extends MethodSubEditor {
     path_editor: SingleBehaviour<PathEditor> = this.withSub(new SingleBehaviour<PathEditor>())
-    layer: GameLayer
 
     sidepanel_widget: Widget
 
@@ -47,8 +46,11 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
     }
 
     private setPathEditor(options: PathEditor.options_t): PathEditor {
-        let editor = new PathEditor(this.layer,
-            deps().app.template_resolver, options)
+        let editor = new PathEditor(
+            this.layer,
+            deps().app.template_resolver,
+            options,
+            false)
             .onStop(() => {
                 this.propagateState()
                 //if (this.tree_edit.active_node.value() == node) this.tree_edit.setActiveNode(null)
@@ -60,6 +62,7 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
     }
 
     protected begin() {
+        super.begin()
         this.sidepanel_widget = c().appendTo(this.parent.sidebar.body)
 
         this.layer = new GameLayer().addTo(deps().app.map)

@@ -220,7 +220,9 @@ export namespace Path {
 
                         return t
                     } else if (movement.fixed_target) {
-                        return activate(movement.fixed_target.target).center()
+
+
+                        return activate(TileArea.normalize(movement.fixed_target.target)).center()
                     }
                     break
                 case "redclick":
@@ -259,7 +261,7 @@ export namespace Path {
 
                         return TileArea.init(t)
                     } else if (movement.fixed_target) {
-                        return movement.fixed_target.target
+                        return TileArea.normalize(movement.fixed_target.target)
                     }
                     break
                 case "redclick":
@@ -554,7 +556,7 @@ export namespace Path {
                         state.position.tile = TileCoordinates.move(start_tile, movement.offset)
                         state.position.tile.level += movement.offset.level
                     } else if (movement.fixed_target) {
-                        state.position.tile = activate(movement.fixed_target.target).center()
+                        state.position.tile = activate(TileArea.normalize(movement.fixed_target.target)).center()
                         // TODO: Add uncertainty
                     }
 

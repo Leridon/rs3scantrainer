@@ -41,6 +41,9 @@ import TemplateResolver from "../../../../lib/util/TemplateResolver";
 import hboxl = C.hboxl;
 import {ConfirmationModal} from "../../widgets/modals/ConfirmationModal";
 import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
+import {identity} from "lodash";
+import {Path} from "../../../../lib/runescape/pathing";
+import {IssueWidget} from "../../pathedit/EditedPathOverview";
 
 export class DrawRegionAction extends ValueInteraction<ScanRegion> {
     constructor(name: string) {
@@ -263,74 +266,176 @@ class TreeNodeEdit extends Widget {
         event.preventDefault()
         event.stopPropagation()
 
-        new ContextMenu({
-                type: "submenu",
-                text: "",
-                children: [
-                    {
-                        type: "basic",
-                        text: this.is_collapsed ? "Expand" : "Collapse",
-                        handler: () => this.toggleCollapse()
-                    }, {
-                        type: "basic",
-                        text: this.isActive() ? "Deactivate" : "Activate",
-                        handler: () => {
-                            this.parent.requestActivation(this.isActive() ? null : this)
-                        }
-                    }, this.node.raw.directions != ""
-                        ? {
-                            type: "submenu",
-                            text: "Custom Instructions",
-                            children:
-                                [{
-                                    type: "basic",
-                                    text: "Reset",
-                                    handler: () => {
-                                        this.node.raw.directions = ""
-                                        this.updateInstructionPreview()
-                                    }
-                                }, {
-                                    type: "basic",
-                                    text: "Edit",
-                                    handler: () => {
-                                        this.editInstructions()
-                                    }
-                                }]
-                        }
-                        : {
+        const entries: MenuEntry[] = [
+            {
+                type: "basic",
+                text: this.is_collapsed ? "Expand" : "Collapse",
+                handler: () => this.toggleCollapse()
+            }, {
+                type: "basic",
+                text: this.isActive() ? "Deactivate" : "Activate",
+                handler: () => {
+                    this.parent.requestActivation(this.isActive() ? null : this)
+                }
+            }, this.node.raw.directions != ""
+                ? {
+                    type: "submenu",
+                    text: "Custom Instructions",
+                    children:
+                        [{
                             type: "basic",
-                            text: "Add custom instructions",
+                            text: "Reset",
+                            handler: () => {
+                                this.node.raw.directions = ""
+                                this.updateInstructionPreview()
+                            }
+                        }, {
+                            type: "basic",
+                            text: "Edit",
                             handler: () => {
                                 this.editInstructions()
                             }
-                        },
-                    {
+                        }]
+                }
+                : {
+                    type: "basic",
+                    text: "Add custom instructions",
+                    handler: () => {
+                        this.editInstructions()
+                    }
+                },
+            this.node.remaining_candidates.length <= 1 ? undefined
+                : {
+                    type: "submenu",
+                    text: "Target region",
+                    children: [{
                         type: "basic",
-                        text: "Reset node",
+                        text: "Edit Name",
                         handler: async () => {
+                            const self = this
 
-                            const really = await (new ConfirmationModal({
-                                title: "Reset node",
-                                body: "Resetting a node will delete its path, instruction, and all of its children and can not be undone.",
-                                options: [
-                                    {kind: "neutral", text: "Cancel", value: false, is_cancel: true,},
-                                    {kind: "cancel", text: "Reset Node", value: true}
-                                ]
-                            })).do()
+                            const value = await (new class extends FormModal<string> {
+                                constructor() {
+                                    super({size: "small"});
 
-                            if (really) {
-                                if(this.isActive()) this.parent.requestActivation(null)
+                                    this.title.set("Edit region name")
 
-                                this.parent.parent.builder.updateNode(this.node.raw, n => {
-                                    n.path = []
-                                    n.directions = ""
-                                    n.children = []
-                                    n.region = undefined
-                                })
+                                    this.shown.on(() => {
+                                        this.edit.raw().focus()
+                                    })
+                                }
+
+                                private edit: AbstractEditWidget<string>
+
+                                getButtons(): BigNisButton[] {
+                                    return [
+                                        new BigNisButton("Cancel", "cancel").onClick(() => this.cancel()),
+                                        new BigNisButton("Save", "confirm").onClick(() => this.confirm(this.edit.get())),
+                                    ]
+                                }
+
+                                render() {
+                                    super.render();
+
+                                    new Properties().appendTo(this.body)
+                                        .named("New Name", this.edit = new TextField()
+                                            .setValue(self.node.raw.region?.name ?? "")
+                                            .appendTo(this.body)
+                                        )
+                                }
+
+                                protected getValueForCancel(): string {
+                                    return undefined
+                                }
+                            }).do()
+
+                            if (value !== undefined) {
+                                this.parent.parent.builder.updateNode(this.node.raw,
+                                    n => {
+                                        if (!n.region) n.region = {area: null, name: ""}
+
+                                        n.region.name = value
+                                    }
+                                )
                             }
                         }
+                    },
+                        !this.node.raw.region?.area ? undefined :
+                            {
+                                type: "basic",
+                                text: "Reset",
+                                handler: () => {
+                                    this.parent.parent.builder.updateNode(this.node.raw,
+                                        n => n.region.area = null
+                                    )
+                                }
+                            },
+                        this.node.raw.path.length < 1 ? undefined : {
+                            type: "basic",
+                            text: "Save Implicit",
+                            handler: () => {
+                                const implicit = Path.endsUpArea(this.node.raw.path)
+
+                                this.parent.parent.builder.updateNode(this.node.raw,
+                                    n => {
+                                        if (!n.region) n.region = {area: null, name: ""}
+                                        n.region.area = implicit
+                                    }
+                                )
+                            }
+                        },
+                        {
+                            type: "basic",
+                            text: "Draw on Map",
+                            handler: () => {
+
+                                this.parent.parent.interaction_guard.set(
+                                    new DrawRegionAction(this.node.raw.region?.name ?? "")
+                                        .onStart(() => this.region_preview?.setOpacity(0))
+                                        .onEnd(() => this.region_preview?.setOpacity(this.region_preview.isActive()
+                                            ? this.region_preview.active_opacity
+                                            : this.region_preview.inactive_opacity))
+                                        .onCommit(area => {
+                                            this.parent.parent.builder.setRegion(this.node.raw, area)
+                                        })
+                                )
+                            }
+                        }
+                    ].filter(identity) as MenuEntry[]
+                },
+            {
+                type: "basic",
+                text: "Reset node",
+                handler: async () => {
+
+                    const really = await (new ConfirmationModal({
+                        title: "Reset node",
+                        body: "Resetting a node will delete its path, instruction, and all of its children and can not be undone.",
+                        options: [
+                            {kind: "neutral", text: "Cancel", value: false, is_cancel: true,},
+                            {kind: "cancel", text: "Reset Node", value: true}
+                        ]
+                    })).do()
+
+                    if (really) {
+                        if (this.isActive()) this.parent.requestActivation(null)
+
+                        this.parent.parent.builder.updateNode(this.node.raw, n => {
+                            n.path = []
+                            n.directions = ""
+                            n.children = []
+                            n.region = undefined
+                        })
                     }
-                ]
+                }
+            }
+        ]
+
+
+        new ContextMenu({
+                type: "submenu",
+                text: "",
+                children: entries.filter(e => !!e)
             },
         )
             .showFromEvent2(event)
@@ -368,11 +473,15 @@ class TreeNodeEdit extends Widget {
             return c("<span>").addClass(cls).text(char).tooltip(desc)
         }
 
+        const complete = render_completeness(node.completeness).css("margin-left", "5px")
+        const correct = render_completeness(node.correctness).css("margin-left", "5px")
+
         this.completeness_container.empty()
-            .append(
-                render_completeness(node.completeness).css("margin-left", "5px"),
-                render_completeness(node.correctness).css("margin-left", "5px")
-            )
+            .append(complete, correct)
+
+        if (node.path.issues.length > 0) {
+            correct.addTippy(vbox(...node.path.issues.map(i => new IssueWidget(i))))
+        }
 
         this.children.forEach(c => c.detach())
 
@@ -432,6 +541,10 @@ class TreeNodeEdit extends Widget {
                         ? "Add custom directions"
                         : "Edit custom directions"
                 )
+
+                this.shown.on(() => {
+                    this.edit.raw().focus()
+                })
             }
 
             private edit: AbstractEditWidget<string>

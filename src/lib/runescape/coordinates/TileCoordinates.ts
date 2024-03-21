@@ -2,6 +2,7 @@ import {Transform, Vector2} from "../../math";
 import {floor_t} from "./index";
 import {TileTransform} from "./TileTransform";
 import {Browser} from "leaflet";
+import {debug} from "@alt1/ocr";
 
 
 export type TileCoordinates = Vector2 & {
@@ -22,6 +23,8 @@ export namespace TileCoordinates {
     }
 
     export function move(pos: TileCoordinates, off: Vector2) {
+        if(!pos) debugger
+
         return {
             x: pos.x + off.x,
             y: pos.y + off.y,

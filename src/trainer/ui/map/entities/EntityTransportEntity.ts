@@ -53,7 +53,7 @@ export class EntityTransportEntity extends MapEntity {
         const remote_target: TileArea[] = shortcut.actions.flatMap(action =>
             action.movement.flatMap(movement => {
                 if (!isLocal(movement)) {
-                    return [movement.fixed_target.target]
+                    return [TileArea.normalize(movement.fixed_target.target)]
                 } else return []
             })
         )
@@ -152,8 +152,10 @@ export class EntityTransportEntity extends MapEntity {
                         render_transport_arrow(center, target, movement.offset.level).addTo(this)
 
                     } else if (movement.fixed_target && !movement.fixed_target.relative) {
-                        if (movement.fixed_target.target.origin.level == this.parent.getMap().floor.value()) {
-                            leaflet.circle(Vector2.toLatLong(activate(movement.fixed_target.target).center()), {
+                        const targe = TileArea.normalize(movement.fixed_target.target)
+
+                        if (targe.origin.level == this.parent.getMap().floor.value()) {
+                            leaflet.circle(Vector2.toLatLong(activate(targe).center()), {
                                 color: COLORS.target_area,
                                 weight: 2,
                                 radius: 0.4,
@@ -163,7 +165,7 @@ export class EntityTransportEntity extends MapEntity {
                         }
 
                         const center = TileRectangle.center(shortcut.clickable_area, false)
-                        const target = movement.fixed_target.target
+                        const target = TileArea.normalize(movement.fixed_target.target)
 
                         render_transport_arrow(center, activate(target).center(), target.origin.level - center.level).addTo(this)
                     }

@@ -173,9 +173,9 @@ export namespace ScanTree {
                 let t: AugmentedScanTreeNode = {
                     root: root,
                     parent: parent,
-                    region: node.region || {
-                        area: Path.endsUpArea(node.path) || last_known_position,
-                        name: ""
+                    region: {
+                        area: node.region?.area || Path.endsUpArea(node.path) || last_known_position,
+                        name: node.region?.name ?? ""
                     },
                     raw: node,
                     depth: depth,

@@ -32,7 +32,12 @@ import ScanEditor from "./ScanEditor";
 import {timeSync} from "../../../../lib/gamemap/GameLayer";
 import hbox = C.hbox;
 import vbox = C.vbox;
-import ContextMenu from "../../widgets/ContextMenu";
+import ContextMenu, {MenuEntry} from "../../widgets/ContextMenu";
+import {FormModal} from "../../../../lib/ui/controls/FormModal";
+import {BigNisButton} from "../../widgets/BigNisButton";
+import TextArea from "../../../../lib/ui/controls/TextArea";
+import AbstractEditWidget from "../../widgets/AbstractEditWidget";
+import TemplateResolver from "../../../../lib/util/TemplateResolver";
 
 export class DrawRegionAction extends ValueInteraction<ScanRegion> {
     constructor(name: string) {
@@ -185,10 +190,7 @@ class TreeNodeEdit extends Widget {
                     e.stopPropagation()
                     e.preventDefault()
 
-                    this.is_collapsed = !this.is_collapsed
-
-                    this.child_content.setVisible(!this.is_collapsed)
-                    this.body.setVisible(!this.is_collapsed)
+                    this.toggleCollapse()
                 })
 
         let spot_text = natural_join(shorten_integer_list(node.remaining_candidates.map((c) => ScanTree.spotNumber(parent.parent.builder.tree, c)),
@@ -200,7 +202,7 @@ class TreeNodeEdit extends Widget {
             .append(
                 //collapse_control,
                 this.decision_span = c().addClass("ctr-scantreeedit-node-path")
-                    .on("click", () => this.parent.setActiveNode(this.isActive() ? null : this)),
+                    .on("click", () => this.parent.requestActivation(this.isActive() ? null : this)),
                 this.you_are_here_marker = c().addClass("ctr-scantreeedit-youarehere"),
                 spacer(),
                 span(`${node.remaining_candidates.length}`)
@@ -242,7 +244,7 @@ class TreeNodeEdit extends Widget {
                         e.stopPropagation()
                         e.preventDefault()
 
-                        this.parent.setActiveNode(this.isActive() ? null : this)
+                        this.parent.requestActivation(this.isActive() ? null : this)
                     })
             ),
             this.child_content
@@ -251,6 +253,13 @@ class TreeNodeEdit extends Widget {
         this.self_content.on("contextmenu", e => this.contextMenu(e.originalEvent))
 
         this.renderValue(node)
+    }
+
+    private toggleCollapse() {
+        this.is_collapsed = !this.is_collapsed
+
+        this.child_content.setVisible(!this.is_collapsed)
+        this.body.setVisible(!this.is_collapsed)
     }
 
     contextMenu(event: MouseEvent) {
@@ -263,11 +272,44 @@ class TreeNodeEdit extends Widget {
             children: [
                 {
                     type: "basic",
-                    text: "Edit instruction override",
-                    handler: () => {}
-                }
+                    text: this.is_collapsed ? "Expand" : "Collapse",
+                    handler: () => this.toggleCollapse()
+                }, {
+                    type: "basic",
+                    text: this.isActive() ? "Deactivate" : "Activate",
+                    handler: () => {
+                        this.parent.requestActivation(this.isActive() ? null : this)
+                    }
+                }, this.node.raw.directions != ""
+                    ? {
+                        type: "submenu",
+                        text: "Custom Instructions",
+                        children:
+                            [{
+                                type: "basic",
+                                text: "Reset",
+                                handler: () => {
+                                    this.node.raw.directions = ""
+                                    this.updateInstructionPreview()
+                                }
+                            }, {
+                                type: "basic",
+                                text: "Edit",
+                                handler: () => {
+                                    this.editInstructions()
+                                }
+                            }]
+                    }
+                    : {
+                        type: "basic",
+                        text: "Add custom instructions",
+                        handler: () => {
+                            this.editInstructions()
+                        }
+                    }
             ]
-        }).showFromEvent2(event)
+        })
+            .showFromEvent2(event)
     }
 
     renderValue(node: AugmentedScanTreeNode) {
@@ -342,7 +384,7 @@ class TreeNodeEdit extends Widget {
     private updateInstructionPreview() {
         const resolver = this.parent.parent.app.template_resolver.with(scan_tree_template_resolvers(this.node))
 
-        this.instruction_preview.setInnerHtml(resolver.resolve(ScanTree.getInstruction(this.node.raw)))
+        this.instruction_preview.setInnerHtml(resolver.resolve(ScanTree.getInstruction(this.node)))
 
     }
 
@@ -352,6 +394,104 @@ class TreeNodeEdit extends Widget {
 
     isActive(): boolean {
         return this == this.parent.active.value()
+    }
+
+    private async editInstructions() {
+        const self = this
+
+        const value = await (new class extends FormModal<string> {
+            constructor() {
+                super();
+
+                this.title.set(
+                    self.node.raw.directions
+                        ? "Add custom directions"
+                        : "Edit custom directions"
+                )
+            }
+
+            private edit: AbstractEditWidget<string>
+
+            getButtons(): BigNisButton[] {
+                return [
+                    new BigNisButton("Cancel", "cancel").onClick(() => this.cancel()),
+                    new BigNisButton("Delete", "cancel").onClick(() => this.confirm("")),
+                    new BigNisButton("Save", "confirm").onClick(() => this.confirm(this.edit.get())),
+                ]
+            }
+
+            render() {
+                super.render();
+
+                this.edit = (new class extends AbstractEditWidget<string> {
+                    resolver: TemplateResolver
+
+                    constructor() {
+                        super();
+
+                        this.resolver = self.parent.parent.app.template_resolver.with(scan_tree_template_resolvers(self.node))
+
+                        this.onChange(() => this.renderPreview())
+                    }
+
+                    preview_container: Widget
+
+                    instruction_input: Widget = null
+
+                    protected render() {
+                        this.empty()
+
+                        this.instruction_input = new TextArea({placeholder: "Enter text"})
+                            .setValue(this.get())
+                            .onPreview(s => {
+                                this.preview(s)
+                            })
+                            .onCommit(s => {
+                                this.commit(s)
+                            })
+                            .css("height", "40px")
+
+                        this.append(
+                            vbox(
+                                this.instruction_input,
+                                this.preview_container = c(),
+                                new LightButton("Load default").onClick(() => this.setValue(ScanTree.defaultScanTreeInstructions(self.node)))
+                            ).css2({
+                                "display": "flex",
+                                "flex-direction": "column"
+                            })
+                        )
+
+                        this.renderPreview()
+                    }
+
+                    private renderPreview() {
+                        if (this.preview_container) this.preview_container.container.html(`${this.resolver.resolve(this.get() || "")}`)
+                    }
+                })
+                    .setValue(self.node.raw.directions ?? "")
+                    .appendTo(this.body)
+
+                /*
+                this.edit = new TemplateStringEdit({
+                    fullsize: true,
+                    resolver: self.parent.parent.app.template_resolver.with(scan_tree_template_resolvers(self.node)),
+                    generator: null
+                })
+                    .setValue(self.node.raw.directions ?? "")
+                    .appendTo(this.body)*/
+            }
+
+            protected getValueForCancel(): string {
+                return undefined
+            }
+        }).do()
+
+        if (value !== undefined) {
+            this.node.raw.directions = value
+
+            this.updateInstructionPreview()
+        }
     }
 }
 
@@ -387,18 +527,14 @@ export default class TreeEdit extends Widget {
         return edit
     }
 
-    setActiveNode(node: TreeNodeEdit) {
-        timeSync("Set active", () => {
-            if (this.active.value()) this.active.value().setActive(false)
+    requestActivation(node: TreeNodeEdit) {
 
-            this.active.set(node)
+        // TODO: Confirm with Path editor ?
 
-            if (this.active.value()) this.active.value().setActive(true)
-        })
+        if (this.active.value()) this.active.value().setActive(false)
 
+        this.active.set(node)
 
-        // TODO: Update preview
-        //      - You are here marker
-        //      - Errors on map?
+        if (this.active.value()) this.active.value().setActive(true)
     }
 }

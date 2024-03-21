@@ -15,6 +15,7 @@ export namespace ScanTree {
     import digSpotArea = Clues.digSpotArea;
     import PulseInformation = ScanTheory.PulseInformation;
     import spot_narrowing = ScanTheory.spot_narrowing;
+    import AugmentedScanTreeNode = ScanTree.Augmentation.AugmentedScanTreeNode;
 
     export type ScanRegion = {
         name: string
@@ -446,16 +447,20 @@ export namespace ScanTree {
         area: TileRectangle
     }
 
-    export function defaultScanTreeInstructions(node: ScanTreeNode): string {
+    export function defaultScanTreeInstructions(node: AugmentedScanTreeNode): string {
         let path_short =
-            node.path.length > 0
-                ? node.path.map(PathingGraphics.templateString).join(" - ")
+            node.path.raw.length > 0
+                ? node.path.raw.map(PathingGraphics.templateString).join(" - ")
                 : "Go"
 
-        return path_short + " to {{target}}"
+        const target =
+            node.path.raw.length == 0 || node.raw.region?.name
+                ? " to {{target}}" : ""
+
+        return path_short + target
     }
 
-    export function getInstruction(node: ScanTreeNode): string {
-        return node.directions || defaultScanTreeInstructions(node)
+    export function getInstruction(node: AugmentedScanTreeNode): string {
+        return node.raw.directions || defaultScanTreeInstructions(node)
     }
 }

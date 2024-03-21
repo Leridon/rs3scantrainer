@@ -616,7 +616,7 @@ export default class ScanEditor extends MethodSubEditor {
                 }
             }, false)
             .onStop(() => {
-                if (this.tree_edit.active_node.value() == node) this.tree_edit.setActiveNode(null)
+                if (this.tree_edit.active_node.value() == node) this.tree_edit.requestActivation(null)
             })
         )
     }

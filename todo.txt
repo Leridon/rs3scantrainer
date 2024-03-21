@@ -3,18 +3,12 @@ Planned for next release (b0.4):
 - Scan Editor
     - [Restyle, 5] Simplify the tree view, maybe with context menus and modals.
         - [5] Context menu
-            - Make Active (Request activation with modal)
-            - Collapse/Expand
-            - Edit instructions
             - Region
                 - Draw
-                - Auto
                 - Rename
+                - Auto
                 - Autoname
-            - Reset
-    - [Bug, 3] Changing active nodes has some kind of delay
-        - It's the transport layer that is rerendered every time the path editor is started
-        - Keep active throughout scan editor
+            - Reset Node
     - [Style, 3] Incoroporate ticks into the display at a sensible spot
     - [QOL, 4] Include uncertainty from non-static teleports into path analysis
     - [Feature, 4] Scan range lens/marker

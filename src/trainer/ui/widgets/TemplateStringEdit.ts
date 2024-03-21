@@ -52,6 +52,7 @@ export default class TemplateStringEdit extends AbstractEditWidget<string> {
 
         if (this.options.fullsize) {
             this.instruction_input = new TextArea({placeholder: "Enter text"})
+                .setValue(this.get())
                 .onPreview(s => {
                     this.preview(s)
                 })

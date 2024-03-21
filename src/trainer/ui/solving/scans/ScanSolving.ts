@@ -35,7 +35,6 @@ export function scan_tree_template_resolvers(node: AugmentedScanTreeNode): Recor
     return {
         "target": () => {
             if (node.remaining_candidates.length == 1) {
-                // TODO: There's a bug hidden here where is always resolves the same digspot number for all triples
                 return render_digspot(spotNumber(node.root.raw, node.remaining_candidates[0]))
             } else {
                 return `{{scanarea ${node.raw.region?.name || "_"}}}`

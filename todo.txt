@@ -1,14 +1,12 @@
 Planned for next release (b0.4):
 
 - Scan Editor
-    - [5] Show Errors in Tree Node Edit!
-        - Tooltip of error indicator?
     - [QOL, 4] Include uncertainty from non-static teleports into path analysis
         - Ability after uncertainty => Error
         - Dive needs to be possible for all tiles
     - [Feature, 4] Scan range lens/marker
-    - Auto-size region based on teleport areas!
     - Autoname areas
+    - Autonumber spots
     - Better placement of information marker to guarantee it's always inside the area.
     - Scale information gain down when zoomed out
 
@@ -17,6 +15,7 @@ Planned for next release (b0.4):
 
 - Tile Area
     - [Feature, 4] Implement areaPolygon properly!
+    - [Feature, 4], Implement area_pulse for tilearea properly
 
 - Data
     - [Dev Tool, 3] Utility Layer for shortcut parsing

@@ -160,6 +160,7 @@ class TreeNodeEdit extends Widget {
     body: Properties
 
     instruction_preview: Widget
+    timing_box: Widget
 
     you_are_here_marker: Widget
 
@@ -223,14 +224,7 @@ class TreeNodeEdit extends Widget {
         this.body = new Properties()
 
         this.body.row(this.instruction_preview = c(),)
-        this.body.named("Timing",
-            hboxl(
-                span(`T${this.node.path.pre_state.tick}`).addClass('nisl-textlink'),
-                span("&nbsp;to&nbsp;"),
-                span(`T${this.node.path.post_state.tick}`).addClass('nisl-textlink'),
-            )
-        )
-
+        this.body.named("Timing", this.timing_box = hboxl())
 
         if (node.remaining_candidates.length > 1 && (!node.parent || node.parent.key.pulse != 3)) {
             // this.region_edit = this.body.named("Region", new RegionEdit(this))
@@ -488,6 +482,12 @@ class TreeNodeEdit extends Widget {
         if (this.region_edit) this.region_edit.render()
 
         this.updateInstructionPreview()
+
+        this.timing_box.empty().append(
+            span(`T${this.node.path.pre_state.tick}`).addClass('nisl-textlink'),
+            span("&nbsp;to&nbsp;"),
+            span(`T${this.node.path.post_state.tick}`).addClass('nisl-textlink'),
+        )
 
         // TODO: Display path issues
 

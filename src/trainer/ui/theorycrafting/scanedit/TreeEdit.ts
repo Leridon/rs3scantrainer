@@ -38,6 +38,8 @@ import {BigNisButton} from "../../widgets/BigNisButton";
 import TextArea from "../../../../lib/ui/controls/TextArea";
 import AbstractEditWidget from "../../widgets/AbstractEditWidget";
 import TemplateResolver from "../../../../lib/util/TemplateResolver";
+import hboxl = C.hboxl;
+import {ConfirmationModal} from "../../widgets/modals/ConfirmationModal";
 
 export class DrawRegionAction extends ValueInteraction<ScanRegion> {
     constructor(name: string) {
@@ -200,7 +202,6 @@ class TreeNodeEdit extends Widget {
         this.header = c()
             .addClass("ctr-scantreeedit-node-header")
             .append(
-                //collapse_control,
                 this.decision_span = c().addClass("ctr-scantreeedit-node-path")
                     .on("click", () => this.parent.requestActivation(this.isActive() ? null : this)),
                 this.you_are_here_marker = c().addClass("ctr-scantreeedit-youarehere"),
@@ -217,24 +218,19 @@ class TreeNodeEdit extends Widget {
 
         this.body = new Properties()
 
-        this.body.row(this.instruction_preview = c())
-        this.body.row("Ticks 1 to 4")
+        this.body.row(this.instruction_preview = c(),)
+        this.body.named("Timing",
+            hboxl(
+                span(`T${this.node.path.pre_state.tick}`).addClass('nisl-textlink'),
+                span("&nbsp;to&nbsp;"),
+                span(`T${this.node.path.post_state.tick}`).addClass('nisl-textlink'),
+            )
+        )
+
 
         if (node.remaining_candidates.length > 1 && (!node.parent || node.parent.key.pulse != 3)) {
             // this.region_edit = this.body.named("Region", new RegionEdit(this))
         }
-
-        /*this.body.named("Instructions",
-            this.description_input = new TemplateStringEdit({
-                resolver: this.parent.parent.app.template_resolver.with(scan_tree_template_resolvers(node)),
-                generator: () => ScanTree.defaultScanTreeInstructions(this.node.raw)
-            })
-                .onCommit((v) => {
-                    this.node.raw.directions = v
-                    this.updateInstructionPreview()
-                })
-                .setValue(this.node.raw.directions)
-        )*/
 
         this.append(
             this.self_content = hbox().addClass("ctr-scantreeedit-node").append(
@@ -267,48 +263,70 @@ class TreeNodeEdit extends Widget {
         event.stopPropagation()
 
         new ContextMenu({
-            type: "submenu",
-            text: "",
-            children: [
-                {
-                    type: "basic",
-                    text: this.is_collapsed ? "Expand" : "Collapse",
-                    handler: () => this.toggleCollapse()
-                }, {
-                    type: "basic",
-                    text: this.isActive() ? "Deactivate" : "Activate",
-                    handler: () => {
-                        this.parent.requestActivation(this.isActive() ? null : this)
-                    }
-                }, this.node.raw.directions != ""
-                    ? {
-                        type: "submenu",
-                        text: "Custom Instructions",
-                        children:
-                            [{
-                                type: "basic",
-                                text: "Reset",
-                                handler: () => {
-                                    this.node.raw.directions = ""
-                                    this.updateInstructionPreview()
-                                }
-                            }, {
-                                type: "basic",
-                                text: "Edit",
-                                handler: () => {
-                                    this.editInstructions()
-                                }
-                            }]
-                    }
-                    : {
+                type: "submenu",
+                text: "",
+                children: [
+                    {
                         type: "basic",
-                        text: "Add custom instructions",
+                        text: this.is_collapsed ? "Expand" : "Collapse",
+                        handler: () => this.toggleCollapse()
+                    }, {
+                        type: "basic",
+                        text: this.isActive() ? "Deactivate" : "Activate",
                         handler: () => {
-                            this.editInstructions()
+                            this.parent.requestActivation(this.isActive() ? null : this)
+                        }
+                    }, this.node.raw.directions != ""
+                        ? {
+                            type: "submenu",
+                            text: "Custom Instructions",
+                            children:
+                                [{
+                                    type: "basic",
+                                    text: "Reset",
+                                    handler: () => {
+                                        this.node.raw.directions = ""
+                                        this.updateInstructionPreview()
+                                    }
+                                }, {
+                                    type: "basic",
+                                    text: "Edit",
+                                    handler: () => {
+                                        this.editInstructions()
+                                    }
+                                }]
+                        }
+                        : {
+                            type: "basic",
+                            text: "Add custom instructions",
+                            handler: () => {
+                                this.editInstructions()
+                            }
+                        },
+                    {
+                        type: "basic",
+                        text: "Reset node",
+                        handler: async () => {
+
+                            const really = await (new ConfirmationModal({
+                                title: "Reset node",
+                                body: "Resetting a node will delete its path, instruction, and all of its children and can not be undone.",
+                                options: [
+                                    {kind: "neutral", text: "Cancel", value: false, is_cancel: true,},
+                                    {kind: "cancel", text: "Reset Node", value: true}
+                                ]
+                            })).do()
+
+                            if (really) this.parent.parent.builder.updateNode(this.node.raw, n => {
+                                n.path = []
+                                n.directions = ""
+                                n.children = []
+                            })
                         }
                     }
-            ]
-        })
+                ]
+            },
+        )
             .showFromEvent2(event)
     }
 

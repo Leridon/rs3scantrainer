@@ -409,7 +409,11 @@ export class ScanTreeBuilder {
     }
 
     setRegion(node: ScanTreeNode, region: ScanRegion) {
-        node.region = region
+        this.updateNode(node, n => n.region = region)
+    }
+
+    updateNode(node: ScanTreeNode, updater: (_: ScanTreeNode) => void) {
+        updater(node)
 
         this.cleanTree()
 
@@ -417,11 +421,7 @@ export class ScanTreeBuilder {
     }
 
     setPath(node: ScanTreeNode, path: Path.raw) {
-        node.path = path
-
-        this.cleanTree()
-
-        this.any_change.trigger(null)
+        this.updateNode(node, n => n.path = path)
     }
 
     setOrder(order: TileCoordinates[]) {

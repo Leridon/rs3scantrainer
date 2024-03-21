@@ -627,6 +627,7 @@ video {
 
 .ctr-scantreeedit-node {
     cursor: pointer;
+    margin-top: 3px;
 }
 
 .ctr-scantreeedit-node:hover {

@@ -1023,7 +1023,7 @@ const raw_data: Transportation.TeleportGroup[] = [
             },
             {
                 id: "ALP",
-                target: {origin: {x: 2473, y: 3028, level: 0}},
+                target: {"origin": {"x": 2468, "y": 4189, "level": 0}},
                 code: "ALP",
                 name: "Feldip Hills: Near Gu´Tanoth",
             },
@@ -4225,7 +4225,30 @@ code: "5",
             img: {url: "Tome_of_Um_2.webp"},
             action_name: "Operate"
         }]
-    }
+    },
+    {
+        type: "teleports",
+        id: "camulet",
+        name: "Camulet",
+        menu_ticks: 1,
+        animation_ticks: 3,
+        spots: [
+            {
+                id: "temple",
+                target: {"origin":{"x":3194,"y":2926,"level":0}},
+                name: "Enakhra's Temple",
+            },
+        ],
+        access: [
+            {
+                id: "amulet",
+                type: "item",
+                name: {name: "Camulet", kind: "item"},
+                img: {url: "Camulet.png"},
+                action_name: "Rub",
+            }
+        ]
+    },
 //TODO: Eagle transport system
 //TODO: Canoes
 //TODO: Orthen Teleport network

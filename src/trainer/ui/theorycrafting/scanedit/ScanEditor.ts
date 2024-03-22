@@ -5,7 +5,7 @@ import * as leaflet from "leaflet";
 import {EquivalenceClass, ScanEquivalenceClasses, ScanEquivalenceClassOptions} from "../../../../lib/cluetheory/scans/EquivalenceClasses";
 import {areaToPolygon} from "../../polygon_helpers";
 import {type Application} from "../../../application";
-import {ScanRegionPolygon} from "../../neosolving/ScanLayer";
+import {AdaptiveScanRadiusMarker, ScanRadiusMarker, ScanRegionPolygon} from "../../neosolving/ScanLayer";
 import {PathEditor} from "../../pathedit/PathEditor";
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
 import {OpacityGroup} from "../../../../lib/gamemap/layers/OpacityLayer";
@@ -41,21 +41,31 @@ import {GameMapContextMenuEvent} from "../../../../lib/gamemap/MapEvents";
 import {FormModal} from "../../../../lib/ui/controls/FormModal";
 import NumberInput from "../../../../lib/ui/controls/NumberInput";
 import {BigNisButton} from "../../widgets/BigNisButton";
-import {util} from "../../../../lib/util/util";
 import {Menu} from "../../widgets/ContextMenu";
-import {ConfirmationModal} from "../../widgets/modals/ConfirmationModal";
 import {NisModal} from "../../../../lib/ui/NisModal";
-import span = C.span;
+
 import ControlWithHeader from "../../map/ControlWithHeader";
 import {deps} from "../../../dependencies";
 
-class ScanEditLayer extends GameLayer {
-    private markers: ScanEditLayer.MarkerPair[]
+export class ScanEditLayer extends GameLayer {
+    marker: AdaptiveScanRadiusMarker
 
-    constructor(private editor: ScanEditor,
-                private spots: TileCoordinates[]
+    private markers: ScanEditLayer.MarkerPair[] = []
+
+    constructor(private spots: TileCoordinates[]
     ) {
         super();
+
+        this.marker = new AdaptiveScanRadiusMarker().addTo(this)
+
+        this.setSpots(spots)
+    }
+
+    setSpots(spots: TileCoordinates[]): this {
+        this.markers.forEach(m => {
+            m.regular.remove()
+            m.complement.remove()
+        })
 
         this.markers = spots.map(s => new ScanEditLayer.MarkerPair(s))
 
@@ -65,6 +75,10 @@ class ScanEditLayer extends GameLayer {
             m.regular.addTo(this)
             m.complement.addTo(this)
         })
+
+        if (spots.length > 0) this.marker.setComplementByExampleSpot(spots[0])
+
+        return this
     }
 
     setActiveCandidates(coords: TileCoordinates[]) {
@@ -88,7 +102,7 @@ class ScanEditLayer extends GameLayer {
     }
 }
 
-namespace ScanEditLayer {
+export namespace ScanEditLayer {
 
     import render_digspot = TextRendering.render_digspot;
 
@@ -196,7 +210,7 @@ namespace ScanEditLayer {
                 this.timing_information.timings.forEach((t, i) => {
                     if (i != 0) timing.append(" | ")
 
-                    let s = span(t.ticks.toString() + " ticks")
+                    let s = span(t.ticks.toFixed(2) + " ticks")
 
                     if (t.incomplete) s.css("color", "yellow").tooltip("Incomplete path")
 
@@ -409,7 +423,11 @@ export class ScanTreeBuilder {
     }
 
     setRegion(node: ScanTreeNode, region: ScanRegion) {
-        node.region = region
+        this.updateNode(node, n => n.region = region)
+    }
+
+    updateNode(node: ScanTreeNode, updater: (_: ScanTreeNode) => void) {
+        updater(node)
 
         this.cleanTree()
 
@@ -417,11 +435,7 @@ export class ScanTreeBuilder {
     }
 
     setPath(node: ScanTreeNode, path: Path.raw) {
-        node.path = path
-
-        this.cleanTree()
-
-        this.any_change.trigger(null)
+        this.updateNode(node, n => n.path = path)
     }
 
     setOrder(order: TileCoordinates[]) {
@@ -454,8 +468,10 @@ class PreviewLayerControl extends Behaviour {
         if (a) {
             for (const n of AugmentedScanTree.collect_parents(a, true)) {
 
-                if (n.raw.region) {
-                    (await this.parent.tree_edit.getNode(n)).region_preview = new ScanRegionPolygon(n.raw.region).addTo(layer)
+                const area = ScanTree.getTargetRegion(n)
+
+                if (area) {
+                    this.parent.tree_edit.getNode(n).region_preview = new ScanRegionPolygon(area).addTo(layer)
                 }
 
                 if (n != a) PathStepEntity.renderPath(n.raw.path).addTo(layer);
@@ -464,8 +480,11 @@ class PreviewLayerControl extends Behaviour {
         } else {
             if (this.parent.tree_edit.root_widget) {
                 AugmentedScanTree.traverse(this.parent.tree_edit.root_widget.node, async (n) => {
-                    if (n.raw.region) {
-                        (await this.parent.tree_edit.getNode(n)).region_preview = new ScanRegionPolygon(n.raw.region).addTo(layer)
+
+                    const area = ScanTree.getTargetRegion(n)
+
+                    if (area?.area) {
+                        this.parent.tree_edit.getNode(n).region_preview = new ScanRegionPolygon(area).addTo(layer)
                     }
 
                     return PathStepEntity.renderPath(n.raw.path).addTo(layer)
@@ -519,7 +538,9 @@ export default class ScanEditor extends MethodSubEditor {
             this.layer.setSpotOrder(order)
         })
 
-        this.layer = new ScanEditLayer(this, value.clue.spots)
+        this.layer = new ScanEditLayer(value.clue.spots)
+
+        this.layer.marker.setClickable(true)
 
         const self = this
 
@@ -595,7 +616,7 @@ export default class ScanEditor extends MethodSubEditor {
 
             this.builder.assumptions.set(lodash.cloneDeep(v))
 
-            //TODO: this.layer.scan_range.set(this.value.method.tree.assumed_range)
+            this.layer.marker.setRadius(this.value.method.tree.assumed_range)
         })
 
         this.builder.augmented.subscribe(a => {
@@ -604,7 +625,7 @@ export default class ScanEditor extends MethodSubEditor {
     }
 
     private setPathEditor(node: AugmentedScanTreeNode): void {
-        this.path_editor.set(new PathEditor(this.layer,
+        this.path_editor.set(new PathEditor(this.layer.marker,  // This is a horrible hack to ensure correct event priority
             this.app.template_resolver, {
                 initial: node.path.raw,
 
@@ -614,19 +635,15 @@ export default class ScanEditor extends MethodSubEditor {
                 commit_handler: (p) => {
                     this.builder.setPath(node.raw, p)
                 }
-            })
+            }, false)
             .onStop(() => {
-                if (this.tree_edit.active_node.value() == node) this.tree_edit.setActiveNode(null)
+                if (this.tree_edit.active_node.value() == node) this.tree_edit.requestActivation(null)
             })
         )
     }
 
     begin() {
-
-        deps().app.notifications.notify({
-            type: "error",
-            duration: null,
-        }, "The editor for scan tree methods is currently undergoing major revamps. Methods created with this version may no longer be compatible after this.")
+        super.begin()
 
         new GameMapControl({
                 position: "top-right",

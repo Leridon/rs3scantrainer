@@ -279,6 +279,8 @@ export class MethodPackManager {
 
         const method = pack.methods.find(m => m.id == id.method_id)
 
+        if (!method) return null
+
         return {method: method, pack: pack, clue: clue_data.index.get(method.for.clue).clue}
     }
 }

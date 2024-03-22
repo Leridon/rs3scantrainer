@@ -50,7 +50,7 @@ export default class MenuBar extends Widget {
                 new MenuButton("Paths", "assets/icons/ribbon_activitytracker.webp")
                     .setEnabled(!(behaviour instanceof PathEditor))
                     .onClick(() => {
-                        app.main_behaviour.set(new PathEditor(new GameLayer().addTo(app.map), app.template_resolver, {initial: []}))
+                        app.main_behaviour.set(new PathEditor(new GameLayer().addTo(app.map), app.template_resolver, {initial: []}, true))
                     }),
                 /*new MenuButton("Edit", "assets/icons/ribbon_teleports.webp")
                     .setEnabled(!(behaviour instanceof ShortcutEditor))

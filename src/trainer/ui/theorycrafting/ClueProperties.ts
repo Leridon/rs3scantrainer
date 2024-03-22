@@ -22,6 +22,8 @@ import {ClueSpotIndex} from "../../../lib/runescape/clues/ClueIndex";
 import {NewMethodModal} from "./MethodModal";
 import vbox = C.vbox;
 import plural = util.plural;
+import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
+import activate = TileArea.activate;
 
 export class ClueProperties extends Properties {
     render_promise: Promise<this> = null
@@ -48,9 +50,9 @@ export class ClueProperties extends Properties {
                         case "dig":
                             return c(`<span><img src='assets/icons/cursor_shovel.png' class="inline-img"> Dig at ${TileCoordinates.toString(sol.spot)}</span>`)
                         case "search":
-                            return c(`<span><img src='assets/icons/cursor_search.png' class="inline-img"> Search <span class="nisl-entity">${sol.entity}</span> at ${TileCoordinates.toString(sol.spot)}</span>`)
+                            return c(`<span><img src='assets/icons/cursor_search.png' class="inline-img"> Search <span class="nisl-entity">${sol.entity}</span> at ${TileCoordinates.toString(TileRectangle.bl(sol.spot))}</span>`)
                         case "talkto":
-                            return c(`<span><img src='assets/icons/cursor_talk.png' class="inline-img"> Talk to <span class="nisl-npc">${sol.npc}</span> near ${TileCoordinates.toString(TileRectangle.center(sol.spots[self.alternative_index || 0].range))}</span>`)
+                            return c(`<span><img src='assets/icons/cursor_talk.png' class="inline-img"> Talk to <span class="nisl-npc">${sol.npc}</span> near ${TileCoordinates.toString(activate(sol.spots[self.alternative_index || 0].range).center())}</span>`)
                     }
                 })())
 

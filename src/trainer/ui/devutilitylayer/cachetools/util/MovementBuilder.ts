@@ -22,7 +22,7 @@ export class MovementBuilder {
         return this
     }
 
-    fixed(target: TileCoordinates, relative: boolean = false): this {
+    fixed(target: TileArea, relative: boolean = false): this {
         this.value.fixed_target = relative ? {target: target, relative: true} : {target: target}
 
         this.value.offset = undefined
@@ -69,7 +69,7 @@ export namespace MovementBuilder {
         return init().offset(offset)
     }
 
-    export function fixed(target: TileCoordinates): MovementBuilder {
+    export function fixed(target: TileArea): MovementBuilder {
         return init().fixed(target)
     }
 }

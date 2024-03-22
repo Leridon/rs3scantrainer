@@ -21,6 +21,7 @@ import {Menu, MenuEntry} from "../../widgets/ContextMenu";
 import {deps} from "../../../dependencies";
 import entity = C.entity;
 import isLocal = Transportation.EntityTransportation.Movement.isLocal;
+import activate = TileArea.activate;
 
 export class EntityTransportEntity extends MapEntity {
     private normalized_shortcut: GeneralEntityTransportation
@@ -49,10 +50,10 @@ export class EntityTransportEntity extends MapEntity {
     async contextMenu(event: GameMapContextMenuEvent): Promise<Menu | null> {
         const shortcut = this.normalized_shortcut
 
-        const remote_target: TileCoordinates[] = shortcut.actions.flatMap(action =>
+        const remote_target: TileArea[] = shortcut.actions.flatMap(action =>
             action.movement.flatMap(movement => {
                 if (!isLocal(movement)) {
-                    return [movement.fixed_target.target]
+                    return [TileArea.normalize(movement.fixed_target.target)]
                 } else return []
             })
         )
@@ -64,7 +65,7 @@ export class EntityTransportEntity extends MapEntity {
                 type: "basic",
                 text: "Jump to Target",
                 handler: () => {
-                    this.parent?.getMap()?.fitView(TileRectangle.from(target))
+                    this.parent?.getMap()?.fitView(TileArea.toRect(target))
                 }
             })
         }
@@ -151,8 +152,10 @@ export class EntityTransportEntity extends MapEntity {
                         render_transport_arrow(center, target, movement.offset.level).addTo(this)
 
                     } else if (movement.fixed_target && !movement.fixed_target.relative) {
-                        if (movement.fixed_target.target.level == this.parent.getMap().floor.value()) {
-                            leaflet.circle(Vector2.toLatLong(movement.fixed_target.target), {
+                        const targe = TileArea.normalize(movement.fixed_target.target)
+
+                        if (targe.origin.level == this.parent.getMap().floor.value()) {
+                            leaflet.circle(Vector2.toLatLong(activate(targe).center()), {
                                 color: COLORS.target_area,
                                 weight: 2,
                                 radius: 0.4,
@@ -162,9 +165,9 @@ export class EntityTransportEntity extends MapEntity {
                         }
 
                         const center = TileRectangle.center(shortcut.clickable_area, false)
-                        const target = movement.fixed_target.target
+                        const target = TileArea.normalize(movement.fixed_target.target)
 
-                        render_transport_arrow(center, target, target.level - center.level).addTo(this)
+                        render_transport_arrow(center, activate(target).center(), target.origin.level - center.level).addTo(this)
                     }
                 })
             }

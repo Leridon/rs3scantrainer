@@ -1,22 +1,19 @@
 Planned for next release (b0.4):
 
 - Scan Editor
-    - [Restyle, 5] Simplify the tree view, maybe with context menus and modals.
-    - Include uncertainty from non-static teleports into path analysis
-    - Auto-size region based on teleport areas!
-    - Do the same on augmenting scan trees.
-    - Update target for path editor when needed
-    - Autoname areas
-    - Better placement of information marker to guaranteee it's always inside the area.
+    - [QOL, 2] Include uncertainty from non-static teleports into path analysis
+        - Ability after uncertainty => Error
+        - Dive needs to be possible for all tiles
+    - Improved implicit instructions
+    - [3] Autoname areas
+    - [3] Autonumber spots
+    - Better placement of information marker to guarantee it's always inside the area.
     - Scale information gain down when zoomed out
 
 - Issues
-    - [Performance, 5] Map slows down after using it for a while
-        - Probably because entities accumulate in the quad tree
     - [Bug, 4] Cloning a method is broken in multiple ways
-
-- Tile Area
-    - [Feature, 4] Implement areaPolygon properly!
+    - [Bug, 2] Clicking certain markers in entities does not propagate to the map.
+        - This app
 
 - Data
     - [Dev Tool, 3] Utility Layer for shortcut parsing
@@ -24,9 +21,9 @@ Planned for next release (b0.4):
             - Dialog "Parsed <x> methods of transportation. [Export] [Show on Map]"
         - "Go to next entity"
 
+
 - Path Editor
     - [Feature, 3] Highlight step on hover
-
     - Teleports don't use tile areas correctly
     - [Feature] Check if teleport spot is actually in target area
     - [Bug] Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflewt-custom-control
@@ -42,8 +39,8 @@ Planned for next release (b0.4):
 
 - Theorycrafter
     - Editor for generic path methods
-        - Display pathing when no section is selected
-        - [QOL] Immediately enter the method editor
+        - [QOL, 4] Display pathing when no section is selected
+        - [QOL, 4] Immediately enter the method editor
         - Display Target-Areas and auxiliary stuff (hidey hole) on map
             - Share with Solver!
     - Collapsible method pack sections (default|imported|local)
@@ -52,8 +49,6 @@ Planned for next release (b0.4):
         - Show metadata before import
         - Confirm/Cancel
     - [Feature] Undo/Redo
-
-
 
 - Solving Behaviour
     - [Feature, 5] Clue Reader

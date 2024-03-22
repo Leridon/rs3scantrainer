@@ -73,6 +73,8 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
         this.layer.addTo(deps().app.map)
 
         this.updateSequence()
+
+        this.sequence.find(s => s.path.prop).path.prop.edit()
     }
 
     /**
@@ -221,5 +223,6 @@ export namespace GenericPathMethodEditor {
     export type Sequence = {
         path?: { section: "pre" | "post" | "main", target: TileArea.ActiveTileArea, prop?: PathProperty } | null,
         name: string,
-        ticks?: number } []
+        ticks?: number
+    } []
 }

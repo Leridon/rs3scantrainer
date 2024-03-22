@@ -63,7 +63,7 @@ export function levelIcon(floor: floor_t, scale: number = 1) {
         iconUrl: levels[floor],
         iconSize: [scale * 18, scale * 24],
         iconAnchor: [scale * 9, scale * 24],
-        className: "marker-icon"
+        className: "marker-icon",
     })
 }
 
@@ -127,6 +127,8 @@ export class GameMap extends leaflet.Map {
             })
 
             this.on("click", (e) => {
+                console.log("Mapclick")
+
                 this.event(new GameMapMouseEvent(this, e, this.eventCoordinate(e)), (l) => (e) => l.eventClick(e))
             })
 

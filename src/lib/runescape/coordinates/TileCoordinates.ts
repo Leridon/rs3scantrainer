@@ -33,7 +33,7 @@ export namespace TileCoordinates {
     }
 
     export function toString(coordinate: TileCoordinates): string {
-        return `${coordinate.x}|${coordinate.y}|${coordinate.level}`
+        return `${coordinate.x} | ${coordinate.y} | ${coordinate.level}`
     }
 
     export function snap(coordinate: TileCoordinates): TileCoordinates {

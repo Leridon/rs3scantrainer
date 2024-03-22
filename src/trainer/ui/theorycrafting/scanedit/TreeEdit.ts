@@ -643,7 +643,10 @@ export default class TreeEdit extends Widget {
             if (tree) {
                 if (this.root_widget) {
                     this.root_widget.renderValue(tree.root_node)
-                } else this.root_widget = new TreeNodeEdit(this, tree.root_node).appendTo(this)
+                } else {
+                    this.root_widget = new TreeNodeEdit(this, tree.root_node).appendTo(this)
+                    this.requestActivation(this.root_widget)
+                }
             }
         }, true)
     }

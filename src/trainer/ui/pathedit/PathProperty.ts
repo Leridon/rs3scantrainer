@@ -39,7 +39,7 @@ export default class PathProperty extends AbstractEditWidget<Path.raw> {
         this.setValue([])
     }
 
-    private async edit() {
+    async edit() {
         if (!this.options.editor_handle) return
 
         this.loaded = true

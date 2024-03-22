@@ -44,6 +44,14 @@ export class GameLayer extends leaflet.FeatureGroup {
 
         this.on("layerremove", (l) => {
             if (childLike(l.layer) && l.layer.parent == this) l.layer.parent = null
+
+            if (l.layer instanceof MapEntity && l.layer.spatial) {
+                l.layer.spatial.remove(l.layer)
+
+                if (l.layer == this.activeEntity()) {
+                    this.requestEntityActivation(null)
+                }
+            }
         })
 
         this.entity_quadtree = QuadTree.init({

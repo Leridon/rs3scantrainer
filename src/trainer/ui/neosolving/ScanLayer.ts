@@ -15,6 +15,13 @@ import {Observable, observe} from "../../../lib/reactive";
 import observe_combined = Observable.observe_combined;
 import {util} from "../../../lib/util/util";
 import todo = util.todo;
+import {MapEntity} from "../../../lib/gamemap/MapEntity";
+import {Rectangle} from "../../../lib/math";
+import Widget from "../../../lib/ui/Widget";
+import {C} from "../../../lib/ui/constructors";
+import vbox = C.vbox;
+import {Menu} from "../widgets/ContextMenu";
+import Properties from "../widgets/Properties";
 
 export class ScanRegionPolygon extends ActiveOpacityGroup {
     polygon: leaflet.Polygon
@@ -71,16 +78,24 @@ export class ScanRegionPolygon extends ActiveOpacityGroup {
     }
 }
 
-export class ScanRadiusMarker extends OpacityGroup {
+export class ScanRadiusMarker extends MapEntity {
+    private marker: TileMarker
+
     constructor(public spot: TileCoordinates,
                 private range: number,
-                include_marker: boolean,
-                is_complement: boolean) {
-        super();
+                private include_marker: boolean,
+                private is_complement: boolean) {
+        super({interactive: true, highlightable: true});
+    }
 
-        if (include_marker) new TileMarker(this.spot).withX("white").withMarker(blue_icon).addTo(this)
+    bounds(): Rectangle {
+        return Rectangle.centeredOn(this.spot, this.range * 2)
+    }
 
-        if (is_complement) {
+    protected async render_implementation(props: MapEntity.RenderProps): Promise<Element> {
+        if (this.include_marker) new TileMarker(this.spot).withX("white").withMarker(null, props.highlight ? 1.5 : 1).addTo(this)
+
+        if (this.is_complement) {
             boxPolygon({
                 topleft: {x: this.spot.x - (this.range + 15), y: this.spot.y + (this.range + 15)},
                 botright: {x: this.spot.x + (this.range + 15), y: this.spot.y - (this.range + 15)}
@@ -101,30 +116,30 @@ export class ScanRadiusMarker extends OpacityGroup {
                 interactive: false
             }).setStyle({color: "#fff40b", fillOpacity: 0, dashArray: [9, 9, 9, 18]}).addTo(this)
         }
+
+        return this.marker?.marker?.getElement()
     }
-}
 
-class ScanDigSpotMarker extends ActiveOpacityGroup {
-    index: Observable<number | null> = observe(null)
+    async renderTooltip(): Promise<{ content: Widget; interactive: boolean } | null> {
+        const props = new Properties()
 
-    private main: TileMarker
-    private complement: TileMarker
+        props.header(`Manual Radius Marker`)
 
-    constructor(public readonly spot: TileCoordinates) {
-        super(1, 0.2);
+        props.named("Position", TileCoordinates.toString(this.spot))
+        props.row(c().text("Click to remove").css("font-style", "italic"))
 
-        this.main = new TileMarker(spot).withMarker().withX("#B21319").addTo(this)
-        this.complement = new TileMarker(complementSpot(spot)).withMarker().withX("#B21319").addTo(this)
+        return {
+            content: props,
+            interactive: false
+        }
+    }
 
-        this.index.subscribe(i => {
-            if (i == null) {
-                this.main.removeLabel()
-                this.complement.removeLabel()
-            } else {
-                this.main.withLabel(i.toString(), "spot-number-on-map", [0, 10])
-                this.complement.withLabel(i.toString(), "spot-number-on-map", [0, 10])
-            }
-        })
+    async contextMenu(event: GameMapContextMenuEvent): Promise<Menu | null> {
+        return {
+            type: "submenu",
+            text: "",
+            children: []
+        }
     }
 }
 
@@ -186,8 +201,8 @@ export class AdaptiveScanRadiusMarker extends GameLayer {
                 this.custom_marker = new ScanRadiusMarker(spot.coordinates, range, spot.with_marker, is_complement).addTo(this)
 
                 if (spot.with_marker) {
-                    this.custom_marker.on("click", (e) => {
-                        leaflet.DomEvent.stopPropagation(e)
+                    this.custom_marker.on("click", () => {
+                        console.log("Clicked the thing")
                         this.manualMarker.set(null)
                     })
                 }
@@ -221,17 +236,17 @@ export class AdaptiveScanRadiusMarker extends GameLayer {
         return this
     }
 
-
     eventClick(event: GameMapMouseEvent) {
         event.onPost(() => {
+            console.log("Click")
 
             if (this.canBeManuallySet.value()) {
-                event.stopAllPropagation()
-
-                if (TileCoordinates.eq2(event.tile(), this.manualMarker.value())) {
+                if ((this.custom_marker && event.active_entity == this.custom_marker) || TileCoordinates.eq2(event.tile(), this.manualMarker.value())) {
                     this.manualMarker.set(null)
+                    console.log("Reset")
                 } else {
                     this.manualMarker.set(event.tile())
+                    console.log("Set")
                 }
             }
         })
@@ -241,6 +256,39 @@ export class AdaptiveScanRadiusMarker extends GameLayer {
         event.onPost(() => {
             if (this.followCursor.value()) {
                 this.cursorMarker.set(event.tile())
+            }
+        })
+    }
+
+    eventContextMenu(event: GameMapContextMenuEvent) {
+        event.onPre(() => {
+            if (event.active_entity instanceof ScanRadiusMarker && event.active_entity == this.custom_marker) {
+                event.addForEntity({
+                    type: "basic",
+                    text: "Remove",
+                    handler: () => {
+                        this.manualMarker.set(null)
+                    }
+                })
+            } else if (this.canBeManuallySet.value()) {
+
+                if (TileCoordinates.eq2(this.manualMarker.value(), event.tile())) {
+                    event.add({
+                        type: "basic",
+                        text: "Remove Marker",
+                        handler: () => {
+                            this.manualMarker.set(null)
+                        }
+                    })
+                } else {
+                    event.add({
+                        type: "basic",
+                        text: "Set Marker",
+                        handler: () => {
+                            this.manualMarker.set(event.tile())
+                        }
+                    })
+                }
             }
         })
     }

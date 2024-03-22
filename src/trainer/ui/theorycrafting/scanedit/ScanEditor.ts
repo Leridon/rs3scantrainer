@@ -41,11 +41,9 @@ import {GameMapContextMenuEvent} from "../../../../lib/gamemap/MapEvents";
 import {FormModal} from "../../../../lib/ui/controls/FormModal";
 import NumberInput from "../../../../lib/ui/controls/NumberInput";
 import {BigNisButton} from "../../widgets/BigNisButton";
-import {util} from "../../../../lib/util/util";
 import {Menu} from "../../widgets/ContextMenu";
-import {ConfirmationModal} from "../../widgets/modals/ConfirmationModal";
 import {NisModal} from "../../../../lib/ui/NisModal";
-import span = C.span;
+
 import ControlWithHeader from "../../map/ControlWithHeader";
 import {deps} from "../../../dependencies";
 
@@ -627,7 +625,7 @@ export default class ScanEditor extends MethodSubEditor {
     }
 
     private setPathEditor(node: AugmentedScanTreeNode): void {
-        this.path_editor.set(new PathEditor(this.layer,
+        this.path_editor.set(new PathEditor(this.layer.marker,  // This is a horrible hack to ensure correct event priority
             this.app.template_resolver, {
                 initial: node.path.raw,
 

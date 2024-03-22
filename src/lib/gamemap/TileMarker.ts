@@ -19,9 +19,17 @@ export class TileMarker extends ActiveOpacityGroup {
 
         this.marker = leaflet.marker([this.spot.y, this.spot.x], {
             icon: icon ?? levelIcon(this.spot.level, scale),
-            //title: `[${this.spot.x}, ${this.spot.y}]`,
-            opacity: this.options.opacity
+            opacity: this.options.opacity,
+            interactive: true,
+            bubblingMouseEvents: true,
         }).addTo(this)
+            .on("click", () => {
+                console.log("Marker clicked")
+            })
+
+            .on("mousedown", () => {
+                console.log("Marker down")
+            })
 
         return this
     }

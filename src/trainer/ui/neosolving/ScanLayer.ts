@@ -1,6 +1,6 @@
 import * as leaflet from "leaflet";
 import {TileCoordinates} from "../../../lib/runescape/coordinates/TileCoordinates";
-import {blue_icon} from "../../../lib/gamemap/GameMap";
+import {blue_icon, levelIcon} from "../../../lib/gamemap/GameMap";
 import {ScanTree} from "../../../lib/cluetheory/scans/ScanTree";
 import {Constants} from "../../constants";
 import ScanRegion = ScanTree.ScanRegion;
@@ -16,7 +16,7 @@ import observe_combined = Observable.observe_combined;
 import {util} from "../../../lib/util/util";
 import todo = util.todo;
 import {MapEntity} from "../../../lib/gamemap/MapEntity";
-import {Rectangle} from "../../../lib/math";
+import {Rectangle, Vector2} from "../../../lib/math";
 import Widget from "../../../lib/ui/Widget";
 import {C} from "../../../lib/ui/constructors";
 import vbox = C.vbox;
@@ -93,7 +93,14 @@ export class ScanRadiusMarker extends MapEntity {
     }
 
     protected async render_implementation(props: MapEntity.RenderProps): Promise<Element> {
-        if (this.include_marker) new TileMarker(this.spot).withX("white").withMarker(null, props.highlight ? 1.5 : 1).addTo(this)
+        if (this.include_marker) {
+            leaflet.marker(Vector2.toLatLong(this.spot), {
+                icon: levelIcon(this.spot.level, props.highlight ? 1.5 : 1),
+                opacity: props.opacity,
+                interactive: true,
+                bubblingMouseEvents: true,
+            }).addTo(this)
+        }
 
         if (this.is_complement) {
             boxPolygon({
@@ -238,15 +245,11 @@ export class AdaptiveScanRadiusMarker extends GameLayer {
 
     eventClick(event: GameMapMouseEvent) {
         event.onPost(() => {
-            console.log("Click")
-
             if (this.canBeManuallySet.value()) {
                 if ((this.custom_marker && event.active_entity == this.custom_marker) || TileCoordinates.eq2(event.tile(), this.manualMarker.value())) {
                     this.manualMarker.set(null)
-                    console.log("Reset")
                 } else {
                     this.manualMarker.set(event.tile())
-                    console.log("Set")
                 }
             }
         })

@@ -12,6 +12,8 @@ Planned for next release (b0.4):
 
 - Issues
     - [Bug, 4] Cloning a method is broken in multiple ways
+    - [Bug, 2] Clicking certain markers in entities does not propagate to the map.
+        - This app
 
 - Data
     - [Dev Tool, 3] Utility Layer for shortcut parsing

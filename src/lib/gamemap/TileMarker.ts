@@ -23,13 +23,6 @@ export class TileMarker extends ActiveOpacityGroup {
             interactive: true,
             bubblingMouseEvents: true,
         }).addTo(this)
-            .on("click", () => {
-                console.log("Marker clicked")
-            })
-
-            .on("mousedown", () => {
-                console.log("Marker down")
-            })
 
         return this
     }

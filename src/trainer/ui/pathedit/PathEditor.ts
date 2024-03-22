@@ -62,10 +62,10 @@ function repairShortcutStep(state: movement_state, shortcut: Path.step_transport
 }
 
 class PathEditorGameLayer extends GameLayer {
-    constructor(private editor: PathEditor) {
+    constructor(private editor: PathEditor, add_transport_layer: boolean) {
         super();
 
-        new TransportLayer(true).addTo(this)
+        if (add_transport_layer) new TransportLayer(true).addTo(this)
     }
 
     eventContextMenu(event: GameMapContextMenuEvent) {
@@ -342,12 +342,13 @@ export class PathEditor extends Behaviour {
 
     constructor(public game_layer: GameLayer,
                 public template_resolver: TemplateResolver,
-                public options: PathEditor.options_t
+                public options: PathEditor.options_t,
+                add_transport_layer: boolean
     ) {
         super()
 
         // Set up handler layer, but don't add it anywhere yet.
-        this.handler_layer = new PathEditorGameLayer(this)
+        this.handler_layer = new PathEditorGameLayer(this, add_transport_layer)
 
         this.value = new PathBuilder({
             target: this.options.target,
@@ -397,15 +398,15 @@ export class PathEditor extends Behaviour {
 
         this.game_layer.getMap().container.focus()
 
-        const bounds = Rectangle.combine(Path.bounds(this.options.initial), Rectangle.from(this.options.start_state?.position?.tile), this.options.target)
+        //const bounds = Rectangle.combine(Path.bounds(this.options.initial), Rectangle.from(this.options.start_state?.position?.tile), TileArea.toRect(this.options.target?.parent))
 
         if (this.options.target) {
-            boxPolygon(this.options.target).addTo(this.handler_layer)
+            areaPolygon(this.options.target.parent).addTo(this.handler_layer)
         }
 
-        const level = this.options.target?.level ?? this.options.start_state?.position?.tile?.level ?? Math.min(...this.options.initial.map(Path.Step.level))
+        //const level = this.options.target?.origin?.level ?? this.options.start_state?.position?.tile?.level ?? Math.min(...this.options.initial.map(Path.Step.level))
 
-        if (bounds) this.game_layer.getMap().fitView(TileRectangle.lift(bounds, level as floor_t), {maxZoom: 3})
+        // if (bounds) this.game_layer.getMap().fitView(TileRectangle.lift(bounds, level as floor_t), {maxZoom: 7})
     }
 
     protected end() {
@@ -432,14 +433,10 @@ export class PathEditor extends Behaviour {
     editStep(value: PathBuilder.Step, interaction: InteractionLayer) {
         this.interaction_guard.set(interaction
             .onStart(() => {
-                console.log("Start")
-
                 value.associated_preview?.setVisible(false)
                 this.overlay_control.lens_layer.enabled2.set(false)
             })
             .onEnd(() => {
-                console.log("End")
-
                 value.associated_preview?.setVisible(true)
                 this.overlay_control.lens_layer.enabled2.set(true)
             })
@@ -644,7 +641,7 @@ export namespace PathEditor {
         initial: Path.raw,
         commit_handler?: (p: Path.raw) => any,
         discard_handler?: () => any,
-        target?: TileRectangle,
+        target?: TileArea.ActiveTileArea,
         start_state?: movement_state
     }
 }

@@ -8,6 +8,7 @@ import * as lodash from "lodash";
 import {util} from "../../util/util";
 import {direction} from "../movement";
 import {TileTransform} from "./TileTransform";
+import {debug} from "@alt1/ocr";
 
 export type TileArea = {
     origin: TileCoordinates,
@@ -158,10 +159,27 @@ export namespace TileArea {
 
             return null
         }
+
+        getTiles(): TileCoordinates[] {
+
+            const tiles: TileCoordinates[] = []
+
+            for (let dx = 0; dx < this.size.x; dx++) {
+                for (let dy = 0; dy < this.size.y; dy++) {
+                    const tile = TileCoordinates.move(this.origin, {x: dx, y: dy})
+
+                    if (this.query(tile)) tiles.push(tile)
+                }
+            }
+
+            return tiles
+        }
     }
 
     export function activate(area: TileArea): ActiveTileArea {
-        if(area._active?.query) return area._active
+        if (!area) return null
+
+        if (area._active?.query) return area._active
         else return area._active = new ActiveTileArea(area)
     }
 
@@ -208,12 +226,16 @@ export namespace TileArea {
     }
 
     export function transform(area: TileArea, transform: TileTransform): TileArea {
+        // TODO: Transform actual tiles!
 
         return {
             origin: TileCoordinates.transform(area.origin, transform),
             size: area.size ? Vector2.abs(Vector2.snap(Vector2.transform(area.size, transform.matrix))) : undefined,
         }
+    }
 
-        // TODO: Transform actual tiles!
+    export function normalize(input: TileCoordinates | TileArea) {
+        if ("x" in input) return TileArea.init(input)
+        else return input
     }
 }

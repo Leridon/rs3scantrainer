@@ -16,6 +16,8 @@ import {Clues} from "../../../lib/runescape/clues";
 import {TileRectangle} from "../../../lib/runescape/coordinates";
 import * as lodash from "lodash";
 import {deps} from "../../dependencies";
+import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
+import activate = TileArea.activate;
 
 function getSection(method: GenericPathMethod, section: "pre" | "post" | "main") {
     switch (section) {
@@ -30,16 +32,17 @@ function getSection(method: GenericPathMethod, section: "pre" | "post" | "main")
 
 export default class GenericPathMethodEditor extends MethodSubEditor {
     path_editor: SingleBehaviour<PathEditor> = this.withSub(new SingleBehaviour<PathEditor>())
-    layer: GameLayer
 
     sidepanel_widget: Widget
 
-    sequence: { path?: { section: "pre" | "post" | "main", target: TileRectangle, prop?: PathProperty } | null, name: string, ticks?: number } [] = []
+    sequence: GenericPathMethodEditor.Sequence = []
 
     constructor(parent: MethodEditor,
                 public value: AugmentedMethod<GenericPathMethod>,
     ) {
         super(parent);
+
+        this.layer = new GameLayer()
 
         this.assumptions.subscribe((v) => {
             this.updateSequence()
@@ -47,8 +50,11 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
     }
 
     private setPathEditor(options: PathEditor.options_t): PathEditor {
-        let editor = new PathEditor(this.layer,
-            deps().app.template_resolver, options)
+        let editor = new PathEditor(
+            this.layer,
+            deps().app.template_resolver,
+            options,
+            false)
             .onStop(() => {
                 this.propagateState()
                 //if (this.tree_edit.active_node.value() == node) this.tree_edit.setActiveNode(null)
@@ -60,11 +66,15 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
     }
 
     protected begin() {
+        super.begin()
+
         this.sidepanel_widget = c().appendTo(this.parent.sidebar.body)
 
-        this.layer = new GameLayer().addTo(deps().app.map)
+        this.layer.addTo(deps().app.map)
 
         this.updateSequence()
+
+        this.sequence.find(s => s.path.prop).path.prop.edit()
     }
 
     /**
@@ -72,25 +82,25 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
      * The sequence is the "blueprint" of things that need to be done to complete the step.
      */
     private updateSequence() {
-        let sequence = []
+        let sequence: GenericPathMethodEditor.Sequence = []
 
         const value = this.value
         const clue = this.value.clue
         const assumptions = this.assumptions.value()
 
         if (clue.type == "emote") {
-            const hidey_hole_in_target = clue.hidey_hole && TileRectangle.contains(clue.area, clue.hidey_hole.location)
+            const hidey_hole_in_target = clue.hidey_hole && activate(clue.area).query(clue.hidey_hole.location)
 
             if (!assumptions.full_globetrotter) {
                 if (hidey_hole_in_target) {
                     sequence.push({
                         name: `Path to Hidey Hole (${clue.hidey_hole.name}) in Target Area`,
-                        path: {section: "main", target: TileRectangle.from(clue.hidey_hole.location)}
+                        path: {section: "main", target: activate(TileArea.init(clue.hidey_hole.location))}
                     })
                 } else if (clue.hidey_hole) {
                     sequence.push({
                         name: `Path to Hidey Hole (${clue.hidey_hole.name})`,
-                        path: {section: "pre", target: TileRectangle.from(clue.hidey_hole.location)}
+                        path: {section: "pre", target: activate(TileArea.init(clue.hidey_hole.location))}
                     })
                 }
 
@@ -100,7 +110,7 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
 
             if (assumptions.full_globetrotter || !hidey_hole_in_target) sequence.push({
                 name: "Path to Emote Area",
-                path: {section: "main", target: clue.area}
+                path: {section: "main", target: activate(clue.area)}
             })
 
             sequence.push({name: "Summon Uri", ticks: 1})
@@ -110,14 +120,14 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
             if (clue.hidey_hole && !hidey_hole_in_target && !assumptions.full_globetrotter) {
                 sequence.push({
                     name: "Return to Hidey Hole",
-                    path: {section: "post", target: TileRectangle.from(clue.hidey_hole.location)}
+                    path: {section: "post", target: activate(TileArea.init(clue.hidey_hole.location))}
                 })
 
                 sequence.push({name: "Return Items", ticks: 1})
             }
         } else {
             if (Clues.requiresKey(clue) && !assumptions.way_of_the_footshaped_key) {
-                sequence.push({name: "Path to Key", path: {section: "pre", target: clue.solution.key.area}})
+                sequence.push({name: "Path to Key", path: {section: "pre", target: activate(clue.solution.key.area)}})
 
                 sequence.push({name: `Get Key (${clue.solution.key.instructions})`, ticks: 2})
             }
@@ -125,7 +135,7 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
             sequence.push({
                 name: "To target", path: {
                     section: "main",
-                    target: Clues.ClueSpot.targetArea({clue: clue, spot: value.method.for.spot})
+                    target: activate(Clues.ClueSpot.targetArea({clue: clue, spot: value.method.for.spot}))
                 }
             })
         }
@@ -206,4 +216,13 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
 
         this.value.method.expected_time = end_state.tick
     }
+}
+
+export namespace GenericPathMethodEditor {
+
+    export type Sequence = {
+        path?: { section: "pre" | "post" | "main", target: TileArea.ActiveTileArea, prop?: PathProperty } | null,
+        name: string,
+        ticks?: number
+    } []
 }

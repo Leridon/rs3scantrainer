@@ -103,8 +103,17 @@ export class QuadTree<T extends QuadTree.Element<T>> {
         })
     }
 
+    remove(...elements: T[]) {
+        this.elements = this.elements.filter(e => !elements.includes(e))
+
+        elements.forEach(e => {
+            e.spatial = null
+            e.setCulled(false)
+        })
+    }
+
     forEachVisible(f: (_: T) => void): void {
-        if(this.is_culled) return
+        if (this.is_culled) return
 
         this.elements.forEach(f)
 

@@ -151,7 +151,7 @@ export namespace Path {
         raw: raw,
         steps: augmented_step[],
         issues: issue[],
-        target: TileRectangle | null
+        target: TileArea.ActiveTileArea | null
     }
 
     export namespace augmented {
@@ -164,7 +164,7 @@ export namespace Path {
         }
 
         export function bounds(path: Path.augmented): Rectangle {
-            return Rectangle.combine(...path.steps.map(step_bounds), path.target)
+            return Rectangle.combine(...path.steps.map(step_bounds))
         }
 
         export function getState(path: Path.augmented, index: number): movement_state {
@@ -220,7 +220,48 @@ export namespace Path {
 
                         return t
                     } else if (movement.fixed_target) {
-                        return movement.fixed_target.target
+
+
+                        return activate(TileArea.normalize(movement.fixed_target.target)).center()
+                    }
+                    break
+                case "redclick":
+                case "orientation":
+                case "powerburst":
+                    break;
+            }
+        }
+
+        return null
+    }
+
+    export function endsUpArea(path: Path): TileArea {
+        for (let i = path.length - 1; i >= 0; i--) {
+            let step = path[i]
+
+            switch (step.type) {
+                case "cheat":
+                    return TileArea.init(step.target)
+                case "ability":
+                    return TileArea.init(step.to)
+                case "run":
+                    return TileArea.init(index(step.waypoints, -1))
+                case "teleport":
+                    return resolveTeleport(step.id, Dependencies.instance().app.teleport_settings).targetArea()
+                case "transport":
+                    let start_tile = step.assumed_start
+                    let action = step.internal.actions[0]
+
+                    const movement = Transportation.EntityAction.findApplicable(action, start_tile) ?? action.movement[0]
+
+                    if (movement.offset) {
+                        let t = TileCoordinates.move(start_tile, movement.offset)
+
+                        t.level += movement.offset.level
+
+                        return TileArea.init(t)
+                    } else if (movement.fixed_target) {
+                        return TileArea.normalize(movement.fixed_target.target)
                     }
                     break
                 case "redclick":
@@ -235,7 +276,7 @@ export namespace Path {
 
     export async function augment(path: Path.Step[],
                                   start_state: movement_state = movement_state.start({}),
-                                  target: TileRectangle = null): Promise<Path.augmented> {
+                                  target: TileArea.ActiveTileArea = null): Promise<Path.augmented> {
 
         /** TODO:
          *   Regarding teleports:
@@ -515,7 +556,8 @@ export namespace Path {
                         state.position.tile = TileCoordinates.move(start_tile, movement.offset)
                         state.position.tile.level += movement.offset.level
                     } else if (movement.fixed_target) {
-                        state.position.tile = movement.fixed_target.target
+                        state.position.tile = activate(TileArea.normalize(movement.fixed_target.target)).center()
+                        // TODO: Add uncertainty
                     }
 
                     switch (movement.orientation || "bymovement") {
@@ -588,7 +630,7 @@ export namespace Path {
         let post_state = index(augmented_steps, -1)?.post_state || start_state
         let path_issues: issue[] = []
 
-        if ((target && (!state.position.tile || !TileRectangle.contains(target, state.position.tile)))) {
+        if ((target && (!state.position.tile || !target.query(state.position.tile)))) {
             path_issues.push({level: 0, message: "Path does not end in target area"})
         }
 

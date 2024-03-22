@@ -450,8 +450,7 @@ video {
 }
 
 .text-icon {
-    /*height: 1.3em;*/
-    height: 20px;
+    height: 1.3em;
 }
 
 .leaflet-container {
@@ -627,6 +626,7 @@ video {
 
 .ctr-scantreeedit-node {
     cursor: pointer;
+    margin-top: 3px;
 }
 
 .ctr-scantreeedit-node:hover {
@@ -643,11 +643,19 @@ video {
     cursor: pointer;
     background-repeat: no-repeat;
     background-position: center;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.ctr-scantreeedit-node-header {
+    padding-right: 5px;
+    display: flex;
+    overflow: hidden;
+    /*font-size: 0.8em*/
 }
 
 .ctr-scantreeedit-node-path {
     color: #3b83ee;
-    font-size: 0.8em;
     text-wrap: none;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -1775,8 +1783,8 @@ input[type=checkbox] + span {
 }
 
 .ctr-neosolving-nextscanstep {
-    font-size: 20px;
     font-weight: bold;
+    font-size: 18px
 }
 
 .ctr-neosolving-scantreeline {

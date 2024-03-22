@@ -7,6 +7,8 @@ import {util} from "../../util/util";
 import {ScanTheory} from "./Scans";
 import {TileRectangle} from "../../runescape/coordinates";
 import {TileCoordinates} from "../../runescape/coordinates";
+import {PathingGraphics} from "../../../trainer/ui/path_graphics";
+import {TileArea} from "../../runescape/coordinates/TileArea";
 
 export namespace ScanTree {
     import movement_state = Path.movement_state;
@@ -14,10 +16,11 @@ export namespace ScanTree {
     import digSpotArea = Clues.digSpotArea;
     import PulseInformation = ScanTheory.PulseInformation;
     import spot_narrowing = ScanTheory.spot_narrowing;
+    import AugmentedScanTreeNode = ScanTree.Augmentation.AugmentedScanTreeNode;
 
     export type ScanRegion = {
         name: string
-        area: TileRectangle
+        area: TileArea
     }
 
     export type ScanTree = {
@@ -39,6 +42,7 @@ export namespace ScanTree {
     export namespace Augmentation {
         import avg = util.avg;
         import ends_up = Path.ends_up;
+        import activate = TileArea.activate;
 
         export type AugmentedScanTree = {
             raw: ScanTree,
@@ -62,7 +66,7 @@ export namespace ScanTree {
                 key: PulseInformation
                 node: AugmentedScanTreeNode,
             } | null,
-            region?: ScanRegion,
+            region: ScanRegion,
             path?: Path.augmented,
             depth: number,
             remaining_candidates: TileCoordinates[],
@@ -90,8 +94,8 @@ export namespace ScanTree {
                 complete: {char: "\u2713", cls: "ctr-correct", desc: "This branch is complete."},
                 correct: {char: "\u2713", cls: "ctr-correct", desc: "All paths are correct."},
                 correct_with_warnings: {char: "\u2713", cls: "ctr-semicorrect", desc: "All paths are correct, but some have warnings."},
-                error: {char: "\u2715", cls: "ctr-incorrect", desc: "There is an error in this path."},
-                error_in_children: {char: "\u2715", cls: "ctr-semiincorrect", desc: "A child path has errors."},
+                error: {char: "!", cls: "ctr-incorrect", desc: "There is an error in this path."},
+                error_in_children: {char: "!", cls: "ctr-semiincorrect", desc: "A child path has errors."},
                 incomplete: {char: "?", cls: "ctr-incorrect", desc: "This branch is incomplete."},
                 incomplete_children: {char: "?", cls: "ctr-semiincorrect", desc: "Branch has incomplete children."}
             }
@@ -114,7 +118,9 @@ export namespace ScanTree {
 
                 node.path = await Path.augment(node.raw.path,
                     start_state,
-                    node.remaining_candidates.length == 1 ? digSpotArea(node.remaining_candidates[0]) : node.region?.area)
+                    node.remaining_candidates.length == 1
+                        ? activate(digSpotArea(node.remaining_candidates[0]))
+                        : node.region?.area ? activate(node.region.area) : null)
 
                 if (node.children.length > 0) {
                     let cloned_state = lodash.cloneDeep(node.path.post_state)
@@ -162,14 +168,14 @@ export namespace ScanTree {
                 } | null,
                 depth: number,
                 remaining_candidates: TileCoordinates[],
-                last_known_position: TileRectangle
+                last_known_position: TileArea
             ): AugmentedScanTreeNode {
                 let t: AugmentedScanTreeNode = {
                     root: root,
                     parent: parent,
-                    region: node.region || {
-                        area: TileRectangle.fromTile(Path.ends_up(node.path)) || last_known_position,
-                        name: ""
+                    region: {
+                        area: node.region?.area || Path.endsUpArea(node.path) || last_known_position,
+                        name: node.region?.name ?? ""
                     },
                     raw: node,
                     depth: depth,
@@ -199,7 +205,6 @@ export namespace ScanTree {
             }
 
             root.root_node = helper(tree.root, null, 0, tree.ordered_spots, null)
-
 
             return root
         }
@@ -254,7 +259,7 @@ export namespace ScanTree {
                 else if (node.remaining_candidates.length == 1) {
                     const e = ends_up(node.raw.path)
 
-                    if (!e || !TileRectangle.contains(digSpotArea(node.remaining_candidates[0]), e)) {
+                    if (!e || !activate(digSpotArea(node.remaining_candidates[0])).query(e)) {
                         node.completeness = "incomplete"
                     }
                 }
@@ -387,14 +392,14 @@ export namespace ScanTree {
     export function init_leaf(): ScanTreeNode {
         return {
             children: [],
-            directions: "Missing directions",
+            directions: "",
             path: [],
         }
     }
 
     export function normalize(tree: ScanTree): ScanTree {
         function helper(node: ScanTreeNode, candidates: TileCoordinates[]) {
-            let where = node.region?.area || TileRectangle.fromTile(Path.ends_up(node.path))
+            let where = node.region?.area || Path.endsUpArea(node.path)
 
             // Update children to remove all dead branches and add missing branches
             let pruned_children: {
@@ -442,6 +447,35 @@ export namespace ScanTree {
     }
 
     export type ScanInformation = PulseInformation & {
-        area: TileRectangle
+        area: TileArea
+    }
+
+    export function defaultScanTreeInstructions(node: AugmentedScanTreeNode): string {
+        let path_short =
+            node.raw.path.length > 0
+                ? node.raw.path.map(PathingGraphics.templateString).join(" - ")
+                : "Go"
+
+        /* TODO:
+            - Run followed by run is combined
+            -
+
+         */
+
+        const target =
+            node.raw.path.length == 0 || node.raw.region?.name || node.remaining_candidates.length == 1
+                ? " to {{target}}" : ""
+
+        return path_short + target
+    }
+
+    export function getInstruction(node: AugmentedScanTreeNode): string {
+        return node.raw.directions || defaultScanTreeInstructions(node)
+    }
+
+    export function getTargetRegion(node: AugmentedScanTreeNode): ScanRegion {
+        if (node.remaining_candidates.length == 1) return null
+
+        return {area: node.raw.region?.area ?? Path.endsUpArea(node.raw.path), name: node.region?.name ?? ""}
     }
 }

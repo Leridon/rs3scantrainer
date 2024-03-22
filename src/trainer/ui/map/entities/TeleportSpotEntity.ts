@@ -52,7 +52,9 @@ export class TeleportSpotEntity extends MapEntity {
 
                 return w
             }),
-            riseOnHover: true
+            riseOnHover: true,
+            interactive: true,
+            bubblingMouseEvents: true
         }).addTo(this)
 
         if (options.highlight) {

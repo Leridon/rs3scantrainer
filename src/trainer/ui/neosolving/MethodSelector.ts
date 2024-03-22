@@ -56,7 +56,7 @@ export default class MethodSelector extends Widget {
 
                     return hbox(
                         new FavouriteIcon().set(m == this.parent.active_method),
-                        span(`${m.method.name} (${m.method.expected_time ?? "?"} ticks)`),
+                        span(`${m.method.name} (${m.method.expected_time.toFixed(2) ?? "?"} ticks)`),
                         spacer()
                     ).tooltip(m.method.description)
                 }

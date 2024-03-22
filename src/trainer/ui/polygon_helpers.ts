@@ -3,6 +3,12 @@ import {Rectangle, Vector2} from "lib/math";
 import * as leaflet from "leaflet";
 import {LatLngExpression} from "leaflet";
 import {TileArea} from "../../lib/runescape/coordinates/TileArea";
+import {Area, TileCoordinates, TileRectangle} from "../../lib/runescape/coordinates";
+import activate = TileArea.activate;
+import {beforeWrite} from "@popperjs/core";
+import {direction} from "../../lib/runescape/movement";
+import {util} from "../../lib/util/util";
+import index = util.index;
 
 export function areaToPolygon<T>(raster: Raster<T>,
                                  f: (_: T) => boolean,
@@ -131,9 +137,95 @@ export function boxPolygon(tile: Rectangle): leaflet.Polygon {
 }
 
 export function areaPolygon(area: TileArea): leaflet.Polygon {
+    if (!area.data && !area.size) return tilePolygon(area.origin)
+    if (!area.data) return boxPolygon(TileArea.toRect(area))
 
+    const active = activate(area)
 
-    return boxPolygon(TileArea.toRect(area)) // TODO: This is just a quick and dirty solution and NOT accurate!
+    type LineSegment = Vector2[]
+
+    const segment_table: LineSegment[][] = (() => {
+        const tl = direction.northwest
+        const tr = direction.northeast
+        const br = direction.southeast
+        const bl = direction.southwest
+
+        const base: direction.ordinal[][][] = [
+            /* ← ↓ → ↑ */
+            /* 0 0 0 0 */ [],
+            /* 0 0 0 1 */ [[tl, tr]],
+            /* 0 0 1 0 */ [[tr, br]],
+            /* 0 0 1 1 */ [[tl, tr, br]],
+            /* 0 1 0 0 */ [[br, bl]],
+            /* 0 1 0 1 */ [[tl, tr], [br, bl]],
+            /* 0 1 1 0 */ [[tr, br, bl]],
+            /* 0 1 1 1 */ [[tl, tr, br, bl]],
+            /* 1 0 0 0 */ [[bl, tl]],
+            /* 1 0 0 1 */ [[bl, tl, tr]],
+            /* 1 0 1 0 */ [[bl, tl], [tr, br]],
+            /* 1 0 1 1 */ [[bl, tl, tr, br]],
+            /* 1 1 0 0 */ [[br, bl, tl]],
+            /* 1 1 0 1 */ [[br, bl, tl, tr]],
+            /* 1 1 1 0 */ [[tr, br, bl, tl]],
+            /* 1 1 1 1 */ [[tl, tr, br, bl, tl]],
+        ]
+
+        return base.map(s => s.map(v => v.map(o => Vector2.scale(0.5, direction.toVector(o)))))
+    })()
+
+    const segments: LineSegment[] = []
+
+    for (let dx = 0; dx < area.size.x; dx++) {
+        for (let dy = 0; dy < area.size.y; dy++) {
+            const tile = TileCoordinates.move(area.origin, {x: dx, y: dy})
+
+            if (!active.query(tile)) continue
+
+            const above = active.query(TileCoordinates.move(tile, {x: 0, y: 1}))
+            const right = active.query(TileCoordinates.move(tile, {x: 1, y: 0}))
+            const below = active.query(TileCoordinates.move(tile, {x: 0, y: -1}))
+            const left = active.query(TileCoordinates.move(tile, {x: -1, y: 0}))
+
+            const hash =
+                (!above ? 1 : 0)
+                + (!right ? 2 : 0)
+                + (!below ? 4 : 0)
+                + (!left ? 8 : 0)
+
+            segments.push(...segment_table[hash]
+                .map(s => s.map(o => TileCoordinates.move(tile, o)))
+            )
+        }
+    }
+
+    const lines: LineSegment[] = []
+
+    while (segments.length > 0) {
+        const [line] = segments.splice(0, 1)
+
+        while (segments.length > 0) {
+            const cursor = index(line, -1)
+
+            if (Vector2.eq(line[0], cursor)) {
+                line.pop()
+                break
+            }
+
+            const next_index = segments.findIndex(
+                segment => Vector2.eq(cursor, segment[0])
+            )
+
+            if (next_index < 0) break
+
+            const [next_segment] = segments.splice(next_index, 1)
+
+            line.push(...next_segment.slice(1))
+        }
+
+        lines.push(line)
+    }
+
+    return leaflet.polygon(lines.map(l => l.map(Vector2.toLatLong)))
 }
 
 /**

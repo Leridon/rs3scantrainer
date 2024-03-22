@@ -10,6 +10,7 @@ import Button from "lib/ui/controls/Button";
 import movement_state = Path.movement_state;
 import {IssueWidget} from "./EditedPathOverview";
 import {PathEditor} from "./PathEditor";
+import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
 
 export default class PathProperty extends AbstractEditWidget<Path.raw> {
     private loaded: boolean = false
@@ -19,7 +20,7 @@ export default class PathProperty extends AbstractEditWidget<Path.raw> {
     private edit_button: Button = null
 
     constructor(public options: {
-        target?: TileRectangle,
+        target?: TileArea.ActiveTileArea,
         start_state?: Path.movement_state,
         editor_handle?: (_: PathEditor.options_t) => PathEditor
     }) {
@@ -38,7 +39,7 @@ export default class PathProperty extends AbstractEditWidget<Path.raw> {
         this.setValue([])
     }
 
-    private async edit() {
+    async edit() {
         if (!this.options.editor_handle) return
 
         this.loaded = true

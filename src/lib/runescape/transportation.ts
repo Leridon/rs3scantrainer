@@ -18,8 +18,7 @@ export namespace Transportation {
     export type EntityActionMovement = {
         valid_from?: TileArea, // Default: Entire interactive area
         offset?: Vector2 & { level: number },
-        fixed_target?: { target: TileCoordinates, relative?: boolean }, // Deprecated! Use area instead
-        fixed_target_area?: { target: TileArea, relative?: boolean },
+        fixed_target?: { target: TileArea | TileCoordinates, relative?: boolean }
         orientation?: "bymovement" | "toentitybefore" | "toentityafter" | "keep" | "forced", // Default: "bymovement"
         forced_orientation?: { dir: direction, relative?: boolean },
         time: number,
@@ -378,7 +377,7 @@ export namespace Transportation {
                                     } : undefined,
                                     fixed_target: movement.fixed_target
                                         ? (movement.fixed_target.relative
-                                            ? {target: TileCoordinates.transform(movement.fixed_target.target, transform), relative: true}
+                                            ? {target: TileArea.transform(TileArea.normalize(movement.fixed_target.target), transform), relative: true}
                                             : movement.fixed_target)
                                         : undefined,
                                     orientation: movement.orientation,

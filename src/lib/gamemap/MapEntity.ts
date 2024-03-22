@@ -30,7 +30,7 @@ export abstract class MapEntity extends leaflet.FeatureGroup implements QuadTree
     private desired_render_props: Observable<MapEntity.RenderProps> = observe(null).equality(MapEntity.RenderProps.equals)
 
     protected constructor(protected entity_config: MapEntity.SetupOptions) {
-        super();
+        super([]);
 
         if (entity_config.interactive) {
             this.on("mouseover", () => {
@@ -51,6 +51,16 @@ export abstract class MapEntity extends leaflet.FeatureGroup implements QuadTree
         }).subscribe(() => this.desired_render_props.set(this.getDesiredRenderProps()), true)
 
         this.desired_render_props.subscribe(() => this.requestRendering())
+    }
+
+    remove(): this {
+        if (this.parent) {
+            this.parent.removeEntity(this)
+        } else {
+            super.remove()
+        }
+
+        return this
     }
 
     getDesiredRenderProps(): MapEntity.RenderProps {

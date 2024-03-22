@@ -42,6 +42,12 @@ export class GameLayer extends leaflet.FeatureGroup {
             }
         })
 
+        this.on("remove", () => {
+            if (this.activeEntity()?.parent == this) {
+                this.requestEntityActivation(null)
+            }
+        })
+
         this.on("layerremove", (l) => {
             if (childLike(l.layer) && l.layer.parent == this) l.layer.parent = null
         })
@@ -51,6 +57,20 @@ export class GameLayer extends leaflet.FeatureGroup {
             botright: {x: 16384, y: 0}
         })
 
+    }
+
+    removeEntity(entity: MapEntity) {
+        if (entity.spatial) {
+            entity.spatial.remove(entity)
+        }
+
+        if (entity == this.activeEntity()) {
+            this.requestEntityActivation(null)
+        }
+
+        entity.parent = null
+
+        this.removeLayer(entity)
     }
 
     isRootLayer(): boolean {
@@ -121,9 +141,9 @@ export class GameLayer extends leaflet.FeatureGroup {
         if (this.active_entity.entity) {
             const tooltip = await this.active_entity.entity.renderTooltip()
 
-            const interactive = force_interactive ?? tooltip.interactive
-
             if (tooltip) {
+                const interactive = force_interactive ?? tooltip.interactive
+
                 const anchor = await this.active_entity.entity.tooltip_hook.value() || document.body
 
                 this.active_entity.tooltip_instance = tippy.default(anchor, {
@@ -141,9 +161,14 @@ export class GameLayer extends leaflet.FeatureGroup {
                             return false
                         }
                     },
+                    onClickOutside: (instance) => {
+                        instance.destroy()
+                    },
+                    hideOnClick: false,
                     onHidden: () => {
                         this.requestEntityActivation(null)
                     },
+                    trigger: "manual",
                     placement: "top",
                     offset: [0, 10],
                     appendTo: document.body

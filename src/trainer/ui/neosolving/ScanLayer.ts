@@ -206,13 +206,6 @@ export class AdaptiveScanRadiusMarker extends GameLayer {
                 let is_complement = (spot.coordinates.y < 6400) == this.surface_is_complement.value()
 
                 this.custom_marker = new ScanRadiusMarker(spot.coordinates, range, spot.with_marker, is_complement).addTo(this)
-
-                if (spot.with_marker) {
-                    this.custom_marker.on("click", () => {
-                        console.log("Clicked the thing")
-                        this.manualMarker.set(null)
-                    })
-                }
             }
         })
     }

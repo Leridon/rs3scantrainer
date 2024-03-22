@@ -56,9 +56,7 @@ export class ScanEditLayer extends GameLayer {
     ) {
         super();
 
-        this.marker = new AdaptiveScanRadiusMarker()
-            .setClickable(true)
-            .addTo(this)
+        this.marker = new AdaptiveScanRadiusMarker().addTo(this)
 
         this.setSpots(spots)
     }
@@ -541,6 +539,8 @@ export default class ScanEditor extends MethodSubEditor {
         })
 
         this.layer = new ScanEditLayer(value.clue.spots)
+
+        this.layer.marker.setClickable(true)
 
         const self = this
 

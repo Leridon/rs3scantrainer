@@ -13,9 +13,6 @@ Planned for next release (b0.4):
 - Issues
     - [Bug, 4] Cloning a method is broken in multiple ways
 
-- Tile Area
-    - [Feature, 4], Implement area_pulse for tilearea properly
-
 - Data
     - [Dev Tool, 3] Utility Layer for shortcut parsing
         - Option to overlay parsed transports

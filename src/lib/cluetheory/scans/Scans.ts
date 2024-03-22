@@ -13,6 +13,7 @@ export namespace ScanTheory {
     import get_pulse = Scans.get_pulse;
     import complementSpot = Scans.complementSpot;
     import distance = Scans.distance;
+    import activate = TileArea.activate;
 
     export type PulseInformation = Scans.Pulse & ({
         pulse: 3
@@ -54,50 +55,14 @@ export namespace ScanTheory {
     }
 
     export function area_pulse(spot: TileCoordinates, area2: TileArea, range: number): Pulse[] {
-        let pulses: Pulse[]
 
-        const area = TileArea.toRect(area2) // TODO: Remove, this breaks the thing!
+        const pulse_hashes: Pulse.hash_t[] = []
 
-        let max = get_pulse(spot, TileRectangle.clampInto(spot, area), range).pulse
+        activate(area2).getTiles().forEach(t => {
+            pulse_hashes.push(Pulse.hash(get_pulse(spot, t, range)))
+        })
 
-        // This breaks if areas are so large they cover both cases. But in that case: Wtf are you doing?
-        if (max == 1) {
-            pulses = []
-
-            let complement_spot = complementSpot(spot)
-
-            if (spot.level != area.level || distance(complement_spot, Rectangle.clampInto(complement_spot, area)) <= (range + 15)) {
-                // Any tile in area triggers different level
-                pulses.push({
-                    pulse: 1,
-                    different_level: true
-                })
-            }
-
-            if ((distance(complement_spot, area.topleft) > (range + 15)
-                    || distance(complement_spot, area.botright) > (range + 15))
-                && spot.level == area.level
-            ) { // Any tile in area does not trigger different level
-                pulses.push({
-                    pulse: 1,
-                    different_level: false
-                })
-            }
-        } else {
-            let min = Math.min(
-                get_pulse(spot, TileRectangle.tl(area), range).pulse,
-                get_pulse(spot, TileRectangle.br(area), range).pulse,
-            )
-
-            pulses = rangeRight(min, max + 1, 1).map((p: 1 | 2 | 3) => {
-                return {
-                    pulse: p,
-                    different_level: spot.level != area.level
-                }
-            })
-        }
-
-        return pulses
+        return [...new Set(pulse_hashes).values()].map(Pulse.unhash)
     }
 
     export function narrow_down(candidates: TileCoordinates[], information: ScanInformation, range: number): TileCoordinates[] {

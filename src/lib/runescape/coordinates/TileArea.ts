@@ -159,6 +159,21 @@ export namespace TileArea {
 
             return null
         }
+
+        getTiles(): TileCoordinates[] {
+
+            const tiles: TileCoordinates[] = []
+
+            for (let dx = 0; dx < this.size.x; dx++) {
+                for (let dy = 0; dy < this.size.y; dy++) {
+                    const tile = TileCoordinates.move(this.origin, {x: dx, y: dy})
+
+                    if (this.query(tile)) tiles.push(tile)
+                }
+            }
+
+            return tiles
+        }
     }
 
     export function activate(area: TileArea): ActiveTileArea {

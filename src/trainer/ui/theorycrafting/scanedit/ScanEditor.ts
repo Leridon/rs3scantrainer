@@ -645,11 +645,6 @@ export default class ScanEditor extends MethodSubEditor {
     begin() {
         super.begin()
 
-        deps().app.notifications.notify({
-            type: "error",
-            duration: null,
-        }, "The editor for scan tree methods is currently undergoing major revamps. Methods created with this version may no longer be compatible after this.")
-
         new GameMapControl({
                 position: "top-right",
                 type: "floating"

@@ -161,6 +161,9 @@ export class GameLayer extends leaflet.FeatureGroup {
                             return false
                         }
                     },
+                    onClickOutside: (instance) => {
+                        instance.destroy()
+                    },
                     hideOnClick: false,
                     onHidden: () => {
                         this.requestEntityActivation(null)

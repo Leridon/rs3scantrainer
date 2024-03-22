@@ -39,8 +39,6 @@ export class DisplayedRouteFilterEdit extends AbstractEditWidget<DisplayedRouteF
         ])
             .setValue(filter.type)
             .onChange(async kind => {
-                console.log("Change")
-
                 this.method_dropdown.setEnabled(kind == "pack")
 
                 const default_pack = (await MethodPackManager.instance().all())[0]

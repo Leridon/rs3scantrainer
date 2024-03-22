@@ -106,41 +106,6 @@ export class GameMap extends leaflet.Map {
         this.internal_root_layer = new GameLayer()
         this.addLayer(this.internal_root_layer)
 
-
-        this.addGameLayer(
-            new GameLayer()
-                .addLayer(
-                    (new class extends MapEntity {
-
-                        constructor() {
-                            super({
-                                highlightable: true,
-                                interactive: true
-                            })
-                        }
-
-                        protected async render_implementation(props: MapEntity.RenderProps): Promise<Element> {
-                            return leaflet.marker([
-                                3440, 3170
-                            ], {
-                                icon: levelIcon(0, props.highlight ? 1.5 : 1),
-                                interactive: true,
-                                bubblingMouseEvents: true
-                            }).addTo(this).getElement()
-                        }
-
-                        bounds(): Rectangle {
-                            return Rectangle.from({x: 3170, y: 3440})
-                        }
-
-                        async renderTooltip(): Promise<{ content: Widget; interactive: boolean } | null> {
-                            //return null
-                            return {content: c(), interactive: false}
-                        }
-                    })
-                )
-        )
-
         this.addGameLayer(new FloorControl())
             .addGameLayer(new TileHighlightLayer())
 
@@ -163,7 +128,6 @@ export class GameMap extends leaflet.Map {
             })
 
             this.on("click", (e) => {
-                console.log("Mapclick")
                 this.event(new GameMapMouseEvent(this, e, this.eventCoordinate(e)), (l) => (e) => l.eventClick(e))
             })
 

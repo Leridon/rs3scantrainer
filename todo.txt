@@ -1,12 +1,12 @@
 Planned for next release (b0.4):
 
 - Scan Editor
-    - [QOL, 4] Include uncertainty from non-static teleports into path analysis
+    - [QOL, 2] Include uncertainty from non-static teleports into path analysis
         - Ability after uncertainty => Error
         - Dive needs to be possible for all tiles
-    - [Feature, 4] Scan range lens/marker
-    - Autoname areas
-    - Autonumber spots
+    - Improved implicit instructions
+    - [3] Autoname areas
+    - [3] Autonumber spots
     - Better placement of information marker to guarantee it's always inside the area.
     - Scale information gain down when zoomed out
 

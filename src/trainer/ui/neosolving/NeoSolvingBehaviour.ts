@@ -30,7 +30,7 @@ import {ScanTree} from "../../../lib/cluetheory/scans/ScanTree";
 import {scan_tree_template_resolvers} from "../solving/scans/ScanSolving";
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
 import * as leaflet from "leaflet"
-import {ScanLayer, ScanRegionPolygon} from "./ScanLayer";
+import {ScanRegionPolygon} from "./ScanLayer";
 import BoundsBuilder from "../../../lib/gamemap/BoundsBuilder";
 import {TileMarker} from "../../../lib/gamemap/TileMarker";
 import {RenderingUtility} from "../map/RenderingUtility";
@@ -46,6 +46,7 @@ import inlineimg = C.inlineimg;
 import {CursorType} from "../../../lib/runescape/CursorType";
 import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
 import activate = TileArea.activate;
+import {ScanEditLayer} from "../theorycrafting/scanedit/ScanEditor";
 
 class NeoReader {
     read: Ewent<{ step: Clues.Step, text_index: number }>
@@ -61,7 +62,7 @@ class NeoSolvingLayer extends GameLayer {
     public scantree_container: Widget
     public path_container: Widget
 
-    public scan_layer: ScanLayer
+    public scan_layer: ScanEditLayer
     public generic_solution_layer: leaflet.FeatureGroup
 
     private sidebar: GameMapControl
@@ -84,7 +85,7 @@ class NeoSolvingLayer extends GameLayer {
             this.path_container = c(),
         )
 
-        this.scan_layer = new ScanLayer().addTo(this)
+        this.scan_layer = new ScanEditLayer([]).addTo(this)
         this.generic_solution_layer = leaflet.featureGroup().addTo(this)
     }
 
@@ -112,11 +113,9 @@ class NeoSolvingLayer extends GameLayer {
         this.clue_container.empty()
         this.solution_container.empty()
 
-        this.scan_layer.is_interactive.set(false)
-        this.scan_layer.marker_spot.set(null)
-        this.scan_layer.spots.set([])
-        this.scan_layer.spot_order.set([])
-        this.scan_layer.active_spots.set([])
+        this.scan_layer.marker.setClickable(false)
+        this.scan_layer.marker.setFixedSpot(null)
+        this.scan_layer.setSpots([])
 
         this.generic_solution_layer.clearLayers()
     }
@@ -312,12 +311,12 @@ class ScanTreeSolvingControl extends Behaviour {
         }
 
         if (pos && node.remaining_candidates.length > 1) {
-            this.parent.layer.scan_layer.marker_spot.set({coordinates: pos, with_marker: false, click_to_remove: false})
+            this.parent.layer.scan_layer.marker.setFixedSpot(pos)
         } else {
-            this.parent.layer.scan_layer.marker_spot.set(null)
+            this.parent.layer.scan_layer.marker.setFixedSpot(null)
         }
 
-        this.parent.layer.scan_layer.active_spots.set(node.remaining_candidates)
+        this.parent.layer.scan_layer.setActiveCandidates(node.remaining_candidates)
 
         new ScanRegionPolygon(ScanTree.getTargetRegion(node)).setOpacity(1).addTo(this.layer)
 
@@ -646,10 +645,9 @@ export default class NeoSolvingBehaviour extends Behaviour {
                 interactionMarker(TileRectangle.center(clue.areas[0]), clue.cursor, false, false)
                     .addTo(this.layer.generic_solution_layer)
             } else if (clue.type == "scan") {
-                this.layer.scan_layer.is_interactive.set(true)
-                this.layer.scan_layer.active_spots.set(clue.spots)
-                this.layer.scan_layer.spots.set(clue.spots)
-                this.layer.scan_layer.scan_range.set(clue.range + 5)
+                this.layer.scan_layer.marker.setClickable(true)
+                this.layer.scan_layer.setSpots(clue.spots)
+                this.layer.scan_layer.marker.setRadius(clue.range + 5)
 
                 bounds.addTile(...clue.spots)
             } else if (clue.type == "compass") {
@@ -694,7 +692,9 @@ export default class NeoSolvingBehaviour extends Behaviour {
                     new ScanTreeSolvingControl(this, method as AugmentedMethod<ScanTreeMethod, Clues.Scan>)
                 )
 
-                this.layer.scan_layer.spot_order.set(method.method.tree.ordered_spots)
+                this.layer.scan_layer.setSpotOrder(method.method.tree.ordered_spots)
+                this.layer.scan_layer.marker.setRadius(method.method.tree.assumed_range)
+
             } else if (method.method.type == "general_path") {
                 this.path_control.reset().setMethod(method as AugmentedMethod<GenericPathMethod>)
             }

@@ -5,7 +5,7 @@ import * as leaflet from "leaflet";
 import {EquivalenceClass, ScanEquivalenceClasses, ScanEquivalenceClassOptions} from "../../../../lib/cluetheory/scans/EquivalenceClasses";
 import {areaToPolygon} from "../../polygon_helpers";
 import {type Application} from "../../../application";
-import {ScanRegionPolygon} from "../../neosolving/ScanLayer";
+import {AdaptiveScanRadiusMarker, ScanRadiusMarker, ScanRegionPolygon} from "../../neosolving/ScanLayer";
 import {PathEditor} from "../../pathedit/PathEditor";
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
 import {OpacityGroup} from "../../../../lib/gamemap/layers/OpacityLayer";
@@ -49,13 +49,27 @@ import span = C.span;
 import ControlWithHeader from "../../map/ControlWithHeader";
 import {deps} from "../../../dependencies";
 
-class ScanEditLayer extends GameLayer {
-    private markers: ScanEditLayer.MarkerPair[]
+export class ScanEditLayer extends GameLayer {
+    marker: AdaptiveScanRadiusMarker
 
-    constructor(private editor: ScanEditor,
-                private spots: TileCoordinates[]
+    private markers: ScanEditLayer.MarkerPair[] = []
+
+    constructor(private spots: TileCoordinates[]
     ) {
         super();
+
+        this.marker = new AdaptiveScanRadiusMarker()
+            .setClickable(true)
+            .addTo(this)
+
+        this.setSpots(spots)
+    }
+
+    setSpots(spots: TileCoordinates[]): this {
+        this.markers.forEach(m => {
+            m.regular.remove()
+            m.complement.remove()
+        })
 
         this.markers = spots.map(s => new ScanEditLayer.MarkerPair(s))
 
@@ -65,6 +79,10 @@ class ScanEditLayer extends GameLayer {
             m.regular.addTo(this)
             m.complement.addTo(this)
         })
+
+        if (spots.length > 0) this.marker.setComplementByExampleSpot(spots[0])
+
+        return this
     }
 
     setActiveCandidates(coords: TileCoordinates[]) {
@@ -88,7 +106,7 @@ class ScanEditLayer extends GameLayer {
     }
 }
 
-namespace ScanEditLayer {
+export namespace ScanEditLayer {
 
     import render_digspot = TextRendering.render_digspot;
 
@@ -526,7 +544,7 @@ export default class ScanEditor extends MethodSubEditor {
             this.layer.setSpotOrder(order)
         })
 
-        this.layer = new ScanEditLayer(this, value.clue.spots)
+        this.layer = new ScanEditLayer(value.clue.spots)
 
         const self = this
 
@@ -602,7 +620,7 @@ export default class ScanEditor extends MethodSubEditor {
 
             this.builder.assumptions.set(lodash.cloneDeep(v))
 
-            //TODO: this.layer.scan_range.set(this.value.method.tree.assumed_range)
+            this.layer.marker.setRadius(this.value.method.tree.assumed_range)
         })
 
         this.builder.augmented.subscribe(a => {

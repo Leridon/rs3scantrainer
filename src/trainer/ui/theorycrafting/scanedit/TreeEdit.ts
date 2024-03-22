@@ -438,8 +438,6 @@ class TreeNodeEdit extends Widget {
     renderValue(node: AugmentedScanTreeNode) {
         this.node = node
 
-        // this.description_input.setResolver(this.parent.parent.app.template_resolver.with(scan_tree_template_resolvers(node)))
-
         {
             let decision_path_text = ""
 
@@ -464,7 +462,7 @@ class TreeNodeEdit extends Widget {
         function render_completeness(completeness: ScanTree.Augmentation.completeness_t | ScanTree.Augmentation.correctness_t): Widget {
             let {char, cls, desc} = ScanTree.Augmentation.completeness_meta(completeness)
 
-            return c("<span>").addClass(cls).text(char).tooltip(desc)
+            return c("<span>").css("width", "10px").addClass(cls).text(char).tooltip(desc)
         }
 
         const complete = render_completeness(node.completeness).css("margin-left", "5px")

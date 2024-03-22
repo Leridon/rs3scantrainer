@@ -13,6 +13,8 @@ import complementSpot = Scans.complementSpot;
 import {GameMapContextMenuEvent, GameMapMouseEvent} from "../../../lib/gamemap/MapEvents";
 import {Observable, observe} from "../../../lib/reactive";
 import observe_combined = Observable.observe_combined;
+import {util} from "../../../lib/util/util";
+import todo = util.todo;
 
 export class ScanRegionPolygon extends ActiveOpacityGroup {
     polygon: leaflet.Polygon
@@ -42,7 +44,7 @@ export class ScanRegionPolygon extends ActiveOpacityGroup {
             this.label = null
         }
 
-        if(this._spot?.area) {
+        if (this._spot?.area) {
 
             this.polygon = areaPolygon(this._spot.area)
 
@@ -126,22 +128,51 @@ class ScanDigSpotMarker extends ActiveOpacityGroup {
     }
 }
 
+export class AdaptiveScanRadiusMarker extends GameLayer {
+    private custom_marker: ScanRadiusMarker
 
-export class ScanLayer extends GameLayer {
-    protected digSpotMarkers: ScanDigSpotMarker[] = []
+    marker_spot: Observable<{
+        coordinates: TileCoordinates,
+        with_marker: boolean,
+    } | null> = observe(null)
 
-    private custom_marker: ScanRadiusMarker = null
+    scan_range = observe(10)
 
-    marker_spot: Observable<{ coordinates: TileCoordinates, with_marker: boolean, click_to_remove: boolean } | null> = observe(null)
-    scan_range: Observable<number> = observe(20)
+    surface_is_complement = observe(false)
 
-    spots: Observable<TileCoordinates[]> = observe([])
-    spot_order: Observable<TileCoordinates[]> = observe([])
-    active_spots: Observable<TileCoordinates[]> = observe([])
-    is_interactive: Observable<boolean> = observe(false)
+
+    private fixedMarker: Observable<TileCoordinates> = observe(null)
+    private manualMarker: Observable<TileCoordinates> = observe(null)
+    private cursorMarker: Observable<TileCoordinates> = observe(null)
+
+    public canBeManuallySet: Observable<boolean> = observe(false)
+    public followCursor: Observable<boolean> = observe(false)
+
 
     constructor() {
-        super()
+        super();
+
+        this.canBeManuallySet.subscribe(() => {
+            this.manualMarker.set(null)
+        })
+
+        observe_combined({
+            fixed: this.fixedMarker,
+            manual: this.manualMarker,
+            cursor: this.cursorMarker,
+            manualEnabled: this.canBeManuallySet,
+            followEnabled: this.followCursor
+        }).subscribe(({fixed, manual, cursor, manualEnabled, followEnabled}) => {
+            if (followEnabled && cursor) {
+                this.marker_spot.set({coordinates: cursor, with_marker: false})
+            } else if (manualEnabled && manual) {
+                this.marker_spot.set({coordinates: manual, with_marker: true})
+            } else if (fixed) {
+                this.marker_spot.set({coordinates: fixed, with_marker: false})
+            } else {
+                this.marker_spot.set(null)
+            }
+        })
 
         observe_combined({range: this.scan_range, spot: this.marker_spot}).subscribe(({range, spot}) => {
             if (this.custom_marker) {
@@ -150,76 +181,67 @@ export class ScanLayer extends GameLayer {
             }
 
             if (spot) {
-                let is_complement = Math.floor(spot.coordinates.y / 6400) != Math.floor(this.spots.value()[0].y / 6400)
+                let is_complement = (spot.coordinates.y < 6400) == this.surface_is_complement.value()
 
                 this.custom_marker = new ScanRadiusMarker(spot.coordinates, range, spot.with_marker, is_complement).addTo(this)
 
-                if (spot.click_to_remove) {
+                if (spot.with_marker) {
                     this.custom_marker.on("click", (e) => {
                         leaflet.DomEvent.stopPropagation(e)
-                        this.marker_spot.set(null)
+                        this.manualMarker.set(null)
                     })
                 }
             }
         })
-
-        // Set spots => Full update
-        this.spots.subscribe((spots) => {
-            this.digSpotMarkers.forEach(m => m.remove())
-
-            this.digSpotMarkers = spots.map(s => {
-                let marker = new ScanDigSpotMarker(s)
-                    .setActive(this.active_spots.value().some(a => TileCoordinates.eq(a, s)))
-                    .addTo(this)
-
-                let i = this.spot_order.value().findIndex((a) => TileCoordinates.eq(a, s))
-
-                if (i >= 0) marker.index.set(i + 1)
-
-                return marker
-            })
-        })
-
-        // Set Visible Spots => Set Opacity
-        this.active_spots.subscribe((spots) => {
-            this.digSpotMarkers.forEach(m => m.setActive(spots.some(a => TileCoordinates.eq(m.spot, a))))
-        })
-
-        // Set order => Update labels
-        this.spot_order.subscribe((order) => {
-            this.digSpotMarkers.forEach(m => {
-                let i = order.findIndex(a => TileCoordinates.eq(m.spot, a))
-
-                m.index.set(i < 0 ? null : i + 1)
-            })
-        })
     }
 
-    eventContextMenu(event: GameMapContextMenuEvent) {
-        if (this.is_interactive.value()) {
-            event.onPre(() => {
-                if (this.marker_spot.value()?.click_to_remove && TileCoordinates.eq2(event.tile(), this.marker_spot.value()?.coordinates)) {
-                    event.add({type: "basic", text: "Remove Marker", handler: () => this.marker_spot.set(null)})
-                } else event.add({
-                    type: "basic", text: "Set Marker", handler: () => {
-                        this.marker_spot.set({coordinates: event.tile(), click_to_remove: true, with_marker: true})
-                    }
-                })
-            })
-        }
+    setComplementByExampleSpot(spot: TileCoordinates): this {
+        this.surface_is_complement.set(spot.y >= 6400)
+
+        return this
     }
+
+    setFixedSpot(spot: TileCoordinates): this {
+        this.fixedMarker.set(spot)
+        return this
+    }
+
+    setFollowCursor(v: boolean): this {
+        this.followCursor.set(v)
+        return this
+    }
+
+    setClickable(v: boolean): this {
+        this.canBeManuallySet.set(v)
+        return this
+    }
+
+    setRadius(radius: number): this {
+        this.scan_range.set(radius)
+        return this
+    }
+
 
     eventClick(event: GameMapMouseEvent) {
-        if (this.is_interactive.value()) {
-            event.onPost(() => {
-                if (this.marker_spot.value()?.click_to_remove && TileCoordinates.eq2(event.tile(), this.marker_spot.value()?.coordinates)) {
-                    this.marker_spot.set(null)
-                } else {
-                    this.marker_spot.set({coordinates: event.tile(), click_to_remove: true, with_marker: true})
-                }
+        event.onPost(() => {
 
+            if (this.canBeManuallySet.value()) {
                 event.stopAllPropagation()
-            })
-        }
+
+                if (TileCoordinates.eq2(event.tile(), this.manualMarker.value())) {
+                    this.manualMarker.set(null)
+                } else {
+                    this.manualMarker.set(event.tile())
+                }
+            }
+        })
+    }
+
+    eventHover(event: GameMapMouseEvent) {
+        event.onPost(() => {
+            if (this.followCursor.value()) {
+                this.cursorMarker.set(event.tile())
+            }
+        })
     }
 }

@@ -14,7 +14,6 @@ Planned for next release (b0.4):
     - [Bug, 4] Cloning a method is broken in multiple ways
 
 - Tile Area
-    - [Feature, 4] Implement areaPolygon properly!
     - [Feature, 4], Implement area_pulse for tilearea properly
 
 - Data

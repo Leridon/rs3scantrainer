@@ -45,13 +45,6 @@ export class GameLayer extends leaflet.FeatureGroup {
         this.on("layerremove", (l) => {
             if (childLike(l.layer) && l.layer.parent == this) l.layer.parent = null
 
-            if (l.layer instanceof MapEntity && l.layer.spatial) {
-                l.layer.spatial.remove(l.layer)
-
-                if (l.layer == this.activeEntity()) {
-                    this.requestEntityActivation(null)
-                }
-            }
         })
 
         this.entity_quadtree = QuadTree.init({
@@ -59,6 +52,20 @@ export class GameLayer extends leaflet.FeatureGroup {
             botright: {x: 16384, y: 0}
         })
 
+    }
+
+    removeEntity(entity: MapEntity) {
+        if (entity.spatial) {
+            entity.spatial.remove(entity)
+        }
+
+        if (entity == this.activeEntity()) {
+            this.requestEntityActivation(null)
+        }
+
+        entity.parent = null
+
+        this.removeLayer(entity)
     }
 
     isRootLayer(): boolean {
@@ -132,7 +139,7 @@ export class GameLayer extends leaflet.FeatureGroup {
             if (tooltip) {
                 const interactive = force_interactive ?? tooltip.interactive
 
-                const anchor = document.body
+                const anchor = await this.active_entity.entity.tooltip_hook.value() || document.body
 
                 this.active_entity.tooltip_instance = tippy.default(anchor, {
                     content: c("<div class='ctr-entity-tooltip'></div>")
@@ -149,6 +156,7 @@ export class GameLayer extends leaflet.FeatureGroup {
                             return false
                         }
                     },
+                    hideOnClick: false,
                     onHidden: () => {
                         this.requestEntityActivation(null)
                     },

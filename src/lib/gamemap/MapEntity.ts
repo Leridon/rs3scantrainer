@@ -53,6 +53,16 @@ export abstract class MapEntity extends leaflet.FeatureGroup implements QuadTree
         this.desired_render_props.subscribe(() => this.requestRendering())
     }
 
+    remove(): this {
+        if (this.parent) {
+            this.parent.removeEntity(this)
+        } else {
+            super.remove()
+        }
+
+        return this
+    }
+
     getDesiredRenderProps(): MapEntity.RenderProps {
         const floor_group = this.floor_sensitivity_layers.get(this.render_group.value().floor)
         const zoom_group = this.zoom_sensitivity_layers.get(this.render_group.value().zoom)

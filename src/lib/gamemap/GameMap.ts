@@ -115,7 +115,7 @@ export class GameMap extends leaflet.Map {
                         constructor() {
                             super({
                                 highlightable: true,
-                                interactive: false
+                                interactive: true
                             })
                         }
 
@@ -123,6 +123,7 @@ export class GameMap extends leaflet.Map {
                             return leaflet.marker([
                                 3440, 3170
                             ], {
+                                icon: levelIcon(0, props.highlight ? 1.5 : 1),
                                 interactive: true,
                                 bubblingMouseEvents: true
                             }).addTo(this).getElement()
@@ -133,9 +134,8 @@ export class GameMap extends leaflet.Map {
                         }
 
                         async renderTooltip(): Promise<{ content: Widget; interactive: boolean } | null> {
-                            return {
-                                content: c(), interactive: false
-                            }
+                            //return null
+                            return {content: c(), interactive: false}
                         }
                     })
                 )
@@ -163,6 +163,7 @@ export class GameMap extends leaflet.Map {
             })
 
             this.on("click", (e) => {
+                console.log("Mapclick")
                 this.event(new GameMapMouseEvent(this, e, this.eventCoordinate(e)), (l) => (e) => l.eventClick(e))
             })
 

@@ -465,8 +465,6 @@ class PreviewLayerControl extends Behaviour {
     }
 
     private async updatePreview() {
-        console.log("Updating preview")
-
         let a = this.parent.tree_edit.active_node.value()
 
         let layer = new OpacityGroup()

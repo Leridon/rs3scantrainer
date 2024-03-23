@@ -1,5 +1,13 @@
 Planned for next release (b0.4):
 
+- Edit Improvements
+    - Better segment display for generic edit
+    - Focus target in path editor
+    - Focus area when beginning method edit
+    - Show path when no segment is selected in generic edit
+    - Fix target area for hidey holes
+
+
 - Scan Editor
     - [QOL, 2] Include uncertainty from non-static teleports into path analysis
         - Ability after uncertainty => Error

@@ -165,30 +165,33 @@ export class GenericPathMethodEditor extends MethodSubEditor {
 
       if (segment) {
         this.setPathEditor({
-          start_state: segment.path.pre_state,
-          initial: segment.path.raw,
-          target: segment.path.target,
-          commit_handler: (path) => {
-            const seg = this.sequence.find(s => s.edit == segment)
+            start_state: segment.path.pre_state,
+            initial: segment.path.raw,
+            target: segment.path.target,
+            commit_handler: (path) => {
+              const seg = this.sequence.find(s => s.edit == segment)
 
-            switch (seg.path.section) {
-              case "pre":
-                this.value.method.pre_path = path
-                break
-              case "post":
-                this.value.method.post_path = path
-                break;
-              case "main":
-                this.value.method.main_path = path
-                break;
-            }
+              switch (seg.path.section) {
+                case "pre":
+                  this.value.method.pre_path = path
+                  break
+                case "post":
+                  this.value.method.post_path = path
+                  break;
+                case "main":
+                  this.value.method.main_path = path
+                  break;
+              }
 
-            this.parent.registerChange()
+              this.parent.registerChange()
 
-            this.propagateState()
-          },
-          discard_handler: () => {}
-        })
+              this.propagateState()
+            },
+            discard_handler: () => {}
+          })
+          .onStop(() => {
+            if (this.active.value() == segment) this.requestActivation(null)
+          })
       }
     })
   }

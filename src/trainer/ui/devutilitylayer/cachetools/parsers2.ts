@@ -1,16 +1,5 @@
-import {Vector2} from "lib/math/Vector2";
-import {TileArea} from "lib/runescape/coordinates/TileArea";
-import {direction} from "lib/runescape/movement";
-import ignore = TransportParser.ignore;
 import {MovementBuilder} from "./util/MovementBuilder";
-import offset = MovementBuilder.offset;
-import simple = TransportParser.simple;
-import fixed = MovementBuilder.fixed;
-import {TileCoordinates} from "../../../../lib/runescape/coordinates";
-import door = TransportParser.door;
-import {Lazy} from "../../../../lib/properties/Lazy";
-import {util} from "../../../../lib/util/util";
-import { TransportParser } from "./TransportParser";
+import {TransportParser} from "./TransportParser";
 
 /*
 export namespace TransportParsers {

@@ -115,7 +115,7 @@ export default class CelticKnotReader {
 
 		//intercept knot
 		for (var a = 0; a < 300; a++) {
-			if (data.data[x * 4 + data.width * y * 4] < 60 && data.data[x * 4 + data.width * y * 4 + 1] < 60 && data.data[x * 4 + data.width * y * 4 + 2] < 40) { break };
+			if (data.data[x * 4 + data.width * y * 4] < 60 && data.data[x * 4 + data.width * y * 4 + 1] < 60 && data.data[x * 4 + data.width * y * 4 + 2] < 40) { break }
 			x -= 1; y++;
 		}
 
@@ -124,7 +124,7 @@ export default class CelticKnotReader {
 
 		//follow line until top corner is found
 		for (var a = 0; a < 200; a++) {
-			if (data.data[x * 4 + data.width * y * 4] > 60 && data.data[x * 4 + data.width * y * 4 + 1] > 60 && data.data[x * 4 + data.width * y * 4 + 2] > 40) { break };
+			if (data.data[x * 4 + data.width * y * 4] > 60 && data.data[x * 4 + data.width * y * 4 + 1] > 60 && data.data[x * 4 + data.width * y * 4 + 2] > 40) { break }
 			x -= 1; y -= 1;
 		}
 		x -= 23;

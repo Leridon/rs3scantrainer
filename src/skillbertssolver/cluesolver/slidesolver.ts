@@ -250,7 +250,7 @@ export class SlideSolverRandom extends SlideSolver {
 			if (steps++ > 50) {
 				console.log("failed to solve puzzle, over 50 actions attempted");
 				return null;
-			};
+			}
 		}
 		console.log(map.moves.length);
 		if (map.getMinMoves() == 0) { this.foundSolution(map.moves); }

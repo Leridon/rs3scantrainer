@@ -9,145 +9,145 @@ import ButtonRow from "../../../lib/ui/ButtonRow";
 import LightButton from "../widgets/LightButton";
 import {deps} from "../../dependencies";
 import {util} from "../../../lib/util/util";
-import cleanedJSON = util.cleanedJSON;
 import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
+import cleanedJSON = util.cleanedJSON;
 
 export class DrawTileAreaInteraction extends ValueInteraction<TileCoordinates[]> {
-    drawing: {
-        additive: boolean
-    } | null
+  drawing: {
+    additive: boolean
+  } | null
 
-    tiles: TileCoordinates[] = []
+  tiles: TileCoordinates[] = []
 
-    constructor() {
-        super({
-            preview_render: area => {
-                let lay = leaflet.featureGroup()
+  constructor() {
+    super({
+      preview_render: area => {
+        let lay = leaflet.featureGroup()
 
-                for (let tile of area) {
-                    tilePolygon(tile)
-                        .setStyle({
-                            color: "blue",
-                            fillOpacity: 0.4,
-                            stroke: false
-                        }).addTo(lay)
-                }
+        for (let tile of area) {
+          tilePolygon(tile)
+            .setStyle({
+              color: "blue",
+              fillOpacity: 0.4,
+              stroke: false
+            }).addTo(lay)
+        }
 
-                return lay
-            }
-        });
+        return lay
+      }
+    });
 
-        this.attachTopControl(new InteractionTopControl({name: "Draw Tile Area"})
-            .setContent(
-                c("<div style='font-family: monospace; white-space:pre'></div>")
-                    .append(c().text(`[Shift + Mouse] add tiles`))
-                    .append(c().text(`[Alt + Mouse] remove tiles`))
-                    .append(new ButtonRow()
-                        .buttons(
-                            new LightButton("Commit")
-                                .onClick(() => {
-                                    this.commit(this.tiles)
-                                }),
-                            new LightButton("Copy")
-                                .onClick(() => {
-                                    if (this.tiles.length > 0) {
-                                        navigator.clipboard.writeText(cleanedJSON(TileArea.fromTiles(this.tiles)))
-                                        deps().app.notifications.notify({}, "Copied")
-                                    } else {
-                                        deps().app.notifications.notify({type: "error"}, "No tiles")
-                                    }
-                                }),
-                            new LightButton("Copy Array")
-                                .onClick(() => {
-                                    if (this.tiles.length > 0) {
-                                        navigator.clipboard.writeText(cleanedJSON(this.tiles))
-                                        deps().app.notifications.notify({}, "Copied")
-                                    } else {
-                                        deps().app.notifications.notify({type: "error"}, "No tiles")
-                                    }
+    this.attachTopControl(new InteractionTopControl({name: "Draw Tile Area"})
+      .setContent(
+        c("<div style='font-family: monospace; white-space:pre'></div>")
+          .append(c().text(`[Shift + Mouse] add tiles`))
+          .append(c().text(`[Alt + Mouse] remove tiles`))
+          .append(new ButtonRow()
+            .buttons(
+              new LightButton("Commit")
+                .onClick(() => {
+                  this.commit(this.tiles)
+                }),
+              new LightButton("Copy")
+                .onClick(() => {
+                  if (this.tiles.length > 0) {
+                    navigator.clipboard.writeText(cleanedJSON(TileArea.fromTiles(this.tiles)))
+                    deps().app.notifications.notify({}, "Copied")
+                  } else {
+                    deps().app.notifications.notify({type: "error"}, "No tiles")
+                  }
+                }),
+              new LightButton("Copy Array")
+                .onClick(() => {
+                  if (this.tiles.length > 0) {
+                    navigator.clipboard.writeText(cleanedJSON(this.tiles))
+                    deps().app.notifications.notify({}, "Copied")
+                  } else {
+                    deps().app.notifications.notify({type: "error"}, "No tiles")
+                  }
 
-                                }),
-                            new LightButton("Reset")
-                                .onClick(() => {
-                                    this.tiles = []
+                }),
+              new LightButton("Reset")
+                .onClick(() => {
+                  this.tiles = []
 
-                                    this.preview(this.tiles)
-                                }),
-                        )
-                    )
+                  this.preview(this.tiles)
+                }),
             )
-        )
+          )
+      )
+    )
+  }
+
+
+  onAdd(map: GameMap): this {
+    super.onAdd(map)
+
+    map.dragging.disable()
+    return this
+  }
+
+  onRemove(map: GameMap): this {
+    super.onRemove(map)
+    map.dragging.enable()
+    return this
+  }
+
+  private set(tile: TileCoordinates, adding: boolean) {
+    const index = this.tiles.findIndex(t => TileCoordinates.eq2(t, tile))
+    const contains = index >= 0
+
+    if (adding !== contains) {
+      if (adding) this.tiles.push(tile)
+      else this.tiles.splice(index, 1)
+
+      this.preview(this.tiles)
     }
+  }
 
+  private toggle(tile: TileCoordinates): boolean {
+    const index = this.tiles.findIndex(t => TileCoordinates.eq2(t, tile))
+    const contains = index >= 0
 
-    onAdd(map: GameMap): this {
-        super.onAdd(map)
+    if (!contains) this.tiles.push(tile)
+    else this.tiles.splice(index, 1)
 
-        map.dragging.disable()
-        return this
-    }
+    this.preview(this.tiles)
 
-    onRemove(map: GameMap): this {
-        super.onRemove(map)
-        map.dragging.enable()
-        return this
-    }
+    return !contains
+  }
 
-    private set(tile: TileCoordinates, adding: boolean) {
-        const index = this.tiles.findIndex(t => TileCoordinates.eq2(t, tile))
-        const contains = index >= 0
+  eventMouseDown(event: GameMapMouseEvent) {
+    super.eventMouseDown(event);
 
-        if (adding !== contains) {
-            if (adding) this.tiles.push(tile)
-            else this.tiles.splice(index, 1)
+    if (event.original.shiftKey || event.original.altKey) {
 
-            this.preview(this.tiles)
-        }
-    }
+      event.onPost(() => {
+        this.getMap().dragging.disable()
 
-    private toggle(tile: TileCoordinates): boolean {
-        const index = this.tiles.findIndex(t => TileCoordinates.eq2(t, tile))
-        const contains = index >= 0
-
-        if (!contains) this.tiles.push(tile)
-        else this.tiles.splice(index, 1)
-
-        this.preview(this.tiles)
-
-        return !contains
-    }
-
-    eventMouseDown(event: GameMapMouseEvent) {
-        super.eventMouseDown(event);
-
-        if (event.original.shiftKey || event.original.altKey) {
-
-            event.onPost(() => {
-                this.getMap().dragging.disable()
-
-                this.drawing = {
-                    additive: event.original.shiftKey
-                }
-
-                this.set(event.tile(), event.original.shiftKey)
-            })
+        this.drawing = {
+          additive: event.original.shiftKey
         }
 
+        this.set(event.tile(), event.original.shiftKey)
+      })
     }
 
-    eventMouseUp(event: GameMapMouseEvent) {
-        this.drawing = null
+  }
 
-        this.getMap().dragging.enable()
+  eventMouseUp(event: GameMapMouseEvent) {
+    this.drawing = null
+
+    this.getMap().dragging.enable()
+  }
+
+  eventHover(event: GameMapMouseEvent) {
+    super.eventHover(event);
+
+    if (this.drawing) {
+      event.onPost(() => {
+        this.set(event.tile(), this.drawing.additive)
+      })
     }
-
-    eventHover(event: GameMapMouseEvent) {
-        super.eventHover(event);
-
-        if (this.drawing) {
-            event.onPost(() => {
-                this.set(event.tile(), this.drawing.additive)
-            })
-        }
-    }
+  }
 }

@@ -4,38 +4,21 @@ import {Path} from "../../../lib/runescape/pathing";
 import MovementStateView from "./MovementStateView";
 import {PathSectionControl} from "../neosolving/PathControl";
 import {PathEditor} from "./PathEditor";
-import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
-import Properties from "../widgets/Properties";
-import TemplateStringEdit from "../widgets/TemplateStringEdit";
+import {TileRectangle} from "../../../lib/runescape/coordinates";
 import LightButton from "../widgets/LightButton";
-import {EntityNameEdit} from "../widgets/EntityNameEdit";
-import TextField from "../../../lib/ui/controls/TextField";
-import SelectTileInteraction from "../../../lib/gamemap/interaction/SelectTileInteraction";
-import {arrow} from "../path_graphics";
-import {Rectangle, Vector2} from "../../../lib/math";
-import InteractionSelect from "./InteractionSelect";
-import {direction, PathFinder} from "../../../lib/runescape/movement";
-import {ShortcutEdit} from "../shortcut_editing/ShortcutEdit";
+import {direction} from "../../../lib/runescape/movement";
 import {util} from "../../../lib/util/util";
-import {Transportation} from "../../../lib/runescape/transportation";
-import {ShortcutViewLayer} from "../shortcut_editing/ShortcutView";
-import DirectionSelect from "./DirectionSelect";
 import {C} from "../../../lib/ui/constructors";
-import vbox = C.vbox;
-import hbox = C.hbox;
-import span = C.span;
-import spacer = C.spacer;
 import {SmallImageButton} from "../widgets/SmallImageButton";
-import sibut = SmallImageButton.sibut;
-import * as assert from "assert";
-import index = util.index;
 import {PathBuilder} from "./PathBuilder";
 import ContextMenu, {Menu, MenuEntry} from "../widgets/ContextMenu";
+import vbox = C.vbox;
+import spacer = C.spacer;
 
 export class IssueWidget extends Widget {
-    constructor(issue: Path.issue) {
-        super($(`<div class='ctr-step-issue'><div class="ctr-step-issue-icon"></div> ${issue.message}</div>`).attr("level", issue.level.toString()));
-    }
+  constructor(issue: Path.issue) {
+    super($(`<div class='ctr-step-issue'><div class="ctr-step-issue-icon"></div> ${issue.message}</div>`).attr("level", issue.level.toString()));
+  }
 }
 
 
@@ -282,280 +265,280 @@ class StepEditWidget extends Widget {
 */
 
 export class EditedPathOverview extends Widget {
-    steps_container: Widget
+  steps_container: Widget
 
-    step_rows: EditedPathOverview.Step[] = []
-    inbetween_rows: EditedPathOverview.InbetweenSteps[] = []
+  step_rows: EditedPathOverview.Step[] = []
+  inbetween_rows: EditedPathOverview.InbetweenSteps[] = []
 
-    constructor(public editor: PathEditor) {
-        super();
+  constructor(public editor: PathEditor) {
+    super();
 
-        this.addClass("path-edit-control")
+    this.addClass("path-edit-control")
 
-        this.steps_container = vbox().appendTo(this).css2({
-            "max-height": "800px",
-            "overflow-y": "auto",
-        })
-            .addClass("ctr-path-edit-overview")
+    this.steps_container = vbox().appendTo(this).css2({
+        "max-height": "800px",
+        "overflow-y": "auto",
+      })
+      .addClass("ctr-path-edit-overview")
 
-        editor.value.committed_value.subscribe(value => this.render(value))
+    editor.value.committed_value.subscribe(value => this.render(value))
 
-        editor.value.cursor_state.subscribe(() => {
-            this.inbetween_rows.forEach(r => r.render())
-        })
+    editor.value.cursor_state.subscribe(() => {
+      this.inbetween_rows.forEach(r => r.render())
+    })
+  }
+
+  setDragTarget(index: number) {
+    this.inbetween_rows.forEach((row, i) => {
+      row.is_dragged_over.set(i == index)
+    })
+  }
+
+  private render(value: PathBuilder.Value) {
+    if (!value) return
+
+    this.step_rows = []
+    this.inbetween_rows = []
+
+    this.steps_container.empty()
+
+    for (let i = 0; i <= value.steps.length; ++i) {
+      this.inbetween_rows.push(
+        new EditedPathOverview.InbetweenSteps(this, value, i).appendTo(this.steps_container)
+      )
+
+      if (i < value.steps.length) {
+        this.step_rows.push(
+          new EditedPathOverview.Step(this, value.steps[i]).appendTo(this.steps_container)
+        )
+      }
     }
 
-    setDragTarget(index: number) {
-        this.inbetween_rows.forEach((row, i) => {
-            row.is_dragged_over.set(i == index)
-        })
+    if (value.path.issues.length > 0) {
+      vbox(
+        ...value.path.issues.map(i => new IssueWidget(i))
+      ).appendTo(this.steps_container)
     }
 
-    private render(value: PathBuilder.Value) {
-        if (!value) return
-
-        this.step_rows = []
-        this.inbetween_rows = []
-
-        this.steps_container.empty()
-
-        for (let i = 0; i <= value.steps.length; ++i) {
-            this.inbetween_rows.push(
-                new EditedPathOverview.InbetweenSteps(this, value, i).appendTo(this.steps_container)
-            )
-
-            if (i < value.steps.length) {
-                this.step_rows.push(
-                    new EditedPathOverview.Step(this, value.steps[i]).appendTo(this.steps_container)
-                )
-            }
-        }
-
-        if (value.path.issues.length > 0) {
-            vbox(
-                ...value.path.issues.map(i => new IssueWidget(i))
-            ).appendTo(this.steps_container)
-        }
-
-        return this
-    }
+    return this
+  }
 }
 
 export namespace EditedPathOverview {
-    import span = C.span;
-    import hboxl = C.hboxl;
-    import movement_state = Path.movement_state;
+  import span = C.span;
+  import hboxl = C.hboxl;
+  import movement_state = Path.movement_state;
 
-    export class InbetweenSteps extends Widget {
-        value: movement_state
+  export class InbetweenSteps extends Widget {
+    value: movement_state
 
-        is_dragged_over: Observable<boolean> = observe(false)
+    is_dragged_over: Observable<boolean> = observe(false)
 
-        constructor(private parent: EditedPathOverview, private va: PathBuilder.Value, private index: number) {
-            super();
+    constructor(private parent: EditedPathOverview, private va: PathBuilder.Value, private index: number) {
+      super();
 
-            this.value = Path.augmented.getState(this.va.path, this.index)
+      this.value = Path.augmented.getState(this.va.path, this.index)
 
-            this.addTippy(new MovementStateView(this.value), {delay: [300, 0]})
+      this.addTippy(new MovementStateView(this.value), {delay: [300, 0]})
 
-            this.addClass("ctr-path-edit-overview-inbetween")
+      this.addClass("ctr-path-edit-overview-inbetween")
 
-            this.on("click", () => {
-                this.va.builder.setCursor(this.index)
-            })
+      this.on("click", () => {
+        this.va.builder.setCursor(this.index)
+      })
 
-            this.on("drop", (event) => {
-                event.preventDefault()
+      this.on("drop", (event) => {
+        event.preventDefault()
 
-                const from = JSON.parse(event.originalEvent.dataTransfer.getData("text/plain"))
+        const from = JSON.parse(event.originalEvent.dataTransfer.getData("text/plain"))
 
-                this.is_dragged_over.set(false)
+        this.is_dragged_over.set(false)
 
-                this.va.builder.move(from.step_index, this.index)
-            })
+        this.va.builder.move(from.step_index, this.index)
+      })
 
-            this.on("dragover", (event) => {
-                event.preventDefault()
+      this.on("dragover", (event) => {
+        event.preventDefault()
 
-                this.parent.setDragTarget(this.index)
+        this.parent.setDragTarget(this.index)
 
-                event.originalEvent.dataTransfer.dropEffect = "move"
-            })
+        event.originalEvent.dataTransfer.dropEffect = "move"
+      })
 
-            this.on("dragleave", () => {
-                this.is_dragged_over.set(false)
-            })
+      this.on("dragleave", () => {
+        this.is_dragged_over.set(false)
+      })
 
-            this.on("contextmenu", (event) => {
-                event.preventDefault()
+      this.on("contextmenu", (event) => {
+        event.preventDefault()
 
-                const entries: MenuEntry[] = [{
-                    type: "basic",
-                    text: "Select",
-                    handler: () => {
-                        this.va.builder.setCursor(this.index)
-                    }
-                }]
+        const entries: MenuEntry[] = [{
+          type: "basic",
+          text: "Select",
+          handler: () => {
+            this.va.builder.setCursor(this.index)
+          }
+        }]
 
-                if (this.value.position.tile) {
-                    entries.push({
-                        type: "basic",
-                        text: "Show on map",
-                        handler: () => {
-                            this.parent.editor.game_layer.getMap().fitView(TileRectangle.from(this.value.position.tile))
-                        }
-                    })
-                }
-
-                new ContextMenu({
-                    type: "submenu",
-                    text: "",
-                    children: entries
-                }).showFromEvent(event)
-            })
-
-            this.on("dblclick", () => {
-
-                // TODO: For whatever reason this event is not properly triggered. Maybe a rerender after click?
-
-                if (this.value.position.tile) {
-                    this.parent.editor.game_layer.getMap().fitView(TileRectangle.from(this.value.position.tile))
-                }
-            })
-
-            this.is_dragged_over.subscribe(() => this.render())
-
-            this.render()
-        }
-
-        render() {
-            const cursor_state = this.va.builder.cursor_state.value()
-
-            if (!cursor_state) return
-
-            this.empty()
-
-            const main_row = hboxl().appendTo(this)
-
-            span(`T${this.value.tick}`)
-                .addClass("ctr-path-edit-overview-row-first")
-                .addClass('nisl-textlink')
-                .appendTo(main_row)
-
-            this.toggleClass("ctr-path-edit-overview-inbetween-dragged-over", this.is_dragged_over.value())
-
-            if (this.is_dragged_over.value()) {
-                main_row.append("Drop to move step here")
-            } else if (this.index == cursor_state.cursor) {
-                main_row.append(
-                    C.inlineimg("assets/icons/youarehere.png")
-                        .css2({
-                            "margin-right": "3px",
-                        }),
-                    "You are here",
-                )
-
-                if (this.index == 0 && !this.value.position.tile && !this.value.position.direction) {
-                    main_row.append(new LightButton("Assume starting orientation")
-                        .css("margin-left", "5px")
-                        .onClick((event) => {
-                            const menu: Menu = {
-                                type: "submenu",
-                                text: "",
-                                children: direction.all.map(d => {
-                                    return {
-                                        type: "basic",
-                                        text: direction.toString(d),
-                                        handler: () => {
-                                            this.va.builder.add(({
-                                                type: "orientation",
-                                                direction: d
-                                            }))
-                                        }
-                                    }
-                                })
-                            }
-
-                            new ContextMenu(menu).showFromEvent(event)
-                        }))
-                }
+        if (this.value.position.tile) {
+          entries.push({
+            type: "basic",
+            text: "Show on map",
+            handler: () => {
+              this.parent.editor.game_layer.getMap().fitView(TileRectangle.from(this.value.position.tile))
             }
+          })
         }
+
+        new ContextMenu({
+          type: "submenu",
+          text: "",
+          children: entries
+        }).showFromEvent(event)
+      })
+
+      this.on("dblclick", () => {
+
+        // TODO: For whatever reason this event is not properly triggered. Maybe a rerender after click?
+
+        if (this.value.position.tile) {
+          this.parent.editor.game_layer.getMap().fitView(TileRectangle.from(this.value.position.tile))
+        }
+      })
+
+      this.is_dragged_over.subscribe(() => this.render())
+
+      this.render()
     }
 
-    export class Step extends Widget {
-        constructor(private parent: EditedPathOverview, public value: PathBuilder.Step) {
-            super();
+    render() {
+      const cursor_state = this.va.builder.cursor_state.value()
 
-            this.setAttribute("draggable", "true")
+      if (!cursor_state) return
 
-            const {icon, content} = PathSectionControl.StepRow.renderStep(value.step.raw)
+      this.empty()
 
-            this.addClass("ctr-path-edit-overview-step").append(
-                hboxl(c("<div>&#x2630;</div>")
-                        .addClass("ctr-path-edit-overview-step-grab-indicator")
-                        .addClass("ctr-path-edit-overview-row-first")
-                    ,
-                    icon
-                        .css("margin-left", "0")
-                    , content,
-                    spacer(),
-                    c().setInnerHtml("&#x22EE;")
-                        .addClass("ctr-clickable")
-                        .addClass("ctr-path-edit-overview-step-options")
-                        .on("click", (event) => {
-                            this.contextMenu(event.originalEvent)
-                        })
-                ),
-                vbox(
-                    ...value.step.issues.map(i => new IssueWidget(i))
-                ),
-            )
+      const main_row = hboxl().appendTo(this)
 
-            this.on("dblclick", (event) => {
-                event.preventDefault()
+      span(`T${this.value.tick}`)
+        .addClass("ctr-path-edit-overview-row-first")
+        .addClass('nisl-textlink')
+        .appendTo(main_row)
 
-                this.parent.editor.editStepDetails(value)
-            })
+      this.toggleClass("ctr-path-edit-overview-inbetween-dragged-over", this.is_dragged_over.value())
 
-            this.on("contextmenu", (event) => {
-                event.preventDefault()
+      if (this.is_dragged_over.value()) {
+        main_row.append("Drop to move step here")
+      } else if (this.index == cursor_state.cursor) {
+        main_row.append(
+          C.inlineimg("assets/icons/youarehere.png")
+            .css2({
+              "margin-right": "3px",
+            }),
+          "You are here",
+        )
 
-                this.contextMenu(event.originalEvent)
-            })
+        if (this.index == 0 && !this.value.position.tile && !this.value.position.direction) {
+          main_row.append(new LightButton("Assume starting orientation")
+            .css("margin-left", "5px")
+            .onClick((event) => {
+              const menu: Menu = {
+                type: "submenu",
+                text: "",
+                children: direction.all.map(d => {
+                  return {
+                    type: "basic",
+                    text: direction.toString(d),
+                    handler: () => {
+                      this.va.builder.add(({
+                        type: "orientation",
+                        direction: d
+                      }))
+                    }
+                  }
+                })
+              }
 
-            this.on("dragstart", (event) => {
-                event.originalEvent.dataTransfer.setData("text/plain", JSON.stringify({
-                    step_index: this.value.index
-                }))
-            })
-
-            this.on("dragover", (event) => {
-                event.preventDefault()
-
-                const upper = (event.pageY - this.raw().getBoundingClientRect().top) < this.raw().offsetHeight / 2
-
-                this.parent.setDragTarget(upper ? this.value.index : this.value.index + 1)
-
-                event.originalEvent.dataTransfer.dropEffect = "move"
-            })
-
-            this.on("drop", (event) => {
-                event.preventDefault()
-
-                const from = JSON.parse(event.originalEvent.dataTransfer.getData("text/plain"))
-
-                const upper = (event.pageY - this.raw().getBoundingClientRect().top) < this.raw().offsetHeight / 2
-
-                this.parent.inbetween_rows[this.value.index].is_dragged_over.set(false)
-                this.parent.inbetween_rows[this.value.index + 1].is_dragged_over.set(false)
-
-                this.value.parent.move(from.step_index, upper ? this.value.index : this.value.index + 1)
-            })
+              new ContextMenu(menu).showFromEvent(event)
+            }))
         }
-
-        private contextMenu(event: MouseEvent) {
-            new ContextMenu(this.parent.editor.contextMenu(this.value)).showFromEvent2(event)
-        }
+      }
     }
+  }
+
+  export class Step extends Widget {
+    constructor(private parent: EditedPathOverview, public value: PathBuilder.Step) {
+      super();
+
+      this.setAttribute("draggable", "true")
+
+      const {icon, content} = PathSectionControl.StepRow.renderStep(value.step.raw)
+
+      this.addClass("ctr-path-edit-overview-step").append(
+        hboxl(c("<div>&#x2630;</div>")
+            .addClass("ctr-path-edit-overview-step-grab-indicator")
+            .addClass("ctr-path-edit-overview-row-first")
+          ,
+          icon
+            .css("margin-left", "0")
+          , content,
+          spacer(),
+          c().setInnerHtml("&#x22EE;")
+            .addClass("ctr-clickable")
+            .addClass("ctr-path-edit-overview-step-options")
+            .on("click", (event) => {
+              this.contextMenu(event.originalEvent)
+            })
+        ),
+        vbox(
+          ...value.step.issues.map(i => new IssueWidget(i))
+        ),
+      )
+
+      this.on("dblclick", (event) => {
+        event.preventDefault()
+
+        this.parent.editor.editStepDetails(value)
+      })
+
+      this.on("contextmenu", (event) => {
+        event.preventDefault()
+
+        this.contextMenu(event.originalEvent)
+      })
+
+      this.on("dragstart", (event) => {
+        event.originalEvent.dataTransfer.setData("text/plain", JSON.stringify({
+          step_index: this.value.index
+        }))
+      })
+
+      this.on("dragover", (event) => {
+        event.preventDefault()
+
+        const upper = (event.pageY - this.raw().getBoundingClientRect().top) < this.raw().offsetHeight / 2
+
+        this.parent.setDragTarget(upper ? this.value.index : this.value.index + 1)
+
+        event.originalEvent.dataTransfer.dropEffect = "move"
+      })
+
+      this.on("drop", (event) => {
+        event.preventDefault()
+
+        const from = JSON.parse(event.originalEvent.dataTransfer.getData("text/plain"))
+
+        const upper = (event.pageY - this.raw().getBoundingClientRect().top) < this.raw().offsetHeight / 2
+
+        this.parent.inbetween_rows[this.value.index].is_dragged_over.set(false)
+        this.parent.inbetween_rows[this.value.index + 1].is_dragged_over.set(false)
+
+        this.value.parent.move(from.step_index, upper ? this.value.index : this.value.index + 1)
+      })
+    }
+
+    private contextMenu(event: MouseEvent) {
+      new ContextMenu(this.parent.editor.contextMenu(this.value)).showFromEvent2(event)
+    }
+  }
 }

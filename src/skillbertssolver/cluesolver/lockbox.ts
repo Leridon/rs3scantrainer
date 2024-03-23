@@ -23,7 +23,7 @@ export class LockBoxReader {
 	}
 
 	read(img?: ImgRef) {
-		if (!this.pos) { throw new Error("ui not found yet");; }
+		if (!this.pos) { throw new Error("ui not found yet"); }
 		if (!img) { img = this.pos.img; }
 		let rect = this.innerRect()!;
 		var buf = img.toData(rect.x, rect.y, rect.width, rect.height);

@@ -4,83 +4,81 @@ import PackWidget from "./PackWidget";
 import {MethodPackManager, Pack} from "../../model/MethodPackManager";
 import * as lodash from "lodash";
 import {C} from "../../../lib/ui/constructors";
-import hbox = C.hbox;
 import LightButton from "../widgets/LightButton";
-import btnrow = C.btnrow;
-import h = C.h;
 import ImportStringModal from "../widgets/modals/ImportStringModal";
 import {ExportImport} from "../../../lib/util/exportString";
-import imp = ExportImport.imp;
-import ButtonRow from "../../../lib/ui/ButtonRow";
 import {NewMethodPackModal} from "./MethodPackModal";
+import btnrow = C.btnrow;
+import h = C.h;
+import imp = ExportImport.imp;
 
 export default class TheoryCraftingSidebar extends MapSideBar {
 
-    private methods: MethodPackManager
+  private methods: MethodPackManager
 
-    constructor(public theorycrafter: TheoryCrafter) {
-        super("Theorycrafter");
+  constructor(public theorycrafter: TheoryCrafter) {
+    super("Theorycrafter");
 
-        this.css("width", "300px")
+    this.css("width", "300px")
 
-        this.methods = MethodPackManager.instance()
+    this.methods = MethodPackManager.instance()
 
-        this.header.close_handler.set(() => theorycrafter.stop())
+    this.header.close_handler.set(() => theorycrafter.stop())
 
-        this.methods.saved.on(async (p) => this.render(await this.methods.all())).bindTo(theorycrafter.handler_pool)
-        this.methods.all().then(p => this.render(p))
+    this.methods.saved.on(async (p) => this.render(await this.methods.all())).bindTo(theorycrafter.handler_pool)
+    this.methods.all().then(p => this.render(p))
+  }
+
+  render(packs: Pack[]) {
+    this.body.empty()
+
+    let grouped = lodash.groupBy(packs, p => p.type)
+
+    h(2, "Default Method-Packs").appendTo(this.body)
+    grouped["default"].forEach(p => {
+      new PackWidget(p, MethodPackManager.instance(), {buttons: true, collapsible: true}).appendTo(this.body)
+    })
+
+    h(2, "Imported Method-Packs").appendTo(this.body)
+    let imported = grouped["imported"] || []
+
+    imported.forEach(p => {
+      new PackWidget(p, MethodPackManager.instance(), {buttons: true, collapsible: true}).appendTo(this.body)
+    })
+
+    if (imported.length == 0) {
+      c().text("No imported method packs.").appendTo(this.body)
     }
 
-    render(packs: Pack[]) {
-        this.body.empty()
+    btnrow(
+      new LightButton("Import", "rectangle")
+        .onClick(async () => {
+          const imported = await new ImportStringModal<Pack>(imp({expected_type: "method-pack", expected_version: 1})).do()
 
-        let grouped = lodash.groupBy(packs, p => p.type)
+          // TODO: This kinda sucks maybe
 
-        h(2, "Default Method-Packs").appendTo(this.body)
-        grouped["default"].forEach(p => {
-            new PackWidget(p, MethodPackManager.instance(), {buttons: true, collapsible: true}).appendTo(this.body)
+          if (imported?.imported) this.methods.import(imported.imported)
         })
+    ).appendTo(this.body)
 
-        h(2, "Imported Method-Packs").appendTo(this.body)
-        let imported = grouped["imported"] || []
+    let locals = grouped["local"] || []
 
-        imported.forEach(p => {
-            new PackWidget(p, MethodPackManager.instance(), {buttons: true, collapsible: true}).appendTo(this.body)
-        })
+    h(2, "Local Method-Packs").appendTo(this.body)
 
-        if (imported.length == 0) {
-            c().text("No imported method packs.").appendTo(this.body)
-        }
+    locals.forEach(p => {
+      new PackWidget(p, MethodPackManager.instance(), {buttons: true, collapsible: true}).appendTo(this.body)
+    })
 
-        btnrow(
-            new LightButton("Import", "rectangle")
-                .onClick(async () => {
-                    const imported = await new ImportStringModal<Pack>(imp({expected_type: "method-pack", expected_version: 1})).do()
-
-                    // TODO: This kinda sucks maybe
-
-                    if (imported?.imported) this.methods.import(imported.imported)
-                })
-        ).appendTo(this.body)
-
-        let locals = grouped["local"] || []
-
-        h(2, "Local Method-Packs").appendTo(this.body)
-
-        locals.forEach(p => {
-            new PackWidget(p, MethodPackManager.instance(), {buttons: true, collapsible: true}).appendTo(this.body)
-        })
-
-        if (locals.length == 0) {
-            c().text("No local method packs.").appendTo(this.body)
-        }
-
-        btnrow(
-            new LightButton("+ Create New", "rectangle")
-                .onClick(() => {
-                    new NewMethodPackModal().do()
-                })
-        ).appendTo(this.body)
-
+    if (locals.length == 0) {
+      c().text("No local method packs.").appendTo(this.body)
     }
+
+    btnrow(
+      new LightButton("+ Create New", "rectangle")
+        .onClick(() => {
+          new NewMethodPackModal().do()
+        })
+    ).appendTo(this.body)
+
+  }
 }

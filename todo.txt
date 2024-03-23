@@ -12,8 +12,6 @@ Planned for next release (b0.4):
 
 - Issues
     - [Bug, 4] Cloning a method is broken in multiple ways
-    - [Bug, 2] Clicking certain markers in entities does not propagate to the map.
-        - This app
 
 - Data
     - [Dev Tool, 3] Utility Layer for shortcut parsing
@@ -33,14 +31,13 @@ Planned for next release (b0.4):
     - Creating context menus currently is a little annoying
 
 - Map Entities
-    - [Performance, 3] Remove from quadtree when removed from map!
     - [Performance, 3] Share a quad tree for all game layers?
     - [Feature, 2] Find a way to separate entities on the same tile
 
 - Theorycrafter
     - Editor for generic path methods
         - [QOL, 4] Display pathing when no section is selected
-        - [QOL, 4] Immediately enter the method editor
+        - [Styling, 3] Highlight active section, similar to scan editor
         - Display Target-Areas and auxiliary stuff (hidey hole) on map
             - Share with Solver!
     - Collapsible method pack sections (default|imported|local)

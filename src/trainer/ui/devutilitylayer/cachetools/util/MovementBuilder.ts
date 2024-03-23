@@ -1,75 +1,74 @@
 import {Transportation} from "../../../../../lib/runescape/transportation";
-import EntityActionMovement = Transportation.EntityActionMovement;
 import {TileArea} from "../../../../../lib/runescape/coordinates/TileArea";
-import {TileCoordinates} from "../../../../../lib/runescape/coordinates";
 import {Vector2} from "../../../../../lib/math";
 import {direction} from "../../../../../lib/runescape/movement";
+import EntityActionMovement = Transportation.EntityActionMovement;
 
 export class MovementBuilder {
 
-    constructor(public value: EntityActionMovement) {
+  constructor(public value: EntityActionMovement) {
 
-    }
+  }
 
-    time(t: number): this {
-        this.value.time = t
-        return this
-    }
+  time(t: number): this {
+    this.value.time = t
+    return this
+  }
 
-    restrict(area: TileArea) : this {
-        this.value.valid_from = area
+  restrict(area: TileArea): this {
+    this.value.valid_from = area
 
-        return this
-    }
+    return this
+  }
 
-    fixed(target: TileArea, relative: boolean = false): this {
-        this.value.fixed_target = relative ? {target: target, relative: true} : {target: target}
+  fixed(target: TileArea, relative: boolean = false): this {
+    this.value.fixed_target = relative ? {target: target, relative: true} : {target: target}
 
-        this.value.offset = undefined
+    this.value.offset = undefined
 
-        return this
-    }
+    return this
+  }
 
-    offset(offset: Vector2 & { level: number }): this {
-        this.value.offset = offset
-        this.value.fixed_target = undefined
+  offset(offset: Vector2 & { level: number }): this {
+    this.value.offset = offset
+    this.value.fixed_target = undefined
 
-        return this
-    }
+    return this
+  }
 
-    orientation(orientation: "bymovement" | "toentitybefore" | "toentityafter" | "keep"): this {
-        this.value.orientation = orientation
-        this.value.forced_orientation = undefined
+  orientation(orientation: "bymovement" | "toentitybefore" | "toentityafter" | "keep"): this {
+    this.value.orientation = orientation
+    this.value.forced_orientation = undefined
 
-        return this
-    }
+    return this
+  }
 
-    forcedOrientation(orientation: direction): this {
-        this.value.orientation = "forced"
-        this.value.forced_orientation = {dir: orientation}
+  forcedOrientation(orientation: direction): this {
+    this.value.orientation = "forced"
+    this.value.forced_orientation = {dir: orientation}
 
-        return this
-    }
+    return this
+  }
 
-    done(): EntityActionMovement {
-        return this.value
-    }
+  done(): EntityActionMovement {
+    return this.value
+  }
 }
 
 export namespace MovementBuilder {
-    export function init(): MovementBuilder {
-        return move({time: 1})
-    }
+  export function init(): MovementBuilder {
+    return move({time: 1})
+  }
 
-    export function move(value: EntityActionMovement): MovementBuilder {
-        return new MovementBuilder(value)
-    }
+  export function move(value: EntityActionMovement): MovementBuilder {
+    return new MovementBuilder(value)
+  }
 
-    export function offset(offset: Vector2 & { level: number }): MovementBuilder {
-        return init().offset(offset)
-    }
+  export function offset(offset: Vector2 & { level: number }): MovementBuilder {
+    return init().offset(offset)
+  }
 
-    export function fixed(target: TileArea): MovementBuilder {
-        return init().fixed(target)
-    }
+  export function fixed(target: TileArea): MovementBuilder {
+    return init().fixed(target)
+  }
 }

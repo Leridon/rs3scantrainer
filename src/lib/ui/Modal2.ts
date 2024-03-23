@@ -3,98 +3,98 @@ import Widget from "./Widget";
 import observe_combined = Observable.observe_combined;
 
 export abstract class Modal2 {
-    shown = ewent<this>()
-    hidden = ewent<this>()
-    removed = ewent<this>()
+  shown = ewent<this>()
+  hidden = ewent<this>()
+  removed = ewent<this>()
 
-    protected _modal: Widget
-    protected _dialog: Widget
-    protected _content: Widget
+  protected _modal: Widget
+  protected _dialog: Widget
+  protected _content: Widget
 
-    private visible = observe(false)
-    private should_dismount = observe(false)
+  private visible = observe(false)
+  private should_dismount = observe(false)
 
-    protected constructor(protected options: Modal2.Options = {}) {
-        this._modal = c("<div class='modal ctr-modal' tabindex='-1'><div class='modal-dialog'></div></div>")
-        this._dialog = c("<div class='modal-dialog'></div>").appendTo(this._modal)
-        this._content = c("<div class='modal-content'></div>").appendTo(this._dialog)
+  protected constructor(protected options: Modal2.Options = {}) {
+    this._modal = c("<div class='modal ctr-modal' tabindex='-1'><div class='modal-dialog'></div></div>")
+    this._dialog = c("<div class='modal-dialog'></div>").appendTo(this._modal)
+    this._content = c("<div class='modal-content'></div>").appendTo(this._dialog)
 
-        this._modal.container.modal({
-            backdrop: options.fixed ? "static" : true,
-            keyboard: !options.fixed,
-        })
+    this._modal.container.modal({
+      backdrop: options.fixed ? "static" : true,
+      keyboard: !options.fixed,
+    })
 
-        this._modal.container.on("shown.bs.modal", () => {
-            this.visible.set(true)
-            this.shown.trigger(this)
-        })
+    this._modal.container.on("shown.bs.modal", () => {
+      this.visible.set(true)
+      this.shown.trigger(this)
+    })
 
-        if (!options.no_fade) this._modal.addClass("fade")
+    if (!options.no_fade) this._modal.addClass("fade")
 
-        switch (options.size || "medium") {
-            case "small":
-                this._dialog.addClass("modal-sm")
-                break;
-            case "large":
-                this._dialog.addClass("modal-lg")
-                break;
-        }
-
-        this._modal.container.on("hidden.bs.modal", () => {
-            this.visible.set(false)
-            this.hidden.trigger(this)
-        })
-
-        observe_combined({visible: this.visible, should_dismount: this.should_dismount}).subscribe(({visible, should_dismount}) => {
-            if (!visible && should_dismount) this.dismount()
-        })
+    switch (options.size || "medium") {
+      case "small":
+        this._dialog.addClass("modal-sm")
+        break;
+      case "large":
+        this._dialog.addClass("modal-lg")
+        break;
     }
 
-    abstract render(): Promise<void> | void
+    this._modal.container.on("hidden.bs.modal", () => {
+      this.visible.set(false)
+      this.hidden.trigger(this)
+    })
 
-    private mount() {
-        if (this._modal.container.parent().length == 0) {
-            this._modal.appendTo($("body"))
-        }
+    observe_combined({visible: this.visible, should_dismount: this.should_dismount}).subscribe(({visible, should_dismount}) => {
+      if (!visible && should_dismount) this.dismount()
+    })
+  }
+
+  abstract render(): Promise<void> | void
+
+  private mount() {
+    if (this._modal.container.parent().length == 0) {
+      this._modal.appendTo($("body"))
     }
+  }
 
-    private dismount() {
-        this._modal.detach()
-        this.removed.trigger(this)
-    }
+  private dismount() {
+    this._modal.detach()
+    this.removed.trigger(this)
+  }
 
-    async show(): Promise<this> {
-        let promise = new Promise<this>((resolve) => {
-            this.hidden.on(() => resolve(this))
-        })
+  async show(): Promise<this> {
+    let promise = new Promise<this>((resolve) => {
+      this.hidden.on(() => resolve(this))
+    })
 
-        this.mount()
+    this.mount()
 
-        await this.render()
+    await this.render()
 
-        this._modal.container.modal("show")
+    this._modal.container.modal("show")
 
-        return promise
-    }
+    return promise
+  }
 
-    hide() {
-        this._modal.container.modal("hide")
-    }
+  hide() {
+    this._modal.container.modal("hide")
+  }
 
-    remove() {
-        this.should_dismount.set(true)
-        this.hide()
-    }
+  remove() {
+    this.should_dismount.set(true)
+    this.hide()
+  }
 
-    content(): Widget {
-        return this._content
-    }
+  content(): Widget {
+    return this._content
+  }
 }
 
 export namespace Modal2 {
-    export type Options = {
-        no_fade?: boolean,
-        size?: "small" | "medium" | "large",
-        fixed?: boolean
-    }
+  export type Options = {
+    no_fade?: boolean,
+    size?: "small" | "medium" | "large",
+    fixed?: boolean
+  }
 }

@@ -3,75 +3,75 @@ import {ewent, observe} from "../../reactive";
 import {EwentHandlerPool} from "../../reactive/EwentHandlerPool";
 
 export default class Button extends Widget {
-    clicked = ewent<JQuery.ClickEvent>()
+  clicked = ewent<JQuery.ClickEvent>()
 
-    enabled = observe(true)
-    toggled = observe(false)
-    isToggleable = observe(false)
+  enabled = observe(true)
+  toggled = observe(false)
+  isToggleable = observe(false)
 
-    constructor(container: JQuery = $("<div>")) {
-        super(container);
+  constructor(container: JQuery = $("<div>")) {
+    super(container);
 
-        this.addClass("lcss-button")
+    this.addClass("lcss-button")
 
-        this.container.on("click", (e) => {
-            e.stopPropagation()
+    this.container.on("click", (e) => {
+      e.stopPropagation()
 
-            if (!this.container.hasClass("enabled")) return
+      if (!this.container.hasClass("enabled")) return
 
-            if (this.isToggleable.value()) this.toggled.set(!this.toggled.value())
+      if (this.isToggleable.value()) this.toggled.set(!this.toggled.value())
 
-            this.clicked.trigger(e)
-        })
+      this.clicked.trigger(e)
+    })
 
-        this.enabled.subscribe(v => {
-            this.toggleClass("enabled", v)
-        }, true)
+    this.enabled.subscribe(v => {
+      this.toggleClass("enabled", v)
+    }, true)
 
-        this.toggled.subscribe(v => {
-            this.toggleClass("toggled", v)
-        })
+    this.toggled.subscribe(v => {
+      this.toggleClass("toggled", v)
+    })
 
-        this.isToggleable.subscribe(v => {
-            if (!v) this.toggled.set(false)
-        })
+    this.isToggleable.subscribe(v => {
+      if (!v) this.toggled.set(false)
+    })
 
-        this.setEnabled(true)
-    }
+    this.setEnabled(true)
+  }
 
-    setEnabled(value: boolean): this {
-        this.enabled.set(value)
+  setEnabled(value: boolean): this {
+    this.enabled.set(value)
 
-        if(!value) this.toggled.set(false)
+    if (!value) this.toggled.set(false)
 
-        return this
-    }
+    return this
+  }
 
-    onClick(handler: (_: JQuery.ClickEvent) => any, pool: EwentHandlerPool = null): this {
-        let h = this.clicked.on(handler)
-        pool?.bind(h)
+  onClick(handler: (_: JQuery.ClickEvent) => any, pool: EwentHandlerPool = null): this {
+    let h = this.clicked.on(handler)
+    pool?.bind(h)
 
-        return this
-    }
+    return this
+  }
 
-    onToggle(handler: (toggled: boolean) => any): this {
-        this.toggled.subscribe(handler)
+  onToggle(handler: (toggled: boolean) => any): this {
+    this.toggled.subscribe(handler)
 
-        return this
-    }
+    return this
+  }
 
-    setToggleable(v: boolean): this {
-        this.isToggleable.set(v)
-        return this
-    }
+  setToggleable(v: boolean): this {
+    this.isToggleable.set(v)
+    return this
+  }
 
-    setToggled(b: boolean): this {
-        this.toggled.set(b)
+  setToggled(b: boolean): this {
+    this.toggled.set(b)
 
-        return this
-    }
+    return this
+  }
 
-    click() {
-        return this.raw().click()
-    }
+  click() {
+    return this.raw().click()
+  }
 }

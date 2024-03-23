@@ -1,84 +1,83 @@
 import {GameLayer} from "../GameLayer";
-import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
 import {GameMap} from "../GameMap";
 
 import InteractionTopControl from "../../../trainer/ui/map/InteractionTopControl";
 import {ewent} from "../../reactive";
 
 export class InteractionGuard {
-    private interaction: InteractionLayer = null
-    private default_layer: GameLayer = null
+  private interaction: InteractionLayer = null
+  private default_layer: GameLayer = null
 
-    setDefaultLayer(def: GameLayer): this {
-        this.default_layer = def
+  setDefaultLayer(def: GameLayer): this {
+    this.default_layer = def
 
-        return this
+    return this
+  }
+
+  set<T extends InteractionLayer>(interaction: T, target: GameLayer = null): T {
+    this.reset()
+
+    if (interaction) {
+      if (interaction._guard) interaction._guard.reset()
+
+      this.interaction = interaction
+      interaction._guard = this
+
+      interaction.addTo(target || this.default_layer)
     }
 
-    set<T extends InteractionLayer>(interaction: T, target: GameLayer = null): T {
-        this.reset()
+    return interaction
+  }
 
-        if (interaction) {
-            if (interaction._guard) interaction._guard.reset()
-
-            this.interaction = interaction
-            interaction._guard = this
-
-            interaction.addTo(target || this.default_layer)
-        }
-
-        return interaction
+  reset() {
+    if (this.interaction) {
+      this.interaction._guard = null
+      this.interaction.cancel()
     }
 
-    reset() {
-        if (this.interaction) {
-            this.interaction._guard = null
-            this.interaction.cancel()
-        }
+    this.interaction = null
 
-        this.interaction = null
-
-        return this
-    }
+    return this
+  }
 }
 
 export default class InteractionLayer extends GameLayer {
-    _guard: InteractionGuard = null
+  _guard: InteractionGuard = null
 
-    started = ewent<InteractionLayer>()
-    ended = ewent<InteractionLayer>()
+  started = ewent<InteractionLayer>()
+  ended = ewent<InteractionLayer>()
 
-    onAdd(map: GameMap): this {
-        super.onAdd(map)
+  onAdd(map: GameMap): this {
+    super.onAdd(map)
 
-        this.started.trigger(this)
+    this.started.trigger(this)
 
-        this.getMap().container.focus()
+    this.getMap().container.focus()
 
-        return this
-    }
+    return this
+  }
 
-    attachTopControl(tc: InteractionTopControl): this {
-        tc.setCancelHandler(() => this.cancel()).addTo(this)
+  attachTopControl(tc: InteractionTopControl): this {
+    tc.setCancelHandler(() => this.cancel()).addTo(this)
 
-        return this
-    }
+    return this
+  }
 
-    cancel() {
-        if (this._guard) this._guard.reset()
-        this.remove()
+  cancel() {
+    if (this._guard) this._guard.reset()
+    this.remove()
 
-        this.ended.trigger(this)
-    }
+    this.ended.trigger(this)
+  }
 
-    onEnd(handler: () => any): this {
-        this.ended.on(handler)
-        return this
-    }
+  onEnd(handler: () => any): this {
+    this.ended.on(handler)
+    return this
+  }
 
-    onStart(handler: () => void): this {
-        this.started.on(handler)
+  onStart(handler: () => void): this {
+    this.started.on(handler)
 
-        return this
-    }
+    return this
+  }
 }

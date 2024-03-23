@@ -8,13 +8,11 @@ import {Clues} from "../../../lib/runescape/clues";
 import MethodSubEditor from "./MethodSubEditor";
 import LightButton from "../widgets/LightButton";
 import SelectPackModal from "./SelectPackModal";
-
-import GenericPathMethodEditor from "./GenericPathMethodEditor";
+import {GenericPathMethodEditor} from "./GenericPathMethodEditor";
 import {AssumptionProperty} from "./AssumptionProperty";
 import ButtonRow from "../../../lib/ui/ButtonRow";
 import {observe} from "../../../lib/reactive";
 import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
-import {TileRectangle} from "../../../lib/runescape/coordinates";
 import {EditMethodMetaModal} from "./MethodModal";
 import TheoryCrafter from "./TheoryCrafter";
 import Dependencies from "../../dependencies";

@@ -42,6 +42,7 @@ import Order = util.Order;
 import hbox = C.hbox;
 import vbox = C.vbox;
 import hboxl = C.hboxl;
+import collect_issues = Path.collect_issues;
 
 export class DrawRegionAction extends ValueInteraction<ScanRegion> {
   constructor(name: string) {
@@ -132,10 +133,6 @@ class TreeNodeEdit extends Widget {
 
     this.body.row(this.instruction_preview = c(),)
     this.body.named("Timing", this.timing_box = hboxl())
-
-    if (node.remaining_candidates.length > 1 && (!node.parent || node.parent.key.pulse != 3)) {
-      // this.region_edit = this.body.named("Region", new RegionEdit(this))
-    }
 
     this.append(
       this.self_content = hbox().addClass("ctr-scantreeedit-node").append(
@@ -379,7 +376,7 @@ class TreeNodeEdit extends Widget {
       .append(complete, correct)
 
     if (node.path.issues.length > 0) {
-      correct.addTippy(vbox(...node.path.issues.map(i => new IssueWidget(i))))
+      correct.addTippy(vbox(...collect_issues(node.path).map(i => new IssueWidget(i))))
     }
 
     this.children.forEach(c => c.detach())

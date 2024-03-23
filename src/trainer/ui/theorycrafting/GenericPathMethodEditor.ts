@@ -2,7 +2,6 @@ import MethodSubEditor from "./MethodSubEditor";
 import MethodEditor from "./MethodEditor";
 import {AugmentedMethod} from "../../model/MethodPackManager";
 import {SolvingMethods} from "../../model/methods";
-import PathProperty from "../pathedit/PathProperty";
 import {PathEditor} from "../pathedit/PathEditor";
 import {SingleBehaviour} from "../../../lib/ui/Behaviour";
 import {GameLayer} from "../../../lib/gamemap/GameLayer";
@@ -13,11 +12,21 @@ import {Path} from "../../../lib/runescape/pathing";
 import {Clues} from "../../../lib/runescape/clues";
 import {deps} from "../../dependencies";
 import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
+import ContextMenu, {MenuEntry} from "../widgets/ContextMenu";
+import {C} from "../../../lib/ui/constructors";
+import {PathingGraphics} from "../path_graphics";
+import {Observable, observe} from "../../../lib/reactive";
+import {IssueWidget} from "../pathedit/EditedPathOverview";
 import GenericPathMethod = SolvingMethods.GenericPathMethod;
 import movement_state = Path.movement_state;
 import activate = TileArea.activate;
+import hbox = C.hbox;
+import hboxl = C.hboxl;
+import vbox = C.vbox;
+import span = C.span;
+import collect_issues = Path.collect_issues;
 
-function getSection(method: GenericPathMethod, section: "pre" | "post" | "main") {
+function getSection(method: GenericPathMethod, section: "pre" | "post" | "main"): Path {
   switch (section) {
     case "pre":
       return method.pre_path
@@ -28,12 +37,114 @@ function getSection(method: GenericPathMethod, section: "pre" | "post" | "main")
   }
 }
 
-export default class GenericPathMethodEditor extends MethodSubEditor {
+class SegmentEdit extends Widget {
+  public path: Path.augmented = null
+
+  body: Properties
+
+  constructor(public parent: GenericPathMethodEditor, public section: GenericPathMethodEditor.SequenceSegment) {
+    super(hbox().container)
+
+    this.addClass("ctr-scantreeedit-node")
+
+    if (!section.path) this.addClass("no-hover")
+
+    const collapse_bar =
+      hbox(
+        c().css("background-color", section.path ? "blue" : "gray")
+          .css("width", "3px")
+      ).css2({
+        "padding-left": `4px`,
+        "padding-right": "4px",
+      })
+
+    this.body = new Properties()
+
+    this.append(
+      collapse_bar,
+      this.body.css("flex-grow", "1")
+        .on("click", (e) => {
+          e.stopPropagation()
+          e.preventDefault()
+
+          this.parent.requestActivation(this.isActive() ? null : this)
+        })
+    )
+
+    this.on("contextmenu", e => this.contextMenu(e.originalEvent))
+
+    this.renderValue(null)
+  }
+
+  contextMenu(event: MouseEvent) {
+    event.preventDefault()
+    event.stopPropagation()
+
+    const entries: MenuEntry[] = [
+      {
+        type: "basic",
+        text: this.isActive() ? "Deactivate" : "Activate",
+        handler: () => {
+          this.parent.requestActivation(this.isActive() ? null : this)
+        }
+      }
+    ]
+
+    new ContextMenu({
+        type: "submenu",
+        text: "",
+        children: entries.filter(e => !!e)
+      },
+    )
+      .showFromEvent2(event)
+  }
+
+  renderValue(path: Path.augmented) {
+    this.path = path
+
+    this.body.empty()
+    this.body.header(GenericPathMethodEditor.SequenceSegment.header(this.section))
+
+    if (this.section.path && path) {
+
+      if (path.raw.length > 0) {
+        this.body.row(c()
+          .setInnerHtml(deps().app.template_resolver.resolve(this.path.raw.map(PathingGraphics.templateString).join(" - ")))
+        )
+      }
+      const issues = collect_issues(path)
+
+      if (issues.length > 0) {
+        this.body.row(vbox(
+          ...issues.map(i => new IssueWidget(i))
+        ))
+      }
+
+      this.body.named("Timing", hboxl(
+        span(`T${this.path.pre_state.tick}`).addClass('nisl-textlink'),
+        span("&nbsp;to&nbsp;"),
+        span(`T${this.path.post_state.tick}`).addClass('nisl-textlink'),
+      ))
+    }
+  }
+
+  setActive(v: boolean) {
+    this.toggleClass("active", v)
+  }
+
+  isActive(): boolean {
+    return this == this.parent.active.value()
+  }
+}
+
+export class GenericPathMethodEditor extends MethodSubEditor {
   path_editor: SingleBehaviour<PathEditor> = this.withSub(new SingleBehaviour<PathEditor>())
 
   sidepanel_widget: Widget
 
   sequence: GenericPathMethodEditor.Sequence = []
+
+  active: Observable<SegmentEdit> = observe(null)
 
   constructor(parent: MethodEditor,
               public value: AugmentedMethod<GenericPathMethod>,
@@ -45,6 +156,41 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
     this.assumptions.subscribe((v) => {
       this.updateSequence()
     })
+
+    this.active.subscribe(segment => {
+      if (this.path_editor.isActive()) {
+        this.path_editor.get()
+        this.path_editor.set(null)
+      }
+
+      if (segment) {
+        this.setPathEditor({
+          start_state: segment.path.pre_state,
+          initial: segment.path.raw,
+          target: segment.path.target,
+          commit_handler: (path) => {
+            const seg = this.sequence.find(s => s.edit == segment)
+
+            switch (seg.path.section) {
+              case "pre":
+                this.value.method.pre_path = path
+                break
+              case "post":
+                this.value.method.post_path = path
+                break;
+              case "main":
+                this.value.method.main_path = path
+                break;
+            }
+
+            this.parent.registerChange()
+
+            this.propagateState()
+          },
+          discard_handler: () => {}
+        })
+      }
+    })
   }
 
   private setPathEditor(options: PathEditor.options_t): PathEditor {
@@ -53,33 +199,29 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
       deps().app.template_resolver,
       options,
       false)
-      .onStop(() => {
-        this.propagateState()
-        //if (this.tree_edit.active_node.value() == node) this.tree_edit.setActiveNode(null)
-      })
 
     this.path_editor.set(editor)
 
     return editor
   }
 
-  protected begin() {
+  protected async begin() {
     super.begin()
 
     this.sidepanel_widget = c().appendTo(this.parent.sidebar.body)
 
     this.layer.addTo(deps().app.map)
 
-    this.updateSequence()
+    await this.updateSequence()
 
-    this.sequence.find(s => s.path.prop).path.prop.edit()
+    this.requestActivation(this.sequence.find(s => s.path).edit)
   }
 
   /**
    * Updates the required sequence based on the clue step and the method assumptions.
    * The sequence is the "blueprint" of things that need to be done to complete the step.
    */
-  private updateSequence() {
+  private async updateSequence() {
     let sequence: GenericPathMethodEditor.Sequence = []
 
     const value = this.value
@@ -92,12 +234,12 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
       if (!assumptions.full_globetrotter) {
         if (hidey_hole_in_target) {
           sequence.push({
-            name: `Path to Hidey Hole (${clue.hidey_hole.name}) in Target Area`,
+            name: `Path to Hidey Hole in Target Area`,
             path: {section: "main", target: activate(TileArea.init(clue.hidey_hole.location))}
           })
         } else if (clue.hidey_hole) {
           sequence.push({
-            name: `Path to Hidey Hole (${clue.hidey_hole.name})`,
+            name: `Path to Hidey Hole`,
             path: {section: "pre", target: activate(TileArea.init(clue.hidey_hole.location))}
           })
         }
@@ -140,10 +282,10 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
 
     this.sequence = sequence
 
-    this.render()
+    await this.render()
   }
 
-  private render() {
+  private async render() {
     this.sidepanel_widget.empty()
 
     const props = new Properties().appendTo(this.sidepanel_widget)
@@ -151,39 +293,13 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
     const assumptions = this.assumptions.value()
 
     this.sequence.forEach(section => {
-      if (section.ticks != null) {
-        props.header(`${section.name} (+${section.ticks} ticks)`)
-      } else {
-        props.header(section.name)
-      }
 
-      if (section.path) {
-        props.row(section.path.prop = new PathProperty({
-          editor_handle: (options) => this.setPathEditor(options),
-          target: section.path.target,
-        })
-          .setValue(getSection(value.method, section.path.section))
-          .onCommit((v) => {
-            switch (section.path.section) {
-              case "pre":
-                this.value.method.pre_path = v
-                break
-              case "post":
-                this.value.method.post_path = v
-                break;
-              case "main":
-                this.value.method.main_path = v
-                break;
-            }
-
-            this.parent.registerChange()
-
-            this.propagateState()
-          }))
-      }
+      props.row(section.edit =
+        new SegmentEdit(this, section)
+      )
     })
 
-    this.propagateState()
+    await this.propagateState()
 
     // Create widgets for every part of the path
     // - Pre-Path for keys (if not way of the foot shaped key) and hidey holes (if not full globetrotter && hideyhole not in area)
@@ -203,8 +319,13 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
       let state: movement_state = lodash.cloneDeep(await old_state)
 
       if (section.path) {
-        await section.path.prop.setStartState(await old_state)
-        state = lodash.cloneDeep((await section.path.prop.augmented).post_state)
+        const section_path = getSection(this.value.method, section.path.section)
+
+        const augmented = await Path.augment(section_path, state, section.path.target)
+
+        section.edit.renderValue(augmented)
+
+        state = lodash.cloneDeep(augmented.post_state)
       }
 
       if (section.ticks) state.tick += section.ticks
@@ -214,13 +335,35 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
 
     this.value.method.expected_time = end_state.tick
   }
+
+  requestActivation(segment: SegmentEdit) {
+    if (segment && !segment.section.path) return
+
+    if (this.active.value()) this.active.value().setActive(false)
+
+    this.active.set(segment)
+
+    if (this.active.value()) this.active.value().setActive(true)
+  }
 }
 
 export namespace GenericPathMethodEditor {
-
-  export type Sequence = {
-    path?: { section: "pre" | "post" | "main", target: TileArea.ActiveTileArea, prop?: PathProperty } | null,
+  export type SequenceSegment = {
+    path?: { section: "pre" | "post" | "main", target: TileArea.ActiveTileArea } | null,
     name: string,
-    ticks?: number
-  } []
+    ticks?: number,
+    edit?: SegmentEdit
+  }
+
+  export namespace SequenceSegment {
+    export function header(segment: SequenceSegment): string {
+      if (segment.ticks != null) {
+        return `${segment.name} (+${segment.ticks} ticks)`
+      } else {
+        return segment.name
+      }
+    }
+  }
+
+  export type Sequence = SequenceSegment[]
 }

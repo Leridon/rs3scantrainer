@@ -23,8 +23,6 @@ export default class TheoryCraftingSidebar extends MapSideBar {
 
     this.methods = MethodPackManager.instance()
 
-    this.header.close_handler.set(() => theorycrafter.stop())
-
     this.methods.saved.on(async (p) => this.render(await this.methods.all())).bindTo(theorycrafter.handler_pool)
     this.methods.all().then(p => this.render(p))
   }

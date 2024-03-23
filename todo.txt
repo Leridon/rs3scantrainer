@@ -10,9 +10,6 @@ Planned for next release (b0.4):
     - Better placement of information marker to guarantee it's always inside the area.
     - Scale information gain down when zoomed out
 
-- Issues
-    - [Bug, 4] Cloning a method is broken in multiple ways
-
 - Data
     - [Dev Tool, 3] Utility Layer for shortcut parsing
         - Option to overlay parsed transports

@@ -7,7 +7,7 @@ import TransportLayer from "../map/TransportLayer";
 import ClueAssumptions = SolvingMethods.ClueAssumptions;
 
 export default abstract class MethodSubEditor extends Behaviour {
-  protected layer: GameLayer
+  public layer: GameLayer
 
   assumptions: Observable<ClueAssumptions> = observe(ClueAssumptions.init())
 

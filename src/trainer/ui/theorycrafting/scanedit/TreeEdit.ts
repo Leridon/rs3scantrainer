@@ -42,6 +42,7 @@ import Order = util.Order;
 import hbox = C.hbox;
 import vbox = C.vbox;
 import hboxl = C.hboxl;
+import collect_issues = Path.collect_issues;
 
 export class DrawRegionAction extends ValueInteraction<ScanRegion> {
   constructor(name: string) {
@@ -64,94 +65,6 @@ export class DrawRegionAction extends ValueInteraction<ScanRegion> {
   }
 }
 
-class RegionEdit extends Widget {
-  constructor(public parent: TreeNodeEdit) {
-    super($("<div style='display: flex'></div>"));
-
-    this.render()
-  }
-
-  public render() {
-    this.empty()
-
-    let is_defined = !!this.parent.node.raw.region
-
-    if (is_defined) {
-      new TextField()
-        .setValue(this.parent.node.raw.region.name)
-        .onPreview((v) => {
-          this.parent.node.raw.region.name = v
-          this.parent.region_preview?.setRegion(this.parent.node.raw.region)
-        })
-        .onCommit((v) => {
-          this.parent.parent.parent.builder.setRegion(this.parent.node.raw, {area: this.parent.node.region.area, name: v})
-        })
-        .css("flex-grow", "1")
-        .appendTo(this)
-
-      SmallImageButton.new("assets/icons/edit.png")
-        .css("margin-left", "2px")
-        .onClick(async () => {
-
-          this.parent.parent.parent.interaction_guard.set(
-            new DrawRegionAction(this.parent.node.raw.region.name)
-              .onStart(() => this.parent.region_preview?.setOpacity(0))
-              .onEnd(() => this.parent.region_preview?.setOpacity(this.parent.region_preview.isActive()
-                ? this.parent.region_preview.active_opacity
-                : this.parent.region_preview.inactive_opacity))
-              .onCommit(area => {
-                this.parent.parent.parent.builder.setRegion(this.parent.node.raw, area)
-              })
-          )
-        })
-        .appendTo(this)
-
-      SmallImageButton.new("assets/icons/regenerate.png")
-        .css("margin-left", "2px")
-        .onClick(async () => {
-          /*this.parent.parent.parent.builder.setRegion(this.parent.node.raw, {
-              name: this.parent.node.region?.name || "",
-              area: TileRectangle.fromTile(this.parent.node.path.post_state?.position?.tile)
-          })*/
-        })
-        .setEnabled(this.parent.node.path.steps.length > 0 && !!this.parent.node.path.post_state?.position?.tile)
-        .appendTo(this)
-
-      SmallImageButton.new("assets/icons/delete.png")
-        .css("margin-left", "2px")
-        .onClick(async () => {
-          this.parent.parent.parent.builder.setRegion(this.parent.node.raw, null)
-        })
-        .appendTo(this)
-    } else {
-      new LightButton("Create")
-        .onClick(async () => {
-          if (this.parent.node.path.steps.length > 0 && this.parent.node.path.post_state?.position?.tile) {
-            let area = TileRectangle.fromTile(this.parent.node.path.post_state?.position?.tile)
-
-            /*this.parent.parent.parent.builder.setRegion(this.parent.node.raw, {
-                name: "",
-                area: area
-            })*/
-          } else {
-            this.parent.parent.parent.interaction_guard.set(
-              new DrawRegionAction("")
-                .onStart(() => this.parent.region_preview?.setOpacity(0))
-                .onEnd(() => this.parent.region_preview?.setOpacity(this.parent.region_preview.isActive()
-                  ? this.parent.region_preview.active_opacity
-                  : this.parent.region_preview.inactive_opacity))
-                .onCommit(area => {
-                  this.parent.parent.parent.builder.setRegion(this.parent.node.raw, area)
-                })
-            )
-          }
-        })
-        .appendTo(this)
-    }
-  }
-}
-
-
 class TreeNodeEdit extends Widget {
   self_content: Widget
   header: Widget
@@ -165,9 +78,6 @@ class TreeNodeEdit extends Widget {
   children: TreeNodeEdit[] = []
   child_content: Widget
   completeness_container: Widget
-  description_input: TemplateStringEdit = null
-  region_edit: RegionEdit = null
-  path_property: PathProperty = null
   decision_span: Widget = null
 
   is_collapsed: boolean = false
@@ -223,10 +133,6 @@ class TreeNodeEdit extends Widget {
 
     this.body.row(this.instruction_preview = c(),)
     this.body.named("Timing", this.timing_box = hboxl())
-
-    if (node.remaining_candidates.length > 1 && (!node.parent || node.parent.key.pulse != 3)) {
-      // this.region_edit = this.body.named("Region", new RegionEdit(this))
-    }
 
     this.append(
       this.self_content = hbox().addClass("ctr-scantreeedit-node").append(
@@ -470,12 +376,10 @@ class TreeNodeEdit extends Widget {
       .append(complete, correct)
 
     if (node.path.issues.length > 0) {
-      correct.addTippy(vbox(...node.path.issues.map(i => new IssueWidget(i))))
+      correct.addTippy(vbox(...collect_issues(node.path).map(i => new IssueWidget(i))))
     }
 
     this.children.forEach(c => c.detach())
-
-    if (this.region_edit) this.region_edit.render()
 
     this.updateInstructionPreview()
 
@@ -484,8 +388,6 @@ class TreeNodeEdit extends Widget {
       span("&nbsp;to&nbsp;"),
       span(`T${this.node.path.post_state.tick}`).addClass('nisl-textlink'),
     )
-
-    // TODO: Display path issues
 
     this.children = this.node.children.map(child => {
         let existing = this.children.find(c => c.node.raw == child.value.raw)

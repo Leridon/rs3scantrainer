@@ -193,6 +193,8 @@ export namespace Clues {
       }
 
       if (spot.clue.type == "emote") return spot.clue.area
+
+      if (spot.clue.type == "scan") return TileArea.fromRect(TileRectangle.from(...spot.clue.spots))
     }
 
     export function toId(spot: ClueSpot): Id {

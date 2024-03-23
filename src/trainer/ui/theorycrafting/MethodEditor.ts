@@ -8,19 +8,19 @@ import {Clues} from "../../../lib/runescape/clues";
 import MethodSubEditor from "./MethodSubEditor";
 import LightButton from "../widgets/LightButton";
 import SelectPackModal from "./SelectPackModal";
-
-import GenericPathMethodEditor from "./GenericPathMethodEditor";
+import {GenericPathMethodEditor} from "./GenericPathMethodEditor";
 import {AssumptionProperty} from "./AssumptionProperty";
 import ButtonRow from "../../../lib/ui/ButtonRow";
 import {observe} from "../../../lib/reactive";
 import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
-import {TileRectangle} from "../../../lib/runescape/coordinates";
 import {EditMethodMetaModal} from "./MethodModal";
 import TheoryCrafter from "./TheoryCrafter";
 import Dependencies from "../../dependencies";
+import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import GenericPathMethod = SolvingMethods.GenericPathMethod;
 import Method = SolvingMethods.Method;
+import ClueSpot = Clues.ClueSpot;
 
 class MethodEditSideBar extends MapSideBar {
   save_row: ButtonRow
@@ -78,7 +78,7 @@ class MethodEditSideBar extends MapSideBar {
     this.save_row.empty()
 
     this.save_row.buttons(
-      new LightButton(`Save`, "rectangle")
+      new LightButton("Save", "rectangle")
         .setEnabled(this.parent.is_dirty.value())
         .onClick(async () => {
 
@@ -130,6 +130,10 @@ export default class MethodEditor extends Behaviour {
 
   constructor(public theorycrafter: TheoryCrafter, public method: AugmentedMethod) {
     super();
+
+    if (!method.pack || !MethodPackManager.instance().getMethod(method.pack.local_id, method.method.id)) {
+      this.is_dirty.set(true)
+    }
   }
 
   registerChange(): void {
@@ -147,6 +151,12 @@ export default class MethodEditor extends Behaviour {
     }
 
     this.sub_editor.setAssumptions(this.method.method.assumptions)
+
+    const bounds = ClueSpot.targetArea({clue: this.method.clue, spot: this.method.method.for.spot})
+
+    if (bounds) {
+      this.sub_editor.layer.getMap().fitView(TileArea.toRect(bounds))
+    }
   }
 
   protected end() {

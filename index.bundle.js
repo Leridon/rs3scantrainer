@@ -88287,9 +88287,9 @@ const raw_data = [
     },
     {
         /* Notes: Apparently, the area is a 7 by 7 are centered on the tile directly in front of the entrance in most cases.
-           Some that were moved in graphical updates have not been updated.
-
-         */
+               Some that were moved in graphical updates have not been updated.
+    
+             */
         type: "teleports",
         id: "dungcape",
         name: "Dungeoneering Cape",
@@ -88562,46 +88562,46 @@ const raw_data = [
         ]
     },
     /*
-    {
-        type: "teleports",
-        id: "piratebook",
-name: "Big book o´piracy",
-img: {url: "bookopiracy.gif"},
-        spots: [
-            {
-                id: "mosleharmless",
-target: {origin: {x: 3684, y: 2958, level: 0}},
-code: "1",
-name: "Mos Le'Harmless",
-                menu_ticks: 1,
-                animation_ticks: 13
-            },
-            {
-                id: "braindeath",
-target: {origin: {x: 2162, y: 5114, level: 0}},
-code: "2",
-name: "Braindeath Island",
-                menu_ticks: 1,
-                animation_ticks: 13
-            },
-            {
-                id: "dragontooth",
-target: { origin: {"x": 3792, "y": 3559, "level": 0} },
-code: "3",
-name: "Dragontooth Isle",
-                menu_ticks: 1,
-                animation_ticks: 13
-            },
-            {
-                id: "harmony",
-target: {origin: {x: 3797, y: 2836, level: 0}},
-code: "3",
-name: "Harmony Island",
-                menu_ticks: 1,
-                animation_ticks: 13
-            },
-        ]
-    },*/
+      {
+          type: "teleports",
+          id: "piratebook",
+  name: "Big book o´piracy",
+  img: {url: "bookopiracy.gif"},
+          spots: [
+              {
+                  id: "mosleharmless",
+  target: {origin: {x: 3684, y: 2958, level: 0}},
+  code: "1",
+  name: "Mos Le'Harmless",
+                  menu_ticks: 1,
+                  animation_ticks: 13
+              },
+              {
+                  id: "braindeath",
+  target: {origin: {x: 2162, y: 5114, level: 0}},
+  code: "2",
+  name: "Braindeath Island",
+                  menu_ticks: 1,
+                  animation_ticks: 13
+              },
+              {
+                  id: "dragontooth",
+  target: { origin: {"x": 3792, "y": 3559, "level": 0} },
+  code: "3",
+  name: "Dragontooth Isle",
+                  menu_ticks: 1,
+                  animation_ticks: 13
+              },
+              {
+                  id: "harmony",
+  target: {origin: {x: 3797, y: 2836, level: 0}},
+  code: "3",
+  name: "Harmony Island",
+                  menu_ticks: 1,
+                  animation_ticks: 13
+              },
+          ]
+      },*/
     {
         type: "teleports",
         id: "amuletofglory",
@@ -89566,56 +89566,56 @@ name: "Harmony Island",
             }]
     },
     /*
-{
-type: "teleports",
-id: "balloon",
-name: "Balloon",
-img: {url: "balloon.png"},
-spots: [
-    {
-        id: "castlewars",
-target: {origin: {x: 2463, y: 3109, level: 0}},
-name: "Castle Wars",
-        menu_ticks: 1,
-        animation_ticks: 5
-    },
-    {
-        id: "grandtree",
-target: {origin: {x: 2477, y: 3462, level: 0}},
-name: "Grand Tree",
-        menu_ticks: 1,
-        animation_ticks: 5
-    },
-    {
-        id: "craftingguild",
-target: {origin: {x: 2923, y: 3300, level: 0}},
-name: "Crafting Guild",
-        menu_ticks: 1,
-        animation_ticks: 5
-    },
-    {
-        id: "taverley",
-target: {origin: {x: 2931, y: 3414, level: 0}},
-name: "Taverley",
-        menu_ticks: 1,
-        animation_ticks: 5
-    },
-    {
-        id: "varrock",
-target: {origin: {x: 3298, y: 3483, level: 0}},
-name: "Varrock",
-        menu_ticks: 1,
-        animation_ticks: 5
-    },
-    {
-        id: "entrana",
-target: {origin: {x: 2809, y: 3356, level: 0}},
-name: "Entrana",
-        menu_ticks: 1,
-        animation_ticks: 5
-    },
-]
-},*/
+  {
+  type: "teleports",
+  id: "balloon",
+  name: "Balloon",
+  img: {url: "balloon.png"},
+  spots: [
+      {
+          id: "castlewars",
+  target: {origin: {x: 2463, y: 3109, level: 0}},
+  name: "Castle Wars",
+          menu_ticks: 1,
+          animation_ticks: 5
+      },
+      {
+          id: "grandtree",
+  target: {origin: {x: 2477, y: 3462, level: 0}},
+  name: "Grand Tree",
+          menu_ticks: 1,
+          animation_ticks: 5
+      },
+      {
+          id: "craftingguild",
+  target: {origin: {x: 2923, y: 3300, level: 0}},
+  name: "Crafting Guild",
+          menu_ticks: 1,
+          animation_ticks: 5
+      },
+      {
+          id: "taverley",
+  target: {origin: {x: 2931, y: 3414, level: 0}},
+  name: "Taverley",
+          menu_ticks: 1,
+          animation_ticks: 5
+      },
+      {
+          id: "varrock",
+  target: {origin: {x: 3298, y: 3483, level: 0}},
+  name: "Varrock",
+          menu_ticks: 1,
+          animation_ticks: 5
+      },
+      {
+          id: "entrana",
+  target: {origin: {x: 2809, y: 3356, level: 0}},
+  name: "Entrana",
+          menu_ticks: 1,
+          animation_ticks: 5
+      },
+  ]
+  },*/
     {
         type: "teleports",
         id: "gote",
@@ -89648,60 +89648,60 @@ name: "Entrana",
             }]
     },
     /*
-{
-type: "teleports",
-id: "spheredorgeshkaan",
-name: "Dorgesh-kaan sphere",
-img: {url: "sphere_dorgeshkaan.png"},
-spots: [
-    {
-        id: "north",
-target: {origin: {x: 2719, y: 5350, level: 0}},
-name: "North",
-code: "1",
-        menu_ticks: 1,
-        animation_ticks: 11
-    },
-    {
-        id: "south",
-target: {origin: {x: 2722, y: 5264, level: 0}},
-name: "South",
-code: "2",
-        menu_ticks: 1,
-        animation_ticks: 11
-    },
-    {
-        id: "east",
-target: { origin: {x: 2735, y: 5307, level: 1} },
-name: "East",
-code: "3",
-        menu_ticks: 1,
-        animation_ticks: 11
-    },
-    {
-        id: "west",
-target: { origin: {x: 2700, y: 5308, level: 1} },
-name: "West",
-code: "4",
-        menu_ticks: 1,
-        animation_ticks: 11
-    },
-]
-},
-{
-type: "teleports",
-id: "spheregoblinvillage",
-name: "Goblin village sphere",
-img: {url: "sphere_goblinvillage.png"},
-spots: [{
-    id: "goblinvillage",
-    name: "Goblin Village",
-    target: {origin: {x: 2957, y: 3503, level: 0}},
-    menu_ticks: 1,
-    animation_ticks: 11
-},]
-},
-*/
+  {
+  type: "teleports",
+  id: "spheredorgeshkaan",
+  name: "Dorgesh-kaan sphere",
+  img: {url: "sphere_dorgeshkaan.png"},
+  spots: [
+      {
+          id: "north",
+  target: {origin: {x: 2719, y: 5350, level: 0}},
+  name: "North",
+  code: "1",
+          menu_ticks: 1,
+          animation_ticks: 11
+      },
+      {
+          id: "south",
+  target: {origin: {x: 2722, y: 5264, level: 0}},
+  name: "South",
+  code: "2",
+          menu_ticks: 1,
+          animation_ticks: 11
+      },
+      {
+          id: "east",
+  target: { origin: {x: 2735, y: 5307, level: 1} },
+  name: "East",
+  code: "3",
+          menu_ticks: 1,
+          animation_ticks: 11
+      },
+      {
+          id: "west",
+  target: { origin: {x: 2700, y: 5308, level: 1} },
+  name: "West",
+  code: "4",
+          menu_ticks: 1,
+          animation_ticks: 11
+      },
+  ]
+  },
+  {
+  type: "teleports",
+  id: "spheregoblinvillage",
+  name: "Goblin village sphere",
+  img: {url: "sphere_goblinvillage.png"},
+  spots: [{
+      id: "goblinvillage",
+      name: "Goblin Village",
+      target: {origin: {x: 2957, y: 3503, level: 0}},
+      menu_ticks: 1,
+      animation_ticks: 11
+  },]
+  },
+  */
     {
         type: "teleports",
         id: "naturessentinel",
@@ -90799,9 +90799,14 @@ spots: [{
     //TODO: Orthen Teleport network
     //TODO: Anachronia teleport (totems)
     //TODO: Boss portals
-    //      - 1912 4367 Dagannoth Kings
     // TODO: Slayer masks
     // TODO: Ritual Site teleport incantation
+    /** TODO
+     *   - Menaphos Tablets
+     *   - All goblin spheres
+     *   - Charter Ships
+     *   - Boss Portal (As Transport instead of tele?)
+     */
 ];
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (raw_data);
 
@@ -91582,7 +91587,7 @@ var ScanTree;
         /* TODO:
             - Run followed by run is combined
             -
-
+    
          */
         const target = node.raw.path.length == 0 || ((_a = node.raw.region) === null || _a === void 0 ? void 0 : _a.name) || node.remaining_candidates.length == 1
             ? " to {{target}}" : "";
@@ -92067,21 +92072,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var leaflet__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! leaflet */ "../node_modules/leaflet/dist/leaflet-src.js");
 /* harmony import */ var leaflet__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(leaflet__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _defaultlayers_Graticule__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./defaultlayers/Graticule */ "./lib/gamemap/defaultlayers/Graticule.ts");
-/* harmony import */ var _ui_Widget__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ui/Widget */ "./lib/ui/Widget.ts");
-/* harmony import */ var _trainer_constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../trainer/constants */ "./trainer/constants.ts");
-/* harmony import */ var _trainer_ui_widgets_ContextMenu__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../trainer/ui/widgets/ContextMenu */ "./trainer/ui/widgets/ContextMenu.ts");
-/* harmony import */ var _defaultlayers_TileHighlightLayer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./defaultlayers/TileHighlightLayer */ "./lib/gamemap/defaultlayers/TileHighlightLayer.ts");
-/* harmony import */ var _MapEvents__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./MapEvents */ "./lib/gamemap/MapEvents.ts");
-/* harmony import */ var _GameMapControl__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./GameMapControl */ "./lib/gamemap/GameMapControl.ts");
-/* harmony import */ var _defaultlayers_BaseTileLayer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./defaultlayers/BaseTileLayer */ "./lib/gamemap/defaultlayers/BaseTileLayer.ts");
-/* harmony import */ var _defaultlayers_FloorControl__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./defaultlayers/FloorControl */ "./lib/gamemap/defaultlayers/FloorControl.ts");
-/* harmony import */ var _math__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../math */ "./lib/math/index.ts");
-/* harmony import */ var _util_util__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../util/util */ "./lib/util/util.ts");
-/* harmony import */ var _runescape_coordinates__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../runescape/coordinates */ "./lib/runescape/coordinates/index.ts");
+/* harmony import */ var _runescape_coordinates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../runescape/coordinates */ "./lib/runescape/coordinates/index.ts");
+/* harmony import */ var _defaultlayers_Graticule__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./defaultlayers/Graticule */ "./lib/gamemap/defaultlayers/Graticule.ts");
+/* harmony import */ var _ui_Widget__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../ui/Widget */ "./lib/ui/Widget.ts");
+/* harmony import */ var _trainer_constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../trainer/constants */ "./trainer/constants.ts");
+/* harmony import */ var _trainer_ui_widgets_ContextMenu__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../trainer/ui/widgets/ContextMenu */ "./trainer/ui/widgets/ContextMenu.ts");
+/* harmony import */ var _defaultlayers_TileHighlightLayer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./defaultlayers/TileHighlightLayer */ "./lib/gamemap/defaultlayers/TileHighlightLayer.ts");
+/* harmony import */ var _MapEvents__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./MapEvents */ "./lib/gamemap/MapEvents.ts");
+/* harmony import */ var _GameMapControl__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./GameMapControl */ "./lib/gamemap/GameMapControl.ts");
+/* harmony import */ var _defaultlayers_BaseTileLayer__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./defaultlayers/BaseTileLayer */ "./lib/gamemap/defaultlayers/BaseTileLayer.ts");
+/* harmony import */ var _defaultlayers_FloorControl__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./defaultlayers/FloorControl */ "./lib/gamemap/defaultlayers/FloorControl.ts");
+/* harmony import */ var _math__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../math */ "./lib/math/index.ts");
+/* harmony import */ var _util_util__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../util/util */ "./lib/util/util.ts");
 /* harmony import */ var _reactive__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../reactive */ "./lib/reactive/index.ts");
 /* harmony import */ var _GameLayer__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./GameLayer */ "./lib/gamemap/GameLayer.ts");
-
 
 
 
@@ -92164,16 +92168,16 @@ class GameMap extends leaflet__WEBPACK_IMPORTED_MODULE_0__.Map {
         }
         this.internal_root_layer = new _GameLayer__WEBPACK_IMPORTED_MODULE_14__.GameLayer();
         this.addLayer(this.internal_root_layer);
-        this.addGameLayer(new _defaultlayers_FloorControl__WEBPACK_IMPORTED_MODULE_9__["default"]())
-            .addGameLayer(new _defaultlayers_TileHighlightLayer__WEBPACK_IMPORTED_MODULE_5__["default"]());
+        this.addGameLayer(new _defaultlayers_FloorControl__WEBPACK_IMPORTED_MODULE_10__["default"]())
+            .addGameLayer(new _defaultlayers_TileHighlightLayer__WEBPACK_IMPORTED_MODULE_6__["default"]());
         // Set up all the event handlers to translate into GameMapEvents
         {
             this.on("contextmenu", async (e) => {
-                let event = this.event(new _MapEvents__WEBPACK_IMPORTED_MODULE_6__.GameMapContextMenuEvent(this, e, this.eventCoordinate(e)), (l) => (e) => l.eventContextMenu(e));
+                let event = this.event(new _MapEvents__WEBPACK_IMPORTED_MODULE_7__.GameMapContextMenuEvent(this, e, this.eventCoordinate(e)), (l) => (e) => l.eventContextMenu(e));
                 if (event.active_entity) {
                     await this.internal_root_layer.lockEntity(event.active_entity);
                 }
-                new _trainer_ui_widgets_ContextMenu__WEBPACK_IMPORTED_MODULE_4__["default"](await event.getMenu())
+                new _trainer_ui_widgets_ContextMenu__WEBPACK_IMPORTED_MODULE_5__["default"](await event.getMenu())
                     .show(this.container.get()[0], { x: e.originalEvent.clientX, y: e.originalEvent.clientY })
                     .onClosed(async () => {
                     this.container.focus();
@@ -92181,36 +92185,36 @@ class GameMap extends leaflet__WEBPACK_IMPORTED_MODULE_0__.Map {
                 });
             });
             this.on("click", (e) => {
-                this.event(new _MapEvents__WEBPACK_IMPORTED_MODULE_6__.GameMapMouseEvent(this, e, this.eventCoordinate(e)), (l) => (e) => l.eventClick(e));
+                this.event(new _MapEvents__WEBPACK_IMPORTED_MODULE_7__.GameMapMouseEvent(this, e, this.eventCoordinate(e)), (l) => (e) => l.eventClick(e));
             });
             this.on("mousemove", (e) => {
                 let t = this.eventCoordinate(e);
-                if (!_runescape_coordinates__WEBPACK_IMPORTED_MODULE_12__.TileCoordinates.eq2(t, this._lastHoveredTile)) {
+                if (!_runescape_coordinates__WEBPACK_IMPORTED_MODULE_1__.TileCoordinates.eq2(t, this._lastHoveredTile)) {
                     this._lastHoveredTile = t;
-                    this.event(new _MapEvents__WEBPACK_IMPORTED_MODULE_6__.GameMapMouseEvent(this, e, t), (l) => (e) => l.eventHover(e));
+                    this.event(new _MapEvents__WEBPACK_IMPORTED_MODULE_7__.GameMapMouseEvent(this, e, t), (l) => (e) => l.eventHover(e));
                 }
             });
             this.on("mouseup", (e) => {
-                this.event(new _MapEvents__WEBPACK_IMPORTED_MODULE_6__.GameMapMouseEvent(this, e, this.eventCoordinate(e)), (l) => (e) => l.eventMouseUp(e));
+                this.event(new _MapEvents__WEBPACK_IMPORTED_MODULE_7__.GameMapMouseEvent(this, e, this.eventCoordinate(e)), (l) => (e) => l.eventMouseUp(e));
             });
             this.on("mousedown", (e) => {
-                this.event(new _MapEvents__WEBPACK_IMPORTED_MODULE_6__.GameMapMouseEvent(this, e, this.eventCoordinate(e)), (l) => (e) => l.eventMouseDown(e));
+                this.event(new _MapEvents__WEBPACK_IMPORTED_MODULE_7__.GameMapMouseEvent(this, e, this.eventCoordinate(e)), (l) => (e) => l.eventMouseDown(e));
             });
             this.on("keydown", (e) => {
-                this.event(new _MapEvents__WEBPACK_IMPORTED_MODULE_6__.GameMapKeyboardEvent(this, e), l => e => l.eventKeyDown(e));
+                this.event(new _MapEvents__WEBPACK_IMPORTED_MODULE_7__.GameMapKeyboardEvent(this, e), l => e => l.eventKeyDown(e));
             });
             this.on("keyup", (e) => {
-                this.event(new _MapEvents__WEBPACK_IMPORTED_MODULE_6__.GameMapKeyboardEvent(this, e), l => e => l.eventKeyUp(e));
+                this.event(new _MapEvents__WEBPACK_IMPORTED_MODULE_7__.GameMapKeyboardEvent(this, e), l => e => l.eventKeyUp(e));
             });
             this.viewport.subscribe((new_value, old) => {
-                this.event(new _MapEvents__WEBPACK_IMPORTED_MODULE_6__.GameMapViewChangedEvent(this, old, new_value), l => e => l.eventViewChanged(e));
+                this.event(new _MapEvents__WEBPACK_IMPORTED_MODULE_7__.GameMapViewChangedEvent(this, old, new_value), l => e => l.eventViewChanged(e));
             });
             this.on("moveend", () => this.updateView());
             this.on("zoomend", () => this.updateView());
             this.floor.subscribe(() => this.updateView());
         }
         // Add subtle gridlines
-        new _defaultlayers_Graticule__WEBPACK_IMPORTED_MODULE_1__["default"]({
+        new _defaultlayers_Graticule__WEBPACK_IMPORTED_MODULE_2__["default"]({
             intervals: [
                 { min_zoom: -Infinity, interval: 64 },
                 { min_zoom: 0.5, interval: 8 },
@@ -92232,7 +92236,7 @@ class GameMap extends leaflet__WEBPACK_IMPORTED_MODULE_0__.Map {
     updateView() {
         const bounds = this.getBounds();
         this.viewport.set({
-            rect: _runescape_coordinates__WEBPACK_IMPORTED_MODULE_12__.TileRectangle.lift(_math__WEBPACK_IMPORTED_MODULE_10__.Rectangle.extend(_math__WEBPACK_IMPORTED_MODULE_10__.Rectangle.from(_math__WEBPACK_IMPORTED_MODULE_10__.Vector2.fromLatLong(bounds.getNorthEast()), _math__WEBPACK_IMPORTED_MODULE_10__.Vector2.fromLatLong(bounds.getSouthWest())), 1), this.floor.value()),
+            rect: _runescape_coordinates__WEBPACK_IMPORTED_MODULE_1__.TileRectangle.lift(_math__WEBPACK_IMPORTED_MODULE_11__.Rectangle.extend(_math__WEBPACK_IMPORTED_MODULE_11__.Rectangle.from(_math__WEBPACK_IMPORTED_MODULE_11__.Vector2.fromLatLong(bounds.getNorthEast()), _math__WEBPACK_IMPORTED_MODULE_11__.Vector2.fromLatLong(bounds.getSouthWest())), 1), this.floor.value()),
             zoom: this.getZoom()
         });
         return this;
@@ -92240,12 +92244,13 @@ class GameMap extends leaflet__WEBPACK_IMPORTED_MODULE_0__.Map {
     fitView(view, options = {}) {
         var _a;
         (_a = options.maxZoom) !== null && _a !== void 0 ? _a : (options.maxZoom = Math.max(this.getZoom(), 4));
-        this.fitBounds(_util_util__WEBPACK_IMPORTED_MODULE_11__.util.convert_bounds(_math__WEBPACK_IMPORTED_MODULE_10__.Rectangle.toBounds(view)).pad(0.1), options);
+        this.invalidateSize();
+        this.fitBounds(_util_util__WEBPACK_IMPORTED_MODULE_12__.util.convert_bounds(_math__WEBPACK_IMPORTED_MODULE_11__.Rectangle.toBounds(view)).pad(0.1), options);
         this.floor.set(view.level);
         return this;
     }
     getClientPos(coordinates) {
-        return _math__WEBPACK_IMPORTED_MODULE_10__.Vector2.add(this.latLngToContainerPoint(_math__WEBPACK_IMPORTED_MODULE_10__.Vector2.toLatLong(coordinates)), {
+        return _math__WEBPACK_IMPORTED_MODULE_11__.Vector2.add(this.latLngToContainerPoint(_math__WEBPACK_IMPORTED_MODULE_11__.Vector2.toLatLong(coordinates)), {
             x: this.container.get()[0].getBoundingClientRect().left,
             y: this.container.get()[0].getBoundingClientRect().top
         });
@@ -92255,7 +92260,7 @@ class GameMap extends leaflet__WEBPACK_IMPORTED_MODULE_0__.Map {
         return this;
     }
     addControl(control) {
-        if (!(control instanceof _GameMapControl__WEBPACK_IMPORTED_MODULE_7__.GameMapControl)) {
+        if (!(control instanceof _GameMapControl__WEBPACK_IMPORTED_MODULE_8__.GameMapControl)) {
             super.addControl(control);
         }
         else {
@@ -92277,12 +92282,12 @@ class GameMap extends leaflet__WEBPACK_IMPORTED_MODULE_0__.Map {
         function geturls(filename) {
             return [
                 `https://runeapps.org/s3/map${MAP_ID}/live/${filename}`,
-                `https://runeapps.org/node/map/getnamed?mapid=${MAP_ID}&version=${_trainer_constants__WEBPACK_IMPORTED_MODULE_3__.Constants.map_version}&file=${filename}`
+                `https://runeapps.org/node/map/getnamed?mapid=${MAP_ID}&version=${_trainer_constants__WEBPACK_IMPORTED_MODULE_4__.Constants.map_version}&file=${filename}`
             ];
         }
         let layers = [
             // Rendered Top Down Layer
-            new _defaultlayers_BaseTileLayer__WEBPACK_IMPORTED_MODULE_8__["default"]([
+            new _defaultlayers_BaseTileLayer__WEBPACK_IMPORTED_MODULE_9__["default"]([
                 { urls: geturls(`topdown-${this.floor.value()}/{z}/{x}-{y}.webp`) }
             ], {
                 attribution: SKILLBERT_ATTRIBUTION,
@@ -92291,7 +92296,7 @@ class GameMap extends leaflet__WEBPACK_IMPORTED_MODULE_0__.Map {
                 minZoom: -5
             }),
             // Walls SVG Layer
-            new _defaultlayers_BaseTileLayer__WEBPACK_IMPORTED_MODULE_8__["default"]([
+            new _defaultlayers_BaseTileLayer__WEBPACK_IMPORTED_MODULE_9__["default"]([
                 { to: 2, urls: geturls(`walls-${this.floor.value()}/{z}/{x}-{y}.webp`) },
                 { from: 3, to: 3, urls: geturls(`walls-${this.floor.value()}/{z}/{x}-{y}.svg`) }
             ], {
@@ -92301,7 +92306,7 @@ class GameMap extends leaflet__WEBPACK_IMPORTED_MODULE_0__.Map {
                 minZoom: -5
             }),
             // Filtered Collision Layer
-            new _defaultlayers_BaseTileLayer__WEBPACK_IMPORTED_MODULE_8__["default"]([
+            new _defaultlayers_BaseTileLayer__WEBPACK_IMPORTED_MODULE_9__["default"]([
                 { urls: geturls(`collision-${this.floor.value()}/{z}/{x}-{y}.png`) }
             ], {
                 attribution: SKILLBERT_ATTRIBUTION,
@@ -92399,12 +92404,12 @@ class GameMap extends leaflet__WEBPACK_IMPORTED_MODULE_0__.Map {
     let View;
     (function (View) {
         function equals(a, b) {
-            return _runescape_coordinates__WEBPACK_IMPORTED_MODULE_12__.TileRectangle.equals(a === null || a === void 0 ? void 0 : a.rect, b === null || b === void 0 ? void 0 : b.rect) && (a === null || a === void 0 ? void 0 : a.zoom) == (b === null || b === void 0 ? void 0 : b.zoom);
+            return _runescape_coordinates__WEBPACK_IMPORTED_MODULE_1__.TileRectangle.equals(a === null || a === void 0 ? void 0 : a.rect, b === null || b === void 0 ? void 0 : b.rect) && (a === null || a === void 0 ? void 0 : a.zoom) == (b === null || b === void 0 ? void 0 : b.zoom);
         }
         View.equals = equals;
     })(View = GameMap.View || (GameMap.View = {}));
 })(GameMap || (GameMap = {}));
-class GameMapWidget extends _ui_Widget__WEBPACK_IMPORTED_MODULE_2__["default"] {
+class GameMapWidget extends _ui_Widget__WEBPACK_IMPORTED_MODULE_3__["default"] {
     constructor(container = $("<div>")) {
         super(container);
         this.map = new GameMap(container.get()[0])
@@ -92481,8 +92486,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ZoomLevels__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ZoomLevels */ "./lib/gamemap/ZoomLevels.ts");
 
 
-var observe_combined = _reactive__WEBPACK_IMPORTED_MODULE_0__.Observable.observe_combined;
 
+var observe_combined = _reactive__WEBPACK_IMPORTED_MODULE_0__.Observable.observe_combined;
 class MapEntity extends leaflet__WEBPACK_IMPORTED_MODULE_1__.FeatureGroup {
     constructor(entity_config) {
         super([]);
@@ -94420,29 +94425,29 @@ class ObservableArray extends _Observable__WEBPACK_IMPORTED_MODULE_0__.Observabl
         element_added: Ewent<ObservableArray.ObservableArrayValue<T>>
         element_removed: Ewent<ObservableArray.ObservableArrayValue<T>>
         element_changed: Ewent<ObservableArray.ObservableArrayValue<T>>
-
+  
         get(): ObservableArrayValue<T>[]
     }
-
+  
     export class ObservableArrayFilter<T> implements ObservableArrayView<T> {
         element_added = ewent<ObservableArray.ObservableArrayValue<T>>()
         element_removed = ewent<ObservableArray.ObservableArrayValue<T>>()
         element_changed = ewent<ObservableArray.ObservableArrayValue<T>>()
-
+  
         private cache: ObservableArrayValue<T>[]
         private filter: Observable<(value: T) => boolean> = observe<(_: T) => boolean>(() => true).equality(() => false)
         private handler_pool = new EwentHandlerPool()
-
+  
         constructor(private base: ObservableArrayView<T>) {
             this.cache = base.get()
-
+  
             this.base.element_added.on(v => {
                 if (this.filter.value()(v.value())) {
                     this.cache.push(v)
                     this.element_added.trigger(v)
                 }
             }).bindTo(this.handler_pool)
-
+  
             this.base.element_removed.on(v => {
                 let i = this.cache.indexOf(v)
                 if (i >= 0) {
@@ -94450,46 +94455,46 @@ class ObservableArray extends _Observable__WEBPACK_IMPORTED_MODULE_0__.Observabl
                     this.element_removed.trigger(v)
                 }
             })
-
+  
             this.base.element_changed.on(v => {
                 if (this.filter.value()(v.value())) {
                     this.element_changed.trigger(v)
                 }
             })
-
+  
             this.filter.subscribe((f) => {
                 this.setAndUpdate(this.base.get().filter(v => f(v.value())))
             })
         }
-
+  
         private setAndUpdate(data: ObservableArrayValue<T>[]) {
             let old = this.cache
             this.cache = data
-
+  
             for (let i = 0; i < Math.max(old.length, this.cache.length); i++) {
                 if (old[i] != this.cache[i]) {
                     if (i < this.cache.length && !old.includes(this.cache[i])) {
                         this.element_added.trigger(this.cache[i])
                     }
-
+  
                     if (i < old.length && !this.cache.includes(old[i])) {
                         this.element_removed.trigger(this.cache[i])
                     }
                 }
             }
         }
-
+  
         setFilter(f: (_: T) => boolean): this {
             this.filter.set(f)
-
+  
             return this
         }
-
+  
         get(): ObservableArrayValue<T>[] {
             return this.cache
         }
-
-
+  
+  
         /**
          * Disconnects this view from the underlying observable array.
          * Removes all even hooks to make it garbage collectible.
@@ -94499,7 +94504,7 @@ class ObservableArray extends _Observable__WEBPACK_IMPORTED_MODULE_0__.Observabl
             this.handler_pool.kill()
         }
     }
-*/
+  */
     class ObservableArrayValue extends _Observable__WEBPACK_IMPORTED_MODULE_0__.Observable.Simple {
         constructor(_parent, value) {
             super(value);
@@ -94740,8 +94745,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
 var ClueTier;
 (function (ClueTier) {
     ClueTier.all = ["easy", "medium", "hard", "elite", "master"];
@@ -94841,6 +94844,8 @@ var Clues;
             }
             if (spot.clue.type == "emote")
                 return spot.clue.area;
+            if (spot.clue.type == "scan")
+                return _coordinates_TileArea__WEBPACK_IMPORTED_MODULE_2__.TileArea.fromRect(_coordinates__WEBPACK_IMPORTED_MODULE_0__.TileRectangle.from(...spot.clue.spots));
         }
         ClueSpot.targetArea = targetArea;
         function toId(spot) {
@@ -95542,9 +95547,7 @@ var TileRectangle;
     }
     TileRectangle.bottom = bottom;
     function from(...points) {
-        if (new Set(points.map(p => p.level)).size > 1)
-            throw new TypeError("Level mismatch");
-        return lift(_math__WEBPACK_IMPORTED_MODULE_0__.Rectangle.from(...points), points[0].level);
+        return lift(_math__WEBPACK_IMPORTED_MODULE_0__.Rectangle.from(...points), Math.min(...points.map(p => p.level)));
     }
     TileRectangle.from = from;
     function extendTo(rect, tile) {
@@ -96313,7 +96316,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 var Path;
 (function (Path) {
     var resolveTeleport = _data_transports__WEBPACK_IMPORTED_MODULE_9__.TransportData.resolveTeleport;
@@ -96919,23 +96921,23 @@ var Path;
         }
         Section.split_into_sections = split_into_sections;
         /*
-
+    
         export function get_subsection_from_id_list(sections: Section[], indices: number[]): Section {
             for (let index of indices) {
                 let sect = sections[index]
-
+    
                 if (sect.subsections) sections = sect.subsections
                 else return sect
             }
             return null
         }
-
+    
         export function index_of_first_real_section(sections: Section[]): number[] {
             if (sections[0].subsections) return [0].concat(index_of_first_real_section(sections[0].subsections))
             else return [0]
         }
-
-
+    
+    
          */
     })(Section = Path.Section || (Path.Section = {}));
 })(Path || (Path = {}));
@@ -96958,7 +96960,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _coordinates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./coordinates */ "./lib/runescape/coordinates/index.ts");
 /* harmony import */ var _movement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./movement */ "./lib/runescape/movement.ts");
 /* harmony import */ var _coordinates_TileArea__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./coordinates/TileArea */ "./lib/runescape/coordinates/TileArea.ts");
-
 
 
 
@@ -97066,16 +97067,40 @@ var Transportation;
     let EntityTransportation;
     (function (EntityTransportation) {
         function default_interactive_area(area) {
-            const extended = _coordinates__WEBPACK_IMPORTED_MODULE_1__.TileRectangle.extend(area, 0.5);
-            let tiles = _coordinates_TileArea__WEBPACK_IMPORTED_MODULE_3__.TileArea.activate(_coordinates_TileArea__WEBPACK_IMPORTED_MODULE_3__.TileArea.fromRect(extended, false));
+            const extended = _coordinates__WEBPACK_IMPORTED_MODULE_1__.TileRectangle.extend(area, 1);
+            let tiles = _coordinates_TileArea__WEBPACK_IMPORTED_MODULE_3__.TileArea.activate(_coordinates_TileArea__WEBPACK_IMPORTED_MODULE_3__.TileArea.fromRect(extended, true));
+            tiles.set(_coordinates__WEBPACK_IMPORTED_MODULE_1__.TileRectangle.tl(extended), false);
+            tiles.set(_coordinates__WEBPACK_IMPORTED_MODULE_1__.TileRectangle.tr(extended), false);
+            tiles.set(_coordinates__WEBPACK_IMPORTED_MODULE_1__.TileRectangle.bl(extended), false);
+            tiles.set(_coordinates__WEBPACK_IMPORTED_MODULE_1__.TileRectangle.br(extended), false);
+            /*
+            tiles.setRectangle(area, true)
+      
             // west
-            tiles.setRectangle(_coordinates__WEBPACK_IMPORTED_MODULE_1__.TileRectangle.from(_coordinates__WEBPACK_IMPORTED_MODULE_1__.TileCoordinates.move(_coordinates__WEBPACK_IMPORTED_MODULE_1__.TileRectangle.bl(extended), _movement__WEBPACK_IMPORTED_MODULE_2__.direction.toVector(_movement__WEBPACK_IMPORTED_MODULE_2__.direction.north)), _coordinates__WEBPACK_IMPORTED_MODULE_1__.TileCoordinates.move(_coordinates__WEBPACK_IMPORTED_MODULE_1__.TileRectangle.tl(extended), _movement__WEBPACK_IMPORTED_MODULE_2__.direction.toVector(_movement__WEBPACK_IMPORTED_MODULE_2__.direction.south))), true);
+            tiles.setRectangle(TileRectangle.from(
+              TileCoordinates.move(TileRectangle.bl(area), direction.toVector(direction.north)),
+              TileCoordinates.move(TileRectangle.tl(area), direction.toVector(direction.south)),
+            ), true)
+      
             // north
-            tiles.setRectangle(_coordinates__WEBPACK_IMPORTED_MODULE_1__.TileRectangle.from(_coordinates__WEBPACK_IMPORTED_MODULE_1__.TileCoordinates.move(_coordinates__WEBPACK_IMPORTED_MODULE_1__.TileRectangle.tl(extended), _movement__WEBPACK_IMPORTED_MODULE_2__.direction.toVector(_movement__WEBPACK_IMPORTED_MODULE_2__.direction.west)), _coordinates__WEBPACK_IMPORTED_MODULE_1__.TileCoordinates.move(_coordinates__WEBPACK_IMPORTED_MODULE_1__.TileRectangle.tr(extended), _movement__WEBPACK_IMPORTED_MODULE_2__.direction.toVector(_movement__WEBPACK_IMPORTED_MODULE_2__.direction.east))), true);
+            tiles.setRectangle(TileRectangle.from(
+              TileCoordinates.move(TileRectangle.tl(area), direction.toVector(direction.west)),
+              TileCoordinates.move(TileRectangle.tr(area), direction.toVector(direction.east)),
+            ), true)
+      
             // east
-            tiles.setRectangle(_coordinates__WEBPACK_IMPORTED_MODULE_1__.TileRectangle.from(_coordinates__WEBPACK_IMPORTED_MODULE_1__.TileCoordinates.move(_coordinates__WEBPACK_IMPORTED_MODULE_1__.TileRectangle.tr(extended), _movement__WEBPACK_IMPORTED_MODULE_2__.direction.toVector(_movement__WEBPACK_IMPORTED_MODULE_2__.direction.south)), _coordinates__WEBPACK_IMPORTED_MODULE_1__.TileCoordinates.move(_coordinates__WEBPACK_IMPORTED_MODULE_1__.TileRectangle.br(extended), _movement__WEBPACK_IMPORTED_MODULE_2__.direction.toVector(_movement__WEBPACK_IMPORTED_MODULE_2__.direction.north))), true);
+            tiles.setRectangle(TileRectangle.from(
+              TileCoordinates.move(TileRectangle.tr(area), direction.toVector(direction.south)),
+              TileCoordinates.move(TileRectangle.br(area), direction.toVector(direction.north)),
+            ), true)
+      
             // south
-            tiles.setRectangle(_coordinates__WEBPACK_IMPORTED_MODULE_1__.TileRectangle.from(_coordinates__WEBPACK_IMPORTED_MODULE_1__.TileCoordinates.move(_coordinates__WEBPACK_IMPORTED_MODULE_1__.TileRectangle.br(extended), _movement__WEBPACK_IMPORTED_MODULE_2__.direction.toVector(_movement__WEBPACK_IMPORTED_MODULE_2__.direction.west)), _coordinates__WEBPACK_IMPORTED_MODULE_1__.TileCoordinates.move(_coordinates__WEBPACK_IMPORTED_MODULE_1__.TileRectangle.bl(extended), _movement__WEBPACK_IMPORTED_MODULE_2__.direction.toVector(_movement__WEBPACK_IMPORTED_MODULE_2__.direction.east))), true);
+            tiles.setRectangle(TileRectangle.from(
+              TileCoordinates.move(TileRectangle.br(area), direction.toVector(direction.west)),
+              TileCoordinates.move(TileRectangle.bl(area), direction.toVector(direction.east)),
+            ), true)
+      
+            console.log(area)*/
             tiles.save();
             return tiles.parent;
         }
@@ -98424,7 +98449,7 @@ class TemplateResolver {
         copy.templates.set(key, replacement);
         return copy;
     }
-    resolve(template, max_depth = 20) {
+    resolve(template, max_depth = 100) {
         // TODO Critical: The input string needs to be html-escaped since it is user-provided text and can be shared across users!
         //                => Potential for Script-Injection !!!
         if (max_depth <= 0)
@@ -99369,7 +99394,6 @@ var OldDom;
         return frag;
     }
     OldDom.select = select;
-    ;
     //export function div<TAG extends string>(...args: ARG<TAG>): AlphaString<TAG> extends never ? HTMLDivElement : AlphaString<TAG> extends keyof Eltypes ? Eltypes[AlphaString<TAG>] : Element {
     function div(...args) {
         var classname = "";
@@ -99981,12 +100005,12 @@ function initialize() {
                 list: "U9pFPB6gjug",
                 rel: 0,
                 start: 3
-
+  
             },
             videoId: "U9pFPB6gjug",
             width: undefined
         })
-
+  
         player.mute()
             .then(() =>
                 player.loadVideoById({
@@ -99995,10 +100019,10 @@ function initialize() {
                     endSeconds: 7
                 }))
             .then(() => player.playVideo())
-
+  
         // TODO: Check the current time on a loop and reset when close to end
-
-
+  
+  
         /*
             player.loadVideoByUrl({
                 mediaContentUrl: "U9pFPB6gjug",
@@ -100347,7 +100371,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 async function makeshift_main() {
     /* let output = ""
- 
+  
      for (let step of clue_data.all) {
          if (step.solution?.type == "search") {
              if ("x" in step.solution.spot) {
@@ -100355,10 +100379,10 @@ async function makeshift_main() {
              }
          }
      }
- 
+  
      new ExportStringModal(JSON.stringify(clue_data.all, (key, value) => {
          if ((key == "range" || key == "area") && value["topleft"]) return TileArea.fromRect(value)
- 
+  
          return value
      }, 4)).show()*/
     /*
@@ -100366,16 +100390,16 @@ async function makeshift_main() {
             Order.comap(Order.natural_order, (c: Clues.Step) => [null, "easy", "medium", "hard", "elite", "master"].indexOf(c.tier)),
             Order.comap(Order.natural_order, (c: Clues.Step) => c.id),
         )
-
+  
         for (let type of ClueType.all) {
             let obj = clues.filter(c => c.type == type).sort(cmp)
-
+  
             const allKeys = ["id", "type", "tier"]
             JSON.stringify(obj, (key, value) => {
                 allKeys.push(key)
                 return value
             });
-
+  
             await ExportStringModal.do(JSON.stringify(obj, allKeys, 4))
         }*/
     //console.log(`Length: ${c["map"].length}`)
@@ -100599,6 +100623,12 @@ class MethodPackManager {
     async get(spot, pack_ids = undefined) {
         // TODO: Why would I need both this method and getForClue?
         return await this.getForClue(ClueSpot.toId(spot), pack_ids);
+    }
+    async getMethod(pack_id, method_id) {
+        const pack = await this.getPack(pack_id);
+        if (!pack)
+            return null;
+        return pack.methods.find(m => m.id == method_id);
     }
     async resolve(id) {
         const pack = (await this.all()).find(p => p.local_id == id.local_pack_id);
@@ -100941,14 +100971,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _MapUtilityBehaviour__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./MapUtilityBehaviour */ "./trainer/ui/MapUtilityBehaviour.ts");
 
 
+
+
+
+
+
+
 var spacer = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_1__.C.spacer;
 var span = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_1__.C.span;
-
-
-
-
-
-
 class MenuButton extends _lib_ui_controls_Button__WEBPACK_IMPORTED_MODULE_5__["default"] {
     constructor(name, icon) {
         super();
@@ -101131,8 +101161,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var cleanedJSON = _lib_util_util__WEBPACK_IMPORTED_MODULE_8__.util.cleanedJSON;
 
+var cleanedJSON = _lib_util_util__WEBPACK_IMPORTED_MODULE_8__.util.cleanedJSON;
 class DrawTileAreaInteraction extends _lib_gamemap_interaction_ValueInteraction__WEBPACK_IMPORTED_MODULE_0__.ValueInteraction {
     constructor() {
         super({
@@ -101285,14 +101315,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
 var getInstances = _cachetools_util_LocUtil__WEBPACK_IMPORTED_MODULE_5__.LocUtil.getInstances;
-
-
 var hbox = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_12__.C.hbox;
-
-
-
-
 var LocFilter;
 (function (LocFilter) {
     var getActions = _cachetools_util_LocUtil__WEBPACK_IMPORTED_MODULE_5__.LocUtil.getActions;
@@ -101533,15 +101563,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
 var cleanedJSON = _lib_util_util__WEBPACK_IMPORTED_MODULE_8__.util.cleanedJSON;
-
-
-
 var LocDataFile = _cachetools_CacheTypes__WEBPACK_IMPORTED_MODULE_11__.CacheTypes.LocDataFile;
-
 var download = _lib_util_util__WEBPACK_IMPORTED_MODULE_8__.util.download;
-
-
 class RecentlyUsedParserGroups {
     constructor(table) {
         this.table = table;
@@ -101727,18 +101757,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
 var vbox = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_14__.C.vbox;
 var hbox = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_14__.C.hbox;
 var spacer = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_14__.C.spacer;
-
-
-
-
-
-
 var cleanedJSON = _lib_util_util__WEBPACK_IMPORTED_MODULE_20__.util.cleanedJSON;
-
-
 class ChunkGridGraticule extends _lib_gamemap_defaultlayers_Graticule__WEBPACK_IMPORTED_MODULE_16__["default"] {
     constructor() {
         super({
@@ -102075,9 +102105,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var staticentity = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_2__.C.staticentity;
 var vbox = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_2__.C.vbox;
-
 var getActions = _util_LocUtil__WEBPACK_IMPORTED_MODULE_3__.LocUtil.getActions;
 var inlineimg = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_2__.C.inlineimg;
 var hboxl = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_2__.C.hboxl;
@@ -102151,8 +102181,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var img = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_14__.C.img;
 
+var img = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_14__.C.img;
 class ParserPairingEdit extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_4__["default"] {
     constructor(loc, parsing_table, pairing) {
         var _a;
@@ -102997,11 +103027,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
 var PP = _ParsingParameters__WEBPACK_IMPORTED_MODULE_6__.ParsingParameter;
 var rec = _ParsingParameters__WEBPACK_IMPORTED_MODULE_6__.ParsingParameter.rec;
-
-
-
 var offset = _util_MovementBuilder__WEBPACK_IMPORTED_MODULE_9__.MovementBuilder.offset;
 function parse(id, name, groupPar, instancePar, apply) {
     return (new class extends _TransportParser__WEBPACK_IMPORTED_MODULE_0__.TransportParser2 {
@@ -103446,8 +103476,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _lib_reactive__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../lib/reactive */ "./lib/reactive/index.ts");
 
 
-var spacer = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_1__.C.spacer;
 
+var spacer = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_1__.C.spacer;
 var observe_combined = _lib_reactive__WEBPACK_IMPORTED_MODULE_2__.Observable.observe_combined;
 class ControlHeader extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["default"] {
     constructor(name, close_handler = null) {
@@ -103609,11 +103639,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
 var TeleportGroup = _lib_runescape_transportation__WEBPACK_IMPORTED_MODULE_1__.Transportation.TeleportGroup;
-
-
 var EntityTransportation = _lib_runescape_transportation__WEBPACK_IMPORTED_MODULE_1__.Transportation.EntityTransportation;
-
 class TransportLayer extends _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_0__.GameLayer {
     constructor(interactive) {
         super();
@@ -104102,14 +104132,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
 var COLORS = _shortcut_editing_ShortcutView__WEBPACK_IMPORTED_MODULE_3__.ShortcutViewLayer.COLORS;
-
-
-
-
 var entity = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_7__.C.entity;
-
-
 var activate = _lib_runescape_coordinates_TileArea__WEBPACK_IMPORTED_MODULE_9__.TileArea.activate;
 class RemoteEntityTransportTarget extends _lib_gamemap_MapEntity__WEBPACK_IMPORTED_MODULE_1__.MapEntity {
     constructor(config) {
@@ -104202,15 +104232,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
 var entity = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_6__.C.entity;
-
-
-
-
 var COLORS = _shortcut_editing_ShortcutView__WEBPACK_IMPORTED_MODULE_10__.ShortcutViewLayer.COLORS;
 var TeleportGroup = _lib_runescape_transportation__WEBPACK_IMPORTED_MODULE_2__.Transportation.TeleportGroup;
-
-
 var vbox = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_6__.C.vbox;
 var default_interactive_area = _lib_runescape_transportation__WEBPACK_IMPORTED_MODULE_2__.Transportation.EntityTransportation.default_interactive_area;
 class TeleportAccessEntity extends _lib_gamemap_MapEntity__WEBPACK_IMPORTED_MODULE_1__.MapEntity {
@@ -104330,13 +104360,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
 var vbox = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_5__.C.vbox;
 var entity = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_5__.C.entity;
-
-
-
-
-
 class TeleportSpotEntity extends _lib_gamemap_MapEntity__WEBPACK_IMPORTED_MODULE_0__.MapEntity {
     constructor(config) {
         super(config);
@@ -104483,11 +104513,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var spacer = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_4__.C.spacer;
 var span = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_4__.C.span;
 var hbox = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_4__.C.hbox;
 var bold = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_4__.C.bold;
-
 class MethodSelector extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["default"] {
     constructor(parent, clue) {
         super();
@@ -104595,32 +104625,32 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var span = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_3__.C.span;
-
-
 var todo = _lib_util_util__WEBPACK_IMPORTED_MODULE_16__.util.todo;
-
-
-
-
 var AugmentedScanTree = _lib_cluetheory_scans_ScanTree__WEBPACK_IMPORTED_MODULE_20__.ScanTree.Augmentation.AugmentedScanTree;
-
-
-
-
-
 var interactionMarker = _map_RenderingUtility__WEBPACK_IMPORTED_MODULE_26__.RenderingUtility.interactionMarker;
 var Order = _lib_util_util__WEBPACK_IMPORTED_MODULE_16__.util.Order;
 var spotNumber = _lib_cluetheory_scans_ScanTree__WEBPACK_IMPORTED_MODULE_20__.ScanTree.spotNumber;
-
-
-
-
 var inlineimg = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_3__.C.inlineimg;
-
-
 var activate = _lib_runescape_coordinates_TileArea__WEBPACK_IMPORTED_MODULE_32__.TileArea.activate;
-
 class NeoReader {
 }
 class NeoSolvingLayer extends _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_1__.GameLayer {
@@ -104776,7 +104806,7 @@ class ScanTreeSolvingControl extends _lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_
         /* //TODO: Rethink this, disabled to get the build working again
         this.node.get().children.filter(c => c.value.is_leaf)
             .map(c => c.value.remaining_candidates.map(Vector2.toPoint).forEach(spot => bounds.extend(spot)))
-
+    
          */
         //4. "Where"
         if ((_a = node.region) === null || _a === void 0 ? void 0 : _a.area) {
@@ -105180,30 +105210,30 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var hbox = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_5__.C.hbox;
 var span = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_5__.C.span;
-
-
 var div = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_5__.C.div;
 var hboxl = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_5__.C.hboxl;
-
 var img = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_5__.C.img;
 var staticentity = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_5__.C.staticentity;
 var ability_icon = _path_graphics__WEBPACK_IMPORTED_MODULE_3__.PathGraphics.ability_icon;
-
 var bold = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_5__.C.bold;
-
-
 var entity = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_5__.C.entity;
-
-
-
-
 var index = _lib_util_util__WEBPACK_IMPORTED_MODULE_12__.util.index;
-
-
-
-
 class PathSectionControl extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_2__["default"] {
     constructor(sections, current_section_id, step_graphics, template_resolver) {
         super();
@@ -105414,7 +105444,7 @@ class PathControl extends _lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_0__["defaul
                 Path.Section.split_into_sections(method.method.path_to_key_or_hideyhole, "Pre Path")
             )
         }
-
+    
          */
         _lib_util_TreeArray__WEBPACK_IMPORTED_MODULE_13__.TreeArray.add(sectioned, _lib_runescape_pathing__WEBPACK_IMPORTED_MODULE_1__.Path.Section.split_into_sections(method.method.main_path, "To Spot"));
         /*
@@ -105493,8 +105523,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var render_digspot = _TextRendering__WEBPACK_IMPORTED_MODULE_2__.TextRendering.render_digspot;
 
+var render_digspot = _TextRendering__WEBPACK_IMPORTED_MODULE_2__.TextRendering.render_digspot;
 var simplify_with_context = _lib_runescape_clues_scans__WEBPACK_IMPORTED_MODULE_1__.Scans.Pulse.simplify_with_context;
 class PulseIcon extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_3__["default"] {
     constructor(pulse, context) {
@@ -105576,10 +105606,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
 var observe_combined = _lib_reactive__WEBPACK_IMPORTED_MODULE_7__.Observable.observe_combined;
-
-
-
 class ScanRegionPolygon extends _lib_gamemap_layers_OpacityLayer__WEBPACK_IMPORTED_MODULE_4__.ActiveOpacityGroup {
     constructor(_spot) {
         super(1, 0.2);
@@ -106296,255 +106326,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var vbox = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_8__.C.vbox;
 var spacer = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_8__.C.spacer;
-
 class IssueWidget extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["default"] {
     constructor(issue) {
         super($(`<div class='ctr-step-issue'><div class="ctr-step-issue-icon"></div> ${issue.message}</div>`).attr("level", issue.level.toString()));
     }
 }
-/*
-class StepEditWidget extends Widget {
-
-    private shortcut_custom_open: boolean = false
-
-    constructor(private parent: EditedPathOverview, public value: PathBuilder.Step) {
-        super()
-
-        this.addClass("step-edit-component")
-
-        value.value().augmented.subscribe(v => {
-            if (!v) debugger
-            this.render(v)
-        }, true)
-    }
-
-    private render(value: Path.augmented_step) {
-        this.empty()
-
-        if (!value) return
-
-        // Render header
-        {
-            let bounds = Path.augmented.step_bounds(value)
-
-            hbox(
-                hbox(
-                    span(`T${value.pre_state.tick}`).addClass('nisl-textlink')
-                        .addTippy(new MovementStateView(value.pre_state)),
-                    c("<span>&nbsp;-&nbsp;</span>"),
-                    c("<span class='nisl-textlink'></span>").text(`T${value.post_state.tick}`)
-                        .addTippy(new MovementStateView(value.post_state)),
-                    c(`<span>: ${Path.title(value.raw)}</span>`)
-                ).css("font-weight", "bold"),
-                spacer(),
-                sibut("assets/nis/arrow_up.png", () => this.value.move(-1))
-                    .tooltip("Move step up").setEnabled(this.value.index.value() != 0),
-                sibut("assets/nis/arrow_down.png", () => this.value.move(1))
-                    .tooltip("Move step down").setEnabled(this.value.index.value() != this.parent.editor.value.get().length - 1),
-                sibut("assets/icons/delete.png", () => this.value.remove()),
-                sibut("assets/icons/fullscreen.png", () => {
-                    this.parent.editor.game_layer.getMap().fitView(bounds, {maxZoom: 5}
-                    )
-                }).setEnabled(!!bounds)
-            ).addClass("path-step-edit-widget-control-row").appendTo(this)
-        }
-
-        let issues = c().addClass("step-edit-issues").appendTo(this)
-
-        value.issues.forEach(i => new IssueWidget(i).appendTo(issues))
-
-        let props = new Properties().css2({
-            "padding": "3px"
-        }).appendTo(this)
-
-        props.named("Detail",
-            new TemplateStringEdit({
-                resolver: this.parent.editor.template_resolver,
-                generator: null
-            })
-                .setValue(value.raw.description)
-                .onCommit(v => this.value.update(o => o.raw.description = v))
-        )
-
-        switch (value.raw.type) {
-            case "ability":
-                props.named("Action",
-                    hbox(
-                        span(`${TileCoordinates.toString(value.raw.from)} to ${TileCoordinates.toString(value.raw.to)}`),
-                        spacer(),
-                        new LightButton("Redraw")
-                            .onClick(() => this.parent.editor.redrawAbility(this.value))
-                    )
-                )
-
-                if (value.raw.ability == "dive" || value.raw.ability == "barge") {
-                    props.named(span("Target").css("cursor", "help").tooltip("The entity to target with this ability."), new EntityNameEdit(false)
-                        .setValue(value.raw.target)
-                        .onCommit(name => {
-                            this.value.update(v => {
-                                assert(v.raw.type == "ability")
-
-                                v.raw.target = name
-                            })
-                        })
-                    )
-
-                }
-                if (value.raw.ability == "dive") {
-
-                    props.named(span("Text").css("cursor", "help").tooltip("(Optional) Strings like 'on top of the flower'."),
-                        new TextField()
-                            .setValue(value.raw.target_text || "")
-                            .onCommit(text => this.value.update(v => {
-                                assert(v.raw.type == "ability")
-
-                                v.raw.target_text = text || undefined
-                            }))
-                    )
-                }
-                break;
-            case "cheat":
-                props.named("Target",
-                    hbox(
-                        span(`${TileCoordinates.toString(value.raw.target)}`),
-                        spacer(),
-                        new LightButton("Move")
-                            .onClick(() => {
-                                assert(value.raw.type == "cheat")
-
-                                this.parent.editor.interaction_guard.set(
-                                    new SelectTileInteraction({
-                                        preview_render: (target) => {
-                                            assert(value.raw.type == "cheat")
-
-                                            return arrow(value.raw.assumed_start, value.raw.target)
-                                                .setStyle({
-                                                    color: "#069334",
-                                                    weight: 4,
-                                                    dashArray: '10, 10',
-                                                })
-                                        }
-                                    })
-                                        .onCommit(new_s => this.value.update(v => {
-                                            assert(v.raw.type == "cheat")
-                                            v.raw.target = new_s
-                                        }))
-                                        .onStart(() => this.value.value().associated_preview?.setOpacity(0))
-                                        .onEnd(() => this.value.value().associated_preview?.setOpacity(1))
-                                    ,
-                                )
-                            })
-                    )
-                )
-
-                break
-            case "redclick":
-
-                props.named("Where",
-                    hbox(
-                        span(`${Vector2.toString(value.raw.where)}`),
-                        spacer(),
-                        new LightButton("Move").onClick(() => this.parent.editor.moveStep(this.value))
-                    )
-                )
-
-                props.named("Action", new InteractionSelect()
-                    .setValue(value.raw.how)
-                    .onSelection(how => {
-                        this.value.update(v => {
-                            assert(v.raw.type == "redclick")
-                            v.raw.how = how
-                        })
-                    })
-                )
-
-                props.named(span("Target").css("cursor", "help").tooltip("The name of the entity to target."), new EntityNameEdit(false)
-                    .setValue(value.raw.target)
-                    .onCommit(name => {
-                        this.value.update(v => {
-                            assert(v.raw.type == "ability")
-
-                            v.raw.target = name
-                        })
-                    })
-                )
-
-                break
-            case "powerburst":
-                props.named("Where",
-                    hbox(
-                        span(`${Vector2.toString(value.raw.where)}`),
-                        spacer(),
-                        new LightButton("Move").onClick(() => this.parent.editor.moveStep(this.value))
-                    )
-                )
-
-                break
-
-            case "run":
-                props.named("Path",
-                    hbox(
-                        span(`${PathFinder.pathLength(value.raw.waypoints)} tile path to ${Vector2.toString(index(value.raw.waypoints, -1))}`),
-                        spacer(),
-                        new LightButton("Edit")
-                            .onClick(() => this.parent.editor.redrawAbility(this.value))
-                    )
-                )
-
-                props.named(span("Text").tooltip("(Optional) Strings like 'on top of the flower'."),
-                    new TextField()
-                        .setValue(value.raw.to_text || "")
-                        .onCommit(text => this.value.update(v => {
-                            assert(v.raw.type == "run")
-
-                            v.raw.to_text = text || undefined
-                        }))
-                )
-
-                break
-
-            case "transport": {
-                let body: ShortcutEdit = ShortcutEdit.forSimple(value.raw.internal, this.parent.editor.interaction_guard,
-                    v => {
-                        this.parent.editor.game_layer.getMap().fitBounds(util.convert_bounds(Rectangle.toBounds(Transportation.bounds(v))), {maxZoom: 5})
-                    })
-
-                if (!this.shortcut_custom_open) body.css("display", "none")
-                else body.config.associated_preview = new ShortcutViewLayer.ShortcutPolygon(body.config.value).addTo(this.value.value().associated_preview)
-
-                this.append(body)
-            }
-                break;
-            case "orientation":
-                props.named("Facing", new DirectionSelect()
-                    .setValue(value.raw.direction)
-                    .onSelection(dir => {
-                        this.value.update(v => {
-                            assert(v.raw.type == "orientation")
-                            v.raw.direction = dir
-                        })
-                    })
-                )
-
-                break;
-            case "teleport":
-                props.named(span("Spot").css("cursor", "help").tooltip("The specific target tile."),
-                    hbox(
-                        span(`${TileCoordinates.toString(value.raw.spot)}`),
-                        spacer(),
-                        new LightButton("Move").onClick(() => this.parent.editor.moveStep(this.value))
-                    )
-                )
-
-                break
-        }
-
-        // TODO: Fix scroll events passing through
-    }
-}
-*/
 class EditedPathOverview extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["default"] {
     constructor(editor) {
         super();
@@ -107078,21 +106867,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _interactions_DrawCheatInteraction__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./interactions/DrawCheatInteraction */ "./trainer/ui/pathedit/interactions/DrawCheatInteraction.ts");
 
 
+
+
+
+
+
+
+
+
+
 var movement_state = lib_runescape_pathing__WEBPACK_IMPORTED_MODULE_1__.Path.movement_state;
-
-
-
-
-
 var ActionBarButton = _map_ActionBar__WEBPACK_IMPORTED_MODULE_6__.ActionBar.ActionBarButton;
-
 var surge_cooldown = lib_runescape_pathing__WEBPACK_IMPORTED_MODULE_1__.Path.movement_state.surge_cooldown;
 var escape_cooldown = lib_runescape_pathing__WEBPACK_IMPORTED_MODULE_1__.Path.movement_state.escape_cooldown;
 var barge_cooldown = lib_runescape_pathing__WEBPACK_IMPORTED_MODULE_1__.Path.movement_state.barge_cooldown;
 var dive_cooldown = lib_runescape_pathing__WEBPACK_IMPORTED_MODULE_1__.Path.movement_state.dive_cooldown;
-
-
-
 class PathEditActionBar extends lib_gamemap_GameMapControl__WEBPACK_IMPORTED_MODULE_0__.GameMapControl {
     constructor(editor, interaction_guard) {
         super({
@@ -107257,6 +107046,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _widgets_modals_ImportStringModal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../widgets/modals/ImportStringModal */ "./trainer/ui/widgets/modals/ImportStringModal.ts");
 /* harmony import */ var _lib_util_util__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../lib/util/util */ "./lib/util/util.ts");
 /* harmony import */ var _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../lib/ui/Widget */ "./lib/ui/Widget.ts");
+/* harmony import */ var _lib_runescape_coordinates_TileArea__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../lib/runescape/coordinates/TileArea */ "./lib/runescape/coordinates/TileArea.ts");
+
+
 
 
 
@@ -107265,7 +107057,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var cleanedJSON = _lib_util_util__WEBPACK_IMPORTED_MODULE_6__.util.cleanedJSON;
-
 class PathEditMenuBar extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_7__["default"] {
     constructor(editor) {
         super();
@@ -107290,34 +107081,41 @@ class PathEditMenuBar extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_7__["defau
                 this.editor.discard();
             }), new _widgets_LightButton__WEBPACK_IMPORTED_MODULE_0__["default"]("&#x2630;", "rectangle")
                 .onClick((event) => {
+                const entries = [];
+                if (this.editor.options.target) {
+                    entries.push({
+                        type: "basic",
+                        text: "Focus target",
+                        handler: () => {
+                            this.editor.game_layer.getMap().fitView(_lib_runescape_coordinates_TileArea__WEBPACK_IMPORTED_MODULE_8__.TileArea.toRect(this.editor.options.target.parent));
+                        }
+                    });
+                }
+                entries.push({
+                    type: "basic",
+                    text: "Export",
+                    handler: () => {
+                        new _widgets_modals_ExportStringModal__WEBPACK_IMPORTED_MODULE_3__["default"](_lib_runescape_pathing__WEBPACK_IMPORTED_MODULE_4__.Path.export_path(this.editor.value.get())).show();
+                    }
+                }, {
+                    type: "basic",
+                    text: "Show JSON",
+                    handler: () => {
+                        new _widgets_modals_ExportStringModal__WEBPACK_IMPORTED_MODULE_3__["default"](cleanedJSON(this.editor.value.get())).show();
+                    }
+                }, {
+                    type: "basic",
+                    text: "Import",
+                    handler: async () => {
+                        const imported = await new _widgets_modals_ImportStringModal__WEBPACK_IMPORTED_MODULE_5__["default"]((s) => _lib_runescape_pathing__WEBPACK_IMPORTED_MODULE_4__.Path.import_path(s)).do();
+                        if (imported === null || imported === void 0 ? void 0 : imported.imported)
+                            this.editor.value.set(imported.imported);
+                    }
+                });
                 new _widgets_ContextMenu__WEBPACK_IMPORTED_MODULE_1__["default"]({
                     type: "submenu",
                     text: "",
-                    children: [
-                        {
-                            type: "basic",
-                            text: "Export",
-                            handler: () => {
-                                new _widgets_modals_ExportStringModal__WEBPACK_IMPORTED_MODULE_3__["default"](_lib_runescape_pathing__WEBPACK_IMPORTED_MODULE_4__.Path.export_path(this.editor.value.get())).show();
-                            }
-                        },
-                        {
-                            type: "basic",
-                            text: "Show JSON",
-                            handler: () => {
-                                new _widgets_modals_ExportStringModal__WEBPACK_IMPORTED_MODULE_3__["default"](cleanedJSON(this.editor.value.get())).show();
-                            }
-                        },
-                        {
-                            type: "basic",
-                            text: "Import",
-                            handler: async () => {
-                                const imported = await new _widgets_modals_ImportStringModal__WEBPACK_IMPORTED_MODULE_5__["default"]((s) => _lib_runescape_pathing__WEBPACK_IMPORTED_MODULE_4__.Path.import_path(s)).do();
-                                if (imported === null || imported === void 0 ? void 0 : imported.imported)
-                                    this.editor.value.set(imported.imported);
-                            }
-                        },
-                    ]
+                    children: entries
                 }).showFromEvent(event);
             }));
         }
@@ -107358,13 +107156,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
 var possibility_raster = _lib_runescape_movement__WEBPACK_IMPORTED_MODULE_5__.MovementAbilities.possibility_raster;
-
-
-
 var observe_combined = _lib_reactive__WEBPACK_IMPORTED_MODULE_8__.Observable.observe_combined;
-
-
 var eqWithNull = _lib_util_util__WEBPACK_IMPORTED_MODULE_10__.util.eqWithNull;
 class AbilityLens extends leaflet__WEBPACK_IMPORTED_MODULE_3__.FeatureGroup {
     constructor(tile, surge_escape_for = []) {
@@ -107567,33 +107365,33 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var index = lib_util_util__WEBPACK_IMPORTED_MODULE_1__.util.index;
-
-
-
-
-
 var EntityTransportation = _lib_runescape_transportation__WEBPACK_IMPORTED_MODULE_4__.Transportation.EntityTransportation;
-
-
 var activate = _lib_runescape_coordinates_TileArea__WEBPACK_IMPORTED_MODULE_20__.TileArea.activate;
 var default_interactive_area = _lib_runescape_transportation__WEBPACK_IMPORTED_MODULE_4__.Transportation.EntityTransportation.default_interactive_area;
-
-
-
-
-
-
-
 var vbox = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_31__.C.vbox;
-
-
-
 var TeleportGroup = _lib_runescape_transportation__WEBPACK_IMPORTED_MODULE_4__.Transportation.TeleportGroup;
-
 var resolveTeleport = _data_transports__WEBPACK_IMPORTED_MODULE_35__.TransportData.resolveTeleport;
-
-
 function needRepairing(state, shortcut) {
     var _a;
     return state.position.tile
@@ -108083,130 +107881,6 @@ class PathEditor extends lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_3__["default"
 
 /***/ }),
 
-/***/ "./trainer/ui/pathedit/PathProperty.ts":
-/*!*********************************************!*\
-  !*** ./trainer/ui/pathedit/PathProperty.ts ***!
-  \*********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ PathProperty)
-/* harmony export */ });
-/* harmony import */ var lib_runescape_pathing__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lib/runescape/pathing */ "./lib/runescape/pathing.ts");
-/* harmony import */ var _widgets_AbstractEditWidget__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/AbstractEditWidget */ "./trainer/ui/widgets/AbstractEditWidget.ts");
-/* harmony import */ var _MovementStateView__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./MovementStateView */ "./trainer/ui/pathedit/MovementStateView.ts");
-/* harmony import */ var _widgets_Properties__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../widgets/Properties */ "./trainer/ui/widgets/Properties.ts");
-/* harmony import */ var _widgets_SmallImageButton__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../widgets/SmallImageButton */ "./trainer/ui/widgets/SmallImageButton.ts");
-/* harmony import */ var _path_graphics__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../path_graphics */ "./trainer/ui/path_graphics.ts");
-/* harmony import */ var _EditedPathOverview__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./EditedPathOverview */ "./trainer/ui/pathedit/EditedPathOverview.ts");
-
-
-var collect_issues = lib_runescape_pathing__WEBPACK_IMPORTED_MODULE_0__.Path.collect_issues;
-
-
-
-
-
-class PathProperty extends _widgets_AbstractEditWidget__WEBPACK_IMPORTED_MODULE_1__["default"] {
-    constructor(options) {
-        super($("<div style='display: flex'></div>"));
-        this.options = options;
-        this.loaded = false;
-        this.edit_button = null;
-        if (this.options.editor_handle) {
-            this.container.on("mouseover", () => {
-                if (this.edit_button)
-                    this.edit_button.setVisible(true);
-            });
-            this.container.on("mouseleave", () => {
-                if (this.edit_button)
-                    this.edit_button.setVisible(false);
-            });
-        }
-        this.setValue([]);
-    }
-    async edit() {
-        if (!this.options.editor_handle)
-            return;
-        this.loaded = true;
-        await this.render();
-        this.options.editor_handle({
-            initial: this.get(),
-            commit_handler: async (v) => {
-                this.commit(v, true);
-            },
-            discard_handler: async () => {
-                await this.render();
-            },
-            start_state: this.options.start_state,
-            target: this.options.target
-        });
-    }
-    async setStartState(state) {
-        this.options.start_state = state;
-        this.augmented = lib_runescape_pathing__WEBPACK_IMPORTED_MODULE_0__.Path.augment(this.get(), this.options.start_state, this.options.target);
-        await this.render();
-        return this;
-    }
-    setValue(v) {
-        this.augmented = lib_runescape_pathing__WEBPACK_IMPORTED_MODULE_0__.Path.augment(v, this.options.start_state, this.options.target);
-        return super.setValue(v);
-    }
-    async render() {
-        let augmented = await this.augmented;
-        this.empty();
-        {
-            let issues = collect_issues(augmented);
-            let errors = issues.filter(i => i.level == 0);
-            let warnings = issues.filter(i => i.level == 1);
-            let tooltip = c();
-            tooltip.append(new _widgets_Properties__WEBPACK_IMPORTED_MODULE_3__["default"]().header("Start State"));
-            tooltip.append(new _MovementStateView__WEBPACK_IMPORTED_MODULE_2__["default"](augmented.pre_state));
-            tooltip.append(new _widgets_Properties__WEBPACK_IMPORTED_MODULE_3__["default"]().header("End State"));
-            tooltip.append(new _MovementStateView__WEBPACK_IMPORTED_MODULE_2__["default"](augmented.post_state));
-            issues.forEach(i => new _EditedPathOverview__WEBPACK_IMPORTED_MODULE_6__.IssueWidget(i).appendTo(tooltip));
-            let preview = c("<div class='ctr-path-property-preview'></div>")
-                .addTippy(tooltip)
-                .appendTo(this)
-                .tapRaw(r => r.on("click", async () => await this.edit()));
-            if (this.options.editor_handle)
-                preview.css("cursor", "pointer");
-            {
-                if (errors.length > 0)
-                    new _EditedPathOverview__WEBPACK_IMPORTED_MODULE_6__.IssueWidget({ level: 0, message: errors.length.toString() })
-                        .css("margin-top", "0")
-                        .css("margin-bottom", "0")
-                        .appendTo(preview);
-                if (warnings.length > 0)
-                    new _EditedPathOverview__WEBPACK_IMPORTED_MODULE_6__.IssueWidget({ level: 1, message: warnings.length.toString() })
-                        .css("margin-top", "0")
-                        .css("margin-bottom", "0")
-                        .appendTo(preview);
-            }
-            {
-                let steps = augmented.steps.slice(0, Math.min(augmented.steps.length, 4));
-                let html = augmented.steps.length > 0
-                    ? steps.map((step) => _path_graphics__WEBPACK_IMPORTED_MODULE_5__.PathGraphics.asSpan(step.raw)).join("|")
-                    : "Empty path";
-                if (steps.length != augmented.steps.length)
-                    html += " ...";
-                let preview_span = c("<span>").appendTo(preview).container.html(html);
-            }
-        }
-        this.edit_button = _widgets_SmallImageButton__WEBPACK_IMPORTED_MODULE_4__.SmallImageButton.new("assets/icons/edit.png")
-            .css("margin-left", "2px")
-            .setEnabled(!this.loaded)
-            .setVisible(false)
-            .onClick(async () => await this.edit())
-            .appendTo(this);
-    }
-}
-
-
-/***/ }),
-
 /***/ "./trainer/ui/pathedit/StepEditModal.ts":
 /*!**********************************************!*\
   !*** ./trainer/ui/pathedit/StepEditModal.ts ***!
@@ -108235,16 +107909,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
 var copyUpdate = _lib_util_util__WEBPACK_IMPORTED_MODULE_3__.util.copyUpdate;
-
-
-
-
-
-
-
-
-
 class StepDetailEdit extends _widgets_AbstractEditWidget__WEBPACK_IMPORTED_MODULE_0__["default"] {
     constructor() {
         super();
@@ -108389,9 +108063,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 var observe_combined = _lib_reactive__WEBPACK_IMPORTED_MODULE_5__.Observable.observe_combined;
-
-
 class DrawAbilityInteraction extends _lib_gamemap_interaction_ValueInteraction__WEBPACK_IMPORTED_MODULE_4__.ValueInteraction {
     constructor(ability) {
         super({});
@@ -108625,10 +108299,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 var index = _lib_util_util__WEBPACK_IMPORTED_MODULE_6__.util.index;
 var observe_combined = _lib_reactive__WEBPACK_IMPORTED_MODULE_5__.Observable.observe_combined;
-
-
 class DrawRunInteractionInternal extends _lib_gamemap_interaction_ValueInteraction__WEBPACK_IMPORTED_MODULE_3__.ValueInteraction {
     constructor() {
         super({
@@ -108935,11 +108609,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var entity = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_2__.C.entity;
 var staticentity = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_2__.C.staticentity;
 var inlineimg = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_2__.C.inlineimg;
 var bold = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_2__.C.bold;
-
 class PathStepProperties extends _widgets_Properties__WEBPACK_IMPORTED_MODULE_0__["default"] {
     constructor(step, template_resolver) {
         super();
@@ -109369,10 +109043,10 @@ class ShortcutViewLayer extends lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_0
             this.clearLayers();
             // TODO: Reimplement if needed, or bette yet switch to shortcut entity class
             /*
-
+      
             let all_floors = this.style.value().viewed_floor == null
             let floor = this.style.value().viewed_floor
-
+      
             function fs(f: floor_t): leaflet.PolylineOptions {
                 if (f < floor) return {
                     className: "ctr-shortcut-different-level",
@@ -109383,15 +109057,15 @@ class ShortcutViewLayer extends lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_0
                 }
                 else return {}
             }
-
+      
             let shortcut = Transportation.normalize(this.data.value())
-
+      
             let index_of_first_action_on_floor = shortcut.actions.findIndex(a => a.interactive_area.level == this.style.value().viewed_floor)
-
+      
             let render_main = all_floors || (index_of_first_action_on_floor >= 0) || shortcut.clickable_area.level == this.style.value().viewed_floor
-
+      
             for (let action of shortcut.actions) {
-
+      
                 if (render_main) {
                     boxPolygon(action.interactive_area).setStyle({
                         color: COLORS.interactive_area,
@@ -109403,20 +109077,20 @@ class ShortcutViewLayer extends lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_0
                         .setStyle(fs(action.interactive_area.level))
                         .addTo(this)
                 }
-
+      
                 switch (action.movement.type) {
                     case "offset":
-
+      
                         if (this.style.value().draw_arrows) {
-
+      
                             let center = TileRectangle.center(action.interactive_area, true)
                             let target = Vector2.add(center, action.movement.offset)
-
+      
                             render_transport_arrow(center, target, action.movement.offset.level).addTo(this)
                         }
-
+      
                         break;
-
+      
                     case "fixed":
                         if (render_main || action.movement.target.level == floor) {
                             leaflet.circle(Vector2.toLatLong(action.movement.target), {
@@ -109428,27 +109102,27 @@ class ShortcutViewLayer extends lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_0
                                 .setStyle(fs(action.movement.target.level))
                                 .addTo(this)
                         }
-
+      
                         if (this.style.value().draw_arrows) {
-
+      
                             let center = TileRectangle.center(action.interactive_area, false)
                             let target = action.movement.target
-
+      
                             render_transport_arrow(center, target, target.level - center.level).addTo(this)
                             break;
                         }
-
+      
                         break
                 }
-
+      
             }
-
+      
             if (render_main) {
                 let i = index_of_first_action_on_floor >= 0 ? index_of_first_action_on_floor : 0
-
+      
                 RenderingUtility.interactionMarker(Rectangle.center(shortcut.clickable_area, false), shortcut.actions[i]?.cursor || "generic", this.style.value().type == "simplified")
                     .addTo(this)
-
+      
                 leaflet.polygon(boxPolygon2(shortcut.clickable_area), {
                     color: COLORS.clickable_area,
                     fillColor: COLORS.clickable_area,
@@ -109456,13 +109130,13 @@ class ShortcutViewLayer extends lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_0
                     interactive: true
                 }).addTo(this)
             }
-
+      
             if (this.style.value().type == "simplified") {
                 this.setStyle({
                     className: "ctr-inactive-overlay"
                 })
             }
-
+      
              */
         }
     }
@@ -109548,11 +109222,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_4__);
 
 
+
+
+
 var ClueAssumptions = _model_methods__WEBPACK_IMPORTED_MODULE_1__.SolvingMethods.ClueAssumptions;
-
-
 var vbox = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_3__.C.vbox;
-
 class AssumptionProperty extends _widgets_AbstractEditWidget__WEBPACK_IMPORTED_MODULE_0__["default"] {
     constructor() {
         super();
@@ -109650,20 +109324,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
 var hbox = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_5__.C.hbox;
 var spacer = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_5__.C.spacer;
 var span = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_5__.C.span;
 var ClueSpot = _lib_runescape_clues__WEBPACK_IMPORTED_MODULE_1__.Clues.ClueSpot;
-
 var natural_join = _lib_util_util__WEBPACK_IMPORTED_MODULE_6__.util.natural_join;
-
-
-
-
-
-
 var plural = _lib_util_util__WEBPACK_IMPORTED_MODULE_6__.util.plural;
-
 var activate = _lib_runescape_coordinates_TileArea__WEBPACK_IMPORTED_MODULE_13__.TileArea.activate;
 class ClueProperties extends _widgets_Properties__WEBPACK_IMPORTED_MODULE_0__["default"] {
     constructor(clue, methods, edit_handler, include_header, alternative_index, manage_methods_button) {
@@ -109771,10 +109445,10 @@ class ClueProperties extends _widgets_Properties__WEBPACK_IMPORTED_MODULE_0__["d
         /*
         let methods = await this.methods.get(this.clue)
         this.header("Methods")
-
+    
         if (methods.length > 0) {
             let grouped = lodash.groupBy(methods, e => e.pack.local_id)
-
+    
             for (let methods_in_pack of Object.values(grouped)) {
                 this.row(new MethodWidget(methods_in_pack, this.edit_handler))
             }
@@ -109785,7 +109459,7 @@ class ClueProperties extends _widgets_Properties__WEBPACK_IMPORTED_MODULE_0__["d
                 this.row(c().text("No methods for this clue."))
             }
         }
-
+    
         this.row(hbox(new LightButton("+ New Method", "rectangle").onClick(() => {
             this.edit_handler({
                 clue: this.clue.clue,
@@ -109793,7 +109467,7 @@ class ClueProperties extends _widgets_Properties__WEBPACK_IMPORTED_MODULE_0__["d
                 method: SolvingMethods.init(this.clue)
             })
         })).addClass("ctr-button-container"))
-
+    
          */
         return this;
     }
@@ -109918,8 +109592,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var span = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_5__.C.span;
 
+var span = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_5__.C.span;
 var copyUpdate = _lib_util_util__WEBPACK_IMPORTED_MODULE_6__.util.copyUpdate;
 class DisplayedRouteFilterEdit extends _widgets_AbstractEditWidget__WEBPACK_IMPORTED_MODULE_0__["default"] {
     constructor() {
@@ -110023,19 +109697,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var sitog = _widgets_SmallImageButton__WEBPACK_IMPORTED_MODULE_8__.SmallImageButton.sitog;
 
+
+
+
+
+
+
+var sitog = _widgets_SmallImageButton__WEBPACK_IMPORTED_MODULE_8__.SmallImageButton.sitog;
 var hbox = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_13__.C.hbox;
 var spacer = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_13__.C.spacer;
 var span = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_13__.C.span;
 var vbox = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_13__.C.vbox;
 var ClueSpot = _lib_runescape_clues__WEBPACK_IMPORTED_MODULE_7__.Clues.ClueSpot;
-
-
-
-
-
-
 var ClueSpotFilter;
 (function (ClueSpotFilter) {
     var ClueSpot = _lib_runescape_clues__WEBPACK_IMPORTED_MODULE_7__.Clues.ClueSpot;
@@ -110252,20 +109926,28 @@ class FilterControl extends _lib_gamemap_GameMapControl__WEBPACK_IMPORTED_MODULE
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ GenericPathMethodEditor)
+/* harmony export */   GenericPathMethodEditor: () => (/* binding */ GenericPathMethodEditor)
 /* harmony export */ });
 /* harmony import */ var _MethodSubEditor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MethodSubEditor */ "./trainer/ui/theorycrafting/MethodSubEditor.ts");
-/* harmony import */ var _pathedit_PathProperty__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../pathedit/PathProperty */ "./trainer/ui/pathedit/PathProperty.ts");
-/* harmony import */ var _pathedit_PathEditor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../pathedit/PathEditor */ "./trainer/ui/pathedit/PathEditor.ts");
-/* harmony import */ var _lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../lib/ui/Behaviour */ "./lib/ui/Behaviour.ts");
-/* harmony import */ var _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../lib/gamemap/GameLayer */ "./lib/gamemap/GameLayer.ts");
+/* harmony import */ var _pathedit_PathEditor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../pathedit/PathEditor */ "./trainer/ui/pathedit/PathEditor.ts");
+/* harmony import */ var _lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../lib/ui/Behaviour */ "./lib/ui/Behaviour.ts");
+/* harmony import */ var _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../lib/gamemap/GameLayer */ "./lib/gamemap/GameLayer.ts");
+/* harmony import */ var _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../lib/ui/Widget */ "./lib/ui/Widget.ts");
 /* harmony import */ var _widgets_Properties__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../widgets/Properties */ "./trainer/ui/widgets/Properties.ts");
-/* harmony import */ var _lib_runescape_pathing__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../lib/runescape/pathing */ "./lib/runescape/pathing.ts");
-/* harmony import */ var _lib_runescape_clues__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../lib/runescape/clues */ "./lib/runescape/clues.ts");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! lodash */ "../node_modules/lodash/lodash.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! lodash */ "../node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _lib_runescape_pathing__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../lib/runescape/pathing */ "./lib/runescape/pathing.ts");
+/* harmony import */ var _lib_runescape_clues__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../lib/runescape/clues */ "./lib/runescape/clues.ts");
 /* harmony import */ var _dependencies__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../dependencies */ "./trainer/dependencies.ts");
 /* harmony import */ var _lib_runescape_coordinates_TileArea__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../lib/runescape/coordinates/TileArea */ "./lib/runescape/coordinates/TileArea.ts");
+/* harmony import */ var _widgets_ContextMenu__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../widgets/ContextMenu */ "./trainer/ui/widgets/ContextMenu.ts");
+/* harmony import */ var _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../../lib/ui/constructors */ "./lib/ui/constructors.ts");
+/* harmony import */ var _path_graphics__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../path_graphics */ "./trainer/ui/path_graphics.ts");
+/* harmony import */ var _lib_reactive__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../../lib/reactive */ "./lib/reactive/index.ts");
+/* harmony import */ var _pathedit_EditedPathOverview__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../pathedit/EditedPathOverview */ "./trainer/ui/pathedit/EditedPathOverview.ts");
+/* harmony import */ var _lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../../lib/runescape/coordinates */ "./lib/runescape/coordinates/index.ts");
+/* harmony import */ var _lib_runescape_transportation__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../../lib/runescape/transportation */ "./lib/runescape/transportation.ts");
+/* harmony import */ var _map_entities_PathStepEntity__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../map/entities/PathStepEntity */ "./trainer/ui/map/entities/PathStepEntity.ts");
 
 
 
@@ -110273,12 +109955,26 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var movement_state = _lib_runescape_pathing__WEBPACK_IMPORTED_MODULE_6__.Path.movement_state;
 
 
 
 
+
+
+
+
+
+
+
+
+var movement_state = _lib_runescape_pathing__WEBPACK_IMPORTED_MODULE_7__.Path.movement_state;
 var activate = _lib_runescape_coordinates_TileArea__WEBPACK_IMPORTED_MODULE_10__.TileArea.activate;
+var hbox = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_12__.C.hbox;
+var hboxl = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_12__.C.hboxl;
+var vbox = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_12__.C.vbox;
+var span = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_12__.C.span;
+var collect_issues = _lib_runescape_pathing__WEBPACK_IMPORTED_MODULE_7__.Path.collect_issues;
+var default_interactive_area = _lib_runescape_transportation__WEBPACK_IMPORTED_MODULE_17__.Transportation.EntityTransportation.default_interactive_area;
 function getSection(method, section) {
     switch (section) {
         case "pre":
@@ -110289,38 +109985,151 @@ function getSection(method, section) {
             return method.main_path;
     }
 }
+class SegmentEdit extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_4__["default"] {
+    constructor(parent, section) {
+        super(hbox().container);
+        this.parent = parent;
+        this.section = section;
+        this.path = null;
+        this.addClass("ctr-scantreeedit-node");
+        if (!section.path)
+            this.addClass("no-hover");
+        const collapse_bar = hbox(c().css("background-color", section.path ? "blue" : "gray")
+            .css("width", "3px")).css2({
+            "padding-left": `4px`,
+            "padding-right": "4px",
+        });
+        this.body = new _widgets_Properties__WEBPACK_IMPORTED_MODULE_5__["default"]();
+        this.append(collapse_bar, this.body.css("flex-grow", "1")
+            .on("click", (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            this.parent.requestActivation(this.isActive() ? null : this);
+        }));
+        this.on("contextmenu", e => this.contextMenu(e.originalEvent));
+        this.renderValue(null);
+    }
+    contextMenu(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        const entries = [
+            {
+                type: "basic",
+                text: this.isActive() ? "Deactivate" : "Activate",
+                handler: () => {
+                    this.parent.requestActivation(this.isActive() ? null : this);
+                }
+            }
+        ];
+        new _widgets_ContextMenu__WEBPACK_IMPORTED_MODULE_11__["default"]({
+            type: "submenu",
+            text: "",
+            children: entries.filter(e => !!e)
+        })
+            .showFromEvent2(event);
+    }
+    renderValue(path) {
+        this.path = path;
+        this.body.empty();
+        this.body.header(GenericPathMethodEditor.SequenceSegment.header(this.section));
+        if (this.section.path && path) {
+            if (path.raw.length > 0) {
+                this.body.row(c()
+                    .setInnerHtml((0,_dependencies__WEBPACK_IMPORTED_MODULE_9__.deps)().app.template_resolver.resolve(this.path.raw.map(_path_graphics__WEBPACK_IMPORTED_MODULE_13__.PathingGraphics.templateString).join(" - "))));
+            }
+            const issues = collect_issues(path);
+            if (issues.length > 0) {
+                this.body.row(vbox(...issues.map(i => new _pathedit_EditedPathOverview__WEBPACK_IMPORTED_MODULE_15__.IssueWidget(i))));
+            }
+            this.body.named("Timing", hboxl(span(`T${this.path.pre_state.tick}`).addClass('nisl-textlink'), span("&nbsp;to&nbsp;"), span(`T${this.path.post_state.tick}`).addClass('nisl-textlink')));
+        }
+    }
+    setActive(v) {
+        this.toggleClass("active", v);
+    }
+    isActive() {
+        return this == this.parent.active.value();
+    }
+}
 class GenericPathMethodEditor extends _MethodSubEditor__WEBPACK_IMPORTED_MODULE_0__["default"] {
     constructor(parent, value) {
         super(parent);
         this.value = value;
-        this.path_editor = this.withSub(new _lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_3__.SingleBehaviour());
+        this.path_editor = this.withSub(new _lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_2__.SingleBehaviour());
         this.sequence = [];
-        this.layer = new _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_4__.GameLayer();
+        this.active = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_14__.observe)(null);
+        this.preview_layer = null;
+        this.layer = new _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_3__.GameLayer();
         this.assumptions.subscribe((v) => {
             this.updateSequence();
         });
+        this.active.subscribe(segment => {
+            if (this.path_editor.isActive()) {
+                this.path_editor.get();
+                this.path_editor.set(null);
+            }
+            this.updatePreview(segment === null || segment === void 0 ? void 0 : segment.section);
+            if (segment) {
+                this.setPathEditor({
+                    start_state: segment.path.pre_state,
+                    initial: segment.path.raw,
+                    target: segment.path.target,
+                    commit_handler: (path) => {
+                        const seg = this.sequence.find(s => s.edit == segment);
+                        switch (seg.path.section) {
+                            case "pre":
+                                this.value.method.pre_path = path;
+                                break;
+                            case "post":
+                                this.value.method.post_path = path;
+                                break;
+                            case "main":
+                                this.value.method.main_path = path;
+                                break;
+                        }
+                        this.parent.registerChange();
+                        this.propagateState();
+                    },
+                    discard_handler: () => { }
+                })
+                    .onStop(() => {
+                    if (this.active.value() == segment)
+                        this.requestActivation(null);
+                });
+            }
+        });
+    }
+    updatePreview(segment) {
+        if (this.preview_layer) {
+            this.preview_layer.remove();
+            this.preview_layer = null;
+        }
+        if (!segment) {
+            const layer = new _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_3__.GameLayer();
+            const sections = this.sequence.filter(s => s.path).map(s => s.path.section).filter(e => e)
+                .map(s => {
+                _map_entities_PathStepEntity__WEBPACK_IMPORTED_MODULE_18__.PathStepEntity.renderPath(getSection(this.value.method, s)).addTo(layer);
+            });
+            this.preview_layer = layer.addTo(this.layer);
+        }
     }
     setPathEditor(options) {
-        let editor = new _pathedit_PathEditor__WEBPACK_IMPORTED_MODULE_2__.PathEditor(this.layer, (0,_dependencies__WEBPACK_IMPORTED_MODULE_9__.deps)().app.template_resolver, options, false)
-            .onStop(() => {
-            this.propagateState();
-            //if (this.tree_edit.active_node.value() == node) this.tree_edit.setActiveNode(null)
-        });
+        let editor = new _pathedit_PathEditor__WEBPACK_IMPORTED_MODULE_1__.PathEditor(this.layer, (0,_dependencies__WEBPACK_IMPORTED_MODULE_9__.deps)().app.template_resolver, options, false);
         this.path_editor.set(editor);
         return editor;
     }
-    begin() {
+    async begin() {
         super.begin();
         this.sidepanel_widget = c().appendTo(this.parent.sidebar.body);
         this.layer.addTo((0,_dependencies__WEBPACK_IMPORTED_MODULE_9__.deps)().app.map);
-        this.updateSequence();
-        this.sequence.find(s => s.path.prop).path.prop.edit();
+        await this.updateSequence();
+        this.requestActivation(this.sequence.find(s => s.path).edit);
     }
     /**
      * Updates the required sequence based on the clue step and the method assumptions.
      * The sequence is the "blueprint" of things that need to be done to complete the step.
      */
-    updateSequence() {
+    async updateSequence() {
         let sequence = [];
         const value = this.value;
         const clue = this.value.clue;
@@ -110330,14 +110139,14 @@ class GenericPathMethodEditor extends _MethodSubEditor__WEBPACK_IMPORTED_MODULE_
             if (!assumptions.full_globetrotter) {
                 if (hidey_hole_in_target) {
                     sequence.push({
-                        name: `Path to Hidey Hole (${clue.hidey_hole.name}) in Target Area`,
-                        path: { section: "main", target: activate(_lib_runescape_coordinates_TileArea__WEBPACK_IMPORTED_MODULE_10__.TileArea.init(clue.hidey_hole.location)) }
+                        name: `Path to Hidey Hole in Target Area`,
+                        path: { section: "main", target: activate(default_interactive_area(_lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_16__.TileRectangle.from(clue.hidey_hole.location))) }
                     });
                 }
                 else if (clue.hidey_hole) {
                     sequence.push({
-                        name: `Path to Hidey Hole (${clue.hidey_hole.name})`,
-                        path: { section: "pre", target: activate(_lib_runescape_coordinates_TileArea__WEBPACK_IMPORTED_MODULE_10__.TileArea.init(clue.hidey_hole.location)) }
+                        name: `Path to Hidey Hole`,
+                        path: { section: "pre", target: activate(default_interactive_area(_lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_16__.TileRectangle.from(clue.hidey_hole.location))) }
                     });
                 }
                 if (clue.hidey_hole)
@@ -110356,62 +110165,36 @@ class GenericPathMethodEditor extends _MethodSubEditor__WEBPACK_IMPORTED_MODULE_
             if (clue.hidey_hole && !hidey_hole_in_target && !assumptions.full_globetrotter) {
                 sequence.push({
                     name: "Return to Hidey Hole",
-                    path: { section: "post", target: activate(_lib_runescape_coordinates_TileArea__WEBPACK_IMPORTED_MODULE_10__.TileArea.init(clue.hidey_hole.location)) }
+                    path: { section: "post", target: activate(default_interactive_area(_lib_runescape_coordinates__WEBPACK_IMPORTED_MODULE_16__.TileRectangle.from(clue.hidey_hole.location))) }
                 });
                 sequence.push({ name: "Return Items", ticks: 1 });
             }
         }
         else {
-            if (_lib_runescape_clues__WEBPACK_IMPORTED_MODULE_7__.Clues.requiresKey(clue) && !assumptions.way_of_the_footshaped_key) {
+            if (_lib_runescape_clues__WEBPACK_IMPORTED_MODULE_8__.Clues.requiresKey(clue) && !assumptions.way_of_the_footshaped_key) {
                 sequence.push({ name: "Path to Key", path: { section: "pre", target: activate(clue.solution.key.area) } });
                 sequence.push({ name: `Get Key (${clue.solution.key.instructions})`, ticks: 2 });
             }
             sequence.push({
                 name: "To target", path: {
                     section: "main",
-                    target: activate(_lib_runescape_clues__WEBPACK_IMPORTED_MODULE_7__.Clues.ClueSpot.targetArea({ clue: clue, spot: value.method.for.spot }))
+                    target: activate(_lib_runescape_clues__WEBPACK_IMPORTED_MODULE_8__.Clues.ClueSpot.targetArea({ clue: clue, spot: value.method.for.spot }))
                 }
             });
         }
         this.sequence = sequence;
-        this.render();
+        await this.render();
     }
-    render() {
+    async render() {
         this.sidepanel_widget.empty();
         const props = new _widgets_Properties__WEBPACK_IMPORTED_MODULE_5__["default"]().appendTo(this.sidepanel_widget);
         const value = this.value;
         const assumptions = this.assumptions.value();
         this.sequence.forEach(section => {
-            if (section.ticks != null) {
-                props.header(`${section.name} (+${section.ticks} ticks)`);
-            }
-            else {
-                props.header(section.name);
-            }
-            if (section.path) {
-                props.row(section.path.prop = new _pathedit_PathProperty__WEBPACK_IMPORTED_MODULE_1__["default"]({
-                    editor_handle: (options) => this.setPathEditor(options),
-                    target: section.path.target,
-                })
-                    .setValue(getSection(value.method, section.path.section))
-                    .onCommit((v) => {
-                    switch (section.path.section) {
-                        case "pre":
-                            this.value.method.pre_path = v;
-                            break;
-                        case "post":
-                            this.value.method.post_path = v;
-                            break;
-                        case "main":
-                            this.value.method.main_path = v;
-                            break;
-                    }
-                    this.parent.registerChange();
-                    this.propagateState();
-                }));
-            }
+            props.row(section.edit =
+                new SegmentEdit(this, section));
         });
-        this.propagateState();
+        await this.propagateState();
         // Create widgets for every part of the path
         // - Pre-Path for keys (if not way of the foot shaped key) and hidey holes (if not full globetrotter && hideyhole not in area)
         // - Main Path
@@ -110424,10 +110207,12 @@ class GenericPathMethodEditor extends _MethodSubEditor__WEBPACK_IMPORTED_MODULE_
     }
     async propagateState() {
         const end_state = await this.sequence.reduce(async (old_state, section) => {
-            let state = lodash__WEBPACK_IMPORTED_MODULE_8__.cloneDeep(await old_state);
+            let state = lodash__WEBPACK_IMPORTED_MODULE_6__.cloneDeep(await old_state);
             if (section.path) {
-                await section.path.prop.setStartState(await old_state);
-                state = lodash__WEBPACK_IMPORTED_MODULE_8__.cloneDeep((await section.path.prop.augmented).post_state);
+                const section_path = getSection(this.value.method, section.path.section);
+                const augmented = await _lib_runescape_pathing__WEBPACK_IMPORTED_MODULE_7__.Path.augment(section_path, state, section.path.target);
+                section.edit.renderValue(augmented);
+                state = lodash__WEBPACK_IMPORTED_MODULE_6__.cloneDeep(augmented.post_state);
             }
             if (section.ticks)
                 state.tick += section.ticks;
@@ -110435,7 +110220,30 @@ class GenericPathMethodEditor extends _MethodSubEditor__WEBPACK_IMPORTED_MODULE_
         }, Promise.resolve(movement_state.start(this.assumptions.value())));
         this.value.method.expected_time = end_state.tick;
     }
+    requestActivation(segment) {
+        if (segment && !segment.section.path)
+            return;
+        if (this.active.value())
+            this.active.value().setActive(false);
+        this.active.set(segment);
+        if (this.active.value())
+            this.active.value().setActive(true);
+    }
 }
+(function (GenericPathMethodEditor) {
+    let SequenceSegment;
+    (function (SequenceSegment) {
+        function header(segment) {
+            if (segment.ticks != null) {
+                return `${segment.name} (+${segment.ticks} ticks)`;
+            }
+            else {
+                return segment.name;
+            }
+        }
+        SequenceSegment.header = header;
+    })(SequenceSegment = GenericPathMethodEditor.SequenceSegment || (GenericPathMethodEditor.SequenceSegment = {}));
+})(GenericPathMethodEditor || (GenericPathMethodEditor = {}));
 
 
 /***/ }),
@@ -110457,15 +110265,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _widgets_Properties__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../widgets/Properties */ "./trainer/ui/widgets/Properties.ts");
 /* harmony import */ var _scanedit_ScanEditor__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./scanedit/ScanEditor */ "./trainer/ui/theorycrafting/scanedit/ScanEditor.ts");
 /* harmony import */ var _model_methods__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../model/methods */ "./trainer/model/methods.ts");
-/* harmony import */ var _widgets_LightButton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../widgets/LightButton */ "./trainer/ui/widgets/LightButton.ts");
-/* harmony import */ var _SelectPackModal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./SelectPackModal */ "./trainer/ui/theorycrafting/SelectPackModal.ts");
-/* harmony import */ var _GenericPathMethodEditor__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./GenericPathMethodEditor */ "./trainer/ui/theorycrafting/GenericPathMethodEditor.ts");
-/* harmony import */ var _AssumptionProperty__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./AssumptionProperty */ "./trainer/ui/theorycrafting/AssumptionProperty.ts");
-/* harmony import */ var _lib_ui_ButtonRow__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../lib/ui/ButtonRow */ "./lib/ui/ButtonRow.ts");
-/* harmony import */ var _lib_reactive__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../../lib/reactive */ "./lib/reactive/index.ts");
-/* harmony import */ var _widgets_modals_ConfirmationModal__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../widgets/modals/ConfirmationModal */ "./trainer/ui/widgets/modals/ConfirmationModal.ts");
-/* harmony import */ var _MethodModal__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./MethodModal */ "./trainer/ui/theorycrafting/MethodModal.ts");
-/* harmony import */ var _dependencies__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../dependencies */ "./trainer/dependencies.ts");
+/* harmony import */ var _lib_runescape_clues__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../lib/runescape/clues */ "./lib/runescape/clues.ts");
+/* harmony import */ var _widgets_LightButton__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../widgets/LightButton */ "./trainer/ui/widgets/LightButton.ts");
+/* harmony import */ var _SelectPackModal__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./SelectPackModal */ "./trainer/ui/theorycrafting/SelectPackModal.ts");
+/* harmony import */ var _GenericPathMethodEditor__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./GenericPathMethodEditor */ "./trainer/ui/theorycrafting/GenericPathMethodEditor.ts");
+/* harmony import */ var _AssumptionProperty__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./AssumptionProperty */ "./trainer/ui/theorycrafting/AssumptionProperty.ts");
+/* harmony import */ var _lib_ui_ButtonRow__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../../lib/ui/ButtonRow */ "./lib/ui/ButtonRow.ts");
+/* harmony import */ var _lib_reactive__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../../lib/reactive */ "./lib/reactive/index.ts");
+/* harmony import */ var _widgets_modals_ConfirmationModal__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../widgets/modals/ConfirmationModal */ "./trainer/ui/widgets/modals/ConfirmationModal.ts");
+/* harmony import */ var _MethodModal__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./MethodModal */ "./trainer/ui/theorycrafting/MethodModal.ts");
+/* harmony import */ var _dependencies__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../dependencies */ "./trainer/dependencies.ts");
+/* harmony import */ var _lib_runescape_coordinates_TileArea__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../../lib/runescape/coordinates/TileArea */ "./lib/runescape/coordinates/TileArea.ts");
+
+
+
 
 
 
@@ -110481,15 +110294,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var Method = _model_methods__WEBPACK_IMPORTED_MODULE_5__.SolvingMethods.Method;
-
+var ClueSpot = _lib_runescape_clues__WEBPACK_IMPORTED_MODULE_6__.Clues.ClueSpot;
 class MethodEditSideBar extends _MapSideBar__WEBPACK_IMPORTED_MODULE_2__["default"] {
     constructor(parent) {
         super("Method Editor");
         this.parent = parent;
-        this.save_row = new _lib_ui_ButtonRow__WEBPACK_IMPORTED_MODULE_10__["default"]().appendTo(this.body);
+        this.save_row = new _lib_ui_ButtonRow__WEBPACK_IMPORTED_MODULE_11__["default"]().appendTo(this.body);
         /*this.header.close_handler.set(() => {
             // TODO: Confirm for unsaved changes
-
+    
             parent.stop()
         })*/
         this.parent.is_dirty.subscribe(() => this.renderSaveRow());
@@ -110502,13 +110315,13 @@ class MethodEditSideBar extends _MapSideBar__WEBPACK_IMPORTED_MODULE_2__["defaul
         const props = this.meta_props;
         props.named("Pack", c().text(this.parent.method.pack ? this.parent.method.pack.name : "None"));
         props.named("Name", c().text(this.parent.method.method.name));
-        props.named("Assumptions", c().append(..._AssumptionProperty__WEBPACK_IMPORTED_MODULE_9__.AssumptionProperty.icons(this.parent.method.method.assumptions)));
+        props.named("Assumptions", c().append(..._AssumptionProperty__WEBPACK_IMPORTED_MODULE_10__.AssumptionProperty.icons(this.parent.method.method.assumptions)));
         props.header("Description");
         props.row(c().text(this.parent.method.method.description
             ? this.parent.method.method.description
             : "None").css("font-style", "italic"));
-        props.row(new _widgets_LightButton__WEBPACK_IMPORTED_MODULE_6__["default"]("Edit Metainformation", "rectangle").onClick(async () => {
-            const result = await new _MethodModal__WEBPACK_IMPORTED_MODULE_13__.EditMethodMetaModal({ clue: this.parent.method.clue, spot: this.parent.method.method.for.spot }, Method.meta(this.parent.method.method)).do();
+        props.row(new _widgets_LightButton__WEBPACK_IMPORTED_MODULE_7__["default"]("Edit Metainformation", "rectangle").onClick(async () => {
+            const result = await new _MethodModal__WEBPACK_IMPORTED_MODULE_14__.EditMethodMetaModal({ clue: this.parent.method.clue, spot: this.parent.method.method.for.spot }, Method.meta(this.parent.method.method)).do();
             if (result === null || result === void 0 ? void 0 : result.result) {
                 Method.setMeta(this.parent.method.method, result.result);
                 this.renderMetaProps();
@@ -110519,24 +110332,24 @@ class MethodEditSideBar extends _MapSideBar__WEBPACK_IMPORTED_MODULE_2__["defaul
     }
     renderSaveRow() {
         this.save_row.empty();
-        this.save_row.buttons(new _widgets_LightButton__WEBPACK_IMPORTED_MODULE_6__["default"](`Save`, "rectangle")
+        this.save_row.buttons(new _widgets_LightButton__WEBPACK_IMPORTED_MODULE_7__["default"]("Save", "rectangle")
             .setEnabled(this.parent.is_dirty.value())
             .onClick(async () => {
             if (this.parent.method.pack) {
                 await _model_MethodPackManager__WEBPACK_IMPORTED_MODULE_1__.MethodPackManager.instance().updateMethod(this.parent.method);
-                _dependencies__WEBPACK_IMPORTED_MODULE_14__["default"].instance().app.notifications.notify({ type: "information", duration: 3000 }, `Successfully saved in Pack '${this.parent.method.pack.name}'.`);
+                _dependencies__WEBPACK_IMPORTED_MODULE_15__["default"].instance().app.notifications.notify({ type: "information", duration: 3000 }, `Successfully saved in Pack '${this.parent.method.pack.name}'.`);
             }
             else {
-                const result = await new _SelectPackModal__WEBPACK_IMPORTED_MODULE_7__["default"]().do();
+                const result = await new _SelectPackModal__WEBPACK_IMPORTED_MODULE_8__["default"]().do();
                 if (result === null || result === void 0 ? void 0 : result.pack) {
                     await _model_MethodPackManager__WEBPACK_IMPORTED_MODULE_1__.MethodPackManager.instance().updatePack(result.pack, p => p.methods.push(this.parent.method.method));
                     this.parent.method.pack = result.pack;
-                    _dependencies__WEBPACK_IMPORTED_MODULE_14__["default"].instance().app.notifications.notify({ type: "information", duration: 3000 }, `Successfully saved in Pack '${this.parent.method.pack.name}'.`);
+                    _dependencies__WEBPACK_IMPORTED_MODULE_15__["default"].instance().app.notifications.notify({ type: "information", duration: 3000 }, `Successfully saved in Pack '${this.parent.method.pack.name}'.`);
                     this.renderSaveRow();
                 }
             }
             this.parent.is_dirty.set(false);
-        }), new _widgets_LightButton__WEBPACK_IMPORTED_MODULE_6__["default"]("Make and Edit Copy", "rectangle")
+        }), new _widgets_LightButton__WEBPACK_IMPORTED_MODULE_7__["default"]("Make and Edit Copy", "rectangle")
             .setEnabled(!!this.parent.method.pack)
             .onClick(async () => {
             this.parent.theorycrafter.editMethod({
@@ -110544,7 +110357,7 @@ class MethodEditSideBar extends _MapSideBar__WEBPACK_IMPORTED_MODULE_2__["defaul
                 clue: this.parent.method.clue,
                 method: _model_methods__WEBPACK_IMPORTED_MODULE_5__.SolvingMethods.clone(this.parent.method.method)
             });
-        }), new _widgets_LightButton__WEBPACK_IMPORTED_MODULE_6__["default"]("Close", "rectangle")
+        }), new _widgets_LightButton__WEBPACK_IMPORTED_MODULE_7__["default"]("Close", "rectangle")
             .onClick(async () => {
             const really = await this.parent.requestClosePermission();
             if (really)
@@ -110557,27 +110370,34 @@ class MethodEditor extends _lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_0__["defau
         super();
         this.theorycrafter = theorycrafter;
         this.method = method;
-        this.is_dirty = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_11__.observe)(false);
+        this.is_dirty = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_12__.observe)(false);
+        if (!method.pack || !_model_MethodPackManager__WEBPACK_IMPORTED_MODULE_1__.MethodPackManager.instance().getMethod(method.pack.local_id, method.method.id)) {
+            this.is_dirty.set(true);
+        }
     }
     registerChange() {
         this.is_dirty.set(true);
     }
     begin() {
-        this.sidebar = new MethodEditSideBar(this).prependTo(_dependencies__WEBPACK_IMPORTED_MODULE_14__["default"].instance().app.main_content)
+        this.sidebar = new MethodEditSideBar(this).prependTo(_dependencies__WEBPACK_IMPORTED_MODULE_15__["default"].instance().app.main_content)
             .css("width", "300px");
         if (this.method.method.type == "scantree") {
-            this.sub_editor = this.withSub(new _scanedit_ScanEditor__WEBPACK_IMPORTED_MODULE_4__["default"](this, _dependencies__WEBPACK_IMPORTED_MODULE_14__["default"].instance().app, this.method, this.sidebar.body));
+            this.sub_editor = this.withSub(new _scanedit_ScanEditor__WEBPACK_IMPORTED_MODULE_4__["default"](this, _dependencies__WEBPACK_IMPORTED_MODULE_15__["default"].instance().app, this.method, this.sidebar.body));
         }
         else {
-            this.sub_editor = this.withSub(new _GenericPathMethodEditor__WEBPACK_IMPORTED_MODULE_8__["default"](this, this.method));
+            this.sub_editor = this.withSub(new _GenericPathMethodEditor__WEBPACK_IMPORTED_MODULE_9__.GenericPathMethodEditor(this, this.method));
         }
         this.sub_editor.setAssumptions(this.method.method.assumptions);
+        const bounds = ClueSpot.targetArea({ clue: this.method.clue, spot: this.method.method.for.spot });
+        if (bounds) {
+            this.sub_editor.layer.getMap().fitView(_lib_runescape_coordinates_TileArea__WEBPACK_IMPORTED_MODULE_16__.TileArea.toRect(bounds));
+        }
     }
     end() {
         this.sidebar.remove();
     }
     async requestClosePermission() {
-        return (!this.is_dirty.value()) || (await new _widgets_modals_ConfirmationModal__WEBPACK_IMPORTED_MODULE_12__.ConfirmationModal({
+        return (!this.is_dirty.value()) || (await new _widgets_modals_ConfirmationModal__WEBPACK_IMPORTED_MODULE_13__.ConfirmationModal({
             title: "Unsaved changes",
             body: "There are unsaved changes that will be lost.",
             options: [{
@@ -110636,11 +110456,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
 var Method = _model_methods__WEBPACK_IMPORTED_MODULE_9__.SolvingMethods.Method;
-
-
 var ClueAssumptions = _model_methods__WEBPACK_IMPORTED_MODULE_9__.SolvingMethods.ClueAssumptions;
-
 var copyUpdate = _lib_util_util__WEBPACK_IMPORTED_MODULE_12__.util.copyUpdate;
 class MethodMetaEdit extends _widgets_AbstractEditWidget__WEBPACK_IMPORTED_MODULE_11__["default"] {
     constructor(spot, value) {
@@ -110680,6 +110500,7 @@ class PackSelector extends _widgets_AbstractEditWidget__WEBPACK_IMPORTED_MODULE_
     }
     async render() {
         this.empty();
+        const val = this.get();
         this.selector = new _widgets_DropdownSelection__WEBPACK_IMPORTED_MODULE_10__.DropdownSelection({
             type_class: {
                 toHTML: (pack) => {
@@ -110701,6 +110522,7 @@ class PackSelector extends _widgets_AbstractEditWidget__WEBPACK_IMPORTED_MODULE_
                 null
             ];
         })
+            .setValue(val ? { pack: val } : null)
             .onSelection(async (s) => {
             if (s === null || s === void 0 ? void 0 : s.create_new) {
                 this.selector.setValue(null);
@@ -110723,11 +110545,11 @@ class NewMethodModal extends _lib_ui_controls_FormModal__WEBPACK_IMPORTED_MODULE
         this.clone_from = clone_from;
     }
     render() {
-        var _a;
+        var _a, _b, _c;
         super.render();
         new _widgets_Properties__WEBPACK_IMPORTED_MODULE_7__["default"]().appendTo(this.body)
             .named("Pack", this.pack_selector = new PackSelector()
-            .setValue((_a = this.clone_from) === null || _a === void 0 ? void 0 : _a.pack)
+            .setValue(((_b = (_a = this.clone_from) === null || _a === void 0 ? void 0 : _a.pack) === null || _b === void 0 ? void 0 : _b.type) == "local" ? (_c = this.clone_from) === null || _c === void 0 ? void 0 : _c.pack : null)
             .onCommit(p => {
             if (p) {
                 const meta = lodash__WEBPACK_IMPORTED_MODULE_3__.cloneDeep(this.edit.get());
@@ -110980,9 +110802,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _map_TransportLayer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../map/TransportLayer */ "./trainer/ui/map/TransportLayer.ts");
 
 
+
+
 var ClueAssumptions = _model_methods__WEBPACK_IMPORTED_MODULE_1__.SolvingMethods.ClueAssumptions;
-
-
 class MethodSubEditor extends _lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_0__["default"] {
     constructor(parent) {
         super();
@@ -111031,14 +110853,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
 var ClueSpot = _lib_runescape_clues__WEBPACK_IMPORTED_MODULE_5__.Clues.ClueSpot;
-
-
-
-
-
-
-
 var Method = _model_methods__WEBPACK_IMPORTED_MODULE_12__.SolvingMethods.Method;
 class OverviewLayer extends _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_0__.GameLayer {
     constructor(app) {
@@ -111259,14 +111081,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
 var exp = _lib_util_exportString__WEBPACK_IMPORTED_MODULE_3__.ExportImport.exp;
-
-
-
-
-
-
-
 var cleanedJSON = _lib_util_util__WEBPACK_IMPORTED_MODULE_10__.util.cleanedJSON;
 class PackWidget extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["default"] {
     constructor(pack, manager, customization) {
@@ -111457,14 +111279,14 @@ class SelectPackModal extends _lib_ui_controls_FormModal__WEBPACK_IMPORTED_MODUL
                     pack: this.selected.value()
                 });
                 /*
-
+        
                 this.packs.updatePack(this.active.value(), p => p.methods.push(this.method.method))
-
+        
                 this.saved_in = this.active.value()
-
+        
                 this.remove()
-
-
+        
+        
                  */
             }),
         ];
@@ -111522,6 +111344,7 @@ class TheoryCrafter extends _lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_0__["defa
     }
     begin() {
         this.sidebar = new _TheoryCraftingSidebar__WEBPACK_IMPORTED_MODULE_1__["default"](this).prependTo(this.app.main_content);
+        this.app.map.invalidateSize();
         this.layer = new _OverviewLayer__WEBPACK_IMPORTED_MODULE_2__["default"](this).addTo(this.app.map);
     }
     end() {
@@ -111576,19 +111399,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
 var btnrow = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_4__.C.btnrow;
 var h = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_4__.C.h;
-
-
 var imp = _lib_util_exportString__WEBPACK_IMPORTED_MODULE_7__.ExportImport.imp;
-
 class TheoryCraftingSidebar extends _MapSideBar__WEBPACK_IMPORTED_MODULE_0__["default"] {
     constructor(theorycrafter) {
         super("Theorycrafter");
         this.theorycrafter = theorycrafter;
         this.css("width", "300px");
         this.methods = _model_MethodPackManager__WEBPACK_IMPORTED_MODULE_2__.MethodPackManager.instance();
-        this.header.close_handler.set(() => theorycrafter.stop());
         this.methods.saved.on(async (p) => this.render(await this.methods.all())).bindTo(theorycrafter.handler_pool);
         this.methods.all().then(p => this.render(p));
     }
@@ -111654,13 +111476,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _polygon_helpers__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../polygon_helpers */ "./trainer/ui/polygon_helpers.ts");
 /* harmony import */ var _neosolving_ScanLayer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../neosolving/ScanLayer */ "./trainer/ui/neosolving/ScanLayer.ts");
 /* harmony import */ var _pathedit_PathEditor__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../pathedit/PathEditor */ "./trainer/ui/pathedit/PathEditor.ts");
-/* harmony import */ var _lib_gamemap_layers_OpacityLayer__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../../lib/gamemap/layers/OpacityLayer */ "./lib/gamemap/layers/OpacityLayer.ts");
-/* harmony import */ var _lib_reactive__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../../lib/reactive */ "./lib/reactive/index.ts");
-/* harmony import */ var _lib_gamemap_interaction_InteractionLayer__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../../../lib/gamemap/interaction/InteractionLayer */ "./lib/gamemap/interaction/InteractionLayer.ts");
-/* harmony import */ var _lib_gamemap_GameMapControl__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../../../lib/gamemap/GameMapControl */ "./lib/gamemap/GameMapControl.ts");
-/* harmony import */ var _ScanTools__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./ScanTools */ "./trainer/ui/theorycrafting/scanedit/ScanTools.ts");
-/* harmony import */ var _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../../../lib/ui/constructors */ "./lib/ui/constructors.ts");
-/* harmony import */ var _lib_cluetheory_scans_ScanTree__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../../lib/cluetheory/scans/ScanTree */ "./lib/cluetheory/scans/ScanTree.ts");
+/* harmony import */ var _lib_gamemap_layers_OpacityLayer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../../lib/gamemap/layers/OpacityLayer */ "./lib/gamemap/layers/OpacityLayer.ts");
+/* harmony import */ var _lib_reactive__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../../lib/reactive */ "./lib/reactive/index.ts");
+/* harmony import */ var _lib_gamemap_interaction_InteractionLayer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../../lib/gamemap/interaction/InteractionLayer */ "./lib/gamemap/interaction/InteractionLayer.ts");
+/* harmony import */ var _lib_gamemap_GameMapControl__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../../../lib/gamemap/GameMapControl */ "./lib/gamemap/GameMapControl.ts");
+/* harmony import */ var _ScanTools__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./ScanTools */ "./trainer/ui/theorycrafting/scanedit/ScanTools.ts");
+/* harmony import */ var _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../../../lib/ui/constructors */ "./lib/ui/constructors.ts");
+/* harmony import */ var _lib_cluetheory_scans_ScanTree__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../../../lib/cluetheory/scans/ScanTree */ "./lib/cluetheory/scans/ScanTree.ts");
 /* harmony import */ var _TreeEdit__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./TreeEdit */ "./trainer/ui/theorycrafting/scanedit/TreeEdit.ts");
 /* harmony import */ var _MethodSubEditor__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../MethodSubEditor */ "./trainer/ui/theorycrafting/MethodSubEditor.ts");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! lodash */ "../node_modules/lodash/lodash.js");
@@ -111686,7 +111508,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var AugmentedScanTree = _lib_cluetheory_scans_ScanTree__WEBPACK_IMPORTED_MODULE_8__.ScanTree.Augmentation.AugmentedScanTree;
 
 
 
@@ -111710,6 +111531,7 @@ var AugmentedScanTree = _lib_cluetheory_scans_ScanTree__WEBPACK_IMPORTED_MODULE_
 
 
 
+var AugmentedScanTree = _lib_cluetheory_scans_ScanTree__WEBPACK_IMPORTED_MODULE_14__.ScanTree.Augmentation.AugmentedScanTree;
 class ScanEditLayer extends _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_19__.GameLayer {
     constructor(spots) {
         super();
@@ -111753,6 +111575,9 @@ class ScanEditLayer extends _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_19__
 }
 (function (ScanEditLayer) {
     var render_digspot = _TextRendering__WEBPACK_IMPORTED_MODULE_25__.TextRendering.render_digspot;
+    var complementSpot = _lib_runescape_clues_scans__WEBPACK_IMPORTED_MODULE_22__.Scans.complementSpot;
+    var span = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_13__.C.span;
+    var inlineimg = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_13__.C.inlineimg;
     class MarkerPair {
         constructor(spot) {
             this.spot = spot;
@@ -111774,9 +111599,6 @@ class ScanEditLayer extends _lib_gamemap_GameLayer__WEBPACK_IMPORTED_MODULE_19__
         }
     }
     ScanEditLayer.MarkerPair = MarkerPair;
-    var complementSpot = _lib_runescape_clues_scans__WEBPACK_IMPORTED_MODULE_22__.Scans.complementSpot;
-    var span = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_14__.C.span;
-    var inlineimg = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_14__.C.inlineimg;
     class SpotMarker extends _lib_gamemap_MapEntity__WEBPACK_IMPORTED_MODULE_20__.MapEntity {
         constructor(spot, is_complement) {
             super({
@@ -111913,7 +111735,7 @@ class EquivalenceClassHandling extends _lib_ui_Behaviour__WEBPACK_IMPORTED_MODUL
     begin() {
         let self = this;
         function setup(o, visibility) {
-            let options = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_10__.observe)(o);
+            let options = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_9__.observe)(o);
             let layer = options.map(o => (0,_lib_properties_Lazy__WEBPACK_IMPORTED_MODULE_2__.lazy)(() => self.render_equivalence_classes(new _lib_cluetheory_scans_EquivalenceClasses__WEBPACK_IMPORTED_MODULE_4__.ScanEquivalenceClasses(o))));
             layer.subscribe((l, old) => {
                 if (old.hasValue())
@@ -111962,16 +111784,16 @@ class ScanTreeBuilder {
     constructor(clue) {
         this.clue = clue;
         this.tree = null;
-        this.augmented = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_10__.observe)(null);
-        this.preview_invalid = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_10__.ewent)();
-        this.assumptions = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_10__.observe)({}).equality((a, b) => {
+        this.augmented = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_9__.observe)(null);
+        this.preview_invalid = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_9__.ewent)();
+        this.assumptions = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_9__.observe)({}).equality((a, b) => {
             return a.meerkats_active == b.meerkats_active
                 && a.mobile_perk == b.mobile_perk
                 && a.double_escape == b.double_escape
                 && a.double_surge == b.double_surge;
         });
-        this.order_changed = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_10__.ewent)();
-        this.any_change = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_10__.ewent)();
+        this.order_changed = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_9__.ewent)();
+        this.any_change = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_9__.ewent)();
         this.assumptions.subscribe((v) => {
             this.cleanTree();
         });
@@ -111980,13 +111802,13 @@ class ScanTreeBuilder {
         if (!this.tree)
             return;
         this.tree.assumed_range = this.clue.range + (this.assumptions.value().meerkats_active ? 5 : 0);
-        this.augmented.set(await _lib_cluetheory_scans_ScanTree__WEBPACK_IMPORTED_MODULE_8__.ScanTree.Augmentation.augment({
+        this.augmented.set(await _lib_cluetheory_scans_ScanTree__WEBPACK_IMPORTED_MODULE_14__.ScanTree.Augmentation.augment({
             augment_paths: true,
             analyze_completeness: true,
             analyze_correctness: true,
             analyze_timing: true,
             path_assumptions: this.assumptions.value()
-        }, _lib_cluetheory_scans_ScanTree__WEBPACK_IMPORTED_MODULE_8__.ScanTree.normalize(this.tree), this.clue));
+        }, _lib_cluetheory_scans_ScanTree__WEBPACK_IMPORTED_MODULE_14__.ScanTree.normalize(this.tree), this.clue));
         this.preview_invalid.trigger(null);
     }
     set(tree) {
@@ -112016,17 +111838,17 @@ class PreviewLayerControl extends _lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_1__
         this.path_layer = null;
     }
     begin() {
-        this.layer = new _lib_gamemap_layers_OpacityLayer__WEBPACK_IMPORTED_MODULE_9__.OpacityGroup().addTo(this.parent.layer);
+        this.layer = new _lib_gamemap_layers_OpacityLayer__WEBPACK_IMPORTED_MODULE_8__.OpacityGroup().addTo(this.parent.layer);
         // Render path preview
         this.parent.tree_edit.active.subscribe(() => this.updatePreview(), true);
         this.parent.builder.preview_invalid.on(() => this.updatePreview());
     }
     async updatePreview() {
         let a = this.parent.tree_edit.active_node.value();
-        let layer = new _lib_gamemap_layers_OpacityLayer__WEBPACK_IMPORTED_MODULE_9__.OpacityGroup();
+        let layer = new _lib_gamemap_layers_OpacityLayer__WEBPACK_IMPORTED_MODULE_8__.OpacityGroup();
         if (a) {
             for (const n of AugmentedScanTree.collect_parents(a, true)) {
-                const area = _lib_cluetheory_scans_ScanTree__WEBPACK_IMPORTED_MODULE_8__.ScanTree.getTargetRegion(n);
+                const area = _lib_cluetheory_scans_ScanTree__WEBPACK_IMPORTED_MODULE_14__.ScanTree.getTargetRegion(n);
                 if (area) {
                     this.parent.tree_edit.getNode(n).region_preview = new _neosolving_ScanLayer__WEBPACK_IMPORTED_MODULE_6__.ScanRegionPolygon(area).addTo(layer);
                 }
@@ -112037,7 +111859,7 @@ class PreviewLayerControl extends _lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_1__
         else {
             if (this.parent.tree_edit.root_widget) {
                 AugmentedScanTree.traverse(this.parent.tree_edit.root_widget.node, async (n) => {
-                    const area = _lib_cluetheory_scans_ScanTree__WEBPACK_IMPORTED_MODULE_8__.ScanTree.getTargetRegion(n);
+                    const area = _lib_cluetheory_scans_ScanTree__WEBPACK_IMPORTED_MODULE_14__.ScanTree.getTargetRegion(n);
                     if (area === null || area === void 0 ? void 0 : area.area) {
                         this.parent.tree_edit.getNode(n).region_preview = new _neosolving_ScanLayer__WEBPACK_IMPORTED_MODULE_6__.ScanRegionPolygon(area).addTo(layer);
                     }
@@ -112117,7 +111939,7 @@ class ScanEditor extends _MethodSubEditor__WEBPACK_IMPORTED_MODULE_16__["default
                 });
             }
         });
-        this.interaction_guard = new _lib_gamemap_interaction_InteractionLayer__WEBPACK_IMPORTED_MODULE_11__.InteractionGuard().setDefaultLayer(this.layer);
+        this.interaction_guard = new _lib_gamemap_interaction_InteractionLayer__WEBPACK_IMPORTED_MODULE_10__.InteractionGuard().setDefaultLayer(this.layer);
         this.equivalence_classes = this.withSub(new EquivalenceClassHandling(this));
         this.preview_layer = this.withSub(new PreviewLayerControl(this));
         this.path_editor = this.withSub(new _lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_1__.SingleBehaviour());
@@ -112148,11 +111970,11 @@ class ScanEditor extends _MethodSubEditor__WEBPACK_IMPORTED_MODULE_16__["default
     }
     begin() {
         super.begin();
-        new _lib_gamemap_GameMapControl__WEBPACK_IMPORTED_MODULE_12__.GameMapControl({
+        new _lib_gamemap_GameMapControl__WEBPACK_IMPORTED_MODULE_11__.GameMapControl({
             position: "top-right",
             type: "floating"
         }, new _map_ControlWithHeader__WEBPACK_IMPORTED_MODULE_30__["default"]("Scan Tools")
-            .setContent(this.tools = new _ScanTools__WEBPACK_IMPORTED_MODULE_13__["default"](this))).addTo(this.layer);
+            .setContent(this.tools = new _ScanTools__WEBPACK_IMPORTED_MODULE_12__["default"](this))).addTo(this.layer);
         this.builder.set(this.value.method.tree);
         c("<div style='font-weight: bold; text-align: center'>Scan Tree</div>").appendTo(this.side_panel);
         this.tree_edit = new _TreeEdit__WEBPACK_IMPORTED_MODULE_15__["default"](this, this.builder.tree.root)
@@ -112207,11 +112029,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
 var hboxc = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_4__.C.hboxc;
 var centered = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_4__.C.centered;
-
-
-
 var span = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_4__.C.span;
 class ScanTools extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["default"] {
     constructor(editor) {
@@ -112271,167 +112093,79 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _lib_util_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../lib/util/util */ "./lib/util/util.ts");
 /* harmony import */ var _widgets_Properties__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../widgets/Properties */ "./trainer/ui/widgets/Properties.ts");
 /* harmony import */ var _lib_ui_controls_TextField__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../lib/ui/controls/TextField */ "./lib/ui/controls/TextField.ts");
-/* harmony import */ var _widgets_SmallImageButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../widgets/SmallImageButton */ "./trainer/ui/widgets/SmallImageButton.ts");
-/* harmony import */ var _neosolving_ScanLayer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../neosolving/ScanLayer */ "./trainer/ui/neosolving/ScanLayer.ts");
-/* harmony import */ var _widgets_LightButton__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../widgets/LightButton */ "./trainer/ui/widgets/LightButton.ts");
-/* harmony import */ var _lib_runescape_coordinates_TileRectangle__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../../lib/runescape/coordinates/TileRectangle */ "./lib/runescape/coordinates/TileRectangle.ts");
-/* harmony import */ var _solving_scans_ScanSolving__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../solving/scans/ScanSolving */ "./trainer/ui/solving/scans/ScanSolving.ts");
-/* harmony import */ var _lib_gamemap_interaction_GameMapDragAction__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../../lib/gamemap/interaction/GameMapDragAction */ "./lib/gamemap/interaction/GameMapDragAction.ts");
-/* harmony import */ var _lib_reactive__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../../../lib/reactive */ "./lib/reactive/index.ts");
-/* harmony import */ var _lib_gamemap_interaction_ValueInteraction__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../../../lib/gamemap/interaction/ValueInteraction */ "./lib/gamemap/interaction/ValueInteraction.ts");
-/* harmony import */ var _map_InteractionTopControl__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../map/InteractionTopControl */ "./trainer/ui/map/InteractionTopControl.ts");
-/* harmony import */ var _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../../../lib/ui/constructors */ "./lib/ui/constructors.ts");
-/* harmony import */ var _lib_runescape_clues_scans__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../../../lib/runescape/clues/scans */ "./lib/runescape/clues/scans.ts");
-/* harmony import */ var assert__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! assert */ "../node_modules/assert/build/assert.js");
-/* harmony import */ var assert__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(assert__WEBPACK_IMPORTED_MODULE_16__);
-/* harmony import */ var _widgets_ContextMenu__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../widgets/ContextMenu */ "./trainer/ui/widgets/ContextMenu.ts");
-/* harmony import */ var _lib_ui_controls_FormModal__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../../../../lib/ui/controls/FormModal */ "./lib/ui/controls/FormModal.ts");
-/* harmony import */ var _widgets_BigNisButton__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../../widgets/BigNisButton */ "./trainer/ui/widgets/BigNisButton.ts");
-/* harmony import */ var _lib_ui_controls_TextArea__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../../../../lib/ui/controls/TextArea */ "./lib/ui/controls/TextArea.ts");
-/* harmony import */ var _widgets_AbstractEditWidget__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ../../widgets/AbstractEditWidget */ "./trainer/ui/widgets/AbstractEditWidget.ts");
-/* harmony import */ var _widgets_modals_ConfirmationModal__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ../../widgets/modals/ConfirmationModal */ "./trainer/ui/widgets/modals/ConfirmationModal.ts");
-/* harmony import */ var _lib_runescape_coordinates_TileArea__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ../../../../lib/runescape/coordinates/TileArea */ "./lib/runescape/coordinates/TileArea.ts");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! lodash */ "../node_modules/lodash/lodash.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_24___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_24__);
-/* harmony import */ var _lib_runescape_pathing__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ../../../../lib/runescape/pathing */ "./lib/runescape/pathing.ts");
-/* harmony import */ var _pathedit_EditedPathOverview__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ../../pathedit/EditedPathOverview */ "./trainer/ui/pathedit/EditedPathOverview.ts");
+/* harmony import */ var _neosolving_ScanLayer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../neosolving/ScanLayer */ "./trainer/ui/neosolving/ScanLayer.ts");
+/* harmony import */ var _widgets_LightButton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../widgets/LightButton */ "./trainer/ui/widgets/LightButton.ts");
+/* harmony import */ var _solving_scans_ScanSolving__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../solving/scans/ScanSolving */ "./trainer/ui/solving/scans/ScanSolving.ts");
+/* harmony import */ var _lib_gamemap_interaction_GameMapDragAction__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../../lib/gamemap/interaction/GameMapDragAction */ "./lib/gamemap/interaction/GameMapDragAction.ts");
+/* harmony import */ var _lib_reactive__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../../lib/reactive */ "./lib/reactive/index.ts");
+/* harmony import */ var _lib_gamemap_interaction_ValueInteraction__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../../lib/gamemap/interaction/ValueInteraction */ "./lib/gamemap/interaction/ValueInteraction.ts");
+/* harmony import */ var _map_InteractionTopControl__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../map/InteractionTopControl */ "./trainer/ui/map/InteractionTopControl.ts");
+/* harmony import */ var _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../../../lib/ui/constructors */ "./lib/ui/constructors.ts");
+/* harmony import */ var _lib_runescape_clues_scans__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../../../lib/runescape/clues/scans */ "./lib/runescape/clues/scans.ts");
+/* harmony import */ var assert__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! assert */ "../node_modules/assert/build/assert.js");
+/* harmony import */ var assert__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(assert__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var _widgets_ContextMenu__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../widgets/ContextMenu */ "./trainer/ui/widgets/ContextMenu.ts");
+/* harmony import */ var _lib_ui_controls_FormModal__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../../../lib/ui/controls/FormModal */ "./lib/ui/controls/FormModal.ts");
+/* harmony import */ var _widgets_BigNisButton__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../widgets/BigNisButton */ "./trainer/ui/widgets/BigNisButton.ts");
+/* harmony import */ var _lib_ui_controls_TextArea__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../../../../lib/ui/controls/TextArea */ "./lib/ui/controls/TextArea.ts");
+/* harmony import */ var _widgets_AbstractEditWidget__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../../widgets/AbstractEditWidget */ "./trainer/ui/widgets/AbstractEditWidget.ts");
+/* harmony import */ var _widgets_modals_ConfirmationModal__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../../widgets/modals/ConfirmationModal */ "./trainer/ui/widgets/modals/ConfirmationModal.ts");
+/* harmony import */ var _lib_runescape_coordinates_TileArea__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ../../../../lib/runescape/coordinates/TileArea */ "./lib/runescape/coordinates/TileArea.ts");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! lodash */ "../node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_22___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_22__);
+/* harmony import */ var _lib_runescape_pathing__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ../../../../lib/runescape/pathing */ "./lib/runescape/pathing.ts");
+/* harmony import */ var _pathedit_EditedPathOverview__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ../../pathedit/EditedPathOverview */ "./trainer/ui/pathedit/EditedPathOverview.ts");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 
 var natural_join = _lib_util_util__WEBPACK_IMPORTED_MODULE_2__.util.natural_join;
 var shorten_integer_list = _lib_util_util__WEBPACK_IMPORTED_MODULE_2__.util.shorten_integer_list;
-
-
-
-
-
 var AugmentedScanTree = _lib_cluetheory_scans_ScanTree__WEBPACK_IMPORTED_MODULE_1__.ScanTree.Augmentation.AugmentedScanTree;
-
-
-
-
-
-
-var span = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_14__.C.span;
-var spacer = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_14__.C.spacer;
-
-var Pulse = _lib_runescape_clues_scans__WEBPACK_IMPORTED_MODULE_15__.Scans.Pulse;
-
+var span = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_12__.C.span;
+var spacer = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_12__.C.spacer;
+var Pulse = _lib_runescape_clues_scans__WEBPACK_IMPORTED_MODULE_13__.Scans.Pulse;
 var Order = _lib_util_util__WEBPACK_IMPORTED_MODULE_2__.util.Order;
-var hbox = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_14__.C.hbox;
-var vbox = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_14__.C.vbox;
-
-
-
-
-
-var hboxl = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_14__.C.hboxl;
-
-
-
-
-
-class DrawRegionAction extends _lib_gamemap_interaction_ValueInteraction__WEBPACK_IMPORTED_MODULE_12__.ValueInteraction {
+var hbox = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_12__.C.hbox;
+var vbox = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_12__.C.vbox;
+var hboxl = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_12__.C.hboxl;
+var collect_issues = _lib_runescape_pathing__WEBPACK_IMPORTED_MODULE_23__.Path.collect_issues;
+class DrawRegionAction extends _lib_gamemap_interaction_ValueInteraction__WEBPACK_IMPORTED_MODULE_10__.ValueInteraction {
     constructor(name) {
         super({
-            preview_render: region => new _neosolving_ScanLayer__WEBPACK_IMPORTED_MODULE_6__.ScanRegionPolygon(region)
+            preview_render: region => new _neosolving_ScanLayer__WEBPACK_IMPORTED_MODULE_5__.ScanRegionPolygon(region)
         });
-        new _lib_gamemap_interaction_GameMapDragAction__WEBPACK_IMPORTED_MODULE_10__["default"]({})
+        new _lib_gamemap_interaction_GameMapDragAction__WEBPACK_IMPORTED_MODULE_8__["default"]({})
             .addTo(this)
             .onPreview((area) => {
-            this.preview({ area: _lib_runescape_coordinates_TileArea__WEBPACK_IMPORTED_MODULE_23__.TileArea.fromRect(area), name: name });
+            this.preview({ area: _lib_runescape_coordinates_TileArea__WEBPACK_IMPORTED_MODULE_21__.TileArea.fromRect(area), name: name });
         })
             .onCommit((area) => {
-            this.commit({ area: _lib_runescape_coordinates_TileArea__WEBPACK_IMPORTED_MODULE_23__.TileArea.fromRect(area), name: name });
+            this.commit({ area: _lib_runescape_coordinates_TileArea__WEBPACK_IMPORTED_MODULE_21__.TileArea.fromRect(area), name: name });
         });
-        this.attachTopControl(new _map_InteractionTopControl__WEBPACK_IMPORTED_MODULE_13__["default"]({ name: "Draw Scan Region" })
+        this.attachTopControl(new _map_InteractionTopControl__WEBPACK_IMPORTED_MODULE_11__["default"]({ name: "Draw Scan Region" })
             .setText("Click and Drag the map to draw a scan region rectangle."));
-    }
-}
-class RegionEdit extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["default"] {
-    constructor(parent) {
-        super($("<div style='display: flex'></div>"));
-        this.parent = parent;
-        this.render();
-    }
-    render() {
-        var _a, _b;
-        this.empty();
-        let is_defined = !!this.parent.node.raw.region;
-        if (is_defined) {
-            new _lib_ui_controls_TextField__WEBPACK_IMPORTED_MODULE_4__["default"]()
-                .setValue(this.parent.node.raw.region.name)
-                .onPreview((v) => {
-                var _a;
-                this.parent.node.raw.region.name = v;
-                (_a = this.parent.region_preview) === null || _a === void 0 ? void 0 : _a.setRegion(this.parent.node.raw.region);
-            })
-                .onCommit((v) => {
-                this.parent.parent.parent.builder.setRegion(this.parent.node.raw, { area: this.parent.node.region.area, name: v });
-            })
-                .css("flex-grow", "1")
-                .appendTo(this);
-            _widgets_SmallImageButton__WEBPACK_IMPORTED_MODULE_5__.SmallImageButton.new("assets/icons/edit.png")
-                .css("margin-left", "2px")
-                .onClick(async () => {
-                this.parent.parent.parent.interaction_guard.set(new DrawRegionAction(this.parent.node.raw.region.name)
-                    .onStart(() => { var _a; return (_a = this.parent.region_preview) === null || _a === void 0 ? void 0 : _a.setOpacity(0); })
-                    .onEnd(() => {
-                    var _a;
-                    return (_a = this.parent.region_preview) === null || _a === void 0 ? void 0 : _a.setOpacity(this.parent.region_preview.isActive()
-                        ? this.parent.region_preview.active_opacity
-                        : this.parent.region_preview.inactive_opacity);
-                })
-                    .onCommit(area => {
-                    this.parent.parent.parent.builder.setRegion(this.parent.node.raw, area);
-                }));
-            })
-                .appendTo(this);
-            _widgets_SmallImageButton__WEBPACK_IMPORTED_MODULE_5__.SmallImageButton.new("assets/icons/regenerate.png")
-                .css("margin-left", "2px")
-                .onClick(async () => {
-                /*this.parent.parent.parent.builder.setRegion(this.parent.node.raw, {
-                    name: this.parent.node.region?.name || "",
-                    area: TileRectangle.fromTile(this.parent.node.path.post_state?.position?.tile)
-                })*/
-            })
-                .setEnabled(this.parent.node.path.steps.length > 0 && !!((_b = (_a = this.parent.node.path.post_state) === null || _a === void 0 ? void 0 : _a.position) === null || _b === void 0 ? void 0 : _b.tile))
-                .appendTo(this);
-            _widgets_SmallImageButton__WEBPACK_IMPORTED_MODULE_5__.SmallImageButton.new("assets/icons/delete.png")
-                .css("margin-left", "2px")
-                .onClick(async () => {
-                this.parent.parent.parent.builder.setRegion(this.parent.node.raw, null);
-            })
-                .appendTo(this);
-        }
-        else {
-            new _widgets_LightButton__WEBPACK_IMPORTED_MODULE_7__["default"]("Create")
-                .onClick(async () => {
-                var _a, _b, _c, _d;
-                if (this.parent.node.path.steps.length > 0 && ((_b = (_a = this.parent.node.path.post_state) === null || _a === void 0 ? void 0 : _a.position) === null || _b === void 0 ? void 0 : _b.tile)) {
-                    let area = _lib_runescape_coordinates_TileRectangle__WEBPACK_IMPORTED_MODULE_8__.TileRectangle.fromTile((_d = (_c = this.parent.node.path.post_state) === null || _c === void 0 ? void 0 : _c.position) === null || _d === void 0 ? void 0 : _d.tile);
-                    /*this.parent.parent.parent.builder.setRegion(this.parent.node.raw, {
-                        name: "",
-                        area: area
-                    })*/
-                }
-                else {
-                    this.parent.parent.parent.interaction_guard.set(new DrawRegionAction("")
-                        .onStart(() => { var _a; return (_a = this.parent.region_preview) === null || _a === void 0 ? void 0 : _a.setOpacity(0); })
-                        .onEnd(() => {
-                        var _a;
-                        return (_a = this.parent.region_preview) === null || _a === void 0 ? void 0 : _a.setOpacity(this.parent.region_preview.isActive()
-                            ? this.parent.region_preview.active_opacity
-                            : this.parent.region_preview.inactive_opacity);
-                    })
-                        .onCommit(area => {
-                        this.parent.parent.parent.builder.setRegion(this.parent.node.raw, area);
-                    }));
-                }
-            })
-                .appendTo(this);
-        }
     }
 }
 class TreeNodeEdit extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["default"] {
@@ -112440,9 +112174,6 @@ class TreeNodeEdit extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["default"
         this.parent = parent;
         this.node = node;
         this.children = [];
-        this.description_input = null;
-        this.region_edit = null;
-        this.path_property = null;
         this.decision_span = null;
         this.is_collapsed = false;
         this.region_preview = null;
@@ -112472,9 +112203,6 @@ class TreeNodeEdit extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["default"
         this.body = new _widgets_Properties__WEBPACK_IMPORTED_MODULE_3__["default"]();
         this.body.row(this.instruction_preview = c());
         this.body.named("Timing", this.timing_box = hboxl());
-        if (node.remaining_candidates.length > 1 && (!node.parent || node.parent.key.pulse != 3)) {
-            // this.region_edit = this.body.named("Region", new RegionEdit(this))
-        }
         this.append(this.self_content = hbox().addClass("ctr-scantreeedit-node").append(collapse_bar, vbox(this.header, this.body).css("flex-grow", "1")
             .on("click", (e) => {
             e.stopPropagation();
@@ -112539,7 +112267,7 @@ class TreeNodeEdit extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["default"
                             text: "Edit Name",
                             handler: async () => {
                                 const self = this;
-                                const value = await (new class extends _lib_ui_controls_FormModal__WEBPACK_IMPORTED_MODULE_18__.FormModal {
+                                const value = await (new class extends _lib_ui_controls_FormModal__WEBPACK_IMPORTED_MODULE_16__.FormModal {
                                     constructor() {
                                         super({ size: "small" });
                                         this.title.set("Edit region name");
@@ -112549,8 +112277,8 @@ class TreeNodeEdit extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["default"
                                     }
                                     getButtons() {
                                         return [
-                                            new _widgets_BigNisButton__WEBPACK_IMPORTED_MODULE_19__.BigNisButton("Cancel", "cancel").onClick(() => this.cancel()),
-                                            new _widgets_BigNisButton__WEBPACK_IMPORTED_MODULE_19__.BigNisButton("Save", "confirm").onClick(() => this.confirm(this.edit.get())),
+                                            new _widgets_BigNisButton__WEBPACK_IMPORTED_MODULE_17__.BigNisButton("Cancel", "cancel").onClick(() => this.cancel()),
+                                            new _widgets_BigNisButton__WEBPACK_IMPORTED_MODULE_17__.BigNisButton("Save", "confirm").onClick(() => this.confirm(this.edit.get())),
                                         ];
                                     }
                                     render() {
@@ -112586,7 +112314,7 @@ class TreeNodeEdit extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["default"
                             type: "basic",
                             text: "Save Implicit",
                             handler: () => {
-                                const implicit = _lib_runescape_pathing__WEBPACK_IMPORTED_MODULE_25__.Path.endsUpArea(this.node.raw.path);
+                                const implicit = _lib_runescape_pathing__WEBPACK_IMPORTED_MODULE_23__.Path.endsUpArea(this.node.raw.path);
                                 this.parent.parent.builder.updateNode(this.node.raw, n => {
                                     if (!n.region)
                                         n.region = { area: null, name: "" };
@@ -112612,13 +112340,13 @@ class TreeNodeEdit extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["default"
                                 }));
                             }
                         }
-                    ].filter(lodash__WEBPACK_IMPORTED_MODULE_24__.identity)
+                    ].filter(lodash__WEBPACK_IMPORTED_MODULE_22__.identity)
                 },
             {
                 type: "basic",
                 text: "Reset node",
                 handler: async () => {
-                    const really = await (new _widgets_modals_ConfirmationModal__WEBPACK_IMPORTED_MODULE_22__.ConfirmationModal({
+                    const really = await (new _widgets_modals_ConfirmationModal__WEBPACK_IMPORTED_MODULE_20__.ConfirmationModal({
                         title: "Reset node",
                         body: "Resetting a node will delete its path, instruction, and all of its children and can not be undone.",
                         options: [
@@ -112639,7 +112367,7 @@ class TreeNodeEdit extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["default"
                 }
             }
         ];
-        new _widgets_ContextMenu__WEBPACK_IMPORTED_MODULE_17__["default"]({
+        new _widgets_ContextMenu__WEBPACK_IMPORTED_MODULE_15__["default"]({
             type: "submenu",
             text: "",
             children: entries.filter(e => !!e)
@@ -112674,14 +112402,11 @@ class TreeNodeEdit extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["default"
         this.completeness_container.empty()
             .append(complete, correct);
         if (node.path.issues.length > 0) {
-            correct.addTippy(vbox(...node.path.issues.map(i => new _pathedit_EditedPathOverview__WEBPACK_IMPORTED_MODULE_26__.IssueWidget(i))));
+            correct.addTippy(vbox(...collect_issues(node.path).map(i => new _pathedit_EditedPathOverview__WEBPACK_IMPORTED_MODULE_24__.IssueWidget(i))));
         }
         this.children.forEach(c => c.detach());
-        if (this.region_edit)
-            this.region_edit.render();
         this.updateInstructionPreview();
         this.timing_box.empty().append(span(`T${this.node.path.pre_state.tick}`).addClass('nisl-textlink'), span("&nbsp;to&nbsp;"), span(`T${this.node.path.post_state.tick}`).addClass('nisl-textlink'));
-        // TODO: Display path issues
         this.children = this.node.children.map(child => {
             let existing = this.children.find(c => c.node.raw == child.value.raw);
             if (existing) {
@@ -112691,13 +112416,13 @@ class TreeNodeEdit extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["default"
             return new TreeNodeEdit(this.parent, child.value);
         })
             .sort(Order.chain(Order.reverse(Order.comap(Pulse.comp, (a => a.node.parent.key))), Order.comap(Order.natural_order, (a => {
-            assert__WEBPACK_IMPORTED_MODULE_16__(a.node.parent.key.pulse == 3);
+            assert__WEBPACK_IMPORTED_MODULE_14__(a.node.parent.key.pulse == 3);
             return _lib_cluetheory_scans_ScanTree__WEBPACK_IMPORTED_MODULE_1__.ScanTree.spotNumber(a.node.root.raw, a.node.parent.key.spot);
         }))));
         this.children.forEach(c => c.appendTo(this.child_content));
     }
     updateInstructionPreview() {
-        const resolver = this.parent.parent.app.template_resolver.with((0,_solving_scans_ScanSolving__WEBPACK_IMPORTED_MODULE_9__.scan_tree_template_resolvers)(this.node));
+        const resolver = this.parent.parent.app.template_resolver.with((0,_solving_scans_ScanSolving__WEBPACK_IMPORTED_MODULE_7__.scan_tree_template_resolvers)(this.node));
         this.instruction_preview.setInnerHtml(resolver.resolve(_lib_cluetheory_scans_ScanTree__WEBPACK_IMPORTED_MODULE_1__.ScanTree.getInstruction(this.node)));
     }
     setActive(v) {
@@ -112708,7 +112433,7 @@ class TreeNodeEdit extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["default"
     }
     async editInstructions() {
         const self = this;
-        const value = await (new class extends _lib_ui_controls_FormModal__WEBPACK_IMPORTED_MODULE_18__.FormModal {
+        const value = await (new class extends _lib_ui_controls_FormModal__WEBPACK_IMPORTED_MODULE_16__.FormModal {
             constructor() {
                 super();
                 this.title.set(self.node.raw.directions
@@ -112720,24 +112445,24 @@ class TreeNodeEdit extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["default"
             }
             getButtons() {
                 return [
-                    new _widgets_BigNisButton__WEBPACK_IMPORTED_MODULE_19__.BigNisButton("Cancel", "cancel").onClick(() => this.cancel()),
-                    new _widgets_BigNisButton__WEBPACK_IMPORTED_MODULE_19__.BigNisButton("Delete", "cancel").onClick(() => this.confirm("")),
-                    new _widgets_BigNisButton__WEBPACK_IMPORTED_MODULE_19__.BigNisButton("Save", "confirm").onClick(() => this.confirm(this.edit.get())),
+                    new _widgets_BigNisButton__WEBPACK_IMPORTED_MODULE_17__.BigNisButton("Cancel", "cancel").onClick(() => this.cancel()),
+                    new _widgets_BigNisButton__WEBPACK_IMPORTED_MODULE_17__.BigNisButton("Delete", "cancel").onClick(() => this.confirm("")),
+                    new _widgets_BigNisButton__WEBPACK_IMPORTED_MODULE_17__.BigNisButton("Save", "confirm").onClick(() => this.confirm(this.edit.get())),
                 ];
             }
             render() {
                 var _a;
                 super.render();
-                this.edit = (new class extends _widgets_AbstractEditWidget__WEBPACK_IMPORTED_MODULE_21__["default"] {
+                this.edit = (new class extends _widgets_AbstractEditWidget__WEBPACK_IMPORTED_MODULE_19__["default"] {
                     constructor() {
                         super();
                         this.instruction_input = null;
-                        this.resolver = self.parent.parent.app.template_resolver.with((0,_solving_scans_ScanSolving__WEBPACK_IMPORTED_MODULE_9__.scan_tree_template_resolvers)(self.node));
+                        this.resolver = self.parent.parent.app.template_resolver.with((0,_solving_scans_ScanSolving__WEBPACK_IMPORTED_MODULE_7__.scan_tree_template_resolvers)(self.node));
                         this.onChange(() => this.renderPreview());
                     }
                     render() {
                         this.empty();
-                        this.instruction_input = new _lib_ui_controls_TextArea__WEBPACK_IMPORTED_MODULE_20__["default"]({ placeholder: "Enter text" })
+                        this.instruction_input = new _lib_ui_controls_TextArea__WEBPACK_IMPORTED_MODULE_18__["default"]({ placeholder: "Enter text" })
                             .setValue(this.get())
                             .onPreview(s => {
                             this.preview(s);
@@ -112746,7 +112471,7 @@ class TreeNodeEdit extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["default"
                             this.commit(s);
                         })
                             .css("height", "40px");
-                        this.append(vbox(this.instruction_input, this.preview_container = c(), new _widgets_LightButton__WEBPACK_IMPORTED_MODULE_7__["default"]("Load default").onClick(() => this.setValue(_lib_cluetheory_scans_ScanTree__WEBPACK_IMPORTED_MODULE_1__.ScanTree.defaultScanTreeInstructions(self.node)))).css2({
+                        this.append(vbox(this.instruction_input, this.preview_container = c(), new _widgets_LightButton__WEBPACK_IMPORTED_MODULE_6__["default"]("Load default").onClick(() => this.setValue(_lib_cluetheory_scans_ScanTree__WEBPACK_IMPORTED_MODULE_1__.ScanTree.defaultScanTreeInstructions(self.node)))).css2({
                             "display": "flex",
                             "flex-direction": "column"
                         }));
@@ -112784,7 +112509,7 @@ class TreeEdit extends _lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0__["default"] {
         this.parent = parent;
         this.value = value;
         this.root_widget = null;
-        this.active = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_11__.observe)(null);
+        this.active = (0,_lib_reactive__WEBPACK_IMPORTED_MODULE_9__.observe)(null);
         this.active_node = this.active.map(a => a === null || a === void 0 ? void 0 : a.node);
         this.parent.builder.augmented.subscribe(async (tree) => {
             if (tree) {
@@ -112942,7 +112667,7 @@ class AbstractDropdownSelection extends lib_ui_Widget__WEBPACK_IMPORTED_MODULE_0
                 /*
                 if (this.highlight_index.value() != null) {
                     let new_index = items.indexOf(old_items[this.highlight_index.value()])
-
+        
                     this.highlight_index.set(new_index >= 0 ? new_index : 0)
                 }*/
                 this.highlight_index.set(0);
@@ -113484,10 +113209,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 var vbox = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_2__.C.vbox;
 var hbox = _lib_ui_constructors__WEBPACK_IMPORTED_MODULE_2__.C.hbox;
-
-
 class EntityNameEdit extends _AbstractEditWidget__WEBPACK_IMPORTED_MODULE_0__["default"] {
     constructor(kinds = ["npc", "static"]) {
         super(vbox().container);

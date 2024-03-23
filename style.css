@@ -625,12 +625,12 @@ video {
 /* Scan Tree Edit */
 
 .ctr-scantreeedit-node {
-    cursor: pointer;
     margin-top: 3px;
 }
 
-.ctr-scantreeedit-node:hover {
+.ctr-scantreeedit-node:not(.no-hover):hover {
     background-color: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
 }
 
 .ctr-scantreeedit-node.active {

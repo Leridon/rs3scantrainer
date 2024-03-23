@@ -18,6 +18,8 @@ import {PathingGraphics} from "../path_graphics";
 import {Observable, observe} from "../../../lib/reactive";
 import {IssueWidget} from "../pathedit/EditedPathOverview";
 import {TileRectangle} from "../../../lib/runescape/coordinates";
+import {Transportation} from "../../../lib/runescape/transportation";
+import {PathStepEntity} from "../map/entities/PathStepEntity";
 import GenericPathMethod = SolvingMethods.GenericPathMethod;
 import movement_state = Path.movement_state;
 import activate = TileArea.activate;
@@ -26,7 +28,6 @@ import hboxl = C.hboxl;
 import vbox = C.vbox;
 import span = C.span;
 import collect_issues = Path.collect_issues;
-import {Transportation} from "../../../lib/runescape/transportation";
 import default_interactive_area = Transportation.EntityTransportation.default_interactive_area;
 
 function getSection(method: GenericPathMethod, section: "pre" | "post" | "main"): Path {
@@ -149,6 +150,8 @@ export class GenericPathMethodEditor extends MethodSubEditor {
 
   active: Observable<SegmentEdit> = observe(null)
 
+  private preview_layer: GameLayer = null
+
   constructor(parent: MethodEditor,
               public value: AugmentedMethod<GenericPathMethod>,
   ) {
@@ -165,6 +168,8 @@ export class GenericPathMethodEditor extends MethodSubEditor {
         this.path_editor.get()
         this.path_editor.set(null)
       }
+
+      this.updatePreview(segment?.section)
 
       if (segment) {
         this.setPathEditor({
@@ -197,6 +202,24 @@ export class GenericPathMethodEditor extends MethodSubEditor {
           })
       }
     })
+  }
+
+  private updatePreview(segment: GenericPathMethodEditor.SequenceSegment) {
+    if (this.preview_layer) {
+      this.preview_layer.remove()
+      this.preview_layer = null
+    }
+
+    if (!segment) {
+      const layer = new GameLayer()
+
+      const sections = this.sequence.filter(s => s.path).map(s => s.path.section).filter(e => e)
+        .map(s => {
+          PathStepEntity.renderPath(getSection(this.value.method, s)).addTo(layer)
+        })
+
+      this.preview_layer = layer.addTo(this.layer)
+    }
   }
 
   private setPathEditor(options: PathEditor.options_t): PathEditor {

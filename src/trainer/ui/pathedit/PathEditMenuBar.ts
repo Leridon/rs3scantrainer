@@ -1,5 +1,5 @@
 import LightButton from "../widgets/LightButton";
-import ContextMenu from "../widgets/ContextMenu";
+import ContextMenu, {MenuEntry} from "../widgets/ContextMenu";
 import {BookmarkStorage} from "./BookmarkStorage";
 import ExportStringModal from "../widgets/modals/ExportStringModal";
 import {Path} from "../../../lib/runescape/pathing";
@@ -7,6 +7,7 @@ import ImportStringModal from "../widgets/modals/ImportStringModal";
 import {PathEditor} from "./PathEditor";
 import {util} from "../../../lib/util/util";
 import Widget from "../../../lib/ui/Widget";
+import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
 import cleanedJSON = util.cleanedJSON;
 
 export class PathEditMenuBar extends Widget {
@@ -46,37 +47,50 @@ export class PathEditMenuBar extends Widget {
         ,
         new LightButton("&#x2630;", "rectangle")
           .onClick((event) => {
+            const entries: MenuEntry[] = []
+
+            if (this.editor.options.target) {
+              entries.push({
+                type: "basic",
+                text: "Focus target",
+                handler: () => {
+                  console.log(TileArea.toRect(this.editor.options.target.parent))
+
+                  this.editor.game_layer.getMap().fitView(TileArea.toRect(this.editor.options.target.parent))
+                }
+              })
+            }
+
+            entries.push(
+              {
+                type: "basic",
+                text: "Export",
+                handler: () => {
+                  new ExportStringModal(Path.export_path(this.editor.value.get())).show()
+                }
+              },
+              {
+                type: "basic",
+                text: "Show JSON",
+                handler: () => {
+                  new ExportStringModal(cleanedJSON(this.editor.value.get())).show()
+                }
+              },
+              {
+                type: "basic",
+                text: "Import",
+                handler: async () => {
+                  const imported = await new ImportStringModal((s) => Path.import_path(s)).do()
+
+                  if (imported?.imported) this.editor.value.set(imported.imported)
+                }
+              },
+            )
+
             new ContextMenu({
               type: "submenu",
               text: "",
-              children:
-                [
-                  {
-                    type: "basic",
-                    text: "Export",
-                    handler: () => {
-                      new ExportStringModal(Path.export_path(this.editor.value.get())).show()
-                    }
-                  }
-                  ,
-                  {
-                    type: "basic",
-                    text: "Show JSON",
-                    handler: () => {
-                      new ExportStringModal(cleanedJSON(this.editor.value.get())).show()
-                    }
-                  },
-                  {
-                    type: "basic",
-                    text: "Import",
-                    handler: async () => {
-                      const imported = await new ImportStringModal((s) => Path.import_path(s)).do()
-
-                      if (imported?.imported) this.editor.value.set(imported.imported)
-                    }
-                  },
-
-                ]
+              children: entries
             }).showFromEvent(event)
           }),
       )

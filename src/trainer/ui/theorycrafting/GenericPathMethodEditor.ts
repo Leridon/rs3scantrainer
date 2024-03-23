@@ -17,6 +17,7 @@ import {C} from "../../../lib/ui/constructors";
 import {PathingGraphics} from "../path_graphics";
 import {Observable, observe} from "../../../lib/reactive";
 import {IssueWidget} from "../pathedit/EditedPathOverview";
+import {TileRectangle} from "../../../lib/runescape/coordinates";
 import GenericPathMethod = SolvingMethods.GenericPathMethod;
 import movement_state = Path.movement_state;
 import activate = TileArea.activate;
@@ -25,6 +26,8 @@ import hboxl = C.hboxl;
 import vbox = C.vbox;
 import span = C.span;
 import collect_issues = Path.collect_issues;
+import {Transportation} from "../../../lib/runescape/transportation";
+import default_interactive_area = Transportation.EntityTransportation.default_interactive_area;
 
 function getSection(method: GenericPathMethod, section: "pre" | "post" | "main"): Path {
   switch (section) {
@@ -238,12 +241,12 @@ export class GenericPathMethodEditor extends MethodSubEditor {
         if (hidey_hole_in_target) {
           sequence.push({
             name: `Path to Hidey Hole in Target Area`,
-            path: {section: "main", target: activate(TileArea.init(clue.hidey_hole.location))}
+            path: {section: "main", target: activate(default_interactive_area(TileRectangle.from(clue.hidey_hole.location)))}
           })
         } else if (clue.hidey_hole) {
           sequence.push({
             name: `Path to Hidey Hole`,
-            path: {section: "pre", target: activate(TileArea.init(clue.hidey_hole.location))}
+            path: {section: "pre", target: activate(default_interactive_area(TileRectangle.from(clue.hidey_hole.location)))}
           })
         }
 
@@ -263,7 +266,7 @@ export class GenericPathMethodEditor extends MethodSubEditor {
       if (clue.hidey_hole && !hidey_hole_in_target && !assumptions.full_globetrotter) {
         sequence.push({
           name: "Return to Hidey Hole",
-          path: {section: "post", target: activate(TileArea.init(clue.hidey_hole.location))}
+          path: {section: "post", target: activate(default_interactive_area(TileRectangle.from(clue.hidey_hole.location)))}
         })
 
         sequence.push({name: "Return Items", ticks: 1})

@@ -54,8 +54,6 @@ export class PathEditMenuBar extends Widget {
                 type: "basic",
                 text: "Focus target",
                 handler: () => {
-                  console.log(TileArea.toRect(this.editor.options.target.parent))
-
                   this.editor.game_layer.getMap().fitView(TileArea.toRect(this.editor.options.target.parent))
                 }
               })

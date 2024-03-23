@@ -80,9 +80,7 @@ export namespace TileRectangle {
   }
 
   export function from(...points: TileCoordinates[]): TileRectangle {
-    if (new Set(points.map(p => p.level)).size > 1) throw new TypeError("Level mismatch")
-
-    return lift(Rectangle.from(...points), points[0].level)
+    return lift(Rectangle.from(...points), Math.min(...points.map(p => p.level)) as floor_t)
   }
 
   export function extendTo(rect: TileRectangle, tile: Vector2): Rectangle {

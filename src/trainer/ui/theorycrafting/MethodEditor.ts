@@ -16,9 +16,11 @@ import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
 import {EditMethodMetaModal} from "./MethodModal";
 import TheoryCrafter from "./TheoryCrafter";
 import Dependencies from "../../dependencies";
+import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import GenericPathMethod = SolvingMethods.GenericPathMethod;
 import Method = SolvingMethods.Method;
+import ClueSpot = Clues.ClueSpot;
 
 class MethodEditSideBar extends MapSideBar {
   save_row: ButtonRow
@@ -145,6 +147,12 @@ export default class MethodEditor extends Behaviour {
     }
 
     this.sub_editor.setAssumptions(this.method.method.assumptions)
+
+    const bounds = ClueSpot.targetArea({clue: this.method.clue, spot: this.method.method.for.spot})
+
+    if (bounds) {
+      this.sub_editor.layer.getMap().fitView(TileArea.toRect(bounds))
+    }
   }
 
   protected end() {

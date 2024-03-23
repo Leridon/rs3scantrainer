@@ -1,10 +1,8 @@
 Planned for next release (b0.4):
 
 - Edit Improvements
-    - Focus area when beginning method edit
     - Show path when no segment is selected in generic edit
-    - Fix target area for hidey holes
-
+    - [Bug, 4] Cloning a method is broken in multiple ways
 
 - Scan Editor
     - [QOL, 2] Include uncertainty from non-static teleports into path analysis
@@ -15,9 +13,6 @@ Planned for next release (b0.4):
     - [3] Autonumber spots
     - Better placement of information marker to guarantee it's always inside the area.
     - Scale information gain down when zoomed out
-
-- Issues
-    - [Bug, 4] Cloning a method is broken in multiple ways
 
 - Data
     - [Dev Tool, 3] Utility Layer for shortcut parsing

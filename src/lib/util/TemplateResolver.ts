@@ -22,7 +22,7 @@ export default class TemplateResolver {
   }
 
 
-  resolve(template: string, max_depth: number = 20): string {
+  resolve(template: string, max_depth: number = 100): string {
     // TODO Critical: The input string needs to be html-escaped since it is user-provided text and can be shared across users!
     //                => Potential for Script-Injection !!!
 

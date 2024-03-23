@@ -75,6 +75,8 @@ class PackSelector extends AbstractEditWidget<Pack> {
   async render() {
     this.empty()
 
+    const val = this.get()
+
     this.selector = new DropdownSelection<{
       pack: Pack,
       create_new?: boolean
@@ -98,6 +100,7 @@ class PackSelector extends AbstractEditWidget<Pack> {
           null
         ]
       })
+      .setValue(val ? {pack: val} : null)
       .onSelection(async s => {
         if (s?.create_new) {
           this.selector.setValue(null)
@@ -131,7 +134,7 @@ export class NewMethodModal extends FormModal<{
 
     new Properties().appendTo(this.body)
       .named("Pack", this.pack_selector = new PackSelector()
-        .setValue(this.clone_from?.pack)
+        .setValue(this.clone_from?.pack?.type == "local" ? this.clone_from?.pack : null)
         .onCommit(p => {
           if (p) {
             const meta = lodash.cloneDeep(this.edit.get())

@@ -78,7 +78,7 @@ class MethodEditSideBar extends MapSideBar {
     this.save_row.empty()
 
     this.save_row.buttons(
-      new LightButton(`Save`, "rectangle")
+      new LightButton("Save", "rectangle")
         .setEnabled(this.parent.is_dirty.value())
         .onClick(async () => {
 
@@ -130,6 +130,10 @@ export default class MethodEditor extends Behaviour {
 
   constructor(public theorycrafter: TheoryCrafter, public method: AugmentedMethod) {
     super();
+
+    if (!method.pack || !MethodPackManager.instance().getMethod(method.pack.local_id, method.method.id)) {
+      this.is_dirty.set(true)
+    }
   }
 
   registerChange(): void {

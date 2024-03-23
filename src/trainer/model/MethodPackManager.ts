@@ -1,5 +1,4 @@
 import {SolvingMethods} from "./methods";
-import Method = SolvingMethods.Method;
 import KeyValueStore from "../../lib/util/KeyValueStore";
 import {uuid} from "../../oldlib";
 import {ClueSpotIndex} from "../../lib/runescape/clues/ClueIndex";
@@ -9,6 +8,7 @@ import {clue_data} from "../../data/clues";
 import {ewent, Ewent} from "../../lib/reactive";
 import * as lodash from "lodash";
 import {util} from "../../lib/util/util";
+import Method = SolvingMethods.Method;
 import timestamp = util.timestamp;
 import ClueSpot = Clues.ClueSpot;
 import ClueAssumptions = SolvingMethods.ClueAssumptions;
@@ -270,6 +270,14 @@ export class MethodPackManager {
   async get(spot: ClueSpot, pack_ids: string[] = undefined): Promise<AugmentedMethod[]> {
     // TODO: Why would I need both this method and getForClue?
     return await this.getForClue(ClueSpot.toId(spot), pack_ids)
+  }
+
+  async getMethod(pack_id: string, method_id: string): Promise<Method> {
+    const pack = await this.getPack(pack_id)
+
+    if (!pack) return null
+
+    return pack.methods.find(m => m.id == method_id)
   }
 
   async resolve(id: LocalMethodId): Promise<AugmentedMethod> {

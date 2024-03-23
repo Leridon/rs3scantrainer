@@ -1,9 +1,5 @@
 Planned for next release (b0.4):
 
-- Edit Improvements
-    - Show path when no segment is selected in generic edit
-    - [Bug, 4] Cloning a method is broken in multiple ways
-
 - Scan Editor
     - [QOL, 2] Include uncertainty from non-static teleports into path analysis
         - Ability after uncertainty => Error

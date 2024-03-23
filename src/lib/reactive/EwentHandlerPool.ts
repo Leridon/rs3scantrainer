@@ -1,15 +1,15 @@
 import {EwentHandler} from "./EwentHandler";
 
 export class EwentHandlerPool {
-    private handlers: EwentHandler<any>[] = []
+  private handlers: EwentHandler<any>[] = []
 
-    bind(h: EwentHandler<any>): this {
-        this.handlers.push(h)
+  bind(h: EwentHandler<any>): this {
+    this.handlers.push(h)
 
-        return this
-    }
+    return this
+  }
 
-    kill(): void {
-        this.handlers.forEach(h => h.remove())
-    }
+  kill(): void {
+    this.handlers.forEach(h => h.remove())
+  }
 }

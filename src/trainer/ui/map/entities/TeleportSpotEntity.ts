@@ -7,168 +7,168 @@ import {Transportation} from "../../../../lib/runescape/transportation";
 import {identity} from "lodash";
 import {C} from "../../../../lib/ui/constructors";
 import {direction} from "../../../../lib/runescape/movement";
-import {Menu, MenuEntry} from "../../widgets/ContextMenu";
+import {Menu} from "../../widgets/ContextMenu";
 import {GameMapContextMenuEvent} from "../../../../lib/gamemap/MapEvents";
-import vbox = C.vbox;
-import entity = C.entity;
-import TeleportAccess = Transportation.TeleportAccess;
 import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
 import * as assert from "assert";
 import {areaPolygon} from "../../polygon_helpers";
 import {floor_t} from "../../../../lib/runescape/coordinates";
 import {FloorLevels, ZoomLevels} from "../../../../lib/gamemap/ZoomLevels";
+import vbox = C.vbox;
+import entity = C.entity;
+import TeleportAccess = Transportation.TeleportAccess;
 
 export class TeleportSpotEntity extends MapEntity {
 
-    zoom_sensitivity_layers = MapEntity.default_zoom_scale_layers
-    floor_sensitivity_layers: FloorLevels<{ correct_level: boolean }>
+  zoom_sensitivity_layers = MapEntity.default_zoom_scale_layers
+  floor_sensitivity_layers: FloorLevels<{ correct_level: boolean }>
 
-    constructor(public config: TeleportSpotEntity.Config) {
-        super(config);
+  constructor(public config: TeleportSpotEntity.Config) {
+    super(config);
 
-        this.zoom_sensitivity_layers = new ZoomLevels<{ scale: number }>([
-            {min: -100, value: {scale: 0.5}},
-            {min: 1.5, value: {scale: 1}},
-        ])
+    this.zoom_sensitivity_layers = new ZoomLevels<{ scale: number }>([
+      {min: -100, value: {scale: 0.5}},
+      {min: 1.5, value: {scale: 1}},
+    ])
 
-        this.floor_sensitivity_layers = new FloorLevels<{ correct_level: boolean }>([
-            {floors: [config.teleport.targetArea().origin.level], value: {correct_level: true}},
-            {floors: floor_t.all, value: {correct_level: false}},
-        ])
-    }
+    this.floor_sensitivity_layers = new FloorLevels<{ correct_level: boolean }>([
+      {floors: [config.teleport.targetArea().origin.level], value: {correct_level: true}},
+      {floors: floor_t.all, value: {correct_level: false}},
+    ])
+  }
 
-    bounds(): Rectangle {
-        return TileArea.toRect(this.config.teleport.targetArea())
-    }
+  bounds(): Rectangle {
+    return TileArea.toRect(this.config.teleport.targetArea())
+  }
 
-    async render_implementation(options: MapEntity.RenderProps): Promise<Element> {
-        const floor_group = this.floor_sensitivity_layers.get(options.floor_group_index)
+  async render_implementation(options: MapEntity.RenderProps): Promise<Element> {
+    const floor_group = this.floor_sensitivity_layers.get(options.floor_group_index)
 
-        const scale = (options.highlight ? 1.5 : (this.zoom_sensitivity_layers.get(options.zoom_group_index).value.scale))
+    const scale = (options.highlight ? 1.5 : (this.zoom_sensitivity_layers.get(options.zoom_group_index).value.scale))
 
-        const marker = leaflet.marker(Vector2.toLatLong(this.config.teleport.centerOfTarget()), {
-            icon: new TeleportSpotEntity.TeleportMapIcon(this.config.teleport, scale, w => {
-                if (!floor_group.value.correct_level) w.css("filter", "grayscale(1) brightness(0.5)")
+    const marker = leaflet.marker(Vector2.toLatLong(this.config.teleport.centerOfTarget()), {
+      icon: new TeleportSpotEntity.TeleportMapIcon(this.config.teleport, scale, w => {
+        if (!floor_group.value.correct_level) w.css("filter", "grayscale(1) brightness(0.5)")
 
-                return w
-            }),
-            riseOnHover: true,
-            interactive: true,
-            bubblingMouseEvents: true
+        return w
+      }),
+      riseOnHover: true,
+      interactive: true,
+      bubblingMouseEvents: true
+    }).addTo(this)
+
+    if (options.highlight) {
+      areaPolygon(this.config.teleport.targetArea())
+        .setStyle({
+          fillColor: "lightgreen",
+          color: "lightgreen",
+          stroke: true
         }).addTo(this)
-
-        if (options.highlight) {
-            areaPolygon(this.config.teleport.targetArea())
-                .setStyle({
-                    fillColor: "lightgreen",
-                    color: "lightgreen",
-                    stroke: true
-                }).addTo(this)
-        }
-
-        return marker.getElement()
     }
 
-    async renderTooltip(): Promise<{ content: Widget, interactive: boolean } | null> {
-        let props = new Properties()
+    return marker.getElement()
+  }
 
-        const teleport = this.config.teleport
+  async renderTooltip(): Promise<{ content: Widget, interactive: boolean } | null> {
+    let props = new Properties()
 
-        props.header(`${teleport.group.name} - ${teleport.spot.name}`)
-        props.named("Time", `${teleport.props.menu_ticks + teleport.props.animation_ticks} (${teleport.props.menu_ticks} menu + ${teleport.props.animation_ticks} animation)`)
-        props.named("Static", teleport.spot.target.size ? "No" : "Yes")
+    const teleport = this.config.teleport
 
-        if (teleport.spot.facing != null) {
-            props.named("Orientation", direction.toString(teleport.spot.facing))
-        }
+    props.header(`${teleport.group.name} - ${teleport.spot.name}`)
+    props.named("Time", `${teleport.props.menu_ticks + teleport.props.animation_ticks} (${teleport.props.menu_ticks} menu + ${teleport.props.animation_ticks} animation)`)
+    props.named("Static", teleport.spot.target.size ? "No" : "Yes")
 
-        props.named("Access", vbox(
-            ...teleport.group.access.map(access => {
-                switch (access.type) {
-                    case "spellbook":
-                        return C.div().text(access.name)
-                    case "item":
-                    case "entity":
-                        return c().append(entity(access.name))
-                }
-
-            })
-        ))
-
-
-        return {
-            content: props,
-            interactive: false
-        }
+    if (teleport.spot.facing != null) {
+      props.named("Orientation", direction.toString(teleport.spot.facing))
     }
 
-
-    async contextMenu(event: GameMapContextMenuEvent): Promise<Menu | null> {
-        const teleport = this.config.teleport;
-
-        const jumpable_accesses: TeleportAccess[] = teleport.group.access.filter(a => a.type == "entity")
-
-        if (jumpable_accesses.length > 0) {
-            event.addForEntity({
-                type: "submenu",
-                text: "Jump to Access",
-                children: jumpable_accesses.map(a => {
-                    assert(a.type == "entity")
-
-                    return {
-                        type: "basic",
-                        text: () => entity(a.name),
-                        handler: () => {
-                            this.parent?.getMap()?.fitView(TileArea.toRect(a.clickable_area))
-                        }
-                    }
-                })
-            })
+    props.named("Access", vbox(
+      ...teleport.group.access.map(access => {
+        switch (access.type) {
+          case "spellbook":
+            return C.div().text(access.name)
+          case "item":
+          case "entity":
+            return c().append(entity(access.name))
         }
 
-        return {
-            type: "submenu",
-            icon: `assets/icons/teleports/${teleport.image().url}`,
-            text: teleport.hover(),
-            children: []
-        }
+      })
+    ))
+
+
+    return {
+      content: props,
+      interactive: false
     }
+  }
+
+
+  async contextMenu(event: GameMapContextMenuEvent): Promise<Menu | null> {
+    const teleport = this.config.teleport;
+
+    const jumpable_accesses: TeleportAccess[] = teleport.group.access.filter(a => a.type == "entity")
+
+    if (jumpable_accesses.length > 0) {
+      event.addForEntity({
+        type: "submenu",
+        text: "Jump to Access",
+        children: jumpable_accesses.map(a => {
+          assert(a.type == "entity")
+
+          return {
+            type: "basic",
+            text: () => entity(a.name),
+            handler: () => {
+              this.parent?.getMap()?.fitView(TileArea.toRect(a.clickable_area))
+            }
+          }
+        })
+      })
+    }
+
+    return {
+      type: "submenu",
+      icon: `assets/icons/teleports/${teleport.image().url}`,
+      text: teleport.hover(),
+      children: []
+    }
+  }
 }
 
 export namespace TeleportSpotEntity {
-    import img = C.img;
-    import div = C.div;
-    export type Config = MapEntity.SetupOptions & {
-        teleport: Transportation.TeleportGroup.Spot
+  import img = C.img;
+  import div = C.div;
+  export type Config = MapEntity.SetupOptions & {
+    teleport: Transportation.TeleportGroup.Spot
+  }
+
+  export class TeleportMapIcon extends leaflet.DivIcon {
+    constructor(tele: Transportation.TeleportGroup.Spot, scale: number = 1, transformer: (w: Widget) => Widget = identity) {
+      let i = img(`./assets/icons/teleports/${tele.image().url}`)
+
+      i.css2({
+        "width": tele.image().width ? tele.image().width + "px" : "auto",
+        "height": tele.image().height ? tele.image().height + "px" : "auto",
+      })
+
+      super({
+        iconSize: [0, 0],
+        iconAnchor: [0, 0],
+        html: transformer(div(
+          i,
+          tele.code() ? C.div().text(tele.code()) : undefined
+        ).css("scale", scale.toString()).addClass("ctr-map-teleport-icon")).raw()
+      });
     }
+  }
 
-    export class TeleportMapIcon extends leaflet.DivIcon {
-        constructor(tele: Transportation.TeleportGroup.Spot, scale: number = 1, transformer: (w: Widget) => Widget = identity) {
-            let i = img(`./assets/icons/teleports/${tele.image().url}`)
-
-            i.css2({
-                "width": tele.image().width ? tele.image().width + "px" : "auto",
-                "height": tele.image().height ? tele.image().height + "px" : "auto",
-            })
-
-            super({
-                iconSize: [0, 0],
-                iconAnchor: [0, 0],
-                html: transformer(div(
-                    i,
-                    tele.code() ? C.div().text(tele.code()) : undefined
-                ).css("scale", scale.toString()).addClass("ctr-map-teleport-icon")).raw()
-            });
-        }
+  export function accessNameAsWidget(access: TeleportAccess): Widget {
+    switch (access.type) {
+      case "spellbook":
+        return c().text(access.name)
+      case "item":
+      case "entity":
+        return entity(access.name)
     }
-
-    export function accessNameAsWidget(access: TeleportAccess): Widget {
-        switch (access.type) {
-            case "spellbook":
-                return c().text(access.name)
-            case "item":
-            case "entity":
-                return entity(access.name)
-        }
-    }
+  }
 }

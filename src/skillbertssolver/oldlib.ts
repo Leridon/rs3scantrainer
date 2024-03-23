@@ -309,7 +309,7 @@ export namespace OldDom {
 
 	interface Eltypes extends HTMLElementTagNameMap {
 		frag: DocumentFragment
-	};
+	}
 
 	type ObjAttr = { [prop: string]: any };
 	type ArrCh = (HTMLElement | string | null | undefined | Text | number)[];

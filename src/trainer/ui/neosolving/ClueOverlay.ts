@@ -3,14 +3,14 @@ import {Clues} from "../../../lib/runescape/clues";
 import ClueSpot = Clues.ClueSpot;
 
 export class ClueOverlay extends GameLayer {
-    constructor(private clue: ClueSpot) {
-        super();
+  constructor(private clue: ClueSpot) {
+    super();
 
-        this.render()
-    }
+    this.render()
+  }
 
-    render() {
+  render() {
 
 
-    }
+  }
 }

@@ -13,162 +13,162 @@ import copyUpdate = util.copyUpdate;
 
 export class MethodPackMetaEdit extends AbstractEditWidget<Pack.Meta> {
 
-    private name: TextField
-    private authors: TextField
-    private description: TextArea
+  private name: TextField
+  private authors: TextField
+  private description: TextArea
 
-    constructor(value: Pack.Meta) {
-        super();
+  constructor(value: Pack.Meta) {
+    super();
 
-        this.setValue(value)
-    }
+    this.setValue(value)
+  }
 
-    protected render() {
-        this.empty()
+  protected render() {
+    this.empty()
 
-        const props = new Properties().appendTo(this)
+    const props = new Properties().appendTo(this)
 
-        const value = this.get()
+    const value = this.get()
 
-        this.name = props.named("Name", new TextField()
-            .onCommit(v => {
-                this.commit(copyUpdate(this.get(), meta => meta.name = v))
-            })
-            .setPlaceholder("Enter a pack name...").setValue(value.name))
-        this.authors = props.named("Author(s)", new TextField()
-            .onCommit(v => {
-                this.commit(copyUpdate(this.get(), meta => meta.author = v))
-            })
-            .setPlaceholder("Enter author(s)...").setValue(value.author))
+    this.name = props.named("Name", new TextField()
+      .onCommit(v => {
+        this.commit(copyUpdate(this.get(), meta => meta.name = v))
+      })
+      .setPlaceholder("Enter a pack name...").setValue(value.name))
+    this.authors = props.named("Author(s)", new TextField()
+      .onCommit(v => {
+        this.commit(copyUpdate(this.get(), meta => meta.author = v))
+      })
+      .setPlaceholder("Enter author(s)...").setValue(value.author))
 
-        props.header("Description")
-        props.row(this.description = new TextArea()
-            .setPlaceholder("Optionally enter a description.")
-            .onCommit(v => {
-                this.commit(copyUpdate(this.get(), meta => meta.description = v))
-            })
-            .css("height", "80px").setValue(value.description))
+    props.header("Description")
+    props.row(this.description = new TextArea()
+      .setPlaceholder("Optionally enter a description.")
+      .onCommit(v => {
+        this.commit(copyUpdate(this.get(), meta => meta.description = v))
+      })
+      .css("height", "80px").setValue(value.description))
 
-        props.header("Default Assumptions")
-        props.row(new AssumptionProperty()
-            .setValue(value.default_assumptions)
-            .onCommit(a => {
-                this.commit(copyUpdate(this.get(), meta => meta.default_assumptions = a))
-            })
-        )
+    props.header("Default Assumptions")
+    props.row(new AssumptionProperty()
+      .setValue(value.default_assumptions)
+      .onCommit(a => {
+        this.commit(copyUpdate(this.get(), meta => meta.default_assumptions = a))
+      })
+    )
 
-        props.header("Default Method Name")
-        props.row(new TextField()
-            .onCommit(v => {
-                this.commit(copyUpdate(this.get(), meta => meta.default_method_name = v))
-            })
-            .setPlaceholder("Enter default name...").setValue(value.default_method_name)
-        )
-    }
+    props.header("Default Method Name")
+    props.row(new TextField()
+      .onCommit(v => {
+        this.commit(copyUpdate(this.get(), meta => meta.default_method_name = v))
+      })
+      .setPlaceholder("Enter default name...").setValue(value.default_method_name)
+    )
+  }
 }
 
 export class NewMethodPackModal extends FormModal<{
-    created: Pack
+  created: Pack
 }> {
-    edit: MethodPackMetaEdit
+  edit: MethodPackMetaEdit
 
-    constructor(private clone_from: Pack = null) {
-        super({size: "small"});
+  constructor(private clone_from: Pack = null) {
+    super({size: "small"});
+  }
+
+  render() {
+    super.render();
+
+    if (this.clone_from) {
+      this.title.set("Clone Method Pack")
+      this.edit = new MethodPackMetaEdit({
+        name: `${this.clone_from.name} (Clone)`,
+        description: this.clone_from.description,
+        author: this.clone_from.author,
+        default_assumptions: this.clone_from.default_assumptions,
+        default_method_name: this.clone_from.default_method_name
+      }).appendTo(this.body)
+
+    } else {
+      this.title.set("Create Method Pack")
+      this.edit = new MethodPackMetaEdit({name: "", description: "", author: "", default_assumptions: {}, default_method_name: ""}).appendTo(this.body)
     }
+  }
 
-    render() {
-        super.render();
+  getButtons(): BigNisButton[] {
+    return [
+      new BigNisButton("Cancel", "cancel")
+        .onClick(() => this.hide()),
+      new BigNisButton("Save", "confirm")
+        .onClick(async () => {
 
-        if (this.clone_from) {
-            this.title.set("Clone Method Pack")
-            this.edit = new MethodPackMetaEdit({
-                name: `${this.clone_from.name} (Clone)`,
-                description: this.clone_from.description,
-                author: this.clone_from.author,
-                default_assumptions: this.clone_from.default_assumptions,
-                default_method_name: this.clone_from.default_method_name
-            }).appendTo(this.body)
+          const pack = await MethodPackManager.instance().create(
+            this.clone_from
+              ? {...lodash.cloneDeep(this.clone_from), ...this.edit.get()}
+              : {
+                ...this.edit.get(),
+                type: "local",
+                local_id: "",
+                original_id: "",
+                timestamp: 0,
+                methods: []
+              })
 
-        } else {
-            this.title.set("Create Method Pack")
-            this.edit = new MethodPackMetaEdit({name: "", description: "", author: "", default_assumptions: {}, default_method_name: ""}).appendTo(this.body)
-        }
-    }
+          deps().app.notifications.notify({
+            type: "information"
+          }, `Method Pack '${pack.name}' created!`)
 
-    getButtons(): BigNisButton[] {
-        return [
-            new BigNisButton("Cancel", "cancel")
-                .onClick(() => this.hide()),
-            new BigNisButton("Save", "confirm")
-                .onClick(async () => {
+          this.confirm({
+            created: pack
+          })
+        }),
+    ]
+  }
 
-                    const pack = await MethodPackManager.instance().create(
-                        this.clone_from
-                            ? {...lodash.cloneDeep(this.clone_from), ...this.edit.get()}
-                            : {
-                                ...this.edit.get(),
-                                type: "local",
-                                local_id: "",
-                                original_id: "",
-                                timestamp: 0,
-                                methods: []
-                            })
-
-                    deps().app.notifications.notify({
-                        type: "information"
-                    }, `Method Pack '${pack.name}' created!`)
-
-                    this.confirm({
-                        created: pack
-                    })
-                }),
-        ]
-    }
-
-    protected getValueForCancel(): { created: Pack } {
-        return {created: null}
-    }
+  protected getValueForCancel(): { created: Pack } {
+    return {created: null}
+  }
 }
 
 export class EditMethodPackModal extends FormModal<{
-    saved: boolean
+  saved: boolean
 }> {
-    edit: MethodPackMetaEdit
+  edit: MethodPackMetaEdit
 
-    constructor(private pack: Pack) {
-        super({size: "small"});
-    }
+  constructor(private pack: Pack) {
+    super({size: "small"});
+  }
 
-    render() {
-        super.render();
+  render() {
+    super.render();
 
-        this.title.set("Edit Method Pack")
+    this.title.set("Edit Method Pack")
 
-        this.edit = new MethodPackMetaEdit(Pack.meta(this.pack)).appendTo(this.body)
-    }
+    this.edit = new MethodPackMetaEdit(Pack.meta(this.pack)).appendTo(this.body)
+  }
 
-    getButtons(): BigNisButton[] {
-        return [
-            new BigNisButton("Cancel", "cancel")
-                .onClick(() => this.hide()),
-            new BigNisButton("Save", "confirm")
-                .onClick(async () => {
+  getButtons(): BigNisButton[] {
+    return [
+      new BigNisButton("Cancel", "cancel")
+        .onClick(() => this.hide()),
+      new BigNisButton("Save", "confirm")
+        .onClick(async () => {
 
-                    const pack = await MethodPackManager.instance().updatePack(this.pack,
-                        p => Pack.setMeta(p, this.edit.get()))
+          const pack = await MethodPackManager.instance().updatePack(this.pack,
+            p => Pack.setMeta(p, this.edit.get()))
 
-                    deps().app.notifications.notify({
-                        type: "information"
-                    }, `Saved changes to method Pack '${pack.name}'!`)
+          deps().app.notifications.notify({
+            type: "information"
+          }, `Saved changes to method Pack '${pack.name}'!`)
 
-                    this.confirm({
-                        saved: true
-                    })
-                }),
-        ]
-    }
+          this.confirm({
+            saved: true
+          })
+        }),
+    ]
+  }
 
-    protected getValueForCancel(): { saved: boolean } {
-        return {saved: false}
-    }
+  protected getValueForCancel(): { saved: boolean } {
+    return {saved: false}
+  }
 }

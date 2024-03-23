@@ -1,8 +1,8 @@
 export type EntityName = {
-    name: string,
-    kind: EntityName.Kind
+  name: string,
+  kind: EntityName.Kind
 }
 
 export namespace EntityName {
-    export type Kind = "npc" | "static" | "item"
+  export type Kind = "npc" | "static" | "item"
 }

@@ -3,104 +3,104 @@ import Widget from "../Widget";
 import {Observable, observe} from "../../reactive";
 
 export class Checkbox extends AbstractEditWidget<boolean> {
-    new_box: Widget
+  new_box: Widget
 
-    type: Observable<"checkbox" | "radio">
+  type: Observable<"checkbox" | "radio">
 
-    enabled = observe(true)
+  enabled = observe(true)
 
-    constructor(private label: string = "", type: "checkbox" | "radio" = "checkbox") {
-        super()
+  constructor(private label: string = "", type: "checkbox" | "radio" = "checkbox") {
+    super()
 
-        this.type = observe(type)
+    this.type = observe(type)
 
-        this.type.subscribe((value) => {
-            this.new_box.toggleClass("nisl-checkbox-radio", value == "radio")
-        })
+    this.type.subscribe((value) => {
+      this.new_box.toggleClass("nisl-checkbox-radio", value == "radio")
+    })
 
-        this.addClass("nisl-checkbox")
+    this.addClass("nisl-checkbox")
 
-        this.new_box = c("<div class='nisl-checkbox-box'>")
-            .on("click", () => {
-                this.commit(!this.get(), true)
-            })
-            .appendTo(this.container)
+    this.new_box = c("<div class='nisl-checkbox-box'>")
+      .on("click", () => {
+        this.commit(!this.get(), true)
+      })
+      .appendTo(this.container)
 
-        c().addClass("nisl-checkbox-checkmark").appendTo(this.new_box)
+    c().addClass("nisl-checkbox-checkmark").appendTo(this.new_box)
 
-        this.new_box.toggleClass("nisl-checkbox-radio", this.type.value() == "radio")
+    this.new_box.toggleClass("nisl-checkbox-radio", this.type.value() == "radio")
 
-        if (this.label) {
-            c().addClass("nisl-checkbox-label").text(this.label).appendTo(this)
-        }
-
-        this.setValue(false)
-
-        this.enabled.subscribe(v => {
-            this.toggleClass("nisl-checkbox-disabled", !v)
-        })
+    if (this.label) {
+      c().addClass("nisl-checkbox-label").text(this.label).appendTo(this)
     }
 
-    protected render() {
-        this.new_box.toggleClass("checked", this.get())
-    }
+    this.setValue(false)
 
-    setEnabled(v: boolean): this {
+    this.enabled.subscribe(v => {
+      this.toggleClass("nisl-checkbox-disabled", !v)
+    })
+  }
 
-        this.enabled.set(v)
+  protected render() {
+    this.new_box.toggleClass("checked", this.get())
+  }
 
-        return this
-    }
+  setEnabled(v: boolean): this {
+
+    this.enabled.set(v)
+
+    return this
+  }
 }
 
 export namespace Checkbox {
-    export class Group<T> {
-        private value: Observable<T> = observe(null)
+  export class Group<T> {
+    private value: Observable<T> = observe(null)
 
-        constructor(public buttons: {
-            button: Checkbox,
-            value: T
-        }[], can_be_null: boolean = false) {
-            buttons.forEach(o => {
-                o.button.type.set("radio")
-                o.button.onCommit(v => {
-                    if (v) this.value.set(o.value)
-                    else if (!v && this.value.value() == o.value) {
-                        if (can_be_null) this.value.set(null)
-                        else o.button.setValue(true)
-                    }
-                })
-            })
-
-            this.value.subscribe(v => {
-                this.buttons.forEach(b => {
-                    b.button.setValue(b.value == v)
-                })
-            })
-
+    constructor(public buttons: {
+      button: Checkbox,
+      value: T
+    }[], can_be_null: boolean = false) {
+      buttons.forEach(o => {
+        o.button.type.set("radio")
+        o.button.onCommit(v => {
+          if (v) this.value.set(o.value)
+          else if (!v && this.value.value() == o.value) {
             if (can_be_null) this.value.set(null)
-            else buttons[0].button.setValue(true)
-        }
+            else o.button.setValue(true)
+          }
+        })
+      })
 
-        get(): T {
-            return this.value.value()
-        }
+      this.value.subscribe(v => {
+        this.buttons.forEach(b => {
+          b.button.setValue(b.value == v)
+        })
+      })
 
-        setValue(v: T): this {
-            this.value.set(v)
-
-            return this
-        }
-
-        onChange(f: (_: T) => any): this {
-            this.value.subscribe(f)
-
-            return this
-        }
-
-        checkboxes(): Checkbox[] {
-            return this.buttons.map(b => b.button)
-        }
+      if (can_be_null) this.value.set(null)
+      else buttons[0].button.setValue(true)
     }
+
+    get(): T {
+      return this.value.value()
+    }
+
+    setValue(v: T): this {
+      this.value.set(v)
+
+      return this
+    }
+
+    onChange(f: (_: T) => any): this {
+      this.value.subscribe(f)
+
+      return this
+    }
+
+    checkboxes(): Checkbox[] {
+      return this.buttons.map(b => b.button)
+    }
+  }
 
 }

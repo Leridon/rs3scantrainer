@@ -2,82 +2,82 @@ import Widget from "../../lib/ui/Widget";
 import {Observable, observe} from "../../lib/reactive";
 
 export class NislIcon extends Widget {
-    private img: Widget
-    protected url = observe("")
+  private img: Widget
+  protected url = observe("")
 
-    protected constructor() {
-        super();
+  protected constructor() {
+    super();
 
-        this.addClass("nisl-icon")
+    this.addClass("nisl-icon")
 
-        this.img = c("<img>").appendTo(this)
+    this.img = c("<img>").appendTo(this)
 
-        this.url.subscribe(url => {
-            this.img.setAttribute("src", url)
-        })
-    }
+    this.url.subscribe(url => {
+      this.img.setAttribute("src", url)
+    })
+  }
 
-    setSource(src: string): this {
-        this.url.set(src)
-        return this
-    }
+  setSource(src: string): this {
+    this.url.set(src)
+    return this
+  }
 
-    withClick(handler: JQuery.TypeEventHandler<HTMLElement, undefined, HTMLElement, HTMLElement, "click">): this {
-        this.addClass("ctr-clickable")
+  withClick(handler: JQuery.TypeEventHandler<HTMLElement, undefined, HTMLElement, HTMLElement, "click">): this {
+    this.addClass("ctr-clickable")
 
-        this.on("click", handler)
-        return this
-    }
+    this.on("click", handler)
+    return this
+  }
 
-    static dropdown(): NislIcon {
-        return new NislIcon().setSource("assets/nis/dropdown.png")
-    }
+  static dropdown(): NislIcon {
+    return new NislIcon().setSource("assets/nis/dropdown.png")
+  }
 
-    static arrow(direction: ArrowIcon.direction = "down"): ArrowIcon {
-        return new ArrowIcon(direction)
-    }
+  static arrow(direction: ArrowIcon.direction = "down"): ArrowIcon {
+    return new ArrowIcon(direction)
+  }
 
-    static info(): NislIcon {
-        return new NislIcon().css("cursor", "help").setSource("assets/icons/info.png")
-    }
+  static info(): NislIcon {
+    return new NislIcon().css("cursor", "help").setSource("assets/icons/info.png")
+  }
 }
 
 export class FavouriteIcon extends NislIcon {
-    toggled = observe(false)
+  toggled = observe(false)
 
-    constructor() {
-        super();
+  constructor() {
+    super();
 
-        this.toggled.subscribe(v => {
-            this.setSource(v ? "assets/nis/favourite_on.png" : "assets/nis/favourite_off.png")
-        }, true)
-    }
+    this.toggled.subscribe(v => {
+      this.setSource(v ? "assets/nis/favourite_on.png" : "assets/nis/favourite_off.png")
+    }, true)
+  }
 
-    set(value: boolean): this {
-        this.toggled.set(value)
-        return this
-    }
+  set(value: boolean): this {
+    this.toggled.set(value)
+    return this
+  }
 }
 
 export class ArrowIcon extends NislIcon {
-    direction: Observable<ArrowIcon.direction>
+  direction: Observable<ArrowIcon.direction>
 
-    constructor(dir: ArrowIcon.direction = "down") {
-        super();
+  constructor(dir: ArrowIcon.direction = "down") {
+    super();
 
-        this.direction = observe(dir)
+    this.direction = observe(dir)
 
-        this.direction.subscribe(dir => {
-            this.setSource(`assets/nis/arrow_${dir}.png`)
-        }, true)
-    }
+    this.direction.subscribe(dir => {
+      this.setSource(`assets/nis/arrow_${dir}.png`)
+    }, true)
+  }
 
-    setDirection(direction: ArrowIcon.direction): this {
-        this.direction.set(direction)
-        return this
-    }
+  setDirection(direction: ArrowIcon.direction): this {
+    this.direction.set(direction)
+    return this
+  }
 }
 
 export namespace ArrowIcon {
-    export type direction = "left" | "right" | "up" | "down"
+  export type direction = "left" | "right" | "up" | "down"
 }

@@ -59,7 +59,16 @@ export default class MenuBar extends Widget {
           .onClick(() => app.main_behaviour.set(new MapUtilityBehaviour(app)))
         ,
         spacer(),
-        new MenuButton("Settings", "assets/icons/ribbon_options.webp").onClick(() => {}),
+        new MenuButton("Settings", "assets/icons/ribbon_options.webp").onClick(() => {
+
+          const o = window.open("", "_blank", "popup=yes,width=200px,height=200px")
+
+          o.document.body.append(c().text("Hello World")
+            .on("click", () => {
+              console.log("Clicked")
+            })
+            .raw())
+        }),
         c(`<div style="font-size: 6pt" class='nisl-textlink'>Version b0.3.1</div>`)
           .tapRaw(r => r.on("click", () => app.about_modal.show()))
       )

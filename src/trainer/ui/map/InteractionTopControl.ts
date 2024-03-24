@@ -4,9 +4,6 @@ import {GameMapKeyboardEvent} from "../../../lib/gamemap/MapEvents";
 import ControlWithHeader from "./ControlWithHeader";
 
 export default class InteractionTopControl extends GameMapControl<ControlWithHeader> {
-  header_row: Widget = null
-  body: Widget = null
-
   constructor(public _config: {
     name?: String,
     cancel_handler?: () => void
@@ -17,8 +14,6 @@ export default class InteractionTopControl extends GameMapControl<ControlWithHea
     }, new ControlWithHeader(`Active interaction: ${_config.name || "Interaction"}`, _config.cancel_handler));
 
     this.content.addClass("ctr-interaction-control")
-
-    this.header_row = c("<div class='ctr-interaction-control-header'></div>").appendTo(this.content)
   }
 
   public setCancelHandler(f: () => void): this {
@@ -36,15 +31,7 @@ export default class InteractionTopControl extends GameMapControl<ControlWithHea
   }
 
   setContent(widget: Widget): this {
-    if (this.body) {
-      this.body.remove()
-      this.body = null
-    }
-
-    if (widget) {
-      widget.appendTo(this.content)
-      this.body = widget
-    }
+    this.content.setContent(widget)
 
     return this
   }

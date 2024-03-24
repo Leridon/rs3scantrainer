@@ -1,5 +1,5 @@
 {
-  "version": 409,
+  "version": 423,
   "associations": [
     {
       "group_id": 0,
@@ -561,7 +561,12 @@
         94230,
         107720,
         107723,
-        94063
+        94063,
+        95373,
+        5046,
+        31292,
+        41901,
+        41902
       ],
       "group_name": "Ignore",
       "instance_groups": [],
@@ -706,6 +711,230 @@
       "group_name": "",
       "instance_groups": [],
       "parser_id": "ladders"
+    },
+    {
+      "group_id": 409,
+      "loc_ids": [],
+      "per_group_arg": {
+        "action": {
+          "id": 0
+        },
+        "time": 3
+      },
+      "group_name": "",
+      "instance_groups": [
+        {
+          "id": 409,
+          "name": "",
+          "instances": [
+            {
+              "loc": 34395,
+              "origin": {
+                "x": 2796,
+                "y": 3614,
+                "level": 0
+              }
+            }
+          ],
+          "per_instance_argument": {
+            "target": {
+              "origin": {
+                "x": 0,
+                "y": 0,
+                "level": 0
+              },
+              "size": {
+                "x": 1,
+                "y": 1
+              }
+            }
+          }
+        }
+      ],
+      "parser_id": "simpleremotetransport"
+    },
+    {
+      "group_id": 411,
+      "loc_ids": [
+        34395
+      ],
+      "per_group_arg": {
+        "action": {
+          "id": 0
+        },
+        "time": 3
+      },
+      "group_name": "",
+      "instance_groups": [
+        {
+          "id": 411,
+          "name": "",
+          "instances": [
+            {
+              "loc": 34395,
+              "origin": {
+                "x": 2796,
+                "y": 3614,
+                "level": 0
+              }
+            }
+          ],
+          "per_instance_argument": {
+            "target": {
+              "origin": {
+                "x": 2808,
+                "y": 10002,
+                "level": 0
+              }
+            }
+          }
+        },
+        {
+          "id": 419,
+          "name": "",
+          "instances": [
+            {
+              "loc": 34395,
+              "origin": {
+                "x": 2857,
+                "y": 3578,
+                "level": 0
+              }
+            }
+          ],
+          "per_instance_argument": {
+            "target": {
+              "origin": {
+                "x": 2269,
+                "y": 4752,
+                "level": 0
+              }
+            }
+          }
+        }
+      ],
+      "parser_id": "simpleremotetransport"
+    },
+    {
+      "group_id": 414,
+      "loc_ids": [
+        77053
+      ],
+      "per_group_arg": {
+        "action": {
+          "id": 0
+        },
+        "time": 3
+      },
+      "group_name": "",
+      "instance_groups": [
+        {
+          "id": 414,
+          "name": "",
+          "instances": [
+            {
+              "loc": 77053,
+              "origin": {
+                "x": 2809,
+                "y": 10001,
+                "level": 0
+              }
+            }
+          ],
+          "per_instance_argument": {
+            "target": {
+              "origin": {
+                "x": 2795,
+                "y": 3615,
+                "level": 0
+              }
+            }
+          }
+        }
+      ],
+      "parser_id": "simpleremotetransport"
+    },
+    {
+      "group_id": 418,
+      "loc_ids": [
+        66990
+      ],
+      "per_group_arg": {
+        "action": {
+          "id": 0
+        },
+        "time": 3
+      },
+      "group_name": "",
+      "instance_groups": [
+        {
+          "id": 418,
+          "name": "",
+          "instances": [
+            {
+              "loc": 66990,
+              "origin": {
+                "x": 2879,
+                "y": 3459,
+                "level": 0
+              }
+            }
+          ],
+          "per_instance_argument": {
+            "target": {
+              "origin": {
+                "x": 0,
+                "y": 0,
+                "level": 0
+              },
+              "size": {
+                "x": 1,
+                "y": 1
+              }
+            }
+          }
+        }
+      ],
+      "parser_id": "simpleremotetransport"
+    },
+    {
+      "group_id": 420,
+      "loc_ids": [
+        67568
+      ],
+      "per_group_arg": {
+        "action": {
+          "id": 0
+        },
+        "time": 3
+      },
+      "group_name": "",
+      "instance_groups": [
+        {
+          "id": 420,
+          "name": "",
+          "instances": [
+            {
+              "loc": 67568,
+              "origin": {
+                "x": 2268,
+                "y": 4750,
+                "level": 0
+              }
+            }
+          ],
+          "per_instance_argument": {
+            "target": {
+              "origin": {
+                "x": 2859,
+                "y": 3577,
+                "level": 0
+              }
+            }
+          }
+        }
+      ],
+      "parser_id": "simpleremotetransport"
     }
   ]
 }

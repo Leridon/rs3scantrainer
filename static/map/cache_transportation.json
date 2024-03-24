@@ -11528,6 +11528,376 @@
     "direction": 3
   },
   {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2446,
+      "y": 4307,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2453,
+      "y": 4338,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2474,
+      "y": 4330,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2440,
+      "y": 4300,
+      "level": 1
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2441,
+      "y": 4312,
+      "level": 1
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2441,
+      "y": 4319,
+      "level": 1
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2443,
+      "y": 4293,
+      "level": 1
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2480,
+      "y": 4329,
+      "level": 1
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2484,
+      "y": 4303,
+      "level": 1
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2484,
+      "y": 4314,
+      "level": 1
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2488,
+      "y": 4331,
+      "level": 1
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2694,
+      "y": 5293,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2699,
+      "y": 5297,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2700,
+      "y": 5262,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2706,
+      "y": 5265,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2737,
+      "y": 5291,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2738,
+      "y": 5264,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2742,
+      "y": 5260,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2698,
+      "y": 5288,
+      "level": 1
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2698,
+      "y": 5299,
+      "level": 1
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2736,
+      "y": 5295,
+      "level": 1
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2702,
+      "y": 5317,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2702,
+      "y": 5331,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2709,
+      "y": 5362,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2730,
+      "y": 5354,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2740,
+      "y": 5332,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2741,
+      "y": 5363,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2744,
+      "y": 5338,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2746,
+      "y": 5332,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2697,
+      "y": 5324,
+      "level": 1
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2697,
+      "y": 5337,
+      "level": 1
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2698,
+      "y": 5343,
+      "level": 1
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2700,
+      "y": 5317,
+      "level": 1
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2736,
+      "y": 5354,
+      "level": 1
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2739,
+      "y": 5338,
+      "level": 1
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2740,
+      "y": 5328,
+      "level": 1
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2744,
+      "y": 5356,
+      "level": 1
+    },
+    "direction": 4
+  },
+  {
     "type": "entity",
     "entity": {
       "name": "Ladder",
@@ -23474,6 +23844,44 @@
               "level": -1
             },
             "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Cave entrance",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2795.5,
+        "y": 3617.5
+      },
+      "botright": {
+        "x": 2799.5,
+        "y": 3613.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2794,
+                  "y": 3615,
+                  "level": 0
+                }
+              }
+            }
           }
         ]
       }

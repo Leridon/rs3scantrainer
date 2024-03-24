@@ -10,19 +10,18 @@ import {BigNisButton} from "../../widgets/BigNisButton";
 import {SearchSelection} from "../../widgets/SearchSelection";
 import {Checkbox} from "../../../../lib/ui/controls/Checkbox";
 import TextField from "../../../../lib/ui/controls/TextField";
-import {GameMap, GameMapWidget} from "../../../../lib/gamemap/GameMap";
+import {GameMapMiniWidget} from "../../../../lib/gamemap/GameMap";
 import {LocInstanceEntity} from "../FilteredLocLayer";
-import {GameLayer} from "../../../../lib/gamemap/GameLayer";
 import {TileRectangle} from "../../../../lib/runescape/coordinates";
 import * as leaflet from "leaflet"
 import {C} from "../../../../lib/ui/constructors";
 import {Vector2} from "../../../../lib/math";
 import LocInstance = CacheTypes.LocInstance;
 import img = C.img;
+import {NavigationControl} from "../NavigationControl";
 
 export class ParserPairingEdit extends Widget {
-  map: GameMap
-  layer: GameLayer
+  map: GameMapMiniWidget
 
   properties: Properties
 
@@ -31,21 +30,19 @@ export class ParserPairingEdit extends Widget {
 
     if (!pairing) this.pairing = {group: null, instance_group: null}
 
-    this.map = new GameMapWidget()
+    this.map = new GameMapMiniWidget()
       .css("width", "100%")
-      .css("height", "200px")
-      .appendTo(this).map
+      .css("height", "400px")
+      .appendTo(this)
+
+    new NavigationControl().addTo(this.map.main_layer)
 
     setTimeout(() => {
-      this.map.invalidateSize(true)
-
-      this.map.fitView(TileRectangle.extend(this.loc.box, 3), {maxZoom: 20})
+      this.map.map.fitView(TileRectangle.extend(this.loc.box, 3), {maxZoom: 20})
     }, 0)
 
-    this.layer = new GameLayer().addTo(this.map)
-
-    new LocInstanceEntity(this.loc, null)
-      .addTo(this.layer)
+    new LocInstanceEntity(this.loc, parsing_table)
+      .addTo(this.map.main_layer)
 
     leaflet.marker(Vector2.toLatLong(TileRectangle.center(this.loc.box, false)), {
       icon: leaflet.divIcon({
@@ -57,7 +54,7 @@ export class ParserPairingEdit extends Widget {
           .css("scale", "0.9")
           .raw()
       }),
-    }).addTo(this.layer)
+    }).addTo(this.map.main_layer)
 
     this.properties = new Properties()
 
@@ -95,10 +92,13 @@ export class ParserPairingEdit extends Widget {
 
     if (this.pairing.group) {
       props.named("Group", new SearchSelection<ParsingAssociationGroup>({
-        type_class: {
-          toHTML: item => {
-            if (item) return c().text(item.group_name)
-            else return c().text("Create new group")
+          type_class: {
+            toHTML: item => {
+              if (item) {
+                if (item.group_name.length > 0) return c().text("No name").css("font-style", "italic")
+                else return c().text(item.group_name)
+              } else return c().text("Create new instance group")
+            },
           },
         },
         search_term: item => {
@@ -156,12 +156,81 @@ export class ParserPairingEdit extends Widget {
       if (this.pairing.group.parser.per_loc_group_parameter) {
         props.header("Group Parameter")
 
-        const test_par = this.pairing.group.parser.per_loc_group_parameter.renderForm(0, this.loc)
+        const test_par = this.pairing.group.parser.per_loc_group_parameter.renderForm(0, this.loc, this.map)
           .set(this.pairing.group.argument)
           .onChange(v => this.pairing.group.argument = v)
 
         props.row(test_par.control)
         props.row(test_par.additional)
+      }
+
+      if (this.pairing.group.parser.per_instance_parameter) {
+        props.header(new Checkbox("Pair with Instance Group")
+          .setValue(!!this.pairing.instance_group)
+          .onCommit(v => {
+            if (v) {
+              this.pairing.instance_group = {
+                id: -1,
+                name: "",
+                argument: this.pairing.group.parser.per_instance_parameter?.getDefault(this.loc)
+              }
+            } else {
+              this.pairing.instance_group = undefined
+            }
+
+            this.renderProps()
+          })
+        )
+
+        if (this.pairing.instance_group) {
+          const group = this.parsing_table.getGroup(this.pairing.group.id)
+
+
+          props.named("Group", new SearchSelection<ParsingAssociationGroup["instance_groups"][number]>({
+              type_class: {
+                toHTML: item => {
+                  if (item) {
+                    if (item.name.length > 0) return c().text("No name").css("font-style", "italic")
+                    else return c().text(item.name)
+                  } else return c().text("Create new instance group")
+                },
+              },
+              search_term: item => {
+                return item ? item.name : "Create new group"
+              }
+            }, []))
+            .setItems(() => [null].concat(group?.instance_groups ?? []))
+            .setValue(group?.instance_groups?.find(i => i.id == this.pairing.instance_group.id) ?? null)
+            .onSelection(group => {
+              if (group) {
+                this.pairing.instance_group.id = group.id
+                this.pairing.instance_group.name = group.name
+                this.pairing.instance_group.argument = group.per_instance_argument
+              } else {
+                this.pairing.instance_group.id = -1
+                this.pairing.instance_group.name = ""
+                this.pairing.instance_group.argument = this.pairing.group.parser.per_instance_parameter?.getDefault(this.loc)
+              }
+
+              this.renderProps()
+            })
+
+          props.named("Name", new TextField()
+            .setValue(this.pairing.instance_group.name)
+            .onCommit(v => {
+              this.pairing.instance_group.name = v
+            })
+          )
+
+          if (this.pairing.group.parser.per_instance_parameter) {
+            const test_par = this.pairing.group.parser.per_instance_parameter.renderForm(0, this.loc, this.map)
+              .set(this.pairing.instance_group.argument)
+              .onChange(v => this.pairing.instance_group.argument = v)
+
+            props.row(test_par.control)
+            props.row(test_par.additional)
+          }
+        }
       }
     }
 
@@ -182,7 +251,7 @@ export class ParserPairingModal extends FormModal<{
 
   constructor(private loc: LocInstance, private parsing_table: LocParsingTable, private existing_pairing: ParserPairing) {
     super({
-      size: "medium"
+      size: "large"
     });
 
     this.title.set("Edit Parser Pairing")

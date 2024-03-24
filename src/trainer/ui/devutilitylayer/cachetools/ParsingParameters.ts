@@ -5,28 +5,35 @@ import {util} from "../../../../lib/util/util";
 import TextField from "../../../../lib/ui/controls/TextField";
 import {AbstractDropdownSelection} from "../../widgets/AbstractDropdownSelection";
 import {DropdownSelection} from "../../widgets/DropdownSelection";
-import {Transportation} from "../../../../lib/runescape/transportation";
 import {direction} from "../../../../lib/runescape/movement";
 import Widget from "../../../../lib/ui/Widget";
 import {CacheTypes} from "./CacheTypes";
 import {LocUtil} from "./util/LocUtil";
 import {CursorType} from "../../../../lib/runescape/CursorType";
 import NumberInput from "../../../../lib/ui/controls/NumberInput";
-import {floor_t} from "../../../../lib/runescape/coordinates";
+import {floor_t, TileCoordinates} from "../../../../lib/runescape/coordinates";
+import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
+import {GameMapMiniWidget} from "../../../../lib/gamemap/GameMap";
+import LightButton from "../../widgets/LightButton";
+import {DrawTileAreaInteraction} from "../DrawTileAreaInteraction";
+import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInteraction";
+import InteractionTopControl from "../../map/InteractionTopControl";
 import LocInstance = CacheTypes.LocInstance;
 
 export abstract class ParsingParameter<T = any> {
   constructor(private _default_value: ParsingParameter.P<T>) {}
 
-  default(f: ParsingParameter.P<T>) {
+  default(f: ParsingParameter.P<T>): this {
     this._default_value = f
+
+    return this
   }
 
   getDefault(loc: LocInstance): T {
     return ParsingParameter.P.apply(this._default_value, loc)
   }
 
-  abstract renderForm(depth: number, loc: LocInstance): ParsingParameter.Editor<T>
+  abstract renderForm(depth: number, loc: LocInstance, map: GameMapMiniWidget): ParsingParameter.Editor<T>
 }
 
 export namespace ParsingParameter {
@@ -68,7 +75,6 @@ export namespace ParsingParameter {
       }
     }
   }
-
 
   export function int(bounds: P<[number, number]> = [Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]): ParsingParameter<number> {
     return new class extends ParsingParameter<number> {
@@ -141,11 +147,7 @@ export namespace ParsingParameter {
               .onSelection(v => this.commit(v))
               .setValue(value))
           }
-
-          constructor() {
-            super(self)
-          }
-        }
+        }(self)
       }
     }
   }
@@ -154,6 +156,94 @@ export namespace ParsingParameter {
     return choose<direction>({
       toHTML: (v: direction): Widget => c().text(direction.toString(v))
     }, () => direction.all)
+  }
+
+  export function tileArea(): ParsingParameter<TileArea> {
+    return (new class extends ParsingParameter<TileArea> {
+
+      constructor() {
+        super(TileArea.init({x: 0, y: 0, level: 0}));
+      }
+
+      renderForm(depth: number, loc: CacheTypes.LocInstance, map: GameMapMiniWidget): Editor<TileArea> {
+        const self = this
+
+        return new class extends ParsingParameter.Editor<TileArea> {
+          edited_tiles: TileCoordinates[]
+          interaction: ValueInteraction<any> = null
+
+          render_implementation(value: TileArea): void {
+            this.edited_tiles = TileArea.activate(value).getTiles().filter(t => t.x != 0 || t.y != 0)
+
+            this.update_render()
+          }
+
+          private commitTiles() {
+            console.log(this.edited_tiles)
+
+            this.commit(TileArea.fromTiles(this.edited_tiles))
+          }
+
+          private update_render(): void {
+
+            const editor = this
+
+            this.control.empty().append(hboxl(
+              this.edited_tiles.length > 0
+                ? c().text(`${this.edited_tiles.length} tiles near ${TileCoordinates.toString(this.edited_tiles[0])}`)
+                : c().text(`${this.edited_tiles.length} tiles`),
+              new LightButton(this.interaction ? "Stop Editing" : "Edit")
+                .onClick(() => {
+
+                  if (this.interaction) {
+                    this.interaction.cancel()
+                  } else {
+                    map.setInteraction(
+                      this.interaction = (new class extends ValueInteraction<TileCoordinates[]> {
+                        constructor() {
+                          super();
+
+                          new DrawTileAreaInteraction(editor.edited_tiles)
+                            .onPreview(v => this.preview(v))
+                            .attachTopControl(null)
+                            .addTo(this)
+
+
+                          this.attachTopControl(new InteractionTopControl({name: "Draw Tile Area"})
+                            .setContent(
+                              c("<div style='font-family: monospace; white-space:pre'></div>")
+                                .append(c().text(`[Shift + Mouse] add tiles, [Alt + Mouse] remove tiles`))
+                            ))
+                        }
+                      })
+                        .onPreview(v => {
+                          this.edited_tiles = v
+                          this.update_render()
+                        })
+                        .onEnd(() => {
+                          this.commitTiles()
+
+                          this.interaction = null
+                          this.update_render()
+                        })
+                    )
+
+                    this.update_render()
+                  }
+                }),
+              new LightButton("Reset")
+                .onClick(() => {
+                  this.edited_tiles = []
+                  this.interaction?.cancel()
+                  this.update_render()
+
+                  this.commitTiles()
+                })
+            ))
+          }
+        }(self)
+      }
+    })
   }
 
   export function rec<T extends Record<string, Rec.Element<any>>>(
@@ -240,7 +330,7 @@ export namespace ParsingParameter {
       });
     }
 
-    override renderForm(depth: number, loc: LocInstance): ParsingParameter.Editor<Record<string, any>> {
+    override renderForm(depth: number, loc: LocInstance, map: GameMapMiniWidget): ParsingParameter.Editor<Record<string, any>> {
       const self = this
 
       return new class extends ParsingParameter.Editor {
@@ -252,7 +342,7 @@ export namespace ParsingParameter {
 
         render_implementation(value: any) {
           this.elements = Object.entries(self.elements).map(([id, element]) =>
-            new Rec.ElementWidget(element, element.optional ? "check" : "none", depth + 1, loc)
+            new Rec.ElementWidget(element, element.optional ? "check" : "none", depth + 1, loc, map)
               .set(value?.[id])
               .onChange(v => {
                 this.commit(copyUpdate2(this.get(), e => e[id] = v))
@@ -283,11 +373,15 @@ export namespace ParsingParameter {
       checkbox: Checkbox
       sub: Editor<T> = null
 
-      constructor(public element: Element<T>, public cb_type: "none" | "check" | "radio", public depth: number, private loc: LocInstance) {
+      constructor(public element: Element<T>, public cb_type: "none" | "check" | "radio", public depth: number,
+                  private loc: LocInstance,
+                  private map: GameMapMiniWidget) {
         super(element.type)
       }
 
       render_implementation(value: T | undefined) {
+
+
         const name_column = c().css("min-width", "100px")
           .css("padding-left", `${this.depth * 5}px`)
 
@@ -325,7 +419,7 @@ export namespace ParsingParameter {
 
         if (value !== undefined) {
           this.sub = this.element.type
-            .renderForm(this.depth + 1, this.loc)
+            .renderForm(this.depth + 1, this.loc, this.map)
             .onChange(v => this.commit(v))
             .set(value)
 

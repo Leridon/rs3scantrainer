@@ -13,6 +13,7 @@ import LocInstance = CacheTypes.LocInstance;
 import PP = ParsingParameter;
 import rec = ParsingParameter.rec;
 import offset = MovementBuilder.offset;
+import fixed = MovementBuilder.fixed;
 
 function parse<GroupT, InstanceT>(id: string,
                                   name: string,
@@ -130,6 +131,22 @@ export const parsers3: TransportParser2[] = [
             .time(3)
         )
       }
+
+      return [builder.finish()]
+    }),
+  parse("simpleremotetransport", "Remote",
+    PP.rec({
+      action: PP.element("Action", PP.locAction()),
+      time: PP.element("Time", PP.int([0, 100]).default(3)),
+    }), PP.rec({
+      target: PP.element("Target", PP.tileArea()),
+    }), async (instance, {per_loc, per_instance}) => {
+      const builder = EntityTransportationBuilder.from(instance)
+
+      builder.action({
+          index: per_loc.action.id,
+        }, fixed(per_instance.target)
+      )
 
       return [builder.finish()]
     }),

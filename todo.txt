@@ -1,5 +1,13 @@
 Planned for next release (b0.4):
 
+- [Feature, 5] Clue Reader
+    - Text Clues
+    - Scan Clues
+    - Hook up to interface
+
+- Issues
+    - [Bug, 5] Tooltips for PathStepEntities don't disappear correctly on the solver
+
 - Data
     - [Dev Tool, 3] Utility Layer for shortcut parsing
         - Option to overlay parsed transports
@@ -42,10 +50,6 @@ Planned for next release (b0.4):
     - [Feature] Undo/Redo
 
 - Solving Behaviour
-    - [Feature, 5] Clue Reader
-        - Text Clues
-        - Scan Clues
-        - Hook up to interface
     - Path Panel
         - Neat step styling
         - Add icon for orientation step

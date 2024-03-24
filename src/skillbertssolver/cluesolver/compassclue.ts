@@ -104,8 +104,6 @@ let newAngleTrans: { dx: number, dz: number, raw: number }[] = [
 	{ dx: -5, dz: -1, raw: -0.1103 }
 ]
 
-
-
 type CompassState = {
 	dir: number,
 	isArc: boolean

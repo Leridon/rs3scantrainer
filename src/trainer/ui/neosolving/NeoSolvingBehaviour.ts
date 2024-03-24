@@ -35,6 +35,7 @@ import {PathStepEntity} from "../map/entities/PathStepEntity";
 import {CursorType} from "../../../lib/runescape/CursorType";
 import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
 import {ScanEditLayer} from "../theorycrafting/scanedit/ScanEditor";
+import {ClueReader} from "./ClueReader";
 import span = C.span;
 import todo = util.todo;
 import PulseInformation = ScanTheory.PulseInformation;
@@ -181,16 +182,7 @@ namespace NeoSolvingLayer {
         }
       })
         .onSelected(async clue => {
-          this.parent.setClue(clue)
-
-          let m = await this.parent.app.favourites.getMethod({clue: clue.step.id})
-
-          if (!m) {
-            let ms = await MethodPackManager.instance().getForClue({clue: clue.step.id})
-            if (ms.length > 0) m = ms[0]
-          }
-
-          if (m) this.parent.setMethod(m)
+          this.parent.setClueWithAutomaticMethod(clue)
         })
         .onClosed(() => {
           this.search_bar_collapsible.collapse()
@@ -223,11 +215,20 @@ namespace NeoSolvingLayer {
             }
           }),
         this.rest = hbox(
-          new MainControlButton({text: "Solve"}),
+          new MainControlButton({text: "Solve"})
+            .onClick(async () => {
+              const res = await this.parent.reader.readScreen()
+
+              if (res?.step) {
+                this.parent.setClueWithAutomaticMethod(res.step)
+              }
+            }),
           new MainControlButton({icon: "assets/icons/lock.png", text: "Auto"})
-            .setToggleable(true),
+            .setToggleable(true)
+          ,
           new MainControlButton({icon: "assets/icons/fullscreen.png"})
-            .setToggleable(true),
+            .setToggleable(true)
+          ,
           new MainControlButton({icon: "assets/icons/settings.png"})
         ).css("flex-grow", "1"),
       )
@@ -442,6 +443,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
   active_clue: { step: Clues.Step, text_index: number } = null
   active_method: AugmentedMethod = null
 
+  reader: ClueReader
+
   auto_solving: Observable<boolean> = observe(false)
 
   private scantree_behaviour = this.withSub(new SingleBehaviour<ScanTreeSolvingControl>())
@@ -450,6 +453,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
   constructor(public app: Application) {
     super();
+
+    this.reader = new ClueReader()
   }
 
   /**
@@ -703,6 +708,23 @@ export default class NeoSolvingBehaviour extends Behaviour {
         .addClass("ctr-neosolving-solution-row")
         .appendTo(this.layer.method_selection_container)
     }
+  }
+
+  async setClueWithAutomaticMethod(step: { step: Clues.Step, text_index: number }) {
+    if (this.active_clue && this.active_clue.step.id == step.step.id && this.active_clue.text_index == step.text_index) {
+      return
+    }
+
+    this.setClue(step)
+
+    let m = await this.app.favourites.getMethod({clue: step.step.id})
+
+    if (!m) {
+      let ms = await MethodPackManager.instance().getForClue({clue: step.step.id})
+      if (ms.length > 0) m = ms[0]
+    }
+
+    if (m) this.setMethod(m)
   }
 
   /**

@@ -1,12 +1,10 @@
 import * as L from "leaflet"
 import * as leaflet from "leaflet"
-import {ExportImport} from "./exportString";
 import {v4 as uuidv4} from 'uuid';
 import * as lodash from "lodash";
+import {levenshteinEditDistance} from "levenshtein-edit-distance";
 
 export namespace util {
-
-
 
   export function natural_join(a: any[], connector: string = "and"): string {
     if (a.length == 0) return ""
@@ -228,5 +226,9 @@ export namespace util {
     element.click();
 
     document.body.removeChild(element);
+  }
+
+  export function stringSimilarity(a: string, b: string): number {
+    return levenshteinEditDistance(a, b, false)
   }
 }

@@ -1,5 +1,5 @@
 {
-  "version": 423,
+  "version": 442,
   "associations": [
     {
       "group_id": 0,
@@ -158,7 +158,9 @@
         1542,
         1544,
         14923,
-        22914
+        22914,
+        779,
+        17600
       ],
       "group_name": "Doors",
       "instance_groups": [],
@@ -566,7 +568,21 @@
         5046,
         31292,
         41901,
-        41902
+        41902,
+        99445,
+        30141,
+        30146,
+        30145,
+        30144,
+        16066,
+        16065,
+        62689,
+        62690,
+        62683,
+        62682,
+        62701,
+        62700,
+        46696
       ],
       "group_name": "Ignore",
       "instance_groups": [],
@@ -935,6 +951,51 @@
         }
       ],
       "parser_id": "simpleremotetransport"
+    },
+    {
+      "group_id": 423,
+      "loc_ids": [
+        1747
+      ],
+      "per_group_arg": {
+        "across": false,
+        "up": {
+          "id": 0
+        }
+      },
+      "group_name": "",
+      "instance_groups": [],
+      "parser_id": "ladders"
+    },
+    {
+      "group_id": 425,
+      "loc_ids": [
+        1746
+      ],
+      "per_group_arg": {
+        "across": false,
+        "down": {
+          "id": 0
+        }
+      },
+      "group_name": "",
+      "instance_groups": [],
+      "parser_id": "ladders"
+    },
+    {
+      "group_id": 426,
+      "loc_ids": [
+        55403
+      ],
+      "per_group_arg": {
+        "across": false,
+        "down": {
+          "id": 0
+        }
+      },
+      "group_name": "",
+      "instance_groups": [],
+      "parser_id": "ladders"
     }
   ]
 }

@@ -14,6 +14,7 @@ import PP = ParsingParameter;
 import rec = ParsingParameter.rec;
 import offset = MovementBuilder.offset;
 import fixed = MovementBuilder.fixed;
+import EntityActionMovement = Transportation.EntityActionMovement;
 
 function parse<GroupT, InstanceT>(id: string,
                                   name: string,
@@ -152,8 +153,21 @@ export const parsers3: TransportParser2[] = [
     }),
   parse("prototypecopyloc", "Prototype",
     rec({
-      name: PP.element("Name", PP.string(), true),
-      actions: PP.element("Actions", PP.list(PP.int([0, 10])))
+      actions: PP.element("Actions", PP.list(PP.rec({
+        action: PP.element("Action", PP.locAction()),
+        area: PP.element("Area", PP.tileArea(), true),
+        movement: PP.element("Movements", PP.list(PP.rec({
+          valid_from: PP.element("Valid", PP.tileArea(), true),
+          orientation: PP.element("Orientation", PP.choose<EntityActionMovement["orientation"]>({
+            toHTML: (v) => c().text(v)
+          }, [])),
+          movement: PP.element("Movement", PP.either({
+            offset: PP.int([0, 10]),
+            fixed: PP.tileArea()
+          })),
+          time: PP.element("Time", PP.int([0, 30]))
+        })))
+      })))
     })
     , null,
     async (instance) => {

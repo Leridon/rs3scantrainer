@@ -478,6 +478,12 @@ export namespace ParsingParameter {
     }
   }
 
+  export function either<T extends Record<string, ParsingParameter>>(
+    elements: T
+  ): ParsingParameter<{ [key in keyof T]?: Rec.Element.extr<T[key]> }> {
+    return null
+  }
+
   export class Either<T, U> extends ParsingParameter<T | U> {
     renderForm(depth: number): ParsingParameter.Editor<T | U> {
       return undefined;

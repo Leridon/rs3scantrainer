@@ -36,6 +36,7 @@ import {CursorType} from "../../../lib/runescape/CursorType";
 import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
 import {ScanEditLayer} from "../theorycrafting/scanedit/ScanEditor";
 import {ClueReader} from "./ClueReader";
+import {deps} from "../../dependencies";
 import span = C.span;
 import todo = util.todo;
 import PulseInformation = ScanTheory.PulseInformation;
@@ -208,10 +209,12 @@ namespace NeoSolvingLayer {
                 this.parent.setClueWithAutomaticMethod(res.step)
               }
             })
-            .tooltip("Read a clue from screen"),
+            .tooltip("Read a clue from screen")
+            .setEnabled(deps().app.in_alt1),
           new MainControlButton({icon: "assets/icons/lock.png", text: "Auto-Solve", centered: true})
             .setToggleable(true)
-            .tooltip("Continuously read clues from screen"),
+            .tooltip("Continuously read clues from screen")
+            .setEnabled(deps().app.in_alt1),
           new MainControlButton({icon: "assets/icons/fullscreen.png", centered: true})
             .tooltip("Hide the menu bar")
             .setToggleable(true),

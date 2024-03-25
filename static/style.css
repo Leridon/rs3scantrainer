@@ -875,7 +875,7 @@ video {
 /*Classes for custom components*/
 
 .lcss-button:not(.enabled) {
-    cursor: not-allowed;
+    cursor: default;
     filter: opacity(0.5) grayscale(100%);
 }
 
@@ -1403,7 +1403,7 @@ input[type=checkbox] + span {
 }
 
 .ctr-lightbutton:not(.enabled) {
-    cursor: not-allowed;
+    cursor: default;
 }
 
 .ctr-lightbutton.enabled:hover {
@@ -1724,6 +1724,7 @@ input[type=checkbox] + span {
     border: 1px solid transparent;
     font-weight: bold;
     font-size: 0.9em;
+    white-space: nowrap;
 }
 
 
@@ -1745,11 +1746,11 @@ input[type=checkbox] + span {
     /*filter: drop-shadow(1px 1px black);*/
 }
 
-.ctr-neosolving-main-bar-button:hover {
+.ctr-neosolving-main-bar-button.enabled:hover {
     filter: brightness(1.2);
 }
 
-.ctr-neosolving-main-bar-button:hover > img {
+.ctr-neosolving-main-bar-button.enabled:hover > img {
     filter: brightness(1.5);
 }
 

@@ -17,19 +17,18 @@ import {makeshift_main} from "./main";
 import {MethodPackManager} from "./model/MethodPackManager";
 import NotificationBar from "./ui/NotificationBar";
 import {C} from "../lib/ui/constructors";
-import div = C.div;
-import vbox = C.vbox;
-import span = C.span;
-import hbox = C.hbox;
-import spacer = C.spacer;
 import {observe} from "../lib/reactive";
 import NeoSolvingBehaviour from "./ui/neosolving/NeoSolvingBehaviour";
 import {FavoriteIndex} from "./favorites";
 import Dependencies from "./dependencies";
 import {Transportation} from "../lib/runescape/transportation";
 import {TransportData} from "../data/transports";
+import div = C.div;
+import vbox = C.vbox;
+import span = C.span;
+import hbox = C.hbox;
+import spacer = C.spacer;
 import resolveTeleport = TransportData.resolveTeleport;
-import entity = C.entity;
 
 export class SimpleLayerBehaviour extends Behaviour {
   constructor(private map: GameMap, private layer: GameLayer) {
@@ -173,10 +172,12 @@ class AboutModal extends Modal {
   }
 }
 
+const DEBUG_SIMULATE_INALT1 = false
+
 export class Application extends Behaviour {
   version = "b0.3.1"
 
-  in_alt1: boolean = !!window.alt1
+  in_alt1: boolean = !!window.alt1 || DEBUG_SIMULATE_INALT1
 
   main_content: Widget = null
   map_widget: GameMapWidget

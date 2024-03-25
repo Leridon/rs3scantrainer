@@ -487,15 +487,15 @@ class ClueSolvingReadingBehaviour extends Behaviour {
       // TODO: Adaptive timing to avoid running all the time?
 
       this.activeInterval = window.setInterval(() => {
-        this.solveManuallyTriggered()
+        this.solve()
       }, 300)
     }
   }
 
-  solveManuallyTriggered() {
-    const found = this.solve()
+  async solveManuallyTriggered() {
+    const found = await this.solve()
 
-    if (!found) {
+    if (!found.step) {
       this.parent.app.notifications.notify({type: "error"}, "No clue found on screen.")
     }
   }

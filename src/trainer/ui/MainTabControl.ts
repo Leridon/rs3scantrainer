@@ -185,11 +185,11 @@ export default class MainTabControl extends Widget {
   updateState() {
     const active_tab = this.active_tab.value()
 
-    this.solve_button.setActive(active_tab == "solve")
-    this.map_button.setActive(active_tab == "map")
-    this.create_button.setActive(active_tab == "create")
-    this.paths_button.setActive(active_tab == "pathedit")
-    this.utility_button.setActive(active_tab == "utility")
+    this.solve_button?.setActive(active_tab == "solve")
+    this.map_button?.setActive(active_tab == "map")
+    this.create_button?.setActive(active_tab == "create")
+    this.paths_button?.setActive(active_tab == "pathedit")
+    this.utility_button?.setActive(active_tab == "utility")
   }
 
   setCollapsed(v: boolean) {

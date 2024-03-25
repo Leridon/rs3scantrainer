@@ -150,7 +150,8 @@ namespace NeoSolvingLayer {
   }
 
   export class MainControlBar extends Widget {
-    fullscreen_preference = new storage.Variable<boolean>("preferences/solve_fullscreen", () => deps().app.in_alt1)
+    fullscreen_preference = new storage.Variable<boolean>("preferences/solve/fullscreen", () => deps().app.in_alt1)
+    autosolve_preference = new storage.Variable<boolean>("preferences/solve/autosolve", () => deps().app.in_alt1)
 
     search_bar: TextField
     rest: Widget
@@ -205,19 +206,18 @@ namespace NeoSolvingLayer {
           }),
         this.rest = hbox(
           new MainControlButton({icon: "assets/icons/activeclue.png", text: "Solve", centered: true})
-            .onClick(async () => {
-              const res = await this.parent.reader.readScreen()
-
-              if (res?.step) {
-                this.parent.setClueWithAutomaticMethod(res.step)
-              }
-            })
+            .onClick(() => this.parent.screen_reading.solveManuallyTriggered())
             .tooltip("Read a clue from screen")
             .setEnabled(deps().app.in_alt1),
           new MainControlButton({icon: "assets/icons/lock.png", text: "Auto-Solve", centered: true})
             .setToggleable(true)
             .tooltip("Continuously read clues from screen")
-            .setEnabled(deps().app.in_alt1),
+            .setEnabled(deps().app.in_alt1)
+            .onToggle(v => {
+              this.parent.screen_reading.setAutoSolve(v)
+            })
+            .setToggled(this.autosolve_preference.get())
+          ,
           new MainControlButton({icon: "assets/icons/fullscreen.png", centered: true})
             .tooltip("Hide the menu bar")
             .setToggleable(true)
@@ -449,13 +449,66 @@ class ScanTreeSolvingControl extends Behaviour {
 }
 
 
+class ClueSolvingReadingBehaviour extends Behaviour {
+  reader: ClueReader
+
+  private activeInterval: number = null
+
+  constructor(private parent: NeoSolvingBehaviour) {
+    super();
+
+    this.reader = new ClueReader()
+  }
+
+  protected begin() {
+  }
+
+  protected end() {
+    this.setAutoSolve(false)
+  }
+
+  private async solve(): Promise<ClueReader.Result> {
+    const res = await this.reader.readScreen()
+
+    if (res?.step) {
+      this.parent.setClueWithAutomaticMethod(res.step)
+    }
+
+    return res
+  }
+
+  setAutoSolve(v: boolean) {
+    if (this.activeInterval != null) {
+      clearInterval(this.activeInterval)
+      this.activeInterval = null
+    }
+
+    if (this.parent.app.in_alt1 && v) {
+      // TODO: Adaptive timing to avoid running all the time?
+
+      this.activeInterval = window.setInterval(() => {
+        this.solveManuallyTriggered()
+      }, 300)
+    }
+  }
+
+  solveManuallyTriggered() {
+    const found = this.solve()
+
+    if (!found) {
+      this.parent.app.notifications.notify({type: "error"}, "No clue found on screen.")
+    }
+  }
+}
+
+
 export default class NeoSolvingBehaviour extends Behaviour {
   layer: NeoSolvingLayer
 
   active_clue: { step: Clues.Step, text_index: number } = null
   active_method: AugmentedMethod = null
 
-  reader: ClueReader
+  screen_reading: ClueSolvingReadingBehaviour = this.withSub(new ClueSolvingReadingBehaviour(this))
 
   auto_solving: Observable<boolean> = observe(false)
 
@@ -465,8 +518,6 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
   constructor(public app: Application) {
     super();
-
-    this.reader = new ClueReader()
   }
 
   /**

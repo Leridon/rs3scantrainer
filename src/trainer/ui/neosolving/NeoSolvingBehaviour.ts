@@ -217,7 +217,10 @@ namespace NeoSolvingLayer {
             .setEnabled(deps().app.in_alt1),
           new MainControlButton({icon: "assets/icons/fullscreen.png", centered: true})
             .tooltip("Hide the menu bar")
-            .setToggleable(true),
+            .setToggleable(true)
+            .onToggle(t => {
+              deps().app.menu_bar.setVisible(!t)
+            }),
           new MainControlButton({icon: "assets/icons/settings.png", centered: true})
             .tooltip("Open settings")
         ).css("flex-grow", "1"),

@@ -29,6 +29,9 @@ import span = C.span;
 import hbox = C.hbox;
 import spacer = C.spacer;
 import resolveTeleport = TransportData.resolveTeleport;
+import * as process from "process";
+
+declare let DEV_MODE: boolean
 
 export class SimpleLayerBehaviour extends Behaviour {
   constructor(private map: GameMap, private layer: GameLayer) {
@@ -178,7 +181,9 @@ export class Application extends Behaviour {
   version = "b0.3.1"
 
   in_alt1: boolean = !!window.alt1 || DEBUG_SIMULATE_INALT1
+  in_dev_mode = !!process.env.DEV_MODE
 
+  menu_bar: MenuBar
   main_content: Widget = null
   map_widget: GameMapWidget
   map: GameMap
@@ -236,6 +241,10 @@ export class Application extends Behaviour {
     super()
 
     this.favourites = new FavoriteIndex(MethodPackManager.instance())
+
+    if (this.in_dev_mode) {
+      console.log("In dev mode")
+    }
   }
 
   protected async begin() {
@@ -248,7 +257,7 @@ export class Application extends Behaviour {
     this.notifications = new NotificationBar().appendTo($("body"))
 
     container.append(
-      new MenuBar(this),
+      this.menu_bar = new MenuBar(this),
       this.main_content = c("<div style='display: flex; height: 100%; flex-grow: 1'></div>")
         .append(map_widget = c("<div style='flex-grow: 1; height: 100%'></div>"))
     )

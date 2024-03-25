@@ -1,8 +1,8 @@
 {
   "name": "cluetrainer",
   "scripts": {
-    "build": "node -r ts-node/register ./node_modules/webpack/bin/webpack.js",
-    "build-production": "node -r ts-node/register ./node_modules/webpack/bin/webpack.js --node-env production",
+    "build": "node -r ts-node/register ./node_modules/webpack/bin/webpack.js --node-env development",
+    "build-production": "node -r ts-node/register ./node_modules/webpack/bin/webpack.js",
     "watch": "npm run build -- --watch"
   },
   "dependencies": {

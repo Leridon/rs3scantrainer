@@ -37,6 +37,7 @@ import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
 import {ScanEditLayer} from "../theorycrafting/scanedit/ScanEditor";
 import {ClueReader} from "./ClueReader";
 import {deps} from "../../dependencies";
+import {storage} from "../../../lib/util/storage";
 import span = C.span;
 import todo = util.todo;
 import PulseInformation = ScanTheory.PulseInformation;
@@ -149,6 +150,8 @@ namespace NeoSolvingLayer {
   }
 
   export class MainControlBar extends Widget {
+    fullscreen_preference = new storage.Variable<boolean>("preferences/solve_fullscreen", () => deps().app.in_alt1)
+
     search_bar: TextField
     rest: Widget
 
@@ -219,8 +222,10 @@ namespace NeoSolvingLayer {
             .tooltip("Hide the menu bar")
             .setToggleable(true)
             .onToggle(t => {
-              deps().app.menu_bar.setVisible(!t)
-            }),
+              deps().app.menu_bar.setCollapsed(t)
+              this.fullscreen_preference.set(t)
+            })
+            .setToggled(this.fullscreen_preference.get()),
           new MainControlButton({icon: "assets/icons/settings.png", centered: true})
             .tooltip("Open settings")
         ).css("flex-grow", "1"),

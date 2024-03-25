@@ -35,6 +35,9 @@ import {PathStepEntity} from "../map/entities/PathStepEntity";
 import {CursorType} from "../../../lib/runescape/CursorType";
 import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
 import {ScanEditLayer} from "../theorycrafting/scanedit/ScanEditor";
+import {ClueReader} from "./ClueReader";
+import {deps} from "../../dependencies";
+import {storage} from "../../../lib/util/storage";
 import span = C.span;
 import todo = util.todo;
 import PulseInformation = ScanTheory.PulseInformation;
@@ -122,25 +125,22 @@ class NeoSolvingLayer extends GameLayer {
 }
 
 namespace NeoSolvingLayer {
-  import spacer = C.spacer;
   import hbox = C.hbox;
   import Step = Clues.Step;
 
   class MainControlButton extends Button {
-    constructor(options: { icon?: string, text?: string }) {
+    constructor(options: { icon?: string, text?: string, centered?: boolean }) {
       super();
 
       if (options.icon) {
         this.append(c(`<img src="${options.icon}" class="ctr-neosolving-main-bar-icon">`))
       }
 
+      if (options.centered) this.css("justify-content", "center")
+
       if (options.text) {
         this.append(c().text(options.text))
-        if (options.icon) {
-          this.append(spacer())
-        } else {
-          this.css("justify-content", "center")
-        }
+
         this.css("flex-grow", "1")
       }
 
@@ -150,6 +150,9 @@ namespace NeoSolvingLayer {
   }
 
   export class MainControlBar extends Widget {
+    fullscreen_preference = new storage.Variable<boolean>("preferences/solve/fullscreen", () => deps().app.in_alt1)
+    autosolve_preference = new storage.Variable<boolean>("preferences/solve/autosolve", () => deps().app.in_alt1)
+
     search_bar: TextField
     rest: Widget
 
@@ -174,33 +177,11 @@ namespace NeoSolvingLayer {
         }
       )
 
-      this.dropdown = new AbstractDropdownSelection.DropDown<{ step: Clues.Step, text_index: number }>({
-        dropdownClass: "ctr-neosolving-favourite-dropdown",
-        renderItem: e => {
-          return c().text(Step.shortString(e.step, e.text_index))
-        }
-      })
-        .onSelected(async clue => {
-          this.parent.setClue(clue)
-
-          let m = await this.parent.app.favourites.getMethod({clue: clue.step.id})
-
-          if (!m) {
-            let ms = await MethodPackManager.instance().getForClue({clue: clue.step.id})
-            if (ms.length > 0) m = ms[0]
-          }
-
-          if (m) this.parent.setMethod(m)
-        })
-        .onClosed(() => {
-          this.search_bar_collapsible.collapse()
-        })
-        .setItems([])
-
       this.append(
         new MainControlButton({icon: "assets/icons/glass.png"})
           .append(this.search_bar = new TextField()
             .css("flex-grow", "1")
+            .css("font-weight", "normal")
             .setPlaceholder("Enter Search Term...")
             .toggleClass("nisinput", false)
             .addClass("ctr-neosolving-main-bar-search")
@@ -211,6 +192,7 @@ namespace NeoSolvingLayer {
               this.dropdown.setItems(results)
             })
           )
+          .tooltip("Search Clues")
           .onClick((e) => {
             e.stopPropagation()
 
@@ -223,14 +205,45 @@ namespace NeoSolvingLayer {
             }
           }),
         this.rest = hbox(
-          new MainControlButton({text: "Solve"}),
-          new MainControlButton({icon: "assets/icons/lock.png", text: "Auto"})
-            .setToggleable(true),
-          new MainControlButton({icon: "assets/icons/fullscreen.png"})
-            .setToggleable(true),
-          new MainControlButton({icon: "assets/icons/settings.png"})
+          new MainControlButton({icon: "assets/icons/activeclue.png", text: "Solve", centered: true})
+            .onClick(() => this.parent.screen_reading.solveManuallyTriggered())
+            .tooltip("Read a clue from screen")
+            .setEnabled(deps().app.in_alt1),
+          new MainControlButton({icon: "assets/icons/lock.png", text: "Auto-Solve", centered: true})
+            .setToggleable(true)
+            .tooltip("Continuously read clues from screen")
+            .setEnabled(deps().app.in_alt1)
+            .onToggle(v => {
+              this.parent.screen_reading.setAutoSolve(v)
+            })
+            .setToggled(this.autosolve_preference.get())
+          ,
+          new MainControlButton({icon: "assets/icons/fullscreen.png", centered: true})
+            .tooltip("Hide the menu bar")
+            .setToggleable(true)
+            .onToggle(t => {
+              deps().app.menu_bar.setCollapsed(t)
+              this.fullscreen_preference.set(t)
+            })
+            .setToggled(this.fullscreen_preference.get()),
+          new MainControlButton({icon: "assets/icons/settings.png", centered: true})
+            .tooltip("Open settings")
         ).css("flex-grow", "1"),
       )
+
+      this.dropdown = new AbstractDropdownSelection.DropDown<{ step: Clues.Step, text_index: number }>({
+        dropdownClass: "ctr-neosolving-favourite-dropdown",
+        renderItem: e => {
+          return c().text(Step.shortString(e.step, e.text_index))
+        }
+      })
+        .onSelected(async clue => {
+          this.parent.setClueWithAutomaticMethod(clue)
+        })
+        .onClosed(() => {
+          this.search_bar_collapsible.collapse()
+        })
+        .setItems([])
 
       this.search_bar_collapsible = ExpansionBehaviour.horizontal({target: this.search_bar, starts_collapsed: true, duration: 100})
         .onChange(v => {
@@ -436,11 +449,66 @@ class ScanTreeSolvingControl extends Behaviour {
 }
 
 
+class ClueSolvingReadingBehaviour extends Behaviour {
+  reader: ClueReader
+
+  private activeInterval: number = null
+
+  constructor(private parent: NeoSolvingBehaviour) {
+    super();
+
+    this.reader = new ClueReader()
+  }
+
+  protected begin() {
+  }
+
+  protected end() {
+    this.setAutoSolve(false)
+  }
+
+  private async solve(): Promise<ClueReader.Result> {
+    const res = await this.reader.readScreen()
+
+    if (res?.step) {
+      this.parent.setClueWithAutomaticMethod(res.step)
+    }
+
+    return res
+  }
+
+  setAutoSolve(v: boolean) {
+    if (this.activeInterval != null) {
+      clearInterval(this.activeInterval)
+      this.activeInterval = null
+    }
+
+    if (this.parent.app.in_alt1 && v) {
+      // TODO: Adaptive timing to avoid running all the time?
+
+      this.activeInterval = window.setInterval(() => {
+        this.solveManuallyTriggered()
+      }, 300)
+    }
+  }
+
+  solveManuallyTriggered() {
+    const found = this.solve()
+
+    if (!found) {
+      this.parent.app.notifications.notify({type: "error"}, "No clue found on screen.")
+    }
+  }
+}
+
+
 export default class NeoSolvingBehaviour extends Behaviour {
   layer: NeoSolvingLayer
 
   active_clue: { step: Clues.Step, text_index: number } = null
   active_method: AugmentedMethod = null
+
+  screen_reading: ClueSolvingReadingBehaviour = this.withSub(new ClueSolvingReadingBehaviour(this))
 
   auto_solving: Observable<boolean> = observe(false)
 
@@ -703,6 +771,23 @@ export default class NeoSolvingBehaviour extends Behaviour {
         .addClass("ctr-neosolving-solution-row")
         .appendTo(this.layer.method_selection_container)
     }
+  }
+
+  async setClueWithAutomaticMethod(step: { step: Clues.Step, text_index: number }) {
+    if (this.active_clue && this.active_clue.step.id == step.step.id && this.active_clue.text_index == step.text_index) {
+      return
+    }
+
+    this.setClue(step)
+
+    let m = await this.app.favourites.getMethod({clue: step.step.id})
+
+    if (!m) {
+      let ms = await MethodPackManager.instance().getForClue({clue: step.step.id})
+      if (ms.length > 0) m = ms[0]
+    }
+
+    if (m) this.setMethod(m)
   }
 
   /**

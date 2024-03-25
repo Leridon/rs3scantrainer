@@ -37,7 +37,7 @@ export class MethodMetaEdit extends AbstractEditWidget<Method.Meta> {
 
     const value = this.get()
 
-    this.name = props.named("Name", new TextField()
+    props.named("Name", this.name = new TextField()
       .onCommit(v => {
         this.commit(copyUpdate(this.get(), meta => meta.name = v))
       })

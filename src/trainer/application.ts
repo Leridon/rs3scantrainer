@@ -11,25 +11,27 @@ import {PathGraphics} from "./ui/path_graphics";
 import Behaviour, {SingleBehaviour} from "lib/ui/Behaviour";
 import {SolvingMethods} from "./model/methods";
 import {GameLayer} from "../lib/gamemap/GameLayer";
-import MenuBar from "./ui/MenuBar";
+import MainTabControl from "./ui/MainTabControl";
 import Widget from "../lib/ui/Widget";
 import {makeshift_main} from "./main";
 import {MethodPackManager} from "./model/MethodPackManager";
 import NotificationBar from "./ui/NotificationBar";
 import {C} from "../lib/ui/constructors";
-import div = C.div;
-import vbox = C.vbox;
-import span = C.span;
-import hbox = C.hbox;
-import spacer = C.spacer;
 import {observe} from "../lib/reactive";
 import NeoSolvingBehaviour from "./ui/neosolving/NeoSolvingBehaviour";
 import {FavoriteIndex} from "./favorites";
 import Dependencies from "./dependencies";
 import {Transportation} from "../lib/runescape/transportation";
 import {TransportData} from "../data/transports";
+import * as process from "process";
+import div = C.div;
+import vbox = C.vbox;
+import span = C.span;
+import hbox = C.hbox;
+import spacer = C.spacer;
 import resolveTeleport = TransportData.resolveTeleport;
-import entity = C.entity;
+
+declare let DEV_MODE: boolean
 
 export class SimpleLayerBehaviour extends Behaviour {
   constructor(private map: GameMap, private layer: GameLayer) {
@@ -173,11 +175,15 @@ class AboutModal extends Modal {
   }
 }
 
+const DEBUG_SIMULATE_INALT1 = false
+
 export class Application extends Behaviour {
   version = "b0.3.1"
 
-  in_alt1: boolean = !!window.alt1
+  in_alt1: boolean = !!window.alt1 || DEBUG_SIMULATE_INALT1
+  in_dev_mode = !!process.env.DEV_MODE
 
+  menu_bar: MainTabControl
   main_content: Widget = null
   map_widget: GameMapWidget
   map: GameMap
@@ -235,6 +241,10 @@ export class Application extends Behaviour {
     super()
 
     this.favourites = new FavoriteIndex(MethodPackManager.instance())
+
+    if (this.in_dev_mode) {
+      console.log("In dev mode")
+    }
   }
 
   protected async begin() {
@@ -247,7 +257,7 @@ export class Application extends Behaviour {
     this.notifications = new NotificationBar().appendTo($("body"))
 
     container.append(
-      new MenuBar(this),
+      this.menu_bar = new MainTabControl(this),
       this.main_content = c("<div style='display: flex; height: 100%; flex-grow: 1'></div>")
         .append(map_widget = c("<div style='flex-grow: 1; height: 100%'></div>"))
     )
@@ -255,7 +265,7 @@ export class Application extends Behaviour {
     this.map_widget = new GameMapWidget(map_widget.container)
     this.map = this.map_widget.map
 
-    this.main_behaviour.set(new NeoSolvingBehaviour(this))
+    this.menu_bar.switchToTab(this.in_alt1 ? "solve" : "solve")
 
     if (this.mode() == "preview") {
       this.notifications.notify({type: "information", duration: null}, div(

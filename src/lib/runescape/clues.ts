@@ -130,6 +130,11 @@ export namespace Clues {
 
   export type ClueSpot = { clue: Step, spot?: TileCoordinates }
 
+  export type StepWithTextIndex = {
+    step: Step,
+    text_index: number
+  }
+
   export namespace Step {
     export function solution(step: Step): Solution {
       if (step.solution) return step.solution

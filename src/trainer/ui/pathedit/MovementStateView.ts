@@ -52,8 +52,12 @@ export default class MovementStateView extends Widget {
     if (this.value.position.tile) props.named("Tile", c().text(TileCoordinates.toString(this.value.position.tile)))
     if (this.value.position.direction) props.named("Facing", c().text(direction.toString(this.value.position.direction)))
     if (this.value.targeted_entity) props.named("Targeting", c().text(TileCoordinates.toString(this.value.targeted_entity)))
-    let powerburst_container = props.named("Powerburst", c("<div class='ctr-movement-state-view-cooldowns'></div>"))
-    let cooldown_container = props.named("Cooldowns", c("<div class='ctr-movement-state-view-cooldowns'></div>"))
+
+    let powerburst_container = c("<div class='ctr-movement-state-view-cooldowns'></div>")
+    let cooldown_container = c("<div class='ctr-movement-state-view-cooldowns'></div>")
+
+    props.named("Powerburst", powerburst_container)
+    props.named("Cooldowns", cooldown_container)
 
     if (this.value.acceleration_activation_tick + 200 > this.value.tick) {
       if (this.value.acceleration_activation_tick + 10 > this.value.tick) {

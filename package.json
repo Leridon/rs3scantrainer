@@ -1,8 +1,8 @@
 {
   "name": "cluetrainer",
   "scripts": {
-    "build": "node -r ts-node/register ./node_modules/webpack/bin/webpack.js",
-    "build-production": "node -r ts-node/register ./node_modules/webpack/bin/webpack.js --node-env production",
+    "build": "node -r ts-node/register ./node_modules/webpack/bin/webpack.js --node-env development",
+    "build-production": "node -r ts-node/register ./node_modules/webpack/bin/webpack.js",
     "watch": "npm run build -- --watch"
   },
   "dependencies": {
@@ -19,6 +19,7 @@
     "fuzzysort": "^2.0.4",
     "jquery": "^3.7.0",
     "leaflet": "^1.9.4",
+    "levenshtein-edit-distance": "^3.0.1",
     "lodash": "^4.17.21",
     "pako": "^2.1.0",
     "process": "^0.11.10",

@@ -86,7 +86,7 @@ class HoverTileDisplay extends GameMapControl {
     super({
       type: "gapless",
       position: "top-left"
-    }, c());
+    }, c().css("padding", "2px"));
   }
 
   eventHover(event: GameMapMouseEvent) {

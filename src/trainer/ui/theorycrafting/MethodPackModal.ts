@@ -30,12 +30,12 @@ export class MethodPackMetaEdit extends AbstractEditWidget<Pack.Meta> {
 
     const value = this.get()
 
-    this.name = props.named("Name", new TextField()
+    props.named("Name",this.name =  new TextField()
       .onCommit(v => {
         this.commit(copyUpdate(this.get(), meta => meta.name = v))
       })
       .setPlaceholder("Enter a pack name...").setValue(value.name))
-    this.authors = props.named("Author(s)", new TextField()
+    props.named("Author(s)",this.authors =  new TextField()
       .onCommit(v => {
         this.commit(copyUpdate(this.get(), meta => meta.author = v))
       })

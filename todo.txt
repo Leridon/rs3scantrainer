@@ -1,5 +1,8 @@
 Planned for next release (b0.4):
 
+- Issues
+    - [Bug, 5] Tooltips for PathStepEntities don't disappear correctly on the solver
+
 - Data
     - [Dev Tool, 3] Utility Layer for shortcut parsing
         - Option to overlay parsed transports
@@ -42,13 +45,8 @@ Planned for next release (b0.4):
     - [Feature] Undo/Redo
 
 - Solving Behaviour
-    - [Feature, 5] Clue Reader
-        - Text Clues
-        - Scan Clues
-        - Hook up to interface
     - Path Panel
         - Neat step styling
-        - Add icon for orientation step
         - Focus section when selected
         - [WIP] Detail tooltip on hover
             - Finish official info
@@ -67,14 +65,12 @@ Planned for next release (b0.4):
             - Hover effects of buttons
             - Highlight on toggled
 
-        - [Bug] Dropdown starts offset to the left
         - [Bug] Search term input is larger than the bar itself.
     - Basic solution rendering on the map
         - Target marker
         - Wander ranges
         - Emote areas
         - Entity/Npc names?
-    - Hide Menubar on fullscreen
     - Compass Panel
     - Solve, Autosolve
     - Key solution
@@ -91,14 +87,13 @@ Planned for next release (b0.4):
         - Don't fit to origin of teleport
 
 - Menu Bar
-    - Highlight currently active
     - Add to Alt 1 entry when not in Alt1
     - Regular Map mode as default when not in Alt1
 
 - [5] Settings Modal
     - Solving View Info Preferences
     - Map Settings: Teleport Preferences
-    - Method Pack Managemetn
+    - Method Pack Management
 
 - General
     - [Styling] ControlHeader title and X are not properly aligned

@@ -16,7 +16,7 @@ import {GameLayer} from "../../../../lib/gamemap/GameLayer";
 import {TileRectangle} from "../../../../lib/runescape/coordinates";
 import * as leaflet from "leaflet"
 import {C} from "../../../../lib/ui/constructors";
-import {Transform, Vector2} from "../../../../lib/math";
+import {Vector2} from "../../../../lib/math";
 import LocInstance = CacheTypes.LocInstance;
 import img = C.img;
 
@@ -95,16 +95,16 @@ export class ParserPairingEdit extends Widget {
 
     if (this.pairing.group) {
       props.named("Group", new SearchSelection<ParsingAssociationGroup>({
-          type_class: {
-            toHTML: item => {
-              if (item) return c().text(item.group_name)
-              else return c().text("Create new group")
-            },
+        type_class: {
+          toHTML: item => {
+            if (item) return c().text(item.group_name)
+            else return c().text("Create new group")
           },
-          search_term: item => {
-            return item ? item.group_name : "Create new group"
-          }
-        }, []))
+        },
+        search_term: item => {
+          return item ? item.group_name : "Create new group"
+        }
+      }, [])
         .setItems(() => [null].concat(this.parsing_table.data.associations))
         .setValue(this.parsing_table.getGroup(this.pairing.group.id))
         .onSelection(group => {
@@ -121,7 +121,7 @@ export class ParserPairingEdit extends Widget {
           }
 
           this.renderProps()
-        })
+        }))
 
       props.named("Parser", new DropdownSelection<TransportParser2>({
           type_class: {

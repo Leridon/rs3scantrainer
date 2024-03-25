@@ -26,8 +26,6 @@ config.output(outdir);
 
 let c = config.toConfig()
 
-console.log(process.env.NODE_ENV == "development")
-
 const development_mode = process.env.NODE_ENV == "development"
 
 c.plugins = [

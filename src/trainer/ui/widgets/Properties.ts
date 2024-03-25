@@ -9,9 +9,10 @@ export default class Properties extends Widget {
     this.addClass("nisl-properties")
   }
 
-  header(text: string | Widget): Widget {
+  header(text: string | Widget): this {
+    c(`<div class='nisl-property-header nisl-property-row'></div>`).append(text).appendTo(this)
 
-    return c(`<div class='nisl-property-header nisl-property-row'></div>`).append(text).appendTo(this)
+    return this
   }
 
   row(content: Widget | string): this {
@@ -20,10 +21,10 @@ export default class Properties extends Widget {
     return this
   }
 
-  named<T extends Appendable>(name: Appendable, content: T): T {
+  named<T extends Appendable>(name: Appendable, content: T): this {
     c(`<div class='nisl-property-name'>`).append(name).appendTo(this)
     c(`<div class='nisl-property-content'></div>`).append(content).appendTo(this)
 
-    return content
+    return this
   }
 }

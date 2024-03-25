@@ -6680,7 +6680,8 @@ export namespace clue_data {
     ...anagram,
     ...scan,
     ...compass,
-    ...skilling
+    ...skilling,
+    ...coordinates
   ]
 
   export const index = ClueIndex.simple(all)

@@ -106,6 +106,8 @@ export class ClueSpotIndex<T> {
   get(clue: ClueSpot.Id): { for: Clues.ClueSpot } & T {
     let r = this._index[clue.clue]
 
+    if(!r) debugger
+
     if (!clue.spot && !r.spot_index) return r.value
     if (clue.spot && r.spot_index) return r.spot_index[Vector2.hash(clue.spot, ClueSpotIndex.BUCKETS)].find(v => TileCoordinates.eq2(v.spot, clue.spot))?.value
 

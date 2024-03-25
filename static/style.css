@@ -1290,10 +1290,9 @@ input[type=checkbox] + span {
 .ctr-menubar {
     display: flex;
     flex-direction: column;
-    width: 40px;
+    width: 45px;
     box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 2px 6px 2px rgba(60, 64, 67, 0.15);
     font-family: sans-serif;
-    font-size: 8pt;
     text-align: center;
     border-right: 1px solid #41555F;
 }
@@ -1304,12 +1303,24 @@ input[type=checkbox] + span {
     margin-bottom: 2px;
     cursor: pointer;
     text-align: center;
-    font-size: 7pt;
+    font-size: 8pt;
+}
+
+.ctr-menubar-button.active > div {
+    filter: saturate(100%) drop-shadow(2px 2px black);
 }
 
 .ctr-menubar-button > div {
     width: 100%;
-    filter: saturate(50%);
+    filter: saturate(20%) brightness(90%);
+}
+
+.ctr-menubar-button:hover > div {
+    filter: saturate(80%);
+}
+
+.ctr-menubar-button.active:hover > div {
+    filter: saturate(100%) drop-shadow(2px 2px black);
 }
 
 .ctr-map-sidebar {
@@ -1974,8 +1985,9 @@ input[type=checkbox] + span {
 }
 
 .ctr-entity-tooltip {
+    border-radius: 5px;
     background: rgb(10, 31, 41);
-    border: 2px solid white;
+    border: 2px solid #427591;
     padding: 3px;
 }
 

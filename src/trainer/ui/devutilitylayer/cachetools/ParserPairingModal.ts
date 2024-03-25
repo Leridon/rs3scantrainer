@@ -16,9 +16,9 @@ import {TileRectangle} from "../../../../lib/runescape/coordinates";
 import * as leaflet from "leaflet"
 import {C} from "../../../../lib/ui/constructors";
 import {Vector2} from "../../../../lib/math";
+import {NavigationControl} from "../NavigationControl";
 import LocInstance = CacheTypes.LocInstance;
 import img = C.img;
-import {NavigationControl} from "../NavigationControl";
 
 export class ParserPairingEdit extends Widget {
   map: GameMapMiniWidget
@@ -92,13 +92,12 @@ export class ParserPairingEdit extends Widget {
 
     if (this.pairing.group) {
       props.named("Group", new SearchSelection<ParsingAssociationGroup>({
-          type_class: {
-            toHTML: item => {
-              if (item) {
-                if (item.group_name.length > 0) return c().text("No name").css("font-style", "italic")
-                else return c().text(item.group_name)
-              } else return c().text("Create new instance group")
-            },
+        type_class: {
+          toHTML: item => {
+            if (item) {
+              if (item.group_name.length > 0) return c().text("No name").css("font-style", "italic")
+              else return c().text(item.group_name)
+            } else return c().text("Create new instance group")
           },
         },
         search_term: item => {
@@ -198,7 +197,7 @@ export class ParserPairingEdit extends Widget {
               search_term: item => {
                 return item ? item.name : "Create new group"
               }
-            }, []))
+            }, [])
             .setItems(() => [null].concat(group?.instance_groups ?? []))
             .setValue(group?.instance_groups?.find(i => i.id == this.pairing.instance_group.id) ?? null)
             .onSelection(group => {
@@ -213,7 +212,7 @@ export class ParserPairingEdit extends Widget {
               }
 
               this.renderProps()
-            })
+            }))
 
           props.named("Name", new TextField()
             .setValue(this.pairing.instance_group.name)

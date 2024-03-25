@@ -521,7 +521,6 @@ video {
 
 .map-collisionlayer {
     image-rendering: pixelated;
-    /*filter: grayscale(100%) hue-rotate(0) opacity(0.5)*/
     filter: brightness(0%) grayscale(100%) opacity(0.3);
 }
 
@@ -533,7 +532,7 @@ video {
 }
 
 .medium-image-button:not(.enabled) {
-    cursor: not-allowed;
+    cursor: default;
     filter: brightness(50%);
 }
 
@@ -1713,12 +1712,23 @@ input[type=checkbox] + span {
 .ctr-neosolving-main-bar {
     line-height: 20px;
     display: flex;
+    user-select: none;
 }
 
 .ctr-neosolving-main-bar-button {
     line-height: 20px;
     display: flex;
     cursor: pointer;
+    text-align: center;
+    max-width: 100%;
+    border: 1px solid transparent;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+
+.ctr-neosolving-main-bar-button > img {
+    filter: drop-shadow(1px 1px rgb(0 0 0 / 0.5));
 }
 
 .ctr-neosolving-main-bar-button > *:not(:last-child) {
@@ -1726,7 +1736,21 @@ input[type=checkbox] + span {
 }
 
 .ctr-neosolving-main-bar-button.toggled {
-    background-image: linear-gradient(to bottom, #ffd12f, #ffd12f);
+    background-image: linear-gradient(to bottom, #e3b632AA, #e0a40aAA, #e0a40aAA, #e3b632AA);
+    color: black;
+}
+
+.ctr-neosolving-main-bar-button.toggled > img {
+    /*filter: grayscale(100%) invert();*/
+    /*filter: drop-shadow(1px 1px black);*/
+}
+
+.ctr-neosolving-main-bar-button:hover {
+    filter: brightness(1.2);
+}
+
+.ctr-neosolving-main-bar-button:hover > img {
+    filter: brightness(1.5);
 }
 
 .ctr-neosolving-main-bar-button > *:only-child {
@@ -1742,15 +1766,13 @@ input[type=checkbox] + span {
 }
 
 .ctr-neosolving-main-bar-section:not(:last-child) {
-    border-right: 1px solid rgba(5, 56, 66, 0.6);
+    /*border-right: 1px solid rgba(147, 147, 147, 0.6);*/
 }
 
 .ctr-neosolving-main-bar-search {
     flex-grow: 1;
     flex-basis: 100%;
-    min-width: 100%;
     border: none;
-    border-right: 1px solid red;
     width: 100%;
     color: #B1AFAE;
     background: transparent;
@@ -1776,6 +1798,10 @@ input[type=checkbox] + span {
 
 .ctr-neosolving-solution-row {
     padding: 3px;
+}
+
+.ctr-neosolving-solution-row:empty {
+    display: none;
 }
 
 .ctr-neosolving-solution-row:not(:last-child) {

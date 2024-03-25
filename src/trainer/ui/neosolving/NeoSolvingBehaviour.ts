@@ -123,25 +123,22 @@ class NeoSolvingLayer extends GameLayer {
 }
 
 namespace NeoSolvingLayer {
-  import spacer = C.spacer;
   import hbox = C.hbox;
   import Step = Clues.Step;
 
   class MainControlButton extends Button {
-    constructor(options: { icon?: string, text?: string }) {
+    constructor(options: { icon?: string, text?: string, centered?: boolean }) {
       super();
 
       if (options.icon) {
         this.append(c(`<img src="${options.icon}" class="ctr-neosolving-main-bar-icon">`))
       }
 
+      if (options.centered) this.css("justify-content", "center")
+
       if (options.text) {
         this.append(c().text(options.text))
-        if (options.icon) {
-          this.append(spacer())
-        } else {
-          this.css("justify-content", "center")
-        }
+
         this.css("flex-grow", "1")
       }
 
@@ -175,6 +172,54 @@ namespace NeoSolvingLayer {
         }
       )
 
+      this.append(
+        new MainControlButton({icon: "assets/icons/glass.png"})
+          .append(this.search_bar = new TextField()
+            .css("flex-grow", "1")
+            .css("font-weight", "normal")
+            .setPlaceholder("Enter Search Term...")
+            .toggleClass("nisinput", false)
+            .addClass("ctr-neosolving-main-bar-search")
+            .setVisible(false)
+            .onChange(({value}) => {
+              let results = this.prepared_search_index.search(value)
+
+              this.dropdown.setItems(results)
+            })
+          )
+          .tooltip("Search Clues")
+          .onClick((e) => {
+            e.stopPropagation()
+
+            if (this.search_bar_collapsible.isExpanded()) {
+              e.preventDefault()
+            } else {
+              this.search_bar_collapsible.expand()
+              this.search_bar.container.focus()
+              this.search_bar.setValue("")
+            }
+          }),
+        this.rest = hbox(
+          new MainControlButton({icon: "assets/icons/activeclue.png", text: "Solve", centered: true})
+            .onClick(async () => {
+              const res = await this.parent.reader.readScreen()
+
+              if (res?.step) {
+                this.parent.setClueWithAutomaticMethod(res.step)
+              }
+            })
+            .tooltip("Read a clue from screen"),
+          new MainControlButton({icon: "assets/icons/lock.png", text: "Auto-Solve", centered: true})
+            .setToggleable(true)
+            .tooltip("Continuously read clues from screen"),
+          new MainControlButton({icon: "assets/icons/fullscreen.png", centered: true})
+            .tooltip("Hide the menu bar")
+            .setToggleable(true),
+          new MainControlButton({icon: "assets/icons/settings.png", centered: true})
+            .tooltip("Open settings")
+        ).css("flex-grow", "1"),
+      )
+
       this.dropdown = new AbstractDropdownSelection.DropDown<{ step: Clues.Step, text_index: number }>({
         dropdownClass: "ctr-neosolving-favourite-dropdown",
         renderItem: e => {
@@ -188,50 +233,6 @@ namespace NeoSolvingLayer {
           this.search_bar_collapsible.collapse()
         })
         .setItems([])
-
-      this.append(
-        new MainControlButton({icon: "assets/icons/glass.png"})
-          .append(this.search_bar = new TextField()
-            .css("flex-grow", "1")
-            .setPlaceholder("Enter Search Term...")
-            .toggleClass("nisinput", false)
-            .addClass("ctr-neosolving-main-bar-search")
-            .setVisible(false)
-            .onChange(({value}) => {
-              let results = this.prepared_search_index.search(value)
-
-              this.dropdown.setItems(results)
-            })
-          )
-          .onClick((e) => {
-            e.stopPropagation()
-
-            if (this.search_bar_collapsible.isExpanded()) {
-              e.preventDefault()
-            } else {
-              this.search_bar_collapsible.expand()
-              this.search_bar.container.focus()
-              this.search_bar.setValue("")
-            }
-          }),
-        this.rest = hbox(
-          new MainControlButton({text: "Solve"})
-            .onClick(async () => {
-              const res = await this.parent.reader.readScreen()
-
-              if (res?.step) {
-                this.parent.setClueWithAutomaticMethod(res.step)
-              }
-            }),
-          new MainControlButton({icon: "assets/icons/lock.png", text: "Auto"})
-            .setToggleable(true)
-          ,
-          new MainControlButton({icon: "assets/icons/fullscreen.png"})
-            .setToggleable(true)
-          ,
-          new MainControlButton({icon: "assets/icons/settings.png"})
-        ).css("flex-grow", "1"),
-      )
 
       this.search_bar_collapsible = ExpansionBehaviour.horizontal({target: this.search_bar, starts_collapsed: true, duration: 100})
         .onChange(v => {

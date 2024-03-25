@@ -495,7 +495,7 @@ class ClueSolvingReadingBehaviour extends Behaviour {
   async solveManuallyTriggered() {
     const found = await this.solve()
 
-    if (!found.step) {
+    if (!found?.step) {
       this.parent.app.notifications.notify({type: "error"}, "No clue found on screen.")
     }
   }

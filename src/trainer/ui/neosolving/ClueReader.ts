@@ -211,16 +211,12 @@ export class ClueReader {
                   let best: Clues.Step = null
                   let best_score = Number.MAX_VALUE
 
-                  for (let clue of clue_data.all) {
+                  for (let clue of clue_data.map) {
+                    const score = comparetiledata(clue.ocr_data, tiled_img)
 
-                    if (clue.type == "map") {
-
-                      const score = comparetiledata(clue.ocr_data, tiled_img)
-
-                      if (score < best_score) {
-                        best_score = score
-                        best = clue
-                      }
+                    if (score < best_score) {
+                      best_score = score
+                      best = clue
                     }
                   }
 
@@ -249,13 +245,11 @@ export class ClueReader {
           let bestscore = Number.MAX_VALUE;
           let best: ScanStep | null = null;
 
-          for (let clue of clue_data.all) {
-            if (clue.type == "scan") {
-              let score = stringSimilarity(scan_text, clue.scantext);
-              if (score < bestscore) {
-                best = clue;
-                bestscore = score;
-              }
+          for (let clue of clue_data.scan) {
+            let score = stringSimilarity(scan_text, clue.scantext);
+            if (score < bestscore) {
+              best = clue;
+              bestscore = score;
             }
           }
 

@@ -373,7 +373,9 @@ export namespace ParsingParameter {
       checkbox: Checkbox
       sub: Editor<T> = null
 
-      constructor(public element: Element<T>, public cb_type: "none" | "check" | "radio", public depth: number,
+      constructor(public element: Element<T>,
+                  public cb_type: "none" | "check" | "radio",
+                  public depth: number,
                   private loc: LocInstance,
                   private map: GameMapMiniWidget) {
         super(element.type)
@@ -425,6 +427,52 @@ export namespace ParsingParameter {
 
           control_column.append(this.sub.control)
           el_content.append(this.sub.additional)
+        }
+      }
+    }
+  }
+
+  export function list<T>(base: ParsingParameter<T>): ParsingParameter<T[]> {
+    return new class extends ParsingParameter<T[]> {
+      constructor() {super([]);}
+
+      renderForm(depth: number, loc: CacheTypes.LocInstance, map: GameMapMiniWidget): ParsingParameter.Editor<T[]> {
+        const self = this
+
+        return new class extends ParsingParameter.Editor<T[]> {
+          private elements: Rec.ElementWidget[]
+
+          constructor() {
+            super(self)
+          }
+
+          render_implementation(value: T[]) {
+            this.control.append(new LightButton("Add")
+              .onClick(() => {
+                  this.commit(copyUpdate2(this.get(), e => e.push(base.getDefault(loc))))
+                  this.render()
+                }
+              )
+            )
+
+            this.elements = value.map((element, i) =>
+              new Rec.ElementWidget({
+                name: `Item ${i}`,
+                type: base
+              }, "check", depth + 1, loc, map)
+                .set(element)
+                .onChange(v => {
+                  if (v == undefined) {
+                    this.commit(copyUpdate2(this.get(), e => e.splice(i, 1)))
+                    this.render()
+                  } else {
+                    this.commit(copyUpdate2(this.get(), e => e[i] = v))
+                  }
+                })
+            )
+
+            this.additional.append(...this.elements.map(e => e.additional))
+          }
         }
       }
     }

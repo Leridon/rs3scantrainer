@@ -152,7 +152,8 @@ export const parsers3: TransportParser2[] = [
     }),
   parse("prototypecopyloc", "Prototype",
     rec({
-      name: PP.element("Name", PP.string(), true)
+      name: PP.element("Name", PP.string(), true),
+      actions: PP.element("Actions", PP.list(PP.int([0, 10])))
     })
     , null,
     async (instance) => {

@@ -1,11 +1,5 @@
 Planned for next release (b0.4):
 
-- [Feature, 5] Clue Reader
-    - Text Clues
-    - Image Clues
-    - Scan Clues
-    - Hook up to interface
-
 - Issues
     - [Bug, 5] Tooltips for PathStepEntities don't disappear correctly on the solver
 
@@ -77,7 +71,6 @@ Planned for next release (b0.4):
         - Wander ranges
         - Emote areas
         - Entity/Npc names?
-    - Hide Menubar on fullscreen
     - Compass Panel
     - Solve, Autosolve
     - Key solution
@@ -94,7 +87,6 @@ Planned for next release (b0.4):
         - Don't fit to origin of teleport
 
 - Menu Bar
-    - Highlight currently active
     - Add to Alt 1 entry when not in Alt1
     - Regular Map mode as default when not in Alt1
 

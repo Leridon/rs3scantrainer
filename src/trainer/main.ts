@@ -1,13 +1,5 @@
-import {util} from "../lib/util/util";
-import Order = util.Order;
-import {Clues, ClueType} from "../lib/runescape/clues";
-import ExportStringModal from "./ui/widgets/modals/ExportStringModal";
-import {clue_data} from "../data/clues";
-import cleanedJSON = util.cleanedJSON;
-import {TileArea} from "../lib/runescape/coordinates/TileArea";
-import {TileCoordinates, TileRectangle} from "../lib/runescape/coordinates";
-
 export async function makeshift_main(): Promise<void> {
+
   /* let output = ""
 
    for (let step of clue_data.all) {

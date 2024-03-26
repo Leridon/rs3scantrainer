@@ -77414,7 +77414,7 @@ class ClueReader {
                         switch (modal_type) {
                             case "textclue":
                                 const text = ClueReader.readTextClueModalText(modal);
-                                if (text.length > 0) {
+                                if (text.length >= 10) {
                                     let best = null;
                                     let best_score = Number.MAX_VALUE;
                                     for (let clue of _data_clues__WEBPACK_IMPORTED_MODULE_10__.clue_data.all) {

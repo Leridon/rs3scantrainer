@@ -770,10 +770,6 @@ export namespace Path {
   export type SectionedPath = TreeArray<Step, { name: string }>
 
   export namespace Section {
-    /*export function asMultiArray(section: Section): TreeArray<step> {
-        if (section.subsections) return section.subsections.map(asMultiArray)
-        else return section.steps
-    }*/
 
     export function split_into_sections(path: Path.raw, root_name: string = "root"): TreeArray.InnerNode<Step, { name: string }> {
       let section_dividers: number[] = []
@@ -792,7 +788,7 @@ export namespace Path {
           if (i >= 1 && path[i - 1].type == "orientation") division(i - 1)
           else division(i)
         } else if ((step.type == "transport" || step.type == "cheat") && pos) {
-          if (Vector2.max_axis(Vector2.sub(new_pos, pos)) > 64 || pos.level != new_pos.level) {
+          if (Vector2.max_axis(Vector2.sub(new_pos, pos)) > 64) {
             division(i + 1)
           }
         }

@@ -15,6 +15,7 @@ Planned for next release (b0.4):
 
 - Data
     - [Dev Tool, 3] Utility Layer for shortcut parsing
+        - [Bug, 5] Offsets/coordinates need to be considered in relation to the active instance
         - Option to overlay parsed transports
             - Dialog "Parsed <x> methods of transportation. [Export] [Show on Map]"
         - "Go to next entity"

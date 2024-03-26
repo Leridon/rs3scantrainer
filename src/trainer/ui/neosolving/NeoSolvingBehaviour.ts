@@ -51,6 +51,7 @@ import spotNumber = ScanTree.spotNumber;
 import GenericPathMethod = SolvingMethods.GenericPathMethod;
 import inlineimg = C.inlineimg;
 import activate = TileArea.activate;
+import cleanedJSON = util.cleanedJSON;
 
 class NeoReader {
   read: Ewent<{ step: Clues.Step, text_index: number }>
@@ -105,6 +106,8 @@ class NeoSolvingLayer extends GameLayer {
 
       copy.topleft.x -= f * Rectangle.width(view)
     }
+
+    deps().app.notifications.notify({}, cleanedJSON(copy))
 
     this.map.fitView(copy, {
       maxZoom: 4,
@@ -788,14 +791,14 @@ export default class NeoSolvingBehaviour extends Behaviour {
       return
     }
 
-    this.setClue(step)
-
     let m = await this.app.favourites.getMethod({clue: step.step.id})
 
     if (!m) {
       let ms = await MethodPackManager.instance().getForClue({clue: step.step.id})
       if (ms.length > 0) m = ms[0]
     }
+
+    this.setClue(step, !m)
 
     if (m) this.setMethod(m)
   }

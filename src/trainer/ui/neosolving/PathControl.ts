@@ -22,7 +22,6 @@ import {TemplateResolver} from "../../../lib/util/TemplateResolver";
 import {GameLayer} from "../../../lib/gamemap/GameLayer";
 import {CursorType} from "../../../lib/runescape/CursorType";
 import {TransportData} from "../../../data/transports";
-import {Clues} from "../../../lib/runescape/clues";
 import hbox = C.hbox;
 import span = C.span;
 import GenericPathMethod = SolvingMethods.GenericPathMethod;
@@ -323,25 +322,21 @@ export default class PathControl extends Behaviour {
   setMethod(method: AugmentedMethod<GenericPathMethod>) {
     let sectioned: Path.SectionedPath = TreeArray.init({name: "root"})
 
-    /*
-    if (method.method.path_to_key_or_hideyhole) {
-        TreeArray.add(sectioned,
-            Path.Section.split_into_sections(method.method.path_to_key_or_hideyhole, "Pre Path")
-        )
+    if (method.method.pre_path && method.method.pre_path.length > 0) {
+      TreeArray.add(sectioned,
+        Path.Section.split_into_sections(method.method.pre_path, "Pre Path")
+      )
     }
 
-     */
-
     TreeArray.add(sectioned,
-      Path.Section.split_into_sections(method.method.main_path, "To Spot")
+      Path.Section.split_into_sections(method.method.main_path, "Main Path")
     )
 
-    /*
-    if (method.method.path_back_to_hideyhole) {
-        TreeArray.add(sectioned,
-            Path.Section.split_into_sections(method.method.path_back_to_hideyhole, "Back to Hideyhole")
-        )
-    }*/
+    if (method.method.post_path && method.method.post_path.length > 0) {
+      TreeArray.add(sectioned,
+        Path.Section.split_into_sections(method.method.post_path, "Post Path")
+      )
+    }
 
     if (sectioned.children.length == 1) sectioned = sectioned.children[0]
 

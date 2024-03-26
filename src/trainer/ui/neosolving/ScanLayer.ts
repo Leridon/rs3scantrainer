@@ -6,15 +6,12 @@ import {Constants} from "../../constants";
 import {TileMarker} from "../../../lib/gamemap/TileMarker";
 import {ActiveOpacityGroup} from "../../../lib/gamemap/layers/OpacityLayer";
 import {areaPolygon, boxPolygon} from "../polygon_helpers";
-import {Scans} from "../../../lib/runescape/clues/scans";
 import {GameLayer} from "../../../lib/gamemap/GameLayer";
 import {GameMapContextMenuEvent, GameMapMouseEvent} from "../../../lib/gamemap/MapEvents";
 import {Observable, observe} from "../../../lib/reactive";
-import {util} from "../../../lib/util/util";
 import {MapEntity} from "../../../lib/gamemap/MapEntity";
 import {Rectangle, Vector2} from "../../../lib/math";
 import Widget from "../../../lib/ui/Widget";
-import {C} from "../../../lib/ui/constructors";
 import {Menu} from "../widgets/ContextMenu";
 import Properties from "../widgets/Properties";
 import ScanRegion = ScanTree.ScanRegion;
@@ -263,7 +260,7 @@ export class AdaptiveScanRadiusMarker extends GameLayer {
             this.manualMarker.set(null)
           }
         })
-      } else if (this.canBeManuallySet.value()) {
+      } else if (this.canBeManuallySet.value() && !event.active_entity) {
 
         if (TileCoordinates.eq2(this.manualMarker.value(), event.tile())) {
           event.add({

@@ -19,6 +19,7 @@ import {DrawTileAreaInteraction} from "../DrawTileAreaInteraction";
 import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInteraction";
 import InteractionTopControl from "../../map/InteractionTopControl";
 import LocInstance = CacheTypes.LocInstance;
+import {DrawOffset} from "../../shortcut_editing/interactions/DrawOffset";
 
 export abstract class ParsingParameter<T = any> {
   constructor(private _default_value: ParsingParameter.P<T>) {}
@@ -276,7 +277,7 @@ export namespace ParsingParameter {
   }
 
 
-  export abstract class Editor<T = any> {
+  export abstract class Editor<T = any, ParT extends ParsingParameter<T> = ParsingParameter<T>> {
     public control = c()
     public additional = c()
 
@@ -284,7 +285,7 @@ export namespace ParsingParameter {
 
     value_changed = ewent<T>()
 
-    constructor(private type: ParsingParameter) {
+    constructor(protected type: ParT) {
 
     }
 
@@ -379,13 +380,17 @@ export namespace ParsingParameter {
                   private loc: LocInstance,
                   private map: GameMapMiniWidget) {
         super(element.type)
+
+        this.additional
+          .css("margin-left", "3px")
+          .css("padding-left", "3px")
+          .css("border-left", `2px solid ${["blue", "purple", "green"][this.depth % 3]}`)
+          .css("margin-top", "4px")
+          .css("margin-bottom", "4px")
       }
 
       render_implementation(value: T | undefined) {
-
-
         const name_column = c().css("min-width", "100px")
-          .css("padding-left", `${this.depth * 5}px`)
 
         const control_column = c().css("flex-grow", "1")
         const el_content = c()
@@ -398,14 +403,20 @@ export namespace ParsingParameter {
             this.checkbox = new Checkbox(this.element.name, "radio")
             break;
         }
+
         if (this.checkbox) {
           this.checkbox
             .setValue(value !== undefined)
-            .onCommit(v => {
-              const value = v ? this.element.type.getDefault(this.loc) : undefined
+            .onCommit((v) => {
+              console.log(`Changed to ${v}`)
 
-              this.commit(value)
-              this.render()
+              if (v != (this.get() !== undefined)) {
+                console.log(`Committing`)
+                const value = v ? this.element.type.getDefault(this.loc) : undefined
+
+                this.commit(value)
+                this.render()
+              }
             })
             .appendTo(name_column)
         } else {
@@ -422,8 +433,8 @@ export namespace ParsingParameter {
         if (value !== undefined) {
           this.sub = this.element.type
             .renderForm(this.depth + 1, this.loc, this.map)
-            .onChange(v => this.commit(v))
             .set(value)
+            .onChange(v => this.commit(v))
 
           control_column.append(this.sub.control)
           el_content.append(this.sub.additional)
@@ -480,14 +491,79 @@ export namespace ParsingParameter {
 
   export function either<T extends Record<string, ParsingParameter>>(
     elements: T
-  ): ParsingParameter<{ [key in keyof T]?: Rec.Element.extr<T[key]> }> {
-    return null
-  }
+  ): ParsingParameter<{ [key in keyof T]?: T[key] }> {
 
-  export class Either<T, U> extends ParsingParameter<T | U> {
-    renderForm(depth: number): ParsingParameter.Editor<T | U> {
-      return undefined;
+    return new class extends ParsingParameter<{ [key in keyof T]?: T[key] }> {
+      constructor() {
+        super((loc) => {
+          const [key, value] = Object.entries(elements)[0]
+
+          return Object.fromEntries([[key, value.getDefault(loc)]]) as { [key in keyof T]?: T[key] }
+        });
+      }
+
+      override renderForm(depth: number, loc: LocInstance, map: GameMapMiniWidget): ParsingParameter.Editor<{ [key in keyof T]?: T[key] }> {
+        const self = this
+
+        return new class extends ParsingParameter.Editor {
+          private elements: Rec.ElementWidget[]
+
+          group: Checkbox.Group<any>
+
+          constructor() {
+            super(self)
+          }
+
+          render_implementation(value: any) {
+            this.elements = Object.entries(elements).map(([id, element], index) =>
+              new Rec.ElementWidget({
+                type: element,
+                name: id
+              }, "radio", depth + 1, loc, map)
+                .set(value?.[id])
+                .onChange(v => {
+                  this.elements.forEach((e, i) => {
+                    if (i != index) e.set(undefined)
+                  })
+
+                  this.commit(copyUpdate2(this.get(), e => e[id] = v))
+                })
+            )
+
+            this.additional.append(...this.elements.map(e => e.additional))
+          }
+        }
+      }
     }
   }
 
+  export function offset(): ParsingParameter<{ x: number, y: number, level: number }> {
+    return new class extends ParsingParameter<{ x: number; y: number; level: number }> {
+      renderForm(depth: number, loc: CacheTypes.LocInstance, map: GameMapMiniWidget): ParsingParameter.Editor<{ x: number; y: number; level: number }> {
+        return new class extends ParsingParameter.Editor<{ x: number; y: number; level: number }> {
+          render_implementation(value: { x: number; y: number; level: number }): void {
+
+            this.control.append(
+              hboxl(
+                new NumberInput(-6400, 6400).setValue(value.x)
+                  .onCommit(v => this.commit(copyUpdate2(this.get(), e => e.x = v))),
+                " | ",
+                new NumberInput(-6400, 6400).setValue(value.y)
+                  .onCommit(v => this.commit(copyUpdate2(this.get(), e => e.y = v))),
+                " | ",
+                new NumberInput(-3, 3).setValue(value.level)
+                  .onCommit(v => this.commit(copyUpdate2(this.get(), e => e.level = v))),
+                new LightButton("Draw").onClick(() => {
+                  map.setInteraction(new DrawOffset({})
+                    .onCommit(v => this.set(v.offset))
+                  )
+                })
+              )
+            )
+
+          }
+        }(this)
+      }
+    }({x: 0, y: 0, level: 0})
+  }
 }

@@ -153,24 +153,47 @@ export const parsers3: TransportParser2[] = [
     }),
   parse("prototypecopyloc", "Prototype",
     rec({
+      plane_offset: PP.element("Plane Offset", PP.int([-3, 3]), true),
       actions: PP.element("Actions", PP.list(PP.rec({
         action: PP.element("Action", PP.locAction()),
         area: PP.element("Area", PP.tileArea(), true),
-        movement: PP.element("Movements", PP.list(PP.rec({
+        movements: PP.element("Movements", PP.list(PP.rec({
           valid_from: PP.element("Valid", PP.tileArea(), true),
           orientation: PP.element("Orientation", PP.choose<EntityActionMovement["orientation"]>({
             toHTML: (v) => c().text(v)
           }, [])),
           movement: PP.element("Movement", PP.either({
-            offset: PP.int([0, 10]),
+            offset: PP.offset(),
             fixed: PP.tileArea()
           })),
-          time: PP.element("Time", PP.int([0, 30]))
+          time: PP.element("Time", PP.int([0, 30]).default(3))
         })))
       })))
     })
     , null,
-    async (instance) => {
+    async (instance, {per_loc}) => {
+      const builder = EntityTransportationBuilder.from(instance)
+        .planeOffset(per_loc.plane_offset ?? 0)
+
+      for (const action of per_loc.actions) {
+        builder.action({
+          index: action.action.id,
+          interactive_area: action.area
+        }, action.movements.map(m => {
+
+          let b: MovementBuilder = null
+
+          if (m.movement.fixed) b = fixed(m.movement.fixed)
+          else if (m.movement.offset) b = offset(m.movement.offset)
+
+          b
+            .orientation(m.orientation)
+            .time(m.time ?? 3)
+
+          return b
+        }))
+      }
+
       return []
     }
   )

@@ -64,6 +64,8 @@ export namespace Checkbox {
       buttons.forEach(o => {
         o.button.type.set("radio")
         o.button.onCommit(v => {
+          console.log(v)
+
           if (v) this.value.set(o.value)
           else if (!v && this.value.value() == o.value) {
             if (can_be_null) this.value.set(null)

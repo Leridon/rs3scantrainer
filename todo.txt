@@ -20,6 +20,7 @@ Planned for next release (b0.4):
     - Scale information gain down when zoomed out
 
 - Path Editor
+    - [Feature] Show number of tiles when drawing a run
     - [Feature, 3] Highlight step on hover
     - Teleports don't use tile areas correctly
     - [Feature] Check if teleport spot is actually in target area

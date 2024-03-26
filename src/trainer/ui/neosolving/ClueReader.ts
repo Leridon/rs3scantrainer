@@ -184,7 +184,7 @@ export class ClueReader {
               case "textclue":
                 const text = ClueReader.readTextClueModalText(modal)
 
-                if (text.length > 0) {
+                if (text.length >= 10) {
 
                   let best: Clues.StepWithTextIndex = null
                   let best_score = Number.MAX_VALUE

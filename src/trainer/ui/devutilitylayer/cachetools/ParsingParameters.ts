@@ -18,8 +18,8 @@ import LightButton from "../../widgets/LightButton";
 import {DrawTileAreaInteraction} from "../DrawTileAreaInteraction";
 import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInteraction";
 import InteractionTopControl from "../../map/InteractionTopControl";
-import LocInstance = CacheTypes.LocInstance;
 import {DrawOffset} from "../../shortcut_editing/interactions/DrawOffset";
+import LocInstance = CacheTypes.LocInstance;
 
 export abstract class ParsingParameter<T = any> {
   constructor(private _default_value: ParsingParameter.P<T>) {}
@@ -555,7 +555,11 @@ export namespace ParsingParameter {
                   .onCommit(v => this.commit(copyUpdate2(this.get(), e => e.level = v))),
                 new LightButton("Draw").onClick(() => {
                   map.setInteraction(new DrawOffset({})
-                    .onCommit(v => this.set(v.offset))
+                    .onCommit(v => {
+                        this.commit(v.offset)
+                        this.render()
+                      }
+                    )
                   )
                 })
               )

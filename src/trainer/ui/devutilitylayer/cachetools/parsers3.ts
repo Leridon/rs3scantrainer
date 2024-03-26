@@ -159,9 +159,12 @@ export const parsers3: TransportParser2[] = [
         area: PP.element("Area", PP.tileArea(), true),
         movements: PP.element("Movements", PP.list(PP.rec({
           valid_from: PP.element("Valid", PP.tileArea(), true),
-          orientation: PP.element("Orientation", PP.choose<EntityActionMovement["orientation"]>({
-            toHTML: (v) => c().text(v)
-          }, [])),
+          orientation: PP.element("Orientation", PP.either({
+            simple: PP.choose<EntityActionMovement["orientation"]>({
+              toHTML: (v) => c().text(v)
+            }, ["bymovement", "toentitybefore", "toentityafter", "keep", "forced"]),
+            forced: PP.dir()
+          }), true),
           movement: PP.element("Movement", PP.either({
             offset: PP.offset(),
             fixed: PP.tileArea()
@@ -175,26 +178,31 @@ export const parsers3: TransportParser2[] = [
       const builder = EntityTransportationBuilder.from(instance)
         .planeOffset(per_loc.plane_offset ?? 0)
 
+      // TODO: This is still broken because offsets and coordinates entered on the map need to be translated relative to the edited loc instance
+
       for (const action of per_loc.actions) {
         builder.action({
           index: action.action.id,
           interactive_area: action.area
-        }, action.movements.map(m => {
+        }, ...action.movements.map(m => {
 
           let b: MovementBuilder = null
 
           if (m.movement.fixed) b = fixed(m.movement.fixed)
           else if (m.movement.offset) b = offset(m.movement.offset)
 
-          b
-            .orientation(m.orientation)
-            .time(m.time ?? 3)
+          if (m.orientation) {
+            if (m.orientation.simple) b.orientation(m.orientation.simple)
+            if (m.orientation.forced) b.forcedOrientation(m.orientation.forced)
+          }
+
+          b.time(m.time ?? 3)
 
           return b
         }))
       }
 
-      return []
+      return [builder.finish()]
     }
   )
 ]

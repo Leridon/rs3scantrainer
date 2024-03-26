@@ -368,7 +368,7 @@ export namespace GameMap {
       dragging: true,
       doubleClickZoom: false,
       boxZoom: false,
-      attributionControl: true,
+      attributionControl: false,
       preferCanvas: false
     }
   }

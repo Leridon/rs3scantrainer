@@ -90,7 +90,6 @@ export namespace Path {
   export type Step = step_orientation | step_ability | step_run | step_teleport | step_redclick | step_powerburst | step_transportation | step_cheat
 
 
-
   export type movement_state = {
     tick: number,
     cooldowns: {    // Cooldowns signify the next tick the ability/charge can be used.
@@ -792,7 +791,7 @@ export namespace Path {
         if (step.type == "teleport") {
           if (i >= 1 && path[i - 1].type == "orientation") division(i - 1)
           else division(i)
-        } else if (step.type == "transport" && pos) {
+        } else if ((step.type == "transport" || step.type == "cheat") && pos) {
           if (Vector2.max_axis(Vector2.sub(new_pos, pos)) > 64 || pos.level != new_pos.level) {
             division(i + 1)
           }

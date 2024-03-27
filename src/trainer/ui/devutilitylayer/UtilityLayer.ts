@@ -3,14 +3,12 @@ import * as leaflet from "leaflet";
 import {LatLngBounds} from "leaflet";
 import {InteractionGuard} from "../../../lib/gamemap/interaction/InteractionLayer";
 import Widget from "../../../lib/ui/Widget";
-import TextField from "../../../lib/ui/controls/TextField";
 import ControlWithHeader from "../map/ControlWithHeader";
 import {ActionBar} from "../map/ActionBar";
 import {DrawRegionAction} from "../theorycrafting/scanedit/TreeEdit";
 import {areaPolygon, tilePolygon} from "../polygon_helpers";
 import LightButton from "../widgets/LightButton";
-import {Rectangle} from "../../../lib/math";
-import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
+import {floor_t, TileCoordinates} from "../../../lib/runescape/coordinates";
 import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
 import SelectTileInteraction from "../../../lib/gamemap/interaction/SelectTileInteraction";
 import InteractionTopControl from "../map/InteractionTopControl";
@@ -25,11 +23,11 @@ import {util} from "../../../lib/util/util";
 import {storage} from "../../../lib/util/storage";
 import {GameMap} from "../../../lib/gamemap/GameMap";
 import {ParserManagementLayer} from "./ParserManagement";
+import {NavigationControl} from "./NavigationControl";
 import vbox = C.vbox;
 import hbox = C.hbox;
 import spacer = C.spacer;
 import cleanedJSON = util.cleanedJSON;
-import {NavigationControl} from "./NavigationControl";
 
 class ChunkGridGraticule extends Graticule {
   constructor() {
@@ -283,6 +281,7 @@ class GeometryDrawing extends GameLayer {
 
 export default class UtilityLayer extends GameLayer {
   view_storage = new storage.Variable<{
+    floor: floor_t,
     center: leaflet.LatLng,
     zoom: number
   }>("devutility/viewstore", () => undefined)
@@ -317,6 +316,10 @@ export default class UtilityLayer extends GameLayer {
       this.map.setView(view.center, view.zoom)
     }
 
+    if (view?.floor != null) {
+      this.map.floor.set(view.floor)
+    }
+
     return this;
   }
 
@@ -325,6 +328,7 @@ export default class UtilityLayer extends GameLayer {
 
     event.onPre(() => {
       this.view_storage.set({
+        floor: this.map.floor.value(),
         center: this.map.getCenter(),
         zoom: this.map.getZoom()
       })

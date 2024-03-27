@@ -1,6 +1,8 @@
 import {TileCoordinates, TileRectangle} from "../../../../lib/runescape/coordinates";
 import {time} from "../../../../lib/gamemap/GameLayer";
 import {LocUtil} from "./util/LocUtil";
+import {Rectangle, Transform, Vector2} from "../../../../lib/math";
+import {TileTransform} from "../../../../lib/runescape/coordinates/TileTransform";
 
 export namespace CacheTypes {
 
@@ -228,7 +230,7 @@ export namespace CacheTypes {
     location: objects,
     uses: LocUse[]
   }
-
+  9
   export type LocInstance = LocUse & {
     loc_with_usages: LocWithUsages,
     prototype: objects,
@@ -268,5 +270,37 @@ export namespace CacheTypes {
     getAll(): LocWithUsages[] {
       return this.all
     }
+  }
+
+  export namespace LocInstance {
+    export function getTransform(instance: LocInstance): TileTransform {
+      const rotation = Transform.rotation((4 - instance.rotation) % 4)
+
+      const rotated_box = Rectangle.from({x: 0, y: 0}, Vector2.transform({x: (instance.prototype.width ?? 1) - 1, y: (instance.prototype.length ?? 1) - 1}, rotation))
+
+      return TileTransform.chain(
+        TileTransform.translation(
+          Vector2.sub(instance.origin, Rectangle.bottomLeft(rotated_box)),
+          instance.origin.level
+        ),
+        rotation,
+      )
+    }
+
+    export function getInverseTransform(instance: LocInstance): TileTransform {
+      const rotation = Transform.rotation(instance.rotation % 4)
+
+      const rotated_box = Rectangle.from({x: 0, y: 0}, Vector2.transform({x: (instance.prototype.width ?? 1) - 1, y: (instance.prototype.length ?? 1) - 1},
+        Transform.rotation((4 - instance.rotation) % 4)))
+
+      return TileTransform.chain(
+        rotation,
+        TileTransform.translation(
+          Vector2.sub(Rectangle.bottomLeft(rotated_box), instance.origin),
+          -instance.origin.level
+        ),
+      )
+    }
+
   }
 }

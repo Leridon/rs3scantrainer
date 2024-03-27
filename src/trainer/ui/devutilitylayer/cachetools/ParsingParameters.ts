@@ -19,7 +19,10 @@ import {DrawTileAreaInteraction} from "../DrawTileAreaInteraction";
 import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInteraction";
 import InteractionTopControl from "../../map/InteractionTopControl";
 import {DrawOffset} from "../../shortcut_editing/interactions/DrawOffset";
+import {Transportation} from "../../../../lib/runescape/transportation";
 import LocInstance = CacheTypes.LocInstance;
+import {Transform} from "../../../../lib/math";
+import {TileTransform} from "../../../../lib/runescape/coordinates/TileTransform";
 
 export abstract class ParsingParameter<T = any> {
   constructor(private _default_value: ParsingParameter.P<T>) {}
@@ -43,6 +46,7 @@ export namespace ParsingParameter {
   import hboxl = C.hboxl;
   import inlineimg = C.inlineimg;
   import getActions = LocUtil.getActions;
+  import EntityActionMovement = Transportation.EntityActionMovement;
 
   export type P<T> = T | ((loc: LocInstance) => T)
 
@@ -159,7 +163,7 @@ export namespace ParsingParameter {
     }, () => direction.all)
   }
 
-  export function tileArea(): ParsingParameter<TileArea> {
+  export function tileArea(relative_to_loc: boolean = true): ParsingParameter<TileArea> {
     return (new class extends ParsingParameter<TileArea> {
 
       constructor() {
@@ -168,6 +172,16 @@ export namespace ParsingParameter {
 
       renderForm(depth: number, loc: CacheTypes.LocInstance, map: GameMapMiniWidget): Editor<TileArea> {
         const self = this
+
+        const transform = LocInstance.getTransform(loc)
+        const inverse_transform = LocInstance.getInverseTransform(loc)
+
+        console.log(
+          TileTransform.chain(
+            transform,
+            inverse_transform
+          ).matrix
+        )
 
         return new class extends ParsingParameter.Editor<TileArea> {
           edited_tiles: TileCoordinates[]
@@ -180,8 +194,6 @@ export namespace ParsingParameter {
           }
 
           private commitTiles() {
-            console.log(this.edited_tiles)
-
             this.commit(TileArea.fromTiles(this.edited_tiles))
           }
 
@@ -204,11 +216,10 @@ export namespace ParsingParameter {
                         constructor() {
                           super();
 
-                          new DrawTileAreaInteraction(editor.edited_tiles)
+                          new DrawTileAreaInteraction(editor.edited_tiles.map(t => TileCoordinates.transform(t, transform)))
                             .onPreview(v => this.preview(v))
                             .attachTopControl(null)
                             .addTo(this)
-
 
                           this.attachTopControl(new InteractionTopControl({name: "Draw Tile Area"})
                             .setContent(
@@ -218,7 +229,7 @@ export namespace ParsingParameter {
                         }
                       })
                         .onPreview(v => {
-                          this.edited_tiles = v
+                          this.edited_tiles = v.map(t => TileCoordinates.transform(t, inverse_transform))
                           this.update_render()
                         })
                         .onEnd(() => {
@@ -537,26 +548,34 @@ export namespace ParsingParameter {
     }
   }
 
-  export function offset(): ParsingParameter<{ x: number, y: number, level: number }> {
+  export function offset(relative_to_loc: boolean = true): ParsingParameter<Transportation.EntityActionMovement.Offset> {
     return new class extends ParsingParameter<{ x: number; y: number; level: number }> {
-      renderForm(depth: number, loc: CacheTypes.LocInstance, map: GameMapMiniWidget): ParsingParameter.Editor<{ x: number; y: number; level: number }> {
-        return new class extends ParsingParameter.Editor<{ x: number; y: number; level: number }> {
-          render_implementation(value: { x: number; y: number; level: number }): void {
+      renderForm(depth: number, loc: CacheTypes.LocInstance, map: GameMapMiniWidget): ParsingParameter.Editor<Transportation.EntityActionMovement.Offset> {
+        const transform = LocInstance.getTransform(loc)
+        const inverse_transform = LocInstance.getInverseTransform(loc)
+
+        return new class extends ParsingParameter.Editor<Transportation.EntityActionMovement.Offset> {
+          transformed_value: Transportation.EntityActionMovement.Offset
+
+          render_implementation(value: Transportation.EntityActionMovement.Offset): void {
+            this.transformed_value = relative_to_loc
+              ? Transportation.EntityActionMovement.Offset.transform(value, transform.matrix)
+              : value
 
             this.control.append(
               hboxl(
-                new NumberInput(-6400, 6400).setValue(value.x)
-                  .onCommit(v => this.commit(copyUpdate2(this.get(), e => e.x = v))),
+                new NumberInput(-6400, 6400).setValue(this.transformed_value.x)
+                  .onCommit(v => this.save(copyUpdate2(this.transformed_value, e => e.x = v))),
                 " | ",
-                new NumberInput(-6400, 6400).setValue(value.y)
-                  .onCommit(v => this.commit(copyUpdate2(this.get(), e => e.y = v))),
+                new NumberInput(-6400, 6400).setValue(this.transformed_value.y)
+                  .onCommit(v => this.save(copyUpdate2(this.transformed_value, e => e.y = v))),
                 " | ",
-                new NumberInput(-3, 3).setValue(value.level)
-                  .onCommit(v => this.commit(copyUpdate2(this.get(), e => e.level = v))),
+                new NumberInput(-3, 3).setValue(this.transformed_value.level)
+                  .onCommit(v => this.save(copyUpdate2(this.transformed_value, e => e.level = v))),
                 new LightButton("Draw").onClick(() => {
                   map.setInteraction(new DrawOffset({})
                     .onCommit(v => {
-                        this.commit(v.offset)
+                        this.save(v.offset)
                         this.render()
                       }
                     )
@@ -564,7 +583,16 @@ export namespace ParsingParameter {
                 })
               )
             )
+          }
 
+          save(offset: EntityActionMovement.Offset) {
+            this.transformed_value = offset
+
+            const saved_value = relative_to_loc
+              ? Transportation.EntityActionMovement.Offset.transform(offset, inverse_transform.matrix)
+              : offset
+
+            this.commit(saved_value)
           }
         }(this)
       }

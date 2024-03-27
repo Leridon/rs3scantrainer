@@ -2907,61 +2907,65 @@ name: "Entrana",
       menu_ticks: 1,
     }]
   },
-  /*
-{
-type: "teleports",
-id: "spheredorgeshkaan",
-name: "Dorgesh-kaan sphere",
-img: {url: "sphere_dorgeshkaan.png"},
-spots: [
-    {
-        id: "north",
-target: {origin: {x: 2719, y: 5350, level: 0}},
-name: "North",
-code: "1",
-        menu_ticks: 1,
-        animation_ticks: 11
-    },
-    {
-        id: "south",
-target: {origin: {x: 2722, y: 5264, level: 0}},
-name: "South",
-code: "2",
-        menu_ticks: 1,
-        animation_ticks: 11
-    },
-    {
-        id: "east",
-target: { origin: {x: 2735, y: 5307, level: 1} },
-name: "East",
-code: "3",
-        menu_ticks: 1,
-        animation_ticks: 11
-    },
-    {
-        id: "west",
-target: { origin: {x: 2700, y: 5308, level: 1} },
-name: "West",
-code: "4",
-        menu_ticks: 1,
-        animation_ticks: 11
-    },
-]
-},
-{
-type: "teleports",
-id: "spheregoblinvillage",
-name: "Goblin village sphere",
-img: {url: "sphere_goblinvillage.png"},
-spots: [{
-    id: "goblinvillage",
-    name: "Goblin Village",
-    target: {origin: {x: 2957, y: 3503, level: 0}},
+  {
+    type: "teleports",
+    id: "spheredorgeshkaan",
+    name: "Dorgesh-kaan sphere",
+    img: {url: "sphere_dorgeshkaan.png"},
     menu_ticks: 1,
-    animation_ticks: 11
-},]
-},
-*/
+    animation_ticks: 11,
+    spots: [
+      {
+        id: "north",
+        target: {"origin": {"x": 2710, "y": 5349, "level": 0}, "size": {"x": 20, "y": 6}, "data": "3//2/3///////z8A/wHg"},
+        name: "North",
+        code: "1",
+      },
+      {
+        id: "south",
+        target: {"origin": {"x": 2721, "y": 5260, "level": 0}, "size": {"x": 4, "y": 8}, "data": "//b/bw=="},
+        name: "South",
+        code: "2",
+      },
+      {
+        id: "east",
+        target: {"origin": {"x": 2734, "y": 5296, "level": 1}, "size": {"x": 3, "y": 19}, "data": "////27Zt2wA="},
+        name: "East",
+        code: "3",
+      },
+      {
+        id: "west",
+        target: {"origin": {"x": 2692, "y": 5299, "level": 1}, "size": {"x": 10, "y": 18}, "data": "AAIIMMAAAwzg///7zz//+MMPMMAAAww="},
+        name: "West",
+        code: "4",
+      },
+    ],
+    access: [{
+      type: "item",
+      id: "sphere",
+      name: {name: "Dorgesh-kaan sphere", kind: "item"},
+      action_name: "Break",
+    }]
+  },
+  {
+    type: "teleports",
+    id: "spheregoblinvillage",
+    name: "Goblin village sphere",
+    img: {url: "sphere_goblinvillage.png"},
+    menu_ticks: 0,
+    animation_ticks: 11,
+    spots: [{
+      id: "goblinvillage",
+      name: "Goblin Village",
+      target: {"origin": {"x": 2953, "y": 3497, "level": 0}, "size": {"x": 8, "y": 6}, "data": "DAz/////"},
+    }],
+    access: [{
+      type: "item",
+      id: "sphere",
+      name: {name: "Goblin village sphere", kind: "item"},
+      action_name: "Break",
+    }]
+  },
   {
     type: "teleports",
     id: "naturessentinel",
@@ -4256,9 +4260,10 @@ code: "5",
 //TODO: Boss portals
 // TODO: Slayer masks
 // TODO: Ritual Site teleport incantation
+  // Disc of Returning to Dwarven mine
+  // Spirit tree access points
   /** TODO
    *   - Menaphos Tablets
-   *   - All goblin spheres
    *   - Charter Ships
    *   - Boss Portal (As Transport instead of tele?)
    */

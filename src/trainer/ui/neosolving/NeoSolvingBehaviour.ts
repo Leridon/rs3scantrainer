@@ -715,7 +715,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
       } else if (clue.type == "scan") {
         this.layer.scan_layer.marker.setClickable(true)
         this.layer.scan_layer.setSpots(clue.spots)
-        this.layer.scan_layer.marker.setRadius(clue.range + 5)
+        this.layer.scan_layer.marker.setRadius(clue.range + 5, true)
 
         bounds.addTile(...clue.spots)
       } else if (clue.type == "compass") {
@@ -761,7 +761,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
         )
 
         this.layer.scan_layer.setSpotOrder(method.method.tree.ordered_spots)
-        this.layer.scan_layer.marker.setRadius(method.method.tree.assumed_range)
+        this.layer.scan_layer.marker.setRadius(method.method.tree.assumed_range, method.method.assumptions.meerkats_active)
 
       } else if (method.method.type == "general_path") {
         this.path_control.reset().setMethod(method as AugmentedMethod<GenericPathMethod>)

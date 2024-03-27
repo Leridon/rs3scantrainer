@@ -5,28 +5,39 @@ import {util} from "../../../../lib/util/util";
 import TextField from "../../../../lib/ui/controls/TextField";
 import {AbstractDropdownSelection} from "../../widgets/AbstractDropdownSelection";
 import {DropdownSelection} from "../../widgets/DropdownSelection";
-import {Transportation} from "../../../../lib/runescape/transportation";
 import {direction} from "../../../../lib/runescape/movement";
 import Widget from "../../../../lib/ui/Widget";
 import {CacheTypes} from "./CacheTypes";
 import {LocUtil} from "./util/LocUtil";
 import {CursorType} from "../../../../lib/runescape/CursorType";
 import NumberInput from "../../../../lib/ui/controls/NumberInput";
-import {floor_t} from "../../../../lib/runescape/coordinates";
+import {floor_t, TileCoordinates} from "../../../../lib/runescape/coordinates";
+import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
+import {GameMapMiniWidget} from "../../../../lib/gamemap/GameMap";
+import LightButton from "../../widgets/LightButton";
+import {DrawTileAreaInteraction} from "../DrawTileAreaInteraction";
+import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInteraction";
+import InteractionTopControl from "../../map/InteractionTopControl";
+import {DrawOffset} from "../../shortcut_editing/interactions/DrawOffset";
+import {Transportation} from "../../../../lib/runescape/transportation";
 import LocInstance = CacheTypes.LocInstance;
+import {Transform} from "../../../../lib/math";
+import {TileTransform} from "../../../../lib/runescape/coordinates/TileTransform";
 
 export abstract class ParsingParameter<T = any> {
   constructor(private _default_value: ParsingParameter.P<T>) {}
 
-  default(f: ParsingParameter.P<T>) {
+  default(f: ParsingParameter.P<T>): this {
     this._default_value = f
+
+    return this
   }
 
   getDefault(loc: LocInstance): T {
     return ParsingParameter.P.apply(this._default_value, loc)
   }
 
-  abstract renderForm(depth: number, loc: LocInstance): ParsingParameter.Editor<T>
+  abstract renderForm(depth: number, loc: LocInstance, map: GameMapMiniWidget): ParsingParameter.Editor<T>
 }
 
 export namespace ParsingParameter {
@@ -35,6 +46,7 @@ export namespace ParsingParameter {
   import hboxl = C.hboxl;
   import inlineimg = C.inlineimg;
   import getActions = LocUtil.getActions;
+  import EntityActionMovement = Transportation.EntityActionMovement;
 
   export type P<T> = T | ((loc: LocInstance) => T)
 
@@ -68,7 +80,6 @@ export namespace ParsingParameter {
       }
     }
   }
-
 
   export function int(bounds: P<[number, number]> = [Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]): ParsingParameter<number> {
     return new class extends ParsingParameter<number> {
@@ -141,11 +152,7 @@ export namespace ParsingParameter {
               .onSelection(v => this.commit(v))
               .setValue(value))
           }
-
-          constructor() {
-            super(self)
-          }
-        }
+        }(self)
       }
     }
   }
@@ -154,6 +161,101 @@ export namespace ParsingParameter {
     return choose<direction>({
       toHTML: (v: direction): Widget => c().text(direction.toString(v))
     }, () => direction.all)
+  }
+
+  export function tileArea(relative_to_loc: boolean = true): ParsingParameter<TileArea> {
+    return (new class extends ParsingParameter<TileArea> {
+
+      constructor() {
+        super(TileArea.init({x: 0, y: 0, level: 0}));
+      }
+
+      renderForm(depth: number, loc: CacheTypes.LocInstance, map: GameMapMiniWidget): Editor<TileArea> {
+        const self = this
+
+        const transform = LocInstance.getTransform(loc)
+        const inverse_transform = LocInstance.getInverseTransform(loc)
+
+        console.log(
+          TileTransform.chain(
+            transform,
+            inverse_transform
+          ).matrix
+        )
+
+        return new class extends ParsingParameter.Editor<TileArea> {
+          edited_tiles: TileCoordinates[]
+          interaction: ValueInteraction<any> = null
+
+          render_implementation(value: TileArea): void {
+            this.edited_tiles = TileArea.activate(value).getTiles().filter(t => t.x != 0 || t.y != 0)
+
+            this.update_render()
+          }
+
+          private commitTiles() {
+            this.commit(TileArea.fromTiles(this.edited_tiles))
+          }
+
+          private update_render(): void {
+
+            const editor = this
+
+            this.control.empty().append(hboxl(
+              this.edited_tiles.length > 0
+                ? c().text(`${this.edited_tiles.length} tiles near ${TileCoordinates.toString(this.edited_tiles[0])}`)
+                : c().text(`${this.edited_tiles.length} tiles`),
+              new LightButton(this.interaction ? "Stop Editing" : "Edit")
+                .onClick(() => {
+
+                  if (this.interaction) {
+                    this.interaction.cancel()
+                  } else {
+                    map.setInteraction(
+                      this.interaction = (new class extends ValueInteraction<TileCoordinates[]> {
+                        constructor() {
+                          super();
+
+                          new DrawTileAreaInteraction(editor.edited_tiles.map(t => TileCoordinates.transform(t, transform)))
+                            .onPreview(v => this.preview(v))
+                            .attachTopControl(null)
+                            .addTo(this)
+
+                          this.attachTopControl(new InteractionTopControl({name: "Draw Tile Area"})
+                            .setContent(
+                              c("<div style='font-family: monospace; white-space:pre'></div>")
+                                .append(c().text(`[Shift + Mouse] add tiles, [Alt + Mouse] remove tiles`))
+                            ))
+                        }
+                      })
+                        .onPreview(v => {
+                          this.edited_tiles = v.map(t => TileCoordinates.transform(t, inverse_transform))
+                          this.update_render()
+                        })
+                        .onEnd(() => {
+                          this.commitTiles()
+
+                          this.interaction = null
+                          this.update_render()
+                        })
+                    )
+
+                    this.update_render()
+                  }
+                }),
+              new LightButton("Reset")
+                .onClick(() => {
+                  this.edited_tiles = []
+                  this.interaction?.cancel()
+                  this.update_render()
+
+                  this.commitTiles()
+                })
+            ))
+          }
+        }(self)
+      }
+    })
   }
 
   export function rec<T extends Record<string, Rec.Element<any>>>(
@@ -186,7 +288,7 @@ export namespace ParsingParameter {
   }
 
 
-  export abstract class Editor<T = any> {
+  export abstract class Editor<T = any, ParT extends ParsingParameter<T> = ParsingParameter<T>> {
     public control = c()
     public additional = c()
 
@@ -194,7 +296,7 @@ export namespace ParsingParameter {
 
     value_changed = ewent<T>()
 
-    constructor(private type: ParsingParameter) {
+    constructor(protected type: ParT) {
 
     }
 
@@ -240,7 +342,7 @@ export namespace ParsingParameter {
       });
     }
 
-    override renderForm(depth: number, loc: LocInstance): ParsingParameter.Editor<Record<string, any>> {
+    override renderForm(depth: number, loc: LocInstance, map: GameMapMiniWidget): ParsingParameter.Editor<Record<string, any>> {
       const self = this
 
       return new class extends ParsingParameter.Editor {
@@ -252,7 +354,7 @@ export namespace ParsingParameter {
 
         render_implementation(value: any) {
           this.elements = Object.entries(self.elements).map(([id, element]) =>
-            new Rec.ElementWidget(element, element.optional ? "check" : "none", depth + 1, loc)
+            new Rec.ElementWidget(element, element.optional ? "check" : "none", depth + 1, loc, map)
               .set(value?.[id])
               .onChange(v => {
                 this.commit(copyUpdate2(this.get(), e => e[id] = v))
@@ -283,13 +385,23 @@ export namespace ParsingParameter {
       checkbox: Checkbox
       sub: Editor<T> = null
 
-      constructor(public element: Element<T>, public cb_type: "none" | "check" | "radio", public depth: number, private loc: LocInstance) {
+      constructor(public element: Element<T>,
+                  public cb_type: "none" | "check" | "radio",
+                  public depth: number,
+                  private loc: LocInstance,
+                  private map: GameMapMiniWidget) {
         super(element.type)
+
+        this.additional
+          .css("margin-left", "3px")
+          .css("padding-left", "3px")
+          .css("border-left", `2px solid ${["blue", "purple", "green"][this.depth % 3]}`)
+          .css("margin-top", "4px")
+          .css("margin-bottom", "4px")
       }
 
       render_implementation(value: T | undefined) {
         const name_column = c().css("min-width", "100px")
-          .css("padding-left", `${this.depth * 5}px`)
 
         const control_column = c().css("flex-grow", "1")
         const el_content = c()
@@ -302,14 +414,20 @@ export namespace ParsingParameter {
             this.checkbox = new Checkbox(this.element.name, "radio")
             break;
         }
+
         if (this.checkbox) {
           this.checkbox
             .setValue(value !== undefined)
-            .onCommit(v => {
-              const value = v ? this.element.type.getDefault(this.loc) : undefined
+            .onCommit((v) => {
+              console.log(`Changed to ${v}`)
 
-              this.commit(value)
-              this.render()
+              if (v != (this.get() !== undefined)) {
+                console.log(`Committing`)
+                const value = v ? this.element.type.getDefault(this.loc) : undefined
+
+                this.commit(value)
+                this.render()
+              }
             })
             .appendTo(name_column)
         } else {
@@ -325,9 +443,9 @@ export namespace ParsingParameter {
 
         if (value !== undefined) {
           this.sub = this.element.type
-            .renderForm(this.depth + 1, this.loc)
-            .onChange(v => this.commit(v))
+            .renderForm(this.depth + 1, this.loc, this.map)
             .set(value)
+            .onChange(v => this.commit(v))
 
           control_column.append(this.sub.control)
           el_content.append(this.sub.additional)
@@ -336,10 +454,148 @@ export namespace ParsingParameter {
     }
   }
 
-  export class Either<T, U> extends ParsingParameter<T | U> {
-    renderForm(depth: number): ParsingParameter.Editor<T | U> {
-      return undefined;
+  export function list<T>(base: ParsingParameter<T>): ParsingParameter<T[]> {
+    return new class extends ParsingParameter<T[]> {
+      constructor() {super([]);}
+
+      renderForm(depth: number, loc: CacheTypes.LocInstance, map: GameMapMiniWidget): ParsingParameter.Editor<T[]> {
+        const self = this
+
+        return new class extends ParsingParameter.Editor<T[]> {
+          private elements: Rec.ElementWidget[]
+
+          constructor() {
+            super(self)
+          }
+
+          render_implementation(value: T[]) {
+            this.control.append(new LightButton("Add")
+              .onClick(() => {
+                  this.commit(copyUpdate2(this.get(), e => e.push(base.getDefault(loc))))
+                  this.render()
+                }
+              )
+            )
+
+            this.elements = value.map((element, i) =>
+              new Rec.ElementWidget({
+                name: `Item ${i}`,
+                type: base
+              }, "check", depth + 1, loc, map)
+                .set(element)
+                .onChange(v => {
+                  if (v == undefined) {
+                    this.commit(copyUpdate2(this.get(), e => e.splice(i, 1)))
+                    this.render()
+                  } else {
+                    this.commit(copyUpdate2(this.get(), e => e[i] = v))
+                  }
+                })
+            )
+
+            this.additional.append(...this.elements.map(e => e.additional))
+          }
+        }
+      }
     }
   }
 
+  export function either<T extends Record<string, ParsingParameter>>(
+    elements: T
+  ): ParsingParameter<{ [key in keyof T]?: T[key] }> {
+
+    return new class extends ParsingParameter<{ [key in keyof T]?: T[key] }> {
+      constructor() {
+        super((loc) => {
+          const [key, value] = Object.entries(elements)[0]
+
+          return Object.fromEntries([[key, value.getDefault(loc)]]) as { [key in keyof T]?: T[key] }
+        });
+      }
+
+      override renderForm(depth: number, loc: LocInstance, map: GameMapMiniWidget): ParsingParameter.Editor<{ [key in keyof T]?: T[key] }> {
+        const self = this
+
+        return new class extends ParsingParameter.Editor {
+          private elements: Rec.ElementWidget[]
+
+          group: Checkbox.Group<any>
+
+          constructor() {
+            super(self)
+          }
+
+          render_implementation(value: any) {
+            this.elements = Object.entries(elements).map(([id, element], index) =>
+              new Rec.ElementWidget({
+                type: element,
+                name: id
+              }, "radio", depth + 1, loc, map)
+                .set(value?.[id])
+                .onChange(v => {
+                  this.elements.forEach((e, i) => {
+                    if (i != index) e.set(undefined)
+                  })
+
+                  this.commit(copyUpdate2(this.get(), e => e[id] = v))
+                })
+            )
+
+            this.additional.append(...this.elements.map(e => e.additional))
+          }
+        }
+      }
+    }
+  }
+
+  export function offset(relative_to_loc: boolean = true): ParsingParameter<Transportation.EntityActionMovement.Offset> {
+    return new class extends ParsingParameter<{ x: number; y: number; level: number }> {
+      renderForm(depth: number, loc: CacheTypes.LocInstance, map: GameMapMiniWidget): ParsingParameter.Editor<Transportation.EntityActionMovement.Offset> {
+        const transform = LocInstance.getTransform(loc)
+        const inverse_transform = LocInstance.getInverseTransform(loc)
+
+        return new class extends ParsingParameter.Editor<Transportation.EntityActionMovement.Offset> {
+          transformed_value: Transportation.EntityActionMovement.Offset
+
+          render_implementation(value: Transportation.EntityActionMovement.Offset): void {
+            this.transformed_value = relative_to_loc
+              ? Transportation.EntityActionMovement.Offset.transform(value, transform.matrix)
+              : value
+
+            this.control.append(
+              hboxl(
+                new NumberInput(-6400, 6400).setValue(this.transformed_value.x)
+                  .onCommit(v => this.save(copyUpdate2(this.transformed_value, e => e.x = v))),
+                " | ",
+                new NumberInput(-6400, 6400).setValue(this.transformed_value.y)
+                  .onCommit(v => this.save(copyUpdate2(this.transformed_value, e => e.y = v))),
+                " | ",
+                new NumberInput(-3, 3).setValue(this.transformed_value.level)
+                  .onCommit(v => this.save(copyUpdate2(this.transformed_value, e => e.level = v))),
+                new LightButton("Draw").onClick(() => {
+                  map.setInteraction(new DrawOffset({})
+                    .onCommit(v => {
+                        this.save(v.offset)
+                        this.render()
+                      }
+                    )
+                  )
+                })
+              )
+            )
+          }
+
+          save(offset: EntityActionMovement.Offset) {
+            this.transformed_value = offset
+
+            const saved_value = relative_to_loc
+              ? Transportation.EntityActionMovement.Offset.transform(offset, inverse_transform.matrix)
+              : offset
+
+            this.commit(saved_value)
+          }
+        }(this)
+      }
+    }({x: 0, y: 0, level: 0})
+  }
 }

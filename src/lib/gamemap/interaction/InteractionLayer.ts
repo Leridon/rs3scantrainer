@@ -42,6 +42,8 @@ export class InteractionGuard {
 }
 
 export default class InteractionLayer extends GameLayer {
+  protected top_control: InteractionTopControl = null
+
   _guard: InteractionGuard = null
 
   started = ewent<InteractionLayer>()
@@ -58,7 +60,15 @@ export default class InteractionLayer extends GameLayer {
   }
 
   attachTopControl(tc: InteractionTopControl): this {
-    tc.setCancelHandler(() => this.cancel()).addTo(this)
+    if (this.top_control) {
+      this.top_control.remove()
+      this.top_control = null
+    }
+
+    if (tc) {
+      tc.setCancelHandler(() => this.cancel()).addTo(this)
+      this.top_control = tc
+    }
 
     return this
   }

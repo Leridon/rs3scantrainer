@@ -11,7 +11,7 @@ export default class FloorControl extends GameMapControl {
 
   constructor() {
     super({
-      position: "bottom-left",
+      position: "bottom-right",
       type: "floating"
     }, c("<div style='display: flex' class='nis-map-control'>"));
 

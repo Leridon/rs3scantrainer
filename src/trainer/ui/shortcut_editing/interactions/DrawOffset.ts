@@ -8,7 +8,7 @@ import {ShortcutViewLayer} from "../ShortcutView";
 
 
 export class DrawOffset extends ValueInteraction<DrawOffset.value_t> {
-  constructor(config: ValueInteraction.option_t<DrawOffset.value_t> = {}, private start_area: TileRectangle) {
+  constructor(config: ValueInteraction.option_t<DrawOffset.value_t> = {}, private start_area?: TileRectangle ) {
     if (!config.preview_render) {
       config.preview_render = ({origin, offset}) => ShortcutViewLayer.render_transport_arrow(origin, Vector2.add(origin, offset), offset.level)
     }
@@ -25,7 +25,7 @@ export class DrawOffset extends ValueInteraction<DrawOffset.value_t> {
       event.stopAllPropagation()
 
       if (this.value.value().value?.origin == null) {
-        if (TileRectangle.contains(this.start_area, event.tile())) {
+        if (!this.start_area || TileRectangle.contains(this.start_area, event.tile())) {
           this.preview({
             origin: event.tile(),
             offset: {x: 0, y: 0, level: 0}

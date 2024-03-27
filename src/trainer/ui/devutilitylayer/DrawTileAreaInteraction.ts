@@ -19,7 +19,7 @@ export class DrawTileAreaInteraction extends ValueInteraction<TileCoordinates[]>
 
   tiles: TileCoordinates[] = []
 
-  constructor() {
+  constructor(start_tiles: TileCoordinates[] = []) {
     super({
       preview_render: area => {
         let lay = leaflet.featureGroup()
@@ -36,6 +36,10 @@ export class DrawTileAreaInteraction extends ValueInteraction<TileCoordinates[]>
         return lay
       }
     });
+
+    this.tiles = start_tiles
+
+    this.preview(this.tiles)
 
     this.attachTopControl(new InteractionTopControl({name: "Draw Tile Area"})
       .setContent(
@@ -78,7 +82,6 @@ export class DrawTileAreaInteraction extends ValueInteraction<TileCoordinates[]>
       )
     )
   }
-
 
   onAdd(map: GameMap): this {
     super.onAdd(map)

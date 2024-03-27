@@ -3,14 +3,12 @@ import * as leaflet from "leaflet";
 import {LatLngBounds} from "leaflet";
 import {InteractionGuard} from "../../../lib/gamemap/interaction/InteractionLayer";
 import Widget from "../../../lib/ui/Widget";
-import TextField from "../../../lib/ui/controls/TextField";
 import ControlWithHeader from "../map/ControlWithHeader";
 import {ActionBar} from "../map/ActionBar";
 import {DrawRegionAction} from "../theorycrafting/scanedit/TreeEdit";
 import {areaPolygon, tilePolygon} from "../polygon_helpers";
 import LightButton from "../widgets/LightButton";
-import {Rectangle} from "../../../lib/math";
-import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
+import {floor_t, TileCoordinates} from "../../../lib/runescape/coordinates";
 import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
 import SelectTileInteraction from "../../../lib/gamemap/interaction/SelectTileInteraction";
 import InteractionTopControl from "../map/InteractionTopControl";
@@ -25,6 +23,7 @@ import {util} from "../../../lib/util/util";
 import {storage} from "../../../lib/util/storage";
 import {GameMap} from "../../../lib/gamemap/GameMap";
 import {ParserManagementLayer} from "./ParserManagement";
+import {NavigationControl} from "./NavigationControl";
 import vbox = C.vbox;
 import hbox = C.hbox;
 import spacer = C.spacer;
@@ -170,8 +169,6 @@ class GeometryDrawing extends GameLayer {
 
   output: Widget
   value: string
-  chunk_in: TextField
-  coords_in: TextField
   preview: leaflet.Layer
 
   constructor(private guard: InteractionGuard) {
@@ -220,72 +217,6 @@ class GeometryDrawing extends GameLayer {
               navigator.clipboard.writeText(this.value)
               deps().app.notifications.notify({type: "information"}, "Copied")
             }
-          })
-        ),
-        hbox(
-          this.chunk_in = new TextField()
-            .onCommit((v) => {
-              if (!v) return
-              let nums = this.chunk_in.get().split(new RegExp("[^0-9]"))
-                .map(e => e.trim())
-                .filter(e => e.length > 0)
-                .map(e => Number(e))
-
-              if (nums.length >= 2) {
-                this.getMap().fitView(TileRectangle.lift(Rectangle.from({x: nums[0] * 64, y: nums[1] * 64}, {x: nums[0] * 64 + 63, y: nums[1] * 64 + 63}), 0))
-              }
-
-              this.chunk_in.setValue("")
-            })
-          ,
-          spacer(),
-          new LightButton("Chunk").onClick((v) => {
-            if (!v) return
-            let nums = this.chunk_in.get().split(new RegExp("[^0-9]"))
-              .map(e => e.trim())
-              .filter(e => e.length > 0)
-              .map(e => Number(e))
-
-            if (nums.length >= 2) {
-              this.getMap().fitView(TileRectangle.lift(Rectangle.from({x: nums[0] * 64, y: nums[1] * 64}, {x: nums[0] * 64 + 63, y: nums[1] * 64 + 63}), 0))
-            }
-
-            this.chunk_in.setValue("")
-          })
-        ),
-        hbox(
-          this.coords_in = new TextField()
-            .onCommit((v) => {
-                if (!v) return
-                let nums = this.coords_in.get().split(new RegExp("[^0-9]"))
-                  .map(e => e.trim())
-                  .filter(e => e.length > 0)
-                  .map(e => Number(e))
-
-
-                if (nums.length >= 2) {
-
-                  this.getMap().fitView(TileRectangle.lift(Rectangle.from({x: nums[0], y: nums[1]}), 0))
-                }
-
-                this.coords_in.setValue("")
-              }
-            )
-          ,
-          spacer(),
-          new LightButton("Coords").onClick((v) => {
-            if (!v) return
-            let nums = this.coords_in.get().split(new RegExp("[^0-9]"))
-              .map(e => e.trim())
-              .filter(e => e.length > 0)
-              .map(e => Number(e))
-
-
-            if (nums.length >= 2) {
-              this.getMap().fitView(TileRectangle.lift(Rectangle.from({x: nums[0], y: nums[1]}), 0))
-            }
-
-            this.coords_in.setValue("")
           })
         ),
       )
@@ -350,6 +281,7 @@ class GeometryDrawing extends GameLayer {
 
 export default class UtilityLayer extends GameLayer {
   view_storage = new storage.Variable<{
+    floor: floor_t,
     center: leaflet.LatLng,
     zoom: number
   }>("devutility/viewstore", () => undefined)
@@ -367,6 +299,7 @@ export default class UtilityLayer extends GameLayer {
     new LayerToggling([
       {persistence_id: "chunks", name: "Chunks", constructor: () => new ChunkGridGraticule()},
       {persistence_id: "geometry", name: "Geometry", constructor: () => new GeometryDrawing(this.guard)},
+      {persistence_id: "navigation", name: "Navigation", constructor: () => new NavigationControl()},
       {persistence_id: "locparsing", name: "Loc Parsing", constructor: () => new ParserManagementLayer()},
     ])
       .addTo(this)
@@ -383,6 +316,10 @@ export default class UtilityLayer extends GameLayer {
       this.map.setView(view.center, view.zoom)
     }
 
+    if (view?.floor != null) {
+      this.map.floor.set(view.floor)
+    }
+
     return this;
   }
 
@@ -391,6 +328,7 @@ export default class UtilityLayer extends GameLayer {
 
     event.onPre(() => {
       this.view_storage.set({
+        floor: this.map.floor.value(),
         center: this.map.getCenter(),
         zoom: this.map.getZoom()
       })

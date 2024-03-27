@@ -35,8 +35,6 @@ class DrawRunInteractionInternal extends ValueInteraction<{
     broken: boolean
   }> = observe(null)
 
-  private top_control: InteractionTopControl
-
   constructor() {
     super({
       preview_render: (v) => {
@@ -63,7 +61,7 @@ class DrawRunInteractionInternal extends ValueInteraction<{
     })
 
     this.attachTopControl(
-      this.top_control = new InteractionTopControl({name: "Drawing Run-Path"})
+      new InteractionTopControl({name: "Drawing Run-Path"})
     )
 
     this.has_start_position.subscribe(has => {

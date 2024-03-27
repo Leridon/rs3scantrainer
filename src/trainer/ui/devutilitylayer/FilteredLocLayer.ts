@@ -159,10 +159,14 @@ export class LocInstanceEntity extends MapEntity {
   }
 
   protected async render_implementation(props: MapEntity.RenderProps): Promise<Element> {
-    const has_parser = this.parsing_table && !!this.parsing_table.getPairing(this.instance).group
+    const parsing_group = this.parsing_table && this.parsing_table.getPairing(this.instance)
+
+    const has_parser = !!parsing_group.group
+    const has_instance_parser = has_parser && (!parsing_group.group.parser.per_instance_parameter || parsing_group.instance_group)
+
 
     const box = boxPolygon(this.instance.box).setStyle({
-      color: has_parser ? "green" : "red",
+      color: has_parser ? (has_instance_parser ? "green" : "yellow") : "red",
       stroke: true
     }).addTo(this)
 
@@ -221,7 +225,7 @@ export class LocInstanceEntity extends MapEntity {
 }
 
 const pre_filter: LocFilter = {
-  actions: ["open", "use", "enter", "climb", "crawl", "scale", "pass", "jump", "leave", "teleport", "descend", "step", "walk", "cross"]
+  actions: ["open", "use", "enter", "climb", "crawl", "scale", "pass", "jump", "leave", "teleport", "descend", "step", "walk", "cross", "exit"]
 }
 
 export class FilteredLocLayer extends GameLayer {

@@ -6,15 +6,12 @@ import {Constants} from "../../constants";
 import {TileMarker} from "../../../lib/gamemap/TileMarker";
 import {ActiveOpacityGroup} from "../../../lib/gamemap/layers/OpacityLayer";
 import {areaPolygon, boxPolygon} from "../polygon_helpers";
-import {Scans} from "../../../lib/runescape/clues/scans";
 import {GameLayer} from "../../../lib/gamemap/GameLayer";
 import {GameMapContextMenuEvent, GameMapMouseEvent} from "../../../lib/gamemap/MapEvents";
 import {Observable, observe} from "../../../lib/reactive";
-import {util} from "../../../lib/util/util";
 import {MapEntity} from "../../../lib/gamemap/MapEntity";
 import {Rectangle, Vector2} from "../../../lib/math";
 import Widget from "../../../lib/ui/Widget";
-import {C} from "../../../lib/ui/constructors";
 import {Menu} from "../widgets/ContextMenu";
 import Properties from "../widgets/Properties";
 import ScanRegion = ScanTree.ScanRegion;
@@ -81,7 +78,9 @@ export class ScanRadiusMarker extends MapEntity {
   constructor(public spot: TileCoordinates,
               private range: number,
               private include_marker: boolean,
-              private is_complement: boolean) {
+              private is_complement: boolean,
+              private range_is_with_meerkats: boolean
+  ) {
     super({interactive: true, highlightable: true});
   }
 
@@ -129,7 +128,20 @@ export class ScanRadiusMarker extends MapEntity {
 
     props.header(`Manual Radius Marker`)
 
-    props.named("Position", TileCoordinates.toString(this.spot))
+    if (this.is_complement) {
+      props.named("Position", TileCoordinates.toString(this.spot) + " (In complement area)")
+
+      props.named("Radius", `${this.range + 15} (${this.range} base + 15 due to being in complement area)`)
+    } else {
+      props.named("Position", TileCoordinates.toString(this.spot))
+
+      if (this.range_is_with_meerkats) {
+        props.named("Radius", `${this.range} (${this.range - 5} base + 5 from meerkats)`)
+      } else {
+        props.named("Radius", this.range.toString())
+      }
+    }
+
     props.row(c().text("Click to remove").css("font-style", "italic"))
 
     return {
@@ -155,7 +167,7 @@ export class AdaptiveScanRadiusMarker extends GameLayer {
     with_marker: boolean,
   } | null> = observe(null)
 
-  scan_range = observe(10)
+  scan_range: Observable<{ radius: number, meerkat: boolean }> = observe({radius: 10, meerkat: false})
 
   surface_is_complement = observe(false)
 
@@ -202,7 +214,7 @@ export class AdaptiveScanRadiusMarker extends GameLayer {
       if (spot) {
         let is_complement = (spot.coordinates.y < 6400) == this.surface_is_complement.value()
 
-        this.custom_marker = new ScanRadiusMarker(spot.coordinates, range, spot.with_marker, is_complement).addTo(this)
+        this.custom_marker = new ScanRadiusMarker(spot.coordinates, range.radius, spot.with_marker, is_complement, range.meerkat).addTo(this)
       }
     })
   }
@@ -228,8 +240,8 @@ export class AdaptiveScanRadiusMarker extends GameLayer {
     return this
   }
 
-  setRadius(radius: number): this {
-    this.scan_range.set(radius)
+  setRadius(radius: number, is_with_meerkat: boolean): this {
+    this.scan_range.set({radius: radius, meerkat: is_with_meerkat})
     return this
   }
 
@@ -263,7 +275,7 @@ export class AdaptiveScanRadiusMarker extends GameLayer {
             this.manualMarker.set(null)
           }
         })
-      } else if (this.canBeManuallySet.value()) {
+      } else if (this.canBeManuallySet.value() && !event.active_entity) {
 
         if (TileCoordinates.eq2(this.manualMarker.value(), event.tile())) {
           event.add({

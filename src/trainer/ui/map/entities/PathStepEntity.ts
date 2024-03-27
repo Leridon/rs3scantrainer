@@ -15,6 +15,7 @@ import {TeleportSpotEntity} from "./TeleportSpotEntity";
 import {GameMapContextMenuEvent} from "../../../../lib/gamemap/MapEvents";
 import {Menu} from "../../widgets/ContextMenu";
 import {FloorLevels} from "../../../../lib/gamemap/ZoomLevels";
+import {Transportation} from "../../../../lib/runescape/transportation";
 
 export class PathStepEntity extends MapEntity {
 
@@ -144,10 +145,15 @@ export class PathStepEntity extends MapEntity {
         case "transport": {
           let entity = step.internal
           let action = entity.actions[0]
+          const movement = Transportation.EntityAction.findApplicable(action, step.assumed_start) ?? action.movement[0]
+
+          const is_remote = movement.fixed_target && !movement.fixed_target.relative
 
           let ends_up: TileCoordinates = Path.ends_up([step])
 
-          arrow(step.assumed_start, ends_up)
+          const center_of_entity = TileRectangle.center(entity.clickable_area, false)
+
+          arrow(step.assumed_start, is_remote ? center_of_entity : ends_up)
             .setStyle({
               color: "#069334",
               weight: options.highlight ? 6 : 4,
@@ -155,7 +161,7 @@ export class PathStepEntity extends MapEntity {
               className: cls
             }).addTo(this)
 
-          const marker = leaflet.marker(Vector2.toLatLong(TileRectangle.center(step.internal.clickable_area)), {
+          const marker = leaflet.marker(Vector2.toLatLong(center_of_entity), {
             icon: leaflet.icon({
               iconUrl: CursorType.meta(action.cursor).icon_url,
               iconSize: options.highlight ? [42, 48] : [28, 31],

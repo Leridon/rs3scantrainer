@@ -13,6 +13,8 @@ import LocInstance = CacheTypes.LocInstance;
 import PP = ParsingParameter;
 import rec = ParsingParameter.rec;
 import offset = MovementBuilder.offset;
+import fixed = MovementBuilder.fixed;
+import EntityActionMovement = Transportation.EntityActionMovement;
 
 function parse<GroupT, InstanceT>(id: string,
                                   name: string,
@@ -133,15 +135,74 @@ export const parsers3: TransportParser2[] = [
 
       return [builder.finish()]
     }),
+  parse("simpleremotetransport", "Remote",
+    PP.rec({
+      action: PP.element("Action", PP.locAction()),
+      time: PP.element("Time", PP.int([0, 100]).default(3)),
+    }), PP.rec({
+      target: PP.element("Target", PP.tileArea()),
+    }), async (instance, {per_loc, per_instance}) => {
+      const builder = EntityTransportationBuilder.from(instance)
+
+      builder.action({
+          index: per_loc.action.id,
+        }, fixed(per_instance.target)
+      )
+
+      return [builder.finish()]
+    }),
   parse("prototypecopyloc", "Prototype",
     rec({
-      name: PP.element("Name", PP.string(), true)
+      plane_offset: PP.element("Plane Offset", PP.int([-3, 3]), true),
+      actions: PP.element("Actions", PP.list(PP.rec({
+        action: PP.element("Action", PP.locAction()),
+        area: PP.element("Area", PP.tileArea(), true),
+        movements: PP.element("Movements", PP.list(PP.rec({
+          valid_from: PP.element("Valid", PP.tileArea(), true),
+          orientation: PP.element("Orientation", PP.either({
+            simple: PP.choose<EntityActionMovement["orientation"]>({
+              toHTML: (v) => c().text(v)
+            }, ["bymovement", "toentitybefore", "toentityafter", "keep", "forced"]),
+            forced: PP.dir()
+          }), true),
+          movement: PP.element("Movement", PP.either({
+            offset: PP.offset(),
+            fixed: PP.tileArea()
+          })),
+          time: PP.element("Time", PP.int([0, 30]).default(3))
+        })))
+      })))
     })
     , null,
-    async (instance) => {
+    async (instance, {per_loc}) => {
+      const builder = EntityTransportationBuilder.from(instance)
+        .planeOffset(per_loc.plane_offset ?? 0)
 
+      // TODO: This is still broken because offsets and coordinates entered on the map need to be translated relative to the edited loc instance
 
-      return []
+      for (const action of per_loc.actions) {
+        builder.action({
+          index: action.action.id,
+          interactive_area: action.area
+        }, ...action.movements.map(m => {
+
+          let b: MovementBuilder = null
+
+          if (m.movement.fixed) b = fixed(m.movement.fixed)
+          else if (m.movement.offset) b = offset(m.movement.offset)
+
+          if (m.orientation) {
+            if (m.orientation.simple) b.orientation(m.orientation.simple)
+            if (m.orientation.forced) b.forcedOrientation(m.orientation.forced)
+          }
+
+          b.time(m.time ?? 3)
+
+          return b
+        }))
+      }
+
+      return [builder.finish()]
     }
   )
 ]

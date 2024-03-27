@@ -36,13 +36,15 @@ export namespace Parsing {
               )?.per_instance_argument
               : undefined
 
-          try {
-            const res = await parser.apply(instance, {per_loc: loc_group.per_group_arg, per_instance: per_instance_arg})
+          if (!parser.per_instance_parameter || per_instance_arg !== undefined) {
+            try {
+              const res = await parser.apply(instance, {per_loc: loc_group.per_group_arg, per_instance: per_instance_arg})
 
-            results.push(...res)
-          } catch (e) {
-            console.error(`Parser ${loc_group.parser_id} has thrown an exception!`)
-            console.log(e)
+              results.push(...res)
+            } catch (e) {
+              console.error(`Parser ${loc_group.parser_id} has thrown an exception!`)
+              console.log(e)
+            }
           }
         }
       }

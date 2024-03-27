@@ -191,6 +191,8 @@ export namespace TileArea {
   }
 
   export function fromTiles(tiles: TileCoordinates[]): TileArea {
+    if (tiles.length == 0) return TileArea.init({x: 0, y: 0, level: 0})
+
     const area = activate(fromRect(TileRectangle.from(...tiles), false))
 
     for (let tile of tiles) {

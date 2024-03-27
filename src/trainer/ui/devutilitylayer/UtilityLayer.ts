@@ -29,6 +29,7 @@ import vbox = C.vbox;
 import hbox = C.hbox;
 import spacer = C.spacer;
 import cleanedJSON = util.cleanedJSON;
+import {NavigationControl} from "./NavigationControl";
 
 class ChunkGridGraticule extends Graticule {
   constructor() {
@@ -170,8 +171,6 @@ class GeometryDrawing extends GameLayer {
 
   output: Widget
   value: string
-  chunk_in: TextField
-  coords_in: TextField
   preview: leaflet.Layer
 
   constructor(private guard: InteractionGuard) {
@@ -220,72 +219,6 @@ class GeometryDrawing extends GameLayer {
               navigator.clipboard.writeText(this.value)
               deps().app.notifications.notify({type: "information"}, "Copied")
             }
-          })
-        ),
-        hbox(
-          this.chunk_in = new TextField()
-            .onCommit((v) => {
-              if (!v) return
-              let nums = this.chunk_in.get().split(new RegExp("[^0-9]"))
-                .map(e => e.trim())
-                .filter(e => e.length > 0)
-                .map(e => Number(e))
-
-              if (nums.length >= 2) {
-                this.getMap().fitView(TileRectangle.lift(Rectangle.from({x: nums[0] * 64, y: nums[1] * 64}, {x: nums[0] * 64 + 63, y: nums[1] * 64 + 63}), 0))
-              }
-
-              this.chunk_in.setValue("")
-            })
-          ,
-          spacer(),
-          new LightButton("Chunk").onClick((v) => {
-            if (!v) return
-            let nums = this.chunk_in.get().split(new RegExp("[^0-9]"))
-              .map(e => e.trim())
-              .filter(e => e.length > 0)
-              .map(e => Number(e))
-
-            if (nums.length >= 2) {
-              this.getMap().fitView(TileRectangle.lift(Rectangle.from({x: nums[0] * 64, y: nums[1] * 64}, {x: nums[0] * 64 + 63, y: nums[1] * 64 + 63}), 0))
-            }
-
-            this.chunk_in.setValue("")
-          })
-        ),
-        hbox(
-          this.coords_in = new TextField()
-            .onCommit((v) => {
-                if (!v) return
-                let nums = this.coords_in.get().split(new RegExp("[^0-9]"))
-                  .map(e => e.trim())
-                  .filter(e => e.length > 0)
-                  .map(e => Number(e))
-
-
-                if (nums.length >= 2) {
-
-                  this.getMap().fitView(TileRectangle.lift(Rectangle.from({x: nums[0], y: nums[1]}), 0))
-                }
-
-                this.coords_in.setValue("")
-              }
-            )
-          ,
-          spacer(),
-          new LightButton("Coords").onClick((v) => {
-            if (!v) return
-            let nums = this.coords_in.get().split(new RegExp("[^0-9]"))
-              .map(e => e.trim())
-              .filter(e => e.length > 0)
-              .map(e => Number(e))
-
-
-            if (nums.length >= 2) {
-              this.getMap().fitView(TileRectangle.lift(Rectangle.from({x: nums[0], y: nums[1]}), 0))
-            }
-
-            this.coords_in.setValue("")
           })
         ),
       )
@@ -367,6 +300,7 @@ export default class UtilityLayer extends GameLayer {
     new LayerToggling([
       {persistence_id: "chunks", name: "Chunks", constructor: () => new ChunkGridGraticule()},
       {persistence_id: "geometry", name: "Geometry", constructor: () => new GeometryDrawing(this.guard)},
+      {persistence_id: "navigation", name: "Navigation", constructor: () => new NavigationControl()},
       {persistence_id: "locparsing", name: "Loc Parsing", constructor: () => new ParserManagementLayer()},
     ])
       .addTo(this)

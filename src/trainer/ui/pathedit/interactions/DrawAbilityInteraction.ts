@@ -15,8 +15,6 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
   _possibility_overlay: leaflet.FeatureGroup = null
   _preview_arrow: leaflet.Layer = null
 
-  private top_control: InteractionTopControl
-
   private start_position: Observable<TileCoordinates> = observe(null).equality(TileCoordinates.eq2)
   private current_target: Observable<{
     tile: TileCoordinates,
@@ -28,7 +26,7 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
   constructor(private ability: MovementAbilities.movement_ability) {
     super({})
 
-    this.attachTopControl(this.top_control = new InteractionTopControl().setName(`Drawing ${ability}`))
+    this.attachTopControl(new InteractionTopControl().setName(`Drawing ${ability}`))
 
     observe_combined({start: this.start_position, target: this.current_target}).subscribe(({start, target}) => {
       this.overlay_tile.set(start || target?.tile)

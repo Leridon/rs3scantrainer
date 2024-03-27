@@ -16,7 +16,6 @@ import {storage} from "../../../lib/util/storage";
 import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
 import cleanedJSON = util.cleanedJSON;
 import LocDataFile = CacheTypes.LocDataFile;
-import download = util.download;
 import LocInstance = CacheTypes.LocInstance;
 
 class RecentlyUsedParserGroups {
@@ -55,7 +54,8 @@ export class ParserManagementLayer extends GameLayer {
           .buttons(
             new LightButton("Export")
               .onClick(() => {
-                download("parsingtable.json", cleanedJSON(this.parsing_table.data))
+                //download("parsingtable.json", cleanedJSON(this.parsing_table.data))
+                new ExportStringModal(cleanedJSON(this.parsing_table.data, 4)).show()
               }),
             new LightButton("Delete local table")
               .onClick(async () => {
@@ -73,7 +73,7 @@ export class ParserManagementLayer extends GameLayer {
               .onClick(async () => {
                 const results = await Parsing.applyParsing(parsers3, this.data_file, this.parsing_table)
 
-                new ExportStringModal(cleanedJSON(results)).show()
+                new ExportStringModal(cleanedJSON(results, 4)).show()
               }),
           )
       ).addTo(this)

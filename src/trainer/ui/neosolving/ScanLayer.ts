@@ -131,7 +131,7 @@ export class ScanRadiusMarker extends MapEntity {
     if (this.is_complement) {
       props.named("Position", TileCoordinates.toString(this.spot) + " (In complement area)")
 
-      props.named("Radius", "15 (due to being in complement area)")
+      props.named("Radius", `${this.range + 15} (${this.range} base + 15 due to being in complement area)`)
     } else {
       props.named("Position", TileCoordinates.toString(this.spot))
 

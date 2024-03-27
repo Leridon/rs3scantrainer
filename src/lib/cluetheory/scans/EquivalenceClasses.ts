@@ -94,7 +94,7 @@ export class ScanEquivalenceClasses {
           y: bounds.getBottomLeft().y + 2 * this.options.range + 1,    // the Y axis in leaflet.bounds is exactly opposite to what the map uses.
         },
         botright: {
-          x: bounds.getTopRight().x + 2 * this.options.range + 1,
+          x: bounds.getTopRight().x + 2 * this.options.range,
           y: bounds.getTopLeft().y - 2 * this.options.range
         },
       })

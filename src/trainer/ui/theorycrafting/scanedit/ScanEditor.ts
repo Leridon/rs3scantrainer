@@ -103,12 +103,12 @@ export class ScanEditLayer extends GameLayer {
 
 export namespace ScanEditLayer {
 
-    import render_digspot = TextRendering.render_digspot;
-    import complementSpot = Scans.complementSpot;
-    import span = C.span;
-    import inlineimg = C.inlineimg;
+  import render_digspot = TextRendering.render_digspot;
+  import complementSpot = Scans.complementSpot;
+  import span = C.span;
+  import inlineimg = C.inlineimg;
 
-    export class MarkerPair {
+  export class MarkerPair {
     regular: SpotMarker
     complement: SpotMarker
 
@@ -135,7 +135,6 @@ export namespace ScanEditLayer {
       this.complement.setTiming(timing)
     }
   }
-
 
 
   export class SpotMarker extends MapEntity {
@@ -616,7 +615,7 @@ export default class ScanEditor extends MethodSubEditor {
 
       this.builder.assumptions.set(lodash.cloneDeep(v))
 
-      this.layer.marker.setRadius(this.value.method.tree.assumed_range)
+      this.layer.marker.setRadius(this.value.method.tree.assumed_range, v.meerkats_active)
     })
 
     this.builder.augmented.subscribe(a => {

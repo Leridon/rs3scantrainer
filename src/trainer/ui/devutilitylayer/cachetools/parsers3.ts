@@ -198,6 +198,10 @@ export const parsers3: TransportParser2[] = [
 
           b.time(m.time ?? 3)
 
+          if (m.valid_from) {
+            b.restrict(m.valid_from)
+          }
+
           return b
         }))
       }

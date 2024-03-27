@@ -1,9 +1,8 @@
-import {Rectangle, Vector2} from "../math";
+import {Rectangle, Transform, Vector2} from "../math";
 import {TileCoordinates, TileRectangle} from "./coordinates";
 import {direction} from "./movement";
 import {TileArea} from "./coordinates/TileArea";
 import {TileTransform} from "./coordinates/TileTransform";
-import {util} from "../util/util";
 import {CursorType} from "./CursorType";
 import {EntityName} from "./EntityName";
 
@@ -16,11 +15,24 @@ export namespace Transportation {
 
   export type EntityActionMovement = {
     valid_from?: TileArea, // Default: Entire interactive area
-    offset?: Vector2 & { level: number },
+    offset?: EntityActionMovement.Offset,
     fixed_target?: { target: TileArea | TileCoordinates, relative?: boolean }
     orientation?: "bymovement" | "toentitybefore" | "toentityafter" | "keep" | "forced", // Default: "bymovement"
     forced_orientation?: { dir: direction, relative?: boolean },
     time: number,
+  }
+
+  export namespace EntityActionMovement {
+    export type Offset = Vector2 & { level: number }
+
+    export namespace Offset {
+      export function transform(offset: Offset, transform: Transform): Offset {
+        return {
+          ...Vector2.snap(Vector2.transform(offset, transform)),
+          level: offset.level,
+        }
+      }
+    }
   }
 
   export type EntityAction = {
@@ -379,10 +391,9 @@ export namespace Transportation {
                   valid_from: movement.valid_from
                     ? TileArea.transform(movement.valid_from, transform)
                     : undefined,
-                  offset: movement.offset ? {
-                    ...Vector2.snap(Vector2.transform(movement.offset, transform.matrix)),
-                    level: movement.offset.level,
-                  } : undefined,
+                  offset: movement.offset
+                    ? EntityActionMovement.Offset.transform(movement.offset, transform.matrix)
+                    : undefined,
                   fixed_target: movement.fixed_target
                     ? (movement.fixed_target.relative
                       ? {target: TileArea.transform(TileArea.normalize(movement.fixed_target.target), transform), relative: true}

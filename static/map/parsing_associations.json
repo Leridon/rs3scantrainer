@@ -1,5 +1,5 @@
 {
-  "version": 545,
+  "version": 655,
   "associations": [
     {
       "group_id": 0,
@@ -163,7 +163,14 @@
         17600,
         37123,
         2051,
-        2050
+        2050,
+        64831,
+        66758,
+        15641,
+        15644,
+        15650,
+        34046,
+        26560
       ],
       "group_name": "Doors",
       "instance_groups": [],
@@ -1096,9 +1103,9 @@
             },
             "area": {
               "origin": {
-                "x": 2314,
-                "y": 3839,
-                "level": 1
+                "x": 0,
+                "y": -1,
+                "level": 0
               }
             },
             "movements": [
@@ -1134,8 +1141,8 @@
             },
             "area": {
               "origin": {
-                "x": 2465,
-                "y": 3491,
+                "x": 0,
+                "y": -1,
                 "level": 0
               },
               "size": {
@@ -1148,15 +1155,15 @@
               {
                 "valid_from": {
                   "origin": {
-                    "x": 2465,
-                    "y": 3491,
+                    "x": 0,
+                    "y": -1,
                     "level": 0
                   }
                 },
                 "movement": {
                   "offset": {
                     "x": 0,
-                    "y": 0,
+                    "y": 2,
                     "level": 0
                   }
                 },
@@ -1166,18 +1173,14 @@
                 "valid_from": {
                   "origin": {
                     "x": 0,
-                    "y": 0,
+                    "y": 1,
                     "level": 0
-                  },
-                  "size": {
-                    "x": 1,
-                    "y": 1
                   }
                 },
                 "movement": {
                   "offset": {
                     "x": 0,
-                    "y": 0,
+                    "y": -2,
                     "level": 0
                   }
                 },
@@ -1262,10 +1265,7 @@
     },
     {
       "group_id": 535,
-      "loc_ids": [
-        9330,
-        9738
-      ],
+      "loc_ids": [],
       "per_group_arg": {
         "actions": [
           {
@@ -1324,6 +1324,724 @@
         ]
       },
       "group_name": "Ardougne Wall Door",
+      "instance_groups": [],
+      "parser_id": "prototypecopyloc"
+    },
+    {
+      "group_id": 545,
+      "loc_ids": [
+        65084,
+        65078,
+        65083,
+        65081,
+        65087,
+        65080,
+        65076,
+        65082,
+        65079,
+        65077,
+        65086,
+        65085
+      ],
+      "per_group_arg": {
+        "actions": [
+          {
+            "action": {
+              "id": 0
+            },
+            "movements": [
+              {
+                "valid_from": {
+                  "origin": {
+                    "x": 0,
+                    "y": -1,
+                    "level": 0
+                  },
+                  "size": {
+                    "x": 3,
+                    "y": 1
+                  }
+                },
+                "movement": {
+                  "offset": {
+                    "x": 0,
+                    "y": 3,
+                    "level": 0
+                  }
+                },
+                "time": 3
+              },
+              {
+                "valid_from": {
+                  "origin": {
+                    "x": 0,
+                    "y": 2,
+                    "level": 0
+                  },
+                  "size": {
+                    "x": 3,
+                    "y": 1
+                  }
+                },
+                "movement": {
+                  "offset": {
+                    "x": 0,
+                    "y": -3,
+                    "level": 0
+                  }
+                },
+                "time": 3
+              }
+            ]
+          }
+        ]
+      },
+      "group_name": "Wilderness Wall",
+      "instance_groups": [],
+      "parser_id": "prototypecopyloc"
+    },
+    {
+      "group_id": 558,
+      "loc_ids": [
+        55347
+      ],
+      "group_name": "",
+      "instance_groups": [],
+      "parser_id": "ignore"
+    },
+    {
+      "group_id": 559,
+      "loc_ids": [
+        55348,
+        27266,
+        16089,
+        16090,
+        20224,
+        20244,
+        20225,
+        20248,
+        3629,
+        3630,
+        3631,
+        3632,
+        95671,
+        95746,
+        95657,
+        95672,
+        59795,
+        32015,
+        103472,
+        103461,
+        103460,
+        103458,
+        103457,
+        3610,
+        29057,
+        29018,
+        29058,
+        29032,
+        29031,
+        29044,
+        29004,
+        29005,
+        29045,
+        64675,
+        64665,
+        64674,
+        64670,
+        64669,
+        64672,
+        119969,
+        15250,
+        11517,
+        11516,
+        11503,
+        11510,
+        11513,
+        11493,
+        42587,
+        42593,
+        42601,
+        42599,
+        42592,
+        42597,
+        42589,
+        42590,
+        42586,
+        42596
+      ],
+      "group_name": "Ignore",
+      "instance_groups": [],
+      "parser_id": "ignore"
+    },
+    {
+      "group_id": 566,
+      "loc_ids": [
+        99374
+      ],
+      "per_group_arg": {
+        "plane_offset": 0,
+        "actions": [
+          {
+            "action": {
+              "id": 0
+            },
+            "area": {
+              "origin": {
+                "x": -2,
+                "y": 2,
+                "level": 0
+              }
+            },
+            "movements": [
+              {
+                "movement": {
+                  "offset": {
+                    "x": 2,
+                    "y": -2,
+                    "level": 0
+                  }
+                },
+                "time": 7
+              }
+            ]
+          }
+        ]
+      },
+      "group_name": "",
+      "instance_groups": [],
+      "parser_id": "prototypecopyloc"
+    },
+    {
+      "group_id": 567,
+      "loc_ids": [
+        99373
+      ],
+      "per_group_arg": {
+        "actions": [
+          {
+            "action": {
+              "id": 0
+            },
+            "area": {
+              "origin": {
+                "x": 2,
+                "y": -2,
+                "level": 0
+              }
+            },
+            "movements": [
+              {
+                "movement": {
+                  "offset": {
+                    "x": -2,
+                    "y": 2,
+                    "level": 0
+                  }
+                },
+                "time": 7
+              }
+            ]
+          }
+        ]
+      },
+      "group_name": "",
+      "instance_groups": [],
+      "parser_id": "prototypecopyloc"
+    },
+    {
+      "group_id": 568,
+      "loc_ids": [
+        9330,
+        9738
+      ],
+      "per_group_arg": {
+        "actions": [
+          {
+            "action": {
+              "id": 0
+            },
+            "area": {
+              "origin": {
+                "x": -1,
+                "y": 0,
+                "level": 0
+              },
+              "size": {
+                "x": 3,
+                "y": 1
+              },
+              "data": "BQ=="
+            },
+            "movements": [
+              {
+                "valid_from": {
+                  "origin": {
+                    "x": 1,
+                    "y": 0,
+                    "level": 0
+                  }
+                },
+                "movement": {
+                  "offset": {
+                    "x": -3,
+                    "y": 0,
+                    "level": 0
+                  }
+                },
+                "time": 4
+              },
+              {
+                "valid_from": {
+                  "origin": {
+                    "x": -1,
+                    "y": 0,
+                    "level": 0
+                  }
+                },
+                "movement": {
+                  "offset": {
+                    "x": 3,
+                    "y": 0,
+                    "level": 0
+                  }
+                },
+                "time": 4
+              }
+            ]
+          }
+        ]
+      },
+      "group_name": "Ardougne Wall Door",
+      "instance_groups": [],
+      "parser_id": "prototypecopyloc"
+    },
+    {
+      "group_id": 570,
+      "loc_ids": [
+        17974
+      ],
+      "per_group_arg": {
+        "across": true,
+        "single_side": 4,
+        "up": {
+          "id": 0
+        }
+      },
+      "group_name": "",
+      "instance_groups": [],
+      "parser_id": "ladders"
+    },
+    {
+      "group_id": 571,
+      "loc_ids": [
+        17975
+      ],
+      "per_group_arg": {
+        "across": true,
+        "single_side": 2,
+        "down": {
+          "id": 0
+        }
+      },
+      "group_name": "",
+      "instance_groups": [],
+      "parser_id": "ladders"
+    },
+    {
+      "group_id": 580,
+      "loc_ids": [
+        91974,
+        91975,
+        91973,
+        91972
+      ],
+      "per_group_arg": {
+        "actions": [
+          {
+            "action": {
+              "id": 0
+            },
+            "area": {
+              "origin": {
+                "x": -2,
+                "y": -2,
+                "level": 0
+              },
+              "size": {
+                "x": 5,
+                "y": 5
+              },
+              "data": "BERAAA=="
+            },
+            "movements": [
+              {
+                "movement": {
+                  "offset": {
+                    "x": 0,
+                    "y": 0,
+                    "level": 0
+                  },
+                  "fixed": {
+                    "origin": {
+                      "x": 0,
+                      "y": 0,
+                      "level": 0
+                    },
+                    "size": {
+                      "x": 1,
+                      "y": 1
+                    }
+                  }
+                },
+                "time": 3
+              }
+            ]
+          }
+        ]
+      },
+      "group_name": "Simple Jump to rock",
+      "instance_groups": [],
+      "parser_id": "prototypecopyloc"
+    },
+    {
+      "group_id": 581,
+      "loc_ids": [
+        8742
+      ],
+      "per_group_arg": {
+        "actions": [
+          {
+            "action": {
+              "id": 0
+            },
+            "area": {
+              "origin": {
+                "x": -1,
+                "y": 3,
+                "level": 0
+              },
+              "size": {
+                "x": 3,
+                "y": 1
+              },
+              "data": "BQ=="
+            },
+            "movements": [
+              {
+                "valid_from": {
+                  "origin": {
+                    "x": 1,
+                    "y": 3,
+                    "level": 0
+                  }
+                },
+                "movement": {
+                  "offset": {
+                    "x": -2,
+                    "y": 0,
+                    "level": 0
+                  }
+                },
+                "time": 6
+              },
+              {
+                "valid_from": {
+                  "origin": {
+                    "x": -1,
+                    "y": 3,
+                    "level": 0
+                  }
+                },
+                "movement": {
+                  "offset": {
+                    "x": 2,
+                    "y": 0,
+                    "level": 0
+                  }
+                },
+                "time": 6
+              }
+            ]
+          }
+        ]
+      },
+      "group_name": "",
+      "instance_groups": [],
+      "parser_id": "prototypecopyloc"
+    },
+    {
+      "group_id": 587,
+      "loc_ids": [
+        3924
+      ],
+      "per_group_arg": {
+        "actions": [
+          {
+            "action": {
+              "id": 0
+            },
+            "area": {
+              "origin": {
+                "x": 0,
+                "y": -2,
+                "level": 0
+              },
+              "size": {
+                "x": 1,
+                "y": 5
+              },
+              "data": "EQ=="
+            },
+            "movements": [
+              {
+                "valid_from": {
+                  "origin": {
+                    "x": 0,
+                    "y": -2,
+                    "level": 0
+                  }
+                },
+                "movement": {
+                  "offset": {
+                    "x": 0,
+                    "y": 4,
+                    "level": 0
+                  }
+                },
+                "time": 4
+              },
+              {
+                "valid_from": {
+                  "origin": {
+                    "x": 0,
+                    "y": 2,
+                    "level": 0
+                  }
+                },
+                "movement": {
+                  "offset": {
+                    "x": 0,
+                    "y": -4,
+                    "level": 0
+                  }
+                },
+                "time": 4
+              }
+            ]
+          }
+        ]
+      },
+      "group_name": "",
+      "instance_groups": [],
+      "parser_id": "prototypecopyloc"
+    },
+    {
+      "group_id": 589,
+      "loc_ids": [
+        3922
+      ],
+      "per_group_arg": {
+        "actions": [
+          {
+            "action": {
+              "id": 0
+            },
+            "area": {
+              "origin": {
+                "x": 0,
+                "y": 0,
+                "level": 0
+              },
+              "size": {
+                "x": 4,
+                "y": 1
+              },
+              "data": "CQ=="
+            },
+            "movements": [
+              {
+                "valid_from": {
+                  "origin": {
+                    "x": 3,
+                    "y": 0,
+                    "level": 0
+                  }
+                },
+                "movement": {
+                  "offset": {
+                    "x": -3,
+                    "y": 0,
+                    "level": 0
+                  }
+                },
+                "time": 7
+              },
+              {
+                "valid_from": {
+                  "origin": {
+                    "x": 0,
+                    "y": 0,
+                    "level": 0
+                  }
+                },
+                "movement": {
+                  "offset": {
+                    "x": 3,
+                    "y": 0,
+                    "level": 0
+                  }
+                },
+                "time": 7
+              }
+            ]
+          }
+        ]
+      },
+      "group_name": "",
+      "instance_groups": [],
+      "parser_id": "prototypecopyloc"
+    },
+    {
+      "group_id": 591,
+      "loc_ids": [
+        3921
+      ],
+      "per_group_arg": {
+        "actions": [
+          {
+            "action": {
+              "id": 0
+            },
+            "area": {
+              "origin": {
+                "x": 0,
+                "y": -1,
+                "level": 0
+              },
+              "size": {
+                "x": 1,
+                "y": 4
+              },
+              "data": "CQ=="
+            },
+            "movements": [
+              {
+                "valid_from": {
+                  "origin": {
+                    "x": 0,
+                    "y": 2,
+                    "level": 0
+                  }
+                },
+                "movement": {
+                  "offset": {
+                    "x": 0,
+                    "y": -3,
+                    "level": 0
+                  }
+                },
+                "time": 6
+              },
+              {
+                "valid_from": {
+                  "origin": {
+                    "x": 0,
+                    "y": -1,
+                    "level": 0
+                  }
+                },
+                "movement": {
+                  "offset": {
+                    "x": 0,
+                    "y": 3,
+                    "level": 0
+                  }
+                },
+                "time": 6
+              }
+            ]
+          }
+        ]
+      },
+      "group_name": "",
+      "instance_groups": [],
+      "parser_id": "prototypecopyloc"
+    },
+    {
+      "group_id": 592,
+      "loc_ids": [
+        3931,
+        3932
+      ],
+      "per_group_arg": {
+        "plane_offset": -1,
+        "actions": [
+          {
+            "action": {
+              "id": 0
+            },
+            "area": {
+              "origin": {
+                "x": 0,
+                "y": -1,
+                "level": 0
+              }
+            },
+            "movements": [
+              {
+                "movement": {
+                  "offset": {
+                    "x": 0,
+                    "y": 6,
+                    "level": 0
+                  }
+                },
+                "time": 6
+              }
+            ]
+          }
+        ]
+      },
+      "group_name": "Tirannwm Log Balances",
+      "instance_groups": [],
+      "parser_id": "prototypecopyloc"
+    },
+    {
+      "group_id": 596,
+      "loc_ids": [
+        3933
+      ],
+      "per_group_arg": {
+        "plane_offset": -1,
+        "actions": [
+          {
+            "action": {
+              "id": 0
+            },
+            "area": {
+              "origin": {
+                "x": 0,
+                "y": -1,
+                "level": 0
+              }
+            },
+            "movements": [
+              {
+                "movement": {
+                  "offset": {
+                    "x": 0,
+                    "y": 7,
+                    "level": 0
+                  }
+                },
+                "time": 9
+              }
+            ]
+          }
+        ]
+      },
+      "group_name": "Tirannwn Log Balances 2",
       "instance_groups": [],
       "parser_id": "prototypecopyloc"
     }

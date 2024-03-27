@@ -19,7 +19,7 @@ export abstract class AbstractDropdownSelection<T> extends Widget {
 
     this.selection = observe(inital_item)
 
-    this.input_container = c("<div></div>").appendTo(this)
+    this.input_container = c().appendTo(this)
 
     this.selection.subscribe(item => {
       this.renderInput()
@@ -57,6 +57,12 @@ export abstract class AbstractDropdownSelection<T> extends Widget {
       this._list_constructor = items
     }
 
+    if (this.dropdown) {
+      (async () => {
+        this.dropdown.setItems(await this._list_constructor())
+      })()
+    }
+
     return this
   }
 
@@ -71,7 +77,10 @@ export abstract class AbstractDropdownSelection<T> extends Widget {
     })
       .setItems(await this._list_constructor())
       .setHighlighted(this.selection.value())
-      .onClosed(() => this.dropdown = null)
+      .onClosed(() => {
+        this.dropdown = null
+        this.renderInput()
+      })
       .onSelected(i => {
         this.selection.set(i)
         this.selected.trigger(i)

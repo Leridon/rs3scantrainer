@@ -1,12 +1,13 @@
 import {AbstractDropdownSelection} from "./AbstractDropdownSelection";
 import Widget from "lib/ui/Widget";
 import * as fuzzysort from "fuzzysort";
+import TextField from "../../../lib/ui/controls/TextField";
 
 export class SearchSelection<T extends object | string | number> extends AbstractDropdownSelection<T> {
 
   private prepared_items: { item: T, term: Fuzzysort.Prepared }[]
 
-  constructor(protected options: SearchSelection.options<T>, items: T[]) {
+  constructor(protected options: SearchSelection.options<T>, private items: T[]) {
     super(options, items[0]);
 
     this.prepared_items = items.map(i => {
@@ -17,21 +18,19 @@ export class SearchSelection<T extends object | string | number> extends Abstrac
   }
 
   protected override onOpen(): Widget {
-    let search_box = c("<input type='text' class='nisl-selectdropdown-input' tabindex='-1'>")
+    let search_box = new TextField()
+      .setValue("")
+      .css("width", "100%")
+      .onPreview(term => {
+        let results = fuzzysort.go(term, this.prepared_items, {
+          key: "term",
+          all: true,
+          threshold: -10000
+        })
+
+        this.setItems(Array.from(results).map(r => r.obj.item))
+      })
       .appendTo(this.input_container.empty())
-      .tapRaw(r => r
-        .val("")
-        .on("input", () => {
-          let term = search_box.container.val() as string
-
-          let results = fuzzysort.go(term, this.prepared_items, {
-            key: "term",
-            all: true,
-            threshold: -10000
-          })
-
-          this.setItems(Array.from(results).map(r => r.obj.item))
-        }))
 
     this.setItems([this.selection.value()])
 

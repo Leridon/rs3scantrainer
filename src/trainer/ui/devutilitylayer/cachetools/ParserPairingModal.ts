@@ -95,16 +95,15 @@ export class ParserPairingEdit extends Widget {
         type_class: {
           toHTML: item => {
             if (item) {
-              if (item.group_name.length > 0) return c().text("No name").css("font-style", "italic")
+              if (item.group_name.length == 0) return c().text("No name").css("font-style", "italic")
               else return c().text(item.group_name)
-            } else return c().text("Create new instance group")
+            } else return c().text("Create new group")
           },
         },
         search_term: item => {
           return item ? item.group_name : "Create new group"
         }
-      }, [])
-        .setItems(() => [null].concat(this.parsing_table.data.associations))
+      }, [null].concat(this.parsing_table.data.associations.filter(a => a.group_name.length > 0)))
         .setValue(this.parsing_table.getGroup(this.pairing.group.id))
         .onSelection(group => {
           if (group) {
@@ -140,7 +139,7 @@ export class ParserPairingEdit extends Widget {
           })
       )
 
-      props.named("Name", new TextField()
+      props.named("Group Name", new TextField()
         .setValue(this.pairing.group.name)
         .onCommit(v => {
           this.pairing.group.name = v
@@ -184,21 +183,19 @@ export class ParserPairingEdit extends Widget {
         if (this.pairing.instance_group) {
           const group = this.parsing_table.getGroup(this.pairing.group.id)
 
-
           props.named("Group", new SearchSelection<ParsingAssociationGroup["instance_groups"][number]>({
-              type_class: {
-                toHTML: item => {
-                  if (item) {
-                    if (item.name.length > 0) return c().text("No name").css("font-style", "italic")
-                    else return c().text(item.name)
-                  } else return c().text("Create new instance group")
-                },
+            type_class: {
+              toHTML: item => {
+                if (item) {
+                  if (item.name.length > 0) return c().text("No name").css("font-style", "italic")
+                  else return c().text(item.name)
+                } else return c().text("Create new instance group")
               },
-              search_term: item => {
-                return item ? item.name : "Create new group"
-              }
-            }, [])
-            .setItems(() => [null].concat(group?.instance_groups ?? []))
+            },
+            search_term: item => {
+              return item ? item.name : "Create new group"
+            }
+          }, [null].concat((group?.instance_groups ?? []).filter(g => g.name)))
             .setValue(group?.instance_groups?.find(i => i.id == this.pairing.instance_group.id) ?? null)
             .onSelection(group => {
               if (group) {
@@ -214,7 +211,7 @@ export class ParserPairingEdit extends Widget {
               this.renderProps()
             }))
 
-          props.named("Name", new TextField()
+          props.named("IGroup Name", new TextField()
             .setValue(this.pairing.instance_group.name)
             .onCommit(v => {
               this.pairing.instance_group.name = v

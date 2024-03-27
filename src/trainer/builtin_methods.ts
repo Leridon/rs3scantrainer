@@ -5,7 +5,7 @@ export const default_scan_method_pack: Pack = {
   local_id: "default:scanmethods",
   original_id: "default:scanmethods",
   author: "Zyklop Marco",
-  timestamp: 1700749105,
+  timestamp: 1711572121,
   name: "Default Scan Methods",
   description: "This default pack features standard scan routes based on the guide by Fiery and some other contributors.",
   default_method_name: "Default Scan Route",
@@ -2874,7 +2874,7 @@ export const default_scan_method_pack: Pack = {
     }, {
       "id": "2501479b-4809-448e-a48f-652a3bf6dd95",
       "type": "scantree",
-      "timestamp": 1711557543,
+      "timestamp": 1711572121,
       "name": "Default Scan Route",
       "description": "",
       "assumptions": {"meerkats_active": true, "double_surge": true, "double_escape": true, "mobile_perk": true},
@@ -2924,12 +2924,20 @@ export const default_scan_method_pack: Pack = {
                             "from": {"x": 2261, "y": 3388, "level": 1},
                             "to": {"x": 2261, "y": 3398, "level": 1}
                           }, {"type": "ability", "ability": "dive", "from": {"x": 2261, "y": 3398, "level": 1}, "to": {"x": 2266, "y": 3402, "level": 1}}, {
-                            "type": "cheat",
+                            "type": "transport",
                             "assumed_start": {"x": 2266, "y": 3402, "level": 1},
-                            "target": {"x": 2268, "y": 3397, "level": 1},
-                            "ticks": 0,
-                            "orientation": 4
-                          }]
+                            "internal": {
+                              "type": "entity",
+                              "entity": {"name": "Outcrop", "kind": "static"},
+                              "clickable_area": {"topleft": {"x": 2267.5, "y": 3400.5}, "botright": {"x": 2268.5, "y": 3399.5}, "level": 1},
+                              "actions": [{
+                                "cursor": "generic",
+                                "interactive_area": {"origin": {"x": 2266, "y": 3402, "level": 1}},
+                                "name": "Jump to",
+                                "movement": [{"time": 7, "offset": {"x": 2, "y": -2, "level": 0}}]
+                              }]
+                            }
+                          }, {"type": "run", "waypoints": [{"x": 2268, "y": 3400, "level": 1}, {"x": 2268, "y": 3398, "level": 1}]}]
                         }
                       }],
                       "directions": "",
@@ -3258,7 +3266,956 @@ export const default_scan_method_pack: Pack = {
           "region": {"area": null, "name": ""}
         }
       },
-      "expected_time": 19.194444444444443
+      "expected_time": 19.63888888888889
+    }, {
+      "id": "72e6a839-b057-457f-b382-59c8c6beaa69",
+      "type": "scantree",
+      "timestamp": 1711575162,
+      "name": "Default Scan Route",
+      "description": "",
+      "assumptions": {"meerkats_active": true, "double_surge": true, "double_escape": true, "mobile_perk": true},
+      "for": {"clue": 363},
+      "tree": {
+        "assumed_range": 21,
+        "ordered_spots": [{"x": 2354, "y": 3790, "level": 0}, {"x": 2360, "y": 3799, "level": 0}, {"x": 2324, "y": 3808, "level": 0}, {"x": 2322, "y": 3787, "level": 0}, {
+          "x": 2311,
+          "y": 3801,
+          "level": 0
+        }, {"x": 2340, "y": 3803, "level": 0}, {"x": 2342, "y": 3809, "level": 0}, {"x": 2330, "y": 3829, "level": 0}, {"x": 2311, "y": 3835, "level": 0}, {
+          "x": 2376,
+          "y": 3800,
+          "level": 0
+        }, {"x": 2381, "y": 3789, "level": 0}, {"x": 2402, "y": 3789, "level": 0}, {"x": 2421, "y": 3792, "level": 0}, {"x": 2397, "y": 3801, "level": 0}, {
+          "x": 2419,
+          "y": 3833,
+          "level": 0
+        }, {"x": 2395, "y": 3812, "level": 0}, {"x": 2373, "y": 3834, "level": 0}, {"x": 2314, "y": 3851, "level": 0}, {"x": 2326, "y": 3866, "level": 0}, {
+          "x": 2326,
+          "y": 3850,
+          "level": 0
+        }, {"x": 2354, "y": 3853, "level": 0}, {"x": 2349, "y": 3880, "level": 0}, {"x": 2312, "y": 3894, "level": 0}, {"x": 2352, "y": 3892, "level": 0}, {
+          "x": 2414,
+          "y": 3848,
+          "level": 0
+        }, {"x": 2418, "y": 3870, "level": 0}, {"x": 2377, "y": 3850, "level": 0}, {"x": 2400, "y": 3870, "level": 0}, {"x": 2368, "y": 3870, "level": 0}, {
+          "x": 2417,
+          "y": 3893,
+          "level": 0
+        }, {"x": 2399, "y": 3888, "level": 0}, {"x": 2389, "y": 3899, "level": 0}],
+        "root": {
+          "children": [{
+            "key": {"pulse": 1, "different_level": false}, "value": {
+              "children": [{
+                "key": {"pulse": 1, "different_level": false}, "value": {
+                  "children": [{
+                    "key": {"pulse": 1, "different_level": false}, "value": {
+                      "children": [{
+                        "key": {"pulse": 1, "different_level": false}, "value": {
+                          "children": [{
+                            "key": {"pulse": 1, "different_level": false}, "value": {
+                              "children": [{
+                                "key": {"pulse": 1, "different_level": false}, "value": {
+                                  "children": [{
+                                    "key": {"pulse": 3, "different_level": false, "spot": {"x": 2354, "y": 3790, "level": 0}},
+                                    "value": {
+                                      "children": [],
+                                      "directions": "",
+                                      "path": [{
+                                        "type": "run",
+                                        "waypoints": [{"x": 2339, "y": 3804, "level": 0}, {"x": 2341, "y": 3802, "level": 0}, {"x": 2346, "y": 3802, "level": 0}, {
+                                          "x": 2347,
+                                          "y": 3801,
+                                          "level": 0
+                                        }]
+                                      }, {"type": "ability", "ability": "dive", "from": {"x": 2347, "y": 3801, "level": 0}, "to": {"x": 2357, "y": 3791, "level": 0}}, {
+                                        "type": "run",
+                                        "waypoints": [{"x": 2357, "y": 3791, "level": 0}, {"x": 2355, "y": 3791, "level": 0}]
+                                      }]
+                                    }
+                                  }, {
+                                    "key": {"pulse": 3, "different_level": false, "spot": {"x": 2360, "y": 3799, "level": 0}},
+                                    "value": {
+                                      "children": [],
+                                      "directions": "",
+                                      "path": [{
+                                        "type": "run",
+                                        "waypoints": [{"x": 2339, "y": 3804, "level": 0}, {"x": 2340, "y": 3804, "level": 0}, {"x": 2341, "y": 3805, "level": 0}, {
+                                          "x": 2344,
+                                          "y": 3805,
+                                          "level": 0
+                                        }, {"x": 2345, "y": 3804, "level": 0}, {"x": 2349, "y": 3804, "level": 0}]
+                                      }, {"type": "ability", "ability": "dive", "from": {"x": 2349, "y": 3804, "level": 0}, "to": {"x": 2359, "y": 3799, "level": 0}}]
+                                    }
+                                  }],
+                                  "directions": "",
+                                  "path": [{
+                                    "type": "run",
+                                    "waypoints": [{"x": 2311, "y": 3786, "level": 0}, {"x": 2311, "y": 3788, "level": 0}, {"x": 2312, "y": 3788, "level": 0}, {
+                                      "x": 2312,
+                                      "y": 3789,
+                                      "level": 0
+                                    }, {"x": 2313, "y": 3789, "level": 0}, {"x": 2313, "y": 3792, "level": 0}, {"x": 2314, "y": 3793, "level": 0}]
+                                  }, {"type": "ability", "ability": "surge", "from": {"x": 2314, "y": 3793, "level": 0}, "to": {"x": 2324, "y": 3803, "level": 0}}, {
+                                    "type": "run",
+                                    "waypoints": [{"x": 2324, "y": 3803, "level": 0}, {"x": 2325, "y": 3803, "level": 0}, {"x": 2326, "y": 3804, "level": 0}, {
+                                      "x": 2328,
+                                      "y": 3804,
+                                      "level": 0
+                                    }]
+                                  }, {
+                                    "type": "transport",
+                                    "assumed_start": {"x": 2328, "y": 3804, "level": 0},
+                                    "internal": {
+                                      "type": "entity",
+                                      "entity": {"kind": "static", "name": "Door"},
+                                      "clickable_area": {"topleft": {"x": 2328, "y": 3804.5}, "botright": {"x": 2329, "y": 3803.5}, "level": 0},
+                                      "actions": [{
+                                        "cursor": "open",
+                                        "interactive_area": {"origin": {"x": 2328, "y": 3804, "level": 0}, "size": {"x": 2, "y": 1}},
+                                        "name": "Pass",
+                                        "movement": [{"time": 1, "offset": {"x": 1, "y": 0, "level": 0}, "valid_from": {"origin": {"x": 2328, "y": 3804, "level": 0}}}, {
+                                          "time": 1,
+                                          "offset": {"x": -1, "y": 0, "level": 0},
+                                          "valid_from": {"origin": {"x": 2329, "y": 3804, "level": 0}}
+                                        }]
+                                      }]
+                                    }
+                                  }, {"type": "ability", "ability": "surge", "from": {"x": 2329, "y": 3804, "level": 0}, "to": {"x": 2339, "y": 3804, "level": 0}}]
+                                }
+                              }, {
+                                "key": {"pulse": 2, "different_level": false}, "value": {
+                                  "children": [{
+                                    "key": {"pulse": 2, "different_level": false},
+                                    "value": {
+                                      "children": [],
+                                      "directions": "",
+                                      "path": [{
+                                        "type": "ability",
+                                        "ability": "surge",
+                                        "from": {"x": 2329, "y": 3804, "level": 0},
+                                        "to": {"x": 2339, "y": 3804, "level": 0}
+                                      }, {
+                                        "type": "run",
+                                        "waypoints": [{"x": 2339, "y": 3804, "level": 0}, {"x": 2341, "y": 3802, "level": 0}, {"x": 2346, "y": 3802, "level": 0}, {
+                                          "x": 2347,
+                                          "y": 3801,
+                                          "level": 0
+                                        }]
+                                      }, {"type": "ability", "ability": "dive", "from": {"x": 2347, "y": 3801, "level": 0}, "to": {"x": 2357, "y": 3791, "level": 0}}, {
+                                        "type": "run",
+                                        "waypoints": [{"x": 2357, "y": 3791, "level": 0}, {"x": 2355, "y": 3791, "level": 0}]
+                                      }]
+                                    }
+                                  }, {
+                                    "key": {"pulse": 3, "different_level": false, "spot": {"x": 2340, "y": 3803, "level": 0}},
+                                    "value": {
+                                      "children": [],
+                                      "directions": "",
+                                      "path": [{"type": "ability", "ability": "surge", "from": {"x": 2329, "y": 3804, "level": 0}, "to": {"x": 2339, "y": 3804, "level": 0}}]
+                                    }
+                                  }],
+                                  "directions": "",
+                                  "path": [{
+                                    "type": "run",
+                                    "waypoints": [{"x": 2311, "y": 3786, "level": 0}, {"x": 2311, "y": 3788, "level": 0}, {"x": 2312, "y": 3788, "level": 0}, {
+                                      "x": 2312,
+                                      "y": 3789,
+                                      "level": 0
+                                    }, {"x": 2313, "y": 3789, "level": 0}, {"x": 2313, "y": 3791, "level": 0}, {"x": 2314, "y": 3792, "level": 0}]
+                                  }, {"type": "ability", "ability": "surge", "from": {"x": 2314, "y": 3792, "level": 0}, "to": {"x": 2324, "y": 3802, "level": 0}}, {
+                                    "type": "run",
+                                    "waypoints": [{"x": 2324, "y": 3802, "level": 0}, {"x": 2326, "y": 3804, "level": 0}, {"x": 2328, "y": 3804, "level": 0}]
+                                  }, {
+                                    "type": "transport",
+                                    "assumed_start": {"x": 2328, "y": 3804, "level": 0},
+                                    "internal": {
+                                      "type": "entity",
+                                      "entity": {"kind": "static", "name": "Door"},
+                                      "clickable_area": {"topleft": {"x": 2328, "y": 3804.5}, "botright": {"x": 2329, "y": 3803.5}, "level": 0},
+                                      "actions": [{
+                                        "cursor": "open",
+                                        "interactive_area": {"origin": {"x": 2328, "y": 3804, "level": 0}, "size": {"x": 2, "y": 1}},
+                                        "name": "Pass",
+                                        "movement": [{"time": 1, "offset": {"x": 1, "y": 0, "level": 0}, "valid_from": {"origin": {"x": 2328, "y": 3804, "level": 0}}}, {
+                                          "time": 1,
+                                          "offset": {"x": -1, "y": 0, "level": 0},
+                                          "valid_from": {"origin": {"x": 2329, "y": 3804, "level": 0}}
+                                        }]
+                                      }]
+                                    }
+                                  }]
+                                }
+                              }, {
+                                "key": {"pulse": 3, "different_level": false, "spot": {"x": 2322, "y": 3787, "level": 0}}, "value": {
+                                  "children": [],
+                                  "directions": "",
+                                  "path": [{
+                                    "type": "run",
+                                    "waypoints": [{"x": 2311, "y": 3786, "level": 0}, {"x": 2311, "y": 3788, "level": 0}, {"x": 2312, "y": 3788, "level": 0}, {
+                                      "x": 2312,
+                                      "y": 3789,
+                                      "level": 0
+                                    }, {"x": 2313, "y": 3789, "level": 0}, {"x": 2313, "y": 3791, "level": 0}, {"x": 2314, "y": 3792, "level": 0}]
+                                  }, {"type": "ability", "ability": "surge", "from": {"x": 2314, "y": 3792, "level": 0}, "to": {"x": 2324, "y": 3802, "level": 0}}, {
+                                    "type": "run",
+                                    "waypoints": [{"x": 2324, "y": 3802, "level": 0}, {"x": 2326, "y": 3802, "level": 0}]
+                                  }, {
+                                    "type": "transport",
+                                    "assumed_start": {"x": 2326, "y": 3802, "level": 0},
+                                    "internal": {
+                                      "type": "entity",
+                                      "entity": {"kind": "static", "name": "Gate"},
+                                      "clickable_area": {"topleft": {"x": 2325.5, "y": 3802}, "botright": {"x": 2326.5, "y": 3801}, "level": 0},
+                                      "actions": [{
+                                        "cursor": "open",
+                                        "interactive_area": {"origin": {"x": 2326, "y": 3801, "level": 0}, "size": {"x": 1, "y": 2}},
+                                        "name": "Pass",
+                                        "movement": [{"time": 1, "offset": {"x": 0, "y": -1, "level": 0}, "valid_from": {"origin": {"x": 2326, "y": 3802, "level": 0}}}, {
+                                          "time": 1,
+                                          "offset": {"x": 0, "y": 1, "level": 0},
+                                          "valid_from": {"origin": {"x": 2326, "y": 3801, "level": 0}}
+                                        }]
+                                      }]
+                                    }
+                                  }, {
+                                    "type": "ability",
+                                    "ability": "surge",
+                                    "from": {"x": 2326, "y": 3801, "level": 0},
+                                    "to": {"x": 2326, "y": 3791, "level": 0}
+                                  }, {"type": "ability", "ability": "dive", "from": {"x": 2326, "y": 3791, "level": 0}, "to": {"x": 2322, "y": 3787, "level": 0}}]
+                                }
+                              }, {
+                                "key": {"pulse": 3, "different_level": false, "spot": {"x": 2311, "y": 3801, "level": 0}},
+                                "value": {
+                                  "children": [],
+                                  "directions": "",
+                                  "path": [{"type": "run", "waypoints": [{"x": 2311, "y": 3786, "level": 0}, {"x": 2311, "y": 3788, "level": 0}]}, {
+                                    "type": "ability",
+                                    "ability": "dive",
+                                    "from": {"x": 2311, "y": 3788, "level": 0},
+                                    "to": {"x": 2316, "y": 3798, "level": 0}
+                                  }, {
+                                    "type": "run",
+                                    "waypoints": [{"x": 2316, "y": 3798, "level": 0}, {"x": 2316, "y": 3803, "level": 0}, {"x": 2312, "y": 3803, "level": 0}, {
+                                      "x": 2311,
+                                      "y": 3802,
+                                      "level": 0
+                                    }]
+                                  }]
+                                }
+                              }],
+                              "directions": "",
+                              "path": [{"type": "teleport", "spot": {"x": 2311, "y": 3786, "level": 0}, "id": {"group": "lyre", "spot": "neitiznot", "access": "lyre"}}]
+                            }
+                          }, {
+                            "key": {"pulse": 2, "different_level": false}, "value": {
+                              "children": [{
+                                "key": {"pulse": 3, "different_level": false, "spot": {"x": 2376, "y": 3800, "level": 0}},
+                                "value": {
+                                  "children": [],
+                                  "directions": "",
+                                  "path": [{"type": "run", "waypoints": [{"x": 2387, "y": 3799, "level": 0}, {"x": 2377, "y": 3799, "level": 0}]}]
+                                }
+                              }, {
+                                "key": {"pulse": 3, "different_level": false, "spot": {"x": 2381, "y": 3789, "level": 0}},
+                                "value": {
+                                  "children": [],
+                                  "directions": "",
+                                  "path": [{
+                                    "type": "run",
+                                    "waypoints": [{"x": 2387, "y": 3799, "level": 0}, {"x": 2385, "y": 3797, "level": 0}, {"x": 2385, "y": 3795, "level": 0}, {
+                                      "x": 2384,
+                                      "y": 3794,
+                                      "level": 0
+                                    }, {"x": 2384, "y": 3792, "level": 0}, {"x": 2381, "y": 3789, "level": 0}]
+                                  }]
+                                }
+                              }],
+                              "directions": "",
+                              "path": [{
+                                "type": "redclick",
+                                "target": {"kind": "static", "name": "Entity"},
+                                "where": {"x": 2415, "y": 3796, "level": 0},
+                                "how": "generic"
+                              }, {"type": "run", "waypoints": [{"x": 2404, "y": 3782, "level": 0}, {"x": 2404, "y": 3786, "level": 0}]}, {
+                                "type": "ability",
+                                "ability": "surge",
+                                "from": {"x": 2404, "y": 3786, "level": 0},
+                                "to": {"x": 2413, "y": 3795, "level": 0}
+                              }, {"type": "run", "waypoints": [{"x": 2413, "y": 3795, "level": 0}, {"x": 2412, "y": 3796, "level": 0}]}, {
+                                "type": "transport",
+                                "assumed_start": {"x": 2412, "y": 3796, "level": 0},
+                                "internal": {
+                                  "type": "entity",
+                                  "entity": {"kind": "static", "name": "Gate"},
+                                  "clickable_area": {"topleft": {"x": 2411.5, "y": 3797}, "botright": {"x": 2412.5, "y": 3796}, "level": 0},
+                                  "actions": [{
+                                    "cursor": "open",
+                                    "interactive_area": {"origin": {"x": 2412, "y": 3796, "level": 0}, "size": {"x": 1, "y": 2}},
+                                    "name": "Pass",
+                                    "movement": [{"time": 1, "offset": {"x": 0, "y": -1, "level": 0}, "valid_from": {"origin": {"x": 2412, "y": 3797, "level": 0}}}, {
+                                      "time": 1,
+                                      "offset": {"x": 0, "y": 1, "level": 0},
+                                      "valid_from": {"origin": {"x": 2412, "y": 3796, "level": 0}}
+                                    }]
+                                  }]
+                                }
+                              }, {
+                                "type": "run",
+                                "waypoints": [{"x": 2412, "y": 3797, "level": 0}, {"x": 2412, "y": 3798, "level": 0}, {"x": 2409, "y": 3798, "level": 0}]
+                              }, {"type": "ability", "ability": "dive", "from": {"x": 2409, "y": 3798, "level": 0}, "to": {"x": 2399, "y": 3800, "level": 0}}, {
+                                "type": "ability",
+                                "ability": "surge",
+                                "from": {"x": 2399, "y": 3800, "level": 0},
+                                "to": {"x": 2389, "y": 3800, "level": 0}
+                              }, {
+                                "type": "run",
+                                "waypoints": [{"x": 2389, "y": 3800, "level": 0}, {"x": 2389, "y": 3799, "level": 0}, {"x": 2388, "y": 3799, "level": 0}]
+                              }, {
+                                "type": "transport",
+                                "assumed_start": {"x": 2388, "y": 3799, "level": 0},
+                                "internal": {
+                                  "type": "entity",
+                                  "entity": {"kind": "static", "name": "Gate"},
+                                  "clickable_area": {"topleft": {"x": 2387, "y": 3799.5}, "botright": {"x": 2388, "y": 3798.5}, "level": 0},
+                                  "actions": [{
+                                    "cursor": "open",
+                                    "interactive_area": {"origin": {"x": 2387, "y": 3799, "level": 0}, "size": {"x": 2, "y": 1}},
+                                    "name": "Pass",
+                                    "movement": [{"time": 1, "offset": {"x": -1, "y": 0, "level": 0}, "valid_from": {"origin": {"x": 2388, "y": 3799, "level": 0}}}, {
+                                      "time": 1,
+                                      "offset": {"x": 1, "y": 0, "level": 0},
+                                      "valid_from": {"origin": {"x": 2387, "y": 3799, "level": 0}}
+                                    }]
+                                  }]
+                                }
+                              }]
+                            }
+                          }, {
+                            "key": {"pulse": 3, "different_level": false, "spot": {"x": 2402, "y": 3789, "level": 0}},
+                            "value": {
+                              "children": [],
+                              "directions": "",
+                              "path": [{"type": "run", "waypoints": [{"x": 2404, "y": 3782, "level": 0}, {"x": 2404, "y": 3786, "level": 0}, {"x": 2402, "y": 3788, "level": 0}]}]
+                            }
+                          }, {
+                            "key": {"pulse": 3, "different_level": false, "spot": {"x": 2421, "y": 3792, "level": 0}},
+                            "value": {
+                              "children": [],
+                              "directions": "",
+                              "path": [{
+                                "type": "run",
+                                "waypoints": [{"x": 2404, "y": 3782, "level": 0}, {"x": 2404, "y": 3784, "level": 0}, {"x": 2406, "y": 3786, "level": 0}]
+                              }, {"type": "ability", "ability": "surge", "from": {"x": 2406, "y": 3786, "level": 0}, "to": {"x": 2416, "y": 3796, "level": 0}}, {
+                                "type": "run",
+                                "waypoints": [{"x": 2416, "y": 3796, "level": 0}, {"x": 2417, "y": 3795, "level": 0}, {"x": 2418, "y": 3795, "level": 0}, {
+                                  "x": 2420,
+                                  "y": 3793,
+                                  "level": 0
+                                }]
+                              }]
+                            }
+                          }, {
+                            "key": {"pulse": 3, "different_level": false, "spot": {"x": 2397, "y": 3801, "level": 0}}, "value": {
+                              "children": [],
+                              "directions": "",
+                              "path": [{
+                                "type": "redclick",
+                                "target": {"kind": "static", "name": "Entity"},
+                                "where": {"x": 2415, "y": 3796, "level": 0},
+                                "how": "generic"
+                              }, {"type": "run", "waypoints": [{"x": 2404, "y": 3782, "level": 0}, {"x": 2404, "y": 3786, "level": 0}]}, {
+                                "type": "ability",
+                                "ability": "surge",
+                                "from": {"x": 2404, "y": 3786, "level": 0},
+                                "to": {"x": 2413, "y": 3795, "level": 0}
+                              }, {"type": "run", "waypoints": [{"x": 2413, "y": 3795, "level": 0}, {"x": 2413, "y": 3796, "level": 0}]}, {
+                                "type": "transport",
+                                "assumed_start": {"x": 2413, "y": 3796, "level": 0},
+                                "internal": {
+                                  "type": "entity",
+                                  "entity": {"kind": "static", "name": "Gate"},
+                                  "clickable_area": {"topleft": {"x": 2412.5, "y": 3797}, "botright": {"x": 2413.5, "y": 3796}, "level": 0},
+                                  "actions": [{
+                                    "cursor": "open",
+                                    "interactive_area": {"origin": {"x": 2413, "y": 3796, "level": 0}, "size": {"x": 1, "y": 2}},
+                                    "name": "Pass",
+                                    "movement": [{"time": 1, "offset": {"x": 0, "y": -1, "level": 0}, "valid_from": {"origin": {"x": 2413, "y": 3797, "level": 0}}}, {
+                                      "time": 1,
+                                      "offset": {"x": 0, "y": 1, "level": 0},
+                                      "valid_from": {"origin": {"x": 2413, "y": 3796, "level": 0}}
+                                    }]
+                                  }]
+                                }
+                              }, {
+                                "type": "run",
+                                "waypoints": [{"x": 2413, "y": 3797, "level": 0}, {"x": 2412, "y": 3798, "level": 0}, {"x": 2411, "y": 3798, "level": 0}]
+                              }, {"type": "ability", "ability": "surge", "from": {"x": 2411, "y": 3798, "level": 0}, "to": {"x": 2403, "y": 3798, "level": 0}}, {
+                                "type": "ability",
+                                "ability": "dive",
+                                "from": {"x": 2403, "y": 3798, "level": 0},
+                                "to": {"x": 2397, "y": 3801, "level": 0}
+                              }]
+                            }
+                          }],
+                          "directions": "",
+                          "path": [{"type": "teleport", "spot": {"x": 2404, "y": 3782, "level": 0}, "id": {"group": "lyre", "spot": "jatizso", "access": "lyre"}}],
+                          "region": {"area": {"origin": {"x": 2403, "y": 3780, "level": 0}, "size": {"x": 4, "y": 5}}, "name": ""}
+                        }
+                      }, {
+                        "key": {"pulse": 2, "different_level": false}, "value": {
+                          "children": [{
+                            "key": {"pulse": 1, "different_level": false}, "value": {
+                              "children": [{
+                                "key": {"pulse": 2, "different_level": false},
+                                "value": {
+                                  "children": [],
+                                  "directions": "",
+                                  "path": [{
+                                    "type": "run",
+                                    "waypoints": [{"x": 2401, "y": 3860, "level": 0}, {"x": 2402, "y": 3860, "level": 0}, {"x": 2403, "y": 3859, "level": 0}]
+                                  }, {"type": "ability", "ability": "surge", "from": {"x": 2403, "y": 3859, "level": 0}, "to": {"x": 2413, "y": 3849, "level": 0}}, {
+                                    "type": "run",
+                                    "waypoints": [{"x": 2413, "y": 3849, "level": 0}, {"x": 2416, "y": 3849, "level": 0}, {"x": 2419, "y": 3846, "level": 0}, {
+                                      "x": 2419,
+                                      "y": 3844,
+                                      "level": 0
+                                    }]
+                                  }, {"type": "ability", "ability": "dive", "from": {"x": 2419, "y": 3844, "level": 0}, "to": {"x": 2419, "y": 3834, "level": 0}}]
+                                }
+                              }, {
+                                "key": {"pulse": 3, "different_level": false, "spot": {"x": 2418, "y": 3870, "level": 0}},
+                                "value": {
+                                  "children": [],
+                                  "directions": "",
+                                  "path": [{
+                                    "type": "ability",
+                                    "ability": "surge",
+                                    "from": {"x": 2401, "y": 3860, "level": 0},
+                                    "to": {"x": 2411, "y": 3860, "level": 0}
+                                  }, {"type": "ability", "ability": "dive", "from": {"x": 2411, "y": 3860, "level": 0}, "to": {"x": 2418, "y": 3870, "level": 0}}]
+                                }
+                              }],
+                              "directions": "",
+                              "path": [{"type": "run", "waypoints": [{"x": 2375, "y": 3867, "level": 0}, {"x": 2377, "y": 3867, "level": 0}]}, {
+                                "type": "ability",
+                                "ability": "surge",
+                                "from": {"x": 2377, "y": 3867, "level": 0},
+                                "to": {"x": 2387, "y": 3867, "level": 0}
+                              }, {
+                                "type": "run",
+                                "waypoints": [{"x": 2387, "y": 3867, "level": 0}, {"x": 2391, "y": 3867, "level": 0}, {"x": 2392, "y": 3866, "level": 0}, {
+                                  "x": 2392,
+                                  "y": 3864,
+                                  "level": 0
+                                }, {"x": 2396, "y": 3860, "level": 0}, {"x": 2401, "y": 3860, "level": 0}]
+                              }]
+                            }
+                          }, {
+                            "key": {"pulse": 2, "different_level": false}, "value": {
+                              "children": [{
+                                "key": {"pulse": 1, "different_level": false}, "value": {
+                                  "children": [],
+                                  "directions": "",
+                                  "path": [{
+                                    "type": "ability",
+                                    "ability": "surge",
+                                    "from": {"x": 2374, "y": 3867, "level": 0},
+                                    "to": {"x": 2364, "y": 3867, "level": 0}
+                                  }, {
+                                    "type": "run",
+                                    "waypoints": [{"x": 2364, "y": 3867, "level": 0}, {"x": 2361, "y": 3867, "level": 0}, {"x": 2359, "y": 3869, "level": 0}]
+                                  }, {"type": "powerburst", "where": {"x": 2359, "y": 3869, "level": 0}}, {
+                                    "type": "ability",
+                                    "ability": "surge",
+                                    "from": {"x": 2359, "y": 3869, "level": 0},
+                                    "to": {"x": 2349, "y": 3879, "level": 0}
+                                  }, {"type": "ability", "ability": "dive", "from": {"x": 2349, "y": 3879, "level": 0}, "to": {"x": 2349, "y": 3889, "level": 0}}, {
+                                    "type": "run",
+                                    "waypoints": [{"x": 2349, "y": 3889, "level": 0}, {"x": 2351, "y": 3889, "level": 0}]
+                                  }, {
+                                    "type": "ability",
+                                    "ability": "surge",
+                                    "from": {"x": 2351, "y": 3889, "level": 0},
+                                    "to": {"x": 2361, "y": 3889, "level": 0}
+                                  }, {
+                                    "type": "ability",
+                                    "ability": "surge",
+                                    "from": {"x": 2361, "y": 3889, "level": 0},
+                                    "to": {"x": 2371, "y": 3889, "level": 0}
+                                  }, {"type": "ability", "ability": "dive", "from": {"x": 2371, "y": 3889, "level": 0}, "to": {"x": 2381, "y": 3889, "level": 0}}, {
+                                    "type": "ability",
+                                    "ability": "surge",
+                                    "from": {"x": 2381, "y": 3889, "level": 0},
+                                    "to": {"x": 2391, "y": 3889, "level": 0}
+                                  }, {
+                                    "type": "ability",
+                                    "ability": "surge",
+                                    "from": {"x": 2391, "y": 3889, "level": 0},
+                                    "to": {"x": 2400, "y": 3889, "level": 0}
+                                  }, {"type": "ability", "ability": "dive", "from": {"x": 2400, "y": 3889, "level": 0}, "to": {"x": 2410, "y": 3879, "level": 0}}, {
+                                    "type": "ability",
+                                    "ability": "dive",
+                                    "from": {"x": 2410, "y": 3879, "level": 0},
+                                    "to": {"x": 2419, "y": 3888, "level": 0}
+                                  }, {"type": "run", "waypoints": [{"x": 2419, "y": 3888, "level": 0}, {"x": 2419, "y": 3890, "level": 0}, {"x": 2417, "y": 3892, "level": 0}]}]
+                                }
+                              }, {
+                                "key": {"pulse": 2, "different_level": false},
+                                "value": {
+                                  "children": [],
+                                  "directions": "",
+                                  "path": [{"type": "run", "waypoints": [{"x": 2374, "y": 3867, "level": 0}, {"x": 2376, "y": 3867, "level": 0}]}, {
+                                    "type": "ability",
+                                    "ability": "surge",
+                                    "from": {"x": 2376, "y": 3867, "level": 0},
+                                    "to": {"x": 2386, "y": 3867, "level": 0}
+                                  }, {
+                                    "type": "run",
+                                    "waypoints": [{"x": 2386, "y": 3867, "level": 0}, {"x": 2386, "y": 3866, "level": 0}, {"x": 2389, "y": 3863, "level": 0}, {
+                                      "x": 2393,
+                                      "y": 3863,
+                                      "level": 0
+                                    }, {"x": 2399, "y": 3857, "level": 0}, {"x": 2400, "y": 3857, "level": 0}, {"x": 2401, "y": 3856, "level": 0}]
+                                  }, {"type": "ability", "ability": "surge", "from": {"x": 2401, "y": 3856, "level": 0}, "to": {"x": 2411, "y": 3846, "level": 0}}, {
+                                    "type": "run",
+                                    "waypoints": [{"x": 2411, "y": 3846, "level": 0}, {"x": 2412, "y": 3846, "level": 0}, {"x": 2413, "y": 3847, "level": 0}]
+                                  }]
+                                }
+                              }], "directions": "", "path": [{"type": "run", "waypoints": [{"x": 2375, "y": 3867, "level": 0}, {"x": 2374, "y": 3867, "level": 0}]}]
+                            }
+                          }], "directions": "", "path": [{"type": "run", "waypoints": [{"x": 2377, "y": 3867, "level": 0}, {"x": 2375, "y": 3867, "level": 0}]}]
+                        }
+                      }],
+                      "directions": "",
+                      "path": [{
+                        "type": "run",
+                        "waypoints": [{"x": 2363, "y": 3866, "level": 0}, {"x": 2366, "y": 3866, "level": 0}, {"x": 2367, "y": 3867, "level": 0}]
+                      }, {"type": "ability", "ability": "dive", "from": {"x": 2367, "y": 3867, "level": 0}, "to": {"x": 2377, "y": 3867, "level": 0}}]
+                    }
+                  }, {
+                    "key": {"pulse": 2, "different_level": false}, "value": {
+                      "children": [{
+                        "key": {"pulse": 1, "different_level": false},
+                        "value": {
+                          "children": [],
+                          "directions": "",
+                          "path": [{"type": "ability", "ability": "dive", "from": {"x": 2357, "y": 3867, "level": 0}, "to": {"x": 2367, "y": 3867, "level": 0}}, {
+                            "type": "ability",
+                            "ability": "surge",
+                            "from": {"x": 2367, "y": 3867, "level": 0},
+                            "to": {"x": 2377, "y": 3867, "level": 0}
+                          }, {"type": "run", "waypoints": [{"x": 2377, "y": 3867, "level": 0}, {"x": 2397, "y": 3867, "level": 0}, {"x": 2399, "y": 3869, "level": 0}]}]
+                        }
+                      }, {
+                        "key": {"pulse": 2, "different_level": false}, "value": {
+                          "children": [{
+                            "key": {"pulse": 2, "different_level": false},
+                            "value": {
+                              "children": [],
+                              "directions": "",
+                              "path": [{"type": "ability", "ability": "surge", "from": {"x": 2370, "y": 3889, "level": 0}, "to": {"x": 2380, "y": 3889, "level": 0}}, {
+                                "type": "run",
+                                "waypoints": [{"x": 2380, "y": 3889, "level": 0}, {"x": 2390, "y": 3889, "level": 0}]
+                              }, {"type": "ability", "ability": "surge", "from": {"x": 2390, "y": 3889, "level": 0}, "to": {"x": 2400, "y": 3889, "level": 0}}]
+                            }
+                          }, {
+                            "key": {"pulse": 3, "different_level": false, "spot": {"x": 2389, "y": 3899, "level": 0}},
+                            "value": {
+                              "children": [],
+                              "directions": "",
+                              "path": [{"type": "ability", "ability": "surge", "from": {"x": 2370, "y": 3889, "level": 0}, "to": {"x": 2380, "y": 3889, "level": 0}}, {
+                                "type": "run",
+                                "waypoints": [{"x": 2380, "y": 3889, "level": 0}, {"x": 2382, "y": 3889, "level": 0}, {"x": 2384, "y": 3891, "level": 0}, {
+                                  "x": 2384,
+                                  "y": 3894,
+                                  "level": 0
+                                }, {"x": 2389, "y": 3899, "level": 0}]
+                              }]
+                            }
+                          }],
+                          "directions": "",
+                          "path": [{"type": "ability", "ability": "surge", "from": {"x": 2357, "y": 3867, "level": 0}, "to": {"x": 2348, "y": 3876, "level": 0}}, {
+                            "type": "run",
+                            "waypoints": [{"x": 2348, "y": 3876, "level": 0}, {"x": 2348, "y": 3886, "level": 0}, {"x": 2351, "y": 3889, "level": 0}, {
+                              "x": 2352,
+                              "y": 3889,
+                              "level": 0
+                            }]
+                          }, {"type": "ability", "ability": "dive", "from": {"x": 2352, "y": 3889, "level": 0}, "to": {"x": 2362, "y": 3889, "level": 0}}, {
+                            "type": "run",
+                            "waypoints": [{"x": 2362, "y": 3889, "level": 0}, {"x": 2370, "y": 3889, "level": 0}]
+                          }]
+                        }
+                      }],
+                      "directions": "",
+                      "path": [{"type": "run", "waypoints": [{"x": 2363, "y": 3866, "level": 0}, {"x": 2358, "y": 3866, "level": 0}, {"x": 2357, "y": 3867, "level": 0}]}]
+                    }
+                  }],
+                  "directions": "",
+                  "path": [{"type": "run", "waypoints": [{"x": 2351, "y": 3854, "level": 0}, {"x": 2353, "y": 3856, "level": 0}]}, {
+                    "type": "ability",
+                    "ability": "surge",
+                    "from": {"x": 2353, "y": 3856, "level": 0},
+                    "to": {"x": 2363, "y": 3866, "level": 0}
+                  }]
+                }
+              }, {
+                "key": {"pulse": 2, "different_level": false}, "value": {
+                  "children": [{
+                    "key": {"pulse": 1, "different_level": false}, "value": {
+                      "children": [],
+                      "directions": "",
+                      "path": [{
+                        "type": "run",
+                        "waypoints": [{"x": 2354, "y": 3854, "level": 0}, {"x": 2354, "y": 3849, "level": 0}, {"x": 2355, "y": 3848, "level": 0}]
+                      }, {
+                        "type": "transport",
+                        "assumed_start": {"x": 2355, "y": 3848, "level": 0},
+                        "internal": {
+                          "type": "entity",
+                          "entity": {"name": "Rope bridge", "kind": "static"},
+                          "clickable_area": {"topleft": {"x": 2354.5, "y": 3847.5}, "botright": {"x": 2355.5, "y": 3846.5}, "level": 0},
+                          "actions": [{
+                            "cursor": "agility",
+                            "interactive_area": {"origin": {"x": 2355, "y": 3848, "level": 0}},
+                            "name": "Walk-across",
+                            "movement": [{"time": 10, "offset": {"x": 0, "y": -9, "level": 0}}]
+                          }]
+                        }
+                      }, {"type": "ability", "ability": "dive", "from": {"x": 2355, "y": 3839, "level": 0}, "to": {"x": 2345, "y": 3833, "level": 0}}, {
+                        "type": "run",
+                        "waypoints": [{"x": 2345, "y": 3833, "level": 0}, {"x": 2343, "y": 3833, "level": 0}]
+                      }, {"type": "ability", "ability": "surge", "from": {"x": 2343, "y": 3833, "level": 0}, "to": {"x": 2333, "y": 3833, "level": 0}}, {
+                        "type": "ability",
+                        "ability": "surge",
+                        "from": {"x": 2333, "y": 3833, "level": 0},
+                        "to": {"x": 2323, "y": 3833, "level": 0}
+                      }, {
+                        "type": "run",
+                        "waypoints": [{"x": 2323, "y": 3833, "level": 0}, {"x": 2322, "y": 3833, "level": 0}, {"x": 2321, "y": 3834, "level": 0}, {
+                          "x": 2312,
+                          "y": 3834,
+                          "level": 0
+                        }, {"x": 2311, "y": 3835, "level": 0}]
+                      }]
+                    }
+                  }, {
+                    "key": {"pulse": 2, "different_level": false}, "value": {
+                      "children": [{
+                        "key": {"pulse": 2, "different_level": false},
+                        "value": {
+                          "children": [],
+                          "directions": "",
+                          "path": [{
+                            "type": "run",
+                            "waypoints": [{"x": 2348, "y": 3876, "level": 0}, {"x": 2348, "y": 3879, "level": 0}, {"x": 2347, "y": 3880, "level": 0}]
+                          }, {"type": "ability", "ability": "surge", "from": {"x": 2347, "y": 3880, "level": 0}, "to": {"x": 2337, "y": 3890, "level": 0}}, {
+                            "type": "run",
+                            "waypoints": [{"x": 2337, "y": 3890, "level": 0}, {"x": 2329, "y": 3890, "level": 0}, {"x": 2328, "y": 3891, "level": 0}, {
+                              "x": 2315,
+                              "y": 3891,
+                              "level": 0
+                            }, {"x": 2313, "y": 3893, "level": 0}]
+                          }]
+                        }
+                      }, {
+                        "key": {"pulse": 3, "different_level": false, "spot": {"x": 2352, "y": 3892, "level": 0}},
+                        "value": {
+                          "children": [],
+                          "directions": "",
+                          "path": [{"type": "run", "waypoints": [{"x": 2348, "y": 3876, "level": 0}, {"x": 2348, "y": 3878, "level": 0}]}, {
+                            "type": "ability",
+                            "ability": "surge",
+                            "from": {"x": 2348, "y": 3878, "level": 0},
+                            "to": {"x": 2348, "y": 3888, "level": 0}
+                          }, {"type": "run", "waypoints": [{"x": 2348, "y": 3888, "level": 0}, {"x": 2352, "y": 3892, "level": 0}]}]
+                        }
+                      }],
+                      "directions": "",
+                      "path": [{"type": "ability", "ability": "dive", "from": {"x": 2354, "y": 3854, "level": 0}, "to": {"x": 2348, "y": 3864, "level": 0}}, {
+                        "type": "run",
+                        "waypoints": [{"x": 2348, "y": 3864, "level": 0}, {"x": 2348, "y": 3866, "level": 0}]
+                      }, {"type": "ability", "ability": "surge", "from": {"x": 2348, "y": 3866, "level": 0}, "to": {"x": 2348, "y": 3876, "level": 0}}]
+                    }
+                  }], "directions": "", "path": [{"type": "run", "waypoints": [{"x": 2351, "y": 3854, "level": 0}, {"x": 2354, "y": 3854, "level": 0}]}]
+                }
+              }],
+              "directions": "",
+              "path": [{"type": "run", "waypoints": [{"x": 2355, "y": 3848, "level": 0}, {"x": 2355, "y": 3850, "level": 0}, {"x": 2351, "y": 3854, "level": 0}]}]
+            }
+          }, {
+            "key": {"pulse": 2, "different_level": false}, "value": {
+              "children": [{
+                "key": {"pulse": 1, "different_level": false}, "value": {
+                  "children": [{
+                    "key": {"pulse": 3, "different_level": false, "spot": {"x": 2324, "y": 3808, "level": 0}},
+                    "value": {
+                      "children": [],
+                      "directions": "",
+                      "path": [{"type": "ability", "ability": "dive", "from": {"x": 2324, "y": 3802, "level": 0}, "to": {"x": 2324, "y": 3808, "level": 0}}]
+                    }
+                  }, {
+                    "key": {"pulse": 3, "different_level": false, "spot": {"x": 2342, "y": 3809, "level": 0}},
+                    "value": {
+                      "children": [],
+                      "directions": "",
+                      "path": [{
+                        "type": "run",
+                        "waypoints": [{"x": 2324, "y": 3802, "level": 0}, {"x": 2326, "y": 3804, "level": 0}, {"x": 2328, "y": 3804, "level": 0}]
+                      }, {
+                        "type": "transport",
+                        "assumed_start": {"x": 2328, "y": 3804, "level": 0},
+                        "internal": {
+                          "type": "entity",
+                          "entity": {"kind": "static", "name": "Door"},
+                          "clickable_area": {"topleft": {"x": 2328, "y": 3804.5}, "botright": {"x": 2329, "y": 3803.5}, "level": 0},
+                          "actions": [{
+                            "cursor": "open",
+                            "interactive_area": {"origin": {"x": 2328, "y": 3804, "level": 0}, "size": {"x": 2, "y": 1}},
+                            "name": "Pass",
+                            "movement": [{"time": 1, "offset": {"x": 1, "y": 0, "level": 0}, "valid_from": {"origin": {"x": 2328, "y": 3804, "level": 0}}}, {
+                              "time": 1,
+                              "offset": {"x": -1, "y": 0, "level": 0},
+                              "valid_from": {"origin": {"x": 2329, "y": 3804, "level": 0}}
+                            }]
+                          }]
+                        }
+                      }, {"type": "ability", "ability": "surge", "from": {"x": 2329, "y": 3804, "level": 0}, "to": {"x": 2339, "y": 3804, "level": 0}}, {
+                        "type": "ability",
+                        "ability": "dive",
+                        "from": {"x": 2339, "y": 3804, "level": 0},
+                        "to": {"x": 2341, "y": 3809, "level": 0}
+                      }]
+                    }
+                  }],
+                  "directions": "",
+                  "path": [{"type": "teleport", "spot": {"x": 2311, "y": 3786, "level": 0}, "id": {"group": "lyre", "spot": "neitiznot", "access": "lyre"}}, {
+                    "type": "run",
+                    "waypoints": [{"x": 2311, "y": 3786, "level": 0}, {"x": 2311, "y": 3788, "level": 0}, {"x": 2312, "y": 3788, "level": 0}, {
+                      "x": 2312,
+                      "y": 3789,
+                      "level": 0
+                    }, {"x": 2313, "y": 3789, "level": 0}, {"x": 2313, "y": 3791, "level": 0}, {"x": 2314, "y": 3792, "level": 0}]
+                  }, {"type": "ability", "ability": "surge", "from": {"x": 2314, "y": 3792, "level": 0}, "to": {"x": 2324, "y": 3802, "level": 0}}]
+                }
+              }, {
+                "key": {"pulse": 2, "different_level": false}, "value": {
+                  "children": [{
+                    "key": {"pulse": 1, "different_level": false}, "value": {
+                      "children": [],
+                      "directions": "",
+                      "path": [{"type": "teleport", "spot": {"x": 2404, "y": 3782, "level": 0}, "id": {"group": "lyre", "spot": "jatizso", "access": "lyre"}}, {
+                        "type": "run",
+                        "waypoints": [{"x": 2404, "y": 3782, "level": 0}, {"x": 2404, "y": 3784, "level": 0}, {"x": 2406, "y": 3786, "level": 0}]
+                      }, {"type": "ability", "ability": "dive", "from": {"x": 2406, "y": 3786, "level": 0}, "to": {"x": 2412, "y": 3796, "level": 0}}, {
+                        "type": "transport",
+                        "assumed_start": {"x": 2412, "y": 3796, "level": 0},
+                        "internal": {
+                          "type": "entity",
+                          "entity": {"kind": "static", "name": "Gate"},
+                          "clickable_area": {"topleft": {"x": 2411.5, "y": 3797}, "botright": {"x": 2412.5, "y": 3796}, "level": 0},
+                          "actions": [{
+                            "cursor": "open",
+                            "interactive_area": {"origin": {"x": 2412, "y": 3796, "level": 0}, "size": {"x": 1, "y": 2}},
+                            "name": "Pass",
+                            "movement": [{"time": 1, "offset": {"x": 0, "y": -1, "level": 0}, "valid_from": {"origin": {"x": 2412, "y": 3797, "level": 0}}}, {
+                              "time": 1,
+                              "offset": {"x": 0, "y": 1, "level": 0},
+                              "valid_from": {"origin": {"x": 2412, "y": 3796, "level": 0}}
+                            }]
+                          }]
+                        }
+                      }, {
+                        "type": "run",
+                        "waypoints": [{"x": 2412, "y": 3797, "level": 0}, {"x": 2412, "y": 3798, "level": 0}, {"x": 2404, "y": 3798, "level": 0}, {
+                          "x": 2403,
+                          "y": 3799,
+                          "level": 0
+                        }, {"x": 2401, "y": 3799, "level": 0}, {"x": 2400, "y": 3800, "level": 0}, {"x": 2399, "y": 3800, "level": 0}]
+                      }, {"type": "ability", "ability": "surge", "from": {"x": 2399, "y": 3800, "level": 0}, "to": {"x": 2389, "y": 3800, "level": 0}}, {
+                        "type": "run",
+                        "waypoints": [{"x": 2389, "y": 3800, "level": 0}, {"x": 2389, "y": 3799, "level": 0}, {"x": 2388, "y": 3799, "level": 0}]
+                      }, {
+                        "type": "transport",
+                        "assumed_start": {"x": 2388, "y": 3799, "level": 0},
+                        "internal": {
+                          "type": "entity",
+                          "entity": {"kind": "static", "name": "Gate"},
+                          "clickable_area": {"topleft": {"x": 2387, "y": 3799.5}, "botright": {"x": 2388, "y": 3798.5}, "level": 0},
+                          "actions": [{
+                            "cursor": "open",
+                            "interactive_area": {"origin": {"x": 2387, "y": 3799, "level": 0}, "size": {"x": 2, "y": 1}},
+                            "name": "Pass",
+                            "movement": [{"time": 1, "offset": {"x": -1, "y": 0, "level": 0}, "valid_from": {"origin": {"x": 2388, "y": 3799, "level": 0}}}, {
+                              "time": 1,
+                              "offset": {"x": 1, "y": 0, "level": 0},
+                              "valid_from": {"origin": {"x": 2387, "y": 3799, "level": 0}}
+                            }]
+                          }]
+                        }
+                      }, {"type": "run", "waypoints": [{"x": 2387, "y": 3799, "level": 0}, {"x": 2386, "y": 3799, "level": 0}, {"x": 2384, "y": 3801, "level": 0}]}, {
+                        "type": "run",
+                        "waypoints": [{"x": 2384, "y": 3801, "level": 0}, {"x": 2385, "y": 3802, "level": 0}]
+                      }, {"type": "ability", "ability": "surge", "from": {"x": 2385, "y": 3802, "level": 0}, "to": {"x": 2395, "y": 3812, "level": 0}}]
+                    }
+                  }, {"key": {"pulse": 2, "different_level": false}, "value": {"children": [], "directions": "", "path": []}}, {
+                    "key": {
+                      "pulse": 3,
+                      "different_level": false,
+                      "spot": {"x": 2326, "y": 3866, "level": 0}
+                    },
+                    "value": {
+                      "children": [],
+                      "directions": "",
+                      "path": [{"type": "run", "waypoints": [{"x": 2345, "y": 3863, "level": 0}, {"x": 2343, "y": 3863, "level": 0}]}, {
+                        "type": "ability",
+                        "ability": "surge",
+                        "from": {"x": 2343, "y": 3863, "level": 0},
+                        "to": {"x": 2333, "y": 3863, "level": 0}
+                      }, {"type": "ability", "ability": "dive", "from": {"x": 2333, "y": 3863, "level": 0}, "to": {"x": 2326, "y": 3866, "level": 0}}]
+                    }
+                  }, {
+                    "key": {"pulse": 3, "different_level": false, "spot": {"x": 2326, "y": 3850, "level": 0}},
+                    "value": {
+                      "children": [],
+                      "directions": "",
+                      "path": [{"type": "run", "waypoints": [{"x": 2345, "y": 3863, "level": 0}, {"x": 2343, "y": 3863, "level": 0}]}, {
+                        "type": "ability",
+                        "ability": "surge",
+                        "from": {"x": 2343, "y": 3863, "level": 0},
+                        "to": {"x": 2333, "y": 3863, "level": 0}
+                      }, {"type": "ability", "ability": "dive", "from": {"x": 2333, "y": 3863, "level": 0}, "to": {"x": 2323, "y": 3853, "level": 0}}, {
+                        "type": "run",
+                        "waypoints": [{"x": 2323, "y": 3853, "level": 0}, {"x": 2325, "y": 3851, "level": 0}]
+                      }]
+                    }
+                  }, {
+                    "key": {"pulse": 3, "different_level": false, "spot": {"x": 2349, "y": 3880, "level": 0}},
+                    "value": {
+                      "children": [],
+                      "directions": "",
+                      "path": [{
+                        "type": "run",
+                        "waypoints": [{"x": 2345, "y": 3863, "level": 0}, {"x": 2346, "y": 3863, "level": 0}, {"x": 2347, "y": 3864, "level": 0}]
+                      }, {"type": "ability", "ability": "surge", "from": {"x": 2347, "y": 3864, "level": 0}, "to": {"x": 2354, "y": 3871, "level": 0}}, {
+                        "type": "ability",
+                        "ability": "dive",
+                        "from": {"x": 2354, "y": 3871, "level": 0},
+                        "to": {"x": 2349, "y": 3880, "level": 0}
+                      }]
+                    }
+                  }],
+                  "directions": "",
+                  "path": [{"type": "run", "waypoints": [{"x": 2356, "y": 3852, "level": 0}, {"x": 2354, "y": 3854, "level": 0}]}, {
+                    "type": "ability",
+                    "ability": "surge",
+                    "from": {"x": 2354, "y": 3854, "level": 0},
+                    "to": {"x": 2345, "y": 3863, "level": 0}
+                  }]
+                }
+              }, {
+                "key": {"pulse": 3, "different_level": false, "spot": {"x": 2377, "y": 3850, "level": 0}}, "value": {
+                  "children": [],
+                  "directions": "",
+                  "path": [{
+                    "type": "run",
+                    "waypoints": [{"x": 2356, "y": 3852, "level": 0}, {"x": 2356, "y": 3849, "level": 0}, {"x": 2355, "y": 3848, "level": 0}]
+                  }, {
+                    "type": "transport",
+                    "assumed_start": {"x": 2355, "y": 3848, "level": 0},
+                    "internal": {
+                      "type": "entity",
+                      "entity": {"name": "Rope bridge", "kind": "static"},
+                      "clickable_area": {"topleft": {"x": 2354.5, "y": 3847.5}, "botright": {"x": 2355.5, "y": 3846.5}, "level": 0},
+                      "actions": [{
+                        "cursor": "agility",
+                        "interactive_area": {"origin": {"x": 2355, "y": 3848, "level": 0}},
+                        "name": "Walk-across",
+                        "movement": [{"time": 10, "offset": {"x": 0, "y": -9, "level": 0}}]
+                      }]
+                    }
+                  }, {"type": "run", "waypoints": [{"x": 2355, "y": 3839, "level": 0}, {"x": 2356, "y": 3838, "level": 0}]}, {
+                    "type": "ability",
+                    "ability": "surge",
+                    "from": {"x": 2356, "y": 3838, "level": 0},
+                    "to": {"x": 2364, "y": 3830, "level": 0}
+                  }, {"type": "run", "waypoints": [{"x": 2364, "y": 3830, "level": 0}, {"x": 2369, "y": 3830, "level": 0}]}, {
+                    "type": "ability",
+                    "ability": "dive",
+                    "from": {"x": 2369, "y": 3830, "level": 0},
+                    "to": {"x": 2378, "y": 3839, "level": 0}
+                  }, {
+                    "type": "transport",
+                    "assumed_start": {"x": 2378, "y": 3839, "level": 0},
+                    "internal": {
+                      "type": "entity",
+                      "entity": {"name": "Rope bridge", "kind": "static"},
+                      "clickable_area": {"topleft": {"x": 2377.5, "y": 3840.5}, "botright": {"x": 2378.5, "y": 3839.5}, "level": 0},
+                      "actions": [{
+                        "cursor": "generic",
+                        "interactive_area": {"origin": {"x": 2378, "y": 3839, "level": 0}},
+                        "name": "Cross-bridge",
+                        "movement": [{"time": 10, "offset": {"x": 0, "y": 9, "level": 0}}]
+                      }]
+                    }
+                  }, {"type": "run", "waypoints": [{"x": 2378, "y": 3848, "level": 0}, {"x": 2378, "y": 3849, "level": 0}, {"x": 2377, "y": 3850, "level": 0}]}]
+                }
+              }, {
+                "key": {"pulse": 3, "different_level": false, "spot": {"x": 2368, "y": 3870, "level": 0}},
+                "value": {
+                  "children": [],
+                  "directions": "",
+                  "path": [{"type": "run", "waypoints": [{"x": 2356, "y": 3852, "level": 0}, {"x": 2356, "y": 3857, "level": 0}]}, {
+                    "type": "ability",
+                    "ability": "dive",
+                    "from": {"x": 2356, "y": 3857, "level": 0},
+                    "to": {"x": 2366, "y": 3867, "level": 0}
+                  }, {"type": "run", "waypoints": [{"x": 2366, "y": 3867, "level": 0}, {"x": 2368, "y": 3869, "level": 0}]}]
+                }
+              }],
+              "directions": "",
+              "path": [{"type": "run", "waypoints": [{"x": 2355, "y": 3848, "level": 0}, {"x": 2355, "y": 3851, "level": 0}, {"x": 2356, "y": 3852, "level": 0}]}]
+            }
+          }, {
+            "key": {"pulse": 3, "different_level": false, "spot": {"x": 2373, "y": 3834, "level": 0}},
+            "value": {
+              "children": [],
+              "directions": "",
+              "path": [{
+                "type": "transport",
+                "assumed_start": {"x": 2355, "y": 3848, "level": 0},
+                "internal": {
+                  "type": "entity",
+                  "entity": {"name": "Rope bridge", "kind": "static"},
+                  "clickable_area": {"topleft": {"x": 2354.5, "y": 3847.5}, "botright": {"x": 2355.5, "y": 3846.5}, "level": 0},
+                  "actions": [{
+                    "cursor": "agility",
+                    "interactive_area": {"origin": {"x": 2355, "y": 3848, "level": 0}},
+                    "name": "Walk-across",
+                    "movement": [{"time": 10, "offset": {"x": 0, "y": -9, "level": 0}}]
+                  }]
+                }
+              }, {"type": "run", "waypoints": [{"x": 2355, "y": 3839, "level": 0}, {"x": 2357, "y": 3837, "level": 0}]}, {
+                "type": "ability",
+                "ability": "surge",
+                "from": {"x": 2357, "y": 3837, "level": 0},
+                "to": {"x": 2364, "y": 3830, "level": 0}
+              }, {"type": "ability", "ability": "dive", "from": {"x": 2364, "y": 3830, "level": 0}, "to": {"x": 2373, "y": 3834, "level": 0}}]
+            }
+          }, {
+            "key": {"pulse": 3, "different_level": false, "spot": {"x": 2354, "y": 3853, "level": 0}},
+            "value": {
+              "children": [],
+              "directions": "",
+              "path": [{"type": "ability", "ability": "dive", "from": {"x": 2355, "y": 3848, "level": 0}, "to": {"x": 2354, "y": 3853, "level": 0}}]
+            }
+          }],
+          "directions": "",
+          "path": [{"type": "teleport", "spot": {"x": 2355, "y": 3848, "level": 0}, "id": {"group": "naturessentinel", "spot": "arcticpine", "access": "outfit"}}]
+        }
+      },
+      "expected_time": 28.234375
     }],
   default_assumptions: {
     double_escape: true,

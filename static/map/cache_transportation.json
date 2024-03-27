@@ -12378,6 +12378,26 @@
     "direction": 4
   },
   {
+    "type": "door",
+    "name": "Gate",
+    "position": {
+      "x": 3264,
+      "y": 3406,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Gate",
+    "position": {
+      "x": 3264,
+      "y": 3405,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
     "type": "entity",
     "entity": {
       "name": "Ladder",

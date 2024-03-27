@@ -237,7 +237,7 @@ export class FilterControl extends GameMapControl<ControlWithHeader> {
       let group = new Checkbox.Group<"none" | "at_least_one">([
         {value: "none", button: new Checkbox("None")},
         {value: "at_least_one", button: new Checkbox("At least one", "radio")},
-      ], true).setValue(this.filter.value().method_mode || "at_least_one")
+      ], true).setValue(this.filter.value().method_mode)
         .onChange(v => this.filter.update(f => f.method_mode = v))
 
       const [none, at_least_one] = group.checkboxes()

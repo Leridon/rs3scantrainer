@@ -1,7 +1,9 @@
 import Widget from "./Widget";
 import {EntityName} from "../runescape/EntityName";
+import Checks from "../../skillbertssolver/typecheck";
 
 export namespace C {
+  import str = Checks.str;
   export type Appendable = Widget | string
 
   export function create(s: string): Widget {
@@ -88,5 +90,9 @@ export namespace C {
       case "item":
         return create("<span class='nisl-item'></span>").text(entity.name)
     }
+  }
+
+  export function cls(c: string): Widget {
+    return C.div().addClass(c)
   }
 }

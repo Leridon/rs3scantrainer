@@ -15,7 +15,7 @@ export abstract class Modal2 {
   private should_dismount = observe(false)
 
   protected constructor(protected options: Modal2.Options = {}) {
-    this._modal = c("<div class='modal ctr-modal' tabindex='-1'><div class='modal-dialog'></div></div>")
+    this._modal = c("<div class='modal ctr-modal' tabindex='-1'></div>")
     this._dialog = c("<div class='modal-dialog'></div>").appendTo(this._modal)
     this._content = c("<div class='modal-content'></div>").appendTo(this._dialog)
 

@@ -1481,9 +1481,8 @@ input[type=checkbox] + span {
     background: #23323B80;
     font-family: 'trajan-pro-3', serif;
     font-size: 2em;
-    text-shadow: 1px 1px 1px #ECC622;
+    text-shadow: 1px 1px black, -1px -1px black;
     border-bottom: 1px solid rgb(43, 58, 67);
-
     display: flex;
     flex-shrink: 0;
     align-items: center;
@@ -1494,6 +1493,7 @@ input[type=checkbox] + span {
 .nisl-modal-title {
     margin-bottom: 0;
     font-size: 1.25rem !important;
+    font-weight: bold;
 }
 
 .nisl-modal-exit {
@@ -1519,6 +1519,7 @@ input[type=checkbox] + span {
     height: 24px;
     position: relative;
     margin: 5px;
+    white-space: nowrap;
 }
 
 .nisl-big-button > .content {
@@ -2059,4 +2060,65 @@ input[type=checkbox] + span {
 
 .nisl-property-content > * {
     width: 100%;
+}
+
+
+/* Settings */
+
+.ctr-section-control {
+    display: flex;
+}
+
+.ctr-section-control-content {
+    flex-basis: 100%;
+    overflow-y: scroll;
+    padding: 10px;
+}
+
+.ctr-section-control-content-header {
+    font-size: 1.3em;
+    font-weight: bold;
+    border-bottom: 1px solid #FFFFFF40;
+
+}
+
+.ctr-section-control-menu {
+    flex-basis: 40%;
+    padding: 10px;
+    background-color: #00000040;
+}
+
+.ctr-section-control-menu-header {
+    font-weight: bold;
+    font-size: 0.9em;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.ctr-section-control-menu-header:not(:first-child) {
+    border-top: 1px solid #FFFFFF40;
+    padding-top: 3px;
+    margin-top: 3px;
+}
+
+.ctr-section-control-menu-entry {
+    border-radius: 5px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+    width: 100%;
+    padding-left: 5px;
+    padding-right: 5px;
+
+}
+
+.ctr-section-control-menu-entry:hover {
+    background-color: #FFFFFF18;
+}
+
+.ctr-section-control-menu-entry.active {
+    background-color: #FFFFFF30;
+}
+
+.ctr-section-control-menu-entry:not(.active) {
+    cursor: pointer;
 }

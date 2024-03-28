@@ -12,6 +12,7 @@ import NeoSolvingBehaviour from "./neosolving/NeoSolvingBehaviour";
 import Properties from "./widgets/Properties";
 import spacer = C.spacer;
 import span = C.span;
+import {SettingsModal} from "./settings/SettingsEdit";
 
 class MenuButton extends Button {
 
@@ -125,14 +126,7 @@ export default class MainTabControl extends Widget {
       ,
       spacer(),
       this.settings_button = new MenuButton("Settings", "assets/icons/ribbon_options.webp").onClick(() => {
-
-          const o = window.open("", "_blank", "popup=yes,width=200px,height=200px")
-
-          o.document.body.append(c().text("Hello World")
-            .on("click", () => {
-              console.log("Clicked")
-            })
-            .raw())
+          new SettingsModal().show()
         })
         .addTippy(
           new Properties().header("Settings")

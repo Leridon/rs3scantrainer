@@ -4,7 +4,6 @@ Planned for next release (b0.4):
     - Solving View Info Preferences
     - Map Settings: Teleport Preferences
     - Method Pack Management
-    - Styling changes between focused and non-focused
 
 - Issues
     - [Bug, 5] SearchSelection is broken in multiple ways:

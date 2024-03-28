@@ -3,11 +3,6 @@
 import {initialize} from "./trainer/application";
 
 document.addEventListener("DOMContentLoaded", (e) => {
-  //const $ = require("jquery")
-
-  require("jquery")
-  require("bootstrap")
-
   //check if we are running inside alt1 by checking if the alt1 global exists
   if (window.alt1) {
     //tell alt1 about the app

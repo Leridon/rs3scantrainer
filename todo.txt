@@ -1,7 +1,16 @@
 Planned for next release (b0.4):
 
+- [5] Settings Modal
+    - Solving View Info Preferences
+    - Map Settings: Teleport Preferences
+    - Method Pack Management
+    - Styling changes between focused and non-focused
+
 - Issues
+    - [Bug, 5] SearchSelection is broken in multiple ways:
+        - Having to search for "null" sucks
     - [Bug, 5] Tooltips for PathStepEntities don't disappear correctly on the solver
+    - [Bug, 3] Reader reads the falador crossroads easy map clue as a text clue
 
 - Data
     - [Dev Tool, 3] Utility Layer for shortcut parsing
@@ -60,41 +69,25 @@ Planned for next release (b0.4):
             - Combine run followed by shortcut into one
             - Clue-specific actions? Search drawers, dig, etc?
 
-
-    - Search Bar
-        - Neat styling
-            - Hover effects of buttons
-            - Highlight on toggled
-
-        - [Bug] Search term input is larger than the bar itself.
     - Basic solution rendering on the map
         - Target marker
         - Wander ranges
         - Emote areas
         - Entity/Npc names?
     - Compass Panel
-    - Solve, Autosolve
     - Key solution
     - Challenge answer
     - Potential Puzzles
-    - Multiple Methods, Preferences
+    - Preferences
         - Preferred npc spot
         - Preferred challenge answer
     - Scan Tree Behaviour
         - Make fit include the entire path
         - Better render of in-route teleports
-        - Run graphics are bad on snow background
         - Spacing in the tree view is bad
-        - Don't fit to origin of teleport
 
 - Menu Bar
     - Add to Alt 1 entry when not in Alt1
-    - Regular Map mode as default when not in Alt1
-
-- [5] Settings Modal
-    - Solving View Info Preferences
-    - Map Settings: Teleport Preferences
-    - Method Pack Management
 
 - General
     - [Styling] ControlHeader title and X are not properly aligned

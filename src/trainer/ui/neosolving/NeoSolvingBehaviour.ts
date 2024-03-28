@@ -183,7 +183,7 @@ namespace NeoSolvingLayer {
             .css("flex-grow", "1")
             .css("font-weight", "normal")
             .setPlaceholder("Enter Search Term...")
-            .toggleClass("nisinput", false)
+            .toggleClass("nisl-textinput", false)
             .addClass("ctr-neosolving-main-bar-search")
             .setVisible(false)
             .onChange(({value}) => {

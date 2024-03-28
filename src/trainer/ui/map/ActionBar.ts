@@ -2,6 +2,7 @@ import Widget from "lib/ui/Widget";
 import Button from "lib/ui/controls/Button";
 import {Observable, observe} from "lib/reactive";
 import InteractionLayer from "lib/gamemap/interaction/InteractionLayer";
+import * as jquery from "jquery";
 
 export class ActionBar extends Widget {
   constructor(buttons: ActionBar.ActionBarButton[]) {
@@ -56,7 +57,7 @@ export namespace ActionBar {
       this.empty()
 
       this.addClass("medium-image-button")
-        .append($(`<img src='${this.icon}'>`))
+        .append(jquery(`<img src='${this.icon}'>`))
         .css("position", "relative")
 
       if (this.cooldown.value() != 0 || this._activeInteraction.value()) {

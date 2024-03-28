@@ -33,6 +33,10 @@ export namespace TransportData {
 
   let teleport_spots: Transportation.TeleportGroup.Spot[] = null
 
+  export function getTeleportGroup(id: string): TeleportGroup {
+    return teleports.find(g => g.id == id)
+  }
+
   export function getAllTeleportSpots(
     customization: Transportation.TeleportGroup.TeleportCustomization = Dependencies.instance().app.teleport_settings
   ): Transportation.TeleportGroup.Spot[] {

@@ -2,6 +2,9 @@ import Widget from "lib/ui/Widget";
 import * as popper from "@popperjs/core"
 import {ewent, Observable, observe} from "../../../lib/reactive";
 import {util} from "../../../lib/util/util";
+import {C} from "../../../lib/ui/constructors";
+import inlineimg = C.inlineimg;
+import * as jquery from "jquery";
 
 export abstract class AbstractDropdownSelection<T> extends Widget {
   protected input_container: Widget
@@ -15,7 +18,7 @@ export abstract class AbstractDropdownSelection<T> extends Widget {
   private enabled = observe(true)
 
   protected constructor(protected options: AbstractDropdownSelection.options<T>, inital_item: T) {
-    super($("<div class='nisl-selectdropdown'>"));
+    super(c("<div class='nisl-selectdropdown'>"));
 
     this.selection = observe(inital_item)
 
@@ -33,11 +36,16 @@ export abstract class AbstractDropdownSelection<T> extends Widget {
   }
 
   private renderInput(): void {
-    this.input = c("<div class='nisl-selectdropdown-input' tabindex='-1'>")
+    this.input = c("<div class='nisl-textinput nisl-selectdropdown-input' tabindex='-1'>")
+      .css("padding-right", "13px")
       .on("click", (e) => {
         this.openDropdown()
       })
-      .append(this.construct(this.selection.value()))
+      .append(
+        this.construct(this.selection.value()),
+        inlineimg("assets/nis/dropdown.png")
+          .addClass("nisl-selectdropdown-arrow")
+      )
       .appendTo(this.input_container.empty());
   }
 
@@ -69,6 +77,8 @@ export abstract class AbstractDropdownSelection<T> extends Widget {
   async openDropdown() {
     if (!this.enabled.value()) return;
 
+    const focus_widget = this.onOpen()
+
     this.dropdown = new AbstractDropdownSelection.DropDown<T>({
       dropdownClass: 'nisl-selectdropdown-options',
       renderItem: (i) => {
@@ -85,7 +95,7 @@ export abstract class AbstractDropdownSelection<T> extends Widget {
         this.selection.set(i)
         this.selected.trigger(i)
       })
-      .open(this, this.onOpen())
+      .open(this, focus_widget)
 
     if (this.dropdown) return
   }
@@ -163,7 +173,7 @@ export namespace AbstractDropdownSelection {
         if (this.rows) {
           if (old_highlight != null) this.rows[old_highlight]?.toggleClass("selected", false)
           if (highlight != null) this.rows[highlight]?.toggleClass("selected", true)
-            ?.raw()?.scrollIntoView(false)
+            ?.raw()?.scrollIntoView({block: "nearest", inline: "nearest"})
         }
       })
     }
@@ -193,6 +203,10 @@ export namespace AbstractDropdownSelection {
             })
             .appendTo(this.container)
         })
+
+        if (this.selectable_items.value().length == 0) {
+          this.container.append(c().text("No matches").css("font-style", "italic"))
+        }
       }
     }
 
@@ -327,7 +341,7 @@ export namespace AbstractDropdownSelection {
   let _dropdownpane: Widget = null
 
   export function getDropdownPane(): Widget {
-    if (!_dropdownpane) _dropdownpane = c("<div style='position: absolute; top: 0; left: 0; overflow: visible; max-width: 100%; max-height: 100%'>").appendTo($("body"))
+    if (!_dropdownpane) _dropdownpane = c("<div style='position: absolute; top: 0; left: 0; overflow: visible; max-width: 100%; max-height: 100%'>").appendTo(jquery("body"))
 
     return _dropdownpane
   }

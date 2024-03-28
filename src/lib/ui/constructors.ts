@@ -3,7 +3,7 @@ import {EntityName} from "../runescape/EntityName";
 import Checks from "../../skillbertssolver/typecheck";
 
 export namespace C {
-  import str = Checks.str;
+
   export type Appendable = Widget | string
 
   export function create(s: string): Widget {
@@ -39,7 +39,7 @@ export namespace C {
   }
 
   export function span(text: string): Widget {
-    return create("<span></span>").setInnerHtml(text)
+    return create("<span></span>").text(text)
   }
 
   export function bold(text: string): Widget {

@@ -1,4 +1,3 @@
-import {SidePanel} from "../SidePanelControl";
 import Widget from "lib/ui/Widget";
 import {Transportation} from "../../../lib/runescape/transportation";
 import TextField from "lib/ui/controls/TextField";

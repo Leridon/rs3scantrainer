@@ -3,11 +3,11 @@ import {Application} from "../../application";
 import {NisModal} from "../../../lib/ui/NisModal";
 import {deps} from "../../dependencies";
 import {C} from "../../../lib/ui/constructors";
-import vbox = C.vbox;
-import cls = C.cls;
 import {Observable, observe} from "../../../lib/reactive";
 import {BigNisButton} from "../widgets/BigNisButton";
-import entity = C.entity;
+import Properties from "../widgets/Properties";
+import {FairyRingSelector} from "./FairyRingSelector";
+import cls = C.cls;
 
 
 class SectionControl extends Widget {
@@ -103,16 +103,23 @@ export class SettingsEdit extends Widget {
     new SectionControl([
       {
         name: "General", entries: [
-          {id: "map", name: "Map", renderer: () => c().text("Map")},
-          {id: "teleports", name: "Teleports", renderer: () => c().text("Teleports")},
-          {id: "methods", name: "Methods", renderer: () => c().text("Methods")},
-        ]
-      },
-      {
-        name: "Advanced", entries: [
-          {id: "map2", name: "Map", renderer: () => c().text("Map")},
-          {id: "teleports2", name: "Teleports", renderer: () => c().text("Teleports")},
-          {id: "methods2", name: "Methods", renderer: () => c().text("Methods")},
+          {
+            id: "teleports", name: "Teleports", renderer: () => {
+              const props = new Properties()
+
+              props.header("Fairy Ring")
+
+              for (let i = 0; i < 10; i++) {
+                props.row(new FairyRingSelector())
+              }
+
+              props.header("Passage of the Abyss")
+
+              c().text("Map")
+
+              return props
+            }
+          },
         ]
       },
 

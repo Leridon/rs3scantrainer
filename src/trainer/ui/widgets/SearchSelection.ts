@@ -32,7 +32,7 @@ export class SearchSelection<T extends object | string | number> extends Abstrac
       })
       .appendTo(this.input_container.empty())
 
-    this.setItems([this.selection.value()])
+    this.setItems(this.items)
 
     return search_box
   }

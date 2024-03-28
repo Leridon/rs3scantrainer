@@ -30,6 +30,7 @@ import span = C.span;
 import hbox = C.hbox;
 import spacer = C.spacer;
 import resolveTeleport = TransportData.resolveTeleport;
+import * as jquery from "jquery";
 
 declare let DEV_MODE: boolean
 
@@ -135,10 +136,10 @@ class PatchNotesModal extends Modal {
   constructor(id: string, private app: Application) {
     super(id);
 
-    this.all_title = $("#patch-note-title-all")
-    this.new_title = $("#patch-note-title-new")
+    this.all_title = jquery("#patch-note-title-all")
+    this.new_title = jquery("#patch-note-title-new")
 
-    this.sections = $(".patchnotesection").get().map($).map((e: JQuery) => {
+    this.sections = jquery(".patchnotesection").get().map(jquery).map((e: JQuery) => {
       return {
         el: e,
         patchnotes: e.data("patchnotes") as string
@@ -147,7 +148,7 @@ class PatchNotesModal extends Modal {
   }
 
   showAll() {
-    $("#modal-patchnotes-report-issues").hide()
+    jquery("#modal-patchnotes-report-issues").hide()
 
     this.all_title.show()
     this.new_title.hide()
@@ -165,13 +166,13 @@ class AboutModal extends Modal {
 
   constructor(id: string, private app: Application) {
     super(id);
-    $("#viewpatchnotes").on("click", async () => {
+    jquery("#viewpatchnotes").on("click", async () => {
       this.hide()
       await this.app.patch_notes_modal.showAll()
       this.show()
     })
 
-    $("#current-version").text(app.patch_notes_modal.sections[0].patchnotes)
+    jquery("#current-version").text(app.patch_notes_modal.sections[0].patchnotes)
   }
 }
 
@@ -248,13 +249,13 @@ export class Application extends Behaviour {
   }
 
   protected async begin() {
-    let container = Widget.wrap($("#main-content"))
+    let container = Widget.wrap(jquery("#main-content"))
 
     this.startup_settings.subscribe(s => this.startup_settings_storage.set(s))
 
     let map_widget: Widget
 
-    this.notifications = new NotificationBar().appendTo($("body"))
+    this.notifications = new NotificationBar().appendTo(jquery("body"))
 
     container.append(
       this.menu_bar = new MainTabControl(this),

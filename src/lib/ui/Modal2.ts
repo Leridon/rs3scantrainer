@@ -1,8 +1,12 @@
+import * as jquery from "jquery";
 import {ewent, Observable, observe} from "../reactive";
 import Widget from "./Widget";
+import * as bootstrap from "bootstrap"
 import observe_combined = Observable.observe_combined;
 
 export abstract class Modal2 {
+  private bs_modal: bootstrap.Modal
+
   shown = ewent<this>()
   hidden = ewent<this>()
   removed = ewent<this>()
@@ -18,11 +22,6 @@ export abstract class Modal2 {
     this._modal = c("<div class='modal ctr-modal' tabindex='-1'></div>")
     this._dialog = c("<div class='modal-dialog'></div>").appendTo(this._modal)
     this._content = c("<div class='modal-content'></div>").appendTo(this._dialog)
-
-    this._modal.container.modal({
-      backdrop: options.fixed ? "static" : true,
-      keyboard: !options.fixed,
-    })
 
     this._modal.container.on("shown.bs.modal", () => {
       this.visible.set(true)
@@ -54,7 +53,12 @@ export abstract class Modal2 {
 
   private mount() {
     if (this._modal.container.parent().length == 0) {
-      this._modal.appendTo($("body"))
+      this._modal.appendTo(jquery("body"))
+
+      this.bs_modal = new bootstrap.Modal(this._modal.raw(), {
+        backdrop: this.options.fixed ? "static" : true,
+        keyboard: !this.options.fixed,
+      })
     }
   }
 
@@ -72,13 +76,13 @@ export abstract class Modal2 {
 
     await this.render()
 
-    this._modal.container.modal("show")
+    this.bs_modal.show()
 
     return promise
   }
 
   hide() {
-    this._modal.container.modal("hide")
+    this.bs_modal.hide()
   }
 
   remove() {

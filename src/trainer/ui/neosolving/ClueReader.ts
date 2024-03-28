@@ -166,6 +166,9 @@ export class ClueReader {
               }
             }
 
+            // Minimum score to avoid unrelated modals to be matched as something
+            if (best_score > 15) return null
+
             return best
           })()
 

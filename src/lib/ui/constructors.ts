@@ -1,6 +1,5 @@
 import Widget from "./Widget";
 import {EntityName} from "../runescape/EntityName";
-import Checks from "../../skillbertssolver/typecheck";
 
 export namespace C {
 
@@ -12,6 +11,10 @@ export namespace C {
 
   export function hbox(...content: Appendable[]): Widget {
     return create("<div style='display: flex; justify-content: center'></div>").append(...content)
+  }
+
+  export function hgrid(...content: Appendable[]): Widget {
+    return cls("nisl-hgrid").append(...content)
   }
 
   export function hboxl(...content: Appendable[]): Widget {

@@ -214,7 +214,7 @@ export class FilterControl extends GameMapControl<ControlWithHeader> {
       tier: { tier: ClueTier, btn: SmallImageToggleButton }[],
       type: { type: ClueType, btn: SmallImageToggleButton }[],
     } = {
-      tier: ClueTier.all.map(t => {
+      tier: ClueTier.values.map(t => {
         return {
           tier: t, btn: sitog(ClueType.meta(t).icon_url, (v) => this.filter.update(f => f.tiers[t] = v))
             .setState(this.filter.value().tiers[t])

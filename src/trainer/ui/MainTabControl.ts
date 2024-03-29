@@ -10,9 +10,9 @@ import {Observable, observe} from "../../lib/reactive";
 import Behaviour from "../../lib/ui/Behaviour";
 import NeoSolvingBehaviour from "./neosolving/NeoSolvingBehaviour";
 import Properties from "./widgets/Properties";
+import {SettingsModal} from "./settings/SettingsEdit";
 import spacer = C.spacer;
 import span = C.span;
-import {SettingsModal} from "./settings/SettingsEdit";
 
 class MenuButton extends Button {
 
@@ -27,8 +27,10 @@ class MenuButton extends Button {
     )
   }
 
-  setActive(v: boolean) {
+  setActive(v: boolean): this {
     this.toggleClass("active", v)
+
+    return this
   }
 }
 
@@ -128,6 +130,7 @@ export default class MainTabControl extends Widget {
       this.settings_button = new MenuButton("Settings", "assets/icons/ribbon_options.webp").onClick(() => {
           new SettingsModal().show()
         })
+        .setActive(true)
         .addTippy(
           new Properties().header("Settings")
             .row(c().text("Access settings.").css("font-style", "italic"))

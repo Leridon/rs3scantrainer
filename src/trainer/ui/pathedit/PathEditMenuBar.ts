@@ -45,7 +45,8 @@ export class PathEditMenuBar extends Widget {
             this.editor.discard()
           })
         ,
-        new LightButton("&#x2630;", "rectangle")
+        new LightButton("", "rectangle")
+          .setHTML("&#x2630;")
           .onClick((event) => {
             const entries: MenuEntry[] = []
 

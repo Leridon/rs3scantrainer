@@ -1,12 +1,14 @@
 import Button from "lib/ui/controls/Button";
+import {C} from "../../../lib/ui/constructors";
+import Appendable = C.Appendable;
 
 export default class LightButton extends Button {
-  constructor(text: string = "Button", type: "round" | "rectangle" = "round") {
+  constructor(text: Appendable = "Button", type: "round" | "rectangle" = "round") {
     super()
 
     if (type == "round") this.addClass("ctr-lightbutton-round")
 
-    this.addClass("ctr-lightbutton").setHTML(text)
+    this.addClass("ctr-lightbutton").append(text)
   }
 
   setText(text: string): this {

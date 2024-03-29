@@ -8,6 +8,7 @@ Planned for next release (b0.4):
 - Issues
     - [Bug, 5] SearchSelection is broken in multiple ways:
         - Having to search for "null" sucks
+        - Sometimes the dropdown remains after the element is already gone
     - [Bug, 5] Tooltips for PathStepEntities don't disappear correctly on the solver
     - [Bug, 3] Reader reads the falador crossroads easy map clue as a text clue
 

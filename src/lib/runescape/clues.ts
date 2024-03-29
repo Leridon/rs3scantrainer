@@ -3,10 +3,10 @@ import {Vector2} from "../math";
 import {CursorType} from "./CursorType";
 import {TileArea} from "./coordinates/TileArea";
 
-export type ClueTier = "easy" | "medium" | "hard" | "elite" | "master"
+export type ClueTier = typeof ClueTier.values[number]
 
 export namespace ClueTier {
-  export const all: ClueTier[] = ["easy", "medium", "hard", "elite", "master"]
+  export const values = ["easy", "medium", "hard", "elite", "master"] as const
 }
 
 export type ClueType =

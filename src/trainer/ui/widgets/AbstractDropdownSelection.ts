@@ -5,6 +5,7 @@ import {util} from "../../../lib/util/util";
 import {C} from "../../../lib/ui/constructors";
 import inlineimg = C.inlineimg;
 import * as jquery from "jquery";
+import Appendable = C.Appendable;
 
 export abstract class AbstractDropdownSelection<T> extends Widget {
   protected input_container: Widget
@@ -49,7 +50,7 @@ export abstract class AbstractDropdownSelection<T> extends Widget {
       .appendTo(this.input_container.empty());
   }
 
-  private construct(v: T): Widget {
+  private construct(v: T): Appendable {
     return this.options.type_class?.toHTML
       ? this.options.type_class.toHTML(v)
       : c(`<div>${v}</div>`)
@@ -136,6 +137,7 @@ export abstract class AbstractDropdownSelection<T> extends Widget {
 
 export namespace AbstractDropdownSelection {
   import positiveMod = util.positiveMod;
+  import Appendable = C.Appendable;
 
   export class DropDown<T> {
     private selectable_items: Observable<T[]> = observe([])
@@ -331,7 +333,7 @@ export namespace AbstractDropdownSelection {
 
 
   export type selectable<T> = {
-    toHTML(v: T): Widget
+    toHTML(v: T): Appendable
   }
 
   export type options<T> = {

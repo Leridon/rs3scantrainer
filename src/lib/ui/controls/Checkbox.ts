@@ -1,6 +1,9 @@
 import AbstractEditWidget from "trainer/ui/widgets/AbstractEditWidget";
 import Widget from "../Widget";
 import {Observable, observe} from "../../reactive";
+import {C} from "../constructors";
+import Appendable = C.Appendable;
+import cls = C.cls;
 
 export class Checkbox extends AbstractEditWidget<boolean> {
   new_box: Widget
@@ -9,8 +12,8 @@ export class Checkbox extends AbstractEditWidget<boolean> {
 
   enabled = observe(true)
 
-  constructor(private label: string = "", type: "checkbox" | "radio" = "checkbox") {
-    super()
+  constructor(private label: Appendable = "", type: "checkbox" | "radio" = "checkbox") {
+    super(cls("nisl-checkbox"))
 
     this.type = observe(type)
 
@@ -18,20 +21,18 @@ export class Checkbox extends AbstractEditWidget<boolean> {
       this.new_box.toggleClass("nisl-checkbox-radio", value == "radio")
     })
 
-    this.addClass("nisl-checkbox")
-
     this.new_box = c("<div class='nisl-checkbox-box'>")
       .on("click", () => {
         this.commit(!this.get(), true)
       })
       .appendTo(this.container)
 
-    c().addClass("nisl-checkbox-checkmark").appendTo(this.new_box)
+    cls("nisl-checkbox-checkmark").appendTo(this.new_box)
 
     this.new_box.toggleClass("nisl-checkbox-radio", this.type.value() == "radio")
 
     if (this.label) {
-      c().addClass("nisl-checkbox-label").text(this.label).appendTo(this)
+      cls("nisl-checkbox-label").append(this.label).appendTo(this)
     }
 
     this.setValue(false)

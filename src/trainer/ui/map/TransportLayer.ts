@@ -15,10 +15,6 @@ export default class TransportLayer extends GameLayer {
     super();
 
     deps().app.settings.active_teleport_customization.subscribe(customization => {
-      console.log("Change registered")
-
-      console.log(customization)
-
       this.eachEntity(e => {
         if (e instanceof TeleportSpotEntity) {
           e.config.teleport.refresh()

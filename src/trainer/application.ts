@@ -34,6 +34,7 @@ import spacer = C.spacer;
 import resolveTeleport = TransportData.resolveTeleport;
 import ActiveTeleportCustomization = Transportation.TeleportGroup.ActiveTeleportCustomization;
 import TeleportSettings = Settings.TeleportSettings;
+import {Modal2} from "../lib/ui/Modal2";
 
 declare let DEV_MODE: boolean
 
@@ -170,12 +171,10 @@ class AboutModal extends Modal {
   constructor(id: string, private app: Application) {
     super(id);
     jquery("#viewpatchnotes").on("click", async () => {
-      this.hide()
-      await this.app.patch_notes_modal.showAll()
-      this.show()
+
     })
 
-    jquery("#current-version").text(app.patch_notes_modal.sections[0].patchnotes)
+    jquery("#current-version").text(app.version)
   }
 }
 
@@ -196,10 +195,13 @@ export class SettingsManagement {
 
     this.storage.set(settings)
 
-    console.log("Set")
-    console.log(settings)
-
     this.active_teleport_customization.set(TeleportSettings.inferActiveCustomization(settings.teleport_customization))
+  }
+
+  update(f: (_: Settings.Settings) => void) {
+    const clone = lodash.cloneDeep(this.settings)
+    f(clone)
+    this.set(clone)
   }
 
   settings: Settings.Settings
@@ -256,9 +258,6 @@ export class Application extends Behaviour {
 
   private startup_settings_storage = new storage.Variable<Application.Preferences>("preferences/startupsettings", () => ({}))
   startup_settings = observe(this.startup_settings_storage.get())
-
-  patch_notes_modal = new PatchNotesModal("modal-patchnotes", this)
-  about_modal = new AboutModal("modal-about", this)
 
   notifications: NotificationBar
 
@@ -317,7 +316,6 @@ export class Application extends Behaviour {
       this.notifications.notify({type: "information"}, not => vbox(
         span("There has been an update! "),
         c(`<span class="ctr-notification-link">View patchnotes.</span>`).on("click", () => {
-          this.patch_notes_modal.showAll()
           not.dismiss()
         })
       ))

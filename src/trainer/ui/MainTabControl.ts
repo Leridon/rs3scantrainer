@@ -140,7 +140,6 @@ export default class MainTabControl extends Widget {
           })
       ,
       c(`<div style="font-size: 6pt" class='nisl-textlink'>Version b0.3.1</div>`)
-        .tapRaw(r => r.on("click", () => app.about_modal.show()))
     )
 
     this.updateState()

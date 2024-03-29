@@ -2,15 +2,16 @@ Planned for next release (b0.4):
 
 - [5] Settings Modal
     - Solving View Info Preferences
-    - Map Settings: Teleport Preferences
     - Method Pack Management
 
 - Issues
-    - [Bug, 5] SearchSelection is broken in multiple ways:
-        - Having to search for "null" sucks
+    - [Bug, 1] SearchSelection is broken in multiple ways:
         - Sometimes the dropdown remains after the element is already gone
     - [Bug, 5] Tooltips for PathStepEntities don't disappear correctly on the solver
+        - It doesnt happen everwhere. Section 2 of the Citric Cellar step works fine.
+        - Something with sectioned paths maybe?
     - [Bug, 3] Reader reads the falador crossroads easy map clue as a text clue
+    - [Bug, 3] SEQUIN DIRGE is being as Ysondria
 
 - Data
     - [Dev Tool, 3] Utility Layer for shortcut parsing

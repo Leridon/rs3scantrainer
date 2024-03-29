@@ -1,10 +1,11 @@
 import Dict = NodeJS.Dict;
+import * as jquery from "jquery";
 
 export class Modal {
   _modal: JQuery
 
   public constructor(id: string) {
-    this._modal = $(`#${id}`)
+    this._modal = jquery(`#${id}`)
 
     this._modal.on("shown.bs.modal", () => {
       this.shown()

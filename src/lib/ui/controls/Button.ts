@@ -1,6 +1,7 @@
 import Widget from "../Widget";
 import {ewent, observe} from "../../reactive";
 import {EwentHandlerPool} from "../../reactive/EwentHandlerPool";
+import * as jquery from "jquery";
 
 export default class Button extends Widget {
   clicked = ewent<JQuery.ClickEvent>()
@@ -9,7 +10,7 @@ export default class Button extends Widget {
   toggled = observe(false)
   isToggleable = observe(false)
 
-  constructor(container: JQuery = $("<div>")) {
+  constructor(container: JQuery = jquery("<div>")) {
     super(container);
 
     this.addClass("lcss-button")

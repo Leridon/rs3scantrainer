@@ -7,6 +7,7 @@ import hbox = C.hbox;
 import span = C.span;
 import spacer = C.spacer;
 import Appendable = C.Appendable;
+import * as jquery from "jquery";
 
 export function rend(s: string | (() => Widget)): Appendable {
   if (typeof s == "string") return s
@@ -240,7 +241,7 @@ namespace open_menu {
   }
 
   export function show(men: context_menu_page, dom_parent: HTMLElement, position: Vector2): void {
-    const nested = $(dom_parent).is(".tippy-content *")
+    const nested = jquery(dom_parent).is(".tippy-content *")
 
     men.tippy_instance =
       tippy.default(dom_parent, {

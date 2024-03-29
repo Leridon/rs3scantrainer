@@ -5,6 +5,8 @@ import {TileArea} from "./coordinates/TileArea";
 import {TileTransform} from "./coordinates/TileTransform";
 import {CursorType} from "./CursorType";
 import {EntityName} from "./EntityName";
+import {Settings} from "../../trainer/ui/settings/Settings";
+import {deps} from "../../trainer/dependencies";
 
 export namespace Transportation {
 
@@ -106,6 +108,7 @@ export namespace Transportation {
 
   export namespace TeleportGroup {
     import activate = TileArea.activate;
+    import PotaColor = Settings.PotaColor;
     export namespace TeleportAccess {
       export function isAnywhere(access: TeleportAccess): boolean {
         return access.type == "item" || access.type == "spellbook"
@@ -133,53 +136,64 @@ export namespace Transportation {
       access?: string
     }
 
-    export type TeleportCustomization = {
+    export type ActiveTeleportCustomization = {
       fairy_ring_favourites: string[],
-      potas: {
-        color: "red" | "purple" | "green" | "yellow",
-        slots: string[],
-        active: boolean
+      pota_slots: {
+        jewellry: {
+          group_id: string,
+          access_id: string,
+        },
+        pota: {
+          color: PotaColor,
+          slot: number
+        }
       }[]
     }
 
     export class Spot {
+      private customization: ActiveTeleportCustomization = null
+
       private pota_slot: {
         img: ImageUrl,
         code_prefix: string,
       } | null
 
-      public readonly props: TeleportProps
+      public props: TeleportProps
 
       constructor(public readonly group: TeleportGroup,
                   public readonly spot: TeleportSpot,
-                  public readonly access: TeleportAccess,
-                  private settings: TeleportCustomization
+                  public readonly access: TeleportAccess
       ) {
+        this.refresh()
+      }
+
+      refresh() {
+        this.customization = deps().app.settings.active_teleport_customization.value()
+
         const pota = this.access.type == "item" && this.access.can_be_in_pota
-          ? this.settings.potas.find((p) => p.active && p.slots.includes(this.group.id))
+          ? this.customization.pota_slots.find((p) => p.jewellry.group_id == this.group.id)
           : null
 
+        this.pota_slot = pota ? {
+          img: {url: `pota_${pota.pota.color}.png`},
+          code_prefix: `${pota.pota.slot},`
+        } : null
+        
         // Props are combined from the various ways they can be specified.
         // Prop definitions for Access x Spot have the highest priority,
         // followed by per-access props, then per-spot props and finally per-group props.
         this.props = TeleportProps.combinePrioritized(
-          access?.per_spot_props?.[spot.id],
-          access,
-          spot,
-          group, {
+          {img: this.pota_slot?.img},
+          this.access?.per_spot_props?.[this.spot.id],
+          this.access,
+          this.spot,
+          this.group, {
             animation_ticks: 0,
             menu_ticks: 0,
             code: "",
             img: {url: "homeport.png"}
           }
         )
-
-        if (pota) {
-          this.pota_slot = {
-            img: {url: `pota_${pota.color}.png`},
-            code_prefix: `${pota.slots.indexOf(group.id) + 1},`
-          }
-        }
       }
 
       hover(): string {
@@ -196,7 +210,7 @@ export namespace Transportation {
         let base_code = this.props.code
 
         if (this.group.id == "fairyring") {
-          const i = this.settings.fairy_ring_favourites.indexOf(this.spot.code)
+          const i = deps().app.settings.active_teleport_customization.value().fairy_ring_favourites.indexOf(this.spot.id)
 
           if (i > 0) base_code = ((i + 1) % 10).toString()
         }

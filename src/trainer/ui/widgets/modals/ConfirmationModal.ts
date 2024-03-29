@@ -45,4 +45,20 @@ export namespace ConfirmationModal {
       is_cancel?: boolean
     }[],
   }
+
+  export function simple(
+    title: string,
+    body: string,
+    cancel_name: string,
+    confirm_name: string,
+  ): ConfirmationModal<boolean> {
+    return new ConfirmationModal<boolean>({
+      title: title,
+      body: body,
+      options: [
+        {kind: "neutral", text: cancel_name, value: false, is_cancel: true},
+        {kind: "cancel", text: confirm_name, value: true},
+      ]
+    })
+  }
 }

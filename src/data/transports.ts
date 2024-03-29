@@ -33,13 +33,15 @@ export namespace TransportData {
 
   let teleport_spots: Transportation.TeleportGroup.Spot[] = null
 
-  export function getAllTeleportSpots(
-    customization: Transportation.TeleportGroup.TeleportCustomization = Dependencies.instance().app.teleport_settings
-  ): Transportation.TeleportGroup.Spot[] {
+  export function getTeleportGroup(id: string): TeleportGroup {
+    return teleports.find(g => g.id == id)
+  }
+
+  export function getAllTeleportSpots(  ): Transportation.TeleportGroup.Spot[] {
     if (!teleport_spots) {
       teleport_spots = teleports.filter(TeleportGroup.canBeAccessedAnywhere).flatMap(group => {
         return group.spots.map(spot => {
-          return new Transportation.TeleportGroup.Spot(group, spot, group.access[0], customization)
+          return new Transportation.TeleportGroup.Spot(group, spot, group.access[0])
         })
       })
     }
@@ -47,8 +49,7 @@ export namespace TransportData {
     return teleport_spots
   }
 
-  export function resolveTeleport(id: Transportation.TeleportGroup.SpotId,
-                                  customization: Transportation.TeleportGroup.TeleportCustomization = Dependencies.instance().app.teleport_settings): Transportation.TeleportGroup.Spot {
+  export function resolveTeleport(id: Transportation.TeleportGroup.SpotId): Transportation.TeleportGroup.Spot {
     const group = teleports.find(g => g.id == id.group)
     const spot = group?.spots?.find(s => s.id == id.spot)
     const access = id.access ? group?.access?.find(a => a.id == id.access) : group?.access[0]
@@ -58,6 +59,6 @@ export namespace TransportData {
       return undefined
     }
 
-    return new Transportation.TeleportGroup.Spot(group, spot, access, customization)
+    return new Transportation.TeleportGroup.Spot(group, spot, access)
   }
 }

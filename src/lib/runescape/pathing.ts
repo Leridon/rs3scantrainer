@@ -205,7 +205,7 @@ export namespace Path {
           return index(step.waypoints, -1)
         case "teleport":
           if (step.spot) return step.spot
-          else return resolveTeleport(step.id, Dependencies.instance().app.teleport_settings).centerOfTarget()
+          else return resolveTeleport(step.id).centerOfTarget()
         case "transport":
           let start_tile = step.assumed_start
           let action = step.internal.actions[0]
@@ -246,7 +246,7 @@ export namespace Path {
         case "run":
           return TileArea.init(index(step.waypoints, -1))
         case "teleport":
-          return resolveTeleport(step.id, Dependencies.instance().app.teleport_settings).targetArea()
+          return resolveTeleport(step.id).targetArea()
         case "transport":
           let start_tile = step.assumed_start
           let action = step.internal.actions[0]

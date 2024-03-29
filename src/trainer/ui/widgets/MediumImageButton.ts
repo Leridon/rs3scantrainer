@@ -1,4 +1,5 @@
 import Button from "lib/ui/controls/Button";
+import * as jquery from "jquery";
 
 export default class MediumImageButton extends Button {
   constructor(icon: string) {
@@ -6,6 +7,6 @@ export default class MediumImageButton extends Button {
 
     this.container
       .addClass("medium-image-button")
-      .append($(`<img src='${icon}'>`))
+      .append(jquery(`<img src='${icon}'>`))
   }
 }

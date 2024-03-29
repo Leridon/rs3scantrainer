@@ -14,10 +14,11 @@ import {PathBuilder} from "./PathBuilder";
 import ContextMenu, {Menu, MenuEntry} from "../widgets/ContextMenu";
 import vbox = C.vbox;
 import spacer = C.spacer;
+import * as jquery from "jquery";
 
 export class IssueWidget extends Widget {
   constructor(issue: Path.issue) {
-    super($(`<div class='ctr-step-issue'><div class="ctr-step-issue-icon"></div> ${issue.message}</div>`).attr("level", issue.level.toString()));
+    super(jquery(`<div class='ctr-step-issue'><div class="ctr-step-issue-icon"></div> ${issue.message}</div>`).attr("level", issue.level.toString()));
   }
 }
 

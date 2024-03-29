@@ -29,6 +29,6 @@ export namespace GieliCoordinates {
   }
 
   export function toString(c: GieliCoordinates): string {
-    return `${c.latitude.degrees}&deg;${c.latitude.minutes}' ${c.latitude.direction == "north" ? "N" : "S"}, ${c.longitude.degrees}&deg;${c.longitude.minutes}' ${c.longitude.direction == "east" ? "E" : "W"}`
+    return `${c.latitude.degrees}°${c.latitude.minutes}' ${c.latitude.direction == "north" ? "N" : "S"}, ${c.longitude.degrees}°${c.longitude.minutes}' ${c.longitude.direction == "east" ? "E" : "W"}`
   }
 }

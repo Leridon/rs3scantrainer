@@ -4,7 +4,7 @@ import {TransportData} from "../../../data/transports";
 import {MapEntity} from "../../../lib/gamemap/MapEntity";
 import {EntityTransportEntity} from "./entities/EntityTransportEntity";
 import {TeleportSpotEntity} from "./entities/TeleportSpotEntity";
-import Dependencies from "../../dependencies";
+import {deps} from "../../dependencies";
 import {TeleportAccessEntity} from "./entities/TeleportAccessEntity";
 import {RemoteEntityTransportTarget} from "./entities/RemoteEntityTransportTarget";
 import TeleportGroup = Transportation.TeleportGroup;
@@ -14,7 +14,15 @@ export default class TransportLayer extends GameLayer {
   constructor(interactive: boolean) {
     super();
 
-    this.quad_tree_debug_rendering = false
+    deps().app.settings.active_teleport_customization.subscribe(customization => {
+      this.eachEntity(e => {
+        if (e instanceof TeleportSpotEntity) {
+          e.config.teleport.refresh()
+
+          e.render(true)
+        }
+      })
+    }, false, e => this.handler_pool.bind(e))
 
     TransportData.getAll().then(transports => transports.forEach(trans => {
       if (trans.type == "entity" || trans.type == "door") {
@@ -45,7 +53,7 @@ export default class TransportLayer extends GameLayer {
         trans.spots.forEach(spot => {
           new TeleportSpotEntity({
             highlightable: true,
-            teleport: new TeleportGroup.Spot(trans, spot, trans.access[0], Dependencies.instance().app.teleport_settings),
+            teleport: new TeleportGroup.Spot(trans, spot, trans.access[0]),
             interactive: interactive
           }).addTo(this)
         })
@@ -62,16 +70,18 @@ export default class TransportLayer extends GameLayer {
         })
       }
     }))
+
+    this.quad_tree_debug_rendering = false
   }
 }
 
 export namespace TransportLayer {
 
-    import TeleportAccess = Transportation.TeleportAccess;
-    import TeleportGroup = Transportation.TeleportGroup;
-    import EntityTransportation = Transportation.EntityTransportation;
+  import TeleportAccess = Transportation.TeleportAccess;
+  import TeleportGroup = Transportation.TeleportGroup;
+  import EntityTransportation = Transportation.EntityTransportation;
 
-    export type Config = {
+  export type Config = {
     contructors?: {
       teleport_access: (_: TeleportAccess) => MapEntity,
       teleport_spot: (_: TeleportGroup.Spot) => TeleportSpotEntity,

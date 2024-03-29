@@ -1,16 +1,16 @@
+import * as jquery from 'jquery';
 import * as tippy from 'tippy.js';
-
 
 export default class Widget<T extends HTMLElement = HTMLElement> {
   public container: JQuery
 
-  constructor(init: JQuery | Widget = $("<div>")) {
+  constructor(init: JQuery | Widget = jquery("<div>")) {
     this.init(init)
   }
 
-  protected init(init: JQuery | Widget = $("<div>")): this {
+  protected init(init: JQuery | Widget = jquery("<div>")): this {
     if (init instanceof Widget) this.container = init.container
-    else if (!init) this.container = $("<div>")
+    else if (!init) this.container = jquery("<div>")
     else this.container = init
 
     return this
@@ -27,6 +27,8 @@ export default class Widget<T extends HTMLElement = HTMLElement> {
 
   appendTo(widget: Widget | JQuery): this {
     if (widget instanceof Widget) widget = widget.container
+
+    document.body.append()
 
     widget.append(this.container)
 
@@ -92,14 +94,15 @@ export default class Widget<T extends HTMLElement = HTMLElement> {
     return this
   }
 
-  static wrap(jquery: JQuery | string): Widget {
-    if (typeof jquery == "string") jquery = $(jquery)
+  static wrap(jq: JQuery | string): Widget {
+    if (typeof jq == "string") jq = jquery(jq)
 
-    return new Widget(jquery)
+    return new Widget(jq)
   }
 
   text(text: string | number): this {
-    this.container.text(text.toString())
+    this.raw().textContent = text.toString()
+
     return this
   }
 
@@ -126,8 +129,8 @@ export default class Widget<T extends HTMLElement = HTMLElement> {
   }
 
   addTippy(tooltip: Widget, options: Partial<tippy.Props> = {}): this {
-    tippy.default(this.container.get()[0], {
-      content: c("<div class='ctr-entity-tooltip'></div>").append(tooltip).container.get()[0],
+    tippy.default(this.raw(), {
+      content: c("<div class='ctr-entity-tooltip'></div>").append(tooltip).raw(),
       arrow: true,
       animation: false,
       delay: 0,
@@ -143,7 +146,8 @@ export default class Widget<T extends HTMLElement = HTMLElement> {
   }
 
   setInnerHtml(html: string): this {
-    this.container.html(html)
+    this.raw().innerHTML = html
+
     return this
   }
 

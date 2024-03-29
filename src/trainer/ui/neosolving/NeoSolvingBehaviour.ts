@@ -38,6 +38,7 @@ import {ScanEditLayer} from "../theorycrafting/scanedit/ScanEditor";
 import {ClueReader} from "./ClueReader";
 import {deps} from "../../dependencies";
 import {storage} from "../../../lib/util/storage";
+import {SettingsModal} from "../settings/SettingsEdit";
 import span = C.span;
 import todo = util.todo;
 import PulseInformation = ScanTheory.PulseInformation;
@@ -183,7 +184,7 @@ namespace NeoSolvingLayer {
             .css("flex-grow", "1")
             .css("font-weight", "normal")
             .setPlaceholder("Enter Search Term...")
-            .toggleClass("nisinput", false)
+            .toggleClass("nisl-textinput", false)
             .addClass("ctr-neosolving-main-bar-search")
             .setVisible(false)
             .onChange(({value}) => {
@@ -228,6 +229,7 @@ namespace NeoSolvingLayer {
             .setToggled(this.fullscreen_preference.get()),
           new MainControlButton({icon: "assets/icons/settings.png", centered: true})
             .tooltip("Open settings")
+            .onClick(() => new SettingsModal().show())
         ).css("flex-grow", "1"),
       )
 
@@ -728,6 +730,14 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
     if (fit_target) {
       this.layer.fit(bounds.get())
+    }
+
+    if (this.app.settings.settings.teleport_customization.preset_bindings_active) {
+      const active_preset = this.app.settings.settings.teleport_customization.active_preset
+      const bound_preset = this.app.settings.settings.teleport_customization.preset_bindings[clue.tier]
+
+      if (active_preset != bound_preset && bound_preset != null)
+        this.app.settings.update(set => set.teleport_customization.active_preset = bound_preset)
     }
 
     this.setMethod(null)

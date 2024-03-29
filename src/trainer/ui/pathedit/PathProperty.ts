@@ -10,6 +10,7 @@ import {PathEditor} from "./PathEditor";
 import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
 import collect_issues = Path.collect_issues;
 import movement_state = Path.movement_state;
+import * as jquery from "jquery";
 
 export default class PathProperty extends AbstractEditWidget<Path.raw> {
   private loaded: boolean = false
@@ -23,7 +24,7 @@ export default class PathProperty extends AbstractEditWidget<Path.raw> {
     start_state?: Path.movement_state,
     editor_handle?: (_: PathEditor.options_t) => PathEditor
   }) {
-    super($("<div style='display: flex'></div>"))
+    super(jquery("<div style='display: flex'></div>"))
 
     if (this.options.editor_handle) {
       this.container.on("mouseover", () => {

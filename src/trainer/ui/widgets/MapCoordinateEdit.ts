@@ -6,6 +6,7 @@ import SelectTileInteraction from "lib/gamemap/interaction/SelectTileInteraction
 import AbstractEditWidget from "./AbstractEditWidget";
 import {TileCoordinates} from "../../../lib/runescape/coordinates";
 import {SmallImageButton} from "./SmallImageButton";
+import NumberInput from "../../../lib/ui/controls/NumberInput";
 
 export default class MapCoordinateEdit extends AbstractEditWidget<TileCoordinates> {
   x: Widget

@@ -1,8 +1,9 @@
 import AbstractEditWidget from "trainer/ui/widgets/AbstractEditWidget";
+import * as jquery from "jquery";
 
 export default class TextField extends AbstractEditWidget<string> {
   constructor() {
-    super($("<input type='text' class='nisinput'>"));
+    super(jquery("<input type='text' class='nisl-textinput'>"));
 
     this.container
       .val(this.get())

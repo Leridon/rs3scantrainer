@@ -1,10 +1,11 @@
 import {ExpansionBehaviour} from "../ExpansionBehaviour";
 import Button from "./Button";
+import * as jquery from "jquery";
 
 export default class NisCollapseButton extends Button {
 
   constructor(public behaviour: ExpansionBehaviour) {
-    super($("<img class='nisl-collapse-button'>"));
+    super(jquery("<img class='nisl-collapse-button'>"));
 
     behaviour.bindToClickable(this)
 

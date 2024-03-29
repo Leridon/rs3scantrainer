@@ -79,7 +79,7 @@ export class TeleportAccessEntity extends MapEntity {
       text: "Move map to",
       children: teleport.spots.map(spot => {
 
-        const s = new TeleportGroup.Spot(teleport, spot, access, deps().app.teleport_settings)
+        const s = new TeleportGroup.Spot(teleport, spot, access)
 
         return {
           type: "basic",

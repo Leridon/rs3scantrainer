@@ -102,7 +102,7 @@ export class PathStepEntity extends MapEntity {
           return marker.getElement()
         }
         case "teleport": {
-          let teleport = TransportData.resolveTeleport(step.id, Dependencies.instance().app.teleport_settings)
+          let teleport = TransportData.resolveTeleport(step.id)
 
           const marker = leaflet.marker(Vector2.toLatLong(step.spot ?? teleport.centerOfTarget()), {
             icon: new TeleportSpotEntity.TeleportMapIcon(teleport, options.highlight ? 1.5 : 1),

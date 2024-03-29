@@ -1211,7 +1211,7 @@ const raw_data: Transportation.TeleportGroup[] = [
         id: "kethsi",
         target: {origin: {"x": 4026, "y": 5699, "level": 0}},
         code: "DIR AKS",
-        name: "Kethsi (DIR AKS)"
+        name: "Kethsi"
       },
       {
         id: "DIS",
@@ -1287,7 +1287,8 @@ const raw_data: Transportation.TeleportGroup[] = [
       {
         id: "rift",
         target: {origin: {x: 1626, y: 4176, level: 0}},
-        name: "Ork´s Rift (BIR, DIP, CLR, ALP)",
+        code: "BIR DIP CLR ALP",
+        name: "Ork´s Rift",
       },
       {
         id: "BLQ",

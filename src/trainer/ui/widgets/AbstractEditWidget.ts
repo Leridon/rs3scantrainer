@@ -1,5 +1,6 @@
 import Widget from "lib/ui/Widget";
 import {Observable, observe} from "../../../lib/reactive";
+import * as jquery from "jquery";
 
 
 /**
@@ -11,7 +12,7 @@ export default abstract class AbstractEditWidget<T, Element_T extends HTMLElemen
     value: T
   }> = observe({committed: false, value: null})
 
-  protected constructor(container: JQuery = null) {
+  protected constructor(container: JQuery | Widget = null) {
     super(container);
   }
 

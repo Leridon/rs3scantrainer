@@ -2,6 +2,7 @@ import Widget from "./Widget";
 import {EntityName} from "../runescape/EntityName";
 
 export namespace C {
+
   export type Appendable = Widget | string
 
   export function create(s: string): Widget {
@@ -10,6 +11,10 @@ export namespace C {
 
   export function hbox(...content: Appendable[]): Widget {
     return create("<div style='display: flex; justify-content: center'></div>").append(...content)
+  }
+
+  export function hgrid(...content: Appendable[]): Widget {
+    return cls("nisl-hgrid").append(...content)
   }
 
   export function hboxl(...content: Appendable[]): Widget {
@@ -37,7 +42,7 @@ export namespace C {
   }
 
   export function span(text: string): Widget {
-    return create("<span></span>").setInnerHtml(text)
+    return create("<span></span>").text(text)
   }
 
   export function bold(text: string): Widget {
@@ -88,5 +93,9 @@ export namespace C {
       case "item":
         return create("<span class='nisl-item'></span>").text(entity.name)
     }
+  }
+
+  export function cls(c: string): Widget {
+    return C.div().addClass(c)
   }
 }

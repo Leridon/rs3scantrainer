@@ -1,11 +1,12 @@
 import AbstractEditWidget from "trainer/ui/widgets/AbstractEditWidget";
+import * as jquery from "jquery";
 
 export default class TextArea extends AbstractEditWidget<string, HTMLTextAreaElement> {
   constructor(customization: {
     readonly?: boolean,
     placeholder?: string
   } = {}) {
-    super($("<textarea class='nisinput'>"));
+    super(jquery("<textarea class='nisl-textinput'>"));
 
     this.raw().readOnly = !!customization.readonly
     this.raw().placeholder = customization.placeholder || ""

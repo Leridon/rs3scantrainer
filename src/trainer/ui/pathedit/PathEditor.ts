@@ -168,7 +168,7 @@ class PathEditorGameLayer extends GameLayer {
             text: `Use action '${access.action_name}'`,
             children: event.active_entity.config.teleport.spots.map(spot => {
 
-              const s = new TeleportGroup.Spot(teleport, spot, access, deps().app.teleport_settings)
+              const s = new TeleportGroup.Spot(teleport, spot, access)
 
               return {
                 type: "basic",

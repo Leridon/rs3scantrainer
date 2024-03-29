@@ -70,7 +70,7 @@ export class ClueProperties extends Properties {
         break
       case "coordinates":
         this.named("Text", c().text(this.clue.clue.text[0]).css("font-style", "italic"))
-        this.named("Coordinates", c().setInnerHtml(GieliCoordinates.toString(this.clue.clue.coordinates)))
+        this.named("Coordinates", c().text(GieliCoordinates.toString(this.clue.clue.coordinates)))
         renderSolution(this, {type: "dig", spot: GieliCoordinates.toCoords(this.clue.clue.coordinates), description: null})
         break
       case "simple":

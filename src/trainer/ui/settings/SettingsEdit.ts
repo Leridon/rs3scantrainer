@@ -17,7 +17,6 @@ import ButtonRow from "../../../lib/ui/ButtonRow";
 import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
 import {FormModal} from "../../../lib/ui/controls/FormModal";
 import TextField from "../../../lib/ui/controls/TextField";
-import {util} from "../../../lib/util/util";
 import cls = C.cls;
 import PotaColor = Settings.PotaColor;
 import hbox = C.hbox;
@@ -391,10 +390,12 @@ class TeleportSettingsEdit extends Widget {
 }
 
 export class SettingsEdit extends Widget {
-
+  value: Settings.Settings
 
   constructor(app: Application) {
     super();
+
+    this.value = lodash.cloneDeep(app.settings.settings)
 
     new SectionControl([
       {
@@ -403,7 +404,7 @@ export class SettingsEdit extends Widget {
             id: "teleports",
             name: "Teleport Customization",
             short_name: "Teleports",
-            renderer: () => new TeleportSettingsEdit(Settings.TeleportSettings.empty())
+            renderer: () => new TeleportSettingsEdit(this.value.teleport_customization)
           },
         ]
       },
@@ -411,16 +412,17 @@ export class SettingsEdit extends Widget {
   }
 }
 
-export namespace SettingsEdit {
-  export type Section = "map" | "solving"
-}
-
 export class SettingsModal extends NisModal {
+  edit: SettingsEdit
 
   constructor() {
     super();
 
     this.title.set("Settings")
+
+    this.hidden.on(() => {
+      deps().app.settings.set(this.edit.value)
+    })
   }
 
   render() {
@@ -428,7 +430,7 @@ export class SettingsModal extends NisModal {
 
     this.body.css("padding", "0")
 
-    this.body.append(new SettingsEdit(deps().app))
+    this.body.append(this.edit = new SettingsEdit(deps().app))
   }
 
   getButtons(): BigNisButton[] {

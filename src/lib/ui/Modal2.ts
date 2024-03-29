@@ -23,9 +23,14 @@ export abstract class Modal2 {
     this._dialog = c("<div class='modal-dialog'></div>").appendTo(this._modal)
     this._content = c("<div class='modal-content'></div>").appendTo(this._dialog)
 
-    this._modal.container.on("shown.bs.modal", () => {
+    this._modal.raw().addEventListener("shown.bs.modal", () => {
       this.visible.set(true)
       this.shown.trigger(this)
+    })
+
+    this._modal.raw().addEventListener("hidden.bs.modal", () => {
+      this.visible.set(false)
+      this.hidden.trigger(this)
     })
 
     if (!options.no_fade) this._modal.addClass("fade")
@@ -38,11 +43,6 @@ export abstract class Modal2 {
         this._dialog.addClass("modal-lg")
         break;
     }
-
-    this._modal.container.on("hidden.bs.modal", () => {
-      this.visible.set(false)
-      this.hidden.trigger(this)
-    })
 
     observe_combined({visible: this.visible, should_dismount: this.should_dismount}).subscribe(({visible, should_dismount}) => {
       if (!visible && should_dismount) this.dismount()

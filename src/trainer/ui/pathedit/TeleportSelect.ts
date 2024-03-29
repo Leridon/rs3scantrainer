@@ -12,6 +12,6 @@ export default class TeleportSelect extends SearchSelection<Transportation.Telep
         }
       },
       search_term: (t: Transportation.TeleportGroup.Spot) => t.hover()
-    }, TransportData.getAllTeleportSpots(Dependencies.instance().app.teleport_settings));
+    }, TransportData.getAllTeleportSpots());
   }
 }

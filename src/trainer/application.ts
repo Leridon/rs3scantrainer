@@ -17,20 +17,23 @@ import {makeshift_main} from "./main";
 import {MethodPackManager} from "./model/MethodPackManager";
 import NotificationBar from "./ui/NotificationBar";
 import {C} from "../lib/ui/constructors";
-import {observe} from "../lib/reactive";
-import NeoSolvingBehaviour from "./ui/neosolving/NeoSolvingBehaviour";
+import {Observable, observe} from "../lib/reactive";
 import {FavoriteIndex} from "./favorites";
 import Dependencies from "./dependencies";
 import {Transportation} from "../lib/runescape/transportation";
 import {TransportData} from "../data/transports";
 import * as process from "process";
+import * as jquery from "jquery";
+import * as lodash from "lodash";
+import {Settings} from "./ui/settings/Settings";
 import div = C.div;
 import vbox = C.vbox;
 import span = C.span;
 import hbox = C.hbox;
 import spacer = C.spacer;
 import resolveTeleport = TransportData.resolveTeleport;
-import * as jquery from "jquery";
+import ActiveTeleportCustomization = Transportation.TeleportGroup.ActiveTeleportCustomization;
+import TeleportSettings = Settings.TeleportSettings;
 
 declare let DEV_MODE: boolean
 
@@ -178,8 +181,34 @@ class AboutModal extends Modal {
 
 const DEBUG_SIMULATE_INALT1 = false
 
+export class SettingsManagement {
+  private storage = new storage.Variable<Settings.Settings>("preferences/settings", () => null)
+
+  active_teleport_customization: Observable<ActiveTeleportCustomization> = observe(null).equality(lodash.isEqual)
+
+  constructor() {
+    // Normalize on first load to prevent migration issues
+    this.set(Settings.normalize(this.storage.get()))
+  }
+
+  set(settings: Settings.Settings) {
+    this.settings = settings
+
+    this.storage.set(settings)
+
+    console.log("Set")
+    console.log(settings)
+
+    this.active_teleport_customization.set(TeleportSettings.inferActiveCustomization(settings.teleport_customization))
+  }
+
+  settings: Settings.Settings
+}
+
 export class Application extends Behaviour {
   version = "b0.3.1"
+
+  settings = new SettingsManagement()
 
   in_alt1: boolean = !!window.alt1 || DEBUG_SIMULATE_INALT1
   in_dev_mode = !!process.env.DEV_MODE
@@ -192,11 +221,6 @@ export class Application extends Behaviour {
   favourites: FavoriteIndex
 
   main_behaviour = this.withSub(new SingleBehaviour())
-
-  teleport_settings: Transportation.TeleportGroup.TeleportCustomization = {
-    fairy_ring_favourites: [],
-    potas: [],
-  }
 
   template_resolver = new TemplateResolver(new Map<string, (args: string[]) => string>(
     [

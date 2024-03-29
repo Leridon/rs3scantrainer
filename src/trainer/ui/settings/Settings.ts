@@ -1,5 +1,6 @@
 import {TypeUtil} from "../../../lib/util/type_util";
 import {ClueTier} from "../../../lib/runescape/clues";
+import {Transportation} from "../../../lib/runescape/transportation";
 
 export namespace Settings {
   import Tuple = TypeUtil.Tuple;
@@ -24,7 +25,21 @@ export namespace Settings {
     preset_bindings: Record<ClueTier, number | null>
   }
 
+  export type Settings = {
+    teleport_customization: TeleportSettings
+  }
+
+  export function normalize(settings: Settings): Settings {
+    if (!settings) settings = {teleport_customization: undefined}
+
+    settings.teleport_customization = TeleportSettings.normalize(settings.teleport_customization)
+
+    return settings
+  }
+
   export namespace TeleportSettings {
+    import ActiveTeleportCustomization = Transportation.TeleportGroup.ActiveTeleportCustomization;
+
     export function empty(): TeleportSettings {
       return {
         potas: [],
@@ -164,7 +179,10 @@ export namespace Settings {
           {
             "id": -3,
             "name": "Hard Recommendation",
-            "active_potas": [],
+            "active_potas": [
+              "red",
+              "green"
+            ],
             "fairy_ring_favourites": [
               "ALQ",
               "DKS",
@@ -226,11 +244,54 @@ export namespace Settings {
           "master": -4,
           "medium": -5
         },
-        "preset_bindings_active": false
+        "preset_bindings_active": true
+      }
+    }
+
+    export function normalize(settings: TeleportSettings): TeleportSettings {
+      if (!settings) settings = clueChasersRecommendations()
+
+      if (!settings.potas) settings.potas = []
+
+      if (settings.active_preset == null) settings.active_preset = 0
+
+      settings.preset_bindings = {
+        easy: null,
+        medium: null,
+        hard: null,
+        elite: null,
+        master: null,
+        ...(settings.preset_bindings ?? {})
+      }
+
+      return settings
+    }
+
+    export function inferActiveCustomization(settings: TeleportSettings): ActiveTeleportCustomization {
+      if (!settings) debugger
+
+      const active_preset = settings.presets.find(p => p.id == settings.active_preset)
+
+      return {
+        fairy_ring_favourites: active_preset.fairy_ring_favourites,
+        pota_slots: active_preset.active_potas.flatMap(color => {
+          const pota = settings.potas.find(p => p.color == color)
+
+          if (!pota) return []
+
+          return pota.slots.map((slot, i) => {
+            return {
+              jewellry: slot,
+              pota: {
+                color: color,
+                slot: i + 1
+              }
+            }
+          }).filter(p => p.jewellry)
+        })
       }
     }
   }
-
 
   export type PotaColor = typeof PotaColor.values[number]
 

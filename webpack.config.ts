@@ -1,7 +1,6 @@
 import alt1chain from "@alt1/webpack";
 import * as path from "path";
 import {DefinePlugin, ProvidePlugin} from "webpack";
-import {env} from "process";
 import * as process from "process";
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -74,7 +73,8 @@ c.resolve.fallback = {
   "fs": false,
   "path": false,
   "child_process": false,
-  "os": false
+  "os": false,
+  "buffer": require.resolve("buffer/")
 }
 
 c.resolve.modules = [

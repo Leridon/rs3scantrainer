@@ -1,6 +1,5 @@
 import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
 import {PathFinder} from "lib/runescape/movement";
-import {arrow} from "../../path_graphics";
 import {GameMapKeyboardEvent, GameMapMouseEvent} from "lib/gamemap/MapEvents";
 import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInteraction";
 import InteractionTopControl from "../../map/InteractionTopControl";
@@ -11,6 +10,8 @@ import {PathStepEntity} from "../../map/entities/PathStepEntity";
 import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
 import index = util.index;
 import observe_combined = Observable.observe_combined;
+import {PathGraphics} from "../../path_graphics";
+import arrow = PathGraphics.arrow;
 
 class DrawRunInteractionInternal extends ValueInteraction<{
   path: TileCoordinates[],

@@ -3,7 +3,7 @@ import {EntityName} from "../runescape/EntityName";
 
 export namespace C {
 
-  export type Appendable = Widget | string
+  export type Appendable = Widget | string | HTMLElement | JQuery
 
   export function create(s: string): Widget {
     return c(s)
@@ -41,12 +41,12 @@ export namespace C {
     return create("<div style='flex-grow: 1'></div>")
   }
 
-  export function span(text: string): Widget {
+  export function span(text: string = ""): Widget {
     return create("<span></span>").text(text)
   }
 
   export function bold(text: string): Widget {
-    return create("<span style='font-weight: bold'></span>").setInnerHtml(text)
+    return create("<span style='font-weight: bold'></span>").text(text)
   }
 
   export function h(level: 1 | 2 | 3 | 4 | 5, text: string): Widget {

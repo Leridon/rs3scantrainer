@@ -49,7 +49,7 @@ export default class PulseButton extends LightButton {
 
         break;
       case "spot":
-        this.setHTML(render_digspot(value.value))
+        this.empty().append(render_digspot(value.value))
         break;
     }
   }

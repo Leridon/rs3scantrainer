@@ -113,7 +113,7 @@ class SegmentEdit extends Widget {
 
       if (path.raw.length > 0) {
         this.body.row(c()
-          .setInnerHtml(deps().app.template_resolver.resolve(this.path.raw.map(PathingGraphics.templateString).join(" - ")))
+          .append(...deps().app.template_resolver.resolve(this.path.raw.map(PathingGraphics.templateString).join(" - ")))
         )
       }
       const issues = collect_issues(path)

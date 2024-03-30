@@ -3,13 +3,13 @@ import {Transportation} from "../../../lib/runescape/transportation";
 import * as leaflet from "leaflet";
 import {Vector2} from "lib/math";
 import {OpacityGroup} from "lib/gamemap/layers/OpacityLayer";
-import {arrow} from "../path_graphics";
 import {Observable, ObservableArray, observe} from "../../../lib/reactive";
 import {floor_t, TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 import {GameMap} from "../../../lib/gamemap/GameMap";
 import {GameMapMouseEvent} from "../../../lib/gamemap/MapEvents";
 import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
 import activate = TileArea.activate;
+import {PathGraphics} from "../path_graphics";
 
 export class ShortcutViewLayer extends GameLayer {
   constructor(public data: ObservableArray<Transportation.Transportation>, private simplified: boolean = false) {
@@ -73,6 +73,7 @@ export class ShortcutViewLayer extends GameLayer {
 }
 
 export namespace ShortcutViewLayer {
+  import arrow = PathGraphics.arrow;
   export const COLORS = {
     interactive_area: "#72bb46",
     target_area: "#cca927",

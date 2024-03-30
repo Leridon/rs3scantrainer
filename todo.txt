@@ -5,13 +5,13 @@ Planned for next release (b0.4):
     - Method Pack Management
 
 - Issues
-    - [Bug, 1] SearchSelection is broken in multiple ways:
-        - Sometimes the dropdown remains after the element is already gone
+    - [Bug, 1] SearchSelection: Sometimes the dropdown remains after the element is already gone
     - [Bug, 5] Tooltips for PathStepEntities don't disappear correctly on the solver
         - It doesnt happen everwhere. Section 2 of the Citric Cellar step works fine.
         - Something with sectioned paths maybe?
+            - Yep, it happens to the citric cellar stuff as well wenn the second section is selected
     - [Bug, 3] Reader reads the falador crossroads easy map clue as a text clue
-    - [Bug, 3] SEQUIN DIRGE is being as Ysondria
+    - [Bug, 3] SEQUIN DIRGE is read as Ysondria
 
 - Data
     - [Dev Tool, 3] Utility Layer for shortcut parsing

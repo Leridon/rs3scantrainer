@@ -1,13 +1,12 @@
 import {storage} from "lib/util/storage";
 import {Modal} from "trainer/ui/widgets/modal";
-import TemplateResolver from "lib/util/TemplateResolver";
+import {TemplateResolver} from "lib/util/TemplateResolver";
 import {ClueTier, ClueType} from "lib/runescape/clues";
 import {GameMap, GameMapWidget} from "lib/gamemap/GameMap";
 import {QueryLinks} from "trainer/query_functions";
 import {Path} from "lib/runescape/pathing";
 import {ExportImport} from "lib/util/exportString";
 import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
-import {PathGraphics} from "./ui/path_graphics";
 import Behaviour, {SingleBehaviour} from "lib/ui/Behaviour";
 import {SolvingMethods} from "./model/methods";
 import {GameLayer} from "../lib/gamemap/GameLayer";
@@ -21,20 +20,28 @@ import {Observable, observe} from "../lib/reactive";
 import {FavoriteIndex} from "./favorites";
 import Dependencies from "./dependencies";
 import {Transportation} from "../lib/runescape/transportation";
-import {TransportData} from "../data/transports";
 import * as process from "process";
 import * as jquery from "jquery";
 import * as lodash from "lodash";
 import {Settings} from "./ui/settings/Settings";
+import * as assert from "assert";
+import {TextRendering} from "./ui/TextRendering";
+import {TransportData} from "../data/transports";
+import {PathGraphics} from "./ui/path_graphics";
 import div = C.div;
 import vbox = C.vbox;
 import span = C.span;
 import hbox = C.hbox;
 import spacer = C.spacer;
-import resolveTeleport = TransportData.resolveTeleport;
 import ActiveTeleportCustomization = Transportation.TeleportGroup.ActiveTeleportCustomization;
 import TeleportSettings = Settings.TeleportSettings;
-import {Modal2} from "../lib/ui/Modal2";
+import inlineimg = C.inlineimg;
+import render_digspot = TextRendering.render_digspot;
+import render_scanregion = TextRendering.render_scanregion;
+import resolveTeleport = TransportData.resolveTeleport;
+import npc = C.npc;
+import staticentity = C.staticentity;
+import entity = C.entity;
 
 declare let DEV_MODE: boolean
 
@@ -224,37 +231,62 @@ export class Application extends Behaviour {
 
   main_behaviour = this.withSub(new SingleBehaviour())
 
-  template_resolver = new TemplateResolver(new Map<string, (args: string[]) => string>(
-    [
-      ["surge", () => "<img class='text-icon' src='assets/icons/surge.png' title='Surge'>"],
-      ["dive", () => "<img class='text-icon' src='assets/icons/dive.png' title='Dive'>"],
-      ["surgedive", () => "<img class='text-icon' src='assets/icons/surgedive.png' title='Surge'>"],
-      ["bladeddive", () => "<img class='text-icon' src='assets/icons/bladeddive.png' title='Bladed Dive'>"],
-      ["escape", () => "<img class='text-icon' src='assets/icons/escape.png' title='Escape'>"],
-      ["barge", () => "<img class='text-icon' src='assets/icons/barge.png' title='Barge'>"],
-      ["digspot", (args) => `<span class="ctr-digspot-inline">${args[0]}</span>`],
-      ["scanarea", (args) => `<span class="ctr-scanspot-inline">${args[0]}</span>`],
-      ["teleport", (args) => {
-        let tele = resolveTeleport({group: args[0], spot: args[1]})
+  template_resolver = new TemplateResolver(
+    {name: "surge", apply: () => [{type: "domelement", value: inlineimg('assets/icons/surge.png')}]},
+    {name: "dive", apply: () => [{type: "domelement", value: inlineimg('assets/icons/dive.png')}]},
+    {name: "surgedive", apply: () => [{type: "domelement", value: inlineimg('assets/icons/surgedive.png')}]},
+    {name: "bladeddive", apply: () => [{type: "domelement", value: inlineimg('assets/icons/bladeddive.png')}]},
+    {name: "escape", apply: () => [{type: "domelement", value: inlineimg('assets/icons/escape.png')}]},
+    {name: "barge", apply: () => [{type: "domelement", value: inlineimg('assets/icons/barge.png')}]},
+    {
+      name: "digspot", apply: ([arg0]) => {
+        assert(arg0.type == "safestring")
 
-        if (!tele) return "NULL"
+        return [{type: "domelement", value: render_digspot(arg0.value)}]
+      }
+    }, {
+      name: "scanarea", apply: ([arg0]) => {
+        assert(arg0.type == "safestring")
 
-        return PathGraphics.Teleport.asSpan(tele)
-      }],
-      ["icon", (args) => {
-        return `<img class='text-icon' src='assets/icons/${args[0]}.png'>`
-      }],
-      ["npc", (args) => {
-        return `<span class='nisl-npc'>${args[0]}</span>`
-      }],
-      ["object", (args) => {
-        return `<span class='nisl-entity'>${args[0]}</span>`
-      }],
-      ["item", (args) => {
-        return `<span class='nisl-item'>${args[0]}</span>`
-      }]
-    ]
-  ))
+        return [{type: "domelement", value: render_scanregion(arg0.value)}]
+      }
+    }, {
+      name: "teleport", apply: ([groupid, spotid]) => {
+        assert(groupid.type == "safestring")
+        assert(spotid.type == "safestring")
+
+        let tele = resolveTeleport({group: groupid.value, spot: spotid.value})
+
+        if (!tele) return [{type: "safestring", value: "NULL"}]
+
+        return [{type: "domelement", value: PathGraphics.Teleport.asSpan(tele)}]
+      }
+    }, {
+      name: "icon", apply: ([icon_url]) => {
+        assert(icon_url.type == "safestring")
+
+        return [{type: "domelement", value: inlineimg(`assets/icons/${icon_url.value}.png`)}]
+      }
+    }, {
+      name: "npc", apply: ([npc_name]) => {
+        assert(npc_name.type == "safestring")
+
+        return [{type: "domelement", value: npc(npc_name.value)}]
+      }
+    }, {
+      name: "object", apply: ([npc_name]) => {
+        assert(npc_name.type == "safestring")
+
+        return [{type: "domelement", value: staticentity(npc_name.value)}]
+      }
+    }, {
+      name: "item", apply: ([npc_name]) => {
+        assert(npc_name.type == "safestring")
+
+        return [{type: "domelement", value: entity({kind: "item", name: npc_name.value})}]
+      }
+    }
+  )
 
   private startup_settings_storage = new storage.Variable<Application.Preferences>("preferences/startupsettings", () => ({}))
   startup_settings = observe(this.startup_settings_storage.get())
@@ -267,7 +299,7 @@ export class Application extends Behaviour {
     this.favourites = new FavoriteIndex(MethodPackManager.instance())
 
     if (this.in_dev_mode) {
-      console.log("In dev mode")
+      console.log("In devevelopment mode")
     }
   }
 

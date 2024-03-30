@@ -1,6 +1,6 @@
 import Properties from "../widgets/Properties";
 import {Path} from "../../../lib/runescape/pathing";
-import TemplateResolver from "../../../lib/util/TemplateResolver";
+import {TemplateResolver} from "../../../lib/util/TemplateResolver";
 import {direction, PathFinder} from "../../../lib/runescape/movement";
 import {C} from "../../../lib/ui/constructors";
 import {CursorType} from "../../../lib/runescape/CursorType";
@@ -99,7 +99,7 @@ export class PathStepProperties extends Properties {
     if (this.step.description) {
       this.header("Additional Info")
 
-      this.row(c().setInnerHtml(this.template_resolver.resolve(this.step.description)))
+      this.row(c().append(...this.template_resolver.resolve(this.step.description)))
     }
   }
 }

@@ -2,7 +2,6 @@ import {Path} from "../../../../lib/runescape/pathing";
 import {MovementAbilities} from "../../../../lib/runescape/movement";
 import * as leaflet from "leaflet";
 import {Rectangle, Vector2} from "../../../../lib/math";
-import {arrow, createX} from "../../path_graphics";
 import {floor_t, TileCoordinates, TileRectangle} from "../../../../lib/runescape/coordinates";
 import {MapEntity} from "../../../../lib/gamemap/MapEntity";
 import Widget from "../../../../lib/ui/Widget";
@@ -16,6 +15,9 @@ import {GameMapContextMenuEvent} from "../../../../lib/gamemap/MapEvents";
 import {Menu} from "../../widgets/ContextMenu";
 import {FloorLevels} from "../../../../lib/gamemap/ZoomLevels";
 import {Transportation} from "../../../../lib/runescape/transportation";
+import {PathGraphics} from "../../path_graphics";
+import arrow = PathGraphics.arrow;
+import createX = PathGraphics.createX;
 
 export class PathStepEntity extends MapEntity {
 

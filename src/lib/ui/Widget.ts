@@ -1,5 +1,7 @@
 import * as jquery from 'jquery';
 import * as tippy from 'tippy.js';
+import {C} from "./constructors";
+import Appendable = C.Appendable;
 
 export default class Widget<T extends HTMLElement = HTMLElement> {
   public container: JQuery
@@ -43,7 +45,7 @@ export default class Widget<T extends HTMLElement = HTMLElement> {
     return this
   }
 
-  append(...widget: (Widget | JQuery | string)[]): this {
+  append(...widget: Appendable[]): this {
     widget.forEach(w => {
       if (!w) return
       if (w instanceof Widget) w = w.container

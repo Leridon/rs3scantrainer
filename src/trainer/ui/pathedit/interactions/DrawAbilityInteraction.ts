@@ -1,7 +1,6 @@
 import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
 import * as leaflet from "leaflet";
 import {HostedMapData, MovementAbilities} from "lib/runescape/movement";
-import {arrow} from "../../path_graphics";
 import {Path} from "lib/runescape/pathing";
 import {GameMapKeyboardEvent, GameMapMouseEvent} from "lib/gamemap/MapEvents";
 import InteractionTopControl from "../../map/InteractionTopControl";
@@ -10,6 +9,8 @@ import {Observable, observe} from "../../../../lib/reactive";
 import {PathStepEntity} from "../../map/entities/PathStepEntity";
 import {AbilityLens} from "../PathEditOverlays";
 import observe_combined = Observable.observe_combined;
+import {PathGraphics} from "../../path_graphics";
+import arrow = PathGraphics.arrow;
 
 export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> {
   _possibility_overlay: leaflet.FeatureGroup = null

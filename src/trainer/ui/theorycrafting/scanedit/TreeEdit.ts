@@ -23,7 +23,7 @@ import {FormModal} from "../../../../lib/ui/controls/FormModal";
 import {BigNisButton} from "../../widgets/BigNisButton";
 import TextArea from "../../../../lib/ui/controls/TextArea";
 import AbstractEditWidget from "../../widgets/AbstractEditWidget";
-import TemplateResolver from "../../../../lib/util/TemplateResolver";
+import {TemplateResolver} from "../../../../lib/util/TemplateResolver";
 import {ConfirmationModal} from "../../widgets/modals/ConfirmationModal";
 import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
 import {identity} from "lodash";
@@ -413,9 +413,9 @@ class TreeNodeEdit extends Widget {
   }
 
   private updateInstructionPreview() {
-    const resolver = this.parent.parent.app.template_resolver.with(scan_tree_template_resolvers(this.node))
+    const resolver = this.parent.parent.app.template_resolver.with(...scan_tree_template_resolvers(this.node))
 
-    this.instruction_preview.setInnerHtml(resolver.resolve(ScanTree.getInstruction(this.node)))
+    this.instruction_preview.append(...resolver.resolve(ScanTree.getInstruction(this.node)))
 
   }
 
@@ -464,7 +464,7 @@ class TreeNodeEdit extends Widget {
           constructor() {
             super();
 
-            this.resolver = self.parent.parent.app.template_resolver.with(scan_tree_template_resolvers(self.node))
+            this.resolver = self.parent.parent.app.template_resolver.with(...scan_tree_template_resolvers(self.node))
 
             this.onChange(() => this.renderPreview())
           }

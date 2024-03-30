@@ -18,7 +18,7 @@ import {util} from "../../../lib/util/util";
 import {TreeArray} from "../../../lib/util/TreeArray";
 import * as assert from "assert";
 import {Observable, observe} from "../../../lib/reactive";
-import TemplateResolver from "../../../lib/util/TemplateResolver";
+import {TemplateResolver} from "../../../lib/util/TemplateResolver";
 import {GameLayer} from "../../../lib/gamemap/GameLayer";
 import {CursorType} from "../../../lib/runescape/CursorType";
 import {TransportData} from "../../../data/transports";

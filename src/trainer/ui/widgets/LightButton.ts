@@ -15,9 +15,4 @@ export default class LightButton extends Button {
     this.text(text)
     return this
   }
-
-  setHTML(html: string): this {
-    this.container.html(html)
-    return this
-  }
 }

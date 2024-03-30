@@ -2,13 +2,9 @@ import Widget from "../../../../lib/ui/Widget";
 import {ScanTree} from "../../../../lib/cluetheory/scans/ScanTree";
 import {util} from "../../../../lib/util/util";
 import Properties from "../../widgets/Properties";
-import TemplateStringEdit from "../../widgets/TemplateStringEdit";
-import PathProperty from "../../pathedit/PathProperty";
 import TextField from "../../../../lib/ui/controls/TextField";
-import {SmallImageButton} from "../../widgets/SmallImageButton";
 import {ScanRegionPolygon} from "../../neosolving/ScanLayer";
 import LightButton from "../../widgets/LightButton";
-import {TileRectangle} from "../../../../lib/runescape/coordinates/TileRectangle";
 import {scan_tree_template_resolvers} from "../../solving/scans/ScanSolving";
 import GameMapDragAction from "../../../../lib/gamemap/interaction/GameMapDragAction";
 import {observe} from "../../../../lib/reactive";
@@ -501,7 +497,7 @@ class TreeNodeEdit extends Widget {
           }
 
           private renderPreview() {
-            if (this.preview_container) this.preview_container.container.html(`${this.resolver.resolve(this.get() || "")}`)
+            if (this.preview_container) this.preview_container.empty().append(...this.resolver.resolve(this.get() || ""))
           }
         })
           .setValue(self.node.raw.directions ?? "")

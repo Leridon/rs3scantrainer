@@ -1,11 +1,11 @@
 import Widget from "lib/ui/Widget";
-import TemplateResolver from "lib/util/TemplateResolver";
 import AbstractEditWidget from "./AbstractEditWidget";
 import Button from "lib/ui/controls/Button";
 import {SmallImageButton} from "./SmallImageButton";
 import TextArea from "../../../lib/ui/controls/TextArea";
 import {C} from "../../../lib/ui/constructors";
 import vbox = C.vbox;
+import {TemplateResolver} from "../../../lib/util/TemplateResolver";
 
 export default class TemplateStringEdit extends AbstractEditWidget<string> {
   edit_mode: boolean = false

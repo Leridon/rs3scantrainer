@@ -5,7 +5,7 @@ import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
 import Behaviour from "lib/ui/Behaviour";
 import {Transportation} from "../../../lib/runescape/transportation";
 import {Vector2} from "lib/math";
-import TemplateResolver from "lib/util/TemplateResolver";
+import {TemplateResolver} from "lib/util/TemplateResolver";
 import {GameMapContextMenuEvent, GameMapKeyboardEvent} from "lib/gamemap/MapEvents";
 import {GameLayer} from "lib/gamemap/GameLayer";
 import {DrawAbilityInteraction} from "./interactions/DrawAbilityInteraction";

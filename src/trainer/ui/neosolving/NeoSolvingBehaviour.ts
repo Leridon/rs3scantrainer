@@ -385,9 +385,9 @@ class ScanTreeSolvingControl extends Behaviour {
     }
 
     content.append(c().addClass('ctr-neosolving-nextscanstep')
-      .setInnerHtml(
-        "Next: " +
-        this.parent.app.template_resolver.with(scan_tree_template_resolvers(node))
+      .append(
+        "Next: ",
+        ...this.parent.app.template_resolver.with(...scan_tree_template_resolvers(node))
           .resolve(ScanTree.getInstruction(node)))
     )
 
@@ -399,7 +399,7 @@ class ScanTreeSolvingControl extends Behaviour {
         .filter((e) => triples.length <= 1 || e.key.pulse != 3)
         .sort(Order.comap(Scans.Pulse.compare, (a) => a.key))
         .forEach((child) => {
-          const resolvers = this.parent.app.template_resolver.with(scan_tree_template_resolvers(child.value))
+          const resolvers = this.parent.app.template_resolver.with(...scan_tree_template_resolvers(child.value))
 
           c().addClass("ctr-neosolving-scantreeline")
             .append(
@@ -407,7 +407,7 @@ class ScanTreeSolvingControl extends Behaviour {
                 .onClick(() => {
                   this.setNode(child.value)
                 }),
-              c().setInnerHtml(resolvers.resolve(
+              c().append(...resolvers.resolve(
                 ScanTree.getInstruction(child.value)
               ))
             ).appendTo(content)

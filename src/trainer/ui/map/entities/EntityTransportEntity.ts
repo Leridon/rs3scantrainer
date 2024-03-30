@@ -3,7 +3,6 @@ import {FloorLevels} from "../../../../lib/gamemap/ZoomLevels";
 import {Transportation} from "../../../../lib/runescape/transportation";
 import {Rectangle, Vector2} from "../../../../lib/math";
 import {OpacityGroup} from "../../../../lib/gamemap/layers/OpacityLayer";
-import {arrow} from "../../path_graphics";
 import * as leaflet from "leaflet";
 import {CursorType} from "../../../../lib/runescape/CursorType";
 import {areaPolygon, boxPolygon2} from "../../polygon_helpers";
@@ -21,6 +20,8 @@ import EntityTransportation = Transportation.EntityTransportation;
 import entity = C.entity;
 import isLocal = Transportation.EntityTransportation.Movement.isLocal;
 import activate = TileArea.activate;
+import {PathGraphics} from "../../path_graphics";
+import arrow = PathGraphics.arrow;
 
 export class EntityTransportEntity extends MapEntity {
   private normalized_shortcut: GeneralEntityTransportation

@@ -4,8 +4,8 @@ import Button from "lib/ui/controls/Button";
 import {SmallImageButton} from "./SmallImageButton";
 import TextArea from "../../../lib/ui/controls/TextArea";
 import {C} from "../../../lib/ui/constructors";
-import vbox = C.vbox;
 import {TemplateResolver} from "../../../lib/util/TemplateResolver";
+import vbox = C.vbox;
 
 export default class TemplateStringEdit extends AbstractEditWidget<string> {
   edit_mode: boolean = false
@@ -145,7 +145,7 @@ export default class TemplateStringEdit extends AbstractEditWidget<string> {
   }
 
   private renderPreview() {
-    this.preview_container.container.html(`${this.options.resolver.resolve(this.get() || "")}`)
+    this.preview_container.empty().append(...this.options.resolver.resolve(this.get() || ""))
   }
 
   public startEdit() {

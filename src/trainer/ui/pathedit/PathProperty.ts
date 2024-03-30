@@ -119,7 +119,7 @@ export default class PathProperty extends AbstractEditWidget<Path.raw> {
 
         if (steps.length != augmented.steps.length) html += " ..."
 
-        let preview_span = c("<span>").appendTo(preview).container.html(html)
+        let preview_span = c("<span>").appendTo(preview).setInnerHtml(html)
       }
     }
 

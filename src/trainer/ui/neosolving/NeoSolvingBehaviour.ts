@@ -22,7 +22,6 @@ import {ScanTheory} from "../../../lib/cluetheory/scans/Scans";
 import {Scans} from "../../../lib/runescape/clues/scans";
 import {SolvingMethods} from "../../model/methods";
 import {ScanTree} from "../../../lib/cluetheory/scans/ScanTree";
-import {scan_tree_template_resolvers} from "../solving/scans/ScanSolving";
 import * as leaflet from "leaflet"
 import {ScanRegionPolygon} from "./ScanLayer";
 import BoundsBuilder from "../../../lib/gamemap/BoundsBuilder";
@@ -52,6 +51,8 @@ import GenericPathMethod = SolvingMethods.GenericPathMethod;
 import inlineimg = C.inlineimg;
 import activate = TileArea.activate;
 import cleanedJSON = util.cleanedJSON;
+import {TemplateResolver} from "../../../lib/util/TemplateResolver";
+import {TextRendering} from "../TextRendering";
 
 class NeoReader {
   read: Ewent<{ step: Clues.Step, text_index: number }>
@@ -266,7 +267,7 @@ namespace NeoSolvingLayer {
   }
 }
 
-class ScanTreeSolvingControl extends Behaviour {
+export class ScanTreeSolvingControl extends Behaviour {
   node: ScanTree.Augmentation.AugmentedScanTreeNode = null
   augmented: ScanTree.Augmentation.AugmentedScanTree = null
   layer: leaflet.FeatureGroup = null
@@ -390,7 +391,7 @@ class ScanTreeSolvingControl extends Behaviour {
     content.append(c().addClass('ctr-neosolving-nextscanstep')
       .append(
         "Next: ",
-        ...this.parent.app.template_resolver.with(...scan_tree_template_resolvers(node))
+        ...this.parent.app.template_resolver.with(...ScanTreeSolvingControl.scan_tree_template_resolvers(node))
           .resolve(ScanTree.getInstruction(node)))
     )
 
@@ -402,7 +403,7 @@ class ScanTreeSolvingControl extends Behaviour {
         .filter((e) => triples.length <= 1 || e.key.pulse != 3)
         .sort(Order.comap(Scans.Pulse.compare, (a) => a.key))
         .forEach((child) => {
-          const resolvers = this.parent.app.template_resolver.with(...scan_tree_template_resolvers(child.value))
+          const resolvers = this.parent.app.template_resolver.with(...ScanTreeSolvingControl.scan_tree_template_resolvers(child.value))
 
           c().addClass("ctr-neosolving-scantreeline")
             .append(
@@ -450,6 +451,41 @@ class ScanTreeSolvingControl extends Behaviour {
       this.layer.remove()
       this.layer = null
     }
+  }
+}
+
+export namespace ScanTreeSolvingControl {
+  import AugmentedScanTreeNode = ScanTree.Augmentation.AugmentedScanTreeNode;
+  import render_digspot = TextRendering.render_digspot;
+  import render_scanregion = TextRendering.render_scanregion;
+  import shorten_integer_list = util.shorten_integer_list;
+
+  export function scan_tree_template_resolvers(node: AugmentedScanTreeNode): TemplateResolver.Function[] {
+    return [
+      {
+        name: "target", apply: () => {
+          if (node.remaining_candidates.length == 1) {
+            return [{
+              type: "domelement",
+              value: render_digspot(spotNumber(node.root.raw, node.remaining_candidates[0]))
+            }]
+          } else {
+            return [{
+              type: "domelement",
+              value: render_scanregion(node.raw.region?.name || "_")
+            }]
+          }
+        }
+      },
+      {
+        name: "candidates", apply: () => {
+          return [{
+            type: "domelement",
+            value: c(util.natural_join(shorten_integer_list(node.remaining_candidates.map(c => spotNumber(node.root.raw, c)), c => render_digspot(c).raw().outerHTML)))
+          }]
+        }
+      }
+    ]
   }
 }
 
@@ -505,7 +541,6 @@ class ClueSolvingReadingBehaviour extends Behaviour {
     }
   }
 }
-
 
 export default class NeoSolvingBehaviour extends Behaviour {
   layer: NeoSolvingLayer

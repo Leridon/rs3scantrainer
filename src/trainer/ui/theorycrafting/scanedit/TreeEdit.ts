@@ -5,7 +5,6 @@ import Properties from "../../widgets/Properties";
 import TextField from "../../../../lib/ui/controls/TextField";
 import {ScanRegionPolygon} from "../../neosolving/ScanLayer";
 import LightButton from "../../widgets/LightButton";
-import {scan_tree_template_resolvers} from "../../solving/scans/ScanSolving";
 import GameMapDragAction from "../../../../lib/gamemap/interaction/GameMapDragAction";
 import {observe} from "../../../../lib/reactive";
 import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInteraction";
@@ -39,6 +38,8 @@ import hbox = C.hbox;
 import vbox = C.vbox;
 import hboxl = C.hboxl;
 import collect_issues = Path.collect_issues;
+import {ScanTreeSolvingControl} from "../../neosolving/NeoSolvingBehaviour";
+import scan_tree_template_resolvers = ScanTreeSolvingControl.scan_tree_template_resolvers;
 
 export class DrawRegionAction extends ValueInteraction<ScanRegion> {
   constructor(name: string) {

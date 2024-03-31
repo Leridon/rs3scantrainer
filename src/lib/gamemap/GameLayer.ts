@@ -194,10 +194,11 @@ export class GameLayer extends leaflet.FeatureGroup {
       }
 
       if (entity) {
-        entity.highlighted.set(true)
         this.active_entity.entity = entity
 
         await this.createActiveEntityTooltip(force_interactive)
+
+        entity.highlighted.set(true)
       }
     }
 

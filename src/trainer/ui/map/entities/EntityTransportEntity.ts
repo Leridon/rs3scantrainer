@@ -26,10 +26,10 @@ import arrow = PathGraphics.arrow;
 export class EntityTransportEntity extends MapEntity {
   private normalized_shortcut: GeneralEntityTransportation
 
-  constructor(public config: EntityTransportEntity.Config) {
-    super(config)
+  constructor(public shortcut: EntityTransportation) {
+    super()
 
-    this.normalized_shortcut = Transportation.normalize(this.config.shortcut)
+    this.normalized_shortcut = Transportation.normalize(this.shortcut)
 
     if (true || EntityTransportation.isLocal(this.normalized_shortcut)) {
       this.zoom_sensitivity_layers = MapEntity.default_local_zoom_scale_layers
@@ -44,7 +44,7 @@ export class EntityTransportEntity extends MapEntity {
   }
 
   bounds(): Rectangle {
-    return Transportation.bounds(this.config.shortcut)
+    return Transportation.bounds(this.shortcut)
   }
 
   async contextMenu(event: GameMapContextMenuEvent): Promise<Menu | null> {
@@ -179,7 +179,7 @@ export class EntityTransportEntity extends MapEntity {
 
   async renderTooltip(): Promise<{ content: Widget, interactive: boolean } | null> {
     const props = new Properties()
-    const s = this.config.shortcut
+    const s = this.shortcut
 
     switch (s.type) {
       case "entity":
@@ -203,12 +203,5 @@ export class EntityTransportEntity extends MapEntity {
       content: props,
       interactive: false
     }
-  }
-}
-
-export namespace EntityTransportEntity {
-  import EntityTransportation = Transportation.EntityTransportation;
-  export type Config = MapEntity.SetupOptions & {
-    shortcut: EntityTransportation
   }
 }

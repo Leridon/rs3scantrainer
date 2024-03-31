@@ -23,21 +23,21 @@ export class PathStepEntity extends MapEntity {
 
   floor_sensitivity_layers: FloorLevels<{ correct_level: boolean }>
 
-  constructor(public config: PathStepEntity.Config) {
-    super(config)
+  constructor(public step: Path.Step) {
+    super()
 
     this.floor_sensitivity_layers = new FloorLevels([
-      {floors: [Path.Step.level(config.step)], value: {correct_level: true}},
+      {floors: [Path.Step.level(step)], value: {correct_level: true}},
       {floors: floor_t.all, value: {correct_level: false}},
     ])
   }
 
   bounds(): Rectangle {
-    return Path.Step.bounds(this.config.step)
+    return Path.Step.bounds(this.step)
   }
 
   protected override async render_implementation(options: MapEntity.RenderProps): Promise<Element> {
-    const step = this.config.step
+    const step = this.step
 
     const floor_group = this.floor_sensitivity_layers.get(options.floor_group_index)
 
@@ -214,7 +214,7 @@ export class PathStepEntity extends MapEntity {
 
   async renderTooltip(): Promise<{ content: Widget, interactive: boolean } | null> {
     return {
-      content: new PathStepProperties(this.config.step, Dependencies.instance().app.template_resolver),
+      content: new PathStepProperties(this.step, Dependencies.instance().app.template_resolver),
       interactive: false
     }
   }
@@ -222,24 +222,18 @@ export class PathStepEntity extends MapEntity {
   override async contextMenu(event: GameMapContextMenuEvent): Promise<Menu | null> {
     return {
       type: "submenu",
-      text: Path.Step.name(this.config.step),
+      text: Path.Step.name(this.step),
       children: []
     }
   }
 }
 
 export namespace PathStepEntity {
-  export type Config = MapEntity.SetupOptions & {
-    step: Path.Step
-  }
 
   export function renderPath(path: Path.Step[]): GameLayer {
     let group = new GameLayer()
 
-    for (let step of path) new PathStepEntity({
-      highlightable: true,
-      step: step,
-    }).addTo(group)
+    for (let step of path) new PathStepEntity(step).addTo(group)
 
     return group
   }

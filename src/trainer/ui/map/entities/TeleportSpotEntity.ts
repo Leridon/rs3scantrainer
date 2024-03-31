@@ -23,8 +23,8 @@ export class TeleportSpotEntity extends MapEntity {
   zoom_sensitivity_layers = MapEntity.default_zoom_scale_layers
   floor_sensitivity_layers: FloorLevels<{ correct_level: boolean }>
 
-  constructor(public config: TeleportSpotEntity.Config) {
-    super(config);
+  constructor(public teleport: Transportation.TeleportGroup.Spot) {
+    super();
 
     this.zoom_sensitivity_layers = new ZoomLevels<{ scale: number }>([
       {min: -100, value: {scale: 0.5}},
@@ -32,13 +32,13 @@ export class TeleportSpotEntity extends MapEntity {
     ])
 
     this.floor_sensitivity_layers = new FloorLevels<{ correct_level: boolean }>([
-      {floors: [config.teleport.targetArea().origin.level], value: {correct_level: true}},
+      {floors: [teleport.targetArea().origin.level], value: {correct_level: true}},
       {floors: floor_t.all, value: {correct_level: false}},
     ])
   }
 
   bounds(): Rectangle {
-    return TileArea.toRect(this.config.teleport.targetArea())
+    return TileArea.toRect(this.teleport.targetArea())
   }
 
   async render_implementation(options: MapEntity.RenderProps): Promise<Element> {
@@ -46,8 +46,8 @@ export class TeleportSpotEntity extends MapEntity {
 
     const scale = (options.highlight ? 1.5 : (this.zoom_sensitivity_layers.get(options.zoom_group_index).value.scale))
 
-    const marker = leaflet.marker(Vector2.toLatLong(this.config.teleport.centerOfTarget()), {
-      icon: new TeleportSpotEntity.TeleportMapIcon(this.config.teleport, scale, w => {
+    const marker = leaflet.marker(Vector2.toLatLong(this.teleport.centerOfTarget()), {
+      icon: new TeleportSpotEntity.TeleportMapIcon(this.teleport, scale, w => {
         if (!floor_group.value.correct_level) w.css("filter", "grayscale(1) brightness(0.5)")
 
         return w
@@ -58,7 +58,7 @@ export class TeleportSpotEntity extends MapEntity {
     }).addTo(this)
 
     if (options.highlight) {
-      areaPolygon(this.config.teleport.targetArea())
+      areaPolygon(this.teleport.targetArea())
         .setStyle({
           fillColor: "lightgreen",
           color: "lightgreen",
@@ -72,7 +72,7 @@ export class TeleportSpotEntity extends MapEntity {
   async renderTooltip(): Promise<{ content: Widget, interactive: boolean } | null> {
     let props = new Properties()
 
-    const teleport = this.config.teleport
+    const teleport = this.teleport
 
     props.header(`${teleport.group.name} - ${teleport.spot.name}`)
     props.named("Time", `${teleport.props.menu_ticks + teleport.props.animation_ticks} (${teleport.props.menu_ticks} menu + ${teleport.props.animation_ticks} animation)`)
@@ -104,7 +104,7 @@ export class TeleportSpotEntity extends MapEntity {
 
 
   async contextMenu(event: GameMapContextMenuEvent): Promise<Menu | null> {
-    const teleport = this.config.teleport;
+    const teleport = this.teleport;
 
     const jumpable_accesses: TeleportAccess[] = teleport.group.access.filter(a => a.type == "entity")
 
@@ -138,9 +138,6 @@ export class TeleportSpotEntity extends MapEntity {
 export namespace TeleportSpotEntity {
   import img = C.img;
   import div = C.div;
-  export type Config = MapEntity.SetupOptions & {
-    teleport: Transportation.TeleportGroup.Spot
-  }
 
   export class TeleportMapIcon extends leaflet.DivIcon {
     constructor(tele: Transportation.TeleportGroup.Spot, scale: number = 1, transformer: (w: Widget) => Widget = identity) {

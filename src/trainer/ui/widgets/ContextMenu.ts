@@ -3,11 +3,11 @@ import * as tippy from "tippy.js";
 import {Vector2} from "lib/math";
 import {Ewent, ewent} from "../../../lib/reactive";
 import {C} from "../../../lib/ui/constructors";
+import * as jquery from "jquery";
 import hbox = C.hbox;
 import span = C.span;
 import spacer = C.spacer;
 import Appendable = C.Appendable;
-import * as jquery from "jquery";
 
 export function rend(s: string | (() => Widget)): Appendable {
   if (typeof s == "string") return s
@@ -186,7 +186,7 @@ namespace open_menu {
           : null,
         rend(entry.text),
         spacer().css("min-width", "10px"),
-        entry.type == "submenu" ? span("&#x276F;") : null
+        entry.type == "submenu" ? span().setInnerHtml("&#x276F;") : null
       ).addClass("nisl-context-menu-entry")
         .tapRaw(r => r
           .on("click", (e) => {

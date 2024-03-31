@@ -8,8 +8,8 @@ import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInterac
 import {Observable, observe} from "../../../../lib/reactive";
 import {PathStepEntity} from "../../map/entities/PathStepEntity";
 import {AbilityLens} from "../PathEditOverlays";
-import observe_combined = Observable.observe_combined;
 import {PathGraphics} from "../../path_graphics";
+import observe_combined = Observable.observe_combined;
 import arrow = PathGraphics.arrow;
 
 export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> {
@@ -101,14 +101,11 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
       // Draw the necessary preview
       this._preview_arrow = (
         okay ? new PathStepEntity({
-              step: {
-                type: "ability",
-                ability: this.ability,
-                from: from,
-                to: to
-              }
-            },
-          )
+            type: "ability",
+            ability: this.ability,
+            from: from,
+            to: to
+          })
           : arrow(from, to).setStyle({
             weight: 3,
             color: "red"

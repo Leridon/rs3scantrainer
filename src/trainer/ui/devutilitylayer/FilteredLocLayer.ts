@@ -148,10 +148,9 @@ export class LocInstanceEntity extends MapEntity {
   private rendered_with_parser: boolean = undefined
 
   constructor(public instance: LocInstance, private parsing_table: LocParsingTable) {
-    super({
-      highlightable: true,
-      interactive: true
-    })
+    super()
+
+    this.setInteractive()
 
     this.zoom_sensitivity_layers = ZoomLevels.none
 

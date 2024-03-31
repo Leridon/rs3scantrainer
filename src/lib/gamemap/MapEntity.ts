@@ -13,6 +13,8 @@ import observe_combined = Observable.observe_combined;
 export abstract class MapEntity extends leaflet.FeatureGroup implements QuadTree.Element<MapEntity> {
   public tooltip_hook: Observable<Promise<Element>> = observe(null)
 
+  private interactive: boolean = false
+
   spatial: QuadTree<this>;
   public parent: GameLayer | null = null
 
@@ -29,18 +31,16 @@ export abstract class MapEntity extends leaflet.FeatureGroup implements QuadTree
   protected rendered_props: MapEntity.RenderProps = null
   private desired_render_props: Observable<MapEntity.RenderProps> = observe(null).equality(MapEntity.RenderProps.equals)
 
-  protected constructor(protected entity_config: MapEntity.SetupOptions) {
+  protected constructor() {
     super([]);
 
-    if (entity_config.interactive) {
-      this.on("mouseover", () => {
-        this.parent?.updateHovering(this, true)
-      })
+    this.on("mouseover", () => {
+      if (this.interactive) this.parent?.updateHovering(this, true)
+    })
 
-      this.on("mouseout", () => {
-        this.parent?.updateHovering(this, false)
-      })
-    }
+    this.on("mouseout", () => {
+      if (this.interactive) this.parent?.updateHovering(this, false)
+    })
 
     observe_combined({
       v: this.visible,
@@ -51,6 +51,14 @@ export abstract class MapEntity extends leaflet.FeatureGroup implements QuadTree
     }).subscribe(() => this.desired_render_props.set(this.getDesiredRenderProps()), true)
 
     this.desired_render_props.subscribe(() => this.requestRendering())
+  }
+
+  setInteractive(value: boolean = true): this {
+    this.interactive = value
+
+    if (!value) this.parent?.updateHovering(this, false)
+
+    return this
   }
 
   remove(): this {
@@ -80,15 +88,6 @@ export abstract class MapEntity extends leaflet.FeatureGroup implements QuadTree
 
   isActive(): boolean {
     return this.parent?.activeEntity() == this
-  }
-
-  setHighlight(v: boolean): this {
-    if (v && !this.entity_config.highlightable)
-      return this
-
-    this.highlighted.set(v)
-
-    return this
   }
 
   setVisible(v: boolean): this {
@@ -159,10 +158,6 @@ export abstract class MapEntity extends leaflet.FeatureGroup implements QuadTree
 }
 
 export namespace MapEntity {
-  export type SetupOptions = {
-    highlightable?: boolean,
-    interactive?: boolean
-  }
 
   export const default_zoom_scale_layers = new ZoomLevels<{ scale: number }>([
     {min: -100, value: {scale: 0.25}},

@@ -145,10 +145,9 @@ export namespace ScanEditLayer {
     constructor(public spot: TileCoordinates,
                 public is_complement: boolean
     ) {
-      super({
-        interactive: true,
-        highlightable: true
-      });
+      super();
+
+      this.setInteractive()
 
       this.spot_on_map = is_complement ? complementSpot(spot) : spot
     }

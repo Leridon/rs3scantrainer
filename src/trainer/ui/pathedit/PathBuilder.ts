@@ -61,7 +61,8 @@ export class PathBuilder {
           const layer = new GameLayer()
 
           steps.forEach(v => {
-            v.associated_preview = new PathStepEntity({step: v.step.raw, highlightable: true, interactive: true})
+            v.associated_preview = new PathStepEntity(v.step.raw)
+              .setInteractive()
               .addTo(layer)
           })
 

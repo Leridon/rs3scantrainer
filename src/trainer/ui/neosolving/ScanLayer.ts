@@ -81,7 +81,8 @@ export class ScanRadiusMarker extends MapEntity {
               private is_complement: boolean,
               private range_is_with_meerkats: boolean
   ) {
-    super({interactive: true, highlightable: true});
+    super();
+    this.setInteractive()
   }
 
   bounds(): Rectangle {

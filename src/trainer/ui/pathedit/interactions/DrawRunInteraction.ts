@@ -8,9 +8,9 @@ import {util} from "../../../../lib/util/util";
 import {Path} from "../../../../lib/runescape/pathing";
 import {PathStepEntity} from "../../map/entities/PathStepEntity";
 import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
+import {PathGraphics} from "../../path_graphics";
 import index = util.index;
 import observe_combined = Observable.observe_combined;
-import {PathGraphics} from "../../path_graphics";
 import arrow = PathGraphics.arrow;
 
 class DrawRunInteractionInternal extends ValueInteraction<{
@@ -43,12 +43,10 @@ class DrawRunInteractionInternal extends ValueInteraction<{
         if (v) {
 
           let preview = new PathStepEntity({
-            step: {
               type: "run",
               waypoints: v.path,
-            },
-            highlightable: false
-          })
+            }
+          )
 
           if (v.no_path_to) {
             arrow(index(v.path, -1), v.no_path_to).setStyle({

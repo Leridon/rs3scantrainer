@@ -18,7 +18,8 @@ export class ClueOverviewMarker extends MapEntity {
               private edit_handler: (_: AugmentedMethod) => any,
               private talk_alternative_index?: number,
   ) {
-    super({interactive: true, highlightable: true});
+    super();
+    this.setInteractive()
   }
 
   override async renderTooltip(): Promise<{ content: Widget; interactive: boolean; } | null> {

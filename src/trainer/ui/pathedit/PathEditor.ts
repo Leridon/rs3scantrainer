@@ -123,7 +123,7 @@ class PathEditorGameLayer extends GameLayer {
             }))
           })
         } else if (event.active_entity instanceof TeleportSpotEntity) {
-          const t = event.active_entity.config.teleport
+          const t = event.active_entity.teleport
 
           if (t.group.access.length == 1) {
             const a = t.group.access[0]
@@ -160,13 +160,13 @@ class PathEditorGameLayer extends GameLayer {
             })
           }
         } else if (event.active_entity instanceof TeleportAccessEntity) {
-          const access = event.active_entity.config.access
-          const teleport = event.active_entity.config.teleport
+          const access = event.active_entity.access
+          const teleport = event.active_entity.teleport
 
           event.addForEntity({
             type: "submenu",
             text: `Use action '${access.action_name}'`,
-            children: event.active_entity.config.teleport.spots.map(spot => {
+            children: event.active_entity.teleport.spots.map(spot => {
 
               const s = new TeleportGroup.Spot(teleport, spot, access)
 
@@ -217,7 +217,7 @@ class PathEditorGameLayer extends GameLayer {
             }),
           })
         } else if (event.active_entity instanceof EntityTransportEntity) {
-          let s = Transportation.normalize(event.active_entity.config.shortcut)
+          let s = Transportation.normalize(event.active_entity.shortcut)
 
           s.actions.forEach(a => {
             event.addForEntity({
@@ -487,10 +487,8 @@ export class PathEditor extends Behaviour {
       this.editStep(value,
         new SelectTileInteraction({
           preview_render: tile => new PathStepEntity({
-            step: {
-              type: "powerburst",
-              where: tile,
-            }
+            type: "powerburst",
+            where: tile,
           })
         })
           .onCommit(new_s => value.update<Path.step_powerburst>(v => {
@@ -508,12 +506,9 @@ export class PathEditor extends Behaviour {
 
             if (activate(spot.targetArea()).query(tile)) {
               return new PathStepEntity({
-                interactive: false,
-                step: {
-                  type: "teleport",
-                  id: v.raw.id,
-                  spot: tile,
-                }
+                type: "teleport",
+                id: v.raw.id,
+                spot: tile,
               })
             } else {
               return tilePolygon(tile)

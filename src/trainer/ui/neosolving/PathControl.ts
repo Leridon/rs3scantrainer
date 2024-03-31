@@ -353,11 +353,9 @@ export default class PathControl extends Behaviour {
 
     this.path_layer.clearLayers()
     this.step_graphics = TreeArray.map(this.sectioned_path, (step) => {
-      return new PathStepEntity({
-        highlightable: true,
-        interactive: true,
-        step: step
-      }).addTo(this.path_layer)
+      return new PathStepEntity(step)
+        .setInteractive()
+        .addTo(this.path_layer)
     })
 
     this.renderWidget(section_id)

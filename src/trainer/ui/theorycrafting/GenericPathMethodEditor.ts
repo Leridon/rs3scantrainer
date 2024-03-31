@@ -126,7 +126,7 @@ class SegmentEdit extends Widget {
 
       this.body.named("Timing", hboxl(
         span(`T${this.path.pre_state.tick}`).addClass('nisl-textlink'),
-        span("&nbsp;to&nbsp;"),
+        span().setInnerHtml("&nbsp;to&nbsp;"),
         span(`T${this.path.post_state.tick}`).addClass('nisl-textlink'),
       ))
     }

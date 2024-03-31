@@ -10,12 +10,7 @@ import {Vector2} from "../../../../lib/math";
 export class DrawCheatInteraction extends ValueInteraction<Path.step_cheat> {
   constructor(private start_from: TileCoordinates) {
     super({
-      preview_render: (step) => {
-        return new PathStepEntity({
-          step: step,
-          highlightable: false
-        })
-      }
+      preview_render: (step) => new PathStepEntity(step)
     })
 
     this.attachTopControl(new InteractionTopControl().setName(`Drawing Cheat step`)

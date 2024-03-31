@@ -125,7 +125,7 @@ export namespace ClueEntities {
 
         layout.header(staticentity(sol.entity))
 
-        layout.paragraph(`Search the object to solve the clue.`)
+        layout.paragraph(`Search to solve the clue.`)
 
         if (sol.key) {
           layout.named("Key", "If you do not have 'way of the footshaped key' unlocked, you will need to get a key.")

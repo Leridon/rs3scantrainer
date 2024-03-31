@@ -109,8 +109,6 @@ class NeoSolvingLayer extends GameLayer {
       copy.topleft.x -= f * Rectangle.width(view)
     }
 
-    deps().app.notifications.notify({}, cleanedJSON(copy))
-
     this.map.fitView(copy, {
       maxZoom: 4,
     })

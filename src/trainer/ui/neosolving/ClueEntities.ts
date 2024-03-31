@@ -1,17 +1,33 @@
 import {Rectangle} from "lib/math";
 import {MapEntity} from "../../../lib/gamemap/MapEntity";
 import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
-import {areaPolygon} from "../polygon_helpers";
+import {areaPolygon, boxPolygon} from "../polygon_helpers";
 import {RenderingUtility} from "../map/RenderingUtility";
+import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
+import {CursorType} from "../../../lib/runescape/CursorType";
+import {FloorLevels} from "../../../lib/gamemap/ZoomLevels";
+import Properties from "../widgets/Properties";
+import {C} from "../../../lib/ui/constructors";
+import {Clues} from "../../../lib/runescape/clues";
 
 export namespace ClueEntities {
 
   import interactionMarker = RenderingUtility.interactionMarker;
   import activate = TileArea.activate;
+  import npc = C.npc;
+  import staticentity = C.staticentity;
+  import digSpotRect = Clues.digSpotRect;
+  import TalkTo = Clues.Solution.TalkTo;
+  import Solution = Clues.Solution;
 
   export class NpcEntity extends MapEntity {
-    constructor(private name: string, private range: TileArea) {
+
+    floor_sensitivity_layers: FloorLevels<{ correct_level: boolean }> = FloorLevels.none
+
+    constructor(protected name: string, protected range: TileArea) {
       super();
+
+      this.floor_sensitivity_layers = FloorLevels.special(range.origin.level)
     }
 
     bounds(): Rectangle {
@@ -19,21 +35,152 @@ export namespace ClueEntities {
     }
 
     protected async render_implementation(props: MapEntity.RenderProps): Promise<Element> {
+      const floor_group = this.floor_sensitivity_layers.get(props.floor_group_index)
 
-      if(props.highlight) {
+      if (props.highlight) {
         const range = areaPolygon(this.range)
           .setStyle({
-            color: "yellow",
+            color: floor_group.value.correct_level ? "yellow" : "gray",
             interactive: false,
             opacity: 0.5,
             fillOpacity: 0.1
           }).addTo(this)
       }
-      
-      const marker = interactionMarker(activate(this.range).center(), "talk", props.highlight ? 1.5 : 1, true)
+
+      const marker = interactionMarker(activate(this.range).center(), "talk", props.highlight ? 1.5 : 1, true,
+        floor_group.value.correct_level ? undefined : "ctr-entity-wrong-level"
+      )
         .addTo(this)
 
       return marker.getElement()
     }
   }
+
+  export class ObjectEntity extends MapEntity {
+
+    floor_sensitivity_layers: FloorLevels<{ correct_level: boolean }> = FloorLevels.none
+
+    constructor(protected name: string,
+                protected box: TileRectangle,
+                protected cursor: CursorType) {
+      super();
+
+      this.floor_sensitivity_layers = FloorLevels.special(box.level)
+    }
+
+    bounds(): Rectangle {
+      return this.box
+    }
+
+    protected async render_implementation(props: MapEntity.RenderProps): Promise<Element> {
+      const floor_group = this.floor_sensitivity_layers.get(props.floor_group_index)
+
+      const range = boxPolygon(this.box)
+        .setStyle({
+          color: "cyan",
+          interactive: false,
+          opacity: 0.5,
+          fillOpacity: 0.1
+        }).addTo(this)
+
+      const marker = interactionMarker(TileRectangle.center(this.box), this.cursor, props.highlight ? 1.5 : 1, true,
+        floor_group.value.correct_level ? undefined : "ctr-entity-wrong-level"
+      )
+        .addTo(this)
+
+      return marker.getElement()
+    }
+  }
+
+  export class TalkSolutionNpcEntity extends NpcEntity {
+
+    constructor(protected name: string, protected spot: TalkTo["spots"][number]) {
+      super(name, spot.range);
+
+      this
+        .setTooltip(() => {
+          const layout = new Properties()
+
+          layout.header(npc(name))
+
+          layout.paragraph(`Talk to the npc to solve the clue.`)
+
+          if (spot.note) {
+            layout.named("Note", spot.note)
+          }
+
+          return layout
+        })
+    }
+  }
+
+  export class SearchSolutionEntity extends ObjectEntity {
+    constructor(protected sol: Solution.Search) {
+      super(sol.entity, sol.spot, "search");
+
+      this.setTooltip(() => {
+        const layout = new Properties()
+
+        layout.header(staticentity(sol.entity))
+
+        layout.paragraph(`Search the object to solve the clue.`)
+
+        if (sol.key) {
+          layout.named("Key", "If you do not have 'way of the footshaped key' unlocked, you will need to get a key.")
+
+          layout.named("Instructions", sol.key.instructions)
+          layout.named("Solution", sol.key.answer)
+        }
+
+        return layout
+      })
+    }
+  }
+
+  export class DigSolutionEntity extends MapEntity {
+    floor_sensitivity_layers: FloorLevels<{ correct_level: boolean }> = FloorLevels.none
+
+    constructor(protected sol: Solution.Dig) {
+      super();
+
+      this.floor_sensitivity_layers = FloorLevels.special(sol.spot.level)
+
+      this.setTooltip(() => {
+        const layout = new Properties()
+
+        layout.header(TileCoordinates.toString(this.sol.spot))
+
+        if (sol.description) {
+          layout.paragraph(`Dig ${sol.description} to solve the clue`)
+        } else {
+          layout.paragraph(`Dig at this spot to solve the clue`)
+        }
+        return layout
+      })
+    }
+
+    bounds(): Rectangle {
+      return Rectangle.from(this.sol.spot)
+    }
+
+    protected async render_implementation(props: MapEntity.RenderProps): Promise<Element> {
+      const floor_group = this.floor_sensitivity_layers.get(props.floor_group_index)
+
+      const range = boxPolygon(digSpotRect(this.sol.spot))
+        .setStyle({
+          color: "gray",
+          interactive: false,
+          opacity: 0.5,
+          fillOpacity: 0.1
+        }).addTo(this)
+
+      const marker = interactionMarker(this.sol.spot, "shovel", props.highlight ? 1.5 : 1, true,
+        floor_group.value.correct_level ? undefined : "ctr-entity-wrong-level"
+      )
+        .addTo(this)
+
+      return marker.getElement()
+    }
+  }
+  
 }

@@ -54,7 +54,6 @@ import GenericPathMethod = SolvingMethods.GenericPathMethod;
 import inlineimg = C.inlineimg;
 import activate = TileArea.activate;
 import cleanedJSON = util.cleanedJSON;
-import NpcEntity = ClueEntities.NpcEntity;
 
 class NeoReader {
   read: Ewent<{ step: Clues.Step, text_index: number }>
@@ -617,10 +616,12 @@ export default class NeoSolvingBehaviour extends Behaviour {
                   : undefined
               ))
 
+            for (let i = 0; i < sol.spots.length; i++) {
+              const spot = sol.spots[i]
 
-            new NpcEntity(sol.npc, spot.range)
-              .setInteractive()
-              .addTo(this.layer.generic_solution_layer)
+              new ClueEntities.TalkSolutionNpcEntity(sol.npc, spot)
+                .addTo(this.layer.generic_solution_layer)
+            }
 
             bounds.addArea(spot.range)
 
@@ -651,7 +652,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
             bounds.addRectangle(sol.spot)
 
-            interactionMarker(TileRectangle.center(sol.spot, false), "search")
+            new ClueEntities.SearchSolutionEntity(sol)
               .addTo(this.layer.generic_solution_layer)
 
             break;
@@ -667,7 +668,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
                 : span(` at ${TileCoordinates.toString(sol.spot)}`)
             ))
 
-            interactionMarker(sol.spot, "shovel")
+            new ClueEntities.DigSolutionEntity(sol)
               .addTo(this.layer.generic_solution_layer)
 
             bounds.addTile(sol.spot)

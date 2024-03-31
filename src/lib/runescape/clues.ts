@@ -64,7 +64,7 @@ export namespace Clues {
 
   export type Solution = Solution.TalkTo | Solution.Dig | Solution.Search
 
-  namespace Solution {
+  export namespace Solution {
     // The area for npcs should include all tiles they can be talked to from, so one tile bigger than their wander range
     export type TalkTo = {
       type: "talkto",
@@ -72,6 +72,7 @@ export namespace Clues {
       spots: {
         id?: string,
         range: TileArea,
+        exclusive?: boolean,
         note?: string,  // Describing conditions for the npc to be at that spot, such as "After completing quest X"
         description: string // Strings like "in City of Um", "at the Bank" etc.
       }[],
@@ -208,11 +209,15 @@ export namespace Clues {
   }
 
   export function digSpotArea(spot: TileCoordinates): TileArea {
-    return TileArea.fromRect({
+    return TileArea.fromRect(digSpotRect(spot))
+  }
+
+  export function digSpotRect(spot: TileCoordinates): TileRectangle {
+    return {
       topleft: {x: spot.x - 1, y: spot.y + 1},
       botright: {x: spot.x + 1, y: spot.y - 1},
       level: spot.level
-    })
+    }
   }
 
   export function requiresKey(clue: Step): clue is Step & { solution: { type: "search" } } {

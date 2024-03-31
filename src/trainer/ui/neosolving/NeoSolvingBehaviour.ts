@@ -38,6 +38,9 @@ import {ClueReader} from "./ClueReader";
 import {deps} from "../../dependencies";
 import {storage} from "../../../lib/util/storage";
 import {SettingsModal} from "../settings/SettingsEdit";
+import {TemplateResolver} from "../../../lib/util/TemplateResolver";
+import {TextRendering} from "../TextRendering";
+import {ClueEntities} from "./ClueEntities";
 import span = C.span;
 import todo = util.todo;
 import PulseInformation = ScanTheory.PulseInformation;
@@ -51,8 +54,7 @@ import GenericPathMethod = SolvingMethods.GenericPathMethod;
 import inlineimg = C.inlineimg;
 import activate = TileArea.activate;
 import cleanedJSON = util.cleanedJSON;
-import {TemplateResolver} from "../../../lib/util/TemplateResolver";
-import {TextRendering} from "../TextRendering";
+import NpcEntity = ClueEntities.NpcEntity;
 
 class NeoReader {
   read: Ewent<{ step: Clues.Step, text_index: number }>
@@ -69,7 +71,7 @@ class NeoSolvingLayer extends GameLayer {
   public path_container: Widget
 
   public scan_layer: ScanEditLayer
-  public generic_solution_layer: leaflet.FeatureGroup
+  public generic_solution_layer: GameLayer
 
   private sidebar: GameMapControl
 
@@ -92,7 +94,7 @@ class NeoSolvingLayer extends GameLayer {
     )
 
     this.scan_layer = new ScanEditLayer([]).addTo(this)
-    this.generic_solution_layer = leaflet.featureGroup().addTo(this)
+    this.generic_solution_layer = new GameLayer().addTo(this)
   }
 
   fit(view: TileRectangle): this {
@@ -616,7 +618,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
               ))
 
 
-            interactionMarker(activate(spot.range).center(), "talk", false, false)
+            new NpcEntity(sol.npc, spot.range)
+              .setInteractive()
               .addTo(this.layer.generic_solution_layer)
 
             bounds.addArea(spot.range)
@@ -648,7 +651,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
             bounds.addRectangle(sol.spot)
 
-            interactionMarker(TileRectangle.center(sol.spot, false), "search", false, false)
+            interactionMarker(TileRectangle.center(sol.spot, false), "search")
               .addTo(this.layer.generic_solution_layer)
 
             break;
@@ -664,7 +667,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
                 : span(` at ${TileCoordinates.toString(sol.spot)}`)
             ))
 
-            interactionMarker(sol.spot, "shovel", false, false)
+            interactionMarker(sol.spot, "shovel")
               .addTo(this.layer.generic_solution_layer)
 
             bounds.addTile(sol.spot)
@@ -750,7 +753,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
         bounds.addRectangle(clue.areas[0])
 
-        interactionMarker(TileRectangle.center(clue.areas[0]), clue.cursor, false, false)
+        interactionMarker(TileRectangle.center(clue.areas[0]), clue.cursor)
           .addTo(this.layer.generic_solution_layer)
       } else if (clue.type == "scan") {
         this.layer.scan_layer.marker.setClickable(true)

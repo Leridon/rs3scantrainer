@@ -68,6 +68,23 @@ export class TeleportAccessEntity extends MapEntity {
       {floors: [access.clickable_area.origin.level], value: {correct_level: true}},
       {floors: floor_t.all, hidden_here: true, value: {correct_level: false}},
     ])
+
+    this.setTooltip(() => {
+      let props = new Properties()
+
+      const teleport = this.teleport
+      const access = this.access
+
+      props.header(c().append(`Access to ${teleport.name} via `, entity(access.name)))
+
+      props.named("Targets", vbox(
+        ...teleport.spots.map(spot => {
+          return c().text(spot.name)
+        })
+      ))
+
+      return props
+    })
   }
 
   async contextMenu(event: GameMapContextMenuEvent): Promise<Menu | null> {
@@ -97,26 +114,6 @@ export class TeleportAccessEntity extends MapEntity {
       icon: CursorType.meta(access.cursor ?? "generic").icon_url,
       text: () => entity(access.name),
       children: []
-    }
-  }
-
-  async renderTooltip(): Promise<{ content: Widget, interactive: boolean } | null> {
-    let props = new Properties()
-
-    const teleport = this.teleport
-    const access = this.access
-
-    props.header(c().append(`Access to ${teleport.name} via `, entity(access.name)))
-
-    props.named("Targets", vbox(
-      ...teleport.spots.map(spot => {
-        return c().text(spot.name)
-      })
-    ))
-
-    return {
-      content: props,
-      interactive: false
     }
   }
 }

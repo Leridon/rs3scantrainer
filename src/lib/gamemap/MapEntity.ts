@@ -14,6 +14,7 @@ export abstract class MapEntity extends leaflet.FeatureGroup implements QuadTree
   public tooltip_hook: Observable<Promise<Element>> = observe(null)
 
   private interactive: boolean = false
+  private tooltip: MapEntity.TooltipRenderer<this> = null
 
   spatial: QuadTree<this>;
   public parent: GameLayer | null = null
@@ -61,6 +62,18 @@ export abstract class MapEntity extends leaflet.FeatureGroup implements QuadTree
     return this
   }
 
+  setTooltip(f: MapEntity.TooltipRenderer<this> | null): this {
+    this.tooltip = f
+
+    if (f) this.setInteractive(true)
+
+    return this
+  }
+
+  async renderTool(): Promise<Widget | null> {
+    return this.tooltip?.(this);
+  }
+
   remove(): this {
     if (this.parent) {
       this.parent.removeEntity(this)
@@ -96,10 +109,6 @@ export abstract class MapEntity extends leaflet.FeatureGroup implements QuadTree
   }
 
   protected abstract render_implementation(props: MapEntity.RenderProps): Promise<Element>
-
-  public async renderTooltip(): Promise<{ content: Widget, interactive: boolean } | null> {
-    return null
-  }
 
   requestRendering() {
     if (this.parent && !this.rendering_requested) {
@@ -158,6 +167,8 @@ export abstract class MapEntity extends leaflet.FeatureGroup implements QuadTree
 }
 
 export namespace MapEntity {
+
+  export type TooltipRenderer<T extends MapEntity> = (self: T) => Widget | Promise<Widget>
 
   export const default_zoom_scale_layers = new ZoomLevels<{ scale: number }>([
     {min: -100, value: {scale: 0.25}},

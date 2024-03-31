@@ -40,6 +40,14 @@ export class RemoteEntityTransportTarget extends MapEntity {
       {floors: [TileArea.normalize(movement.fixed_target.target).origin.level], value: {correct_level: true}},
       {floors: floor_t.all, hidden_here: true, value: {correct_level: false}},
     ])
+
+    this.setTooltip(() => {
+      let props = new Properties()
+
+      props.header(c().append(`Target of `, entity(this.transport.entity)))
+
+      return props
+    })
   }
 
   bounds(): Rectangle {
@@ -74,17 +82,6 @@ export class RemoteEntityTransportTarget extends MapEntity {
       icon: CursorType.meta(this.action.cursor ?? "generic").icon_url,
       text: () => c().append("Target of ", entity(this.transport.entity)),
       children: []
-    }
-  }
-
-  async renderTooltip(): Promise<{ content: Widget; interactive: boolean } | null> {
-    let props = new Properties()
-
-    props.header(c().append(`Target of `, entity(this.transport.entity)))
-
-    return {
-      content: props,
-      interactive: false
     }
   }
 }

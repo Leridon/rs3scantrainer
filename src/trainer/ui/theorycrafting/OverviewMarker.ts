@@ -20,21 +20,18 @@ export class ClueOverviewMarker extends MapEntity {
   ) {
     super();
     this.setInteractive()
-  }
 
-  override async renderTooltip(): Promise<{ content: Widget; interactive: boolean; } | null> {
-    let self = this
+    this.setTooltip(async () => {
+      let self = this
 
-    return {
-      content: (await new ClueProperties(
+      return (await new ClueProperties(
         self.clue,
         self.methods,
         self.edit_handler,
         true,
         self.talk_alternative_index
-      ).rendered()).row(c().text("Right click marker to manage methods.").css("font-style", "italic")),
-      interactive: true
-    }
+      ).rendered()).row(c().text("Right click marker to manage methods.").css("font-style", "italic"))
+    })
   }
 
   override bounds(): TileRectangle {

@@ -30,6 +30,8 @@ export class PathStepEntity extends MapEntity {
       {floors: [Path.Step.level(step)], value: {correct_level: true}},
       {floors: floor_t.all, value: {correct_level: false}},
     ])
+
+    this.setTooltip(() => new PathStepProperties(this.step, Dependencies.instance().app.template_resolver))
   }
 
   bounds(): Rectangle {
@@ -210,13 +212,6 @@ export class PathStepEntity extends MapEntity {
     })
 
     return element
-  }
-
-  async renderTooltip(): Promise<{ content: Widget, interactive: boolean } | null> {
-    return {
-      content: new PathStepProperties(this.step, Dependencies.instance().app.template_resolver),
-      interactive: false
-    }
   }
 
   override async contextMenu(event: GameMapContextMenuEvent): Promise<Menu | null> {

@@ -14,13 +14,13 @@ import {C} from "../../../../lib/ui/constructors";
 import {direction} from "../../../../lib/runescape/movement";
 import {GameMapContextMenuEvent} from "../../../../lib/gamemap/MapEvents";
 import {Menu} from "../../widgets/ContextMenu";
+import {PathGraphics} from "../../path_graphics";
 import default_interactive_area = Transportation.EntityTransportation.default_interactive_area;
 import GeneralEntityTransportation = Transportation.GeneralEntityTransportation;
 import EntityTransportation = Transportation.EntityTransportation;
 import entity = C.entity;
 import isLocal = Transportation.EntityTransportation.Movement.isLocal;
 import activate = TileArea.activate;
-import {PathGraphics} from "../../path_graphics";
 import arrow = PathGraphics.arrow;
 
 export class EntityTransportEntity extends MapEntity {
@@ -41,6 +41,31 @@ export class EntityTransportEntity extends MapEntity {
       {floors: [this.normalized_shortcut.clickable_area.level], value: {}},
       {floors: floor_t.all, hidden_here: true, value: {}},
     ])
+
+    this.setTooltip(() => {
+      const props = new Properties()
+      const s = this.shortcut
+
+      switch (s.type) {
+        case "entity":
+          props.header(C.entity(s.entity))
+          break;
+        case "door":
+          props.header(C.staticentity(s.name))
+          break;
+      }
+
+      if (s.source_loc) {
+        props.named("Object ID", s.source_loc.toString())
+      }
+
+      if (s.type == "door") {
+        props.named("Position", TileCoordinates.toString(s.position))
+        props.named("Direction", direction.toString(s.direction))
+      }
+
+      return props
+    })
   }
 
   bounds(): Rectangle {
@@ -175,33 +200,5 @@ export class EntityTransportEntity extends MapEntity {
     }
 
     return marker.getElement()
-  }
-
-  async renderTooltip(): Promise<{ content: Widget, interactive: boolean } | null> {
-    const props = new Properties()
-    const s = this.shortcut
-
-    switch (s.type) {
-      case "entity":
-        props.header(C.entity(s.entity))
-        break;
-      case "door":
-        props.header(C.staticentity(s.name))
-        break;
-    }
-
-    if (s.source_loc) {
-      props.named("Object ID", s.source_loc.toString())
-    }
-
-    if (s.type == "door") {
-      props.named("Position", TileCoordinates.toString(s.position))
-      props.named("Direction", direction.toString(s.direction))
-    }
-
-    return {
-      content: props,
-      interactive: false
-    }
   }
 }

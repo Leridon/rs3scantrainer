@@ -138,16 +138,16 @@ export class GameLayer extends leaflet.FeatureGroup {
 
   private async createActiveEntityTooltip(force_interactive: boolean | undefined = undefined) {
     if (this.active_entity.entity) {
-      const tooltip = await this.active_entity.entity.renderTooltip()
+      const tooltip = await this.active_entity.entity.renderTool()
 
       if (tooltip) {
-        const interactive = force_interactive ?? tooltip.interactive
+        const interactive = force_interactive ?? false
 
         const anchor = await this.active_entity.entity.tooltip_hook.value() || document.body
 
         this.active_entity.tooltip_instance = tippy.default(anchor, {
           content: c("<div class='ctr-entity-tooltip'></div>")
-            .append(tooltip.content).raw(),
+            .append(tooltip).raw(),
           arrow: true,
           animation: false,
           zIndex: 10001,

@@ -35,6 +35,35 @@ export class TeleportSpotEntity extends MapEntity {
       {floors: [teleport.targetArea().origin.level], value: {correct_level: true}},
       {floors: floor_t.all, value: {correct_level: false}},
     ])
+
+    this.setTooltip(() => {
+      let props = new Properties()
+
+      const teleport = this.teleport
+
+      props.header(`${teleport.group.name} - ${teleport.spot.name}`)
+      props.named("Time", `${teleport.props.menu_ticks + teleport.props.animation_ticks} (${teleport.props.menu_ticks} menu + ${teleport.props.animation_ticks} animation)`)
+      props.named("Static", teleport.spot.target.size ? "No" : "Yes")
+
+      if (teleport.spot.facing != null) {
+        props.named("Orientation", direction.toString(teleport.spot.facing))
+      }
+
+      props.named("Access", vbox(
+        ...teleport.group.access.map(access => {
+          switch (access.type) {
+            case "spellbook":
+              return C.div().text(access.name)
+            case "item":
+            case "entity":
+              return c().append(entity(access.name))
+          }
+
+        })
+      ))
+
+      return props
+    })
   }
 
   bounds(): Rectangle {
@@ -68,40 +97,6 @@ export class TeleportSpotEntity extends MapEntity {
 
     return marker.getElement()
   }
-
-  async renderTooltip(): Promise<{ content: Widget, interactive: boolean } | null> {
-    let props = new Properties()
-
-    const teleport = this.teleport
-
-    props.header(`${teleport.group.name} - ${teleport.spot.name}`)
-    props.named("Time", `${teleport.props.menu_ticks + teleport.props.animation_ticks} (${teleport.props.menu_ticks} menu + ${teleport.props.animation_ticks} animation)`)
-    props.named("Static", teleport.spot.target.size ? "No" : "Yes")
-
-    if (teleport.spot.facing != null) {
-      props.named("Orientation", direction.toString(teleport.spot.facing))
-    }
-
-    props.named("Access", vbox(
-      ...teleport.group.access.map(access => {
-        switch (access.type) {
-          case "spellbook":
-            return C.div().text(access.name)
-          case "item":
-          case "entity":
-            return c().append(entity(access.name))
-        }
-
-      })
-    ))
-
-
-    return {
-      content: props,
-      interactive: false
-    }
-  }
-
 
   async contextMenu(event: GameMapContextMenuEvent): Promise<Menu | null> {
     const teleport = this.teleport;

@@ -150,6 +150,56 @@ export namespace ScanEditLayer {
       this.setInteractive()
 
       this.spot_on_map = is_complement ? complementSpot(spot) : spot
+
+      this.setTooltip(async () => {
+        const props = new Properties()
+
+        if (this.is_complement) {
+          props.header(c().append("Complement of Spot ", render_digspot(this.number)))
+        } else {
+          props.header(c().append("Spot ", render_digspot(this.number)))
+        }
+
+        if (this.is_complement) {
+          props.row(c().addClass("ctr-step-properties-explanation")
+            .append(
+              inlineimg("assets/icons/info.png"),
+              " This is the complement of a dig spot. Right click to learn more about complement spots.",
+            ))
+        }
+
+        if (this.timing_information) {
+          let timing = c()
+
+          this.timing_information.timings.forEach((t, i) => {
+            if (i != 0) timing.append(" | ")
+
+            let s = span(t.ticks.toFixed(2) + " ticks")
+
+            if (t.incomplete) s.css("color", "yellow").tooltip("Incomplete path")
+
+            timing.append(s)
+          })
+
+          const any_incomplete = this.timing_information.timings.some(t => t.incomplete)
+
+          if (this.timing_information.timings.length > 1) {
+            const avg = span(this.timing_information.average.toFixed(2) + " ticks")
+
+            if (any_incomplete) avg.css("color", "yellow").tooltip("Incomplete path")
+
+            timing.append(", Average ", avg)
+          }
+
+          props.named("Expected time", timing)
+
+          if (any_incomplete) {
+            props.row(c().css("font-style", "italic").text("Timings in yellow are from incomplete branches."))
+          }
+        }
+
+        return props
+      })
     }
 
     bounds(): Rectangle {
@@ -182,60 +232,6 @@ export namespace ScanEditLayer {
       this.number = n
 
       this.render(true)
-    }
-
-    async renderTooltip(): Promise<{ content: Widget; interactive: boolean } | null> {
-
-      const props = new Properties()
-
-      if (this.is_complement) {
-        props.header(c().append("Complement of Spot ", render_digspot(this.number)))
-      } else {
-        props.header(c().append("Spot ", render_digspot(this.number)))
-      }
-
-      if (this.is_complement) {
-        props.row(c().addClass("ctr-step-properties-explanation")
-          .append(
-            inlineimg("assets/icons/info.png"),
-            " This is the complement of a dig spot. Right click to learn more about complement spots.",
-          ))
-      }
-
-      if (this.timing_information) {
-        let timing = c()
-
-        this.timing_information.timings.forEach((t, i) => {
-          if (i != 0) timing.append(" | ")
-
-          let s = span(t.ticks.toFixed(2) + " ticks")
-
-          if (t.incomplete) s.css("color", "yellow").tooltip("Incomplete path")
-
-          timing.append(s)
-        })
-
-        const any_incomplete = this.timing_information.timings.some(t => t.incomplete)
-
-        if (this.timing_information.timings.length > 1) {
-          const avg = span(this.timing_information.average.toFixed(2) + " ticks")
-
-          if (any_incomplete) avg.css("color", "yellow").tooltip("Incomplete path")
-
-          timing.append(", Average ", avg)
-        }
-
-        props.named("Expected time", timing)
-
-        if (any_incomplete) {
-          props.row(c().css("font-style", "italic").text("Timings in yellow are from incomplete branches."))
-        }
-      }
-
-      return {
-        content: props,
-        interactive: true
-      }
     }
 
     setTiming(timing: AugmentedScanTree["state"]["timing_analysis"]["spots"][number]) {

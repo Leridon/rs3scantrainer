@@ -4,17 +4,26 @@ import {CursorType} from "../../../lib/runescape/CursorType";
 
 export namespace RenderingUtility {
 
-  export function interactionMarker(where: Vector2, how: CursorType, simplified: boolean = false, centered: boolean = true): leaflet.Marker {
-    let icon = leaflet.icon({
+  export function interactionIcon(how: CursorType, scale: number = 1, centered: boolean = false, cls: string = undefined): leaflet.Icon {
+    return leaflet.icon({
       iconUrl: CursorType.meta(how).icon_url,
-      iconSize: [28, 31],
-      iconAnchor: centered ? [14, 16] : [3, 0],
-      className: simplified ? "ctr-inactive-overlay-marker" : undefined
+      iconSize: [scale * 28, scale * 31],
+      iconAnchor: centered ? [scale * 14, scale * 16] : [scale * 3, 0],
+      className: cls
     })
+  }
+
+  export function interactionMarker(where: Vector2,
+                                    how: CursorType,
+                                    scale: number = 1,
+                                    centered: boolean = false,
+                                    cls: string = undefined
+  ): leaflet.Marker {
+    let icon = interactionIcon(how, scale, centered, cls)
 
     return leaflet.marker(Vector2.toLatLong(where), {
       icon: icon,
-      interactive: true
+      interactive: true,
     })
   }
 }

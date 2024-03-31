@@ -25,7 +25,6 @@ import {ScanTree} from "../../../lib/cluetheory/scans/ScanTree";
 import * as leaflet from "leaflet"
 import {ScanRegionPolygon} from "./ScanLayer";
 import BoundsBuilder from "../../../lib/gamemap/BoundsBuilder";
-import {TileMarker} from "../../../lib/gamemap/TileMarker";
 import {RenderingUtility} from "../map/RenderingUtility";
 import PulseButton, {PulseIcon} from "./PulseButton";
 import MethodSelector from "./MethodSelector";
@@ -54,6 +53,7 @@ import GenericPathMethod = SolvingMethods.GenericPathMethod;
 import inlineimg = C.inlineimg;
 import activate = TileArea.activate;
 import cleanedJSON = util.cleanedJSON;
+import item = C.item;
 
 class NeoReader {
   read: Ewent<{ step: Clues.Step, text_index: number }>
@@ -687,7 +687,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
               .tooltip("Click to center")
               .addClass("ctr-clickable")
               .on("click", () => {
-                this.layer.fit(TileRectangle.from(clue.hidey_hole.location))
+                this.layer.fit(clue.hidey_hole.location)
               })
           ))
         }
@@ -700,19 +700,14 @@ export default class NeoSolvingBehaviour extends Behaviour {
           ).appendTo(w)
 
           for (let i = 0; i < clue.items.length; i++) {
-            const item = clue.items[i]
+            const itm = clue.items[i]
 
             if (i > 0) {
               if (i == clue.items.length - 1) row.append(", and ")
               else row.append(", ")
             }
 
-            const is_none = item.startsWith("Nothing") || item.startsWith("No ")
-
-            row.append(span(item)
-              .toggleClass("nisl-item", !is_none)
-              .toggleClass("nisl-noitem", is_none)
-            )
+            row.append(item(itm))
           }
         }
 
@@ -743,9 +738,13 @@ export default class NeoSolvingBehaviour extends Behaviour {
           ))
         }
 
-        bounds.addArea(clue.area)
+        new ClueEntities.EmoteAreaEntity(clue).addTo(this.layer.generic_solution_layer)
 
-        new TileMarker(activate(clue.area).center()).withMarker().addTo(this.layer.generic_solution_layer)
+        if (clue.hidey_hole) {
+          new ClueEntities.HideyHoleEntity(clue).addTo(this.layer.generic_solution_layer)
+        }
+
+        bounds.addArea(clue.area)
       } else if (clue.type == "skilling") {
         w.append(c().addClass("ctr-neosolving-solution-row").append(
           c(`<img src="${CursorType.meta(clue.cursor).icon_url}">`),

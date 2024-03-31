@@ -113,7 +113,7 @@ export namespace Clues {
     items: string[],
     emotes: string[],
     double_agent: boolean,
-    hidey_hole: null | { location: TileCoordinates, name: string },
+    hidey_hole: null | { location: TileRectangle, name: string },
   }
   export type Map = StepShared & { type: "map", ocr_data: number[], solution: Solution, image_url: string }
   export type Scan = StepShared & { type: "scan", scantext: string, range: number, spots: TileCoordinates[] }

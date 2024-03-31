@@ -3843,7 +3843,7 @@ export namespace clue_data {
       "items": ["Bronze Dagger", "Iron full helm", "Gold ring"],
       "emotes": ["Dance"],
       "double_agent": false,
-      "hidey_hole": {"name": "Barrel (hidey-hole)", "location": {"x": 3204, "y": 3169, "level": 0}}
+      "hidey_hole": {"name": "Barrel (hidey-hole)", "location": {"topleft": {"x": 3204, "y": 3169}, "botright": {"x": 3204, "y": 3169}, "level": 0}}
     }, {
       "id": 259,
       "type": "emote",
@@ -3853,7 +3853,7 @@ export namespace clue_data {
       "items": ["Sapphire necklace", "Polar camo legs", "Oak shortbow"],
       "emotes": ["Think"],
       "double_agent": false,
-      "hidey_hole": {"name": "Sack of items (hidey-hole)", "location": {"x": 3165, "y": 3302, "level": 0}}
+      "hidey_hole": {"name": "Sack of items (hidey-hole)", "location": {"topleft": {"x": 3165, "y": 3302}, "botright": {"x": 3165, "y": 3302}, "level": 0}}
     }, {
       "id": 260,
       "type": "emote",
@@ -3863,7 +3863,7 @@ export namespace clue_data {
       "items": ["Leather cowl", "Amulet of strength", "Iron scimitar"],
       "emotes": ["Laugh"],
       "double_agent": false,
-      "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"x": 2734, "y": 3535, "level": 0}}
+      "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"topleft": {"x": 2731, "y": 3534}, "botright": {"x": 2731, "y": 3534}, "level": 0}}
     }, {
       "id": 261,
       "type": "emote",
@@ -3873,7 +3873,7 @@ export namespace clue_data {
       "items": ["Bronze platelegs", "Steel pickaxe", "Steel helm"],
       "emotes": ["Panic"],
       "double_agent": false,
-      "hidey_hole": {"name": "Crate (hidey-hole)", "location": {"x": 3376, "y": 3500, "level": 0}}
+      "hidey_hole": {"name": "Crate (hidey-hole)", "location": {"topleft": {"x": 3376, "y": 3500}, "botright": {"x": 3376, "y": 3500}, "level": 0}}
     }, {
       "id": 262,
       "type": "emote",
@@ -3893,7 +3893,7 @@ export namespace clue_data {
       "items": ["Studded leather body", "Bronze platelegs", "Mud pie"],
       "emotes": ["Raspberry"],
       "double_agent": false,
-      "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"x": 2599, "y": 3280, "level": 0}}
+      "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"topleft": {"x": 2599, "y": 3280}, "botright": {"x": 2599, "y": 3280}, "level": 0}}
     }, {
       "id": 264,
       "type": "emote",
@@ -3903,7 +3903,7 @@ export namespace clue_data {
       "items": ["Iron helmet", "Emerald ring", "Leather gloves"],
       "emotes": ["Clap"],
       "double_agent": false,
-      "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"x": 3099, "y": 3188, "level": 0}}
+      "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"topleft": {"x": 3099, "y": 3189}, "botright": {"x": 3099, "y": 3188}, "level": 0}}
     }, {
       "id": 265,
       "type": "emote",
@@ -3913,7 +3913,7 @@ export namespace clue_data {
       "items": ["Sapphire ring", "Yellow flowers", "Leather chaps"],
       "emotes": ["Twirl"],
       "double_agent": false,
-      "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"x": 2959, "y": 3241, "level": 0}}
+      "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"topleft": {"x": 2959, "y": 3241}, "botright": {"x": 2960, "y": 3240}, "level": 0}}
     }, {
       "id": 266,
       "type": "emote",
@@ -3923,7 +3923,7 @@ export namespace clue_data {
       "items": ["Studded leather coif", "Iron platebody", "Leather gloves"],
       "emotes": ["Raspberry"],
       "double_agent": false,
-      "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"x": 2756, "y": 3404, "level": 0}}
+      "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"topleft": {"x": 2756, "y": 3404}, "botright": {"x": 2756, "y": 3404}, "level": 0}}
     }, {
       "id": 267,
       "type": "emote",
@@ -3933,7 +3933,7 @@ export namespace clue_data {
       "items": ["Studded Leather coif", "Steel plateskirt", "Sapphire necklace"],
       "emotes": ["Cheer"],
       "double_agent": false,
-      "hidey_hole": {"name": "Crate (hidey-hole)", "location": {"x": 3042, "y": 3234, "level": 0}}
+      "hidey_hole": {"name": "Crate (hidey-hole)", "location": {"topleft": {"x": 3042, "y": 3234}, "botright": {"x": 3042, "y": 3234}, "level": 0}}
     }, {
       "id": 268,
       "type": "emote",
@@ -3943,7 +3943,7 @@ export namespace clue_data {
       "items": ["Gold ring", "Leather chaps", "Steel mace"],
       "emotes": ["Wave"],
       "double_agent": false,
-      "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"x": 3004, "y": 3123, "level": 0}}
+      "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"topleft": {"x": 3004, "y": 3123}, "botright": {"x": 3004, "y": 3123}, "level": 0}}
     }, {
       "id": 269,
       "type": "emote",
@@ -3953,7 +3953,7 @@ export namespace clue_data {
       "items": ["Gold necklace", "Gold ring", "Bronze spear"],
       "emotes": ["Shrug"],
       "double_agent": false,
-      "hidey_hole": {"name": "Cart (hidey-hole)", "location": {"x": 2972, "y": 3235, "level": 0}}
+      "hidey_hole": {"name": "Cart (hidey-hole)", "location": {"topleft": {"x": 2972, "y": 3237}, "botright": {"x": 2973, "y": 3235}, "level": 0}}
     }, {
       "id": 270,
       "type": "emote",
@@ -3963,7 +3963,7 @@ export namespace clue_data {
       "items": ["Ruby amulet", "Blue flowers", "Leather gloves"],
       "emotes": ["Clap"],
       "double_agent": false,
-      "hidey_hole": {"name": "Crate (hidey-hole)", "location": {"x": 3351, "y": 3348, "level": 0}}
+      "hidey_hole": {"name": "Crate (hidey-hole)", "location": {"topleft": {"x": 3351, "y": 3348}, "botright": {"x": 3351, "y": 3348}, "level": 0}}
     }, {
       "id": 271,
       "type": "emote",
@@ -3973,7 +3973,7 @@ export namespace clue_data {
       "items": ["Holy symbol", "Leather vamraces", "Iron warhammer"],
       "emotes": ["Yawn"],
       "double_agent": false,
-      "hidey_hole": {"name": "Crate (hidey-hole)", "location": {"x": 3217, "y": 3494, "level": 0}}
+      "hidey_hole": {"name": "Crate (hidey-hole)", "location": {"topleft": {"x": 3217, "y": 3494}, "botright": {"x": 3217, "y": 3494}, "level": 0}}
     }, {
       "id": 272,
       "type": "emote",
@@ -3983,7 +3983,7 @@ export namespace clue_data {
       "items": ["Steel full helmet", "Steel platebody", "Iron plateskirt"],
       "emotes": ["Dance"],
       "double_agent": false,
-      "hidey_hole": {"name": "Potted plant (hidey-hole)", "location": {"x": 3041, "y": 3372, "level": 0}}
+      "hidey_hole": {"name": "Potted plant (hidey-hole)", "location": {"topleft": {"x": 3041, "y": 3372}, "botright": {"x": 3041, "y": 3372}, "level": 0}}
     }, {
       "id": 273,
       "type": "emote",
@@ -3993,7 +3993,7 @@ export namespace clue_data {
       "items": ["Iron platebody", "Studden chaps", "Bronze full helm"],
       "emotes": ["Twirl"],
       "double_agent": false,
-      "hidey_hole": {"name": "Dead tree (hidey-hole)", "location": {"x": 3091, "y": 3341, "level": 0}}
+      "hidey_hole": {"name": "Dead tree (hidey-hole)", "location": {"topleft": {"x": 3090, "y": 3341}, "botright": {"x": 3092, "y": 3340}, "level": 0}}
     }, {
       "id": 274,
       "type": "emote",
@@ -4003,7 +4003,7 @@ export namespace clue_data {
       "items": ["Iron boots", "Unholy smybol", "Steel hatchet"],
       "emotes": ["Jump for Joy"],
       "double_agent": false,
-      "hidey_hole": {"name": "Beehive (hidey-hole)", "location": {"x": 2762, "y": 3447, "level": 0}}
+      "hidey_hole": {"name": "Beehive (hidey-hole)", "location": {"topleft": {"x": 2762, "y": 3447}, "botright": {"x": 2762, "y": 3447}, "level": 0}}
     }, {
       "id": 275,
       "type": "emote",
@@ -4013,7 +4013,7 @@ export namespace clue_data {
       "items": ["Polar Camo Top", "Leather Gloves", "Leather Boots"],
       "emotes": ["Headbang"],
       "double_agent": false,
-      "hidey_hole": {"name": "Rocks (hidey-hole)", "location": {"x": 3295, "y": 3282, "level": 0}}
+      "hidey_hole": {"name": "Rocks (hidey-hole)", "location": {"topleft": {"x": 3295, "y": 3282}, "botright": {"x": 3295, "y": 3282}, "level": 0}}
     }, {
       "id": 276,
       "type": "emote",
@@ -4023,7 +4023,7 @@ export namespace clue_data {
       "items": ["Iron platelegs", "Emerald Amulet", "Oak Shieldbow"],
       "emotes": ["Bow or Curtsy"],
       "double_agent": false,
-      "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"x": 2732, "y": 3352, "level": 0}}
+      "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"topleft": {"x": 2732, "y": 3352}, "botright": {"x": 2732, "y": 3352}, "level": 0}}
     }, {
       "id": 277,
       "type": "emote",
@@ -4043,7 +4043,7 @@ export namespace clue_data {
       "items": ["Iron Chainbody", "Sapphire Ring", "Shieldbow"],
       "emotes": ["Dance"],
       "double_agent": false,
-      "hidey_hole": {"location": {"x": 3112, "y": 3292, "level": 0}, "name": "Rock (hidey-hole)"}
+      "hidey_hole": {"location": {"topleft": {"x": 3112, "y": 3292}, "botright": {"x": 3112, "y": 3292}, "level": 0}, "name": "Rock (hidey-hole)"}
     }, {
       "id": 279,
       "type": "emote",
@@ -4053,7 +4053,7 @@ export namespace clue_data {
       "items": ["Emerald Ring", "Sapphire Amulet", "Bronze Chainbody"],
       "emotes": ["Jig"],
       "double_agent": false,
-      "hidey_hole": {"location": {"x": 2619, "y": 3388, "level": 0}, "name": "Rock (hidey-hole)"}
+      "hidey_hole": {"location": {"topleft": {"x": 2619, "y": 3388}, "botright": {"x": 2619, "y": 3388}, "level": 0}, "name": "Rock (hidey-hole)"}
     }, {
       "id": 280,
       "type": "emote",
@@ -4063,7 +4063,7 @@ export namespace clue_data {
       "items": ["Iron Chainbody", "Leather Chaps", "Leather Coif"],
       "emotes": ["Bow or Curtsy"],
       "double_agent": false,
-      "hidey_hole": {"name": "Sack (hidey-hole)", "location": {"x": 3323, "y": 3236, "level": 0}}
+      "hidey_hole": {"name": "Sack (hidey-hole)", "location": {"topleft": {"x": 3323, "y": 3236}, "botright": {"x": 3323, "y": 3236}, "level": 0}}
     }, {
       "id": 281,
       "type": "emote",
@@ -4073,7 +4073,7 @@ export namespace clue_data {
       "items": ["Hard Leather Body", "Leather Chaps", "Bronze Hatchet"],
       "emotes": ["Cry"],
       "double_agent": false,
-      "hidey_hole": {"location": {"x": 3299, "y": 3521, "level": 0}, "name": "Tree stump (hidey-hole)"}
+      "hidey_hole": {"location": {"topleft": {"x": 3299, "y": 3521}, "botright": {"x": 3299, "y": 3521}, "level": 0}, "name": "Tree stump (hidey-hole)"}
     }, {
       "id": 282,
       "type": "emote",
@@ -4083,7 +4083,7 @@ export namespace clue_data {
       "items": ["Emerald Ring", "Wood Camo Top", "Unenchanted Tiara"],
       "emotes": ["Clap"],
       "double_agent": false,
-      "hidey_hole": {"location": {"x": 2635, "y": 3383, "level": 2}, "name": "Crate (hidey-hole)"}
+      "hidey_hole": {"location": {"topleft": {"x": 2635, "y": 3383}, "botright": {"x": 2635, "y": 3383}, "level": 2}, "name": "Crate (hidey-hole)"}
     }, {
       "id": 283,
       "type": "emote",
@@ -4093,7 +4093,7 @@ export namespace clue_data {
       "items": ["Iron Kiteshield", "Steel Longsword", "Studded Leather Chaps"],
       "emotes": ["Yawn"],
       "double_agent": false,
-      "hidey_hole": {"name": "Barrel (hidey-hole)", "location": {"x": 3078, "y": 3246, "level": 0}}
+      "hidey_hole": {"name": "Barrel (hidey-hole)", "location": {"topleft": {"x": 3078, "y": 3246}, "botright": {"x": 3078, "y": 3246}, "level": 0}}
     }, {
       "id": 284,
       "type": "emote",
@@ -4103,7 +4103,7 @@ export namespace clue_data {
       "items": ["Air Tiara", "Bronze 2h Sword", "Gold Amulet"],
       "emotes": ["Cheer"],
       "double_agent": false,
-      "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"x": 2922, "y": 3476, "level": 0}}
+      "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"topleft": {"x": 2922, "y": 3476}, "botright": {"x": 2922, "y": 3476}, "level": 0}}
     }, {
       "id": 7,
       "type": "emote",
@@ -4113,7 +4113,7 @@ export namespace clue_data {
       "items": ["Pointed Red and Black Snelm", "Snakeskin Boots", "Iron Pickaxe"],
       "emotes": ["Beckon", "Bow or Curtsy"],
       "double_agent": false,
-      "hidey_hole": {"name": "Barrel (hidey-hole)", "location": {"x": 3379, "y": 3445, "level": 0}}
+      "hidey_hole": {"name": "Barrel (hidey-hole)", "location": {"topleft": {"x": 3379, "y": 3445}, "botright": {"x": 3379, "y": 3445}, "level": 0}}
     }, {
       "id": 247,
       "type": "emote",
@@ -4123,7 +4123,7 @@ export namespace clue_data {
       "items": ["Mithril Plateskirt", "Maple Shieldbow", "No boots"],
       "emotes": ["Panic", "Wave"],
       "double_agent": false,
-      "hidey_hole": {"name": "Crate (hidey-hole)", "location": {"x": 3506, "y": 3574, "level": 0}}
+      "hidey_hole": {"name": "Crate (hidey-hole)", "location": {"topleft": {"x": 3506, "y": 3574}, "botright": {"x": 3506, "y": 3574}, "level": 0}}
     }, {
       "id": 248,
       "type": "emote",
@@ -4133,7 +4133,7 @@ export namespace clue_data {
       "items": ["Pointed Blue Snelm", "Air Staff"],
       "emotes": ["Jig", "Bow or Curtsy"],
       "double_agent": false,
-      "hidey_hole": {"name": "Crate (hidey-hole)", "location": {"x": 3302, "y": 3130, "level": 0}}
+      "hidey_hole": {"name": "Crate (hidey-hole)", "location": {"topleft": {"x": 3302, "y": 3130}, "botright": {"x": 3302, "y": 3130}, "level": 0}}
     }, {
       "id": 249,
       "type": "emote",
@@ -4143,7 +4143,7 @@ export namespace clue_data {
       "items": ["Mithril Chainbody", "Green Dragonhide Chaps", "Ruby Amulet"],
       "emotes": ["Think", "Twirl"],
       "double_agent": false,
-      "hidey_hole": {"location": {"x": 2445, "y": 3161, "level": 1}, "name": "Crate (hidey-hole)"}
+      "hidey_hole": {"location": {"topleft": {"x": 2445, "y": 3161}, "botright": {"x": 2445, "y": 3161}, "level": 1}, "name": "Crate (hidey-hole)"}
     }, {
       "id": 250,
       "type": "emote",
@@ -4153,7 +4153,7 @@ export namespace clue_data {
       "items": ["Iron Hatchet", "Steel Kiteshield", "Mithril Full Helm"],
       "emotes": ["Twirl", "Salute"],
       "double_agent": false,
-      "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"x": 3114, "y": 3418, "level": 0}}
+      "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"topleft": {"x": 3114, "y": 3418}, "botright": {"x": 3115, "y": 3417}, "level": 0}}
     }, {
       "id": 251,
       "type": "emote",
@@ -4163,7 +4163,7 @@ export namespace clue_data {
       "items": ["Iron Crossbow", "Adamant Med Helmet", "Snakeskin Chaps"],
       "emotes": ["Jump for Joy", "Jig"],
       "double_agent": false,
-      "hidey_hole": {"name": "Crate (hidey-hole)", "location": {"x": 2613, "y": 3088, "level": 0}}
+      "hidey_hole": {"name": "Crate (hidey-hole)", "location": {"topleft": {"x": 2613, "y": 3088}, "botright": {"x": 2613, "y": 3088}, "level": 0}}
     }, {
       "id": 252,
       "type": "emote",
@@ -4173,7 +4173,7 @@ export namespace clue_data {
       "items": ["Spine Helm", "Mithril Platelegs", "Iron two-handed sword"],
       "emotes": ["Dance", "Bow or Curtsy"],
       "double_agent": false,
-      "hidey_hole": {"name": "Barrel (hidey-hole)", "location": {"x": 3491, "y": 3480, "level": 0}}
+      "hidey_hole": {"name": "Barrel (hidey-hole)", "location": {"topleft": {"x": 3491, "y": 3480}, "botright": {"x": 3491, "y": 3480}, "level": 0}}
     }, {
       "id": 253,
       "type": "emote",
@@ -4183,7 +4183,7 @@ export namespace clue_data {
       "items": ["Steel Platebody", "Maple Shortbow", "Bronze Boots"],
       "emotes": ["Cheer", "Headbang"],
       "double_agent": false,
-      "hidey_hole": {"name": "Barrel (hidey-hole)", "location": {"x": 2545, "y": 3556, "level": 0}}
+      "hidey_hole": {"name": "Barrel (hidey-hole)", "location": {"topleft": {"x": 2545, "y": 3556}, "botright": {"x": 2545, "y": 3556}, "level": 0}}
     }, {
       "id": 254,
       "type": "emote",
@@ -4193,7 +4193,7 @@ export namespace clue_data {
       "items": ["Green Dragonhide Chaps", "Steel Kiteshield", "Ring of Forging"],
       "emotes": ["Cry", "No"],
       "double_agent": false,
-      "hidey_hole": {"name": "Tree stump (hidey-hole)", "location": {"x": 2473, "y": 3418, "level": 2}}
+      "hidey_hole": {"name": "Tree stump (hidey-hole)", "location": {"topleft": {"x": 2473, "y": 3418}, "botright": {"x": 2473, "y": 3418}, "level": 2}}
     }, {
       "id": 255,
       "type": "emote",
@@ -4203,7 +4203,7 @@ export namespace clue_data {
       "emotes": ["Beckon", "Clap"],
       "double_agent": false,
       "area": {"origin": {"x": 2778, "y": 3057, "level": 0}, "size": {"x": 33, "y": 17}},
-      "hidey_hole": {"name": "Crate (hidey-hole)", "location": {"x": 2793, "y": 3073, "level": 0}}
+      "hidey_hole": {"name": "Crate (hidey-hole)", "location": {"topleft": {"x": 2793, "y": 3073}, "botright": {"x": 2793, "y": 3073}, "level": 0}}
     }, {
       "id": 256,
       "type": "emote",
@@ -4213,7 +4213,7 @@ export namespace clue_data {
       "emotes": ["Cheer", "Angry"],
       "double_agent": false,
       "area": {"origin": {"x": 2523, "y": 3373, "level": 0}, "size": {"x": 11, "y": 5}},
-      "hidey_hole": {"name": "Crate (hidey-hole)", "location": {"x": 2521, "y": 3377, "level": 0}}
+      "hidey_hole": {"name": "Crate (hidey-hole)", "location": {"topleft": {"x": 2521, "y": 3377}, "botright": {"x": 2521, "y": 3377}, "level": 0}}
     }, {
       "id": 257,
       "type": "emote",
@@ -4223,7 +4223,7 @@ export namespace clue_data {
       "emotes": ["Cry", "Bow or Curtsy"],
       "double_agent": false,
       "area": {"origin": {"x": 2824, "y": 3454, "level": 0}, "size": {"x": 6, "y": 4}},
-      "hidey_hole": {"name": "Crates (hidey-hole)", "location": {"x": 2829, "y": 3455, "level": 0}}
+      "hidey_hole": {"name": "Crates (hidey-hole)", "location": {"topleft": {"x": 2829, "y": 3455}, "botright": {"x": 2829, "y": 3455}, "level": 0}}
     }, {
       "id": 258,
       "type": "emote",
@@ -4233,7 +4233,7 @@ export namespace clue_data {
       "emotes": ["Yawn", "Shrug"],
       "double_agent": false,
       "area": {"origin": {"x": 2436, "y": 3080, "level": 0}, "size": {"x": 13, "y": 20}},
-      "hidey_hole": {"name": "Stone blocks (hidey-hole)", "location": {"x": 2448, "y": 3087, "level": 0}}
+      "hidey_hole": {"name": "Stone blocks (hidey-hole)", "location": {"topleft": {"x": 2448, "y": 3088}, "botright": {"x": 2448, "y": 3087}, "level": 0}}
     }, {
       "id": 225,
       "type": "emote",
@@ -4253,7 +4253,7 @@ export namespace clue_data {
       "emotes": ["Laugh"],
       "double_agent": true,
       "area": {"origin": {"x": 2790, "y": 3667, "level": 0}, "size": {"x": 8, "y": 8}},
-      "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"x": 2790, "y": 3667, "level": 0}}
+      "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"topleft": {"x": 2790, "y": 3667}, "botright": {"x": 2790, "y": 3667}, "level": 0}}
     }, {
       "id": 227,
       "type": "emote",
@@ -4263,7 +4263,7 @@ export namespace clue_data {
       "emotes": ["Panic"],
       "double_agent": true,
       "area": {"origin": {"x": 2843, "y": 3489, "level": 1}, "size": {"x": 11, "y": 10}},
-      "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"x": 2845, "y": 3496, "level": 1}}
+      "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"topleft": {"x": 2845, "y": 3496}, "botright": {"x": 2845, "y": 3496}, "level": 1}}
     }, {
       "id": 228,
       "type": "emote",
@@ -4273,7 +4273,7 @@ export namespace clue_data {
       "emotes": ["Salute"],
       "double_agent": true,
       "area": {"origin": {"x": 2908, "y": 3154, "level": 0}, "size": {"x": 27, "y": 20}},
-      "hidey_hole": {"name": "Log (hidey-hole)", "location": {"x": 2914, "y": 3154, "level": 0}}
+      "hidey_hole": {"name": "Log (hidey-hole)", "location": {"topleft": {"x": 2914, "y": 3154}, "botright": {"x": 2914, "y": 3154}, "level": 0}}
     }, {
       "id": 229,
       "type": "emote",
@@ -4283,7 +4283,7 @@ export namespace clue_data {
       "emotes": ["Dance"],
       "double_agent": true,
       "area": {"origin": {"x": 3292, "y": 2782, "level": 0}, "size": {"x": 6, "y": 4}},
-      "hidey_hole": {"name": "Crate (hidey-hole)", "location": {"x": 3310, "y": 2784, "level": 0}}
+      "hidey_hole": {"name": "Crate (hidey-hole)", "location": {"topleft": {"x": 3310, "y": 2784}, "botright": {"x": 3310, "y": 2783}, "level": 0}}
     }, {
       "id": 230,
       "type": "emote",
@@ -4293,7 +4293,7 @@ export namespace clue_data {
       "items": ["Elemental shield", "Blue dragonhide chaps", "Rune warhammer"],
       "emotes": ["Raspberry"],
       "double_agent": true,
-      "hidey_hole": {"location": {"x": 2585, "y": 3424, "level": 0}, "name": "Crate (hidey-hole)"}
+      "hidey_hole": {"location": {"topleft": {"x": 2585, "y": 3424}, "botright": {"x": 2585, "y": 3424}, "level": 0}, "name": "Crate (hidey-hole)"}
     }, {
       "id": 231,
       "type": "emote",
@@ -4303,7 +4303,7 @@ export namespace clue_data {
       "emotes": ["Blow kiss"],
       "double_agent": true,
       "area": {"origin": {"x": 2851, "y": 2951, "level": 0}, "size": {"x": 3, "y": 4}},
-      "hidey_hole": {"name": "Potted plant (hidey-hole)", "location": {"x": 2856, "y": 2954, "level": 0}}
+      "hidey_hole": {"name": "Potted plant (hidey-hole)", "location": {"topleft": {"x": 2856, "y": 2954}, "botright": {"x": 2857, "y": 2953}, "level": 0}}
     }, {
       "id": 232,
       "type": "emote",
@@ -4313,7 +4313,7 @@ export namespace clue_data {
       "items": ["Blue dragonhide body", "Blue dragon vambraces", "No jewellry"],
       "emotes": ["Bow or Curtsy"],
       "double_agent": true,
-      "hidey_hole": {"location": {"x": 2512, "y": 3639, "level": 2}, "name": "Crate (hidey-hole)"}
+      "hidey_hole": {"location": {"topleft": {"x": 2512, "y": 3639}, "botright": {"x": 2512, "y": 3639}, "level": 2}, "name": "Crate (hidey-hole)"}
     }, {
       "id": 235,
       "type": "emote",
@@ -4322,7 +4322,7 @@ export namespace clue_data {
       "items": ["Iron square shield", "Blue dragonhide vambraces", "Iron pickaxe"],
       "emotes": ["Yawn"],
       "area": {"origin": {"x": 3031, "y": 3728, "level": 0}, "size": {"x": 9, "y": 9}},
-      "hidey_hole": {"name": "Dead tree (hidey-hole)", "location": {"x": 3032, "y": 3723, "level": 0}},
+      "hidey_hole": {"name": "Dead tree (hidey-hole)", "location": {"topleft": {"x": 3031, "y": 3723}, "botright": {"x": 3032, "y": 3722}, "level": 0}},
       "double_agent": true
     }, {
       "id": 243,
@@ -4333,7 +4333,7 @@ export namespace clue_data {
       "emotes": ["Shrug"],
       "area": {"origin": {"x": 3234, "y": 3603, "level": 0}, "size": {"x": 12, "y": 12}},
       "double_agent": true,
-      "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"x": 3245, "y": 3610, "level": 0}}
+      "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"topleft": {"x": 3245, "y": 3610}, "botright": {"x": 3245, "y": 3610}, "level": 0}}
     }, {
       "id": 233,
       "type": "emote",
@@ -4343,7 +4343,7 @@ export namespace clue_data {
       "items": ["Fire Cape", "Toktz-Ket-Xil", "Spork"],
       "emotes": ["Cheer"],
       "double_agent": true,
-      "hidey_hole": {"name": "Table (hidey-hole)", "location": {"x": 4638, "y": 5106, "level": 0}}
+      "hidey_hole": {"name": "Table (hidey-hole)", "location": {"topleft": {"x": 4638, "y": 5106}, "botright": {"x": 4638, "y": 5106}, "level": 0}}
     }, {
       "id": 234,
       "type": "emote",
@@ -4353,7 +4353,7 @@ export namespace clue_data {
       "area": {"origin": {"x": 3400, "y": 3541, "level": 0}, "size": {"x": 47, "y": 34}},
       "items": ["Imp-hide Hood", "Prifddinia Musician's Robe Top", "Amulet of Magic"],
       "double_agent": true,
-      "hidey_hole": {"name": "Crates (hidey-hole)", "location": {"x": 3427, "y": 3541, "level": 0}}
+      "hidey_hole": {"name": "Crates (hidey-hole)", "location": {"topleft": {"x": 3427, "y": 3541}, "botright": {"x": 3427, "y": 3541}, "level": 0}}
     }, {
       "id": 236,
       "type": "emote",
@@ -4363,7 +4363,7 @@ export namespace clue_data {
       "items": ["Iban's Staff", "Ghostly Cloak", "Cavalier"],
       "double_agent": true,
       "area": {"origin": {"x": 3671, "y": 3489, "level": 0}, "size": {"x": 11, "y": 11}},
-      "hidey_hole": {"name": "Barrel (hidey-hole)", "location": {"x": 3676, "y": 3494, "level": 0}}
+      "hidey_hole": {"name": "Barrel (hidey-hole)", "location": {"topleft": {"x": 3676, "y": 3494}, "botright": {"x": 3676, "y": 3494}, "level": 0}}
     }, {
       "id": 237,
       "type": "emote",
@@ -4373,7 +4373,7 @@ export namespace clue_data {
       "area": {"origin": {"x": 2242, "y": 5956, "level": 0}, "size": {"x": 60, "y": 57}},
       "items": ["Any Dragon Mask", "Dragon Rider Amulet", "Dragon Defender"],
       "emotes": ["Raspberry"],
-      "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"x": 2277, "y": 5966, "level": 0}}
+      "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"topleft": {"x": 2277, "y": 5966}, "botright": {"x": 2277, "y": 5965}, "level": 0}}
     }, {
       "id": 238,
       "type": "emote",
@@ -4383,7 +4383,7 @@ export namespace clue_data {
       "items": ["Asylum Surgeon's Ring", "Scabaras Mask"],
       "emotes": ["Wave"],
       "double_agent": true,
-      "hidey_hole": {"name": "Plant (hidey-hole)", "location": {"x": 3172, "y": 2711, "level": 0}}
+      "hidey_hole": {"name": "Plant (hidey-hole)", "location": {"topleft": {"x": 3172, "y": 2711}, "botright": {"x": 3172, "y": 2711}, "level": 0}}
     }, {
       "id": 239,
       "type": "emote",
@@ -4393,7 +4393,7 @@ export namespace clue_data {
       "items": ["Holy Cithara", "Saradomin's Murmur", "Ring of Devotion"],
       "double_agent": true,
       "area": {"origin": {"x": 3046, "y": 3501, "level": 0}, "size": {"x": 12, "y": 8}},
-      "hidey_hole": {"name": "Barrel (hidey-hole)", "location": {"x": 3056, "y": 3499, "level": 0}}
+      "hidey_hole": {"name": "Barrel (hidey-hole)", "location": {"topleft": {"x": 3056, "y": 3499}, "botright": {"x": 3056, "y": 3499}, "level": 0}}
     }, {
       "id": 240,
       "type": "emote",
@@ -4403,7 +4403,7 @@ export namespace clue_data {
       "area": {"origin": {"x": 2391, "y": 3363, "level": 0}, "size": {"x": 27, "y": 21}},
       "emotes": ["Bow or Curtsy"],
       "double_agent": true,
-      "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"x": 2397, "y": 3367, "level": 0}}
+      "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"topleft": {"x": 2398, "y": 3369}, "botright": {"x": 2398, "y": 3368}, "level": 0}}
     }, {
       "id": 241,
       "type": "emote",
@@ -4413,7 +4413,7 @@ export namespace clue_data {
       "items": ["Ancient Staff", "Prifdiinia Worker's Trousers", "Berserker Ring"],
       "area": {"origin": {"x": 2174, "y": 3393, "level": 1}, "size": {"x": 30, "y": 22}},
       "double_agent": true,
-      "hidey_hole": {"name": "Potted plant (hidey-hole)", "location": {"x": 2181, "y": 3402, "level": 1}}
+      "hidey_hole": {"name": "Potted plant (hidey-hole)", "location": {"topleft": {"x": 2181, "y": 3402}, "botright": {"x": 2181, "y": 3402}, "level": 1}}
     }, {
       "id": 242,
       "type": "emote",
@@ -4423,7 +4423,7 @@ export namespace clue_data {
       "items": ["Demon Slayer Gloves", "Any Boater", "Cape of Legends"],
       "emotes": ["Shrug"],
       "double_agent": true,
-      "hidey_hole": {"name": "Barrel (hidey-hole)", "location": {"x": 3198, "y": 3251, "level": 0}}
+      "hidey_hole": {"name": "Barrel (hidey-hole)", "location": {"topleft": {"x": 3198, "y": 3250}, "botright": {"x": 3198, "y": 3250}, "level": 0}}
     }, {
       "id": 244,
       "type": "emote",
@@ -4433,7 +4433,7 @@ export namespace clue_data {
       "emotes": ["Idea"],
       "area": {"origin": {"x": 6160, "y": 1039, "level": 0}, "size": {"x": 18, "y": 36}},
       "double_agent": true,
-      "hidey_hole": {"name": "Barrel (hidey-hole)", "location": {"x": 6176, "y": 1050, "level": 0}}
+      "hidey_hole": {"name": "Barrel (hidey-hole)", "location": {"topleft": {"x": 6176, "y": 1050}, "botright": {"x": 6176, "y": 1050}, "level": 0}}
     }, {
       "id": 245,
       "type": "emote",
@@ -4443,7 +4443,7 @@ export namespace clue_data {
       "items": ["Dark bow", "Infinity boots", "Culinaromancer gloves 10"],
       "emotes": ["Dance"],
       "double_agent": true,
-      "hidey_hole": {"location": {"x": 1818, "y": 11653, "level": 0}, "name": "Water barrel (hidey-hole)"}
+      "hidey_hole": {"location": {"topleft": {"x": 1818, "y": 11653}, "botright": {"x": 1818, "y": 11653}, "level": 0}, "name": "Water barrel (hidey-hole)"}
     }, {
       "id": 246,
       "type": "emote",

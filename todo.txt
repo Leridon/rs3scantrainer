@@ -1,6 +1,7 @@
 Planned for next release (b0.4):
 
 - Solving Behaviour
+    - [Bug]
     - Path Panel
         - Neat step styling
         - Focus section when selected

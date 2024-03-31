@@ -84,6 +84,16 @@ export namespace C {
     return c("<span class='nisl-entity'></span>").toggleClass("ctr-clickable", clickable).text(name)
   }
 
+  export function item(name: string): Widget {
+    const is_none = name.startsWith("Nothing") || name.startsWith("No ")
+
+    if (is_none) {
+      return create("<span class='nisl-noitem'></span>").text(name)
+    } else {
+      return create("<span class='nisl-item'></span>").text(name)
+    }
+  }
+
   export function entity(entity: EntityName): Widget {
     switch (entity.kind) {
       case "npc":
@@ -91,7 +101,7 @@ export namespace C {
       case "static":
         return staticentity(entity.name)
       case "item":
-        return create("<span class='nisl-item'></span>").text(entity.name)
+        return item(entity.name)
     }
   }
 

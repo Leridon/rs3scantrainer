@@ -1,4 +1,4 @@
-import {Rectangle} from "lib/math";
+import {Rectangle, Vector2} from "lib/math";
 import {MapEntity} from "../../../lib/gamemap/MapEntity";
 import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
 import {areaPolygon, boxPolygon} from "../polygon_helpers";
@@ -9,6 +9,7 @@ import {FloorLevels} from "../../../lib/gamemap/ZoomLevels";
 import Properties from "../widgets/Properties";
 import {C} from "../../../lib/ui/constructors";
 import {Clues} from "../../../lib/runescape/clues";
+import * as leaflet from "leaflet"
 
 export namespace ClueEntities {
 
@@ -19,6 +20,7 @@ export namespace ClueEntities {
   import digSpotRect = Clues.digSpotRect;
   import TalkTo = Clues.Solution.TalkTo;
   import Solution = Clues.Solution;
+  import item = C.item;
 
   export class NpcEntity extends MapEntity {
 
@@ -182,5 +184,110 @@ export namespace ClueEntities {
       return marker.getElement()
     }
   }
-  
+
+  export class EmoteAreaEntity extends MapEntity {
+    floor_sensitivity_layers: FloorLevels<{ correct_level: boolean }> = FloorLevels.none
+
+    constructor(protected clue: Clues.Emote) {
+      super();
+
+      this.floor_sensitivity_layers = FloorLevels.special(clue.area.origin.level)
+
+      this.setTooltip(() => {
+        const layout = new Properties()
+
+        layout.header("Emote area")
+
+        if (clue.double_agent) {
+          layout.paragraph(`Perform the ${clue.emotes.length > 1 ? "emotes" : "emote"} here. Kill the double agent to summon and talk to Uri.`)
+        } else {
+          layout.paragraph(`Perform the ${clue.emotes.length > 1 ? "emotes" : "emote"} here summon and talk to Uri.`)
+        }
+
+        {
+          let row = c()
+
+          for (let i = 0; i < clue.items.length; i++) {
+            const itm = clue.items[i]
+
+            if (i > 0) {
+              if (i == clue.items.length - 1) row.append(", and ")
+              else row.append(", ")
+            }
+
+            row.append(item(itm))
+          }
+
+          layout.named("Items", row)
+        }
+
+        {
+          let row = c()
+
+          for (let i = 0; i < clue.emotes.length; i++) {
+            const emote = clue.emotes[i]
+
+            if (i > 0) {
+              if (i == clue.emotes.length - 1) row.append(", then ")
+              else row.append(", ")
+            }
+
+            row.append(emote)
+          }
+
+          layout.named(clue.emotes.length != 1 ? "Emotes" : "Emote", row)
+        }
+
+        if (clue.double_agent) {
+          layout.header("Spawns double agent", "left", 1)
+        }
+
+        return layout
+      })
+    }
+
+    bounds(): Rectangle {
+      return TileArea.toRect(this.clue.area)
+    }
+
+    protected async render_implementation(props: MapEntity.RenderProps): Promise<Element> {
+      const floor_group = this.floor_sensitivity_layers.get(props.floor_group_index)
+
+      const range = areaPolygon(this.clue.area)
+        .setStyle({
+          color: "green",
+          interactive: false,
+        }).addTo(this)
+
+      const scale = props.highlight ? 1.5 : 1
+
+      const marker = leaflet.marker(Vector2.toLatLong(Rectangle.center(TileArea.toRect(this.clue.area))), {
+        icon: leaflet.icon({
+          iconUrl: "assets/icons/emotes.png",
+          iconSize: [scale * 24, scale * 30],
+          iconAnchor: [scale * 12, scale * 15],
+          className: floor_group.value.correct_level ? "" : "ctr-entity-wrong-level"
+        })
+      }).addTo(this)
+
+      return marker.getElement()
+    }
+  }
+
+  export class HideyHoleEntity extends ObjectEntity {
+
+    constructor(protected clue: Clues.Emote) {
+      super(clue.hidey_hole.name, clue.hidey_hole.location, "generic");
+
+      this.setTooltip(() => {
+        const layout = new Properties()
+
+        layout.header(staticentity(this.clue.hidey_hole.name))
+
+        layout.paragraph("Hidey holes are used to store the items needed for an emote clue.")
+
+        return layout
+      })
+    }
+  }
 }

@@ -17,6 +17,7 @@ import ButtonRow from "../../../lib/ui/ButtonRow";
 import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
 import {FormModal} from "../../../lib/ui/controls/FormModal";
 import TextField from "../../../lib/ui/controls/TextField";
+import {NeoSolving} from "../neosolving/NeoSolvingBehaviour";
 import cls = C.cls;
 import PotaColor = Settings.PotaColor;
 import hbox = C.hbox;
@@ -389,6 +390,47 @@ class TeleportSettingsEdit extends Widget {
 
 }
 
+class SolvingSettingsEdit extends Widget {
+
+  private layout: Properties
+
+  constructor(private value: NeoSolving.Settings) {
+    super()
+
+    this.layout = new Properties().appendTo(this)
+
+    this.render()
+  }
+
+  render() {
+    this.layout.empty()
+
+    this.layout.header("Information Rows")
+
+    this.layout.named("Clue Text", hgrid(
+      ...new Checkbox.Group([
+        {button: new Checkbox("Full"), value: "full" as const},
+        {button: new Checkbox("Abridged"), value: "abridged" as const},
+        {button: new Checkbox("Hide"), value: "hide" as const},
+      ]).onChange(v => this.value.info_panel.clue_text = v)
+        .setValue(this.value.info_panel.clue_text)
+        .checkboxes()
+    ))
+
+    this.layout.named("Clue Map", hgrid(
+      ...new Checkbox.Group([
+        {button: new Checkbox("Show"), value: "show" as const},
+        {button: new Checkbox("Hide"), value: "hide" as const},
+      ]).onChange(v => this.value.info_panel.map_image = v)
+        .setValue(this.value.info_panel.map_image)
+        .checkboxes()
+    ))
+
+    this.layout.divider()
+    this.layout.header("Informative Entities on Map")
+  }
+}
+
 export class SettingsEdit extends Widget {
   value: Settings.Settings
 
@@ -405,6 +447,11 @@ export class SettingsEdit extends Widget {
             name: "Teleport Customization",
             short_name: "Teleports",
             renderer: () => new TeleportSettingsEdit(this.value.teleport_customization)
+          }, {
+            id: "solving",
+            name: "Solving Customization",
+            short_name: "Solving",
+            renderer: () => new SolvingSettingsEdit(this.value.solving)
           },
         ]
       },

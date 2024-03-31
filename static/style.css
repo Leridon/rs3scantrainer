@@ -1837,9 +1837,17 @@ input[type=checkbox] + span {
     padding: 3px;
 }
 
-.ctr-neosolving-solution-row:empty {
+.ctr-neosolving-solution-row-shortened {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.ctr-neosolving-solution-row:not(img):empty {
     display: none;
 }
+
+
 
 .ctr-neosolving-solution-row:not(:last-child) {
     border-bottom: 1px dashed grey;

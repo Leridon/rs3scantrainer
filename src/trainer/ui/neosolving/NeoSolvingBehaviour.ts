@@ -52,8 +52,8 @@ import spotNumber = ScanTree.spotNumber;
 import GenericPathMethod = SolvingMethods.GenericPathMethod;
 import inlineimg = C.inlineimg;
 import activate = TileArea.activate;
-import cleanedJSON = util.cleanedJSON;
 import item = C.item;
+import cls = C.cls;
 
 class NeoReader {
   read: Ewent<{ step: Clues.Step, text_index: number }>
@@ -81,7 +81,7 @@ class NeoSolvingLayer extends GameLayer {
       position: "top-left",
       type: "floating",
       no_default_styling: true
-    }, c().addClass("ctr-neosolving-sidebar")).addTo(this)
+    }, cls("ctr-neosolving-sidebar")).addTo(this)
 
     this.sidebar.content.append(
       new NeoSolvingLayer.MainControlBar(behaviour),
@@ -366,7 +366,7 @@ export class ScanTreeSolvingControl extends Behaviour {
         .appendTo(this.tree_widget)
     }
 
-    let content = c().addClass("ctr-neosolving-solution-row").appendTo(this.tree_widget)
+    let content = cls("ctr-neosolving-solution-row").appendTo(this.tree_widget)
 
     {
       let ui_nav = c()
@@ -387,7 +387,7 @@ export class ScanTreeSolvingControl extends Behaviour {
       content.append(ui_nav)
     }
 
-    content.append(c().addClass('ctr-neosolving-nextscanstep')
+    content.append(cls('ctr-neosolving-nextscanstep')
       .append(
         "Next: ",
         ...this.parent.app.template_resolver.with(...ScanTreeSolvingControl.scan_tree_template_resolvers(node))
@@ -404,7 +404,7 @@ export class ScanTreeSolvingControl extends Behaviour {
         .forEach((child) => {
           const resolvers = this.parent.app.template_resolver.with(...ScanTreeSolvingControl.scan_tree_template_resolvers(child.value))
 
-          c().addClass("ctr-neosolving-scantreeline")
+          cls("ctr-neosolving-scantreeline")
             .append(
               PulseButton.forPulse(child.key, node.children.map(c => c.key))
                 .onClick(() => {
@@ -417,7 +417,7 @@ export class ScanTreeSolvingControl extends Behaviour {
         })
 
       if (triples.length > 1) {
-        c().addClass("ctr-neosolving-scantreeline")
+        cls("ctr-neosolving-scantreeline")
           .append(
             c().append( // Wrap in another div to allow another margin
               new PulseIcon({different_level: false, pulse: 3}, null)
@@ -574,7 +574,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
     this.active_clue = step
 
-    const settings = NeoSolving.Settings.DEFAULT
+    const settings = this.app.settings.settings.solving
 
     const clue = step.step
 
@@ -585,9 +585,27 @@ export default class NeoSolvingBehaviour extends Behaviour {
       let w = c()
 
       if (step.step.type == "map") {
-        w.append(c(`<img src='${step.step.image_url}' style="width: 100%">`).addClass("ctr-neosolving-solution-row").text(step.step.text[step.text_index]))
+        if (settings.info_panel.map_image == "show") {
+          w.append(c(`<img src='${step.step.image_url}' style="width: 100%">`).addClass("ctr-neosolving-solution-row"))
+        }
       } else {
-        w.append(c().addClass("ctr-neosolving-solution-row").text(step.step.text[step.text_index]))
+        switch (settings.info_panel.clue_text) {
+          case "full":
+            cls("ctr-neosolving-solution-row").text(step.step.text[step.text_index]).appendTo(w)
+            break
+          case "abridged":
+            const short = Clues.Step.shortString(clue, step.text_index)
+
+            const clas = short == clue.text[step.text_index]
+              ? "ctr-neosolving-solution-row-shortened"
+              : "ctr-neosolving-solution-row"
+
+            cls(clas).text(short).appendTo(w)
+            break
+          case "hide":
+          // Do nothing
+        }
+
       }
 
       const sol = Clues.Step.solution(step.step)
@@ -595,12 +613,10 @@ export default class NeoSolvingBehaviour extends Behaviour {
       if (sol) {
         switch (sol?.type) {
           case "talkto":
-            if (!settings.talks.at_all) break
-
             let npc_spot_id = 0 // TODO
             let spot = sol.spots[npc_spot_id]
 
-            w.append(c().addClass("ctr-neosolving-solution-row")
+            w.append(cls("ctr-neosolving-solution-row")
               .append(
                 inlineimg("assets/icons/cursor_talk.png"),
                 span("Talk to "),
@@ -609,7 +625,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
                   .on("click", () => {
                     this.layer.fit(TileArea.toRect(spot.range))
                   }),
-                settings.talks.description && spot.description
+                spot.description
                   ? span(" " + spot.description)
                   : undefined
               ))
@@ -625,10 +641,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
             break;
           case "search":
-            if (!settings.searches.at_all) break
-
-            if (sol.key && settings.searches.key_solution) {
-              w.append(c().addClass("ctr-neosolving-solution-row").append(
+            if (sol.key) {
+              w.append(cls("ctr-neosolving-solution-row").append(
                 inlineimg("assets/icons/key.png"),
                 " ",
                 span(sol.key.answer).addClass("ctr-clickable").on("click", () => {
@@ -637,7 +651,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
               ))
             }
 
-            w.append(c().addClass("ctr-neosolving-solution-row").append(
+            w.append(cls("ctr-neosolving-solution-row").append(
               inlineimg("assets/icons/cursor_talk.png"),
               " ",
               span("Search "),
@@ -655,9 +669,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
             break;
           case "dig":
-            if (!settings.digs.at_all) break
-
-            w.append(c().addClass("ctr-neosolving-solution-row").append(
+            w.append(cls("ctr-neosolving-solution-row").append(
               inlineimg("assets/icons/cursor_shovel.png"),
               " ",
               span("Dig"),
@@ -676,8 +688,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
       }
 
       if (clue.type == "emote") {
-        if (settings.emotes.hidey_hole && clue.hidey_hole) {
-          w.append(c().addClass("ctr-neosolving-solution-row").append(
+        if (clue.hidey_hole) {
+          w.append(cls("ctr-neosolving-solution-row").append(
             inlineimg("assets/icons/cursor_search.png"),
             " ",
             span("Get items from "),
@@ -689,9 +701,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
               })
           ))
         }
-
-        if (settings.emotes.items) {
-          let row = c().addClass("ctr-neosolving-solution-row").append(
+        {
+          let row = cls("ctr-neosolving-solution-row").append(
             inlineimg("assets/icons/cursor_equip.png"),
             " ",
             span("Equip "),
@@ -709,8 +720,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
           }
         }
 
-        if (settings.emotes.emotes) {
-          let row = c().addClass("ctr-neosolving-solution-row").append(
+        {
+          let row = cls("ctr-neosolving-solution-row").append(
             inlineimg("assets/icons/emotes.png"),
             " ",
           ).appendTo(w)
@@ -727,8 +738,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
           }
         }
 
-        if (settings.emotes.double_agent && clue.double_agent) {
-          w.append(c().addClass("ctr-neosolving-solution-row").append(
+        if (clue.double_agent) {
+          w.append(cls("ctr-neosolving-solution-row").append(
             inlineimg("assets/icons/cursor_attack.png"),
             " ",
             span("Kill "),
@@ -744,7 +755,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
         bounds.addArea(clue.area)
       } else if (clue.type == "skilling") {
-        w.append(c().addClass("ctr-neosolving-solution-row").append(
+        w.append(cls("ctr-neosolving-solution-row").append(
           c(`<img src="${CursorType.meta(clue.cursor).icon_url}">`),
           span(clue.answer)
         ))
@@ -884,48 +895,28 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
 export namespace NeoSolving {
   export type Settings = {
-    clue: "full" | "short" | "none",
-    talks: {
-      at_all: boolean,
-      description: boolean,
+    info_panel: {
+      clue_text: "full" | "abridged" | "hide"
+      map_image: "show" | "hide"
     }
-    digs: {
-      at_all: boolean
-    },
-    searches: {
-      at_all: boolean,
-      key_solution: boolean
-    },
-    emotes: {
-      hidey_hole: boolean,
-      items: boolean,
-      emotes: boolean,
-      double_agent: boolean
-    }
-    scan_solving: "always" | "scantree_fallback" | "never",
+
   }
 
   export namespace Settings {
     export const DEFAULT: Settings = {
-      clue: "full",
-      talks: {
-        at_all: true,
-        description: true
-      },
-      digs: {
-        at_all: true,
-      },
-      searches: {
-        at_all: true,
-        key_solution: true,
-      },
-      emotes: {
-        hidey_hole: true,
-        items: true,
-        emotes: true,
-        double_agent: true
-      },
-      scan_solving: "always"
+      info_panel: {
+        clue_text: "abridged",
+        map_image: "hide"
+      }
+    }
+
+    export function normalize(settings: Settings): Settings {
+      if (!settings) settings = lodash.cloneDeep(DEFAULT)
+
+      if (!settings.info_panel) settings.info_panel = DEFAULT.info_panel
+      if (!settings.info_panel.clue_text) settings.info_panel.clue_text = "full"
+
+      return settings
     }
   }
 }

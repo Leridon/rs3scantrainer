@@ -107,6 +107,7 @@ export namespace ScanEditLayer {
   import complementSpot = Scans.complementSpot;
   import span = C.span;
   import inlineimg = C.inlineimg;
+  import cls = C.cls;
 
   export class MarkerPair {
     regular: SpotMarker
@@ -161,7 +162,7 @@ export namespace ScanEditLayer {
         }
 
         if (this.is_complement) {
-          props.row(c().addClass("ctr-step-properties-explanation")
+          props.row(cls("ctr-step-properties-explanation")
             .append(
               inlineimg("assets/icons/info.png"),
               " This is the complement of a dig spot. Right click to learn more about complement spots.",

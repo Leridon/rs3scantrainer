@@ -1,5 +1,7 @@
 Planned for next release (b0.4):
 
+[Bug, 5] Context menu on entities causes tooltip to be off
+
 - Solving Behaviour
     - Path Panel
         - Neat step styling
@@ -13,13 +15,7 @@ Planned for next release (b0.4):
             - Combine surges/dives following a powerburst into one "fake" step
             - Duplicate shortcut step to exist in both sections
             - Combine run followed by shortcut into one
-            - Clue-specific actions? Search drawers, dig, etc?
 
-    - Basic solution rendering on the map
-        - Target marker
-        - Wander ranges
-        - Emote areas
-        - Entity/Npc names?
     - Compass Panel
     - Key solution
     - Challenge answer

@@ -3787,7 +3787,7 @@ export namespace clue_data {
       "solution": {
         "type": "talkto",
         "spots": [{"range": {"origin": {"x": 3066, "y": 3514, "level": 0}, "size": {"x": 5, "y": 5}}, "description": "in Edgeville"}],
-        "npc": "Oziach."
+        "npc": "Oziach"
       }
     }, {
       "id": 176,
@@ -5162,7 +5162,7 @@ export namespace clue_data {
         "spots": [{"range": {"origin": {"x": 4644, "y": 5382, "level": 0}, "size": {"x": 5, "y": 5}}, "description": "at the bottom of Polypore Dungeon"}],
         "npc": "Ramokee Skinweaver"
       },
-      "anagram": ["An exile that isn't wholly free WE IRK OVER NA."]
+      "anagram": ["WE IRK OVER NA"]
     }, {
       "id": 306,
       "type": "anagram",
@@ -5177,7 +5177,7 @@ export namespace clue_data {
         }, {"range": {"origin": {"x": 3783, "y": 2822, "level": 0}, "size": {"x": 8, "y": 8}}, "description": "on Harmony Island", "note": "Harmony"}],
         "npc": "Brother Tranquility"
       },
-      "anagram": ["He often preaches of QUIT THY BRINE RAT ROLL"]
+      "anagram": ["QUIT THY BRINE RAT ROLL"]
     }, {
       "id": 307,
       "type": "anagram",
@@ -5189,7 +5189,7 @@ export namespace clue_data {
         "spots": [{"range": {"origin": {"x": 1784, "y": 11952, "level": 0}, "size": {"x": 3, "y": 3}}, "description": "on Tuaei Leit"}],
         "npc": "Sensei Seaworth"
       },
-      "anagram": ["They seek spirits O EASTERN WISHES"]
+      "anagram": ["O EASTERN WISHES"]
     }, {
       "id": 308,
       "type": "anagram",
@@ -5211,7 +5211,7 @@ export namespace clue_data {
         }],
         "npc": "Celia Diggory"
       },
-      "anagram": ["This lady wants me to find ancient scrolls ERGO I DIG CLAY"]
+      "anagram": ["ERGO I DIG CLAY"]
     }, {
       "id": 309,
       "type": "anagram",
@@ -5227,7 +5227,7 @@ export namespace clue_data {
         }, {"id": "city-of-um", "range": {"origin": {"x": 1034, "y": 1762, "level": 1}, "size": {"x": 3, "y": 3}}, "description": "at the Ritual Site"}],
         "npc": "Malignus mortifer"
       },
-      "anagram": ["Master of the elements, he may REIGN US IF IMMORTAL"]
+      "anagram": ["REIGN US IF IMMORTAL"]
     }, {
       "id": 310,
       "type": "anagram",
@@ -5235,7 +5235,7 @@ export namespace clue_data {
       "text": ["This anagram reveals who to speak to next: If distracted from their work AH; WET ARM"],
       "challenge": [{"type": "lockbox"}],
       "solution": {"type": "talkto", "spots": [{"range": {"origin": {"x": 2346, "y": 3163, "level": 0}, "size": {"x": 3, "y": 3}}, "description": "in Lletya"}], "npc": "Amaethwr"},
-      "anagram": ["If distracted from their work AH; WET ARM"]
+      "anagram": ["AH; WET ARM"]
     }, {
       "id": 311, "type": "anagram", "tier": "master", "text": ["This anagram reveals who to speak to next: Young but stylish PIN HEIR ALL IN PLACE"], "solution": {
         "type": "talkto",
@@ -5276,7 +5276,7 @@ export namespace clue_data {
           "range": {"origin": {"x": 2338, "y": 3673, "level": 0}, "size": {"x": 9, "y": 6}},
           "note": "350 qp."
         }, {"id": "400qp", "description": "at the TzHaar fight Caves", "range": {"origin": {"x": 4610, "y": 5123, "level": 0}, "size": {"x": 8, "y": 8}}, "note": "400 qp."}]
-      }, "anagram": ["Young but stylish PIN HEIR ALL IN PLACE"]
+      }, "anagram": ["PIN HEIR ALL IN PLACE"]
     }, {
       "id": 312,
       "type": "anagram",
@@ -5287,7 +5287,7 @@ export namespace clue_data {
         "spots": [{"range": {"origin": {"x": 3087, "y": 3254, "level": 0}, "size": {"x": 3, "y": 2}}, "description": "in Draynor"}],
         "npc": "Wise Old Man"
       },
-      "anagram": ["In his youth, this adventurer was a WINSOME LAD"]
+      "anagram": ["WINSOME LAD"]
     }, {
       "id": 313,
       "type": "anagram",
@@ -5308,7 +5308,7 @@ export namespace clue_data {
         }],
         "npc": "Paul Gower"
       },
-      "anagram": ["The cabbage diet must work because he has A PURE GLOW"]
+      "anagram": ["A PURE GLOW"]
     }, {
       "id": 314,
       "type": "anagram",
@@ -5319,7 +5319,7 @@ export namespace clue_data {
         "spots": [{"range": {"origin": {"x": 3197, "y": 6960, "level": 1}, "size": {"x": 3, "y": 3}}, "description": "at the entrance to Telos"}],
         "npc": "Soothsayer Sybil"
       },
-      "anagram": ["Age allows a new perspective in this vital place TABOO RISES SHYLY"]
+      "anagram": ["TABOO RISES SHYLY"]
     }, {
       "id": 315,
       "type": "anagram",
@@ -5330,7 +5330,7 @@ export namespace clue_data {
         "spots": [{"range": {"origin": {"x": 2220, "y": 3297, "level": 1}, "size": {"x": 3, "y": 3}}, "description": "at the seren stones"}],
         "npc": "Lady Trahaearn"
       },
-      "anagram": ["With her age, it's no surprise to HEAR A LADY RANT"]
+      "anagram": ["HEAR A LADY RANT"]
     }, {
       "id": 316,
       "type": "anagram",
@@ -5341,7 +5341,7 @@ export namespace clue_data {
         "spots": [{"range": {"origin": {"x": 3416, "y": 2935, "level": 0}, "size": {"x": 6, "y": 6}}, "description": "in Nardaah"}],
         "npc": "Ali The Wise"
       },
-      "anagram": ["He claimed to be a human scholar but I SAW THE LIE"]
+      "anagram": ["I SAW THE LIE"]
     }, {
       "id": 317,
       "type": "anagram",
@@ -5352,7 +5352,7 @@ export namespace clue_data {
         "spots": [{"id": "office", "range": {"origin": {"x": 414, "y": 674, "level": 0}}, "description": "in Death's Office", "note": "Death's Office"}],
         "npc": "Death"
       },
-      "anagram": ["His job leaves him kind of HATED"]
+      "anagram": ["HATED"]
     }]
 
   export const coordinates: Clues.Coordinate[] = [

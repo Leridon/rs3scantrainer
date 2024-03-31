@@ -3,6 +3,7 @@ import Button from "lib/ui/controls/Button";
 import {Observable, observe} from "lib/reactive";
 import InteractionLayer from "lib/gamemap/interaction/InteractionLayer";
 import * as jquery from "jquery";
+import {C} from "../../../lib/ui/constructors";
 
 export class ActionBar extends Widget {
   constructor(buttons: ActionBar.ActionBarButton[]) {
@@ -16,6 +17,7 @@ export class ActionBar extends Widget {
 
 export namespace ActionBar {
   import observe_combined = Observable.observe_combined;
+  import cls = C.cls;
 
   export class ActionBarButton extends Button {
     private _activeInteraction: Observable<InteractionLayer> = observe(null)
@@ -65,18 +67,18 @@ export namespace ActionBar {
         c("<div class='ctr-cooldown-overlay-shadow'></div>").appendTo(this)
 
         if (this.cooldown.value() > 0) {
-          c().addClass("ctr-cooldown-overlay").text(this.cooldown.value() + "t")
+          cls("ctr-cooldown-overlay").text(this.cooldown.value() + "t")
             .appendTo(this)
         }
       }
 
       if (this.hotkey.value() != "") {
-        c().addClass("ctr-hotkey-overlay").text(this.hotkey.value())
+        cls("ctr-hotkey-overlay").text(this.hotkey.value())
           .appendTo(this)
       }
 
       if (this._activeInteraction.value()) {
-        c().addClass("ctr-cooldown-overlay-cancel").text("X")
+        cls("ctr-cooldown-overlay-cancel").text("X")
           .appendTo(this)
       }
     }

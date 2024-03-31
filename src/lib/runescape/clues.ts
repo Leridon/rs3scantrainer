@@ -160,7 +160,7 @@ export namespace Clues {
         case "coordinates":
           return GieliCoordinates.toString(step.coordinates)
         case "scan":
-          return `Scan ${step.scantext}`
+          return `Scan ${step.scantext} (${step.range} tiles)`
         default:
           return step.text[i]
       }

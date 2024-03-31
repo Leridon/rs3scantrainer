@@ -1,4 +1,6 @@
 import Button from "../../../lib/ui/controls/Button";
+import {C} from "../../../lib/ui/constructors";
+import cls = C.cls;
 
 export class BigNisButton extends Button {
 
@@ -6,7 +8,7 @@ export class BigNisButton extends Button {
     super();
 
     c().text(text).addClass("content").appendTo(this)
-    c().addClass("background").appendTo(this)
+    cls("background").appendTo(this)
 
     this.addClass("nisl-big-button")
 

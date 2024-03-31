@@ -60,6 +60,8 @@ type context_menu_page = {
 }
 
 namespace open_menu {
+  import cls = C.cls;
+
   export function init(menu: Menu): context_menu {
     let r: context_menu = {
       cancelled: ewent(),
@@ -158,7 +160,7 @@ namespace open_menu {
       parent: parent,
       underlying: menu,
 
-      root_widget: c().addClass("nisl-context-menu")
+      root_widget: cls("nisl-context-menu")
         .tapRaw(j => j
           //.on("click", (e) => e.stopPropagation())
           .attr("tabindex", "0")),
@@ -170,7 +172,7 @@ namespace open_menu {
     }
 
     // TODO: Icon?
-    if (!parent) c().addClass("nisl-context-menu-header")
+    if (!parent) cls("nisl-context-menu-header")
       .append(menu.text ? rend(menu.text) : "Choose Option")
       .appendTo(m.root_widget)
 

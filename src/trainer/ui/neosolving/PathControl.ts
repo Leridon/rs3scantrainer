@@ -176,11 +176,13 @@ export namespace PathSectionControl {
   }
 
   export namespace StepRow {
+    import cls = C.cls;
+
     export function renderStep(step: Path.Step): {
       icon?: Widget,
       content?: Widget
     } {
-      let icon = c().addClass("ctr-neosolving-path-stepicon")
+      let icon = cls("ctr-neosolving-path-stepicon")
       let content = div()
 
       switch (step.type) {

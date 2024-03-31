@@ -8,6 +8,7 @@ import entity = C.entity;
 import staticentity = C.staticentity;
 import inlineimg = C.inlineimg;
 import bold = C.bold;
+import cls = C.cls;
 
 export class PathStepProperties extends Properties {
 
@@ -21,7 +22,7 @@ export class PathStepProperties extends Properties {
 
   private info(text: string): this {
 
-    return this.row(c().addClass("ctr-step-properties-explanation")
+    return this.row(cls("ctr-step-properties-explanation")
       .append(
         inlineimg("assets/icons/info.png"),
         " ",

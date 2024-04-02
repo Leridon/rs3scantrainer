@@ -249,7 +249,7 @@ class GeometryDrawing extends GameLayer {
       .onCommit((a) => {
         this.setLayer(areaPolygon(a.area))
 
-        this.setValue(a.area)
+        this.setValue(TileArea.toRect(a.area))
       })
   }
 

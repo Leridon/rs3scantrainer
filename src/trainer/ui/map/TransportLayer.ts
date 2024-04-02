@@ -17,7 +17,7 @@ export default class TransportLayer extends GameLayer {
     deps().app.settings.active_teleport_customization.subscribe(customization => {
       this.eachEntity(e => {
         if (e instanceof TeleportSpotEntity) {
-          e.config.teleport.refresh()
+          e.teleport.refresh()
 
           e.render(true)
         }
@@ -26,11 +26,8 @@ export default class TransportLayer extends GameLayer {
 
     TransportData.getAll().then(transports => transports.forEach(trans => {
       if (trans.type == "entity" || trans.type == "door") {
-        new EntityTransportEntity({
-          highlightable: true,
-          shortcut: trans,
-          interactive: interactive
-        }).addTo(this)
+        new EntityTransportEntity(trans)
+          .setInteractive(interactive).addTo(this)
 
 
         if (trans.type == "entity") {
@@ -38,34 +35,24 @@ export default class TransportLayer extends GameLayer {
           trans.actions.forEach(action => {
             action.movement.forEach(movement => {
               if (!EntityTransportation.Movement.isLocal(movement)) {
-                new RemoteEntityTransportTarget({
-                  highlightable: true,
-                  interactive: interactive,
-                  transport: trans,
-                  action: action,
-                  movement: movement
-                }).addTo(this)
+                new RemoteEntityTransportTarget(trans, action, movement)
+                  .setInteractive(interactive).addTo(this)
               }
             })
           })
         }
       } else if (trans.type == "teleports") {
         trans.spots.forEach(spot => {
-          new TeleportSpotEntity({
-            highlightable: true,
-            teleport: new TeleportGroup.Spot(trans, spot, trans.access[0]),
-            interactive: interactive
-          }).addTo(this)
+          new TeleportSpotEntity(new TeleportGroup.Spot(trans, spot, trans.access[0]))
+            .setInteractive(interactive)
+            .addTo(this)
         })
 
         trans.access.forEach(access => {
           if (access.type == "entity") {
-            new TeleportAccessEntity({
-              highlightable: true,
-              teleport: trans,
-              access: access,
-              interactive: interactive
-            }).addTo(this)
+            new TeleportAccessEntity(trans, access)
+              .setInteractive(interactive)
+              .addTo(this)
           }
         })
       }

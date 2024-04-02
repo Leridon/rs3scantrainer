@@ -81,7 +81,32 @@ export class ScanRadiusMarker extends MapEntity {
               private is_complement: boolean,
               private range_is_with_meerkats: boolean
   ) {
-    super({interactive: true, highlightable: true});
+    super();
+    this.setInteractive()
+
+    this.setTooltip(() => {
+      const props = new Properties()
+
+      props.header(`Manual Radius Marker`)
+
+      if (this.is_complement) {
+        props.named("Position", TileCoordinates.toString(this.spot) + " (In complement area)")
+
+        props.named("Radius", `${this.range + 15} (${this.range} base + 15 due to being in complement area)`)
+      } else {
+        props.named("Position", TileCoordinates.toString(this.spot))
+
+        if (this.range_is_with_meerkats) {
+          props.named("Radius", `${this.range} (${this.range - 5} base + 5 from meerkats)`)
+        } else {
+          props.named("Radius", this.range.toString())
+        }
+      }
+
+      props.row(c().text("Click to remove").css("font-style", "italic"))
+
+      return props
+    })
   }
 
   bounds(): Rectangle {
@@ -121,33 +146,6 @@ export class ScanRadiusMarker extends MapEntity {
     }
 
     return this.marker?.marker?.getElement()
-  }
-
-  async renderTooltip(): Promise<{ content: Widget; interactive: boolean } | null> {
-    const props = new Properties()
-
-    props.header(`Manual Radius Marker`)
-
-    if (this.is_complement) {
-      props.named("Position", TileCoordinates.toString(this.spot) + " (In complement area)")
-
-      props.named("Radius", `${this.range + 15} (${this.range} base + 15 due to being in complement area)`)
-    } else {
-      props.named("Position", TileCoordinates.toString(this.spot))
-
-      if (this.range_is_with_meerkats) {
-        props.named("Radius", `${this.range} (${this.range - 5} base + 5 from meerkats)`)
-      } else {
-        props.named("Radius", this.range.toString())
-      }
-    }
-
-    props.row(c().text("Click to remove").css("font-style", "italic"))
-
-    return {
-      content: props,
-      interactive: false
-    }
   }
 
   async contextMenu(event: GameMapContextMenuEvent): Promise<Menu | null> {

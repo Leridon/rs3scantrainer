@@ -9,8 +9,8 @@ import {Clues} from "../../../lib/runescape/clues";
 import spacer = C.spacer;
 import span = C.span;
 import hbox = C.hbox;
-import bold = C.bold;
 import ClueSpot = Clues.ClueSpot;
+import hboxl = C.hboxl;
 
 export default class MethodSelector extends Widget {
   public method: Observable<AugmentedMethod>
@@ -28,7 +28,7 @@ export default class MethodSelector extends Widget {
   private render(method: AugmentedMethod) {
     this.row = hbox(
       method
-        ? bold(method.method.name)
+        ? span(`${method.method.name} (${method.method.expected_time.toFixed(2) ?? "?"} ticks)`)
         : c("<span style='font-style: italic; color: gray'> No method selected</span>"),
       spacer(),
       NislIcon.dropdown(),
@@ -44,7 +44,6 @@ export default class MethodSelector extends Widget {
     new AbstractDropdownSelection.DropDown<AugmentedMethod>({
       dropdownClass: "ctr-neosolving-favourite-dropdown",
       renderItem: m => {
-
         if (!m) {
           return hbox(
             new FavouriteIcon().set(m == this.parent.active_method),
@@ -67,6 +66,6 @@ export default class MethodSelector extends Widget {
         this.parent.app.favourites.setMethod(this.clue, m)
         this.parent.setMethod(m)
       })
-      .open(this.row, this.row)
+      .open(this, this.row)
   }
 }

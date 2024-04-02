@@ -5,6 +5,8 @@ import Widget from "../../../lib/ui/Widget";
 import Pulse = Scans.Pulse;
 import render_digspot = TextRendering.render_digspot;
 import simplify_with_context = Scans.Pulse.simplify_with_context;
+import {C} from "../../../lib/ui/constructors";
+import cls = C.cls;
 
 export class PulseIcon extends Widget {
   constructor(pulse: Pulse, context: Pulse[] | null) {
@@ -30,7 +32,7 @@ export class PulseIcon extends Widget {
     }
 
     if (text != null) {
-      c().addClass("tele-icon-code-overlay").text(text).appendTo(this)
+      cls("tele-icon-code-overlay").text(text).appendTo(this)
     }
   }
 }

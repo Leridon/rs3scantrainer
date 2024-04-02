@@ -258,18 +258,18 @@ export class GenericPathMethodEditor extends MethodSubEditor {
     const assumptions = this.assumptions.value()
 
     if (clue.type == "emote") {
-      const hidey_hole_in_target = clue.hidey_hole && activate(clue.area).query(clue.hidey_hole.location)
+      const hidey_hole_in_target = clue.hidey_hole && activate(clue.area).query(TileRectangle.center(clue.hidey_hole.location))
 
       if (!assumptions.full_globetrotter) {
         if (hidey_hole_in_target) {
           sequence.push({
             name: `Path to Hidey Hole in Target Area`,
-            path: {section: "main", target: activate(default_interactive_area(TileRectangle.from(clue.hidey_hole.location)))}
+            path: {section: "main", target: activate(default_interactive_area(clue.hidey_hole.location))}
           })
         } else if (clue.hidey_hole) {
           sequence.push({
             name: `Path to Hidey Hole`,
-            path: {section: "pre", target: activate(default_interactive_area(TileRectangle.from(clue.hidey_hole.location)))}
+            path: {section: "pre", target: activate(default_interactive_area(clue.hidey_hole.location))}
           })
         }
 
@@ -289,7 +289,7 @@ export class GenericPathMethodEditor extends MethodSubEditor {
       if (clue.hidey_hole && !hidey_hole_in_target && !assumptions.full_globetrotter) {
         sequence.push({
           name: "Return to Hidey Hole",
-          path: {section: "post", target: activate(default_interactive_area(TileRectangle.from(clue.hidey_hole.location)))}
+          path: {section: "post", target: activate(default_interactive_area(clue.hidey_hole.location))}
         })
 
         sequence.push({name: "Return Items", ticks: 1})

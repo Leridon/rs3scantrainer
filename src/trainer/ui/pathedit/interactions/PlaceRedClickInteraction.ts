@@ -10,7 +10,7 @@ export default class PlaceRedClickInteraction extends ValueInteraction<Path.step
 
   constructor(private interaction_type: CursorType = null) {
     super({
-      preview_render: (s) => new PathStepEntity({step: s, interactive: false})
+      preview_render: (s) => new PathStepEntity(s)
     });
 
     new SelectTileInteraction()

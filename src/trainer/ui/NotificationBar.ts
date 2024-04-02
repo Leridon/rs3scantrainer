@@ -1,6 +1,7 @@
 import Widget from "../../lib/ui/Widget";
 import {C} from "../../lib/ui/constructors";
 import spacer = C.spacer;
+import cls = C.cls;
 
 class Notification extends Widget {
   body: Widget = null
@@ -16,7 +17,7 @@ class Notification extends Widget {
     this.addClass("ctr-notification")
       .addClass(`ctr-notification-${options.type ?? "information"}`)
 
-    this.body = c().addClass("ctr-notification-content").appendTo(this)
+    this.body = cls("ctr-notification-content").appendTo(this)
 
     this.body.append(spacer()
       .css("max-width", "30px")

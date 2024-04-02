@@ -103,25 +103,8 @@ export class ClueProperties extends Properties {
         break
     }
 
-    function render_challenge(challenge: Clues.Challenge) {
-      switch (challenge.type) {
-        case "wizard":
-          return c(`<div><img src='assets/icons/cursor_attack.png' class="inline-img"> Wizard</div>`);
-        case "slider":
-          return c(`<div><img src='assets/icons/slider.png' class="inline-img"> Puzzle box</div>`);
-        case "celticknot":
-          return c(`<div><img src='assets/icons/celticknot.png' class="inline-img"> Celtic Knot</div>`);
-        case "lockbox":
-          return c(`<div><img src='assets/icons/lockbox.png' class="inline-img"> Lockbox</div>`);
-        case "towers":
-          return c(`<div><img src='assets/icons/towers.png' class="inline-img"> Towers Puzzle</div>`);
-        case "challengescroll":
-          return c(`<div><img src='assets/icons/cursor_talk.png' class="inline-img"> <span style="font-style: italic">${challenge.question}</span> (Answer: ${natural_join(challenge.answers.map(a => a.note ? `${a.answer} (${a.note}` : a.answer), "or")})</div>`);
-      }
-    }
-
     if (this.clue.clue.challenge?.length > 0) {
-      this.named("Challenge", c().append(...this.clue.clue.challenge.map(render_challenge).map(s => s)))
+      this.named("Challenge", c().append(...this.clue.clue.challenge.map(ClueProperties.render_challenge).map(s => s)))
     }
 
     const methods = await MethodPackManager.instance().get(this.clue)
@@ -277,6 +260,23 @@ export namespace ClueProperties {
         })
 
       ]
+    }
+  }
+
+  export function render_challenge(challenge: Clues.Challenge) {
+    switch (challenge.type) {
+      case "wizard":
+        return c(`<div><img src='assets/icons/cursor_attack.png' class="inline-img"> Wizard</div>`);
+      case "slider":
+        return c(`<div><img src='assets/icons/slider.png' class="inline-img"> Puzzle box</div>`);
+      case "celticknot":
+        return c(`<div><img src='assets/icons/celticknot.png' class="inline-img"> Celtic Knot</div>`);
+      case "lockbox":
+        return c(`<div><img src='assets/icons/lockbox.png' class="inline-img"> Lockbox</div>`);
+      case "towers":
+        return c(`<div><img src='assets/icons/towers.png' class="inline-img"> Towers Puzzle</div>`);
+      case "challengescroll":
+        return c(`<div><img src='assets/icons/cursor_talk.png' class="inline-img"> <span style="font-style: italic">${challenge.question}</span> (Answer: ${natural_join(challenge.answers.map(a => a.note ? `${a.answer} (${a.note}` : a.answer), "or")})</div>`);
     }
   }
 }

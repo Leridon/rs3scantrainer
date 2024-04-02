@@ -5,7 +5,6 @@ import Properties from "../../widgets/Properties";
 import TextField from "../../../../lib/ui/controls/TextField";
 import {ScanRegionPolygon} from "../../neosolving/ScanLayer";
 import LightButton from "../../widgets/LightButton";
-import {scan_tree_template_resolvers} from "../../solving/scans/ScanSolving";
 import GameMapDragAction from "../../../../lib/gamemap/interaction/GameMapDragAction";
 import {observe} from "../../../../lib/reactive";
 import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInteraction";
@@ -39,6 +38,9 @@ import hbox = C.hbox;
 import vbox = C.vbox;
 import hboxl = C.hboxl;
 import collect_issues = Path.collect_issues;
+import {ScanTreeSolvingControl} from "../../neosolving/NeoSolvingBehaviour";
+import scan_tree_template_resolvers = ScanTreeSolvingControl.scan_tree_template_resolvers;
+import cls = C.cls;
 
 export class DrawRegionAction extends ValueInteraction<ScanRegion> {
   constructor(name: string) {
@@ -111,9 +113,9 @@ class TreeNodeEdit extends Widget {
     this.header = c()
       .addClass("ctr-scantreeedit-node-header")
       .append(
-        this.decision_span = c().addClass("ctr-scantreeedit-node-path")
+        this.decision_span = cls("ctr-scantreeedit-node-path")
           .on("click", () => this.parent.requestActivation(this.isActive() ? null : this)),
-        this.you_are_here_marker = c().addClass("ctr-scantreeedit-youarehere"),
+        this.you_are_here_marker = cls("ctr-scantreeedit-youarehere"),
         spacer(),
         span(`${node.remaining_candidates.length}`)
           .addTippy(c(`<span>${spot_text}</span>`)),

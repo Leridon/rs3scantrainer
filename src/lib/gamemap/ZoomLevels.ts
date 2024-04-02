@@ -62,4 +62,11 @@ export namespace FloorLevels {
       {floors: [0, 1, 2, 3], hidden_here: true},
     ])
   }
+
+  export function special(floor: floor_t): FloorLevels<{ correct_level: boolean }> {
+    return new FloorLevels([
+      {floors: [floor], value: {correct_level: true}},
+      {floors: [0, 1, 2, 3], value: {correct_level: false}},
+    ])
+  }
 }

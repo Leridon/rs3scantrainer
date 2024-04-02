@@ -153,13 +153,13 @@ export class ClueReader {
               ]
 
             let best: ClueReader.ModalType = null
-            let best_score: number = Number.MAX_VALUE
+            let best_score: number = 0
 
             for (let type of modal_type_map) {
               for (let title of type.possible_titles) {
                 const score = stringSimilarity(modal.title, title)
 
-                if (score < best_score) {
+                if (score > best_score) {
                   best_score = score
                   best = type.type
                 }
@@ -167,7 +167,7 @@ export class ClueReader {
             }
 
             // Minimum score to avoid unrelated modals to be matched as something
-            if (best_score >= 8) return null
+            if (best_score < 0.7) return null
 
             return best
           })()
@@ -187,23 +187,26 @@ export class ClueReader {
               case "textclue":
                 const text = ClueReader.readTextClueModalText(modal)
 
-                if (text.length >= 10) {
+                console.log(text)
 
+                if (text.length >= 10) {
                   let best: Clues.StepWithTextIndex = null
-                  let best_score = Number.MAX_VALUE
+                  let best_score = 0
 
                   for (let clue of clue_data.all) {
 
                     for (let text_index = 0; text_index < clue.text.length; text_index++) {
 
-                      const score = stringSimilarity(clue.text[text_index], text)
+                      const score = stringSimilarity(text, clue.text[text_index])
 
-                      if (score < best_score) {
+                      if (score > best_score) {
                         best_score = score
                         best = {step: clue, text_index: text_index}
                       }
                     }
                   }
+
+                  if(best_score < 0.7) return null
 
                   return {
                     step: best
@@ -245,12 +248,12 @@ export class ClueReader {
             deps().app.notifications.notify({},
               `Scan ${scan_text}`)
 
-          let bestscore = Number.MAX_VALUE;
+          let bestscore = 0;
           let best: ScanStep | null = null;
 
           for (let clue of clue_data.scan) {
             let score = stringSimilarity(scan_text, clue.scantext);
-            if (score < bestscore) {
+            if (score > bestscore) {
               best = clue;
               bestscore = score;
             }

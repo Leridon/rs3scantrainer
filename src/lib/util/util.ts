@@ -228,7 +228,8 @@ export namespace util {
     document.body.removeChild(element);
   }
 
-  export function stringSimilarity(a: string, b: string): number {
-    return levenshteinEditDistance(a, b, false)
+  export function stringSimilarity(string: string, reference: string): number {
+
+    return 1 - levenshteinEditDistance(string, reference, true) / reference.length
   }
 }

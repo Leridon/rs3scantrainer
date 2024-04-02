@@ -2,6 +2,7 @@ import {GieliCoordinates, TileCoordinates, TileRectangle} from "./coordinates";
 import {Vector2} from "../math";
 import {CursorType} from "./CursorType";
 import {TileArea} from "./coordinates/TileArea";
+import {Transportation} from "./transportation";
 
 export type ClueTier = typeof ClueTier.values[number]
 
@@ -173,6 +174,7 @@ export namespace Clues {
 
   export namespace ClueSpot {
 
+    import default_interactive_area = Transportation.EntityTransportation.default_interactive_area;
     export type Id = { clue: number, spot?: TileCoordinates }
 
     export namespace Id {
@@ -194,7 +196,7 @@ export namespace Clues {
       if (sol) {
         switch (sol.type) {
           case "search":
-            return TileArea.fromRect(TileRectangle.extend(sol.spot, 1))
+            return default_interactive_area(sol.spot)
           case "dig":
             return digSpotArea(sol.spot)
           case "talkto":

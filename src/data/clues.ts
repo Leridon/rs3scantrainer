@@ -3480,7 +3480,7 @@ export namespace clue_data {
       "type": "cryptic",
       "tier": "hard",
       "text": ["Covered in shadows, the centre of the circle is where you will find the answer."],
-      "solution": {"type": "dig", "spot": {"x": 3489, "y": 3288, "level": 0}, "description": "at the centre of Mort'ton"}
+      "solution": {"type": "dig", "spot": {"x": 3488, "y": 3287, "level": 0}, "description": "at the centre of Mort'ton"}
     }, {
       "id": 30,
       "type": "cryptic",
@@ -3657,7 +3657,7 @@ export namespace clue_data {
       "type": "cryptic",
       "tier": "hard",
       "text": ["The beasts to my east snap claws and tails. The rest to my west can slide and eat fish. The force to my north will jump and they'll wail, Come dig by my fire and make a wish."],
-      "solution": {"type": "dig", "spot": {"x": 2598, "y": 3266, "level": 0}, "description": "next to the torch in Ardougne Zoo"}
+      "solution": {"type": "dig", "spot": {"x": 2598, "y": 3267, "level": 0}, "description": "next to the torch in Ardougne Zoo"}
     }, {
       "id": 157,
       "type": "cryptic",
@@ -3711,7 +3711,7 @@ export namespace clue_data {
       "type": "cryptic",
       "tier": "hard",
       "text": ["Aggie I see, Lonely and southern I feel, I am neither inside nor outside the house, yet no house would be complete without me. The treasure lies beneath me!"],
-      "solution": {"type": "dig", "spot": {"x": 3084, "y": 3257, "level": 0}, "description": "in front of the window"}
+      "solution": {"type": "dig", "spot": {"x": 3083, "y": 3257, "level": 0}, "description": "in front of the window"}
     }, {
       "id": 166,
       "type": "cryptic",
@@ -4242,7 +4242,7 @@ export namespace clue_data {
       "emotes": ["Panic"],
       "items": ["Nothing"],
       "double_agent": true,
-      "area": {"origin": {"x": 3610, "y": 3487, "level": 0}, "size": {"x": 8, "y": 8}},
+      "area": {"origin": {"x": 3611, "y": 3483, "level": 0}, "size": {"x": 11, "y": 11}},
       "hidey_hole": null
     }, {
       "id": 226,
@@ -4252,7 +4252,7 @@ export namespace clue_data {
       "items": ["Rune full helm", "Blue dragonhide chaps", "Fire battlestaff"],
       "emotes": ["Laugh"],
       "double_agent": true,
-      "area": {"origin": {"x": 2790, "y": 3667, "level": 0}, "size": {"x": 8, "y": 8}},
+      "area": {"origin": {"x": 2790, "y": 3667, "level": 0}, "size": {"x": 8, "y": 9}},
       "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"topleft": {"x": 2790, "y": 3667}, "botright": {"x": 2790, "y": 3667}, "level": 0}}
     }, {
       "id": 227,
@@ -4272,7 +4272,7 @@ export namespace clue_data {
       "items": ["Diamond ring", "Amulet of power", "Nothing on your chest and legs"],
       "emotes": ["Salute"],
       "double_agent": true,
-      "area": {"origin": {"x": 2908, "y": 3154, "level": 0}, "size": {"x": 27, "y": 20}},
+      "area": {"origin": {"x": 2908, "y": 3154, "level": 0}, "size": {"x": 27, "y": 21}},
       "hidey_hole": {"name": "Log (hidey-hole)", "location": {"topleft": {"x": 2914, "y": 3154}, "botright": {"x": 2914, "y": 3154}, "level": 0}}
     }, {
       "id": 229,
@@ -4282,7 +4282,7 @@ export namespace clue_data {
       "items": ["Ring of life", "Uncharged amulet of glory", "Adamant 2h sword"],
       "emotes": ["Dance"],
       "double_agent": true,
-      "area": {"origin": {"x": 3292, "y": 2782, "level": 0}, "size": {"x": 6, "y": 4}},
+      "area": {"origin": {"x": 3292, "y": 2781, "level": 0}, "size": {"x": 6, "y": 4}},
       "hidey_hole": {"name": "Crate (hidey-hole)", "location": {"topleft": {"x": 3310, "y": 2784}, "botright": {"x": 3310, "y": 2783}, "level": 0}}
     }, {
       "id": 230,
@@ -4620,7 +4620,7 @@ export namespace clue_data {
       "text": ["X marks the spot between two tables."],
       "image_url": "assets/Map_clue_Legends_Guild.png",
       "ocr_data": [26, 77, 176, 26, 77, -8, 6, 8, 26, 77, -9, 8, 10, 25, 78, -8, 6, 7, 26, 80, -5, 5, 6, 25, 77, -6, 7, 8, 26, 77, -8, 7, 9, 26, 77, -9, 6, 8, 25, 79, 0, 22, 26, 26, 81, 19, 40, 46, 25, 82, -11, 6, 7, 26, 82, -9, 5, 6, 26, 82, -11, 4, 6, 25, 82, -10, 5, 7, 25, 85, -11, 6, 7, 26, 81, -12, 8, 10, 26, 78, -8, 7, 9, 25, 76, -12, 7, 9, 25, 79, -9, 5, 9, 26, 76, 21, 67, 79, 27, 71, 43, 116, 133, 26, 70, 34, 99, 115, 26, 75, 2, 34, 47, 26, 70, 43, 40, 46, 31, 58, 88, 8, 17, 26, 81, 4, 27, 34, 27, 72, 24, 58, 62, 26, 76, 25, 60, 65, 26, 74, 17, 52, 57, 25, 83, -14, 7, 8, 26, 80, -12, 6, 8, 25, 77, -10, 8, 10, 26, 78, -12, 6, 8, 26, 78, -11, 6, 7, 27, 73, 35, 38, 43, 31, 59, 87, 12, 19, 27, 76, 9, 33, 46, 26, 72, 36, 101, 118, 26, 72, 38, 80, 113, 26, 72, 48, 76, 95, 26, 79, -11, 5, 7, 26, 78, -2, 20, 23, 26, 72, 34, 56, 68, 27, 70, 44, 75, 89, 26, 80, -14, 6, 7, 26, 80, -13, 7, 8, 25, 78, -11, 5, 6, 25, 78, -11, 6, 8, 25, 77, -10, 5, 12, 27, 74, 32, 55, 63, 27, 70, 64, 76, 87, 26, 80, -9, 10, 19, 27, 72, 21, 59, 66, 25, 76, 8, 41, 57, 25, 72, 43, 88, 105, 26, 71, 39, 99, 111, 27, 71, 41, 92, 113, 27, 71, 44, 111, 127, 26, 78, 4, 29, 35, 25, 79, -13, 6, 8, 26, 79, -14, 5, 6, 25, 78, -8, 8, 10, 26, 78, -12, 6, 8, 26, 73, 16, 40, 45, 31, 58, 87, 4, 5, 27, 73, 27, 41, 48, 28, 68, 23, 64, 70, 26, 79, -10, 17, 20, 26, 77, -17, 5, 7, 25, 79, -11, 6, 8, 26, 78, -12, 6, 8, 25, 77, -9, 6, 11, 28, 69, 23, 45, 55, 26, 79, -5, 14, 17, 26, 81, -13, 6, 7, 26, 80, -16, 6, 7, 26, 77, -14, 5, 7, 25, 81, -12, 6, 7, 26, 78, -14, 10, 14, 26, 71, 46, 78, 89, 26, 76, -8, 17, 24, 28, 68, 18, 60, 66, 25, 80, -14, 7, 8, 26, 74, -2, 26, 36, 27, 68, 9, 44, 64, 25, 78, -11, 7, 10, 25, 78, -12, 7, 9, 27, 78, -8, 12, 16, 26, 80, -10, 5, 6, 26, 81, -13, 5, 6, 25, 80, -14, 6, 7, 26, 77, -14, 7, 9, 26, 78, -17, 7, 8, 25, 80, -14, 6, 8, 26, 78, -12, 7, 9, 26, 77, -12, 6, 8, 26, 73, -6, 30, 33, 26, 78, -17, 6, 8, 26, 70, 4, 31, 34, 26, 68, 14, 30, 38, 25, 80, -5, 11, 18, 26, 79, -7, 8, 10, 26, 82, -5, 7, 8, 25, 82, -7, 8, 9, 25, 80, -13, 5, 6, 26, 79, -15, 6, 7, 26, 79, -9, 6, 8, 26, 78, -17, 6, 7, 26, 78, -14, 6, 8, 25, 78, -10, 8, 9, 26, 78, -13, 6, 7, 27, 78, -16, 5, 7, 27, 81, -15, 6, 8, 26, 77, 5, 72, 84, 26, 76, 22, 66, 81, 25, 73, 21, 79, 92, 25, 82, -7, 6, 8, 26, 80, -6, 7, 9, 26, 78, 8, 34, 37, 27, 72, 5, 31, 40, 26, 81, -14, 6, 8, 26, 79, -7, 5, 6, 25, 80, -10, 6, 8, 26, 82, -13, 6, 8, 26, 82, -8, 9, 11, 26, 75, 4, 90, 103, 27, 76, -14, 33, 39, 27, 77, -16, 6, 12, 26, 79, 4, 28, 64, 25, 76, 13, 42, 63, 25, 72, 23, 81, 93, 25, 80, -8, 6, 7, 26, 78, -3, 15, 20, 26, 80, -7, 9, 12, 25, 78, -8, 8, 11, 26, 79, -15, 5, 6, 25, 81, -6, 7, 10, 25, 80, -8, 8, 10, 26, 81, -10, 6, 8, 25, 83, -7, 8, 10, 25, 77, 0, 25, 29, 26, 79, -10, 6, 7, 25, 76, 2, 76, 88, 26, 78, 1, 25, 46, 25, 79, -11, 6, 7, 26, 78, -11, 6, 7, 25, 79, -11, 5, 6, 27, 68, 7, 43, 46, 26, 78, -8, 12, 16, 26, 80, -13, 5, 7, 27, 77, -16, 5, 7, 26, 82, -6, 6, 8, 26, 82, -9, 7, 8, 25, 82, -7, 8, 10, 25, 80, -8, 7, 9, 26, 81, -7, 7, 8, 25, 81, -9, 6, 8, 26, 77, 8, 31, 43, 26, 74, 17, 45, 71, 26, 81, -11, 6, 7, 26, 78, -14, 5, 6, 26, 78, -15, 5, 6, 27, 77, -17, 5, 6, 26, 80, -12, 6, 8, 26, 79, -16, 6, 7, 27, 77, -18, 5, 7, 25, 84, -4, 9, 11, 24, 84, -6, 8, 10, 24, 85, -5, 9, 11, 25, 84, -3, 7, 9, 25, 84, -4, 7, 9, 25, 83, -5, 10, 12, 24, 76, 14, 34, 37, 25, 74, 17, 41, 45, 26, 80, -14, 6, 8, 26, 78, -15, 6, 8, 26, 77, -17, 6, 7, 27, 78, -17, 5, 6, 26, 80, -12, 6, 7, 26, 78, -16, 6, 8, 27, 76, -17, 6, 8],
-      "solution": {"type": "dig", "spot": {"x": 2723, "y": 3338, "level": 0}, "description": "two tiles south of the northern bench"}
+      "solution": {"type": "dig", "spot": {"x": 2722, "y": 3338, "level": 0}, "description": "two tiles south of the northern bench"}
     }, {
       "id": 43,
       "type": "map",

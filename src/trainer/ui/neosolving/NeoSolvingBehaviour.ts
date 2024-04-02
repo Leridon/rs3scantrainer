@@ -14,7 +14,7 @@ import PreparedSearchIndex from "../../../lib/util/PreparedSearchIndex";
 import {Ewent, Observable, observe} from "../../../lib/reactive";
 import {floor_t, TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 import * as lodash from "lodash";
-import {Rectangle, Vector2} from "../../../lib/math";
+import {Vector2} from "../../../lib/math";
 import {util} from "../../../lib/util/util";
 import {Path} from "../../../lib/runescape/pathing";
 import {AugmentedMethod, MethodPackManager} from "../../model/MethodPackManager";
@@ -106,6 +106,26 @@ class NeoSolvingLayer extends GameLayer {
   fit(view: TileRectangle): this {
     let copy = lodash.cloneDeep(view)
 
+    let padding: [number, number] = null
+
+    const mapSize = this.getMap().getSize()
+
+    function score(w: number, h: number) {
+      return (w * w) * (h * h)
+    }
+
+    const wideScore = score(mapSize.x - this.sidebar.content.raw().clientWidth, mapSize.y)
+    const highScore = score(mapSize.x, mapSize.y - this.sidebar.content.raw().clientHeight)
+
+    if (wideScore > highScore) {
+      console.log("wide")
+      padding = [0, this.sidebar.content.raw().offsetHeight]
+    } else {
+      console.log("slim")
+      padding = [this.sidebar.content.raw().offsetWidth, 0]
+    }
+
+    /*
     // Modify the rectangle to center the view on the space right of the sidebar.
     {
       const sidebar_w = this.sidebar.content.raw().clientWidth + 20
@@ -114,10 +134,11 @@ class NeoSolvingLayer extends GameLayer {
       const f = sidebar_w / Math.max(sidebar_w, total_w - sidebar_w)
 
       copy.topleft.x -= f * Rectangle.width(view)
-    }
+    }*/
 
     this.map.fitView(copy, {
       maxZoom: lodash.clamp(this.getMap().getZoom(), 3, 7),
+      paddingTopLeft: padding
     })
 
     return this
@@ -563,9 +584,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
     super();
 
     this.path_control.section_selected.on(p => {
-      if (this.active_method.method.type != "scantree") {
-        this.layer.fit(Path.bounds(p))
-      }
+      if (this.active_method.method.type != "scantree") setTimeout(() => this.layer.fit(Path.bounds(p)), 20)
     })
   }
 

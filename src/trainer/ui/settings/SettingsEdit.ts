@@ -553,12 +553,12 @@ class SolvingSettingsEdit extends Widget {
 
     this.layout.divider()
 
+    /*
     this.layout.header("Informative Entities on Map")
 
     this.layout.paragraph("Choose which components of a clue step are displayed as interactive elements on the map while solving.")
-
-    this.layout.divider()
-    this.layout.header("Zoom Behaviour")
+    
+     */
   }
 }
 

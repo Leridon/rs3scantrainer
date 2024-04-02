@@ -4254,6 +4254,60 @@ code: "5",
       }
     ]
   },
+  {
+    type: "teleports",
+    id: "diskofreturning",
+    name: "Disk of returning",
+    menu_ticks: 1,
+    spots: [
+      /*{
+        id: "bts",
+        target: {"origin": {"x": 1183, "y": 5396, "level": 0}},
+        name: "Behind the scenes",
+        code: "2",
+        animation_ticks: 7,
+      },*/
+      {
+        id: "return",
+        target: {"origin": {"x": 2982, "y": 9804, "level": 0}},
+        name: "Return",
+        animation_ticks: 2,
+      },
+    ],
+    access: [
+      {
+        id: "disk",
+        type: "item",
+        name: {name: "Disk of returning", kind: "item"},
+        img: {url: "Disk_of_returning_(Gower_Quest).png"},
+        action_name: "Scan",
+      }
+    ]
+  },
+  {
+    type: "teleports",
+    id: "magicwhistle",
+    name: "Magic whistle",
+    menu_ticks: 1,
+    spots: [
+      {
+        id: "return",
+        target: {"origin":{"x":2741,"y":3235,"level":0}},
+        name: "Return",
+        animation_ticks: 2,
+      },
+    ],
+    access: [
+      {
+        id: "whistle",
+        type: "item",
+        name: {name: "Magic whistle", kind: "item"},
+        img: {url: "Magic_whistle.webp"},
+        action_name: "Blow",
+        area_restriction: {"origin": {"x": 2624, "y": 4672, "level": 0}, size: {x: 64, y: 64}}
+      }
+    ]
+  },
 //TODO: Eagle transport system
 //TODO: Canoes
 //TODO: Orthen Teleport network

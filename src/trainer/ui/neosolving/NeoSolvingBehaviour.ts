@@ -119,10 +119,10 @@ class NeoSolvingLayer extends GameLayer {
 
     if (wideScore > highScore) {
       console.log("wide")
-      padding = [0, this.sidebar.content.raw().offsetHeight]
+      padding = [this.sidebar.content.raw().offsetWidth, 0]
     } else {
       console.log("slim")
-      padding = [this.sidebar.content.raw().offsetWidth, 0]
+      padding = [0, this.sidebar.content.raw().offsetHeight]
     }
 
     /*

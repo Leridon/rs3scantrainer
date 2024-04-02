@@ -4,32 +4,21 @@ Planned for next release (b0.4):
 
 - Solving Behaviour
     - Path Panel
-        - Neat step styling
-        - Focus section when selected
-        - [WIP] Detail tooltip on hover
-            - Finish official info
-            - Add custom description
         - [Feature] Disable default teleport render when contained in step
             - Render step instead
         - [Feature] Cleanup using "fake" steps:
             - Combine surges/dives following a powerburst into one "fake" step
             - Duplicate shortcut step to exist in both sections
             - Combine run followed by shortcut into one
-
     - Compass Panel
-    - Key solution
-    - Challenge answer
-    - Potential Puzzles
     - Preferences
         - Preferred npc spot
-        - Preferred challenge answer
     - Scan Tree Behaviour
         - Make fit include the entire path
         - Better render of in-route teleports
         - Spacing in the tree view is bad
 
 - [5] Settings Modal
-    - Solving View Info Preferences
     - Method Pack Management
 
 - Issues

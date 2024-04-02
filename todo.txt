@@ -17,13 +17,13 @@ Planned for next release (b0.4):
         - Make fit include the entire path
         - Better render of in-route teleports
         - Spacing in the tree view is bad
+    - Marker Icons for paths are too large and obscure more important info, especially when not zoomed in.
 
 - [5] Settings Modal
     - Method Pack Management
 
 - Issues
     - [Bug, 1] SearchSelection: Very rarely the dropdown remains after the element is already gone
-    - [Bug, 3] Reader reads the falador crossroads easy map clue as a text clue
     - [Bug, 3] SEQUIN DIRGE is read as Ysondria
 
 - Data

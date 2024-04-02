@@ -117,7 +117,7 @@ class NeoSolvingLayer extends GameLayer {
     }
 
     this.map.fitView(copy, {
-      maxZoom: 4,
+      maxZoom: lodash.clamp(this.getMap().getZoom(), 3, 7),
     })
 
     return this
@@ -314,10 +314,7 @@ export class ScanTreeSolvingControl extends Behaviour {
 
     bounds.addRectangle(Path.bounds(node.raw.path))
 
-    this.parent.layer.getMap().fitView(bounds.get(), {
-      maxZoom: 4,
-      animate: true,
-    })
+    this.parent.layer.fit(bounds.get())
   }
 
   private renderLayer(): void {
@@ -564,6 +561,12 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
   constructor(public app: Application) {
     super();
+
+    this.path_control.section_selected.on(p => {
+      if (this.active_method.method.type != "scantree") {
+        this.layer.fit(Path.bounds(p))
+      }
+    })
   }
 
   /**
@@ -846,7 +849,6 @@ export default class NeoSolvingBehaviour extends Behaviour {
         }
       }
 
-
       if (!w.container.is(":empty"))
         this.layer.solution_container.append(w)
     }
@@ -895,7 +897,6 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
         this.layer.scan_layer.setSpotOrder(method.method.tree.ordered_spots)
         this.layer.scan_layer.marker.setRadius(method.method.tree.assumed_range, method.method.assumptions.meerkats_active)
-
       } else if (method.method.type == "general_path") {
         this.path_control.reset().setMethod(method as AugmentedMethod<GenericPathMethod>)
       }

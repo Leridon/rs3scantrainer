@@ -10,7 +10,6 @@ import {TileArea} from "./coordinates/TileArea";
 import {CursorType} from "./CursorType";
 import {EntityName} from "./EntityName";
 import {TransportData} from "../../data/transports";
-import Dependencies from "../../trainer/dependencies";
 import movement_ability = MovementAbilities.movement_ability;
 
 export type Path = Path.raw;
@@ -698,8 +697,12 @@ export namespace Path {
     })(str)
   }
 
-  export function bounds(path: Path.raw): Rectangle {
-    return Rectangle.combine(...path.map(Step.bounds))
+  export function bounds(path: Path.raw): TileRectangle {
+    return TileRectangle.lift(Rectangle.combine(...path.map(Step.bounds)), level(path))
+  }
+
+  export function level(path: Path): floor_t {
+    return Step.level(path[path.length - 1])
   }
 
   export namespace Step {
@@ -788,7 +791,7 @@ export namespace Path {
           if (i >= 1 && path[i - 1].type == "orientation") division(i - 1)
           else division(i)
         } else if ((step.type == "transport" || step.type == "cheat") && pos) {
-          if (Vector2.max_axis(Vector2.sub(new_pos, pos)) > 64) {
+          if (Vector2.max_axis(Vector2.sub(new_pos, pos)) > 64 || new_pos.level != pos?.level) {
             division(i + 1)
           }
         }

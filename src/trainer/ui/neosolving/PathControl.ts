@@ -22,6 +22,7 @@ import {TemplateResolver} from "../../../lib/util/TemplateResolver";
 import {GameLayer} from "../../../lib/gamemap/GameLayer";
 import {CursorType} from "../../../lib/runescape/CursorType";
 import {TransportData} from "../../../data/transports";
+import {deps} from "../../dependencies";
 import hbox = C.hbox;
 import span = C.span;
 import GenericPathMethod = SolvingMethods.GenericPathMethod;
@@ -94,11 +95,7 @@ export class PathSectionControl extends Widget {
         })
       })()
 
-      if (this.step_graphics) {
-        TreeArray.forLeafs(this.step_graphics, graphics => {
-          // TODO(?) graphics.setHighlightable(false)
-        })
-      }
+      const settings = deps().app.settings.settings.solving
 
       currently_shown_path.forEach((step, index) => {
         let sectionindex = lodash.clone(this.current_section_id)
@@ -116,6 +113,7 @@ export class PathSectionControl extends Widget {
           .appendTo(this)
       })
     }
+
   }
 
   private setCurrentSection(ids: number[]) {
@@ -386,7 +384,7 @@ export default class PathControl extends Behaviour {
         .appendTo(w)
     }
 
-    if (this.sectioned_path) {
+    if (this.sectioned_path && deps().app.settings.settings.solving.info_panel.path_components == "show") {
       new PathSectionControl(
         this.sectioned_path,
         active_id,

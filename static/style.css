@@ -884,6 +884,10 @@ video {
 
 /*Classes for custom components*/
 
+.lcss-button {
+    user-select: none;
+}
+
 .lcss-button:not(.enabled) {
     cursor: default;
     filter: opacity(0.5) grayscale(100%);
@@ -1848,7 +1852,6 @@ input[type=checkbox] + span {
 }
 
 
-
 .ctr-neosolving-solution-row:not(:last-child) {
     border-bottom: 1px dashed grey;
 }
@@ -1960,7 +1963,6 @@ input[type=checkbox] + span {
 
 .ctr-clickable {
     cursor: pointer;
-    user-select: none;
 }
 
 .nisl-icon {

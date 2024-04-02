@@ -60,7 +60,11 @@ export namespace Clues {
     { type: "celticknot" } |
     { type: "lockbox" } |
     { type: "towers" } |
-    { type: "challengescroll", question: string, answers: { answer: number, note?: string }[] }
+    Challenge.ChallengeScroll
+
+  export namespace Challenge {
+    export type ChallengeScroll = { type: "challengescroll", question: string, answers: { answer: number, note?: string }[] }
+  }
 
   export type Solution = Solution.TalkTo | Solution.Dig | Solution.Search
 

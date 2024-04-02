@@ -405,7 +405,9 @@ class SolvingSettingsEdit extends Widget {
   render() {
     this.layout.empty()
 
-    this.layout.header("Information Rows")
+    this.layout.header("Clue Information in UI")
+
+    this.layout.paragraph("Choose what data about a clue step and its solution is displayed on the UI while solving.")
 
     this.layout.named("Clue Text", hgrid(
       ...new Checkbox.Group([
@@ -426,8 +428,137 @@ class SolvingSettingsEdit extends Widget {
         .checkboxes()
     ))
 
+    this.layout.named("Dig Target", hgrid(
+      ...new Checkbox.Group([
+        {button: new Checkbox("Show"), value: "show" as const},
+        {button: new Checkbox("Hide"), value: "hide" as const},
+      ]).onChange(v => this.value.info_panel.dig_target = v)
+        .setValue(this.value.info_panel.dig_target)
+        .checkboxes()
+    ))
+
+    this.layout.named("Talk Target", hgrid(
+      ...new Checkbox.Group([
+        {button: new Checkbox("Show"), value: "show" as const},
+        {button: new Checkbox("Hide"), value: "hide" as const},
+      ]).onChange(v => this.value.info_panel.talk_target = v)
+        .setValue(this.value.info_panel.talk_target)
+        .checkboxes()
+    ))
+
+    this.layout.named("Search Target", hgrid(
+      ...new Checkbox.Group([
+        {button: new Checkbox("Show"), value: "show" as const},
+        {button: new Checkbox("Hide"), value: "hide" as const},
+      ]).onChange(v => this.value.info_panel.search_target = v)
+        .setValue(this.value.info_panel.search_target)
+        .checkboxes()
+    ))
+
+    this.layout.named("Search Key", hgrid(
+      ...new Checkbox.Group([
+        {button: new Checkbox("Show"), value: "show" as const},
+        {button: new Checkbox("Hide"), value: "hide" as const},
+      ]).onChange(v => this.value.info_panel.search_key = v)
+        .setValue(this.value.info_panel.search_key)
+        .checkboxes()
+    ))
+
+    this.layout.named("Hidey Hole", hgrid(
+      ...new Checkbox.Group([
+        {button: new Checkbox("Show"), value: "show" as const},
+        {button: new Checkbox("Hide"), value: "hide" as const},
+      ]).onChange(v => this.value.info_panel.hidey_hole = v)
+        .setValue(this.value.info_panel.hidey_hole)
+        .checkboxes()
+    ))
+
+    this.layout.named("Emote Items", hgrid(
+      ...new Checkbox.Group([
+        {button: new Checkbox("Show"), value: "show" as const},
+        {button: new Checkbox("Hide"), value: "hide" as const},
+      ]).onChange(v => this.value.info_panel.emote_items = v)
+        .setValue(this.value.info_panel.emote_items)
+        .checkboxes()
+    ))
+
+
+    this.layout.named("Emote(s)", hgrid(
+      ...new Checkbox.Group([
+        {button: new Checkbox("Show"), value: "show" as const},
+        {button: new Checkbox("Hide"), value: "hide" as const},
+      ]).onChange(v => this.value.info_panel.emotes = v)
+        .setValue(this.value.info_panel.emotes)
+        .checkboxes()
+    ))
+
+    this.layout.named("Double Agent", hgrid(
+      ...new Checkbox.Group([
+        {button: new Checkbox("Show"), value: "show" as const},
+        {button: new Checkbox("Hide"), value: "hide" as const},
+      ]).onChange(v => this.value.info_panel.double_agent = v)
+        .setValue(this.value.info_panel.double_agent)
+        .checkboxes()
+    ))
+
+    this.layout.named("Pathing", hgrid(
+      ...new Checkbox.Group([
+        {button: new Checkbox("Show"), value: "show" as const},
+        {button: new Checkbox("Hide"), value: "hide" as const},
+      ]).onChange(v => this.value.info_panel.path_components = v)
+        .setValue(this.value.info_panel.path_components)
+        .checkboxes()
+    ))
+
+    this.layout.named("Puzzles", hgrid(
+      ...new Checkbox.Group([
+        {button: new Checkbox("Show"), value: "show" as const},
+        {button: new Checkbox("Hide"), value: "hide" as const},
+      ]).onChange(v => this.value.info_panel.puzzle = v)
+        .setValue(this.value.info_panel.puzzle)
+        .checkboxes()
+    ))
+
+    this.layout.named("Challenge", hgrid(
+      ...new Checkbox.Group([
+        {button: new Checkbox("Full"), value: "full" as const},
+        {button: new Checkbox("Answer"), value: "answer_only" as const},
+        {button: new Checkbox("Hide"), value: "hide" as const},
+      ]).onChange(v => this.value.info_panel.challenge = v)
+        .setValue(this.value.info_panel.challenge)
+        .checkboxes()
+    ))
+
+    this.layout.named("Presets",
+      new LightButton("Everything")
+        .onClick(() => {
+          this.value.info_panel = lodash.cloneDeep(NeoSolving.Settings.InfoPanel.EVERYTHING)
+          this.render()
+        }))
+
+    this.layout.named("",
+      new LightButton("Reduced (Recommended)")
+        .onClick(() => {
+          this.value.info_panel = lodash.cloneDeep(NeoSolving.Settings.InfoPanel.REDUCED)
+          this.render()
+        }))
+
+    this.layout.named("",
+      new LightButton("Nothing")
+        .onClick(() => {
+          this.value.info_panel = lodash.cloneDeep(NeoSolving.Settings.InfoPanel.NOTHING)
+          this.render()
+        }))
+
+
     this.layout.divider()
+
     this.layout.header("Informative Entities on Map")
+
+    this.layout.paragraph("Choose which components of a clue step are displayed as interactive elements on the map while solving.")
+
+    this.layout.divider()
+    this.layout.header("Zoom Behaviour")
   }
 }
 

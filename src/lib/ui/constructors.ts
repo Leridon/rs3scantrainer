@@ -49,6 +49,10 @@ export namespace C {
     return create("<span style='font-weight: bold'></span>").text(text)
   }
 
+  export function space(): Widget {
+    return create("<span>&nbsp;</span>")
+  }
+
   export function h(level: 1 | 2 | 3 | 4 | 5, text: string): Widget {
     return create(`<h${level}>${text}</h${level}>`)
   }

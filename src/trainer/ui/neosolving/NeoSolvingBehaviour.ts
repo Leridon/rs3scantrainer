@@ -40,6 +40,8 @@ import {SettingsModal} from "../settings/SettingsEdit";
 import {TemplateResolver} from "../../../lib/util/TemplateResolver";
 import {TextRendering} from "../TextRendering";
 import {ClueEntities} from "./ClueEntities";
+import {NislIcon} from "../nisl";
+import {ClueProperties} from "../theorycrafting/ClueProperties";
 import span = C.span;
 import todo = util.todo;
 import PulseInformation = ScanTheory.PulseInformation;
@@ -54,6 +56,11 @@ import inlineimg = C.inlineimg;
 import activate = TileArea.activate;
 import item = C.item;
 import cls = C.cls;
+import vbox = C.vbox;
+import bold = C.bold;
+import spacer = C.spacer;
+import space = C.space;
+import hboxl = C.hboxl;
 
 class NeoReader {
   read: Ewent<{ step: Clues.Step, text_index: number }>
@@ -596,11 +603,10 @@ export default class NeoSolvingBehaviour extends Behaviour {
           case "abridged":
             const short = Clues.Step.shortString(clue, step.text_index)
 
-            const clas = short == clue.text[step.text_index]
-              ? "ctr-neosolving-solution-row-shortened"
-              : "ctr-neosolving-solution-row"
+            const row = cls("ctr-neosolving-solution-row").text(short).appendTo(w)
 
-            cls(clas).text(short).appendTo(w)
+            if (clue.text[step.text_index]) row.addClass("ctr-neosolving-solution-row-shortened")
+
             break
           case "hide":
           // Do nothing
@@ -613,22 +619,24 @@ export default class NeoSolvingBehaviour extends Behaviour {
       if (sol) {
         switch (sol?.type) {
           case "talkto":
-            let npc_spot_id = 0 // TODO
+            let npc_spot_id = 0
             let spot = sol.spots[npc_spot_id]
 
-            w.append(cls("ctr-neosolving-solution-row")
-              .append(
-                inlineimg("assets/icons/cursor_talk.png"),
-                span("Talk to "),
-                C.npc(sol.npc, true)
-                  .tooltip("Click to center")
-                  .on("click", () => {
-                    this.layer.fit(TileArea.toRect(spot.range))
-                  }),
-                spot.description
-                  ? span(" " + spot.description)
-                  : undefined
-              ))
+            if (settings.info_panel.talk_target == "show") {
+              w.append(cls("ctr-neosolving-solution-row")
+                .append(
+                  inlineimg("assets/icons/cursor_talk.png"),
+                  span("Talk to "),
+                  C.npc(sol.npc, true)
+                    .tooltip("Click to center")
+                    .on("click", () => {
+                      this.layer.fit(TileArea.toRect(spot.range))
+                    }),
+                  spot.description
+                    ? span(" " + spot.description)
+                    : undefined
+                ))
+            }
 
             for (let i = 0; i < sol.spots.length; i++) {
               const spot = sol.spots[i]
@@ -641,7 +649,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
             break;
           case "search":
-            if (sol.key) {
+            if (sol.key && settings.info_panel.search_key == "show") {
               w.append(cls("ctr-neosolving-solution-row").append(
                 inlineimg("assets/icons/key.png"),
                 " ",
@@ -651,16 +659,18 @@ export default class NeoSolvingBehaviour extends Behaviour {
               ))
             }
 
-            w.append(cls("ctr-neosolving-solution-row").append(
-              inlineimg("assets/icons/cursor_talk.png"),
-              " ",
-              span("Search "),
-              C.staticentity(sol.entity, true)
-                .tooltip("Click to center")
-                .on("click", () => {
-                  this.layer.fit(sol.spot)
-                })
-            ))
+            if (settings.info_panel.search_target == "show") {
+              w.append(cls("ctr-neosolving-solution-row").append(
+                inlineimg("assets/icons/cursor_talk.png"),
+                " ",
+                span("Search "),
+                C.staticentity(sol.entity, true)
+                  .tooltip("Click to center")
+                  .on("click", () => {
+                    this.layer.fit(sol.spot)
+                  })
+              ))
+            }
 
             bounds.addRectangle(sol.spot)
 
@@ -669,15 +679,16 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
             break;
           case "dig":
-            w.append(cls("ctr-neosolving-solution-row").append(
-              inlineimg("assets/icons/cursor_shovel.png"),
-              " ",
-              span("Dig"),
-              sol.description
-                ? span(" " + sol.description)
-                : span(` at ${TileCoordinates.toString(sol.spot)}`)
-            ))
-
+            if (settings.info_panel.dig_target == "show") {
+              w.append(cls("ctr-neosolving-solution-row").append(
+                inlineimg("assets/icons/cursor_shovel.png"),
+                " ",
+                span("Dig"),
+                sol.description
+                  ? span(" " + sol.description)
+                  : span(` at ${TileCoordinates.toString(sol.spot)}`)
+              ))
+            }
             new ClueEntities.DigSolutionEntity(sol)
               .addTo(this.layer.generic_solution_layer)
 
@@ -688,7 +699,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
       }
 
       if (clue.type == "emote") {
-        if (clue.hidey_hole) {
+        if (clue.hidey_hole && settings.info_panel.hidey_hole == "show") {
           w.append(cls("ctr-neosolving-solution-row").append(
             inlineimg("assets/icons/cursor_search.png"),
             " ",
@@ -701,7 +712,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
               })
           ))
         }
-        {
+
+        if (settings.info_panel.emote_items == "show") {
           let row = cls("ctr-neosolving-solution-row").append(
             inlineimg("assets/icons/cursor_equip.png"),
             " ",
@@ -719,8 +731,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
             row.append(item(itm))
           }
         }
-
-        {
+        if (settings.info_panel.emotes == "show") {
           let row = cls("ctr-neosolving-solution-row").append(
             inlineimg("assets/icons/emotes.png"),
             " ",
@@ -738,7 +749,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
           }
         }
 
-        if (clue.double_agent) {
+        if (clue.double_agent && settings.info_panel.double_agent == "show") {
           w.append(cls("ctr-neosolving-solution-row").append(
             inlineimg("assets/icons/cursor_attack.png"),
             " ",
@@ -773,6 +784,68 @@ export default class NeoSolvingBehaviour extends Behaviour {
       } else if (clue.type == "compass") {
         bounds.addTile(...clue.spots)
       }
+
+      if (clue.challenge && clue.challenge.length > 0) {
+        const challenge = clue.challenge.find(c => c.type == "challengescroll") as Clues.Challenge & { type: "challengescroll" }
+
+        if (challenge) {
+          const answer_id = this.app.favourites.getChallengeAnswerId(clue)
+          const answer = challenge.answers[answer_id]
+
+          if (settings.info_panel.challenge != "hide") {
+            let row: Widget = null
+            let answer_span: Widget = null
+
+            w.append(row = cls("ctr-neosolving-solution-row")
+              .append(
+                hboxl(
+                  inlineimg("assets/icons/activeclue.png"),
+                  vbox(
+                    settings.info_panel.challenge == "full"
+                      ? c().css("font-style", "italic").text(challenge.question) : undefined,
+                    hboxl(
+                      bold(`Answer:`),
+                      space(),
+                      answer_span = span(answer.answer.toString()),
+                      spacer(),
+                      challenge.answers.length > 1 ? NislIcon.dropdown() : undefined
+                    )
+                  ).css("flex-grow", "1")
+                )
+              ))
+
+            if (challenge.answers.length > 1) {
+              row.on("click", () => {
+                new AbstractDropdownSelection.DropDown<Clues.Challenge.ChallengeScroll["answers"][number]>({
+                  dropdownClass: "ctr-neosolving-favourite-dropdown",
+                  renderItem: a => c().text(`${a.answer} (${a.note})`)
+                })
+                  .setItems(challenge.answers)
+                  .setHighlighted(answer)
+                  .open(row, undefined)
+                  .onSelected(a => {
+                    this.app.favourites.setChallengeAnswerId(clue, challenge.answers.indexOf(a))
+                    answer_span.text(a.answer.toString())
+                  })
+              })
+            }
+          }
+        } else {
+          if (settings.info_panel.puzzle == "show") {
+            const row = cls("ctr-neosolving-solution-row").appendTo(w)
+
+            for (let i = 0; i < clue.challenge.length; i++) {
+              if (i > 0) {
+                if (i == clue.challenge.length - 1) row.append(", or ")
+                else row.append(", ")
+              }
+
+              row.append(ClueProperties.render_challenge(clue.challenge[i]).css("display", "inline-block"))
+            }
+          }
+        }
+      }
+
 
       if (!w.container.is(":empty"))
         this.layer.solution_container.append(w)
@@ -897,24 +970,95 @@ export namespace NeoSolving {
   export type Settings = {
     info_panel: {
       clue_text: "full" | "abridged" | "hide"
-      map_image: "show" | "hide"
+      map_image: "show" | "hide",
+      dig_target: "show" | "hide",
+      talk_target: "show" | "hide",
+      search_target: "show" | "hide",
+      search_key: "show" | "hide",
+      hidey_hole: "show" | "hide",
+      emote_items: "show" | "hide",
+      emotes: "show" | "hide",
+      double_agent: "show" | "hide",
+      path_components: "show" | "hide",
+      puzzle: "show" | "hide",
+      challenge: "full" | "answer_only" | "hide"
     }
-
   }
 
   export namespace Settings {
-    export const DEFAULT: Settings = {
-      info_panel: {
-        clue_text: "abridged",
-        map_image: "hide"
+    export namespace InfoPanel {
+      export const EVERYTHING: Settings["info_panel"] = {
+        clue_text: "full",
+        map_image: "show",
+        dig_target: "show",
+        talk_target: "show",
+        search_target: "show",
+        search_key: "show",
+        hidey_hole: "show",
+        emote_items: "show",
+        emotes: "show",
+        double_agent: "show",
+        path_components: "show",
+        challenge: "full",
+        puzzle: "show"
       }
+
+      export const NOTHING: Settings["info_panel"] = {
+        clue_text: "hide",
+        map_image: "hide",
+        dig_target: "hide",
+        talk_target: "hide",
+        search_target: "hide",
+        search_key: "hide",
+        hidey_hole: "hide",
+        emote_items: "hide",
+        emotes: "hide",
+        double_agent: "hide",
+        path_components: "hide",
+        challenge: "hide",
+        puzzle: "hide"
+      }
+
+      export const REDUCED: Settings["info_panel"] = {
+        clue_text: "abridged",
+        map_image: "show",
+        dig_target: "show",
+        talk_target: "show",
+        search_target: "show",
+        search_key: "hide",
+        hidey_hole: "hide",
+        emote_items: "hide",
+        emotes: "hide",
+        double_agent: "hide",
+        path_components: "show",
+        challenge: "answer_only",
+        puzzle: "hide"
+      }
+    }
+
+    export const DEFAULT: Settings = {
+      info_panel: InfoPanel.EVERYTHING
     }
 
     export function normalize(settings: Settings): Settings {
       if (!settings) settings = lodash.cloneDeep(DEFAULT)
 
       if (!settings.info_panel) settings.info_panel = DEFAULT.info_panel
-      if (!settings.info_panel.clue_text) settings.info_panel.clue_text = "full"
+      if (!["full", "hide", "abridged"].includes(settings.info_panel.clue_text)) settings.info_panel.clue_text = "full"
+      if (!["show", "hide"].includes(settings.info_panel.map_image)) settings.info_panel.map_image = "show"
+      if (!["show", "hide"].includes(settings.info_panel.dig_target)) settings.info_panel.dig_target = "show"
+      if (!["show", "hide"].includes(settings.info_panel.talk_target)) settings.info_panel.talk_target = "show"
+      if (!["show", "hide"].includes(settings.info_panel.search_target)) settings.info_panel.search_target = "show"
+      if (!["show", "hide"].includes(settings.info_panel.search_key)) settings.info_panel.search_key = "show"
+
+      if (!["show", "hide"].includes(settings.info_panel.hidey_hole)) settings.info_panel.hidey_hole = "show"
+      if (!["show", "hide"].includes(settings.info_panel.emote_items)) settings.info_panel.emote_items = "show"
+      if (!["show", "hide"].includes(settings.info_panel.emotes)) settings.info_panel.emotes = "show"
+      if (!["show", "hide"].includes(settings.info_panel.double_agent)) settings.info_panel.double_agent = "show"
+      if (!["show", "hide"].includes(settings.info_panel.path_components)) settings.info_panel.path_components = "show"
+
+      if (!["show", "hide"].includes(settings.info_panel.puzzle)) settings.info_panel.puzzle = "show"
+      if (!["full", "answer_only", "hide"].includes(settings.info_panel.challenge)) settings.info_panel.challenge = "full"
 
       return settings
     }

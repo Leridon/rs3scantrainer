@@ -1,9 +1,9 @@
 import {AugmentedMethod, LocalMethodId, MethodPackManager} from "./model/MethodPackManager";
 import {Clues} from "../lib/runescape/clues";
 import {util} from "../lib/util/util";
-import todo = util.todo;
 import {storage} from "../lib/util/storage";
 import * as lodash from "lodash";
+import todo = util.todo;
 import ClueSpot = Clues.ClueSpot;
 
 export class FavoriteIndex {
@@ -11,17 +11,24 @@ export class FavoriteIndex {
     methods: {
       spot: ClueSpot.Id,
       method: LocalMethodId | null,
+    }[],
+    challenge_answers: {
+      clue_id: number,
+      answer_id: number
     }[]
-  }>("clue_favourites", () => ({methods: []}))
+  }>("clue_favourites", () => null)
 
   constructor(private methods: MethodPackManager) {
-
+    this.normalize_data()
   }
 
   private normalize_data(): void {
-    if (!this.data.value) this.data.value = {methods: []}
+    if (!this.data.value) this.data.value = {methods: [], challenge_answers: []}
 
     if (!this.data.value.methods) this.data.value.methods = []
+    if (!this.data.value.challenge_answers) this.data.value.challenge_answers = []
+
+    this.data.save()
   }
 
   getTalkId(clue: Clues.Step): number {
@@ -33,16 +40,22 @@ export class FavoriteIndex {
   }
 
   getChallengeAnswerId(clue: Clues.Step): number {
-    todo()
+    return this.data.value.challenge_answers.find(a => a.clue_id == clue.id)?.answer_id ?? 0
   }
 
   setChallengeAnswerId(clue: Clues.Step, answer_id: number): void {
-    todo()
+    const entry = this.data.value.challenge_answers.find(a => a.clue_id == clue.id)
+
+    if(entry) {
+      entry.answer_id = answer_id
+    } else {
+      this.data.value.challenge_answers.push({clue_id: clue.id, answer_id: answer_id})
+    }
+
+    this.data.save()
   }
 
   async getMethod(step: Clues.ClueSpot.Id): Promise<AugmentedMethod> {
-    this.normalize_data()
-
     const entry = this.data.value.methods.find(v => ClueSpot.Id.equals(step, v.spot))
 
     if (!entry) {

@@ -81,6 +81,7 @@ export namespace Transportation {
     name: EntityName & { kind: "item" },
     action_name: string,
     can_be_in_pota?: boolean,
+    area_restriction?: TileArea,
     cursor?: CursorType
   } | {
     type: "entity",

@@ -137,7 +137,7 @@ class NeoSolvingLayer extends GameLayer {
     }*/
 
     this.map.fitView(copy, {
-      maxZoom: lodash.clamp(this.getMap().getZoom(), 3, 7),
+      //maxZoom: lodash.clamp(this.getMap().getZoom(), 3, 7),
       paddingTopLeft: padding
     })
 

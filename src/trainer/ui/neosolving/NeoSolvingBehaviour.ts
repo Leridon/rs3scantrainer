@@ -14,7 +14,7 @@ import PreparedSearchIndex from "../../../lib/util/PreparedSearchIndex";
 import {Ewent, Observable, observe} from "../../../lib/reactive";
 import {floor_t, TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 import * as lodash from "lodash";
-import {Rectangle, Vector2} from "../../../lib/math";
+import {Vector2} from "../../../lib/math";
 import {util} from "../../../lib/util/util";
 import {Path} from "../../../lib/runescape/pathing";
 import {AugmentedMethod, MethodPackManager} from "../../model/MethodPackManager";
@@ -22,11 +22,9 @@ import {ScanTheory} from "../../../lib/cluetheory/scans/Scans";
 import {Scans} from "../../../lib/runescape/clues/scans";
 import {SolvingMethods} from "../../model/methods";
 import {ScanTree} from "../../../lib/cluetheory/scans/ScanTree";
-import {scan_tree_template_resolvers} from "../solving/scans/ScanSolving";
 import * as leaflet from "leaflet"
 import {ScanRegionPolygon} from "./ScanLayer";
 import BoundsBuilder from "../../../lib/gamemap/BoundsBuilder";
-import {TileMarker} from "../../../lib/gamemap/TileMarker";
 import {RenderingUtility} from "../map/RenderingUtility";
 import PulseButton, {PulseIcon} from "./PulseButton";
 import MethodSelector from "./MethodSelector";
@@ -39,6 +37,11 @@ import {ClueReader} from "./ClueReader";
 import {deps} from "../../dependencies";
 import {storage} from "../../../lib/util/storage";
 import {SettingsModal} from "../settings/SettingsEdit";
+import {TemplateResolver} from "../../../lib/util/TemplateResolver";
+import {TextRendering} from "../TextRendering";
+import {ClueEntities} from "./ClueEntities";
+import {NislIcon} from "../nisl";
+import {ClueProperties} from "../theorycrafting/ClueProperties";
 import span = C.span;
 import todo = util.todo;
 import PulseInformation = ScanTheory.PulseInformation;
@@ -51,6 +54,13 @@ import spotNumber = ScanTree.spotNumber;
 import GenericPathMethod = SolvingMethods.GenericPathMethod;
 import inlineimg = C.inlineimg;
 import activate = TileArea.activate;
+import item = C.item;
+import cls = C.cls;
+import vbox = C.vbox;
+import bold = C.bold;
+import spacer = C.spacer;
+import space = C.space;
+import hboxl = C.hboxl;
 
 class NeoReader {
   read: Ewent<{ step: Clues.Step, text_index: number }>
@@ -67,7 +77,7 @@ class NeoSolvingLayer extends GameLayer {
   public path_container: Widget
 
   public scan_layer: ScanEditLayer
-  public generic_solution_layer: leaflet.FeatureGroup
+  public generic_solution_layer: GameLayer
 
   private sidebar: GameMapControl
 
@@ -78,7 +88,7 @@ class NeoSolvingLayer extends GameLayer {
       position: "top-left",
       type: "floating",
       no_default_styling: true
-    }, c().addClass("ctr-neosolving-sidebar")).addTo(this)
+    }, cls("ctr-neosolving-sidebar")).addTo(this)
 
     this.sidebar.content.append(
       new NeoSolvingLayer.MainControlBar(behaviour),
@@ -90,12 +100,32 @@ class NeoSolvingLayer extends GameLayer {
     )
 
     this.scan_layer = new ScanEditLayer([]).addTo(this)
-    this.generic_solution_layer = leaflet.featureGroup().addTo(this)
+    this.generic_solution_layer = new GameLayer().addTo(this)
   }
 
   fit(view: TileRectangle): this {
     let copy = lodash.cloneDeep(view)
 
+    let padding: [number, number] = null
+
+    const mapSize = this.getMap().getSize()
+
+    function score(w: number, h: number) {
+      return (w * w) * (h * h)
+    }
+
+    const wideScore = score(mapSize.x - this.sidebar.content.raw().clientWidth, mapSize.y)
+    const highScore = score(mapSize.x, mapSize.y - this.sidebar.content.raw().clientHeight)
+
+    if (wideScore > highScore) {
+      console.log("wide")
+      padding = [0, this.sidebar.content.raw().offsetHeight]
+    } else {
+      console.log("slim")
+      padding = [this.sidebar.content.raw().offsetWidth, 0]
+    }
+
+    /*
     // Modify the rectangle to center the view on the space right of the sidebar.
     {
       const sidebar_w = this.sidebar.content.raw().clientWidth + 20
@@ -104,10 +134,11 @@ class NeoSolvingLayer extends GameLayer {
       const f = sidebar_w / Math.max(sidebar_w, total_w - sidebar_w)
 
       copy.topleft.x -= f * Rectangle.width(view)
-    }
+    }*/
 
     this.map.fitView(copy, {
-      maxZoom: 4,
+      maxZoom: lodash.clamp(this.getMap().getZoom(), 3, 7),
+      paddingTopLeft: padding
     })
 
     return this
@@ -263,7 +294,7 @@ namespace NeoSolvingLayer {
   }
 }
 
-class ScanTreeSolvingControl extends Behaviour {
+export class ScanTreeSolvingControl extends Behaviour {
   node: ScanTree.Augmentation.AugmentedScanTreeNode = null
   augmented: ScanTree.Augmentation.AugmentedScanTree = null
   layer: leaflet.FeatureGroup = null
@@ -304,10 +335,7 @@ class ScanTreeSolvingControl extends Behaviour {
 
     bounds.addRectangle(Path.bounds(node.raw.path))
 
-    this.parent.layer.getMap().fitView(bounds.get(), {
-      maxZoom: 4,
-      animate: true,
-    })
+    this.parent.layer.fit(bounds.get())
   }
 
   private renderLayer(): void {
@@ -363,7 +391,7 @@ class ScanTreeSolvingControl extends Behaviour {
         .appendTo(this.tree_widget)
     }
 
-    let content = c().addClass("ctr-neosolving-solution-row").appendTo(this.tree_widget)
+    let content = cls("ctr-neosolving-solution-row").appendTo(this.tree_widget)
 
     {
       let ui_nav = c()
@@ -384,10 +412,10 @@ class ScanTreeSolvingControl extends Behaviour {
       content.append(ui_nav)
     }
 
-    content.append(c().addClass('ctr-neosolving-nextscanstep')
+    content.append(cls('ctr-neosolving-nextscanstep')
       .append(
         "Next: ",
-        ...this.parent.app.template_resolver.with(...scan_tree_template_resolvers(node))
+        ...this.parent.app.template_resolver.with(...ScanTreeSolvingControl.scan_tree_template_resolvers(node))
           .resolve(ScanTree.getInstruction(node)))
     )
 
@@ -399,9 +427,9 @@ class ScanTreeSolvingControl extends Behaviour {
         .filter((e) => triples.length <= 1 || e.key.pulse != 3)
         .sort(Order.comap(Scans.Pulse.compare, (a) => a.key))
         .forEach((child) => {
-          const resolvers = this.parent.app.template_resolver.with(...scan_tree_template_resolvers(child.value))
+          const resolvers = this.parent.app.template_resolver.with(...ScanTreeSolvingControl.scan_tree_template_resolvers(child.value))
 
-          c().addClass("ctr-neosolving-scantreeline")
+          cls("ctr-neosolving-scantreeline")
             .append(
               PulseButton.forPulse(child.key, node.children.map(c => c.key))
                 .onClick(() => {
@@ -414,7 +442,7 @@ class ScanTreeSolvingControl extends Behaviour {
         })
 
       if (triples.length > 1) {
-        c().addClass("ctr-neosolving-scantreeline")
+        cls("ctr-neosolving-scantreeline")
           .append(
             c().append( // Wrap in another div to allow another margin
               new PulseIcon({different_level: false, pulse: 3}, null)
@@ -447,6 +475,41 @@ class ScanTreeSolvingControl extends Behaviour {
       this.layer.remove()
       this.layer = null
     }
+  }
+}
+
+export namespace ScanTreeSolvingControl {
+  import AugmentedScanTreeNode = ScanTree.Augmentation.AugmentedScanTreeNode;
+  import render_digspot = TextRendering.render_digspot;
+  import render_scanregion = TextRendering.render_scanregion;
+  import shorten_integer_list = util.shorten_integer_list;
+
+  export function scan_tree_template_resolvers(node: AugmentedScanTreeNode): TemplateResolver.Function[] {
+    return [
+      {
+        name: "target", apply: () => {
+          if (node.remaining_candidates.length == 1) {
+            return [{
+              type: "domelement",
+              value: render_digspot(spotNumber(node.root.raw, node.remaining_candidates[0]))
+            }]
+          } else {
+            return [{
+              type: "domelement",
+              value: render_scanregion(node.raw.region?.name || "_")
+            }]
+          }
+        }
+      },
+      {
+        name: "candidates", apply: () => {
+          return [{
+            type: "domelement",
+            value: c(util.natural_join(shorten_integer_list(node.remaining_candidates.map(c => spotNumber(node.root.raw, c)), c => render_digspot(c).raw().outerHTML)))
+          }]
+        }
+      }
+    ]
   }
 }
 
@@ -503,7 +566,6 @@ class ClueSolvingReadingBehaviour extends Behaviour {
   }
 }
 
-
 export default class NeoSolvingBehaviour extends Behaviour {
   layer: NeoSolvingLayer
 
@@ -520,6 +582,10 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
   constructor(public app: Application) {
     super();
+
+    this.path_control.section_selected.on(p => {
+      if (this.active_method.method.type != "scantree") setTimeout(() => this.layer.fit(Path.bounds(p)), 20)
+    })
   }
 
   /**
@@ -537,7 +603,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
     this.active_clue = step
 
-    const settings = NeoSolving.Settings.DEFAULT
+    const settings = this.app.settings.settings.solving
 
     const clue = step.step
 
@@ -548,9 +614,26 @@ export default class NeoSolvingBehaviour extends Behaviour {
       let w = c()
 
       if (step.step.type == "map") {
-        w.append(c(`<img src='${step.step.image_url}' style="width: 100%">`).addClass("ctr-neosolving-solution-row").text(step.step.text[step.text_index]))
+        if (settings.info_panel.map_image == "show") {
+          w.append(c(`<img src='${step.step.image_url}' style="width: 100%">`).addClass("ctr-neosolving-solution-row"))
+        }
       } else {
-        w.append(c().addClass("ctr-neosolving-solution-row").text(step.step.text[step.text_index]))
+        switch (settings.info_panel.clue_text) {
+          case "full":
+            cls("ctr-neosolving-solution-row").text(step.step.text[step.text_index]).appendTo(w)
+            break
+          case "abridged":
+            const short = Clues.Step.shortString(clue, step.text_index)
+
+            const row = cls("ctr-neosolving-solution-row").text(short).appendTo(w)
+
+            if (clue.text[step.text_index]) row.addClass("ctr-neosolving-solution-row-shortened")
+
+            break
+          case "hide":
+          // Do nothing
+        }
+
       }
 
       const sol = Clues.Step.solution(step.step)
@@ -558,37 +641,38 @@ export default class NeoSolvingBehaviour extends Behaviour {
       if (sol) {
         switch (sol?.type) {
           case "talkto":
-            if (!settings.talks.at_all) break
-
-            let npc_spot_id = 0 // TODO
+            let npc_spot_id = 0
             let spot = sol.spots[npc_spot_id]
 
-            w.append(c().addClass("ctr-neosolving-solution-row")
-              .append(
-                inlineimg("assets/icons/cursor_talk.png"),
-                span("Talk to "),
-                C.npc(sol.npc, true)
-                  .tooltip("Click to center")
-                  .on("click", () => {
-                    this.layer.fit(TileArea.toRect(spot.range))
-                  }),
-                settings.talks.description && spot.description
-                  ? span(" " + spot.description)
-                  : undefined
-              ))
+            if (settings.info_panel.talk_target == "show") {
+              w.append(cls("ctr-neosolving-solution-row")
+                .append(
+                  inlineimg("assets/icons/cursor_talk.png"),
+                  span("Talk to "),
+                  C.npc(sol.npc, true)
+                    .tooltip("Click to center")
+                    .on("click", () => {
+                      this.layer.fit(TileArea.toRect(spot.range))
+                    }),
+                  spot.description
+                    ? span(" " + spot.description)
+                    : undefined
+                ))
+            }
 
+            for (let i = 0; i < sol.spots.length; i++) {
+              const spot = sol.spots[i]
 
-            interactionMarker(activate(spot.range).center(), "talk", false, false)
-              .addTo(this.layer.generic_solution_layer)
+              new ClueEntities.TalkSolutionNpcEntity(sol.npc, spot)
+                .addTo(this.layer.generic_solution_layer)
+            }
 
             bounds.addArea(spot.range)
 
             break;
           case "search":
-            if (!settings.searches.at_all) break
-
-            if (sol.key && settings.searches.key_solution) {
-              w.append(c().addClass("ctr-neosolving-solution-row").append(
+            if (sol.key && settings.info_panel.search_key == "show") {
+              w.append(cls("ctr-neosolving-solution-row").append(
                 inlineimg("assets/icons/key.png"),
                 " ",
                 span(sol.key.answer).addClass("ctr-clickable").on("click", () => {
@@ -597,36 +681,37 @@ export default class NeoSolvingBehaviour extends Behaviour {
               ))
             }
 
-            w.append(c().addClass("ctr-neosolving-solution-row").append(
-              inlineimg("assets/icons/cursor_talk.png"),
-              " ",
-              span("Search "),
-              C.staticentity(sol.entity, true)
-                .tooltip("Click to center")
-                .on("click", () => {
-                  this.layer.fit(sol.spot)
-                })
-            ))
+            if (settings.info_panel.search_target == "show") {
+              w.append(cls("ctr-neosolving-solution-row").append(
+                inlineimg("assets/icons/cursor_talk.png"),
+                " ",
+                span("Search "),
+                C.staticentity(sol.entity, true)
+                  .tooltip("Click to center")
+                  .on("click", () => {
+                    this.layer.fit(sol.spot)
+                  })
+              ))
+            }
 
             bounds.addRectangle(sol.spot)
 
-            interactionMarker(TileRectangle.center(sol.spot, false), "search", false, false)
+            new ClueEntities.SearchSolutionEntity(sol)
               .addTo(this.layer.generic_solution_layer)
 
             break;
           case "dig":
-            if (!settings.digs.at_all) break
-
-            w.append(c().addClass("ctr-neosolving-solution-row").append(
-              inlineimg("assets/icons/cursor_shovel.png"),
-              " ",
-              span("Dig"),
-              sol.description
-                ? span(" " + sol.description)
-                : span(` at ${TileCoordinates.toString(sol.spot)}`)
-            ))
-
-            interactionMarker(sol.spot, "shovel", false, false)
+            if (settings.info_panel.dig_target == "show") {
+              w.append(cls("ctr-neosolving-solution-row").append(
+                inlineimg("assets/icons/cursor_shovel.png"),
+                " ",
+                span("Dig"),
+                sol.description
+                  ? span(" " + sol.description)
+                  : span(` at ${TileCoordinates.toString(sol.spot)}`)
+              ))
+            }
+            new ClueEntities.DigSolutionEntity(sol)
               .addTo(this.layer.generic_solution_layer)
 
             bounds.addTile(sol.spot)
@@ -636,8 +721,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
       }
 
       if (clue.type == "emote") {
-        if (settings.emotes.hidey_hole && clue.hidey_hole) {
-          w.append(c().addClass("ctr-neosolving-solution-row").append(
+        if (clue.hidey_hole && settings.info_panel.hidey_hole == "show") {
+          w.append(cls("ctr-neosolving-solution-row").append(
             inlineimg("assets/icons/cursor_search.png"),
             " ",
             span("Get items from "),
@@ -645,37 +730,31 @@ export default class NeoSolvingBehaviour extends Behaviour {
               .tooltip("Click to center")
               .addClass("ctr-clickable")
               .on("click", () => {
-                this.layer.fit(TileRectangle.from(clue.hidey_hole.location))
+                this.layer.fit(clue.hidey_hole.location)
               })
           ))
         }
 
-        if (settings.emotes.items) {
-          let row = c().addClass("ctr-neosolving-solution-row").append(
+        if (settings.info_panel.emote_items == "show") {
+          let row = cls("ctr-neosolving-solution-row").append(
             inlineimg("assets/icons/cursor_equip.png"),
             " ",
             span("Equip "),
           ).appendTo(w)
 
           for (let i = 0; i < clue.items.length; i++) {
-            const item = clue.items[i]
+            const itm = clue.items[i]
 
             if (i > 0) {
               if (i == clue.items.length - 1) row.append(", and ")
               else row.append(", ")
             }
 
-            const is_none = item.startsWith("Nothing") || item.startsWith("No ")
-
-            row.append(span(item)
-              .toggleClass("nisl-item", !is_none)
-              .toggleClass("nisl-noitem", is_none)
-            )
+            row.append(item(itm))
           }
         }
-
-        if (settings.emotes.emotes) {
-          let row = c().addClass("ctr-neosolving-solution-row").append(
+        if (settings.info_panel.emotes == "show") {
+          let row = cls("ctr-neosolving-solution-row").append(
             inlineimg("assets/icons/emotes.png"),
             " ",
           ).appendTo(w)
@@ -692,8 +771,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
           }
         }
 
-        if (settings.emotes.double_agent && clue.double_agent) {
-          w.append(c().addClass("ctr-neosolving-solution-row").append(
+        if (clue.double_agent && settings.info_panel.double_agent == "show") {
+          w.append(cls("ctr-neosolving-solution-row").append(
             inlineimg("assets/icons/cursor_attack.png"),
             " ",
             span("Kill "),
@@ -701,18 +780,22 @@ export default class NeoSolvingBehaviour extends Behaviour {
           ))
         }
 
-        bounds.addArea(clue.area)
+        new ClueEntities.EmoteAreaEntity(clue).addTo(this.layer.generic_solution_layer)
 
-        new TileMarker(activate(clue.area).center()).withMarker().addTo(this.layer.generic_solution_layer)
+        if (clue.hidey_hole) {
+          new ClueEntities.HideyHoleEntity(clue).addTo(this.layer.generic_solution_layer)
+        }
+
+        bounds.addArea(clue.area)
       } else if (clue.type == "skilling") {
-        w.append(c().addClass("ctr-neosolving-solution-row").append(
+        w.append(cls("ctr-neosolving-solution-row").append(
           c(`<img src="${CursorType.meta(clue.cursor).icon_url}">`),
           span(clue.answer)
         ))
 
         bounds.addRectangle(clue.areas[0])
 
-        interactionMarker(TileRectangle.center(clue.areas[0]), clue.cursor, false, false)
+        interactionMarker(TileRectangle.center(clue.areas[0]), clue.cursor)
           .addTo(this.layer.generic_solution_layer)
       } else if (clue.type == "scan") {
         this.layer.scan_layer.marker.setClickable(true)
@@ -722,6 +805,67 @@ export default class NeoSolvingBehaviour extends Behaviour {
         bounds.addTile(...clue.spots)
       } else if (clue.type == "compass") {
         bounds.addTile(...clue.spots)
+      }
+
+      if (clue.challenge && clue.challenge.length > 0) {
+        const challenge = clue.challenge.find(c => c.type == "challengescroll") as Clues.Challenge & { type: "challengescroll" }
+
+        if (challenge) {
+          const answer_id = this.app.favourites.getChallengeAnswerId(clue)
+          const answer = challenge.answers[answer_id]
+
+          if (settings.info_panel.challenge != "hide") {
+            let row: Widget = null
+            let answer_span: Widget = null
+
+            w.append(row = cls("ctr-neosolving-solution-row")
+              .append(
+                hboxl(
+                  inlineimg("assets/icons/activeclue.png"),
+                  vbox(
+                    settings.info_panel.challenge == "full"
+                      ? c().css("font-style", "italic").text(challenge.question) : undefined,
+                    hboxl(
+                      bold(`Answer:`),
+                      space(),
+                      answer_span = span(answer.answer.toString()),
+                      spacer(),
+                      challenge.answers.length > 1 ? NislIcon.dropdown() : undefined
+                    )
+                  ).css("flex-grow", "1")
+                )
+              ))
+
+            if (challenge.answers.length > 1) {
+              row.on("click", () => {
+                new AbstractDropdownSelection.DropDown<Clues.Challenge.ChallengeScroll["answers"][number]>({
+                  dropdownClass: "ctr-neosolving-favourite-dropdown",
+                  renderItem: a => c().text(`${a.answer} (${a.note})`)
+                })
+                  .setItems(challenge.answers)
+                  .setHighlighted(answer)
+                  .open(row, undefined)
+                  .onSelected(a => {
+                    this.app.favourites.setChallengeAnswerId(clue, challenge.answers.indexOf(a))
+                    answer_span.text(a.answer.toString())
+                  })
+              })
+            }
+          }
+        } else {
+          if (settings.info_panel.puzzle == "show") {
+            const row = cls("ctr-neosolving-solution-row").appendTo(w)
+
+            for (let i = 0; i < clue.challenge.length; i++) {
+              if (i > 0) {
+                if (i == clue.challenge.length - 1) row.append(", or ")
+                else row.append(", ")
+              }
+
+              row.append(ClueProperties.render_challenge(clue.challenge[i]).css("display", "inline-block"))
+            }
+          }
+        }
       }
 
       if (!w.container.is(":empty"))
@@ -772,7 +916,6 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
         this.layer.scan_layer.setSpotOrder(method.method.tree.ordered_spots)
         this.layer.scan_layer.marker.setRadius(method.method.tree.assumed_range, method.method.assumptions.meerkats_active)
-
       } else if (method.method.type == "general_path") {
         this.path_control.reset().setMethod(method as AugmentedMethod<GenericPathMethod>)
       }
@@ -788,14 +931,14 @@ export default class NeoSolvingBehaviour extends Behaviour {
       return
     }
 
-    this.setClue(step)
-
     let m = await this.app.favourites.getMethod({clue: step.step.id})
 
     if (!m) {
       let ms = await MethodPackManager.instance().getForClue({clue: step.step.id})
       if (ms.length > 0) m = ms[0]
     }
+
+    this.setClue(step, !m)
 
     if (m) this.setMethod(m)
   }
@@ -845,48 +988,99 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
 export namespace NeoSolving {
   export type Settings = {
-    clue: "full" | "short" | "none",
-    talks: {
-      at_all: boolean,
-      description: boolean,
+    info_panel: {
+      clue_text: "full" | "abridged" | "hide"
+      map_image: "show" | "hide",
+      dig_target: "show" | "hide",
+      talk_target: "show" | "hide",
+      search_target: "show" | "hide",
+      search_key: "show" | "hide",
+      hidey_hole: "show" | "hide",
+      emote_items: "show" | "hide",
+      emotes: "show" | "hide",
+      double_agent: "show" | "hide",
+      path_components: "show" | "hide",
+      puzzle: "show" | "hide",
+      challenge: "full" | "answer_only" | "hide"
     }
-    digs: {
-      at_all: boolean
-    },
-    searches: {
-      at_all: boolean,
-      key_solution: boolean
-    },
-    emotes: {
-      hidey_hole: boolean,
-      items: boolean,
-      emotes: boolean,
-      double_agent: boolean
-    }
-    scan_solving: "always" | "scantree_fallback" | "never",
   }
 
   export namespace Settings {
+    export namespace InfoPanel {
+      export const EVERYTHING: Settings["info_panel"] = {
+        clue_text: "full",
+        map_image: "show",
+        dig_target: "show",
+        talk_target: "show",
+        search_target: "show",
+        search_key: "show",
+        hidey_hole: "show",
+        emote_items: "show",
+        emotes: "show",
+        double_agent: "show",
+        path_components: "show",
+        challenge: "full",
+        puzzle: "show"
+      }
+
+      export const NOTHING: Settings["info_panel"] = {
+        clue_text: "hide",
+        map_image: "hide",
+        dig_target: "hide",
+        talk_target: "hide",
+        search_target: "hide",
+        search_key: "hide",
+        hidey_hole: "hide",
+        emote_items: "hide",
+        emotes: "hide",
+        double_agent: "hide",
+        path_components: "hide",
+        challenge: "hide",
+        puzzle: "hide"
+      }
+
+      export const REDUCED: Settings["info_panel"] = {
+        clue_text: "abridged",
+        map_image: "show",
+        dig_target: "show",
+        talk_target: "show",
+        search_target: "show",
+        search_key: "hide",
+        hidey_hole: "hide",
+        emote_items: "hide",
+        emotes: "hide",
+        double_agent: "hide",
+        path_components: "show",
+        challenge: "answer_only",
+        puzzle: "hide"
+      }
+    }
+
     export const DEFAULT: Settings = {
-      clue: "full",
-      talks: {
-        at_all: true,
-        description: true
-      },
-      digs: {
-        at_all: true,
-      },
-      searches: {
-        at_all: true,
-        key_solution: true,
-      },
-      emotes: {
-        hidey_hole: true,
-        items: true,
-        emotes: true,
-        double_agent: true
-      },
-      scan_solving: "always"
+      info_panel: InfoPanel.EVERYTHING
+    }
+
+    export function normalize(settings: Settings): Settings {
+      if (!settings) settings = lodash.cloneDeep(DEFAULT)
+
+      if (!settings.info_panel) settings.info_panel = DEFAULT.info_panel
+      if (!["full", "hide", "abridged"].includes(settings.info_panel.clue_text)) settings.info_panel.clue_text = "full"
+      if (!["show", "hide"].includes(settings.info_panel.map_image)) settings.info_panel.map_image = "show"
+      if (!["show", "hide"].includes(settings.info_panel.dig_target)) settings.info_panel.dig_target = "show"
+      if (!["show", "hide"].includes(settings.info_panel.talk_target)) settings.info_panel.talk_target = "show"
+      if (!["show", "hide"].includes(settings.info_panel.search_target)) settings.info_panel.search_target = "show"
+      if (!["show", "hide"].includes(settings.info_panel.search_key)) settings.info_panel.search_key = "show"
+
+      if (!["show", "hide"].includes(settings.info_panel.hidey_hole)) settings.info_panel.hidey_hole = "show"
+      if (!["show", "hide"].includes(settings.info_panel.emote_items)) settings.info_panel.emote_items = "show"
+      if (!["show", "hide"].includes(settings.info_panel.emotes)) settings.info_panel.emotes = "show"
+      if (!["show", "hide"].includes(settings.info_panel.double_agent)) settings.info_panel.double_agent = "show"
+      if (!["show", "hide"].includes(settings.info_panel.path_components)) settings.info_panel.path_components = "show"
+
+      if (!["show", "hide"].includes(settings.info_panel.puzzle)) settings.info_panel.puzzle = "show"
+      if (!["full", "answer_only", "hide"].includes(settings.info_panel.challenge)) settings.info_panel.challenge = "full"
+
+      return settings
     }
   }
 }

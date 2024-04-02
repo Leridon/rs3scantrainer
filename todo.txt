@@ -1,20 +1,45 @@
 Planned for next release (b0.4):
 
+[Bug, 5] Context menu on entities causes tooltip to be off
+
+- Solving Behaviour
+    - Path Panel
+        - Neat step styling
+        - Focus section when selected
+        - [WIP] Detail tooltip on hover
+            - Finish official info
+            - Add custom description
+        - [Feature] Disable default teleport render when contained in step
+            - Render step instead
+        - [Feature] Cleanup using "fake" steps:
+            - Combine surges/dives following a powerburst into one "fake" step
+            - Duplicate shortcut step to exist in both sections
+            - Combine run followed by shortcut into one
+
+    - Compass Panel
+    - Key solution
+    - Challenge answer
+    - Potential Puzzles
+    - Preferences
+        - Preferred npc spot
+        - Preferred challenge answer
+    - Scan Tree Behaviour
+        - Make fit include the entire path
+        - Better render of in-route teleports
+        - Spacing in the tree view is bad
+
 - [5] Settings Modal
     - Solving View Info Preferences
     - Method Pack Management
 
 - Issues
-    - [Bug, 1] SearchSelection: Sometimes the dropdown remains after the element is already gone
-    - [Bug, 5] Tooltips for PathStepEntities don't disappear correctly on the solver
-        - It doesnt happen everwhere. Section 2 of the Citric Cellar step works fine.
-        - Something with sectioned paths maybe?
-            - Yep, it happens to the citric cellar stuff as well wenn the second section is selected
+    - [Bug, 1] SearchSelection: Very rarely the dropdown remains after the element is already gone
     - [Bug, 3] Reader reads the falador crossroads easy map clue as a text clue
     - [Bug, 3] SEQUIN DIRGE is read as Ysondria
 
 - Data
     - [Dev Tool, 3] Utility Layer for shortcut parsing
+        - [Bug, 5] Offsets/coordinates need to be considered in relation to the active instance
         - Option to overlay parsed transports
             - Dialog "Parsed <x> methods of transportation. [Export] [Show on Map]"
         - "Go to next entity"
@@ -54,38 +79,6 @@ Planned for next release (b0.4):
         - Show metadata before import
         - Confirm/Cancel
     - [Feature] Undo/Redo
-
-- Solving Behaviour
-    - Path Panel
-        - Neat step styling
-        - Focus section when selected
-        - [WIP] Detail tooltip on hover
-            - Finish official info
-            - Add custom description
-        - [Feature] Disable default teleport render when contained in step
-            - Render step instead
-        - [Feature] Cleanup using "fake" steps:
-            - Combine surges/dives following a powerburst into one "fake" step
-            - Duplicate shortcut step to exist in both sections
-            - Combine run followed by shortcut into one
-            - Clue-specific actions? Search drawers, dig, etc?
-
-    - Basic solution rendering on the map
-        - Target marker
-        - Wander ranges
-        - Emote areas
-        - Entity/Npc names?
-    - Compass Panel
-    - Key solution
-    - Challenge answer
-    - Potential Puzzles
-    - Preferences
-        - Preferred npc spot
-        - Preferred challenge answer
-    - Scan Tree Behaviour
-        - Make fit include the entire path
-        - Better render of in-route teleports
-        - Spacing in the tree view is bad
 
 - Menu Bar
     - Add to Alt 1 entry when not in Alt1

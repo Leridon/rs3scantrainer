@@ -21,6 +21,7 @@ import {SmallImageButton} from "../widgets/SmallImageButton";
 import sibut = SmallImageButton.sibut;
 import MapSideBar from "../MapSideBar";
 import {Checkbox} from "../../../lib/ui/controls/Checkbox";
+import cls = C.cls;
 
 export default class ShortcutEditSidePanel extends MapSideBar {
   search_container: Widget
@@ -91,7 +92,7 @@ export default class ShortcutEditSidePanel extends MapSideBar {
 
     c().text("Results:").appendTo(this)
 
-    this.result_container = c().addClass("ctr-shortcut-edit-panel-results").appendTo(this)
+    this.result_container = cls("ctr-shortcut-edit-panel-results").appendTo(this)
 
     this.visible_data_view.subscribe(results => {
 

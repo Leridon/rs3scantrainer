@@ -148,14 +148,15 @@ export class LocInstanceEntity extends MapEntity {
   private rendered_with_parser: boolean = undefined
 
   constructor(public instance: LocInstance, private parsing_table: LocParsingTable) {
-    super({
-      highlightable: true,
-      interactive: true
-    })
+    super()
+
+    this.setInteractive()
 
     this.zoom_sensitivity_layers = ZoomLevels.none
 
     this.floor_sensitivity_layers = FloorLevels.single(instance.origin.level)
+
+    this.setTooltip(() => new LocInstanceProperties(this.instance, this.parsing_table))
   }
 
   protected async render_implementation(props: MapEntity.RenderProps): Promise<Element> {
@@ -200,13 +201,6 @@ export class LocInstanceEntity extends MapEntity {
 
   bounds(): Rectangle {
     return this.instance.box
-  }
-
-  async renderTooltip(): Promise<{ content: Widget; interactive: boolean } | null> {
-    return {
-      content: new LocInstanceProperties(this.instance, this.parsing_table),
-      interactive: false
-    }
   }
 
   async contextMenu(event: GameMapContextMenuEvent): Promise<Menu | null> {

@@ -884,6 +884,10 @@ video {
 
 /*Classes for custom components*/
 
+.lcss-button {
+    user-select: none;
+}
+
 .lcss-button:not(.enabled) {
     cursor: default;
     filter: opacity(0.5) grayscale(100%);
@@ -1738,7 +1742,7 @@ input[type=checkbox] + span {
 }
 
 .ctr-neosolving-sidebar > *:not(:empty) {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     border-radius: 5px;
     background-color: rgba(10, 31, 41, 1);
     border: 1px solid rgba(5, 56, 66, 0.6);
@@ -1837,9 +1841,16 @@ input[type=checkbox] + span {
     padding: 3px;
 }
 
-.ctr-neosolving-solution-row:empty {
+.ctr-neosolving-solution-row-shortened {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.ctr-neosolving-solution-row:not(img):empty {
     display: none;
 }
+
 
 .ctr-neosolving-solution-row:not(:last-child) {
     border-bottom: 1px dashed grey;
@@ -1952,7 +1963,6 @@ input[type=checkbox] + span {
 
 .ctr-clickable {
     cursor: pointer;
-    user-select: none;
 }
 
 .nisl-icon {
@@ -2135,4 +2145,8 @@ input[type=checkbox] + span {
 
 .nisl-hgrid > * {
     flex-basis: 100%;
+}
+
+.ctr-entity-wrong-level {
+    filter: grayscale(1)
 }

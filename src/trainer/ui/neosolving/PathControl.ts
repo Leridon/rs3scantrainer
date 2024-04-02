@@ -17,12 +17,12 @@ import {PathStepEntity} from "../map/entities/PathStepEntity";
 import {util} from "../../../lib/util/util";
 import {TreeArray} from "../../../lib/util/TreeArray";
 import * as assert from "assert";
-import {Observable, observe} from "../../../lib/reactive";
+import {ewent, Observable, observe} from "../../../lib/reactive";
 import {TemplateResolver} from "../../../lib/util/TemplateResolver";
 import {GameLayer} from "../../../lib/gamemap/GameLayer";
 import {CursorType} from "../../../lib/runescape/CursorType";
 import {TransportData} from "../../../data/transports";
-import {Clues} from "../../../lib/runescape/clues";
+import {deps} from "../../dependencies";
 import hbox = C.hbox;
 import span = C.span;
 import GenericPathMethod = SolvingMethods.GenericPathMethod;
@@ -37,6 +37,11 @@ import SectionedPath = Path.SectionedPath;
 import index = util.index;
 
 export class PathSectionControl extends Widget {
+
+  section_selected = ewent<Path.raw>()
+
+  public selected_section: Path.raw = undefined
+
   constructor(
     private sections: SectionedPath,
     private current_section_id: number[],
@@ -85,7 +90,7 @@ export class PathSectionControl extends Widget {
         })
       }
 
-      let currently_shown_path = (() => {
+      this.selected_section = (() => {
         let n = index(section_link, -2)
         assert(n.type == "inner")
 
@@ -95,33 +100,39 @@ export class PathSectionControl extends Widget {
         })
       })()
 
-      if (this.step_graphics) {
-        TreeArray.forLeafs(this.step_graphics, graphics => {
-          // TODO(?) graphics.setHighlightable(false)
+      const settings = deps().app.settings.settings.solving
+
+      if (deps().app.settings.settings.solving.info_panel.path_components == "show") {
+        this.selected_section.forEach((step, index) => {
+          let sectionindex = lodash.clone(this.current_section_id)
+          sectionindex[sectionindex.length - 1] = index
+
+          let graphics_node = TreeArray.index(this.step_graphics, sectionindex)
+          assert(graphics_node.type == "leaf")
+
+          new PathSectionControl.StepRow(
+            sectionindex,
+            step,
+            this.template_resolver
+          )
+            .setAssociatedGraphics(graphics_node.value)
+            .appendTo(this)
         })
       }
-
-      currently_shown_path.forEach((step, index) => {
-        let sectionindex = lodash.clone(this.current_section_id)
-        sectionindex[sectionindex.length - 1] = index
-
-        let graphics_node = TreeArray.index(this.step_graphics, sectionindex)
-        assert(graphics_node.type == "leaf")
-
-        new PathSectionControl.StepRow(
-          sectionindex,
-          step,
-          this.template_resolver
-        )
-          .setAssociatedGraphics(graphics_node.value)
-          .appendTo(this)
-      })
     }
   }
 
   private setCurrentSection(ids: number[]) {
     this.current_section_id = TreeArray.fixIndex(this.sections, ids)
+
     this.render()
+
+    this.section_selected.trigger(this.selected_section)
+  }
+
+  onSelection(f: (_: Path.raw) => any): this {
+    this.section_selected.on(f)
+    return this
   }
 }
 
@@ -177,16 +188,17 @@ export namespace PathSectionControl {
   }
 
   export namespace StepRow {
+    import cls = C.cls;
+
     export function renderStep(step: Path.Step): {
       icon?: Widget,
       content?: Widget
     } {
-      let icon = c().addClass("ctr-neosolving-path-stepicon")
+      let icon = cls("ctr-neosolving-path-stepicon")
       let content = div()
 
       switch (step.type) {
         case "orientation":
-
           icon.append(img("assets/icons/compass.png"))
 
           content.append(
@@ -295,6 +307,8 @@ export default class PathControl extends Behaviour {
 
   private widget: Widget = null
 
+  section_selected = ewent<Path.raw>()
+
   constructor(private parent: NeoSolvingBehaviour) {
     super();
   }
@@ -323,25 +337,21 @@ export default class PathControl extends Behaviour {
   setMethod(method: AugmentedMethod<GenericPathMethod>) {
     let sectioned: Path.SectionedPath = TreeArray.init({name: "root"})
 
-    /*
-    if (method.method.path_to_key_or_hideyhole) {
-        TreeArray.add(sectioned,
-            Path.Section.split_into_sections(method.method.path_to_key_or_hideyhole, "Pre Path")
-        )
+    if (method.method.pre_path && method.method.pre_path.length > 0) {
+      TreeArray.add(sectioned,
+        Path.Section.split_into_sections(method.method.pre_path, "Pre Path")
+      )
     }
 
-     */
-
     TreeArray.add(sectioned,
-      Path.Section.split_into_sections(method.method.main_path, "To Spot")
+      Path.Section.split_into_sections(method.method.main_path, "Main Path")
     )
 
-    /*
-    if (method.method.path_back_to_hideyhole) {
-        TreeArray.add(sectioned,
-            Path.Section.split_into_sections(method.method.path_back_to_hideyhole, "Back to Hideyhole")
-        )
-    }*/
+    if (method.method.post_path && method.method.post_path.length > 0) {
+      TreeArray.add(sectioned,
+        Path.Section.split_into_sections(method.method.post_path, "Post Path")
+      )
+    }
 
     if (sectioned.children.length == 1) sectioned = sectioned.children[0]
 
@@ -358,11 +368,9 @@ export default class PathControl extends Behaviour {
 
     this.path_layer.clearLayers()
     this.step_graphics = TreeArray.map(this.sectioned_path, (step) => {
-      return new PathStepEntity({
-        highlightable: true,
-        interactive: true,
-        step: step
-      }).addTo(this.path_layer)
+      return new PathStepEntity(step)
+        .setInteractive()
+        .addTo(this.path_layer)
     })
 
     this.renderWidget(section_id)
@@ -392,14 +400,19 @@ export default class PathControl extends Behaviour {
     }
 
     if (this.sectioned_path) {
-      new PathSectionControl(
+      const section_control = new PathSectionControl(
         this.sectioned_path,
         active_id,
         this.step_graphics,
         this.parent.app.template_resolver
       )
+        .onSelection(p => this.section_selected.trigger(p))
         .addClass("ctr-neosolving-solution-row")
-        .appendTo(w)
+
+      // Only actually add the widget if there is something to show to avoid borders showing up
+      if (!section_control.container.is(":empty")) section_control.appendTo(w)
+
+      this.section_selected.trigger(section_control.selected_section)
     }
 
     if (w.container.is(":empty")) return

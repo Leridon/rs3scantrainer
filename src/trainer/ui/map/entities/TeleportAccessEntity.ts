@@ -11,7 +11,6 @@ import {CursorType} from "../../../../lib/runescape/CursorType";
 import * as leaflet from "leaflet";
 import {areaPolygon} from "../../polygon_helpers";
 import {ShortcutViewLayer} from "../../shortcut_editing/ShortcutView";
-import {deps} from "../../../dependencies";
 import Widget from "../../../../lib/ui/Widget";
 import Properties from "../../widgets/Properties";
 import TeleportAccess = Transportation.TeleportAccess;
@@ -27,12 +26,12 @@ export class TeleportAccessEntity extends MapEntity {
   floor_sensitivity_layers: FloorLevels<{ correct_level: boolean }>
 
   bounds(): Rectangle {
-    return TileArea.toRect(this.config.access.clickable_area)
+    return TileArea.toRect(this.access.clickable_area)
   }
 
   protected async render_implementation(options: MapEntity.RenderProps): Promise<Element> {
-    const teleport = this.config.teleport;
-    const access = this.config.access
+    const teleport = this.teleport;
+    const access = this.access
 
     const scale = (options.highlight ? 1.5 : this.zoom_sensitivity_layers.get(options.zoom_group_index).value.scale)
 
@@ -59,20 +58,38 @@ export class TeleportAccessEntity extends MapEntity {
     return marker.getElement()
   }
 
-  constructor(public config: TeleportAccessEntity.Config) {
-    super(config);
+  constructor(public teleport: Transportation.TeleportGroup,
+              public access: TeleportAccess & { type: "entity" }) {
+    super();
 
     this.zoom_sensitivity_layers = MapEntity.default_local_zoom_scale_layers
 
     this.floor_sensitivity_layers = new FloorLevels<{ correct_level: boolean }>([
-      {floors: [config.access.clickable_area.origin.level], value: {correct_level: true}},
+      {floors: [access.clickable_area.origin.level], value: {correct_level: true}},
       {floors: floor_t.all, hidden_here: true, value: {correct_level: false}},
     ])
+
+    this.setTooltip(() => {
+      let props = new Properties()
+
+      const teleport = this.teleport
+      const access = this.access
+
+      props.header(c().append(`Access to ${teleport.name} via `, entity(access.name)))
+
+      props.named("Targets", vbox(
+        ...teleport.spots.map(spot => {
+          return c().text(spot.name)
+        })
+      ))
+
+      return props
+    })
   }
 
   async contextMenu(event: GameMapContextMenuEvent): Promise<Menu | null> {
-    const teleport = this.config.teleport;
-    const access = this.config.access
+    const teleport = this.teleport;
+    const access = this.access
 
     event.addForEntity({
       type: "submenu",
@@ -98,34 +115,5 @@ export class TeleportAccessEntity extends MapEntity {
       text: () => entity(access.name),
       children: []
     }
-  }
-
-  async renderTooltip(): Promise<{ content: Widget, interactive: boolean } | null> {
-    let props = new Properties()
-
-    const teleport = this.config.teleport
-    const access = this.config.access
-
-    props.header(c().append(`Access to ${teleport.name} via `, entity(access.name)))
-
-    props.named("Targets", vbox(
-      ...teleport.spots.map(spot => {
-        return c().text(spot.name)
-      })
-    ))
-
-    return {
-      content: props,
-      interactive: false
-    }
-  }
-
-
-}
-
-export namespace TeleportAccessEntity {
-  export type Config = MapEntity.SetupOptions & {
-    teleport: Transportation.TeleportGroup,
-    access: TeleportAccess & { type: "entity" }
   }
 }

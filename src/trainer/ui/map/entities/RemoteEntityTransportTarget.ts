@@ -15,16 +15,21 @@ import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
 import COLORS = ShortcutViewLayer.COLORS;
 import entity = C.entity;
 import activate = TileArea.activate;
+import GeneralEntityTransportation = Transportation.GeneralEntityTransportation;
+import EntityAction = Transportation.EntityAction;
+import EntityActionMovement = Transportation.EntityActionMovement;
 
 export class RemoteEntityTransportTarget extends MapEntity {
 
   zoom_sensitivity_layers = MapEntity.default_zoom_scale_layers
   floor_sensitivity_layers: FloorLevels<{ correct_level: boolean }>
 
-  constructor(private config: RemoteEntityTransportTarget.Config) {
-    super(config);
+  constructor(    public transport: GeneralEntityTransportation,
+                  public  action: EntityAction,
+                  public movement: EntityActionMovement) {
+    super();
 
-    if (!config.movement.fixed_target) debugger
+    if (!movement.fixed_target) debugger
 
     this.zoom_sensitivity_layers = new ZoomLevels<{ scale: number }>([
       {min: -100, value: {scale: 0.5}},
@@ -32,19 +37,27 @@ export class RemoteEntityTransportTarget extends MapEntity {
     ])
 
     this.floor_sensitivity_layers = new FloorLevels<{ correct_level: boolean }>([
-      {floors: [TileArea.normalize(config.movement.fixed_target.target).origin.level], value: {correct_level: true}},
+      {floors: [TileArea.normalize(movement.fixed_target.target).origin.level], value: {correct_level: true}},
       {floors: floor_t.all, hidden_here: true, value: {correct_level: false}},
     ])
+
+    this.setTooltip(() => {
+      let props = new Properties()
+
+      props.header(c().append(`Target of `, entity(this.transport.entity)))
+
+      return props
+    })
   }
 
   bounds(): Rectangle {
-    return TileArea.toRect(TileArea.normalize(this.config.movement.fixed_target.target))
+    return TileArea.toRect(TileArea.normalize(this.movement.fixed_target.target))
   }
 
   protected async render_implementation(props: MapEntity.RenderProps): Promise<Element> {
     const scale = (props.highlight ? 1.5 : (this.zoom_sensitivity_layers.get(props.zoom_group_index).value.scale))
 
-    const circle = leaflet.circle(Vector2.toLatLong(activate(TileArea.normalize(this.config.movement.fixed_target.target)).center()), {
+    const circle = leaflet.circle(Vector2.toLatLong(activate(TileArea.normalize(this.movement.fixed_target.target)).center()), {
       color: COLORS.target_area,
       weight: 2,
       radius: scale * 0.4,
@@ -60,38 +73,15 @@ export class RemoteEntityTransportTarget extends MapEntity {
       type: "basic",
       text: "Jump to Origin",
       handler: () => {
-        this.parent?.getMap()?.fitView(this.config.transport.clickable_area)
+        this.parent?.getMap()?.fitView(this.transport.clickable_area)
       }
     })
 
     return {
       type: "submenu",
-      icon: CursorType.meta(this.config.action.cursor ?? "generic").icon_url,
-      text: () => c().append("Target of ", entity(this.config.transport.entity)),
+      icon: CursorType.meta(this.action.cursor ?? "generic").icon_url,
+      text: () => c().append("Target of ", entity(this.transport.entity)),
       children: []
     }
-  }
-
-  async renderTooltip(): Promise<{ content: Widget; interactive: boolean } | null> {
-    let props = new Properties()
-
-    props.header(c().append(`Target of `, entity(this.config.transport.entity)))
-
-    return {
-      content: props,
-      interactive: false
-    }
-
-  }
-}
-
-export namespace RemoteEntityTransportTarget {
-  import GeneralEntityTransportation = Transportation.GeneralEntityTransportation;
-  import EntityAction = Transportation.EntityAction;
-  import EntityActionMovement = Transportation.EntityActionMovement;
-  export type Config = MapEntity.SetupOptions & {
-    transport: GeneralEntityTransportation,
-    action: EntityAction,
-    movement: EntityActionMovement
   }
 }

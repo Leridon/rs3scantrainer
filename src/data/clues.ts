@@ -2893,7 +2893,7 @@ export namespace clue_data {
       "type": "simple",
       "tier": "easy",
       "text": ["Search the boxes in the Goblin house near Lumbridge."],
-      "solution": {"type": "search", "entity": "Crate", "spot": {"level": 0, "topleft": {"x": 3247, "y": 3244}, "botright": {"x": 3247, "y": 3244}}}
+      "solution": {"type": "search", "entity": "Boxes", "spot": {"level": 0, "topleft": {"x": 3247, "y": 3244}, "botright": {"x": 3247, "y": 3244}}}
     }, {
       "id": 111,
       "type": "simple",

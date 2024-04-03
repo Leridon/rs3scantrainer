@@ -189,7 +189,7 @@ export class EntityTransportEntity extends MapEntity {
                 .addTo(this)
             }
 
-            const center = TileRectangle.center(shortcut.clickable_area, false)
+            const center = TileArea.activate(movement.valid_from ?? action.interactive_area ?? default_interactive_area(shortcut.clickable_area)).center()
             const target = TileArea.normalize(movement.fixed_target.target)
 
             render_transport_arrow(center, activate(target).center(), target.origin.level - center.level).addTo(this)

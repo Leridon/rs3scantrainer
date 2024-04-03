@@ -37,10 +37,6 @@ export class ParserPairingEdit extends Widget {
 
     new NavigationControl().addTo(this.map.main_layer)
 
-    setTimeout(() => {
-      this.map.map.fitView(TileRectangle.extend(this.loc.box, 3), {maxZoom: 20})
-    }, 0)
-
     new LocInstanceEntity(this.loc, parsing_table)
       .addTo(this.map.main_layer)
 
@@ -59,6 +55,11 @@ export class ParserPairingEdit extends Widget {
     this.properties = new Properties()
 
     this.renderProps()
+  }
+
+  center_map() {
+    console.log("Centering")
+    this.map.map.fitView(TileRectangle.extend(this.loc.box, 3), {maxZoom: 20})
   }
 
   protected renderProps() {
@@ -187,7 +188,7 @@ export class ParserPairingEdit extends Widget {
             type_class: {
               toHTML: item => {
                 if (item) {
-                  if (item.name.length > 0) return c().text("No name").css("font-style", "italic")
+                  if (item.name.length == 0) return c().text("No name").css("font-style", "italic")
                   else return c().text(item.name)
                 } else return c().text("Create new instance group")
               },
@@ -251,6 +252,19 @@ export class ParserPairingModal extends FormModal<{
     });
 
     this.title.set("Edit Parser Pairing")
+    this.shown.on(() => {
+      console.log("Shown")
+      this.edit.center_map()
+    })
+
+  }
+
+  async show(): Promise<this> {
+    const promise = super.show();
+
+    //setTimeout(() => this.edit.center_map(), 1000)
+
+    return promise
   }
 
   render() {

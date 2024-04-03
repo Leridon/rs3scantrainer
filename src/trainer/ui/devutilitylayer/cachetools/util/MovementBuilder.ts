@@ -68,7 +68,7 @@ export namespace MovementBuilder {
     return init().offset(offset)
   }
 
-  export function fixed(target: TileArea): MovementBuilder {
-    return init().fixed(target)
+  export function fixed(target: TileArea, relative: boolean = false): MovementBuilder {
+    return init().fixed(target, relative)
   }
 }

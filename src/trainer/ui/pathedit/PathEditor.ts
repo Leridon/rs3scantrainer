@@ -258,7 +258,7 @@ class PathEditorGameLayer extends GameLayer {
                   current_tile ? TileRectangle.clampInto(current_tile, TileArea.toRect(
                       target,
                     ))
-                    : target.origin
+                    : activate(target).center()
 
                 let clone = lodash.cloneDeep(s)
                 clone.actions = [lodash.cloneDeep(a)]

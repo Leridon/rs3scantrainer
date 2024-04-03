@@ -457,8 +457,8 @@ export namespace ScanTree {
 
     /* TODO:
         - Run followed by run is combined
-        -
-
+        - Runs <= 4 tiles are ignored if they are not the only step
+        - Abilities after a powerburst are compressed
      */
 
     const target =

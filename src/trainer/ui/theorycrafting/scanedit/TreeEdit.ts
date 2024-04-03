@@ -413,7 +413,7 @@ class TreeNodeEdit extends Widget {
   private updateInstructionPreview() {
     const resolver = this.parent.parent.app.template_resolver.with(...scan_tree_template_resolvers(this.node))
 
-    this.instruction_preview.append(...resolver.resolve(ScanTree.getInstruction(this.node)))
+    this.instruction_preview.empty().append(...resolver.resolve(ScanTree.getInstruction(this.node)))
   }
 
   setActive(v: boolean) {

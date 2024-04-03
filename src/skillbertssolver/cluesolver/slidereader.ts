@@ -114,6 +114,7 @@ export class SlideReader {
 
 		return { map, theme };
 	}
+
 	readtile(data: ImageData, x: number, y: number) {
 		var a, vals;
 		var tilelist = this.osrs ? defs.ostiles : defs.tiles;

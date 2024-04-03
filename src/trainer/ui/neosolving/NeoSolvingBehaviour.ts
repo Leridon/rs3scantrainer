@@ -33,7 +33,7 @@ import {PathStepEntity} from "../map/entities/PathStepEntity";
 import {CursorType} from "../../../lib/runescape/CursorType";
 import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
 import {ScanEditLayer} from "../theorycrafting/scanedit/ScanEditor";
-import {ClueReader} from "./ClueReader";
+import {ClueReader} from "./cluereader/ClueReader";
 import {deps} from "../../dependencies";
 import {storage} from "../../../lib/util/storage";
 import {SettingsModal} from "../settings/SettingsEdit";

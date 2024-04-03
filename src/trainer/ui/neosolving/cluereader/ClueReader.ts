@@ -1,18 +1,19 @@
-import {Clues} from "../../../lib/runescape/clues";
+import {Clues} from "../../../../lib/runescape/clues";
 import * as a1lib from "@alt1/base";
 import {ImgRef} from "@alt1/base";
-import {AnchorImages} from "./cluereader/AnchorImages";
-import {Vector2} from "../../../lib/math";
-import {deps} from "../../dependencies";
-import {ModalUI, ModalUIReader} from "../../../skillbertssolver/cluesolver/modeluireader";
-import {util} from "../../../lib/util/util";
-import {coldiff} from "../../../skillbertssolver/oldlib";
+import {AnchorImages} from "./AnchorImages";
+import {Vector2} from "../../../../lib/math";
+import {deps} from "../../../dependencies";
+import {ModalUI, ModalUIReader} from "../../../../skillbertssolver/cluesolver/modeluireader";
+import {util} from "../../../../lib/util/util";
+import {coldiff} from "../../../../skillbertssolver/oldlib";
 import * as OCR from "@alt1/ocr";
-import ClueFont from "./cluereader/ClueFont";
-import * as oldlib from "../../../skillbertssolver/cluesolver/oldlib";
-import {comparetiledata} from "../../../skillbertssolver/cluesolver/oldlib";
-import {clue_data} from "../../../data/clues";
-import {getdirection, isArcClue} from "../../../skillbertssolver/cluesolver/compassclue";
+import ClueFont from "./ClueFont";
+import * as oldlib from "../../../../skillbertssolver/cluesolver/oldlib";
+import {comparetiledata} from "../../../../skillbertssolver/cluesolver/oldlib";
+import {clue_data} from "../../../../data/clues";
+import {getdirection, isArcClue} from "../../../../skillbertssolver/cluesolver/compassclue";
+import {SlideReader} from "./SliderReader";
 import stringSimilarity = util.stringSimilarity;
 import ScanStep = Clues.ScanStep;
 
@@ -102,6 +103,8 @@ export class ClueReader {
       }
     })()
 
+    console.log("UI")
+    console.log(found_ui)
 
     if (CLUEREADERDEBUG) {
       if (found_ui) {
@@ -206,9 +209,10 @@ export class ClueReader {
                     }
                   }
 
-                  if(best_score < 0.7) return null
+                  if (best_score < 0.7) return null
 
                   return {
+                    found_ui: found_ui,
                     step: best
                   }
                 } else {
@@ -227,6 +231,7 @@ export class ClueReader {
                   }
 
                   return {
+                    found_ui: found_ui,
                     step: {step: best, text_index: 0}
                   }
                 }
@@ -259,8 +264,16 @@ export class ClueReader {
             }
           }
 
-          return {step: {step: best, text_index: 0}}
+          return {found_ui: found_ui, step: {step: best, text_index: 0}}
         }
+        case "slider":
+
+          const res = SlideReader.read(img, Vector2.sub(found_ui.pos, found_ui.origin_offset))
+
+          console.log("Found slider")
+          console.log(res)
+
+          break
         case "compass": {
           const compass_state = ClueReader.readCompassState(img, Vector2.add(found_ui.pos, {x: -53, y: 54}))
 
@@ -268,8 +281,8 @@ export class ClueReader {
             deps().app.notifications.notify({},
               `Compass ${JSON.stringify(compass_state)}`)
 
-          if (compass_state.isArc) return {step: {step: clue_data.arc_compass, text_index: 0}}
-          else return {step: {step: clue_data.gielinor_compass, text_index: 0}}
+          if (compass_state.isArc) return {found_ui: found_ui, step: {step: clue_data.arc_compass, text_index: 0}}
+          else return {found_ui: found_ui, step: {step: clue_data.gielinor_compass, text_index: 0}}
         }
       }
     }
@@ -292,6 +305,7 @@ export namespace ClueReader {
   export type ModalType = "towers" | "lockbox" | "textclue" | "knot"
 
   export type Result = {
+    found_ui: MatchedUI,
     step?: Clues.StepWithTextIndex,
   }
 

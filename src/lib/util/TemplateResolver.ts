@@ -95,11 +95,12 @@ export namespace TemplateResolver {
     apply: args => {
       const result = []
 
-      const concat_buffer: SafeString[] = []
+      let concat_buffer: SafeString[] = []
 
       function clear() {
         if (concat_buffer.length > 0) {
           result.push({type: "safestring", value: concat_buffer.map(e => e.value).join(" ")})
+          concat_buffer = []
         }
       }
 

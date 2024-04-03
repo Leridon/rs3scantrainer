@@ -199,7 +199,13 @@ export const parsers3: TransportParser2[] = [
                 a = TileArea.transform(a, LocInstance.getTransform(instance))
               }
 
-              b = fixed(TileArea.init(a.origin), false)
+              a = TileArea.init(a.origin)
+
+              if (m.movement.fixed.relative) {
+                a = TileArea.transform(a, LocInstance.getInverseTransform(instance))
+              }
+
+              b = fixed(a, m.movement.fixed.relative)
             } else {
               b = fixed(m.movement.fixed.area, m.movement.fixed.relative)
             }

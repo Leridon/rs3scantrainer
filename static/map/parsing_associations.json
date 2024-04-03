@@ -1,5 +1,5 @@
 {
-  "version": 676,
+  "version": 679,
   "associations": [
     {
       "group_id": 0,
@@ -2130,7 +2130,7 @@
                       "origin": {
                         "x": -2,
                         "y": 0,
-                        "level": 0
+                        "level": -1
                       },
                       "size": {
                         "x": 1,
@@ -2187,13 +2187,13 @@
                   "fixed": {
                     "area": {
                       "origin": {
-                        "x": 0,
+                        "x": 2,
                         "y": 0,
-                        "level": 0
+                        "level": 1
                       },
                       "size": {
                         "x": 1,
-                        "y": 1
+                        "y": 2
                       }
                     },
                     "relative": true,

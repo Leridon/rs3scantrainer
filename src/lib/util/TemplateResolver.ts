@@ -26,7 +26,11 @@ export class TemplateResolver {
   resolve(template: string): Appendable[] {
     const expression = TemplateResolver.Expression.parse(template, this.templates)
 
+    console.log(expression)
+
     const result = TemplateResolver.Expression.evaluate(expression).map(TemplateResolver.Value.asAppendable)
+
+    console.log(result)
 
     return result
   }
@@ -95,16 +99,21 @@ export namespace TemplateResolver {
     apply: args => {
       const result = []
 
-      const concat_buffer: SafeString[] = []
+      let concat_buffer: SafeString[] = []
 
       function clear() {
         if (concat_buffer.length > 0) {
-          result.push({type: "safestring", value: concat_buffer.map(e => e.value).join(" ")})
+
+          let s = result.length > 0 ? "&nbsp;" : ""
+          s += concat_buffer.map(e => e.value).join(" ")
+          s += "&nbsp;"
+
+          result.push({type: "safestring", value: s})
+          concat_buffer = []
         }
       }
 
       for (const arg of args) {
-
         switch (arg.type) {
           case "safestring":
             concat_buffer.push(arg)
@@ -173,7 +182,7 @@ export namespace TemplateResolver {
             value: DOMPurify.sanitize(lodash.escape(input.substring(i, next_space).trimEnd()))
           })
 
-          i = next_space + 1
+          i = next_space
         }
 
         while (input.charAt(i) == " ") i++;
@@ -184,6 +193,8 @@ export namespace TemplateResolver {
 
     export function parse(input: string, table: Record<string, Function>): Expression {
       const tokens = tokenize(input)
+
+      console.log(tokens)
 
       let lookahead_index = 0
 

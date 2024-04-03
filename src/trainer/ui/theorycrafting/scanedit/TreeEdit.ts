@@ -24,6 +24,7 @@ import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
 import {identity} from "lodash";
 import {Path} from "../../../../lib/runescape/pathing";
 import {IssueWidget} from "../../pathedit/EditedPathOverview";
+import {ScanTreeSolvingControl} from "../../neosolving/NeoSolvingBehaviour";
 import decision_tree = ScanTree.ScanTreeNode;
 import natural_join = util.natural_join;
 import shorten_integer_list = util.shorten_integer_list;
@@ -38,7 +39,6 @@ import hbox = C.hbox;
 import vbox = C.vbox;
 import hboxl = C.hboxl;
 import collect_issues = Path.collect_issues;
-import {ScanTreeSolvingControl} from "../../neosolving/NeoSolvingBehaviour";
 import scan_tree_template_resolvers = ScanTreeSolvingControl.scan_tree_template_resolvers;
 import cls = C.cls;
 
@@ -383,7 +383,7 @@ class TreeNodeEdit extends Widget {
 
     this.timing_box.empty().append(
       span(`T${this.node.path.pre_state.tick}`).addClass('nisl-textlink'),
-      span("&nbsp;to&nbsp;"),
+      span().setInnerHtml("&nbsp;to&nbsp;"),
       span(`T${this.node.path.post_state.tick}`).addClass('nisl-textlink'),
     )
 
@@ -413,8 +413,7 @@ class TreeNodeEdit extends Widget {
   private updateInstructionPreview() {
     const resolver = this.parent.parent.app.template_resolver.with(...scan_tree_template_resolvers(this.node))
 
-    this.instruction_preview.append(...resolver.resolve(ScanTree.getInstruction(this.node)))
-
+    this.instruction_preview.empty().append(...resolver.resolve(ScanTree.getInstruction(this.node)))
   }
 
   setActive(v: boolean) {

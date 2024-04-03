@@ -65,7 +65,7 @@ export namespace Settings {
       return {
         "potas": [
           {
-            "color": "red",
+            "color": "green",
             "slots": [
               {
                 "group_id": "skillsnecklace",
@@ -94,7 +94,7 @@ export namespace Settings {
             ]
           },
           {
-            "color": "green",
+            "color": "red",
             "slots": [
               {
                 "group_id": "enlightenedamulet",
@@ -223,7 +223,7 @@ export namespace Settings {
             "id": -5,
             "name": "Master Recommendation",
             "active_potas": [
-              "red"
+              "green"
             ],
             "fairy_ring_favourites": [
               null,
@@ -242,10 +242,10 @@ export namespace Settings {
         "active_preset": 0,
         "preset_bindings": {
           "easy": -1,
-          "elite": -2,
+          "medium": -2,
           "hard": -3,
-          "master": -4,
-          "medium": -5
+          "elite": -4,
+          "master": -5,
         },
         "preset_bindings_active": true
       }

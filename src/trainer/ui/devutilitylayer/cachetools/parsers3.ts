@@ -146,7 +146,7 @@ export const parsers3: TransportParser2[] = [
 
       builder.action({
           index: per_loc.action.id,
-        }, fixed(per_instance.target)
+        }, fixed(TileArea.transform(per_instance.target, LocInstance.getTransform(instance)))
       )
 
       return [builder.finish()]
@@ -167,7 +167,11 @@ export const parsers3: TransportParser2[] = [
           }), true),
           movement: PP.element("Movement", PP.either({
             offset: PP.offset(),
-            fixed: PP.tileArea()
+            fixed: PP.rec({
+              area: PP.element("Area", PP.tileArea()),
+              relative: PP.element("Relative", PP.bool()),
+              origin_only: PP.element("Origin only", PP.bool()),
+            }),
           })),
           time: PP.element("Time", PP.int([0, 30]).default(3))
         })))
@@ -178,8 +182,6 @@ export const parsers3: TransportParser2[] = [
       const builder = EntityTransportationBuilder.from(instance)
         .planeOffset(per_loc.plane_offset ?? 0)
 
-      // TODO: This is still broken because offsets and coordinates entered on the map need to be translated relative to the edited loc instance
-
       for (const action of per_loc.actions) {
         builder.action({
           index: action.action.id,
@@ -188,8 +190,27 @@ export const parsers3: TransportParser2[] = [
 
           let b: MovementBuilder = null
 
-          if (m.movement.fixed) b = fixed(m.movement.fixed)
-          else if (m.movement.offset) b = offset(m.movement.offset)
+          if (m.movement.fixed) {
+
+            if (m.movement.fixed.origin_only) {
+              let a = m.movement.fixed.area
+
+              if (m.movement.fixed.relative) {
+                a = TileArea.transform(a, LocInstance.getTransform(instance))
+              }
+
+              a = TileArea.init(a.origin)
+
+              if (m.movement.fixed.relative) {
+                a = TileArea.transform(a, LocInstance.getInverseTransform(instance))
+              }
+
+              b = fixed(a, m.movement.fixed.relative)
+            } else {
+              b = fixed(m.movement.fixed.area, m.movement.fixed.relative)
+            }
+
+          } else if (m.movement.offset) b = offset(m.movement.offset)
 
           if (m.orientation) {
             if (m.orientation.simple) b.orientation(m.orientation.simple)

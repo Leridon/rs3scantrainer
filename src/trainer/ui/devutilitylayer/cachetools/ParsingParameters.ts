@@ -20,9 +20,8 @@ import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInterac
 import InteractionTopControl from "../../map/InteractionTopControl";
 import {DrawOffset} from "../../shortcut_editing/interactions/DrawOffset";
 import {Transportation} from "../../../../lib/runescape/transportation";
-import LocInstance = CacheTypes.LocInstance;
-import {Transform} from "../../../../lib/math";
 import {TileTransform} from "../../../../lib/runescape/coordinates/TileTransform";
+import LocInstance = CacheTypes.LocInstance;
 
 export abstract class ParsingParameter<T = any> {
   constructor(private _default_value: ParsingParameter.P<T>) {}
@@ -419,10 +418,7 @@ export namespace ParsingParameter {
           this.checkbox
             .setValue(value !== undefined)
             .onCommit((v) => {
-              console.log(`Changed to ${v}`)
-
               if (v != (this.get() !== undefined)) {
-                console.log(`Committing`)
                 const value = v ? this.element.type.getDefault(this.loc) : undefined
 
                 this.commit(value)
@@ -533,9 +529,11 @@ export namespace ParsingParameter {
               }, "radio", depth + 1, loc, map)
                 .set(value?.[id])
                 .onChange(v => {
-                  this.elements.forEach((e, i) => {
-                    if (i != index) e.set(undefined)
-                  })
+                  if (v !== undefined) {
+                    this.elements.forEach((e, i) => {
+                      if (i != index) e.set(undefined)
+                    })
+                  }
 
                   this.commit(copyUpdate2(this.get(), e => e[id] = v))
                 })

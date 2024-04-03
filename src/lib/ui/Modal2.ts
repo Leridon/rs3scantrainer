@@ -23,16 +23,6 @@ export abstract class Modal2 {
     this._dialog = c("<div class='modal-dialog'></div>").appendTo(this._modal)
     this._content = c("<div class='modal-content'></div>").appendTo(this._dialog)
 
-    this._modal.raw().addEventListener("shown.bs.modal", () => {
-      this.visible.set(true)
-      this.shown.trigger(this)
-    })
-
-    this._modal.raw().addEventListener("hidden.bs.modal", () => {
-      this.visible.set(false)
-      this.hidden.trigger(this)
-    })
-
     if (!options.no_fade) this._modal.addClass("fade")
 
     switch (options.size || "medium") {
@@ -55,10 +45,23 @@ export abstract class Modal2 {
     if (this._modal.container.parent().length == 0) {
       this._modal.appendTo(jquery("body"))
 
+      this._modal.raw().addEventListener("shown.bs.modal", () => {
+        console.log("Shown")
+
+        this.visible.set(true)
+        this.shown.trigger(this)
+      })
+
+      this._modal.raw().addEventListener("hidden.bs.modal", () => {
+        this.visible.set(false)
+        this.hidden.trigger(this)
+      })
+
       this.bs_modal = new bootstrap.Modal(this._modal.raw(), {
         backdrop: this.options.fixed ? "static" : true,
         keyboard: !this.options.fixed,
       })
+
     }
   }
 

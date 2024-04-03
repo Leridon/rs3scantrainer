@@ -179,7 +179,7 @@ export namespace Transportation {
           img: {url: `pota_${pota.pota.color}.png`},
           code_prefix: `${pota.pota.slot},`
         } : null
-        
+
         // Props are combined from the various ways they can be specified.
         // Prop definitions for Access x Spot have the highest priority,
         // followed by per-access props, then per-spot props and finally per-group props.
@@ -213,7 +213,7 @@ export namespace Transportation {
         if (this.group.id == "fairyring") {
           const i = deps().app.settings.active_teleport_customization.value().fairy_ring_favourites.indexOf(this.spot.id)
 
-          if (i > 0) base_code = ((i + 1) % 10).toString()
+          if (i >= 0) base_code = ((i + 1) % 10).toString()
         }
 
         return (this.pota_slot?.code_prefix ?? "") + base_code

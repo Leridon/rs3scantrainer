@@ -558,7 +558,7 @@ export namespace Path {
             // TODO: Add uncertainty
           }
 
-          switch (movement.orientation || "bymovement") {
+          switch (movement.orientation ?? "bymovement") {
             case "bymovement":
               state.position.direction = direction.fromVector(Vector2.sub(state.position.tile, start_tile))
               break;

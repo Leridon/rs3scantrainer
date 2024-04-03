@@ -49,7 +49,7 @@ export namespace TileCoordinates {
   export function transform(coordinates: TileCoordinates, trans: TileTransform | Transform): TileCoordinates {
     let norm = TileTransform.normalize(trans)
 
-    return lift(Vector2.transform_point(coordinates, norm.matrix), floor_t.clamp(coordinates.level + norm.level_offset))
+    return lift(Vector2.transform_point(coordinates, norm.matrix), coordinates.level + norm.level_offset as floor_t)
   }
 
   export function chunk(coords: TileCoordinates): Vector2 {

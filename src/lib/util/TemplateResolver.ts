@@ -99,13 +99,12 @@ export namespace TemplateResolver {
 
       function clear() {
         if (concat_buffer.length > 0) {
-          result.push({type: "safestring", value: concat_buffer.map(e => e.value).join(" ")})
+          result.push({type: "safestring", value: concat_buffer.map(e => e.value).join(" ") + " "})
           concat_buffer = []
         }
       }
 
       for (const arg of args) {
-
         switch (arg.type) {
           case "safestring":
             concat_buffer.push(arg)

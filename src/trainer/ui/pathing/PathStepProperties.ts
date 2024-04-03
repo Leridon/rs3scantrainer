@@ -98,7 +98,7 @@ export class PathStepProperties extends Properties {
     }
 
     if (this.step.description) {
-      this.header("Additional Info")
+      this.header("Additional Info", "left", 1)
 
       this.row(c().append(...this.template_resolver.resolve(this.step.description)))
     }

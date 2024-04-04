@@ -310,7 +310,6 @@ export class ClueReader {
           const res = await SlideReader.read(
             img,
             Rectangle.bottomLeft(found_ui.rect),
-            "vyre"
           )
 
           res.tiles.forEach((tile, i) => {

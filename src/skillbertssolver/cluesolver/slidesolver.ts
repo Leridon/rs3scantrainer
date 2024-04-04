@@ -225,7 +225,6 @@ export abstract class SlideSolver {
 		moves = optimisemoves(moves);
 		if (!this.bestsolution || moves.length < this.bestsolution.length) {
 			this.bestsolution = moves;
-			console.log(this.bestsolution.length);
 		}
 	}
 
@@ -246,13 +245,13 @@ export class SlideSolverRandom extends SlideSolver {
 			var n = (first ? 0 : Math.floor(actions.length * Math.random()));
 			var action = actions[n];
 			try { action.f(map); }
-			catch{ break; }//TODO still cehck skillbertssolver paths even if this is dead end
+			catch{ break; }//TODO still check solver paths even if this is dead end
 			if (steps++ > 50) {
 				console.log("failed to solve puzzle, over 50 actions attempted");
 				return null;
 			}
 		}
-		console.log(map.moves.length);
+
 		if (map.getMinMoves() == 0) { this.foundSolution(map.moves); }
 	}
 }

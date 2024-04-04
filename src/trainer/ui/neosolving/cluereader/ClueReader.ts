@@ -14,6 +14,7 @@ import {comparetiledata} from "../../../../skillbertssolver/cluesolver/oldlib";
 import {clue_data} from "../../../../data/clues";
 import {getdirection, isArcClue} from "../../../../skillbertssolver/cluesolver/compassclue";
 import {SlideReader} from "./SliderReader";
+import {Sliders} from "../puzzles/Sliders";
 import stringSimilarity = util.stringSimilarity;
 import ScanStep = Clues.ScanStep;
 
@@ -327,9 +328,9 @@ export class ClueReader {
             )
           })
 
-          console.log(res.tiles)
-
           deps().app.notifications.notify({}, `Found theme ${res.theme}`)
+
+          console.log(Sliders.compressMoves(await Sliders.solve(res.tiles.map(s => s.position))))
 
           break
         case "compass": {

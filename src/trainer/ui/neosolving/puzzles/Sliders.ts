@@ -1,7 +1,8 @@
 import {util} from "../../../../lib/util/util";
+import {SlideMove, SlideSolverRandom} from "../../../../skillbertssolver/cluesolver/slidesolver";
 
 export namespace Sliders {
-  import todo = util.todo;
+
   export type SliderState = number[]
 
   export const SolvedState =
@@ -26,15 +27,23 @@ export namespace Sliders {
 
   type MoveList = Move[]
 
-  export function solve(state: SliderState): Move[] {
-    todo()
+  function skillbertMoveToMyMove(move: SlideMove): Move {
+    return (move.y2 - move.y1) * 5 + (move.x2 - move.x1)
+  }
+
+  export async function solve(state: SliderState): Promise<MoveList> {
+    const solver = new SlideSolverRandom(state)
+
+    await solver.startSolve(3000)
+
+    return solver.bestsolution.map(skillbertMoveToMyMove)
   }
 
   /**
    * Compressed a list of single tile moves into a list of multitile moves.
    * @param moves
    */
-  export function compressMoves(moves: Move[]): Move[] {
+  export function compressMoves(moves: MoveList): MoveList {
     let i = 0
 
     const combined_moves: Move[] = []

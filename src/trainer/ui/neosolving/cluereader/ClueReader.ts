@@ -307,12 +307,16 @@ export class ClueReader {
           return {found_ui: found_ui, step: {step: best, text_index: 0}}
         }
         case "slider":
-          const res = await SlideReader.read(img, Rectangle.bottomLeft(found_ui.rect))
+          const res = await SlideReader.read(
+            img,
+            Rectangle.bottomLeft(found_ui.rect),
+            "vyre"
+          )
 
           res.tiles.forEach((tile, i) => {
             const pos = Vector2.add(
               Rectangle.screenOrigin(found_ui.rect),
-              {x: Math.floor(i / 5) * 56, y: i % 5 * 56}
+              {x: Math.floor(i % 5) * 56, y: Math.floor(i / 5) * 56}
             )
 
             alt1.overLayText(`${res.theme}\n${tile.position}`,
@@ -416,7 +420,7 @@ export namespace ClueReader {
   export function getImageClueImage(modal: ModalUI): number[] {
     let buf = modal.img.toData(modal.rect.x, modal.rect.y, 496, 293);
 
-    return oldlib.tiledata(buf, 20, 20, 90, 25, 300, 240);
+    return oldlib.computeImageFingerprint(buf, 20, 20, 90, 25, 300, 240);
   }
 
   export function readScanPanelText(img: ImgRef, pos: Vector2) {

@@ -1,3 +1,10 @@
+/**
+ * File: oldlib.ts
+ * Original Author: Skillbert
+ * Forked by Zyklop Marco with permission.
+ */
+
+
 export {addzeros, spacednr} from "../oldlib";
 
 //calculates the average color of an area in a imagedata object
@@ -44,9 +51,11 @@ export function colordifsum(buf: ImageData, x: number, y: number, w: number, h: 
   return s;
 }
 
+export type ImageFingerprint = number[]
+
 //calculates a pattern from a buffer to compare to solver buffers
 //currently experimental, did wonders on slide puzzle tiles
-export function tiledata(buf: ImageData, rw: number, rh: number, x: number, y: number, w: number, h: number): number[] {
+export function computeImageFingerprint(buf: ImageData, rw: number, rh: number, x: number, y: number, w: number, h: number): ImageFingerprint {
 
   let basecol = rgbtohsl(coloravg(buf, x, y, w, h));
   let r = [basecol[0], basecol[1], basecol[2]];
@@ -68,8 +77,15 @@ export function tiledata(buf: ImageData, rw: number, rh: number, x: number, y: n
   return r;
 }
 
-//compares 2 tiledata objects and returns a match score
-export function comparetiledata(data1: Uint8ClampedArray | number[], data2: Uint8ClampedArray | number[]) {//compares two tiledata sets
+/**
+ * Compares two tile data objects and calculates a score.
+ * The lower that score is, the more similar both data objects are
+ *
+ * @author Skillbert
+ * @param data1
+ * @param data2
+ */
+export function comparetiledata(data1: ImageFingerprint, data2: ImageFingerprint): number {
   let r = 0;
   let c = Math.abs(data1[0] - data2[0]);
   r += Math.max(0, (c > 128 ? 255 - c : c) * 5 - 100);//basecol hue

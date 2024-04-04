@@ -28,7 +28,7 @@ export namespace SlideReader {
           {
             theme: known_theme,
             position: y * SLIDER_SIZE + x,
-            signature: oldlib.tiledata(img, TILING_INTERVAL, TILING_INTERVAL,
+            signature: oldlib.computeImageFingerprint(img, TILING_INTERVAL, TILING_INTERVAL,
               x * (TILE_SIZE + gutter),
               y * (TILE_SIZE + gutter),
               TILE_SIZE, TILE_SIZE)
@@ -61,7 +61,7 @@ export namespace SlideReader {
   export type Tile = { position: number, signature: number[], theme?: string }
   export type SliderPuzzle = { tiles: Tile[], theme?: string }
 
-  export async function read(image: ImgRef, origin: Vector2): Promise<SliderPuzzle> {
+  export async function read(image: ImgRef, origin: Vector2, known_theme: string = undefined): Promise<SliderPuzzle> {
     // Parse the slider image from screen
     const tiles = parseSliderImage(image.toData(origin.x, origin.y, 280, 280), 7)
 
@@ -73,6 +73,8 @@ export namespace SlideReader {
 
     for (let tile of tiles.tiles) {
       for (let slider of await getReferenceSliders()) {
+        if (known_theme && slider.theme != known_theme) continue
+
         for (let ref_tile of slider.tiles) {
           tile_scores.push({
             tile: tile,
@@ -83,34 +85,30 @@ export namespace SlideReader {
       }
     }
 
-    const theme_scores: Record<string, number> = {} //get the match rate for every theme
-    
-    // TODO: This is broken! It should only take the best score for each tile instead of all 625 pairs
-    for (let score of tile_scores) {
-      if (theme_scores[score.reference_tile.theme] == undefined) {
-        theme_scores[score.reference_tile.theme] = 0
+    const grouped = lodash.groupBy(tile_scores, e => e.reference_tile.theme)
+
+    const matches = Object.entries(grouped).map(([theme, tile_matches]) => {
+      const sorted = lodash.sortBy(tile_matches, e => e.score)
+
+      const matched_tiles: (typeof tile_scores)[number][] = new Array(25).fill(null)
+      const tiles_used: boolean[] = new Array(25).fill(false)
+
+      for (let match of sorted) {
+        if (matched_tiles[match.tile.position]) continue
+        if (tiles_used[match.reference_tile.position]) continue
+
+        matched_tiles[match.tile.position] = match
+        tiles_used[match.reference_tile.position] = true
       }
-      theme_scores[score.reference_tile.theme] += score.score
-    }
 
-    console.log(theme_scores)
+      return {
+        slider: {tiles: matched_tiles.map(m => m.reference_tile), theme: theme},
+        score: lodash.sumBy(matched_tiles, m => m.score)
+      }
+    })
 
-    const best_theme = lodash.minBy(Object.entries(theme_scores), e => e[1])[0]
+    console.log(matches.map(m => [m.score, m.slider.theme]))
 
-    // Filter to only handle matches for the selected theme, sort by score
-    const tile_matches = lodash.sortBy(tile_scores.filter(s => s.reference_tile.theme == best_theme), e => e.score)
-
-    const matched_tiles: Tile[] = new Array(25).fill(null)
-    const tiles_used: boolean[] = new Array(25).fill(false)
-
-    for (let match of tile_matches) {
-      if (matched_tiles[match.tile.position]) continue
-      if (tiles_used[match.reference_tile.position]) continue
-
-      matched_tiles[match.tile.position] = match.reference_tile
-      tiles_used[match.reference_tile.position] = true
-    }
-
-    return {tiles: matched_tiles, theme: best_theme};
+    return lodash.minBy(matches, m => m.score).slider
   }
 }

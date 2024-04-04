@@ -118,8 +118,8 @@ export class SlideReader {
 	readtile(data: ImageData, x: number, y: number) {
 		var a, vals;
 		var tilelist = this.osrs ? defs.ostiles : defs.tiles;
-		if (this.osrs) { vals = oldlib.tiledata(data, 9, 9, x, y, 36, 36); }
-		else { vals = oldlib.tiledata(data, 12, 12, x, y, 48, 48); }
+		if (this.osrs) { vals = oldlib.computeImageFingerprint(data, 9, 9, x, y, 36, 36); }
+		else { vals = oldlib.computeImageFingerprint(data, 12, 12, x, y, 48, 48); }
 		//if (tiledataname) { tiledata.push({ part: tiledataname + tiledata.length, scores: vals }); }
 		var r: { score: number, part: number, theme: string }[] = [];
 		for (a in tilelist) {

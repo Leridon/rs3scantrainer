@@ -247,6 +247,7 @@ namespace NeoSolvingLayer {
             .setEnabled(deps().app.in_alt1)
             .onToggle(v => {
               this.parent.screen_reading.setAutoSolve(v)
+              this.autosolve_preference.set(v)
             })
             .setToggled(this.autosolve_preference.get())
           ,

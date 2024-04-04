@@ -2,6 +2,7 @@ import {clamp, identity} from "lodash";
 import * as leaflet from "leaflet";
 import {Vector2} from "./Vector2";
 import {Transform} from "./Transform";
+import {Rect, RectLike} from "@alt1/base";
 
 export type Rectangle = { topleft: Vector2, botright: Vector2 }
 
@@ -15,6 +16,17 @@ export namespace Rectangle {
       topleft: {x: Math.min(...points.map(v => v.x)), y: Math.max(...points.map(v => v.y))},
       botright: {x: Math.max(...points.map(v => v.x)), y: Math.min(...points.map(v => v.y))},
     }
+  }
+
+  export function fromOriginAndSize(origin: Vector2, size: Vector2): Rectangle {
+    return from(
+      origin,
+      Vector2.add(origin, size, {x: -1, y: -1})
+    )
+  }
+
+  export function fromRectLike(rect: RectLike): Rectangle {
+    return fromOriginAndSize({x: rect.x, y: rect.y}, {x: rect.width, y: rect.height})
   }
 
   export function containsTile(box: Rectangle, tile: Vector2) {
@@ -175,5 +187,9 @@ export namespace Rectangle {
 
   export function containsRect(container: Rectangle, inner: Rectangle): boolean {
     return Rectangle.containsTile(container, inner.topleft) && Rectangle.containsTile(container, inner.botright)
+  }
+
+  export function screenOrigin(rect: Rectangle): Vector2 {
+    return Rectangle.bottomLeft(rect)
   }
 }

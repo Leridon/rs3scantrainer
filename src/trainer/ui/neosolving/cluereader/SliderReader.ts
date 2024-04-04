@@ -1,130 +1,116 @@
-import {ImgRef} from "@alt1/base";
+import {ImageDetect, ImgRef} from "@alt1/base";
 import {Vector2} from "../../../../lib/math";
-import * as defs from "../../../../skillbertssolver/cluesolver/slidetiles";
 import * as oldlib from "../../../../skillbertssolver/cluesolver/oldlib";
+import * as lodash from "lodash";
 
 export namespace SlideReader {
-  export const slider_size: Vector2 = {x: 5, y: 5}
+  export const SLIDER_SIZE = 5
 
-  function readtile(data: ImageData, x: number, y: number) {
-    var a, vals;
-    var tilelist = defs.tiles;
-    vals = oldlib.tiledata(data, 12, 12, x, y, 48, 48);
-    //if (tiledataname) { tiledata.push({ part: tiledataname + tiledata.length, scores: vals }); }
-    var r: { score: number, part: number, theme: string }[] = [];
-    for (a in tilelist) {
-      var b: number;
-      var c: string;
-      tilelist[a].part.replace(/([A-Za-z_]+)(\d+)/, function () { b = +arguments[2]; c = arguments[1]; return ""; });
-      r[a] = { score: oldlib.comparetiledata(vals as any, tilelist[a].scores as any), part: b!, theme: c! };
+  const TILING_INTERVAL = 12
+
+  /**
+   * Parses the tiles of a slider image from a reference image.
+   * Tiles are assumed to be 49 by 49 pixels.
+   *
+   * @param img The image to parse.
+   * @param gutter The size of the gap between pixels. For clean reference images this is 0, for captures images from Alt1 this should be 7.
+   * @param known_theme The theme of the slider if known
+   */
+  export function parseSliderImage(img: ImageData, gutter: number = 0, known_theme: string = undefined): SliderPuzzle {
+    // Assumes a slider size of 245 x 245!
+    const TILE_SIZE = 49
+
+    const tiles: Tile[] = []
+
+    for (let x = 0; x < SLIDER_SIZE; x++) {
+      for (let y = 0; y < SLIDER_SIZE; y++) {
+        tiles.push(
+          {
+            theme: known_theme,
+            position: y * SLIDER_SIZE + x,
+            signature: oldlib.tiledata(img, TILING_INTERVAL, TILING_INTERVAL,
+              x * (TILE_SIZE + gutter),
+              y * (TILE_SIZE + gutter),
+              TILE_SIZE, TILE_SIZE)
+          }
+        )
+      }
     }
-    r.sort(function (a, b) { return a.score - b.score });
-    return r;
+
+    return {tiles, theme: known_theme}
   }
 
-  export function read(imgref: ImgRef, pos: Vector2) {
-    if (!pos) { return null; }
-    var x = pos.x;
-    var y = pos.y;
+  let reference_sliders: SliderPuzzle[] = undefined
 
-    var buf = imgref.toData(x, y, 280, 280);
-    var tileoffset = 56;
-    var puzzleoffset = {x: 0, y: 0};
-    var scores: any[][] = [];//read all tiles possibilities into scores
-    for (var a = 0; a < slider_size.y; a++) {
-      for (var b = 0; b < slider_size.x; b++) {
-        scores.push(readtile(buf, puzzleoffset.x + b * tileoffset, puzzleoffset.y + a * tileoffset));
-      }
+  export async function getReferenceSliders(): Promise<SliderPuzzle[]> {
+
+    if (reference_sliders == undefined) {
+      const themes = ["archer", "bandos", "bridge", "castle", "cit", "corp", "dragon", "edicts", "elderdrag",
+        "elf", "float", "frost", "greg", "helwyr", "jas", "mage", "maple", "menn", "nomad", "rax", "seal", "troll", "tuska", "twins", "v", "vyre", "wolf"
+      ]
+      reference_sliders = await Promise.all(themes.map(async theme => {
+        return parseSliderImage(await ImageDetect.imageDataFromUrl(`alt1anchors/sliders/${theme}.png`),
+          0,
+          theme)
+      }))
     }
 
-    var themescores: { [theme in defs.SliderThemes]: number } = {} as any;//get the match rate for every theme
+    return reference_sliders
+  }
 
-    console.log(themescores)
+  export type Tile = { position: number, signature: number[], theme?: string }
+  export type SliderPuzzle = { tiles: Tile[], theme?: string }
 
-    var cthemes = defs.themes;
-    for (var a = 0; a < cthemes.length; a++) {
-      var d = cthemes[a];
-      themescores[d] = 0;
-      for (var b = 0; b < scores.length; b++) {
-        for (var c = 0; c < scores[b].length; c++) {
-          if (scores[b][c].theme == d || scores[b][c].theme == "black") {
-            themescores[d] += scores[b][c].score;
-            break;
-          }
+  export async function read(image: ImgRef, origin: Vector2): Promise<SliderPuzzle> {
+    // Parse the slider image from screen
+    const tiles = parseSliderImage(image.toData(origin.x, origin.y, 280, 280), 7)
+
+    let tile_scores: {
+      tile: Tile,
+      reference_tile: Tile,
+      score: number
+    }[] = []
+
+    for (let tile of tiles.tiles) {
+      for (let slider of await getReferenceSliders()) {
+        for (let ref_tile of slider.tiles) {
+          tile_scores.push({
+            tile: tile,
+            reference_tile: ref_tile,
+            score: oldlib.comparetiledata(tile.signature, ref_tile.signature)
+          })
         }
       }
     }
 
-    var b = Infinity;
-    var theme: defs.SliderThemes = null!;
-    for (var d in themescores) {//get the best theme match
-      if (themescores[d] < b) {
-        b = themescores[d];
-        theme = d as defs.SliderThemes;
+    const theme_scores: Record<string, number> = {} //get the match rate for every theme
+    
+    // TODO: This is broken! It should only take the best score for each tile instead of all 625 pairs
+    for (let score of tile_scores) {
+      if (theme_scores[score.reference_tile.theme] == undefined) {
+        theme_scores[score.reference_tile.theme] = 0
       }
+      theme_scores[score.reference_tile.theme] += score.score
     }
 
-    var map: number[] = [];
-    for (var a = 0; a < scores.length; a++) {
-      for (var b = 0; b < scores[a].length; b++) {
-        if (scores[a][b].theme == theme || scores[a][b].theme == "black") {
-          map[a] = scores[a][b].part;
-          break;
-        }
-      }
+    console.log(theme_scores)
+
+    const best_theme = lodash.minBy(Object.entries(theme_scores), e => e[1])[0]
+
+    // Filter to only handle matches for the selected theme, sort by score
+    const tile_matches = lodash.sortBy(tile_scores.filter(s => s.reference_tile.theme == best_theme), e => e.score)
+
+    const matched_tiles: Tile[] = new Array(25).fill(null)
+    const tiles_used: boolean[] = new Array(25).fill(false)
+
+    for (let match of tile_matches) {
+      if (matched_tiles[match.tile.position]) continue
+      if (tiles_used[match.reference_tile.position]) continue
+
+      matched_tiles[match.tile.position] = match.reference_tile
+      tiles_used[match.reference_tile.position] = true
     }
 
-    //console.log("== theme = " + theme + " == ");
-    //console.log(map);
-
-    //multiply color at coord with color vector, highest sum is p1
-    var hardcodes: { theme: string, p1: number, p2: number, x: number, y: number, r: number, g: number, b: number }[];
-    hardcodes = [
-      {theme: "r", p1: 20, p2: 17, x: 10, y: 10, r: 0, g: 0, b: 1},
-      {theme: "m", p1: 4, p2: 0, x: 47, y: 47, r: 1, g: 0, b: 0},
-      {theme: "b", p1: 4, p2: 1, x: 25, y: 45, r: 0, g: 0, b: 1},
-      //rare fixes, obscure graphics settings
-      {theme: "o", p1: 4, p2: 14, x: 40, y: 10, r: 1, g: 1, b: 1},
-      {theme: "c", p1: 6, p2: 11, x: 5, y: 45, r: 1, g: 0, b: 1},
-      {theme: "d", p1: 2, p2: 4, x: 42, y: 47, r: 0, g: 0, b: 1},
-      {theme: "m", p1: 10, p2: 6, x: 9, y: 6, r: 1, g: 0, b: 0},
-      {theme: "m", p1: 22, p2: 23, x: 9, y: 6, r: 1, g: 0, b: 0},
-      {theme: "d", p1: 21, p2: 23, x: 2, y: 39, r: 0, g: 1, b: 0},
-      {theme: "m", p1: 10, p2: 6, x: 20, y: 40, r: 1, g: 1, b: 0},
-      {theme: "m", p1: 4, p2: 6, x: 43, y: 44, r: 1, g: 0, b: 0},
-      {theme: "m", p1: 10, p2: 14, x: 2, y: 2, r: 1, g: 0, b: 0},
-      {theme: "t", p1: 22, p2: 21, x: 2, y: 2, r: 1, g: 1, b: 1},
-      {theme: "o", p1: 19, p2: 24, x: 40, y: 40, r: 0, g: 0, b: 1},
-    ];
-    for (var d in hardcodes) {
-      if (theme != hardcodes[d].theme) { continue; }
-      let b: number[][] = [];
-      for (var a = 0; a < map.length; a++) { if (map[a] == hardcodes[d].p1 || map[a] == hardcodes[d].p2) { b.push([a % slider_size.x, Math.floor(a / slider_size.x), a, 0]); } }
-      if (b.length <= 1) { continue; }
-
-      var max = 0;
-      for (let e in b) {
-        var p = buf.getPixel(puzzleoffset.x + b[e][0] * tileoffset + hardcodes[d].x, puzzleoffset.y + b[e][1] * tileoffset + hardcodes[d].y);
-        b[e][3] += p[0] * hardcodes[d].r;
-        b[e][3] += p[1] * hardcodes[d].g;
-        b[e][3] += p[2] * hardcodes[d].b;
-        if (b[e][3] > max) { max = b[e][3]; }
-      }
-
-      var used = false;
-      for (let e in b) {
-        if (b[e][3] == max) {
-          if (map[b[e][2]] != hardcodes[d].p1) { used = true; }
-          map[b[e][2]] = hardcodes[d].p1
-        } else {
-          if (map[b[e][2]] != hardcodes[d].p2) { used = true; }
-          map[b[e][2]] = hardcodes[d].p2;
-        }
-      }
-
-      console.log("hardcode fix #" + d + " applied: " + hardcodes[d].p1 + "-" + hardcodes[d].p2, used);
-    }
-
-    return {map, theme};
+    return {tiles: matched_tiles, theme: best_theme};
   }
 }

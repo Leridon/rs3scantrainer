@@ -2,7 +2,7 @@ import {Clues} from "../../../../lib/runescape/clues";
 import * as a1lib from "@alt1/base";
 import {ImgRef} from "@alt1/base";
 import {AnchorImages} from "./AnchorImages";
-import {Vector2} from "../../../../lib/math";
+import {Rectangle, Vector2} from "../../../../lib/math";
 import {deps} from "../../../dependencies";
 import {ModalUI, ModalUIReader} from "../../../../skillbertssolver/cluesolver/modeluireader";
 import {util} from "../../../../lib/util/util";
@@ -17,7 +17,7 @@ import {SlideReader} from "./SliderReader";
 import stringSimilarity = util.stringSimilarity;
 import ScanStep = Clues.ScanStep;
 
-const CLUEREADERDEBUG = false
+const CLUEREADERDEBUG = true
 
 export class ClueReader {
   anchors: {
@@ -73,11 +73,10 @@ export class ClueReader {
           {
             type: "slider", anchors: [{
               img: this.anchors.slide,
-              origin_offset: {x: 484, y: 19},
-
+              origin_offset: {x: 297, y: -15},
             }, {
               img: this.anchors.slidelegacy,
-              origin_offset: {x: 484, y: 19}
+              origin_offset: {x: 297, y: -15}
             }]
           },
           {
@@ -93,35 +92,76 @@ export class ClueReader {
           let locs = img.findSubimage(anchor.img)
 
           if (locs.length > 0) {
-            return {
-              type: ui_type.type,
-              pos: locs[0],
-              origin_offset: anchor.origin_offset
+            switch (ui_type.type) {
+              case "modal":
+                const modal = ModalUIReader.detectEoc(img, locs[0]);
+
+                return {
+                  type: "modal",
+                  rect: Rectangle.fromRectLike(modal.rect),
+                  modal: modal,
+                }
+                break;
+              case "scan":
+
+                return {
+                  type: "scan",
+                  rect: Rectangle.fromOriginAndSize(locs[0], {x: 1, y: 1})
+                }
+              case "slider":
+                return {
+                  type: "slider",
+                  rect: Rectangle.fromOriginAndSize(
+                    Vector2.sub(locs[0], anchor.origin_offset),
+                    {x: 273, y: 273}
+                  )
+                }
+              case "compass":
+                return {
+                  type: "compass",
+                  rect: Rectangle.fromOriginAndSize(locs[0], {x: 1, y: 1})
+                }
             }
           }
         }
       }
     })()
 
-    console.log("UI")
-    console.log(found_ui)
-
     if (CLUEREADERDEBUG) {
       if (found_ui) {
-        deps().app.notifications.notify({}, `Found '${found_ui.type} at ${Vector2.toString(found_ui.pos)}'`)
+        deps().app.notifications.notify({}, `Found '${found_ui.type} at ${Vector2.toString(found_ui.rect.topleft)}'`)
       } else {
         deps().app.notifications.notify({type: "error"}, `Nothing found'`)
       }
     }
 
     if (found_ui) {
+
+      if (CLUEREADERDEBUG) {
+        console.log(found_ui)
+
+        alt1.overLayRect(a1lib.mixColor(255, 0, 0, 255),
+          found_ui.rect.topleft.x,
+          found_ui.rect.botright.y,
+          Rectangle.width(found_ui.rect),
+          Rectangle.height(found_ui.rect),
+          5000,
+          1
+        )
+
+        alt1.overLayText(
+          found_ui.type,
+          a1lib.mixColor(255, 0, 0, 255),
+          10,
+          found_ui.rect.topleft.x,
+          found_ui.rect.botright.y,
+          5000)
+      }
+
       switch (found_ui.type) {
         case "modal":
 
-          let modal = ModalUIReader.detectEoc(img, found_ui.pos);
-
           const modal_type = ((): ClueReader.ModalType => {
-
             const modal_type_map: {
               type: ClueReader.ModalType,
               possible_titles: string[]
@@ -160,7 +200,7 @@ export class ClueReader {
 
             for (let type of modal_type_map) {
               for (let title of type.possible_titles) {
-                const score = stringSimilarity(modal.title, title)
+                const score = stringSimilarity(found_ui.modal.title, title)
 
                 if (score > best_score) {
                   best_score = score
@@ -188,7 +228,7 @@ export class ClueReader {
           if (modal_type) {
             switch (modal_type) {
               case "textclue":
-                const text = ClueReader.readTextClueModalText(modal)
+                const text = ClueReader.readTextClueModalText(found_ui.modal)
 
                 console.log(text)
 
@@ -216,7 +256,7 @@ export class ClueReader {
                     step: best
                   }
                 } else {
-                  const tiled_img = ClueReader.getImageClueImage(modal)
+                  const tiled_img = ClueReader.getImageClueImage(found_ui.modal)
 
                   let best: Clues.Step = null
                   let best_score = Number.MAX_VALUE
@@ -241,7 +281,7 @@ export class ClueReader {
           break
         case "scan": {
           const scan_text_full = ClueReader.readScanPanelText(
-            img, Vector2.sub(found_ui.pos, found_ui.origin_offset)
+            img, found_ui.rect.topleft
           )
 
           if (CLUEREADERDEBUG) deps().app.notifications.notify({},
@@ -267,15 +307,30 @@ export class ClueReader {
           return {found_ui: found_ui, step: {step: best, text_index: 0}}
         }
         case "slider":
+          const res = await SlideReader.read(img, Rectangle.bottomLeft(found_ui.rect))
 
-          const res = SlideReader.read(img, Vector2.sub(found_ui.pos, found_ui.origin_offset))
+          res.tiles.forEach((tile, i) => {
+            const pos = Vector2.add(
+              Rectangle.screenOrigin(found_ui.rect),
+              {x: Math.floor(i / 5) * 56, y: i % 5 * 56}
+            )
 
-          console.log("Found slider")
-          console.log(res)
+            alt1.overLayText(`${res.theme}\n${tile.position}`,
+              a1lib.mixColor(0, 255, 0),
+              10,
+              pos.x,
+              pos.y,
+              5000
+            )
+          })
+
+          console.log(res.tiles)
+
+          deps().app.notifications.notify({}, `Found theme ${res.theme}`)
 
           break
         case "compass": {
-          const compass_state = ClueReader.readCompassState(img, Vector2.add(found_ui.pos, {x: -53, y: 54}))
+          const compass_state = ClueReader.readCompassState(img, Vector2.add(found_ui.rect.topleft, {x: -53, y: 54}))
 
           if (CLUEREADERDEBUG)
             deps().app.notifications.notify({},
@@ -298,9 +353,16 @@ export namespace ClueReader {
 
   export type MatchedUI = {
     type: UIType,
-    pos: Vector2,
-    origin_offset: Vector2
+    rect: Rectangle
+  } & ({
+    type: "slider"
+  } | {
+    type: "modal",
+    modal: ModalUI
   }
+    | { type: "scan" }
+    | { type: "compass" }
+    )
 
   export type ModalType = "towers" | "lockbox" | "textclue" | "knot"
 

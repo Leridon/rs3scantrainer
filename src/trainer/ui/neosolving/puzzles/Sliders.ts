@@ -1,4 +1,6 @@
 import {SlideMove, SlideSolverRandom} from "../../../../skillbertssolver/cluesolver/slidesolver";
+import {stat} from "copy-webpack-plugin/types/utils";
+import {util} from "../../../../lib/util/util";
 
 export namespace Sliders {
   export type SliderPuzzle = { tiles: Tile[], theme?: string }
@@ -24,15 +26,13 @@ export namespace Sliders {
     export function applyMove(state: SliderState, move: Move): SliderState {
       const copy = [...state]
 
-      const single_tile_move = Math.sign(move) * (Math.abs(move) >= 5 ? 5 : 1)
-
-      const n = move / single_tile_move
+      const split_moves = Move.split(move)
 
       let blank = state.indexOf(24)
 
-      for (let i = 0; i < n; i++) {
-        copy[blank] = copy[blank + single_tile_move]
-        blank += single_tile_move
+      for (let move of split_moves) {
+        copy[blank] = copy[blank + move]
+        blank += move
       }
 
       copy[blank] = 24
@@ -61,27 +61,44 @@ export namespace Sliders {
    */
   export type Move = number
 
+  export namespace Move {
+    export function split(move: Move): Move[] {
+      const single_tile_move = Math.sign(move) * (Math.abs(move) >= 5 ? 5 : 1)
+
+      const n = move / single_tile_move
+
+      return new Array(n).fill(single_tile_move)
+    }
+  }
+
   export type MoveList = Move[]
 
   export type AnnotatedMoveList = {
-    pre_state: SliderState,
+    states: SliderState[],
     move: Move
-    post_state: SliderState,
   }[]
 
   export namespace MoveList {
+    import index = util.index;
+
     export function annotate(state: SliderState, moves: MoveList): AnnotatedMoveList {
       const buffer: AnnotatedMoveList = []
 
       for (let move of moves) {
-        const post_state = SliderState.applyMove(state, move)
+        const states: SliderState[] = [state]
+
+        for (let single_move of Move.split(move)) {
+          state = SliderState.applyMove(state, single_move)
+          states.push(state)
+        }
 
         buffer.push({
-          pre_state: state,
+          states: states,
           move: move,
-          post_state: post_state
         })
-        state = post_state
+
+
+        state = index(states, -1)
       }
 
       return buffer

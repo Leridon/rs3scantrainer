@@ -99,6 +99,7 @@ export class ClueReader {
 
                 return {
                   type: "modal",
+                  image: img,
                   rect: Rectangle.fromRectLike(modal.rect),
                   modal: modal,
                 }
@@ -107,11 +108,13 @@ export class ClueReader {
 
                 return {
                   type: "scan",
+                  image: img,
                   rect: Rectangle.fromOriginAndSize(locs[0], {x: 1, y: 1})
                 }
               case "slider":
                 return {
                   type: "slider",
+                  image: img,
                   rect: Rectangle.fromOriginAndSize(
                     Vector2.sub(locs[0], anchor.origin_offset),
                     {x: 273, y: 273}
@@ -120,6 +123,7 @@ export class ClueReader {
               case "compass":
                 return {
                   type: "compass",
+                  image: img,
                   rect: Rectangle.fromOriginAndSize(locs[0], {x: 1, y: 1})
                 }
             }
@@ -358,6 +362,7 @@ export namespace ClueReader {
 
   export type MatchedUI = {
     type: UIType,
+    image: ImgRef,
     rect: Rectangle
   } & ({
     type: "slider"

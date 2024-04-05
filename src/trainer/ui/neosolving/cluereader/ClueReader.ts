@@ -330,9 +330,10 @@ export class ClueReader {
 
           deps().app.notifications.notify({}, `Found theme ${res.theme}`)
 
-          console.log(Sliders.compressMoves(await Sliders.solve(res.tiles.map(s => s.position))))
-
-          break
+          return {
+            found_ui: found_ui,
+            slider: res
+          }
         case "compass": {
           const compass_state = ClueReader.readCompassState(img, Vector2.add(found_ui.rect.topleft, {x: -53, y: 54}))
 
@@ -373,6 +374,7 @@ export namespace ClueReader {
   export type Result = {
     found_ui: MatchedUI,
     step?: Clues.StepWithTextIndex,
+    slider?: Sliders.SliderPuzzle
   }
 
   /**

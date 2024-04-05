@@ -61,12 +61,7 @@ import bold = C.bold;
 import spacer = C.spacer;
 import space = C.space;
 import hboxl = C.hboxl;
-
-class NeoReader {
-  read: Ewent<{ step: Clues.Step, text_index: number }>
-  compass_angle_read: Ewent<{ angle: number }>
-  pulse_read: Ewent<Pulse>
-}
+import {PuzzleGuiderModal} from "./PuzzleGuider";
 
 class NeoSolvingLayer extends GameLayer {
   public control_bar: NeoSolvingLayer.MainControlBar
@@ -514,7 +509,6 @@ export namespace ScanTreeSolvingControl {
   }
 }
 
-
 class ClueSolvingReadingBehaviour extends Behaviour {
   reader: ClueReader
 
@@ -538,6 +532,10 @@ class ClueSolvingReadingBehaviour extends Behaviour {
 
     if (res?.step) {
       this.parent.setClueWithAutomaticMethod(res.step)
+    }
+    else if(res.slider) {
+      new PuzzleGuiderModal(res.found_ui, res.slider)
+        .show()
     }
 
     return res

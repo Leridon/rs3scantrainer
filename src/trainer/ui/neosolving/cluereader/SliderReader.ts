@@ -2,8 +2,11 @@ import {ImageDetect, ImgRef} from "@alt1/base";
 import {Vector2} from "../../../../lib/math";
 import * as oldlib from "../../../../skillbertssolver/cluesolver/oldlib";
 import * as lodash from "lodash";
+import {Sliders} from "../puzzles/Sliders";
 
 export namespace SlideReader {
+  import SliderPuzzle = Sliders.SliderPuzzle;
+  import Tile = Sliders.Tile;
   export const SLIDER_SIZE = 5
 
   const TILING_INTERVAL = 12
@@ -58,9 +61,6 @@ export namespace SlideReader {
     return reference_sliders
   }
 
-  export type Tile = { position: number, signature: number[], theme?: string }
-  export type SliderPuzzle = { tiles: Tile[], theme?: string }
-
   export async function read(image: ImgRef, origin: Vector2, known_theme: string = undefined): Promise<SliderPuzzle> {
     // Parse the slider image from screen
     const tiles = parseSliderImage(image.toData(origin.x, origin.y, 280, 280), 7)
@@ -106,8 +106,6 @@ export namespace SlideReader {
         score: lodash.sumBy(matched_tiles, m => m.score)
       }
     })
-
-    console.log(matches.map(m => [m.score, m.slider.theme]))
 
     return lodash.minBy(matches, m => m.score).slider
   }

@@ -32,6 +32,8 @@ export abstract class Modal2 {
       case "large":
         this._dialog.addClass("modal-lg")
         break;
+      case "fullscreen":
+        this._dialog.addClass("ctr-modal-fullscreen")
     }
 
     observe_combined({visible: this.visible, should_dismount: this.should_dismount}).subscribe(({visible, should_dismount}) => {
@@ -101,7 +103,7 @@ export abstract class Modal2 {
 export namespace Modal2 {
   export type Options = {
     no_fade?: boolean,
-    size?: "small" | "medium" | "large",
+    size?: "small" | "medium" | "large" | "fullscreen",
     fixed?: boolean
   }
 }

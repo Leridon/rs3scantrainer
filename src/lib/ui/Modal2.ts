@@ -48,8 +48,6 @@ export abstract class Modal2 {
       this._modal.appendTo(jquery("body"))
 
       this._modal.raw().addEventListener("shown.bs.modal", () => {
-        console.log("Shown")
-
         this.visible.set(true)
         this.shown.trigger(this)
       })

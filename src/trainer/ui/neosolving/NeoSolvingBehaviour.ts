@@ -11,7 +11,7 @@ import {AbstractDropdownSelection} from "../widgets/AbstractDropdownSelection";
 import {Clues} from "../../../lib/runescape/clues";
 import {clue_data} from "../../../data/clues";
 import PreparedSearchIndex from "../../../lib/util/PreparedSearchIndex";
-import {Ewent, Observable, observe} from "../../../lib/reactive";
+import {Observable, observe} from "../../../lib/reactive";
 import {floor_t, TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 import * as lodash from "lodash";
 import {Vector2} from "../../../lib/math";
@@ -42,10 +42,11 @@ import {TextRendering} from "../TextRendering";
 import {ClueEntities} from "./ClueEntities";
 import {NislIcon} from "../nisl";
 import {ClueProperties} from "../theorycrafting/ClueProperties";
+import {SliderModal} from "./PuzzleGuider";
+import {PuzzleModal} from "./PuzzleModal";
 import span = C.span;
 import todo = util.todo;
 import PulseInformation = ScanTheory.PulseInformation;
-import Pulse = Scans.Pulse;
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
 import interactionMarker = RenderingUtility.interactionMarker;
@@ -61,7 +62,6 @@ import bold = C.bold;
 import spacer = C.spacer;
 import space = C.space;
 import hboxl = C.hboxl;
-import {PuzzleGuiderModal} from "./PuzzleGuider";
 
 class NeoSolvingLayer extends GameLayer {
   public control_bar: NeoSolvingLayer.MainControlBar
@@ -532,10 +532,8 @@ class ClueSolvingReadingBehaviour extends Behaviour {
 
     if (res?.step) {
       this.parent.setClueWithAutomaticMethod(res.step)
-    }
-    else if(res.slider) {
-      new PuzzleGuiderModal(res.found_ui, res.slider)
-        .show()
+    } else if (res.puzzle) {
+      this.parent.setPuzzle(res.puzzle)
     }
 
     return res
@@ -568,6 +566,8 @@ class ClueSolvingReadingBehaviour extends Behaviour {
 export default class NeoSolvingBehaviour extends Behaviour {
   layer: NeoSolvingLayer
 
+  active_puzzle_modal: PuzzleModal = null
+
   active_clue: { step: Clues.Step, text_index: number } = null
   active_method: AugmentedMethod = null
 
@@ -585,6 +585,30 @@ export default class NeoSolvingBehaviour extends Behaviour {
     this.path_control.section_selected.on(p => {
       if (this.active_method.method.type != "scantree") setTimeout(() => this.layer.fit(Path.bounds(p)), 20)
     })
+  }
+
+  setPuzzle(puzzle: PuzzleModal.Puzzle | null): void {
+    if (this.active_puzzle_modal?.puzzle?.type == puzzle?.type) return // Don't do anything if a puzzle of that type is already active
+
+    this.reset()
+
+    if (this.active_puzzle_modal) {
+
+      this.active_puzzle_modal.abort()
+      this.active_puzzle_modal = null
+    }
+
+    if (puzzle) {
+
+      this.active_puzzle_modal = (() => {
+        switch (puzzle.type) {
+          case "slider":
+            return new SliderModal(puzzle)
+        }
+      })()
+
+      this.active_puzzle_modal.start()
+    }
   }
 
   /**
@@ -953,6 +977,11 @@ export default class NeoSolvingBehaviour extends Behaviour {
     this.default_method_selector?.remove()
     this.active_clue = null
     this.active_method = null
+
+    if (this.active_puzzle_modal) {
+      this.active_puzzle_modal.abort()
+      this.active_puzzle_modal = null
+    }
   }
 
   /**

@@ -1,82 +1,98 @@
-import {NisModal} from "../../../lib/ui/NisModal";
 import {Sliders} from "./puzzles/Sliders";
-import LightButton from "../widgets/LightButton";
 import {ClueReader} from "./cluereader/ClueReader";
 import {Rectangle, Vector2} from "../../../lib/math";
+import * as a1lib from "@alt1/base";
 import {mixColor} from "@alt1/base";
 import {delay} from "../../../oldlib";
 import {OverlayGeometry} from "../../../lib/util/OverlayGeometry";
-import SliderPuzzle = Sliders.SliderPuzzle;
-import over = OverlayGeometry.over;
 import {SlideReader} from "./cluereader/SliderReader";
+import {C} from "../../../lib/ui/constructors";
+import {PuzzleModal} from "./PuzzleModal";
+import over = OverlayGeometry.over;
 import SliderState = Sliders.SliderState;
+import SliderPuzzle = Sliders.SliderPuzzle;
 
-export class PuzzleGuiderModal extends NisModal {
-  constructor(private ui: ClueReader.MatchedUI, private slider: SliderPuzzle) {
-    super({size: "fullscreen"});
+export class SliderModal extends PuzzleModal {
+  constructor(public readonly puzzle: PuzzleModal.Slider) {
+    super(puzzle);
 
     this.title.set("Slider")
   }
 
+  protected begin(): void {
+    (async () => {
+      let moves = await Sliders.solve(Sliders.SliderPuzzle.getState(this.puzzle.puzzle))
+      moves = Sliders.compressMoves(moves)
+      this.guide(moves)
+    })()
+  }
+
+  protected end(): void {
+
+  }
+
   private posToScreen(pos: number): Vector2 {
     return Vector2.add(
-      Rectangle.screenOrigin(this.ui.rect),
+      Rectangle.screenOrigin(this.puzzle.ui.rect),
       {x: 25, y: 25},
       {x: (pos % 5) * 56, y: Math.floor(pos / 5) * 56}
     )
   }
 
   private async guide(moves: Sliders.MoveList) {
-    let pos = this.slider.tiles.findIndex(t => t.position == 24)
+    const annotated_moves = Sliders.MoveList.annotate(Sliders.SliderPuzzle.getState(this.puzzle.puzzle), moves)
 
-    const annotated_moves = Sliders.MoveList.annotate(Sliders.SliderPuzzle.getState(this.slider), moves)
+    let active_overlay: OverlayGeometry = null
 
-
-    /*
-    let active_overlay = null
+    let last_move_index = null
 
     while (true) {
+      await delay(20)
+
       const ui_state = SliderPuzzle.getState(
-        await SlideReader.read(this.ui.image, Rectangle.screenOrigin(this.ui.rect), this.slider.theme)
+        await SlideReader.read(a1lib.captureHoldFullRs(), Rectangle.screenOrigin(this.puzzle.ui.rect), this.puzzle.puzzle.theme)
       )
 
-      const current_move_index = annotated_moves.findIndex(a => a.states.some(s => SliderState.equals(s, ui_state)))
+      const current_move_index = annotated_moves.findIndex(a => a.pre_states.some(s => SliderState.equals(s, ui_state)))
 
       if (current_move_index >= 0) {
-        const current_move = annotated_moves[current_move_index]
+        if (current_move_index == last_move_index) continue
 
-        // Update overlay
+        last_move_index = current_move_index
+
+        if (active_overlay) {
+          active_overlay.hide()
+          active_overlay = null
+        }
+
+        active_overlay = over()
+
+        for (let i = 0; i < 4 && i + current_move_index < annotated_moves.length; ++i) {
+          const move = annotated_moves[current_move_index + i]
+
+          active_overlay.rect(
+            Rectangle.centeredOn(this.posToScreen(move.clicked_tile),
+              20 - 3 * i
+            ),
+            {width: 3, color: mixColor(255, 0, 0)}
+          )
+        }
+
+        active_overlay.show(20000)
       } else {
-
+        if (active_overlay) {
+          active_overlay.hide()
+          active_overlay = null
+        }
+        break
       }
-
-      await delay(20)
-    }*/
-
-    for (let move of annotated_moves) {
-      const next_pos = pos + move.move
-
-      const p1 = this.posToScreen(pos)
-      const p2 = this.posToScreen(next_pos)
-
-      over()
-        .line(p1, p2, {color: mixColor(255, 0, 0), width: 3})
-        .rect(Rectangle.centeredOn(p2, 15), {color: mixColor(255, 0, 0), width: 3})
-        .show(1500)
-
-      pos = next_pos
-
-      await delay(200)
     }
   }
 
   render() {
     super.render();
 
-    this.body.append(new LightButton("Start")
-      .onClick(async () => {
-        this.guide(Sliders.compressMoves(await Sliders.solve(Sliders.SliderPuzzle.getState(this.slider))))
-      })
-    )
+    C.img(SlideReader.getThemeImageUrl(this.puzzle.puzzle.theme))
+      .appendTo(C.div().css("text-align", "center").appendTo(this.body))
   }
 }

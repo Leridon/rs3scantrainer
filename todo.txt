@@ -1,5 +1,14 @@
 Planned for next release (b0.4):
 
+- Slider Solver
+    - [Feature, 4] Optional error recovery
+    - [Feature, 4] Option to draw arrow keys instead
+        - Auto detect invert option from screen
+    - [Feature, 4] Prevent overlap
+    - [Feature, 3] Add configuration options
+        - Lookahead number
+        - Colorgradient
+
 [Bug, 5] Context menu on entities causes tooltip to be off
 
 - Solving Behaviour

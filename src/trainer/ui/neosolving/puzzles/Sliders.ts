@@ -1,5 +1,4 @@
 import {SlideMove, SlideSolverRandom} from "../../../../skillbertssolver/cluesolver/slidesolver";
-import {stat} from "copy-webpack-plugin/types/utils";
 import {util} from "../../../../lib/util/util";
 
 export namespace Sliders {
@@ -23,7 +22,7 @@ export namespace Sliders {
       return true
     }
 
-    export function applyMove(state: SliderState, move: Move): SliderState {
+    export function withMove(state: SliderState, move: Move): SliderState {
       const copy = [...state]
 
       const split_moves = Move.split(move)
@@ -38,6 +37,10 @@ export namespace Sliders {
       copy[blank] = 24
 
       return copy
+    }
+
+    export function blank(state: SliderState): number {
+      return state.indexOf(24)
     }
   }
 
@@ -74,8 +77,9 @@ export namespace Sliders {
   export type MoveList = Move[]
 
   export type AnnotatedMoveList = {
-    states: SliderState[],
-    move: Move
+    pre_states: SliderState[],
+    move: Move,
+    clicked_tile: number
   }[]
 
   export namespace MoveList {
@@ -85,20 +89,18 @@ export namespace Sliders {
       const buffer: AnnotatedMoveList = []
 
       for (let move of moves) {
-        const states: SliderState[] = [state]
+        const states: SliderState[] = []
 
         for (let single_move of Move.split(move)) {
-          state = SliderState.applyMove(state, single_move)
           states.push(state)
+          state = SliderState.withMove(state, single_move)
         }
 
         buffer.push({
-          states: states,
+          pre_states: states,
           move: move,
+          clicked_tile: SliderState.blank(state)
         })
-
-
-        state = index(states, -1)
       }
 
       return buffer

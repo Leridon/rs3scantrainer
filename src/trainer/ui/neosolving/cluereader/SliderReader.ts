@@ -52,13 +52,17 @@ export namespace SlideReader {
         "elf", "float", "frost", "greg", "helwyr", "jas", "mage", "maple", "menn", "nomad", "rax", "seal", "troll", "tuska", "twins", "v", "vyre", "wolf"
       ]
       reference_sliders = await Promise.all(themes.map(async theme => {
-        return parseSliderImage(await ImageDetect.imageDataFromUrl(`alt1anchors/sliders/${theme}.png`),
+        return parseSliderImage(await ImageDetect.imageDataFromUrl(getThemeImageUrl(theme)),
           0,
           theme)
       }))
     }
 
     return reference_sliders
+  }
+
+  export function getThemeImageUrl(theme: string): string {
+    return `alt1anchors/sliders/${theme}.png`
   }
 
   export async function read(image: ImgRef, origin: Vector2, known_theme: string = undefined): Promise<SliderPuzzle> {

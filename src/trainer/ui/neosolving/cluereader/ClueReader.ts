@@ -14,11 +14,11 @@ import {comparetiledata} from "../../../../skillbertssolver/cluesolver/oldlib";
 import {clue_data} from "../../../../data/clues";
 import {getdirection, isArcClue} from "../../../../skillbertssolver/cluesolver/compassclue";
 import {SlideReader} from "./SliderReader";
-import {Sliders} from "../puzzles/Sliders";
+import {PuzzleModal} from "../PuzzleModal";
 import stringSimilarity = util.stringSimilarity;
 import ScanStep = Clues.ScanStep;
 
-const CLUEREADERDEBUG = true
+const CLUEREADERDEBUG = false
 
 export class ClueReader {
   anchors: {
@@ -317,26 +317,29 @@ export class ClueReader {
             Rectangle.bottomLeft(found_ui.rect),
           )
 
-          res.tiles.forEach((tile, i) => {
-            const pos = Vector2.add(
-              Rectangle.screenOrigin(found_ui.rect),
-              {x: Math.floor(i % 5) * 56, y: Math.floor(i / 5) * 56}
-            )
+          if (CLUEREADERDEBUG) {
 
-            alt1.overLayText(`${res.theme}\n${tile.position}`,
-              a1lib.mixColor(0, 255, 0),
-              10,
-              pos.x,
-              pos.y,
-              5000
-            )
-          })
+            res.tiles.forEach((tile, i) => {
+              const pos = Vector2.add(
+                Rectangle.screenOrigin(found_ui.rect),
+                {x: Math.floor(i % 5) * 56, y: Math.floor(i / 5) * 56}
+              )
 
-          deps().app.notifications.notify({}, `Found theme ${res.theme}`)
+              alt1.overLayText(`${res.theme}\n${tile.position}`,
+                a1lib.mixColor(0, 255, 0),
+                10,
+                pos.x,
+                pos.y,
+                5000
+              )
+            })
+
+            deps().app.notifications.notify({}, `Found theme ${res.theme}`)
+          }
 
           return {
             found_ui: found_ui,
-            slider: res
+            puzzle: {type: "slider", ui: found_ui, puzzle: res},
           }
         case "compass": {
           const compass_state = ClueReader.readCompassState(img, Vector2.add(found_ui.rect.topleft, {x: -53, y: 54}))
@@ -360,26 +363,36 @@ export class ClueReader {
 export namespace ClueReader {
   export type UIType = "modal" | "scan" | "slider" | "compass"
 
-  export type MatchedUI = {
-    type: UIType,
-    image: ImgRef,
-    rect: Rectangle
-  } & ({
-    type: "slider"
-  } | {
-    type: "modal",
-    modal: ModalUI
+  export type MatchedUI =
+    MatchedUI.Slider | MatchedUI.Modal | MatchedUI.Scan | MatchedUI.Compass
+
+  export namespace MatchedUI {
+    export type Type = "modal" | "scan" | "slider" | "compass"
+
+    export type base = {
+      type: Type,
+      image: ImgRef,
+      rect: Rectangle
+    }
+
+    export type Slider = base & {
+      type: "slider"
+    }
+
+    export type Scan = base & { type: "scan" }
+    export type Compass = base & { type: "compass" }
+    export type Modal = base & {
+      type: "modal",
+      modal: ModalUI
+    }
   }
-    | { type: "scan" }
-    | { type: "compass" }
-    )
 
   export type ModalType = "towers" | "lockbox" | "textclue" | "knot"
 
   export type Result = {
     found_ui: MatchedUI,
     step?: Clues.StepWithTextIndex,
-    slider?: Sliders.SliderPuzzle
+    puzzle?: PuzzleModal.Puzzle
   }
 
   /**

@@ -3,7 +3,7 @@ import {ewent} from "../../../../lib/reactive";
 import {delay} from "../../../../skillbertssolver/oldlib";
 
 export namespace Sliders {
-  export type SliderPuzzle = { tiles: Tile[], theme?: string }
+  export type SliderPuzzle = { tiles: Tile[], theme?: string, match_uncertainty?: number }
 
   export namespace SliderPuzzle {
     export function getState(puzzle: SliderPuzzle): SliderState {
@@ -43,6 +43,37 @@ export namespace Sliders {
     export function blank(state: SliderState): number {
       return state.indexOf(24)
     }
+
+    export function findMove(before: SliderState, after: SliderState): Move | null {
+      const blank_before = blank(before)
+      const blank_after = blank(after)
+
+      const move = blank_after - blank_before
+
+      if (!Move.isValid(move)) return null
+      if (!SliderState.equals(after, SliderState.withMove(before, move))) return null
+
+      return move
+    }
+
+    export function neighbours(state: SliderState): SliderState[] {
+      const open_tile = blank(state)
+
+      const x = open_tile % 5
+      const y = Math.floor(open_tile / 5)
+
+      const moves: Move[] = []
+
+      for (let xi = 0; xi < 5; xi++) {
+        if (xi != x) moves.push(xi - x)
+      }
+
+      for (let yi = 0; yi < 5; yi++) {
+        if (yi != y) moves.push((yi - y) * 5)
+      }
+
+      return moves.map(m => SliderState.withMove(state, m))
+    }
   }
 
   export const SolvedState =
@@ -73,6 +104,10 @@ export namespace Sliders {
 
       return new Array(n).fill(single_tile_move)
     }
+
+    export function isValid(move: Move): boolean {
+      return [1, 2, 3, 4, 5, 10, 15, 20].includes(Math.abs(move))
+    }
   }
 
   export type MoveList = Move[]
@@ -80,7 +115,8 @@ export namespace Sliders {
   export type AnnotatedMoveList = {
     pre_states: SliderState[],
     move: Move,
-    clicked_tile: number
+    clicked_tile: number,
+    post_state: SliderState
   }[]
 
   export namespace MoveList {
@@ -89,15 +125,11 @@ export namespace Sliders {
       const buffer: AnnotatedMoveList = []
 
       for (let move of moves) {
-        const states: SliderState[] = []
-
-        for (let single_move of Move.split(move)) {
-          states.push(state)
-          state = SliderState.withMove(state, single_move)
-        }
+        state = SliderState.withMove(state, move)
 
         buffer.push({
-          pre_states: states,
+          pre_states: SliderState.neighbours(state),
+          post_state: state,
           move: move,
           clicked_tile: SliderState.blank(state)
         })

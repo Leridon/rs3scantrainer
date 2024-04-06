@@ -65,7 +65,12 @@ export namespace SlideReader {
     return `alt1anchors/sliders/${theme}.png`
   }
 
-  export async function read(image: ImgRef, origin: Vector2, known_theme: string = undefined): Promise<SliderPuzzle> {
+  export type ReadResult = {
+    uncertainy: number,
+    puzzle: SliderPuzzle
+  }
+
+  export async function read(image: ImgRef, origin: Vector2, known_theme: string = undefined): Promise<ReadResult> {
     // Parse the slider image from screen
     const tiles = parseSliderImage(image.toData(origin.x, origin.y, 280, 280), 7)
 
@@ -91,7 +96,7 @@ export namespace SlideReader {
 
     const grouped = lodash.groupBy(tile_scores, e => e.reference_tile.theme)
 
-    const matches = Object.entries(grouped).map(([theme, tile_matches]) => {
+    const matches = Object.entries(grouped).map<ReadResult>(([theme, tile_matches]) => {
       const sorted = lodash.sortBy(tile_matches, e => e.score)
 
       const matched_tiles: (typeof tile_scores)[number][] = new Array(25).fill(null)
@@ -106,11 +111,11 @@ export namespace SlideReader {
       }
 
       return {
-        slider: {tiles: matched_tiles.map(m => m.reference_tile), theme: theme},
-        score: lodash.sumBy(matched_tiles, m => m.score)
+        puzzle: {tiles: matched_tiles.map(m => m.reference_tile), theme: theme},
+        uncertainy: lodash.sumBy(matched_tiles, m => m.score)
       }
     })
 
-    return lodash.minBy(matches, m => m.score).slider
+    return lodash.minBy(matches, m => m.uncertainy)
   }
 }

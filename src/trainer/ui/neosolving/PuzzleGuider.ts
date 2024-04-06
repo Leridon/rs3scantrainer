@@ -14,18 +14,26 @@ import SliderState = Sliders.SliderState;
 import SliderPuzzle = Sliders.SliderPuzzle;
 import SlideSolver = Sliders.SlideSolver;
 import AnnotatedMoveList = Sliders.AnnotatedMoveList;
+import MoveList = Sliders.MoveList;
+import Move = Sliders.Move;
 
 class SliderGuideProcess {
   private puzzle: SliderPuzzle
   private should_stop: boolean = false
 
   private solver: SlideSolver = null
+
+  private error_recovery_solution: {
+    sequence: AnnotatedMoveList,
+    recovering_to_mainline_index: number
+  } = null
+
   private solution: AnnotatedMoveList = null
 
   private solving_overlay: OverlayGeometry = null
   private move_overlay: OverlayGeometry = null
 
-  private current_move_index: number = null
+  private current_mainline_index: number | null = null
 
   constructor(private parent: SliderModal) {
     this.puzzle = parent.puzzle.puzzle
@@ -39,10 +47,19 @@ class SliderGuideProcess {
     )
   }
 
-  private async read(): Promise<SliderState> {
-    return SliderPuzzle.getState(
-      await SlideReader.read(a1lib.captureHoldFullRs(), Rectangle.screenOrigin(this.parent.puzzle.ui.rect), this.puzzle.theme)
+  private async read(): Promise<{
+    result: SlideReader.ReadResult,
+    state: SliderState
+  }> {
+    const read = await SlideReader.read(a1lib.captureHoldFullRs(),
+      Rectangle.screenOrigin(this.parent.puzzle.ui.rect),
+      this.puzzle.theme
     )
+
+    return {
+      result: read,
+      state: SliderPuzzle.getState(read.puzzle)
+    }
   }
 
   private updateMoveOverlay() {
@@ -52,16 +69,26 @@ class SliderGuideProcess {
     }
 
     if (!this.solution) return
-    if (this.current_move_index < 0) return;
+    if (this.current_mainline_index == null) return;
 
     this.move_overlay = over()
 
-    for (let i = 0; i < 4 && i + this.current_move_index < this.solution.length; ++i) {
-      const move = this.solution[this.current_move_index + i]
+    const LOOKAHEAD = 5
+
+    let moves = this.error_recovery_solution?.sequence ?? []
+
+    if (moves.length < LOOKAHEAD) {
+      moves.push(...this.solution.slice(this.current_mainline_index, this.current_mainline_index + (LOOKAHEAD - moves.length)))
+    } else if (moves.length > LOOKAHEAD) {
+      moves = moves.slice(0, LOOKAHEAD)
+    }
+
+    for (let i = 0; i < moves.length; ++i) {
+      const move = moves[i]
 
       this.move_overlay.rect(
         Rectangle.centeredOn(this.posToScreen(move.clicked_tile),
-          20 - 3 * i
+          20 - 4 * i
         ),
         {width: 3, color: mixColor(255, 0, 0)}
       )
@@ -103,8 +130,14 @@ class SliderGuideProcess {
   async run() {
     let last_move_index = null
 
+    let last_frame_state: SliderState = null
+
     while (!this.should_stop) {
-      const frame_state = await this.read()
+      const read_result = await this.read()
+
+      // TODO: Do something if the confidence in the read theme is low. That means likely the interface was closed
+
+      const frame_state = read_result.state
 
       if (!this.solution) {
         await new Promise<void>(async (resolve) => {
@@ -119,12 +152,15 @@ class SliderGuideProcess {
 
           await this.solver.solve(1000)
 
+          this.current_mainline_index = 0
+          this.error_recovery_solution = {sequence: [], recovering_to_mainline_index: 0}
+
           resolve()
         })
 
         this.updateSolvingOverlay()
 
-        this.solution = Sliders.MoveList.annotate(Sliders.SliderPuzzle.getState(this.puzzle), this.solver.getBest(true))
+        this.solution = Sliders.MoveList.annotate(frame_state, this.solver.getBest(true))
         this.solver = null
 
         this.updateSolvingOverlay()
@@ -134,18 +170,66 @@ class SliderGuideProcess {
 
       await delay(20)
 
-      this.current_move_index = this.solution.findIndex(a => a.pre_states.some(s => SliderState.equals(s, frame_state)))
+      // Early exit if state has not changed
+      if (last_frame_state && SliderState.equals(last_frame_state, frame_state)) continue
 
-      // TODO: Error recovery if index < 0
+      let mainline_index = this.solution.findIndex(a => a.pre_states.some(s => SliderState.equals(s, frame_state)))
 
-      if (this.current_move_index != last_move_index) this.updateMoveOverlay()
+      if (mainline_index >= 0) {
 
-      last_move_index = this.current_move_index
+        // pre_states also includes all states that can be reached from the target state.
+        // This causes a bug where a wrong mainline index is inferred
+        // This case is fixed with the following hack
+        if (mainline_index < this.solution.length - 1 && SliderState.equals(frame_state, this.solution[mainline_index + 1].post_state)) {
+          mainline_index += 2
+        }
+
+        this.current_mainline_index = mainline_index
+        this.error_recovery_solution = {sequence: [], recovering_to_mainline_index: mainline_index}
+      } else {
+        let recovery_index = this.error_recovery_solution.sequence.findIndex(a => a.pre_states.some(s => SliderState.equals(s, frame_state)))
+
+        if (recovery_index >= 0) {
+          // Prune the recovery sequence to just contain the remaining steps
+          this.error_recovery_solution.sequence = this.error_recovery_solution.sequence.slice(recovery_index)
+
+          this.current_mainline_index = this.error_recovery_solution.recovering_to_mainline_index
+        } else {
+          // The current state was not found in either the mainline nor in the recovery sequence
+
+          let recovery_move: Move | null = null
+
+          for (let target of this.getLastKnownMove().pre_states) {
+            recovery_move = SliderState.findMove(frame_state, target)
+            if (recovery_move) break
+          }
+
+          if (recovery_move != null) {
+            // Add recovery move to sequence
+            this.error_recovery_solution.sequence.splice(0, 0,
+              ...MoveList.annotate(frame_state, [recovery_move]))
+
+            this.current_mainline_index = this.error_recovery_solution.recovering_to_mainline_index
+          } else {
+            // Lost track. Start reset countdown or something
+
+            this.current_mainline_index = null
+          }
+        }
+      }
+
+      this.updateMoveOverlay()
+
+      last_frame_state = frame_state
     }
 
     this.solution = null
 
     this.updateMoveOverlay()
+  }
+
+  private getLastKnownMove() {
+    return this.error_recovery_solution?.sequence?.[0] ?? this.solution[this.current_mainline_index]
   }
 
   stop() {
@@ -172,6 +256,14 @@ export class SliderModal extends PuzzleModal {
       this.process = new SliderGuideProcess(this)
       this.process.run()
     }
+
+    this.updateButtonsState()
+  }
+
+  private updateButtonsState() {
+    this.reset_button.setVisible(!!this.process)
+    this.start_button.setVisible(!this.process)
+    this.stop_button.setEnabled(!!this.process)
   }
 
   protected begin(): void {
@@ -204,5 +296,7 @@ export class SliderModal extends PuzzleModal {
           .onClick(() => this.resetProcess(false)),
       )
     )
+
+    this.updateButtonsState()
   }
 }

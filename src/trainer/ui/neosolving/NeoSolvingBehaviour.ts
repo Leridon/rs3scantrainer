@@ -557,7 +557,7 @@ class ClueSolvingReadingBehaviour extends Behaviour {
   async solveManuallyTriggered() {
     const found = await this.solve()
 
-    if (!found?.step) {
+    if (!found?.step && !found?.puzzle) {
       this.parent.app.notifications.notify({type: "error"}, "No clue found on screen.")
     }
   }
@@ -606,6 +606,12 @@ export default class NeoSolvingBehaviour extends Behaviour {
             return new SliderModal(puzzle)
         }
       })()
+
+      this.active_puzzle_modal.hidden.on(modal => {
+        if (modal == this.active_puzzle_modal) {
+          this.active_puzzle_modal = null
+        }
+      })
 
       this.active_puzzle_modal.start()
     }

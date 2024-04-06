@@ -3,8 +3,14 @@ import {ClueReader} from "./cluereader/ClueReader";
 import {Sliders} from "./puzzles/Sliders";
 
 export abstract class PuzzleModal extends NisModal {
+  protected is_aborted = false
+
   constructor(public readonly puzzle: PuzzleModal.Puzzle) {
     super({size: "fullscreen"});
+
+    this.hidden.on(() => {
+      this.abort()
+    })
   }
 
   protected abstract end(): void
@@ -20,7 +26,10 @@ export abstract class PuzzleModal extends NisModal {
   }
 
   abort(): void {
-    this.end()
+    if (!this.is_aborted) {
+      this.end()
+      this.is_aborted = true
+    }
 
     this.remove()
   }

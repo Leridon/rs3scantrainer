@@ -1,5 +1,6 @@
-import {SlideMove, SlideSolverRandom} from "../../../../skillbertssolver/cluesolver/slidesolver";
-import {util} from "../../../../lib/util/util";
+import {calcmap, optimisemoves, SlideMove, SliderMap, SlideSolverRandom} from "../../../../skillbertssolver/cluesolver/slidesolver";
+import {ewent} from "../../../../lib/reactive";
+import {delay} from "../../../../skillbertssolver/oldlib";
 
 export namespace Sliders {
   export type SliderPuzzle = { tiles: Tile[], theme?: string }
@@ -83,7 +84,6 @@ export namespace Sliders {
   }[]
 
   export namespace MoveList {
-    import index = util.index;
 
     export function annotate(state: SliderState, moves: MoveList): AnnotatedMoveList {
       const buffer: AnnotatedMoveList = []
@@ -105,10 +105,169 @@ export namespace Sliders {
 
       return buffer
     }
+
+    /**
+     * Compressed a list of single tile moves into a list of multitile moves.
+     * @param moves
+     */
+    export function compress(moves: MoveList): MoveList {
+      let i = 0
+
+      const combined_moves: Move[] = []
+
+      while (i < moves.length) {
+        const move = moves[i]
+        i++
+
+        let n = 1
+
+        while (i < moves.length) {
+          if (moves[i] != move) break
+          n++
+          i++
+        }
+
+        combined_moves.push(n * move)
+      }
+
+      return combined_moves
+    }
   }
 
   function skillbertMoveToMyMove(move: SlideMove): Move {
     return (move.y2 - move.y1) * 5 + (move.x2 - move.x1)
+  }
+
+  export abstract class SlideSolver {
+    private update_event = ewent<this>()
+    private best_solution: MoveList = null
+
+    private is_running: boolean = false
+    protected should_stop: boolean = false
+    private finished: boolean = false
+
+    protected start_time: number
+    protected end_time: number
+    private progress: number
+
+    constructor(protected start_state: SliderState) {
+
+    }
+
+    protected registerSolution(moves: MoveList) {
+      if (!this.best_solution || moves.length < this.best_solution.length) {
+        this.best_solution = moves
+        this.updateProgress()
+      }
+    }
+
+    protected updateProgress() {
+      this.progress = (Date.now() - this.start_time) / (this.end_time - this.start_time)
+
+      this.update_event.trigger(this)
+    }
+
+    protected abstract solve_implementation()
+
+    async solve(timelimit: number): Promise<MoveList> {
+      if (this.is_running || this.finished) return
+
+      this.is_running = true
+      this.should_stop = false
+
+      this.start_time = Date.now();
+      this.end_time = this.start_time + timelimit;
+
+      await this.solve_implementation()
+
+      this.updateProgress()
+
+      this.is_running = false
+      this.should_stop = false
+      this.finished = true
+
+      return this.best_solution
+    }
+
+    stop() {
+      if (!this.is_running) return
+
+      this.should_stop = true
+    }
+
+    onUpdate(f: (_: this) => void): this {
+      this.update_event.on(f)
+      return this
+    }
+
+    isFinished(): boolean {
+      return this.finished
+    }
+
+    getProgress(): number {
+      return this.progress
+    }
+
+    getBest(compress: boolean = true): MoveList {
+      if (compress) return MoveList.compress(this.best_solution)
+      return this.best_solution
+    }
+  }
+
+  export namespace SlideSolver {
+    /**
+     * This is completely taken from skillbert's random solver and just fitted to the new interface
+     * @param start_state
+     */
+    export function skillbertRandom(start_state: SliderState): SlideSolver {
+      return new class extends Sliders.SlideSolver {
+        firstrun = true;
+
+        private step() {
+          const first = this.firstrun;
+          this.firstrun = false;
+          let steps = 0;
+          let map = new SliderMap(this.start_state);
+          while (true) {
+            let actions = calcmap(map);
+            if (actions.length == 0) { break; }
+            actions.sort(function (a, b) { return b.score - a.score; });
+            let n = (first ? 0 : Math.floor(actions.length * Math.random()));
+            let action = actions[n];
+
+            try {
+              action.f(map);
+            } catch {
+              break; //TODO still check solver paths even if this is dead end
+            }
+
+            if (steps++ > 50) {
+              console.log("failed to solve puzzle, over 50 actions attempted");
+              return null;
+            }
+          }
+
+          if (map.getMinMoves() == 0) {
+            this.registerSolution(optimisemoves(map.moves).map(skillbertMoveToMyMove));
+          }
+        }
+
+        override async solve_implementation() {
+          while (!this.should_stop) {
+            let t = Date.now();
+
+            if (t > this.end_time) break
+
+            this.updateProgress()
+
+            while (Date.now() - t < 50) this.step();
+
+            //Let go of the thread for a bit so ui gets a chance
+            await delay(1);
+          }
+        }
+      }(start_state)
+    }
   }
 
   export async function solve(state: SliderState): Promise<MoveList> {
@@ -117,32 +276,5 @@ export namespace Sliders {
     await solver.startSolve(3000)
 
     return solver.bestsolution.map(skillbertMoveToMyMove)
-  }
-
-  /**
-   * Compressed a list of single tile moves into a list of multitile moves.
-   * @param moves
-   */
-  export function compressMoves(moves: MoveList): MoveList {
-    let i = 0
-
-    const combined_moves: Move[] = []
-
-    while (i < moves.length) {
-      const move = moves[i]
-      i++
-
-      let n = 1
-
-      while (i < moves.length) {
-        if (moves[i] != move) break
-        n++
-        i++
-      }
-
-      combined_moves.push(n * move)
-    }
-
-    return combined_moves
   }
 }

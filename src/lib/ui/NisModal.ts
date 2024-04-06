@@ -3,6 +3,8 @@ import {Modal2} from "./Modal2";
 import {observe} from "../reactive";
 import {BigNisButton} from "../../trainer/ui/widgets/BigNisButton";
 import ButtonRow from "./ButtonRow";
+import {C} from "./constructors";
+import cls = C.cls;
 
 export abstract class NisModal extends Modal2 {
   public header: Widget
@@ -40,7 +42,9 @@ export abstract class NisModal extends Modal2 {
     this.title_widget = c("<h1 class='nisl-modal-title'></h1>").text(this.title.value()).appendTo(this.header)
 
     if (!this.options.fixed) {
-      c("<div class='nisl-modal-exit' data-bs-dismiss='modal'>").appendTo(this.header)
+      cls('nisl-modal-exit')
+        .on("click", () => this.remove())
+        .appendTo(this.header)
     }
   }
 

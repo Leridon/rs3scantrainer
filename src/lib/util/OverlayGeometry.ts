@@ -19,6 +19,18 @@ export class OverlayGeometry {
     return this
   }
 
+  text(text: string, position: Vector2,
+       options: OverlayGeometry.TextOptions = OverlayGeometry.TextOptions.DEFAULT): this {
+    this.geometry.push({
+      type: "text",
+      text: text,
+      position: position,
+      options: options
+    })
+
+    return this
+  }
+
   add(other: OverlayGeometry): this {
     this.geometry.push(...other.geometry)
     return this
@@ -52,14 +64,20 @@ export class OverlayGeometry {
 
           break;
         case "line":
-
-          alt1.overLayLine(element.options.color,
+          alt1.overLayLine(
+            element.options.color,
             element.options.width,
             element.from.x, element.from.y,
             element.to.x, element.to.y,
             time
           )
           break;
+        case "text":
+          alt1.overLayTextEx(element.text, element.options.color, element.options.width,
+            element.position.x, element.position.y,
+            time, undefined, element.options.centered, element.options.shadow
+          )
+          break
       }
     }
 
@@ -87,6 +105,11 @@ export namespace OverlayGeometry {
     type: "rect",
     rect: Rectangle,
     options: StrokeOptions
+  } | {
+    type: "text",
+    text: string,
+    position: Vector2,
+    options: TextOptions,
   }
 
   export namespace Geometry {
@@ -98,7 +121,6 @@ export namespace OverlayGeometry {
             rect: Rectangle.transform(geometry.rect, trans),
             options: geometry.options
           }
-          break;
         case "line":
           break;
       }
@@ -114,6 +136,20 @@ export namespace OverlayGeometry {
     export const DEFAULT: StrokeOptions = {
       width: 2,
       color: mixColor(255, 0, 0)
+    }
+  }
+
+  export type TextOptions = StrokeOptions & {
+    centered: boolean,
+    shadow: boolean
+  }
+
+  export namespace TextOptions {
+    export const DEFAULT: TextOptions = {
+      width: 20,
+      color: mixColor(255, 0, 0),
+      centered: true,
+      shadow: true
     }
   }
 

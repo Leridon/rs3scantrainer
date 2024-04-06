@@ -61,7 +61,6 @@ export abstract class Modal2 {
         backdrop: this.options.fixed ? "static" : true,
         keyboard: !this.options.fixed,
       })
-
     }
   }
 

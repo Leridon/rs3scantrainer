@@ -35,6 +35,8 @@ class SliderGuideProcess {
 
   private current_mainline_index: number | null = null
 
+  private last_frame_state: SliderState = null
+
   constructor(private parent: SliderModal) {
     this.puzzle = parent.puzzle.puzzle
   }
@@ -83,6 +85,23 @@ class SliderGuideProcess {
       moves = moves.slice(0, LOOKAHEAD)
     }
 
+    let current_blank = SliderState.blank(this.last_frame_state)
+
+    for (let blank of moves.map(m => m.clicked_tile)) {
+      const a = this.posToScreen(current_blank)
+      const b = this.posToScreen(blank)
+
+      const dir = Vector2.normalize(Vector2.sub(b, a))
+
+      this.move_overlay.line(
+        Vector2.add(a, Vector2.scale(10, dir)),
+        Vector2.add(b, Vector2.scale(-10, dir)),
+        {width: 3, color: mixColor(255, 255, 0)}
+      )
+
+      current_blank = blank
+    }
+
     for (let i = 0; i < moves.length; ++i) {
       const move = moves[i]
 
@@ -128,10 +147,6 @@ class SliderGuideProcess {
   }
 
   async run() {
-    let last_move_index = null
-
-    let last_frame_state: SliderState = null
-
     while (!this.should_stop) {
       const read_result = await this.read()
 
@@ -171,7 +186,7 @@ class SliderGuideProcess {
       await delay(20)
 
       // Early exit if state has not changed
-      if (last_frame_state && SliderState.equals(last_frame_state, frame_state)) continue
+      if (this.last_frame_state && SliderState.equals(this.last_frame_state, frame_state)) continue
 
       let mainline_index = this.solution.findIndex(a => a.pre_states.some(s => SliderState.equals(s, frame_state)))
 
@@ -218,9 +233,9 @@ class SliderGuideProcess {
         }
       }
 
-      this.updateMoveOverlay()
+      this.last_frame_state = frame_state
 
-      last_frame_state = frame_state
+      this.updateMoveOverlay()
     }
 
     this.solution = null

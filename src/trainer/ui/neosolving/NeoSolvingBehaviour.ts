@@ -256,7 +256,7 @@ namespace NeoSolvingLayer {
             .setToggled(this.fullscreen_preference.get()),
           new MainControlButton({icon: "assets/icons/settings.png", centered: true})
             .tooltip("Open settings")
-            .onClick(() => new SettingsModal().show())
+            .onClick(() => new SettingsModal("info_panels").show())
         ).css("flex-grow", "1"),
       )
 

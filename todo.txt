@@ -1,17 +1,9 @@
 Planned for next release (b0.4):
 
 - Slider Solver
-    - [Style, 5] Better lookahead styling
-    - [Bug, 3] After resetting the puzzle and reactivating the solver, no solution is displayed
-    - [Feature, 4] Optional error recovery
-    - [Feature, 4] Option to draw arrow keys instead
-        - Auto detect invert option from screen
+    - Auto detect invert option from screen
     - [Feature, 4] Prevent overlap
-    - [Feature, 3] Add configuration options
-        - Lookahead number
-        - Colorgradient
-
-[Bug, 5] Context menu on entities causes tooltip to be off
+    - Good default colors
 
 - Solving Behaviour
     - Path Panel

@@ -56,13 +56,13 @@ export namespace Sliders {
       return move
     }
 
-    export function neighbours(state: SliderState): SliderState[] {
+    export function neighbours(state: SliderState, prestates_multitile_allowed: boolean = true): SliderState[] {
       const open_tile = blank(state)
 
       const x = open_tile % 5
       const y = Math.floor(open_tile / 5)
 
-      const moves: Move[] = []
+      let moves: Move[] = []
 
       for (let xi = 0; xi < 5; xi++) {
         if (xi != x) moves.push(xi - x)
@@ -71,6 +71,8 @@ export namespace Sliders {
       for (let yi = 0; yi < 5; yi++) {
         if (yi != y) moves.push((yi - y) * 5)
       }
+
+      if (!prestates_multitile_allowed) moves = moves.filter(Move.isSmallStep)
 
       return moves.map(m => SliderState.withMove(state, m))
     }
@@ -125,14 +127,14 @@ export namespace Sliders {
 
   export namespace MoveList {
 
-    export function annotate(state: SliderState, moves: MoveList): AnnotatedMoveList {
+    export function annotate(state: SliderState, moves: MoveList, prestates_multitile_allowed: boolean = true): AnnotatedMoveList {
       const buffer: AnnotatedMoveList = []
 
       for (let move of moves) {
         state = SliderState.withMove(state, move)
 
         buffer.push({
-          pre_states: SliderState.neighbours(state),
+          pre_states: SliderState.neighbours(state, prestates_multitile_allowed),
           post_state: state,
           move: move,
           clicked_tile: SliderState.blank(state)

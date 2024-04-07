@@ -18,6 +18,10 @@ import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
 import {FormModal} from "../../../lib/ui/controls/FormModal";
 import TextField from "../../../lib/ui/controls/TextField";
 import {NeoSolving} from "../neosolving/NeoSolvingBehaviour";
+import NumberSlider from "../../../lib/ui/controls/NumberSlider";
+import {ColorPicker} from "../../../lib/ui/controls/ColorPicker";
+import {util} from "../../../lib/util/util";
+import {SlideGuider} from "../neosolving/SlideGuider";
 import cls = C.cls;
 import PotaColor = Settings.PotaColor;
 import hbox = C.hbox;
@@ -25,6 +29,8 @@ import vbox = C.vbox;
 import inlineimg = C.inlineimg;
 import hgrid = C.hgrid;
 import hboxl = C.hboxl;
+import centered = C.centered;
+import A1Color = util.A1Color;
 
 class SectionControl extends Widget {
   menu_bar: Widget
@@ -65,6 +71,13 @@ class SectionControl extends Widget {
     this.render()
 
     this.active_entry.set(sections[0].entries[0].id)
+  }
+
+  setActiveSection(id: string): this {
+    if (id) {
+      this.active_entry.set(id)
+    }
+    return this
   }
 
   private render() {
@@ -390,11 +403,90 @@ class TeleportSettingsEdit extends Widget {
 
 }
 
+class PuzzleSettingsEdit extends Widget {
+  private layout: Properties
+
+  constructor(private value: NeoSolving.Settings.Puzzles) {
+    super()
+
+    this.layout = new Properties().appendTo(this)
+
+    this.render()
+  }
+
+  render() {
+    this.layout.empty()
+
+    this.layout.header("Slider Puzzles")
+
+    this.layout.named("Mode", hgrid(
+      ...new Checkbox.Group([
+        {button: new Checkbox("Mouse"), value: "mouse" as const},
+        {button: new Checkbox("Keyboard"), value: "keyboard" as const},
+        {button: new Checkbox("Hybrid"), value: "hybrid" as const},
+      ]).onChange(v => this.value.sliders.mode = v)
+        .setValue(this.value.sliders.mode)
+        .checkboxes()
+    ))
+
+    this.layout.header(new Checkbox("Enable")
+        .onCommit(v => this.value.sliders.autostart = v)
+        .setValue(this.value.sliders.autostart)
+      , "left", 1)
+
+    this.layout.header("Lookahead", "left", 1)
+    this.layout.paragraph("Determines how many moves are shown in advance.")
+    this.layout.row(new NumberSlider(2, 10, 1)
+      .setValue(this.value.sliders.max_lookahead)
+      .onCommit(v => this.value.sliders.max_lookahead = v)
+    )
+
+    this.layout.header(new Checkbox("Prevent Overlap")
+      .onCommit(v => this.value.sliders.prevent_overlap = v)
+      .setValue(this.value.sliders.prevent_overlap), "left", 1)
+    this.layout.paragraph("When enabled, prevents moves that overlap with other moves from being displayed.")
+
+    this.layout.header(new Checkbox("Show Recovery Moves")
+      .onCommit(v => this.value.sliders.display_recovery = v)
+      .setValue(this.value.sliders.display_recovery), "left", 1)
+    this.layout.paragraph("When enabled, mistakes are automatically detected and recovery moves are displayed.")
+
+
+    const color_mainline_move = new ColorPicker()
+      .setValue(A1Color.toHex(this.value.sliders.color_mainline_move))
+      .onCommit(v => this.value.sliders.color_mainline_move = A1Color.fromHex(v))
+    const color_recovery_move = new ColorPicker()
+      .setValue(A1Color.toHex(this.value.sliders.color_recovery_move))
+      .onCommit(v => this.value.sliders.color_recovery_move = A1Color.fromHex(v))
+    const color_mainline_line = new ColorPicker()
+      .setValue(A1Color.toHex(this.value.sliders.color_mainline_line))
+      .onCommit(v => this.value.sliders.color_mainline_line = A1Color.fromHex(v))
+    const color_recovery_line = new ColorPicker()
+      .setValue(A1Color.toHex(this.value.sliders.color_recovery_line))
+      .onCommit(v => this.value.sliders.color_recovery_line = A1Color.fromHex(v))
+
+    this.layout.named("Colors", hgrid(centered("Main Line"), centered("Recovery")))
+    this.layout.named("Moves", hgrid(color_mainline_move, color_recovery_move))
+    this.layout.named("Lines", hgrid(color_mainline_line, color_recovery_line))
+
+    this.layout.named("", new LightButton("Reset to default")
+      .onClick(() => {
+        this.value.sliders.color_mainline_move = SlideGuider.Settings.DEFAULT.color_mainline_move
+        this.value.sliders.color_mainline_line = SlideGuider.Settings.DEFAULT.color_mainline_line
+        this.value.sliders.color_recovery_move = SlideGuider.Settings.DEFAULT.color_recovery_move
+        this.value.sliders.color_recovery_line = SlideGuider.Settings.DEFAULT.color_recovery_line
+
+        this.render()
+      })
+    )
+  }
+}
+
 class SolvingSettingsEdit extends Widget {
 
   private layout: Properties
 
-  constructor(private value: NeoSolving.Settings) {
+  constructor(private value: NeoSolving.Settings.InfoPanel) {
     super()
 
     this.layout = new Properties().appendTo(this)
@@ -414,8 +506,8 @@ class SolvingSettingsEdit extends Widget {
         {button: new Checkbox("Full"), value: "full" as const},
         {button: new Checkbox("Abridged"), value: "abridged" as const},
         {button: new Checkbox("Hide"), value: "hide" as const},
-      ]).onChange(v => this.value.info_panel.clue_text = v)
-        .setValue(this.value.info_panel.clue_text)
+      ]).onChange(v => this.value.clue_text = v)
+        .setValue(this.value.clue_text)
         .checkboxes()
     ))
 
@@ -423,8 +515,8 @@ class SolvingSettingsEdit extends Widget {
       ...new Checkbox.Group([
         {button: new Checkbox("Show"), value: "show" as const},
         {button: new Checkbox("Hide"), value: "hide" as const},
-      ]).onChange(v => this.value.info_panel.map_image = v)
-        .setValue(this.value.info_panel.map_image)
+      ]).onChange(v => this.value.map_image = v)
+        .setValue(this.value.map_image)
         .checkboxes()
     ))
 
@@ -432,8 +524,8 @@ class SolvingSettingsEdit extends Widget {
       ...new Checkbox.Group([
         {button: new Checkbox("Show"), value: "show" as const},
         {button: new Checkbox("Hide"), value: "hide" as const},
-      ]).onChange(v => this.value.info_panel.dig_target = v)
-        .setValue(this.value.info_panel.dig_target)
+      ]).onChange(v => this.value.dig_target = v)
+        .setValue(this.value.dig_target)
         .checkboxes()
     ))
 
@@ -441,8 +533,8 @@ class SolvingSettingsEdit extends Widget {
       ...new Checkbox.Group([
         {button: new Checkbox("Show"), value: "show" as const},
         {button: new Checkbox("Hide"), value: "hide" as const},
-      ]).onChange(v => this.value.info_panel.talk_target = v)
-        .setValue(this.value.info_panel.talk_target)
+      ]).onChange(v => this.value.talk_target = v)
+        .setValue(this.value.talk_target)
         .checkboxes()
     ))
 
@@ -450,8 +542,8 @@ class SolvingSettingsEdit extends Widget {
       ...new Checkbox.Group([
         {button: new Checkbox("Show"), value: "show" as const},
         {button: new Checkbox("Hide"), value: "hide" as const},
-      ]).onChange(v => this.value.info_panel.search_target = v)
-        .setValue(this.value.info_panel.search_target)
+      ]).onChange(v => this.value.search_target = v)
+        .setValue(this.value.search_target)
         .checkboxes()
     ))
 
@@ -459,8 +551,8 @@ class SolvingSettingsEdit extends Widget {
       ...new Checkbox.Group([
         {button: new Checkbox("Show"), value: "show" as const},
         {button: new Checkbox("Hide"), value: "hide" as const},
-      ]).onChange(v => this.value.info_panel.search_key = v)
-        .setValue(this.value.info_panel.search_key)
+      ]).onChange(v => this.value.search_key = v)
+        .setValue(this.value.search_key)
         .checkboxes()
     ))
 
@@ -468,8 +560,8 @@ class SolvingSettingsEdit extends Widget {
       ...new Checkbox.Group([
         {button: new Checkbox("Show"), value: "show" as const},
         {button: new Checkbox("Hide"), value: "hide" as const},
-      ]).onChange(v => this.value.info_panel.hidey_hole = v)
-        .setValue(this.value.info_panel.hidey_hole)
+      ]).onChange(v => this.value.hidey_hole = v)
+        .setValue(this.value.hidey_hole)
         .checkboxes()
     ))
 
@@ -477,8 +569,8 @@ class SolvingSettingsEdit extends Widget {
       ...new Checkbox.Group([
         {button: new Checkbox("Show"), value: "show" as const},
         {button: new Checkbox("Hide"), value: "hide" as const},
-      ]).onChange(v => this.value.info_panel.emote_items = v)
-        .setValue(this.value.info_panel.emote_items)
+      ]).onChange(v => this.value.emote_items = v)
+        .setValue(this.value.emote_items)
         .checkboxes()
     ))
 
@@ -487,8 +579,8 @@ class SolvingSettingsEdit extends Widget {
       ...new Checkbox.Group([
         {button: new Checkbox("Show"), value: "show" as const},
         {button: new Checkbox("Hide"), value: "hide" as const},
-      ]).onChange(v => this.value.info_panel.emotes = v)
-        .setValue(this.value.info_panel.emotes)
+      ]).onChange(v => this.value.emotes = v)
+        .setValue(this.value.emotes)
         .checkboxes()
     ))
 
@@ -496,8 +588,8 @@ class SolvingSettingsEdit extends Widget {
       ...new Checkbox.Group([
         {button: new Checkbox("Show"), value: "show" as const},
         {button: new Checkbox("Hide"), value: "hide" as const},
-      ]).onChange(v => this.value.info_panel.double_agent = v)
-        .setValue(this.value.info_panel.double_agent)
+      ]).onChange(v => this.value.double_agent = v)
+        .setValue(this.value.double_agent)
         .checkboxes()
     ))
 
@@ -505,8 +597,8 @@ class SolvingSettingsEdit extends Widget {
       ...new Checkbox.Group([
         {button: new Checkbox("Show"), value: "show" as const},
         {button: new Checkbox("Hide"), value: "hide" as const},
-      ]).onChange(v => this.value.info_panel.path_components = v)
-        .setValue(this.value.info_panel.path_components)
+      ]).onChange(v => this.value.path_components = v)
+        .setValue(this.value.path_components)
         .checkboxes()
     ))
 
@@ -514,8 +606,8 @@ class SolvingSettingsEdit extends Widget {
       ...new Checkbox.Group([
         {button: new Checkbox("Show"), value: "show" as const},
         {button: new Checkbox("Hide"), value: "hide" as const},
-      ]).onChange(v => this.value.info_panel.puzzle = v)
-        .setValue(this.value.info_panel.puzzle)
+      ]).onChange(v => this.value.puzzle = v)
+        .setValue(this.value.puzzle)
         .checkboxes()
     ))
 
@@ -524,29 +616,29 @@ class SolvingSettingsEdit extends Widget {
         {button: new Checkbox("Full"), value: "full" as const},
         {button: new Checkbox("Answer"), value: "answer_only" as const},
         {button: new Checkbox("Hide"), value: "hide" as const},
-      ]).onChange(v => this.value.info_panel.challenge = v)
-        .setValue(this.value.info_panel.challenge)
+      ]).onChange(v => this.value.challenge = v)
+        .setValue(this.value.challenge)
         .checkboxes()
     ))
 
     this.layout.named("Presets",
       new LightButton("Everything")
         .onClick(() => {
-          this.value.info_panel = lodash.cloneDeep(NeoSolving.Settings.InfoPanel.EVERYTHING)
+          this.value = lodash.cloneDeep(NeoSolving.Settings.InfoPanel.EVERYTHING)
           this.render()
         }))
 
     this.layout.named("",
       new LightButton("Reduced (Recommended)")
         .onClick(() => {
-          this.value.info_panel = lodash.cloneDeep(NeoSolving.Settings.InfoPanel.REDUCED)
+          this.value = lodash.cloneDeep(NeoSolving.Settings.InfoPanel.REDUCED)
           this.render()
         }))
 
     this.layout.named("",
       new LightButton("Nothing")
         .onClick(() => {
-          this.value.info_panel = lodash.cloneDeep(NeoSolving.Settings.InfoPanel.NOTHING)
+          this.value = lodash.cloneDeep(NeoSolving.Settings.InfoPanel.NOTHING)
           this.render()
         }))
 
@@ -565,35 +657,44 @@ class SolvingSettingsEdit extends Widget {
 export class SettingsEdit extends Widget {
   value: Settings.Settings
 
-  constructor(app: Application) {
+  constructor(app: Application, start_section: string) {
     super();
 
     this.value = lodash.cloneDeep(app.settings.settings)
 
     new SectionControl([
       {
-        name: "General", entries: [
-          {
-            id: "teleports",
-            name: "Teleport Customization",
-            short_name: "Teleports",
-            renderer: () => new TeleportSettingsEdit(this.value.teleport_customization)
-          }, {
-            id: "solving",
-            name: "Solving Customization",
-            short_name: "Solving",
-            renderer: () => new SolvingSettingsEdit(this.value.solving)
-          },
+        name: "Solving", entries: [{
+          id: "info_panels",
+          name: "Clue Info Customization",
+          short_name: "Clue Info",
+          renderer: () => new SolvingSettingsEdit(this.value.solving.info_panel)
+        }, {
+          id: "puzzles",
+          name: "Puzzle Solving",
+          short_name: "Puzzles",
+          renderer: () => new PuzzleSettingsEdit(this.value.solving.puzzles)
+        }
+        ]
+      }, {
+        name: "Map", entries: [{
+          id: "teleports",
+          name: "Teleport Customization",
+          short_name: "Teleports",
+          renderer: () => new TeleportSettingsEdit(this.value.teleport_customization)
+        }
         ]
       },
-    ]).appendTo(this)
+    ])
+      .setActiveSection(start_section)
+      .appendTo(this)
   }
 }
 
 export class SettingsModal extends NisModal {
   edit: SettingsEdit
 
-  constructor() {
+  constructor(private start_section: string = undefined) {
     super();
 
     this.title.set("Settings")
@@ -608,7 +709,7 @@ export class SettingsModal extends NisModal {
 
     this.body.css("padding", "0")
 
-    this.body.append(this.edit = new SettingsEdit(deps().app))
+    this.body.append(this.edit = new SettingsEdit(deps().app, this.start_section))
   }
 
   getButtons(): BigNisButton[] {

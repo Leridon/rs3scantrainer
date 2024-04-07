@@ -2,7 +2,7 @@ import {clamp, identity} from "lodash";
 import * as leaflet from "leaflet";
 import {Vector2} from "./Vector2";
 import {Transform} from "./Transform";
-import {Rect, RectLike} from "@alt1/base";
+import {RectLike} from "@alt1/base";
 
 export type Rectangle = { topleft: Vector2, botright: Vector2 }
 
@@ -174,10 +174,12 @@ export namespace Rectangle {
       (a.botright.y <= b.topleft.y && a.topleft.y >= b.botright.y)
   }
 
-  export function centeredOn(center: Vector2, radius: number): Rectangle {
+  export function centeredOn(center: Vector2, width: number, height: number = undefined): Rectangle {
+    if (height == undefined) height = width
+
     return {
-      topleft: Vector2.add(center, {x: -radius, y: radius}),
-      botright: Vector2.add(center, {x: radius, y: -radius}),
+      topleft: Vector2.add(center, {x: -width, y: height}),
+      botright: Vector2.add(center, {x: width, y: -height}),
     }
   }
 

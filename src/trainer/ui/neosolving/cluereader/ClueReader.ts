@@ -1,18 +1,20 @@
-import {Clues} from "../../../lib/runescape/clues";
+import {Clues} from "../../../../lib/runescape/clues";
 import * as a1lib from "@alt1/base";
 import {ImgRef} from "@alt1/base";
-import {AnchorImages} from "./cluereader/AnchorImages";
-import {Vector2} from "../../../lib/math";
-import {deps} from "../../dependencies";
-import {ModalUI, ModalUIReader} from "../../../skillbertssolver/cluesolver/modeluireader";
-import {util} from "../../../lib/util/util";
-import {coldiff} from "../../../skillbertssolver/oldlib";
+import {AnchorImages} from "./AnchorImages";
+import {Rectangle, Vector2} from "../../../../lib/math";
+import {deps} from "../../../dependencies";
+import {ModalUI, ModalUIReader} from "../../../../skillbertssolver/cluesolver/modeluireader";
+import {util} from "../../../../lib/util/util";
+import {coldiff} from "../../../../skillbertssolver/oldlib";
 import * as OCR from "@alt1/ocr";
-import ClueFont from "./cluereader/ClueFont";
-import * as oldlib from "../../../skillbertssolver/cluesolver/oldlib";
-import {comparetiledata} from "../../../skillbertssolver/cluesolver/oldlib";
-import {clue_data} from "../../../data/clues";
-import {getdirection, isArcClue} from "../../../skillbertssolver/cluesolver/compassclue";
+import ClueFont from "./ClueFont";
+import * as oldlib from "../../../../skillbertssolver/cluesolver/oldlib";
+import {comparetiledata} from "../../../../skillbertssolver/cluesolver/oldlib";
+import {clue_data} from "../../../../data/clues";
+import {getdirection, isArcClue} from "../../../../skillbertssolver/cluesolver/compassclue";
+import {SlideReader} from "./SliderReader";
+import {PuzzleModal} from "../PuzzleModal";
 import stringSimilarity = util.stringSimilarity;
 import ScanStep = Clues.ScanStep;
 
@@ -60,23 +62,22 @@ export class ClueReader {
           {
             type: "scan", anchors: [{
               img: this.anchors.scanfartext,
-              origin_offset: {x: 0, y: -5 + 12 * 4}
+              origin_offset: {x: 20, y: -5 + 12 * 4}
             }, {
               img: this.anchors.scanfartext_pt,
-              origin_offset: {x: 0, y: -5 + 12 * 4}
+              origin_offset: {x: 20, y: -5 + 12 * 4}
             }, {
               img: this.anchors.scanleveltext,
-              origin_offset: {x: 0, y: -7 + 12 * 6}
+              origin_offset: {x: 20, y: -7 + 12 * 6}
             }]
           },
           {
             type: "slider", anchors: [{
               img: this.anchors.slide,
-              origin_offset: {x: 484, y: 19},
-
+              origin_offset: {x: 297, y: -15},
             }, {
               img: this.anchors.slidelegacy,
-              origin_offset: {x: 484, y: 19}
+              origin_offset: {x: 297, y: -15}
             }]
           },
           {
@@ -92,33 +93,75 @@ export class ClueReader {
           let locs = img.findSubimage(anchor.img)
 
           if (locs.length > 0) {
-            return {
-              type: ui_type.type,
-              pos: locs[0],
-              origin_offset: anchor.origin_offset
+            switch (ui_type.type) {
+              case "modal":
+                const modal = ModalUIReader.detectEoc(img, locs[0]);
+
+                return {
+                  type: "modal",
+                  image: img,
+                  rect: Rectangle.fromRectLike(modal.rect),
+                  modal: modal,
+                }
+              case "scan":
+                return {
+                  type: "scan",
+                  image: img,
+                  rect: Rectangle.fromOriginAndSize(Vector2.sub(locs[0], anchor.origin_offset), {x: 180, y: 190})
+                }
+              case "slider":
+                return {
+                  type: "slider",
+                  image: img,
+                  rect: Rectangle.fromOriginAndSize(
+                    Vector2.sub(locs[0], anchor.origin_offset),
+                    {x: 273, y: 273}
+                  )
+                }
+              case "compass":
+                return {
+                  type: "compass",
+                  image: img,
+                  rect: Rectangle.fromOriginAndSize(locs[0], {x: 1, y: 1})
+                }
             }
           }
         }
       }
     })()
 
-
     if (CLUEREADERDEBUG) {
       if (found_ui) {
-        deps().app.notifications.notify({}, `Found '${found_ui.type} at ${Vector2.toString(found_ui.pos)}'`)
+        deps().app.notifications.notify({}, `Found '${found_ui.type} at ${Vector2.toString(found_ui.rect.topleft)}'`)
       } else {
         deps().app.notifications.notify({type: "error"}, `Nothing found'`)
       }
     }
 
     if (found_ui) {
+
+      if (CLUEREADERDEBUG) {
+        alt1.overLayRect(a1lib.mixColor(255, 0, 0, 255),
+          found_ui.rect.topleft.x,
+          found_ui.rect.botright.y,
+          Rectangle.width(found_ui.rect),
+          Rectangle.height(found_ui.rect),
+          5000,
+          1
+        )
+
+        alt1.overLayText(
+          found_ui.type,
+          a1lib.mixColor(255, 0, 0, 255),
+          10,
+          found_ui.rect.topleft.x,
+          found_ui.rect.botright.y,
+          5000)
+      }
+
       switch (found_ui.type) {
         case "modal":
-
-          let modal = ModalUIReader.detectEoc(img, found_ui.pos);
-
           const modal_type = ((): ClueReader.ModalType => {
-
             const modal_type_map: {
               type: ClueReader.ModalType,
               possible_titles: string[]
@@ -157,7 +200,7 @@ export class ClueReader {
 
             for (let type of modal_type_map) {
               for (let title of type.possible_titles) {
-                const score = stringSimilarity(modal.title, title)
+                const score = stringSimilarity(found_ui.modal.title, title)
 
                 if (score > best_score) {
                   best_score = score
@@ -185,9 +228,7 @@ export class ClueReader {
           if (modal_type) {
             switch (modal_type) {
               case "textclue":
-                const text = ClueReader.readTextClueModalText(modal)
-
-                console.log(text)
+                const text = ClueReader.readTextClueModalText(found_ui.modal)
 
                 if (text.length >= 10) {
                   let best: Clues.StepWithTextIndex = null
@@ -206,13 +247,14 @@ export class ClueReader {
                     }
                   }
 
-                  if(best_score < 0.7) return null
+                  if (best_score < 0.7) return null
 
                   return {
+                    found_ui: found_ui,
                     step: best
                   }
                 } else {
-                  const tiled_img = ClueReader.getImageClueImage(modal)
+                  const tiled_img = ClueReader.getImageClueImage(found_ui.modal)
 
                   let best: Clues.Step = null
                   let best_score = Number.MAX_VALUE
@@ -227,6 +269,7 @@ export class ClueReader {
                   }
 
                   return {
+                    found_ui: found_ui,
                     step: {step: best, text_index: 0}
                   }
                 }
@@ -236,7 +279,7 @@ export class ClueReader {
           break
         case "scan": {
           const scan_text_full = ClueReader.readScanPanelText(
-            img, Vector2.sub(found_ui.pos, found_ui.origin_offset)
+            img, Rectangle.screenOrigin(found_ui.rect)
           )
 
           if (CLUEREADERDEBUG) deps().app.notifications.notify({},
@@ -253,23 +296,53 @@ export class ClueReader {
 
           for (let clue of clue_data.scan) {
             let score = stringSimilarity(scan_text, clue.scantext);
+
             if (score > bestscore) {
               best = clue;
               bestscore = score;
             }
           }
 
-          return {step: {step: best, text_index: 0}}
+          return {found_ui: found_ui, step: {step: best, text_index: 0}}
         }
+        case "slider":
+          const res = await SlideReader.read(
+            img,
+            Rectangle.bottomLeft(found_ui.rect),
+          )
+
+          if (CLUEREADERDEBUG) {
+            res.tiles.forEach((tile, i) => {
+              const pos = Vector2.add(
+                Rectangle.screenOrigin(found_ui.rect),
+                {x: Math.floor(i % 5) * 56, y: Math.floor(i / 5) * 56}
+              )
+
+              alt1.overLayText(`${res.theme}\n${tile.position}`,
+                a1lib.mixColor(0, 255, 0),
+                10,
+                pos.x,
+                pos.y,
+                5000
+              )
+            })
+
+            deps().app.notifications.notify({}, `Found theme ${res.theme}`)
+          }
+
+          return {
+            found_ui: found_ui,
+            puzzle: {type: "slider", ui: found_ui, puzzle: res},
+          }
         case "compass": {
-          const compass_state = ClueReader.readCompassState(img, Vector2.add(found_ui.pos, {x: -53, y: 54}))
+          const compass_state = ClueReader.readCompassState(img, Vector2.add(found_ui.rect.topleft, {x: -53, y: 54}))
 
           if (CLUEREADERDEBUG)
             deps().app.notifications.notify({},
               `Compass ${JSON.stringify(compass_state)}`)
 
-          if (compass_state.isArc) return {step: {step: clue_data.arc_compass, text_index: 0}}
-          else return {step: {step: clue_data.gielinor_compass, text_index: 0}}
+          if (compass_state.isArc) return {found_ui: found_ui, step: {step: clue_data.arc_compass, text_index: 0}}
+          else return {found_ui: found_ui, step: {step: clue_data.gielinor_compass, text_index: 0}}
         }
       }
     }
@@ -283,16 +356,36 @@ export class ClueReader {
 export namespace ClueReader {
   export type UIType = "modal" | "scan" | "slider" | "compass"
 
-  export type MatchedUI = {
-    type: UIType,
-    pos: Vector2,
-    origin_offset: Vector2
+  export type MatchedUI =
+    MatchedUI.Slider | MatchedUI.Modal | MatchedUI.Scan | MatchedUI.Compass
+
+  export namespace MatchedUI {
+    export type Type = "modal" | "scan" | "slider" | "compass"
+
+    export type base = {
+      type: Type,
+      image: ImgRef,
+      rect: Rectangle
+    }
+
+    export type Slider = base & {
+      type: "slider"
+    }
+
+    export type Scan = base & { type: "scan" }
+    export type Compass = base & { type: "compass" }
+    export type Modal = base & {
+      type: "modal",
+      modal: ModalUI
+    }
   }
 
   export type ModalType = "towers" | "lockbox" | "textclue" | "knot"
 
   export type Result = {
+    found_ui: MatchedUI,
     step?: Clues.StepWithTextIndex,
+    puzzle?: PuzzleModal.Puzzle
   }
 
   /**
@@ -340,18 +433,17 @@ export namespace ClueReader {
   export function getImageClueImage(modal: ModalUI): number[] {
     let buf = modal.img.toData(modal.rect.x, modal.rect.y, 496, 293);
 
-    return oldlib.tiledata(buf, 20, 20, 90, 25, 300, 240);
+    return oldlib.computeImageFingerprint(buf, 20, 20, 90, 25, 300, 240);
   }
 
   export function readScanPanelText(img: ImgRef, pos: Vector2) {
     const font = require("@alt1/ocr/fonts/aa_8px_new.js");
     const lineheight = 12;
-    const capty = pos.y;
-    let data = img.toData(pos.x - 20, capty, 180, 190);
+    let data = img.toData(pos.x, pos.y, 180, 190);
 
     let lines: string[] = [];
     for (let lineindex = 0; lineindex < 13; lineindex++) {
-      const y = pos.y - capty + lineindex * lineheight;
+      const y = lineindex * lineheight;
       const line = OCR.findReadLine(data, font, [[255, 255, 255]], 70, y, 40, 1);
       lines.push(line.text);
     }

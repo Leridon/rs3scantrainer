@@ -11,7 +11,7 @@ import {AbstractDropdownSelection} from "../widgets/AbstractDropdownSelection";
 import {Clues} from "../../../lib/runescape/clues";
 import {clue_data} from "../../../data/clues";
 import PreparedSearchIndex from "../../../lib/util/PreparedSearchIndex";
-import {Ewent, Observable, observe} from "../../../lib/reactive";
+import {Observable, observe} from "../../../lib/reactive";
 import {floor_t, TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 import * as lodash from "lodash";
 import {Vector2} from "../../../lib/math";
@@ -33,7 +33,7 @@ import {PathStepEntity} from "../map/entities/PathStepEntity";
 import {CursorType} from "../../../lib/runescape/CursorType";
 import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
 import {ScanEditLayer} from "../theorycrafting/scanedit/ScanEditor";
-import {ClueReader} from "./ClueReader";
+import {ClueReader} from "./cluereader/ClueReader";
 import {deps} from "../../dependencies";
 import {storage} from "../../../lib/util/storage";
 import {SettingsModal} from "../settings/SettingsEdit";
@@ -42,10 +42,11 @@ import {TextRendering} from "../TextRendering";
 import {ClueEntities} from "./ClueEntities";
 import {NislIcon} from "../nisl";
 import {ClueProperties} from "../theorycrafting/ClueProperties";
+import {SlideGuider, SliderModal} from "./SlideGuider";
+import {PuzzleModal} from "./PuzzleModal";
 import span = C.span;
 import todo = util.todo;
 import PulseInformation = ScanTheory.PulseInformation;
-import Pulse = Scans.Pulse;
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
 import interactionMarker = RenderingUtility.interactionMarker;
@@ -61,12 +62,6 @@ import bold = C.bold;
 import spacer = C.spacer;
 import space = C.space;
 import hboxl = C.hboxl;
-
-class NeoReader {
-  read: Ewent<{ step: Clues.Step, text_index: number }>
-  compass_angle_read: Ewent<{ angle: number }>
-  pulse_read: Ewent<Pulse>
-}
 
 class NeoSolvingLayer extends GameLayer {
   public control_bar: NeoSolvingLayer.MainControlBar
@@ -261,7 +256,7 @@ namespace NeoSolvingLayer {
             .setToggled(this.fullscreen_preference.get()),
           new MainControlButton({icon: "assets/icons/settings.png", centered: true})
             .tooltip("Open settings")
-            .onClick(() => new SettingsModal().show())
+            .onClick(() => new SettingsModal("info_panels").show())
         ).css("flex-grow", "1"),
       )
 
@@ -514,7 +509,6 @@ export namespace ScanTreeSolvingControl {
   }
 }
 
-
 class ClueSolvingReadingBehaviour extends Behaviour {
   reader: ClueReader
 
@@ -538,6 +532,8 @@ class ClueSolvingReadingBehaviour extends Behaviour {
 
     if (res?.step) {
       this.parent.setClueWithAutomaticMethod(res.step)
+    } else if (res?.puzzle) {
+      this.parent.setPuzzle(res.puzzle)
     }
 
     return res
@@ -561,7 +557,7 @@ class ClueSolvingReadingBehaviour extends Behaviour {
   async solveManuallyTriggered() {
     const found = await this.solve()
 
-    if (!found?.step) {
+    if (!found?.step && !found?.puzzle) {
       this.parent.app.notifications.notify({type: "error"}, "No clue found on screen.")
     }
   }
@@ -569,6 +565,8 @@ class ClueSolvingReadingBehaviour extends Behaviour {
 
 export default class NeoSolvingBehaviour extends Behaviour {
   layer: NeoSolvingLayer
+
+  active_puzzle_modal: PuzzleModal = null
 
   active_clue: { step: Clues.Step, text_index: number } = null
   active_method: AugmentedMethod = null
@@ -587,6 +585,36 @@ export default class NeoSolvingBehaviour extends Behaviour {
     this.path_control.section_selected.on(p => {
       if (this.active_method.method.type != "scantree") setTimeout(() => this.layer.fit(Path.bounds(p)), 20)
     })
+  }
+
+  setPuzzle(puzzle: PuzzleModal.Puzzle | null): void {
+    if (this.active_puzzle_modal?.puzzle?.type == puzzle?.type) return // Don't do anything if a puzzle of that type is already active
+
+    this.reset()
+
+    if (this.active_puzzle_modal) {
+
+      this.active_puzzle_modal.abort()
+      this.active_puzzle_modal = null
+    }
+
+    if (puzzle) {
+
+      this.active_puzzle_modal = (() => {
+        switch (puzzle.type) {
+          case "slider":
+            return new SliderModal(puzzle)
+        }
+      })()
+
+      this.active_puzzle_modal.hidden.on(modal => {
+        if (modal == this.active_puzzle_modal) {
+          this.active_puzzle_modal = null
+        }
+      })
+
+      this.active_puzzle_modal.start()
+    }
   }
 
   /**
@@ -955,6 +983,11 @@ export default class NeoSolvingBehaviour extends Behaviour {
     this.default_method_selector?.remove()
     this.active_clue = null
     this.active_method = null
+
+    if (this.active_puzzle_modal) {
+      this.active_puzzle_modal.abort()
+      this.active_puzzle_modal = null
+    }
   }
 
   /**
@@ -989,7 +1022,30 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
 export namespace NeoSolving {
   export type Settings = {
-    info_panel: {
+    info_panel: Settings.InfoPanel,
+    puzzles: Settings.Puzzles
+  }
+
+  export namespace Settings {
+    export type Puzzles = {
+      sliders: SlideGuider.Settings
+    }
+
+    export namespace Puzzles {
+      export const DEFAULT: Puzzles = {
+        sliders: SlideGuider.Settings.DEFAULT
+      }
+
+      export function normalize(settings: Puzzles): Puzzles {
+        if (!settings) return lodash.cloneDeep(DEFAULT)
+
+        settings.sliders = SlideGuider.Settings.normalize(settings.sliders)
+
+        return settings
+      }
+    }
+
+    export type InfoPanel = {
       clue_text: "full" | "abridged" | "hide"
       map_image: "show" | "hide",
       dig_target: "show" | "hide",
@@ -1004,9 +1060,7 @@ export namespace NeoSolving {
       puzzle: "show" | "hide",
       challenge: "full" | "answer_only" | "hide"
     }
-  }
 
-  export namespace Settings {
     export namespace InfoPanel {
       export const EVERYTHING: Settings["info_panel"] = {
         clue_text: "full",
@@ -1055,31 +1109,41 @@ export namespace NeoSolving {
         challenge: "answer_only",
         puzzle: "hide"
       }
+
+      export function normalize(settings: InfoPanel): InfoPanel {
+        if (!settings) return lodash.cloneDeep(InfoPanel.EVERYTHING)
+
+        if (!["full", "hide", "abridged"].includes(settings.clue_text)) settings.clue_text = "full"
+        if (!["show", "hide"].includes(settings.map_image)) settings.map_image = "show"
+        if (!["show", "hide"].includes(settings.dig_target)) settings.dig_target = "show"
+        if (!["show", "hide"].includes(settings.talk_target)) settings.talk_target = "show"
+        if (!["show", "hide"].includes(settings.search_target)) settings.search_target = "show"
+        if (!["show", "hide"].includes(settings.search_key)) settings.search_key = "show"
+
+        if (!["show", "hide"].includes(settings.hidey_hole)) settings.hidey_hole = "show"
+        if (!["show", "hide"].includes(settings.emote_items)) settings.emote_items = "show"
+        if (!["show", "hide"].includes(settings.emotes)) settings.emotes = "show"
+        if (!["show", "hide"].includes(settings.double_agent)) settings.double_agent = "show"
+        if (!["show", "hide"].includes(settings.path_components)) settings.path_components = "show"
+
+        if (!["show", "hide"].includes(settings.puzzle)) settings.puzzle = "show"
+        if (!["full", "answer_only", "hide"].includes(settings.challenge)) settings.challenge = "full"
+
+        return settings
+      }
     }
 
     export const DEFAULT: Settings = {
-      info_panel: InfoPanel.EVERYTHING
+      info_panel: InfoPanel.EVERYTHING,
+      puzzles: Puzzles.DEFAULT,
     }
 
     export function normalize(settings: Settings): Settings {
       if (!settings) settings = lodash.cloneDeep(DEFAULT)
 
-      if (!settings.info_panel) settings.info_panel = DEFAULT.info_panel
-      if (!["full", "hide", "abridged"].includes(settings.info_panel.clue_text)) settings.info_panel.clue_text = "full"
-      if (!["show", "hide"].includes(settings.info_panel.map_image)) settings.info_panel.map_image = "show"
-      if (!["show", "hide"].includes(settings.info_panel.dig_target)) settings.info_panel.dig_target = "show"
-      if (!["show", "hide"].includes(settings.info_panel.talk_target)) settings.info_panel.talk_target = "show"
-      if (!["show", "hide"].includes(settings.info_panel.search_target)) settings.info_panel.search_target = "show"
-      if (!["show", "hide"].includes(settings.info_panel.search_key)) settings.info_panel.search_key = "show"
+      settings.info_panel = InfoPanel.normalize(settings.info_panel)
+      settings.puzzles = Puzzles.normalize(settings.puzzles)
 
-      if (!["show", "hide"].includes(settings.info_panel.hidey_hole)) settings.info_panel.hidey_hole = "show"
-      if (!["show", "hide"].includes(settings.info_panel.emote_items)) settings.info_panel.emote_items = "show"
-      if (!["show", "hide"].includes(settings.info_panel.emotes)) settings.info_panel.emotes = "show"
-      if (!["show", "hide"].includes(settings.info_panel.double_agent)) settings.info_panel.double_agent = "show"
-      if (!["show", "hide"].includes(settings.info_panel.path_components)) settings.info_panel.path_components = "show"
-
-      if (!["show", "hide"].includes(settings.info_panel.puzzle)) settings.info_panel.puzzle = "show"
-      if (!["full", "answer_only", "hide"].includes(settings.info_panel.challenge)) settings.info_panel.challenge = "full"
 
       return settings
     }

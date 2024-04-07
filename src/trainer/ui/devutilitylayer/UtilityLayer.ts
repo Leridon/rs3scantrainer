@@ -166,7 +166,6 @@ class LayerToggling extends GameMapControl {
 }
 
 class GeometryDrawing extends GameLayer {
-
   output: Widget
   value: string
   preview: leaflet.Layer
@@ -227,7 +226,6 @@ class GeometryDrawing extends GameLayer {
       position: "bottom-center"
     }, bottom_control))
   }
-
 
   private startSelectTile() {
     let i = new SelectTileInteraction()

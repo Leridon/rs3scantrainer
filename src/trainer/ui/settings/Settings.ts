@@ -1,7 +1,7 @@
 import {TypeUtil} from "../../../lib/util/type_util";
 import {ClueTier} from "../../../lib/runescape/clues";
 import {Transportation} from "../../../lib/runescape/transportation";
-import NeoSolvingBehaviour, {NeoSolving} from "../neosolving/NeoSolvingBehaviour";
+import {NeoSolving} from "../neosolving/NeoSolvingBehaviour";
 
 export namespace Settings {
   import Tuple = TypeUtil.Tuple;
@@ -28,7 +28,7 @@ export namespace Settings {
 
   export type Settings = {
     teleport_customization: TeleportSettings,
-    solving: NeoSolving.Settings
+    solving: NeoSolving.Settings,
   }
 
   export function normalize(settings: Settings): Settings {

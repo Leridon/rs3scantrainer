@@ -82,6 +82,16 @@ export namespace Transform {
     ) as Matrix
   }
 
+  export function chain(...transforms: Transform[]): Transform {
+    let trans = identity()
+
+    for (let transform of transforms) {
+      trans = mult(trans, transform)
+    }
+
+    return trans
+  }
+
   export function apply(a: Transform, b: Vector3): Vector3 {
     return [
       mul(row(a, 0), b),

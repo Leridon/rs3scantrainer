@@ -299,7 +299,7 @@ export class Application extends Behaviour {
     this.favourites = new FavoriteIndex(MethodPackManager.instance())
 
     if (this.in_dev_mode) {
-      console.log("In devevelopment mode")
+      console.log("In development mode")
     }
   }
 

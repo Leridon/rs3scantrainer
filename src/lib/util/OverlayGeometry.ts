@@ -132,13 +132,13 @@ export class OverlayGeometry {
   }
 
   render(): this {
-    if(!this.group_name) this.group_name = uuid()
+    if (!this.group_name) this.group_name = uuid()
 
     this.freeze()
     alt1.overLayClearGroup(this.group_name)
     this.push_draw_calls()
     alt1.overLayRefreshGroup(this.group_name)
-    this.unfreeze()
+    //this.unfreeze() // Unfreezing causes the flicker to reappear
 
     return this
   }

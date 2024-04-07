@@ -26,6 +26,8 @@ import getAnchorImages = AnchorImages.getAnchorImages;
 
 class SliderGuideProcess {
   private start_time = -1
+  private guiding_start_time = -1
+  private solved_time = -1
 
   private puzzle: SliderPuzzle
   private should_stop: boolean = false
@@ -113,23 +115,63 @@ class SliderGuideProcess {
 
     const solution_length = this.solution?.length ?? this.solver?.getBest()?.length
 
-    const length = 2 * (solution_length ?? 120)
-    const progress = this.solution ? this.current_mainline_index / this.solution.length : 0
-
     const center = Vector2.add(
       Rectangle.screenOrigin(this.parent.puzzle.ui.rect),
-      {x: 137, y: -20}
+      {x: 137, y: -9}
     )
 
-    this.progress_overlay.progressbar(center, length, progress, 5)
+    if (this.solution && this.current_mainline_index >= solution_length) {
+      const total_time = (this.solved_time - this.start_time) / 1000
+      const solving_time = (this.solved_time - this.guiding_start_time) / 1000
+      const moves_per_second = this.solution.length / solving_time
 
-    if (solution_length) {
-      this.progress_overlay.text(solution_length.toString(), Vector2.add(center, {x: length / 2 + 20, y: 0}), {
-        color: mixColor(255, 255, 255),
-        width: 12,
-        shadow: true,
-        centered: true
-      })
+      this.progress_overlay.text(
+        `Done! ${total_time.toFixed(1)}s, ${moves_per_second.toFixed(1)} moves/s`,
+        center,
+        {
+          color: mixColor(255, 255, 255),
+          centered: true,
+          shadow: true,
+          width: 12
+        }
+      )
+    } else {
+      const length = Math.min(2 * (solution_length ?? 120), 250)
+      const progress = this.solution ? this.current_mainline_index / this.solution.length : 0
+
+      this.progress_overlay.progressbar(center, length, progress, 5)
+
+      if (solution_length) {
+        this.progress_overlay.text(solution_length.toString(), Vector2.add(center, {x: length / 2 + 20, y: 0}), {
+          color: mixColor(255, 255, 255),
+          width: 12,
+          shadow: true,
+          centered: true
+        })
+
+        const now = Date.now()
+
+        const total_time = (now - this.start_time) / 1000
+
+        this.progress_overlay.text(`${total_time.toFixed(1)}s`, Vector2.add(center, {x: -(length / 2 + 25), y: 0}), {
+          color: mixColor(255, 255, 255),
+          width: 12,
+          shadow: true,
+          centered: true
+        })
+
+        if (this.solution && this.current_mainline_index >= 0) {
+          const solving_time = (now - this.guiding_start_time) / 1000
+          const moves_per_second = this.current_mainline_index / solving_time
+
+          this.progress_overlay.text(`${moves_per_second.toFixed(1)}/s`, center, {
+            color: mixColor(255, 255, 255),
+            width: 12,
+            shadow: true,
+            centered: true
+          })
+        }
+      }
     }
 
     this.progress_overlay.render()
@@ -355,6 +397,8 @@ class SliderGuideProcess {
           resolve()
         })
 
+        this.guiding_start_time = Date.now()
+
         this.updateSolvingOverlay()
 
         this.solution = Sliders.MoveList.annotate(frame_state, this.solver.getBest(), this.settings.mode != "keyboard")
@@ -374,12 +418,17 @@ class SliderGuideProcess {
       if (inversion_changed || Date.now() - this.last_overlay_render > 10000) this.updateMoveOverlay()
 
       // Early exit if state has not changed
-      if (this.last_frame_state && SliderState.equals(this.last_frame_state, frame_state)) continue
+      if (this.last_frame_state && SliderState.equals(this.last_frame_state, frame_state)) {
+        this.updateProgressOverlay()
+        continue
+      }
 
       let mainline_index = findLastIndex(this.solution, a => a.pre_states.some(s => SliderState.equals(s, frame_state)))
 
       if (mainline_index == this.solution.length - 2 && SliderState.equals(frame_state, SliderState.SOLVED)) {
         mainline_index = this.solution.length
+
+        this.solved_time = Date.now()
       }
 
       if (mainline_index >= 0) {
@@ -485,7 +534,7 @@ export class SliderModal extends PuzzleModal {
   }
 
   protected end(): void {
-
+    this.resetProcess(false)
   }
 
   start_button: BigNisButton

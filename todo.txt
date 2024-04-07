@@ -1,11 +1,5 @@
 Planned for next release (b0.4):
 
-- Slider Solver
-    - Configurable solve time
-    - Auto detect invert option from screen
-    - [Feature, 4] Prevent overlap
-    - Good default colors
-
 - Solving Behaviour
     - Path Panel
         - [Feature] Disable default teleport render when contained in step

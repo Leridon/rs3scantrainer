@@ -537,8 +537,8 @@ export namespace SlideGuider {
       display_recovery: true,
       color_mainline_move: A1Color.fromHex("#5ca000"),
       color_mainline_line: A1Color.fromHex("#41740e"),
-      color_recovery_move: mixColor(255, 0, 0),
-      color_recovery_line: mixColor(255, 255, 0),
+      color_recovery_move: A1Color.fromHex("#FF0000"),
+      color_recovery_line: A1Color.fromHex("#ff6600"),
       solve_time_ms: 2000
     }
 

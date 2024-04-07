@@ -16,6 +16,8 @@ import SlideSolver = Sliders.SlideSolver;
 import AnnotatedMoveList = Sliders.AnnotatedMoveList;
 import MoveList = Sliders.MoveList;
 import Move = Sliders.Move;
+import * as lodash from "lodash";
+import {time} from "../../../lib/gamemap/GameLayer";
 
 class SliderGuideProcess {
   private puzzle: SliderPuzzle
@@ -30,6 +32,7 @@ class SliderGuideProcess {
 
   private solution: AnnotatedMoveList = null
 
+  private progress_overlay: OverlayGeometry = null
   private solving_overlay: OverlayGeometry = null
   private move_overlay: OverlayGeometry = null
 
@@ -64,6 +67,29 @@ class SliderGuideProcess {
     }
   }
 
+  private updateProgressOverlay() {
+
+    if (!this.progress_overlay) {
+      this.progress_overlay = over()
+    }
+
+    this.progress_overlay.clear()
+
+
+    const length = this.solution?.length ?? this.solver?.getBest()?.length ?? 120
+    const progress = this.solution ? this.current_mainline_index / this.solution.length : 0
+
+    this.progress_overlay.progressbar(Vector2.add(
+      Rectangle.screenOrigin(this.parent.puzzle.ui.rect),
+      {x: 137, y: -20}
+    ), 2 * length, 5, progress)
+
+    this.progress_overlay.freeze()
+    this.progress_overlay.hide()
+    this.progress_overlay.show()
+    this.progress_overlay.unfreeze()
+  }
+
   private updateMoveOverlay() {
     if (this.move_overlay) {
       this.move_overlay.hide()
@@ -85,35 +111,44 @@ class SliderGuideProcess {
       moves = moves.slice(0, LOOKAHEAD)
     }
 
-    let current_blank = SliderState.blank(this.last_frame_state)
+    const marker_geometry = over().withTime(20000)
 
-    for (let blank of moves.map(m => m.clicked_tile)) {
+    let current_blank = SliderState.blank(this.last_frame_state)
+    let last_size = 0
+
+    for (let i = 0; i < moves.length; ++i) {
+      const move = moves[i]
+
+      const size = 20 - 4 * i
+
+      marker_geometry.rect(
+        Rectangle.centeredOn(this.posToScreen(move.clicked_tile), size),
+        {width: 3, color: mixColor(255, 0, 0)}
+      )
+
+      const blank = move.clicked_tile
+
       const a = this.posToScreen(current_blank)
       const b = this.posToScreen(blank)
 
       const dir = Vector2.normalize(Vector2.sub(b, a))
 
       this.move_overlay.line(
-        Vector2.add(a, Vector2.scale(10, dir)),
-        Vector2.add(b, Vector2.scale(-10, dir)),
+        Vector2.add(a, Vector2.scale(last_size, dir)),
+        Vector2.add(b, Vector2.scale(-size, dir)),
         {width: 3, color: mixColor(255, 255, 0)}
       )
 
       current_blank = blank
+
+      last_size = size
     }
 
-    for (let i = 0; i < moves.length; ++i) {
-      const move = moves[i]
+    this.move_overlay.add(marker_geometry)
 
-      this.move_overlay.rect(
-        Rectangle.centeredOn(this.posToScreen(move.clicked_tile),
-          20 - 4 * i
-        ),
-        {width: 3, color: mixColor(255, 0, 0)}
-      )
-    }
+    this.move_overlay.show()
 
-    this.move_overlay.show(20000)
+    this.updateProgressOverlay()
   }
 
   private updateSolvingOverlay() {
@@ -131,24 +166,19 @@ class SliderGuideProcess {
           ),
         )
 
-      const start = Vector2.add(
+      this.solving_overlay.progressbar(Vector2.add(
         Rectangle.screenOrigin(this.parent.puzzle.ui.rect),
-        {x: 93, y: 163},
-      )
+        {x: 143, y: 163},
+      ), 100, 5, this.solver.getProgress())
 
-      const end = Vector2.add(start, {x: 100, y: 0})
-      const mid = Vector2.snap(Vector2.add(start, {x: this.solver.getProgress() * 100, y: 0}))
-
-      this.solving_overlay.line(start, mid, {color: mixColor(0, 255, 0), width: 5})
-      this.solving_overlay.line(mid, end, {color: mixColor(255, 0, 0), width: 5})
-
-      this.solving_overlay.show(3000)
+      this.solving_overlay.show()
     }
   }
 
   async run() {
     while (!this.should_stop) {
-      const read_result = await this.read()
+
+      const read_result = await time("Read", async () => await this.read())
 
       // TODO: Do something if the confidence in the read theme is low. That means likely the interface was closed
 
@@ -163,9 +193,10 @@ class SliderGuideProcess {
               if (solver.isFinished()) resolve()
 
               this.updateSolvingOverlay()
+              this.updateProgressOverlay()
             })
 
-          await this.solver.solve(1000)
+          await this.solver.solve(3000)
 
           this.current_mainline_index = 0
           this.error_recovery_solution = {sequence: [], recovering_to_mainline_index: 0}
@@ -183,7 +214,7 @@ class SliderGuideProcess {
         continue
       }
 
-      await delay(20)
+      await delay(10)
 
       // Early exit if state has not changed
       if (this.last_frame_state && SliderState.equals(this.last_frame_state, frame_state)) continue
@@ -240,7 +271,9 @@ class SliderGuideProcess {
 
     this.solution = null
 
-    this.updateMoveOverlay()
+    this.move_overlay?.hide()
+    this.solving_overlay?.hide()
+    this.progress_overlay?.hide()
   }
 
   private getLastKnownMove() {

@@ -3,11 +3,20 @@ import {util} from "./util";
 import {mixColor} from "@alt1/base";
 import todo = util.todo;
 import uuid = util.uuid;
+import * as lodash from "lodash";
 
 export class OverlayGeometry {
   private shown_group_name: string = null
+  private is_frozen: boolean = false
+
+  private alive_time: number = 10000
 
   private geometry: OverlayGeometry.Geometry[] = []
+
+  withTime(time: number): this {
+    this.alive_time = time
+    return this
+  }
 
   rect(rect: Rectangle, options: OverlayGeometry.StrokeOptions = OverlayGeometry.StrokeOptions.DEFAULT): this {
     this.geometry.push({type: "rect", rect: rect, options: options})
@@ -17,6 +26,21 @@ export class OverlayGeometry {
   line(from: Vector2, to: Vector2, options: OverlayGeometry.StrokeOptions = OverlayGeometry.StrokeOptions.DEFAULT) {
     this.geometry.push({type: "line", from: from, to: to, options: options})
     return this
+  }
+
+  progressbar(center: Vector2, length: number, width: number, progress: number,
+              done_color: number = mixColor(0, 255, 0),
+              remaining_color: number = mixColor(255, 0, 0)
+  ) {
+    const start = Vector2.add(center, {x: -Math.floor(length / 2), y: 0},)
+
+    const end = Vector2.add(start, {x: length, y: 0})
+    const mid = Vector2.snap(Vector2.add(start, {x: lodash.clamp(progress, 0, 1) * length, y: 0}))
+
+    this.line(start, mid, {color: done_color, width: width})
+    this.line(mid, end, {color: remaining_color, width: width})
+
+    // TODO: Border?
   }
 
   text(text: string, position: Vector2,
@@ -42,7 +66,7 @@ export class OverlayGeometry {
     return this
   }
 
-  show(time: number): this {
+  show(): this {
     if (this.shown_group_name) this.hide()
 
     this.shown_group_name = uuid()
@@ -58,7 +82,7 @@ export class OverlayGeometry {
             element.options.color,
             origin.x, origin.y,
             Rectangle.width(element.rect), Rectangle.height(element.rect),
-            time,
+            this.alive_time,
             element.options.width
           )
 
@@ -69,13 +93,13 @@ export class OverlayGeometry {
             element.options.width,
             element.from.x, element.from.y,
             element.to.x, element.to.y,
-            time
+            this.alive_time
           )
           break;
         case "text":
           alt1.overLayTextEx(element.text, element.options.color, element.options.width,
             element.position.x, element.position.y,
-            time, undefined, element.options.centered, element.options.shadow
+            this.alive_time, undefined, element.options.centered, element.options.shadow
           )
           break
       }
@@ -87,11 +111,30 @@ export class OverlayGeometry {
     return this
   }
 
+  clear(): this {
+    this.geometry = []
+
+    return this
+  }
+
   hide(): this {
     alt1.overLayClearGroup(this.shown_group_name)
     this.shown_group_name = null
 
     return this
+  }
+
+  freeze() {
+    if (this.shown_group_name) {
+      alt1.overLayFreezeGroup(this.shown_group_name)
+      this.is_frozen = true
+    }
+  }
+
+  unfreeze() {
+    if (this.is_frozen) {
+      alt1.overLayContinueGroup(this.shown_group_name)
+    }
   }
 }
 

@@ -241,6 +241,8 @@ export namespace Sliders {
     }
 
     getBest(compress: boolean = true): MoveList {
+      if(!this.best_solution) return null
+
       if (compress) return MoveList.compress(this.best_solution)
       return this.best_solution
     }

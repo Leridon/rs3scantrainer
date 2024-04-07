@@ -333,11 +333,11 @@ export namespace GameLayer {
   }
 }
 
-export async function time<T>(name: string, f: () => T): Promise<T> {
+export async function time<T>(name: string, f: () => T, start_message: boolean = true): Promise<T> {
 
   let timeStart = new Date().getTime()
 
-  console.log(`Starting task ${name}: `)
+  if(start_message) console.log(`Starting task ${name}: `)
   let res = await f()
   const ms = (new Date().getTime() - timeStart)
   console.log(`Task ${name} took ${ms}ms\n`)

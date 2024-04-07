@@ -9,6 +9,9 @@ import {C} from "../../../lib/ui/constructors";
 import {PuzzleModal} from "./PuzzleModal";
 import ButtonRow from "../../../lib/ui/ButtonRow";
 import {BigNisButton} from "../widgets/BigNisButton";
+import {time} from "../../../lib/gamemap/GameLayer";
+import {deps} from "../../dependencies";
+import * as lodash from "lodash";
 import over = OverlayGeometry.over;
 import SliderState = Sliders.SliderState;
 import SliderPuzzle = Sliders.SliderPuzzle;
@@ -16,8 +19,6 @@ import SlideSolver = Sliders.SlideSolver;
 import AnnotatedMoveList = Sliders.AnnotatedMoveList;
 import MoveList = Sliders.MoveList;
 import Move = Sliders.Move;
-import * as lodash from "lodash";
-import {time} from "../../../lib/gamemap/GameLayer";
 
 class SliderGuideProcess {
   private puzzle: SliderPuzzle
@@ -40,7 +41,7 @@ class SliderGuideProcess {
 
   private last_frame_state: SliderState = null
 
-  constructor(private parent: SliderModal) {
+  constructor(private parent: SliderModal, private settings: SlideGuider.Settings) {
     this.puzzle = parent.puzzle.puzzle
   }
 
@@ -56,10 +57,27 @@ class SliderGuideProcess {
     result: SlideReader.ReadResult,
     state: SliderState
   }> {
+
+    const rect = this.parent.puzzle.ui.rect
+
+    const img = a1lib.captureHold(
+      Rectangle.screenOrigin(rect).x,
+      Rectangle.screenOrigin(rect).y,
+      290,
+      290
+    )
+
+
+    const read = await SlideReader.read(img,
+      Rectangle.screenOrigin(rect),
+      this.puzzle.theme
+    )
+
+    /*
     const read = await SlideReader.read(a1lib.captureHoldFullRs(),
       Rectangle.screenOrigin(this.parent.puzzle.ui.rect),
       this.puzzle.theme
-    )
+    )*/
 
     return {
       result: read,
@@ -178,7 +196,7 @@ class SliderGuideProcess {
   async run() {
     while (!this.should_stop) {
 
-      const read_result = await time("Read", async () => await this.read())
+      const read_result = await time("Read", async () => await this.read(), false)
 
       // TODO: Do something if the confidence in the read theme is low. That means likely the interface was closed
 
@@ -245,7 +263,7 @@ class SliderGuideProcess {
 
           let recovery_move: Move | null = null
 
-          for (let target of this.getLastKnownMove().pre_states) {
+          for (let target of (this.getLastKnownMove()?.pre_states ?? [])) {
             recovery_move = SliderState.findMove(frame_state, target)
             if (recovery_move) break
           }
@@ -301,7 +319,7 @@ export class SliderModal extends PuzzleModal {
     }
 
     if (start) {
-      this.process = new SliderGuideProcess(this)
+      this.process = new SliderGuideProcess(this, SlideGuider.Settings.DEFAULT)
       this.process.run()
     }
 
@@ -315,8 +333,7 @@ export class SliderModal extends PuzzleModal {
   }
 
   protected begin(): void {
-    const autostart = false
-
+    const autostart = deps().app.settings.settings.solving.puzzles.sliders.autostart
     if (autostart) this.resetProcess(true)
   }
 
@@ -346,5 +363,34 @@ export class SliderModal extends PuzzleModal {
     )
 
     this.updateButtonsState()
+  }
+}
+
+export namespace SlideGuider {
+  export type Settings = {
+    autostart: boolean,
+    max_lookahead: number,
+    prevent_overlap: boolean,
+    display_recovery: boolean,
+  }
+
+  export namespace Settings {
+    export const DEFAULT: Settings = {
+      autostart: true,
+      max_lookahead: 5,
+      prevent_overlap: true,
+      display_recovery: true
+    }
+
+    export function normalize(settings: Settings): Settings {
+      if (!settings) return lodash.cloneDeep(DEFAULT)
+
+      if (![true, false].includes(settings.autostart)) settings.autostart = DEFAULT.autostart
+      if (typeof settings.max_lookahead != "number") settings.max_lookahead = DEFAULT.max_lookahead
+      if (![true, false].includes(settings.prevent_overlap)) settings.prevent_overlap = DEFAULT.prevent_overlap
+      if (![true, false].includes(settings.display_recovery)) settings.display_recovery = DEFAULT.display_recovery
+
+      return settings
+    }
   }
 }

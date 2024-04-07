@@ -42,7 +42,7 @@ import {TextRendering} from "../TextRendering";
 import {ClueEntities} from "./ClueEntities";
 import {NislIcon} from "../nisl";
 import {ClueProperties} from "../theorycrafting/ClueProperties";
-import {SliderModal} from "./PuzzleGuider";
+import {SlideGuider, SliderModal} from "./SlideGuider";
 import {PuzzleModal} from "./PuzzleModal";
 import span = C.span;
 import todo = util.todo;
@@ -1022,7 +1022,30 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
 export namespace NeoSolving {
   export type Settings = {
-    info_panel: {
+    info_panel: Settings.InfoPanel,
+    puzzles: Settings.Puzzles
+  }
+
+  export namespace Settings {
+    export type Puzzles = {
+      sliders: SlideGuider.Settings
+    }
+
+    export namespace Puzzles {
+      export const DEFAULT: Puzzles = {
+        sliders: SlideGuider.Settings.DEFAULT
+      }
+
+      export function normalize(settings: Puzzles): Puzzles {
+        if (!settings) return lodash.cloneDeep(DEFAULT)
+
+        settings.sliders = SlideGuider.Settings.normalize(settings.sliders)
+
+        return settings
+      }
+    }
+
+    export type InfoPanel = {
       clue_text: "full" | "abridged" | "hide"
       map_image: "show" | "hide",
       dig_target: "show" | "hide",
@@ -1037,9 +1060,7 @@ export namespace NeoSolving {
       puzzle: "show" | "hide",
       challenge: "full" | "answer_only" | "hide"
     }
-  }
 
-  export namespace Settings {
     export namespace InfoPanel {
       export const EVERYTHING: Settings["info_panel"] = {
         clue_text: "full",
@@ -1088,31 +1109,41 @@ export namespace NeoSolving {
         challenge: "answer_only",
         puzzle: "hide"
       }
+
+      export function normalize(settings: InfoPanel): InfoPanel {
+        if (!settings) return lodash.cloneDeep(InfoPanel.EVERYTHING)
+
+        if (!["full", "hide", "abridged"].includes(settings.clue_text)) settings.clue_text = "full"
+        if (!["show", "hide"].includes(settings.map_image)) settings.map_image = "show"
+        if (!["show", "hide"].includes(settings.dig_target)) settings.dig_target = "show"
+        if (!["show", "hide"].includes(settings.talk_target)) settings.talk_target = "show"
+        if (!["show", "hide"].includes(settings.search_target)) settings.search_target = "show"
+        if (!["show", "hide"].includes(settings.search_key)) settings.search_key = "show"
+
+        if (!["show", "hide"].includes(settings.hidey_hole)) settings.hidey_hole = "show"
+        if (!["show", "hide"].includes(settings.emote_items)) settings.emote_items = "show"
+        if (!["show", "hide"].includes(settings.emotes)) settings.emotes = "show"
+        if (!["show", "hide"].includes(settings.double_agent)) settings.double_agent = "show"
+        if (!["show", "hide"].includes(settings.path_components)) settings.path_components = "show"
+
+        if (!["show", "hide"].includes(settings.puzzle)) settings.puzzle = "show"
+        if (!["full", "answer_only", "hide"].includes(settings.challenge)) settings.challenge = "full"
+
+        return settings
+      }
     }
 
     export const DEFAULT: Settings = {
-      info_panel: InfoPanel.EVERYTHING
+      info_panel: InfoPanel.EVERYTHING,
+      puzzles: Puzzles.DEFAULT,
     }
 
     export function normalize(settings: Settings): Settings {
       if (!settings) settings = lodash.cloneDeep(DEFAULT)
 
-      if (!settings.info_panel) settings.info_panel = DEFAULT.info_panel
-      if (!["full", "hide", "abridged"].includes(settings.info_panel.clue_text)) settings.info_panel.clue_text = "full"
-      if (!["show", "hide"].includes(settings.info_panel.map_image)) settings.info_panel.map_image = "show"
-      if (!["show", "hide"].includes(settings.info_panel.dig_target)) settings.info_panel.dig_target = "show"
-      if (!["show", "hide"].includes(settings.info_panel.talk_target)) settings.info_panel.talk_target = "show"
-      if (!["show", "hide"].includes(settings.info_panel.search_target)) settings.info_panel.search_target = "show"
-      if (!["show", "hide"].includes(settings.info_panel.search_key)) settings.info_panel.search_key = "show"
+      settings.info_panel = InfoPanel.normalize(settings.info_panel)
+      settings.puzzles = Puzzles.normalize(settings.puzzles)
 
-      if (!["show", "hide"].includes(settings.info_panel.hidey_hole)) settings.info_panel.hidey_hole = "show"
-      if (!["show", "hide"].includes(settings.info_panel.emote_items)) settings.info_panel.emote_items = "show"
-      if (!["show", "hide"].includes(settings.info_panel.emotes)) settings.info_panel.emotes = "show"
-      if (!["show", "hide"].includes(settings.info_panel.double_agent)) settings.info_panel.double_agent = "show"
-      if (!["show", "hide"].includes(settings.info_panel.path_components)) settings.info_panel.path_components = "show"
-
-      if (!["show", "hide"].includes(settings.info_panel.puzzle)) settings.info_panel.puzzle = "show"
-      if (!["full", "answer_only", "hide"].includes(settings.info_panel.challenge)) settings.info_panel.challenge = "full"
 
       return settings
     }

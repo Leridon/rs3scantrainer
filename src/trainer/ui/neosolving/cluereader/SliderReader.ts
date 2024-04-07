@@ -65,10 +65,7 @@ export namespace SlideReader {
     return `alt1anchors/sliders/${theme}.png`
   }
 
-  export type ReadResult = {
-    uncertainy: number,
-    puzzle: SliderPuzzle
-  }
+  export type ReadResult = SliderPuzzle
 
   export async function read(image: ImgRef, origin: Vector2, known_theme: string = undefined): Promise<ReadResult> {
     // Parse the slider image from screen
@@ -111,11 +108,13 @@ export namespace SlideReader {
       }
 
       return {
-        puzzle: {tiles: matched_tiles.map(m => m.reference_tile), theme: theme},
-        uncertainy: lodash.sumBy(matched_tiles, m => m.score)
+        tiles: matched_tiles.map(m => m.reference_tile),
+        theme: theme,
+        match_uncertainty: lodash.sumBy(matched_tiles, m => m.score)
       }
+
     })
 
-    return lodash.minBy(matches, m => m.uncertainy)
+    return lodash.minBy(matches, m => m.match_uncertainty)
   }
 }

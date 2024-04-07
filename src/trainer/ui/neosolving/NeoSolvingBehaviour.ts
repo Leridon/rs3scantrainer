@@ -532,7 +532,7 @@ class ClueSolvingReadingBehaviour extends Behaviour {
 
     if (res?.step) {
       this.parent.setClueWithAutomaticMethod(res.step)
-    } else if (res.puzzle) {
+    } else if (res?.puzzle) {
       this.parent.setPuzzle(res.puzzle)
     }
 

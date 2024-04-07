@@ -9,9 +9,10 @@ import {C} from "../../../lib/ui/constructors";
 import {PuzzleModal} from "./PuzzleModal";
 import ButtonRow from "../../../lib/ui/ButtonRow";
 import {BigNisButton} from "../widgets/BigNisButton";
-import {time} from "../../../lib/gamemap/GameLayer";
 import {deps} from "../../dependencies";
 import * as lodash from "lodash";
+import {findLastIndex} from "lodash";
+import {ewent} from "../../../lib/reactive";
 import over = OverlayGeometry.over;
 import SliderState = Sliders.SliderState;
 import SliderPuzzle = Sliders.SliderPuzzle;
@@ -41,8 +42,16 @@ class SliderGuideProcess {
 
   private last_frame_state: SliderState = null
 
+  private interface_closed_event = ewent<this>()
+
   constructor(private parent: SliderModal, private settings: SlideGuider.Settings) {
     this.puzzle = parent.puzzle.puzzle
+  }
+
+  onInterfaceClosed(f: () => void): this {
+    this.interface_closed_event.on(f)
+
+    return this
   }
 
   private posToScreen(pos: number): Vector2 {
@@ -73,15 +82,9 @@ class SliderGuideProcess {
       this.puzzle.theme
     )
 
-    /*
-    const read = await SlideReader.read(a1lib.captureHoldFullRs(),
-      Rectangle.screenOrigin(this.parent.puzzle.ui.rect),
-      this.puzzle.theme
-    )*/
-
     return {
       result: read,
-      state: SliderPuzzle.getState(read.puzzle)
+      state: SliderPuzzle.getState(read)
     }
   }
 
@@ -92,7 +95,6 @@ class SliderGuideProcess {
     }
 
     this.progress_overlay.clear()
-
 
     const length = this.solution?.length ?? this.solver?.getBest()?.length ?? 120
     const progress = this.solution ? this.current_mainline_index / this.solution.length : 0
@@ -119,7 +121,7 @@ class SliderGuideProcess {
 
     this.move_overlay = over()
 
-    const LOOKAHEAD = 5
+    const LOOKAHEAD = this.settings.max_lookahead
 
     let moves = this.error_recovery_solution?.sequence ?? []
 
@@ -195,10 +197,17 @@ class SliderGuideProcess {
 
   async run() {
     while (!this.should_stop) {
+      const read_result = await this.read()
 
-      const read_result = await time("Read", async () => await this.read(), false)
+      const UNCERTAINTY_CLOSE_FACTOR = 100 // Fairly conservative estimate. In testing, factors were around 1000
 
-      // TODO: Do something if the confidence in the read theme is low. That means likely the interface was closed
+      const closed_factor = read_result.result.match_uncertainty / this.puzzle.match_uncertainty
+
+      if (closed_factor > UNCERTAINTY_CLOSE_FACTOR) {
+        this.interface_closed_event.trigger(this)
+        this.stop()
+        break
+      }
 
       const frame_state = read_result.state
 
@@ -237,16 +246,16 @@ class SliderGuideProcess {
       // Early exit if state has not changed
       if (this.last_frame_state && SliderState.equals(this.last_frame_state, frame_state)) continue
 
-      let mainline_index = this.solution.findIndex(a => a.pre_states.some(s => SliderState.equals(s, frame_state)))
+      let mainline_index = findLastIndex(this.solution, a => a.pre_states.some(s => SliderState.equals(s, frame_state)))
 
       if (mainline_index >= 0) {
 
         // pre_states also includes all states that can be reached from the target state.
         // This causes a bug where a wrong mainline index is inferred
         // This case is fixed with the following hack
-        if (mainline_index < this.solution.length - 1 && SliderState.equals(frame_state, this.solution[mainline_index + 1].post_state)) {
+        /*if (mainline_index < this.solution.length - 1 && SliderState.equals(frame_state, this.solution[mainline_index + 1].post_state)) {
           mainline_index += 2
-        }
+        }*/
 
         this.current_mainline_index = mainline_index
         this.error_recovery_solution = {sequence: [], recovering_to_mainline_index: mainline_index}
@@ -259,7 +268,7 @@ class SliderGuideProcess {
 
           this.current_mainline_index = this.error_recovery_solution.recovering_to_mainline_index
         } else {
-          // The current state was not found in either the mainline nor in the recovery sequence
+          // The current state was not found in the recovery sequence
 
           let recovery_move: Move | null = null
 
@@ -320,6 +329,10 @@ export class SliderModal extends PuzzleModal {
 
     if (start) {
       this.process = new SliderGuideProcess(this, SlideGuider.Settings.DEFAULT)
+        .onInterfaceClosed(() => {
+          this.abort()
+        })
+
       this.process.run()
     }
 

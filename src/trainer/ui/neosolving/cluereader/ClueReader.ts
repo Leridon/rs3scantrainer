@@ -235,8 +235,6 @@ export class ClueReader {
               case "textclue":
                 const text = ClueReader.readTextClueModalText(found_ui.modal)
 
-                console.log(text)
-
                 if (text.length >= 10) {
                   let best: Clues.StepWithTextIndex = null
                   let best_score = 0
@@ -318,13 +316,13 @@ export class ClueReader {
           )
 
           if (CLUEREADERDEBUG) {
-            res.puzzle.tiles.forEach((tile, i) => {
+            res.tiles.forEach((tile, i) => {
               const pos = Vector2.add(
                 Rectangle.screenOrigin(found_ui.rect),
                 {x: Math.floor(i % 5) * 56, y: Math.floor(i / 5) * 56}
               )
 
-              alt1.overLayText(`${res.puzzle.theme}\n${tile.position}`,
+              alt1.overLayText(`${res.theme}\n${tile.position}`,
                 a1lib.mixColor(0, 255, 0),
                 10,
                 pos.x,
@@ -333,12 +331,12 @@ export class ClueReader {
               )
             })
 
-            deps().app.notifications.notify({}, `Found theme ${res.puzzle.theme}`)
+            deps().app.notifications.notify({}, `Found theme ${res.theme}`)
           }
 
           return {
             found_ui: found_ui,
-            puzzle: {type: "slider", ui: found_ui, puzzle: res.puzzle},
+            puzzle: {type: "slider", ui: found_ui, puzzle: res},
           }
         case "compass": {
           const compass_state = ClueReader.readCompassState(img, Vector2.add(found_ui.rect.topleft, {x: -53, y: 54}))

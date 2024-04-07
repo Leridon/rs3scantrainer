@@ -62,13 +62,13 @@ export class ClueReader {
           {
             type: "scan", anchors: [{
               img: this.anchors.scanfartext,
-              origin_offset: {x: 0, y: -5 + 12 * 4}
+              origin_offset: {x: 20, y: -5 + 12 * 4}
             }, {
               img: this.anchors.scanfartext_pt,
-              origin_offset: {x: 0, y: -5 + 12 * 4}
+              origin_offset: {x: 20, y: -5 + 12 * 4}
             }, {
               img: this.anchors.scanleveltext,
-              origin_offset: {x: 0, y: -7 + 12 * 6}
+              origin_offset: {x: 20, y: -7 + 12 * 6}
             }]
           },
           {
@@ -103,13 +103,11 @@ export class ClueReader {
                   rect: Rectangle.fromRectLike(modal.rect),
                   modal: modal,
                 }
-                break;
               case "scan":
-
                 return {
                   type: "scan",
                   image: img,
-                  rect: Rectangle.fromOriginAndSize(locs[0], {x: 1, y: 1})
+                  rect: Rectangle.fromOriginAndSize(Vector2.sub(locs[0], anchor.origin_offset), {x: 180, y: 190})
                 }
               case "slider":
                 return {
@@ -143,8 +141,6 @@ export class ClueReader {
     if (found_ui) {
 
       if (CLUEREADERDEBUG) {
-        console.log(found_ui)
-
         alt1.overLayRect(a1lib.mixColor(255, 0, 0, 255),
           found_ui.rect.topleft.x,
           found_ui.rect.botright.y,
@@ -165,7 +161,6 @@ export class ClueReader {
 
       switch (found_ui.type) {
         case "modal":
-
           const modal_type = ((): ClueReader.ModalType => {
             const modal_type_map: {
               type: ClueReader.ModalType,
@@ -284,7 +279,7 @@ export class ClueReader {
           break
         case "scan": {
           const scan_text_full = ClueReader.readScanPanelText(
-            img, found_ui.rect.topleft
+            img, Rectangle.screenOrigin(found_ui.rect)
           )
 
           if (CLUEREADERDEBUG) deps().app.notifications.notify({},
@@ -299,8 +294,14 @@ export class ClueReader {
           let bestscore = 0;
           let best: ScanStep | null = null;
 
+          console.log(scan_text_full)
+          console.log(scan_text)
+
           for (let clue of clue_data.scan) {
             let score = stringSimilarity(scan_text, clue.scantext);
+
+            console.log(`Score ${score}`)
+
             if (score > bestscore) {
               best = clue;
               bestscore = score;
@@ -443,12 +444,11 @@ export namespace ClueReader {
   export function readScanPanelText(img: ImgRef, pos: Vector2) {
     const font = require("@alt1/ocr/fonts/aa_8px_new.js");
     const lineheight = 12;
-    const capty = pos.y;
-    let data = img.toData(pos.x - 20, capty, 180, 190);
+    let data = img.toData(pos.x, pos.y, 180, 190);
 
     let lines: string[] = [];
     for (let lineindex = 0; lineindex < 13; lineindex++) {
-      const y = pos.y - capty + lineindex * lineheight;
+      const y = lineindex * lineheight;
       const line = OCR.findReadLine(data, font, [[255, 255, 255]], 70, y, 40, 1);
       lines.push(line.text);
     }

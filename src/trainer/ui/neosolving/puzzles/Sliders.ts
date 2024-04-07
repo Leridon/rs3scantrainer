@@ -105,6 +105,10 @@ export namespace Sliders {
       return new Array(n).fill(single_tile_move)
     }
 
+    export function isSmallStep(move: Move): boolean {
+      return [1, -1, 5, -5].includes(move)
+    }
+
     export function isValid(move: Move): boolean {
       return [1, 2, 3, 4, 5, 10, 15, 20].includes(Math.abs(move))
     }
@@ -182,11 +186,20 @@ export namespace Sliders {
     protected end_time: number
     private progress: number
 
+    private compress_moves: boolean = false
+
     constructor(protected start_state: SliderState) {
 
     }
 
+    setCombineStraights(value: boolean = true): this {
+      this.compress_moves = value
+      return this
+    }
+
     protected registerSolution(moves: MoveList) {
+      if (this.compress_moves) moves = MoveList.compress(moves)
+
       if (!this.best_solution || moves.length < this.best_solution.length) {
         this.best_solution = moves
         this.updateProgress()
@@ -240,10 +253,7 @@ export namespace Sliders {
       return this.progress
     }
 
-    getBest(compress: boolean = true): MoveList {
-      if(!this.best_solution) return null
-
-      if (compress) return MoveList.compress(this.best_solution)
+    getBest(): MoveList {
       return this.best_solution
     }
   }

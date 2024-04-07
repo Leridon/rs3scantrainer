@@ -76,7 +76,6 @@ class SliderGuideProcess {
       290
     )
 
-
     const read = await SlideReader.read(img,
       Rectangle.screenOrigin(rect),
       this.puzzle.theme
@@ -123,28 +122,41 @@ class SliderGuideProcess {
 
     const LOOKAHEAD = this.settings.max_lookahead
 
-    let moves = this.error_recovery_solution?.sequence ?? []
+    let moves = []
 
-    if (moves.length < LOOKAHEAD) {
-      moves.push(...this.solution.slice(this.current_mainline_index, this.current_mainline_index + (LOOKAHEAD - moves.length)))
-    } else if (moves.length > LOOKAHEAD) {
-      moves = moves.slice(0, LOOKAHEAD)
+    if (this.error_recovery_solution?.sequence) {
+      moves.push(...this.error_recovery_solution.sequence)
     }
+
+    moves.push(...this.solution.slice(this.current_mainline_index, this.current_mainline_index + LOOKAHEAD))
+
+    // TODO: Prevent overlap
 
     const marker_geometry = over().withTime(20000)
 
     let current_blank = SliderState.blank(this.last_frame_state)
     let last_size = 0
 
+    const recovery_length = this.error_recovery_solution?.sequence?.length ?? 0
+
+    console.log(`Recovery Length ${recovery_length}`)
+
     for (let i = 0; i < moves.length; ++i) {
       const move = moves[i]
+      const is_recovery_move = i < recovery_length
+      const as_key = this.settings.mode == "keyboard" || (this.settings.mode == "hybrid" && Move.isSmallStep(move.move))
 
-      const size = 20 - 4 * i
+      const size = is_recovery_move ? 10 : 20 * (1 - (1 / LOOKAHEAD) * (i - recovery_length))
 
-      marker_geometry.rect(
-        Rectangle.centeredOn(this.posToScreen(move.clicked_tile), size),
-        {width: 3, color: mixColor(255, 0, 0)}
-      )
+      if (as_key) {
+
+      } else {
+        marker_geometry.rect(
+          Rectangle.centeredOn(this.posToScreen(move.clicked_tile), size),
+          {width: 3, color: mixColor(0, 255, 0)}
+        )
+      }
+
 
       const blank = move.clicked_tile
 
@@ -156,7 +168,12 @@ class SliderGuideProcess {
       this.move_overlay.line(
         Vector2.add(a, Vector2.scale(last_size, dir)),
         Vector2.add(b, Vector2.scale(-size, dir)),
-        {width: 3, color: mixColor(255, 255, 0)}
+        {
+          width: 2,
+          color: is_recovery_move
+            ? mixColor(255, 100, 0)
+            : mixColor(255, 255, 0)
+        }
       )
 
       current_blank = blank
@@ -214,6 +231,7 @@ class SliderGuideProcess {
       if (!this.solution) {
         await new Promise<void>(async (resolve) => {
           this.solver = SlideSolver.skillbertRandom(frame_state)
+            .setCombineStraights(this.settings.mode == "mouse" || this.settings.mode == "hybrid")
             .onUpdate(solver => {
               if (this.should_stop) resolve()
 
@@ -223,7 +241,7 @@ class SliderGuideProcess {
               this.updateProgressOverlay()
             })
 
-          await this.solver.solve(3000)
+          await this.solver.solve(2000)
 
           this.current_mainline_index = 0
           this.error_recovery_solution = {sequence: [], recovering_to_mainline_index: 0}
@@ -233,7 +251,7 @@ class SliderGuideProcess {
 
         this.updateSolvingOverlay()
 
-        this.solution = Sliders.MoveList.annotate(frame_state, this.solver.getBest(true))
+        this.solution = Sliders.MoveList.annotate(frame_state, this.solver.getBest())
         this.solver = null
 
         this.updateSolvingOverlay()
@@ -381,14 +399,18 @@ export class SliderModal extends PuzzleModal {
 
 export namespace SlideGuider {
   export type Settings = {
+    mode: "keyboard" | "mouse" | "hybrid",
     autostart: boolean,
     max_lookahead: number,
     prevent_overlap: boolean,
     display_recovery: boolean,
+
+
   }
 
   export namespace Settings {
     export const DEFAULT: Settings = {
+      mode: "mouse",
       autostart: true,
       max_lookahead: 5,
       prevent_overlap: true,
@@ -398,6 +420,7 @@ export namespace SlideGuider {
     export function normalize(settings: Settings): Settings {
       if (!settings) return lodash.cloneDeep(DEFAULT)
 
+      if (!["keyboard", "mouse", "hybrid"].includes(settings.mode)) settings.mode = DEFAULT.mode
       if (![true, false].includes(settings.autostart)) settings.autostart = DEFAULT.autostart
       if (typeof settings.max_lookahead != "number") settings.max_lookahead = DEFAULT.max_lookahead
       if (![true, false].includes(settings.prevent_overlap)) settings.prevent_overlap = DEFAULT.prevent_overlap

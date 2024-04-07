@@ -6,8 +6,9 @@ import todo = util.todo;
 import uuid = util.uuid;
 
 export class OverlayGeometry {
-  private shown_group_name: string = null
-  private is_frozen: boolean = false
+  private is_frozen = false
+
+  private group_name: string = null
 
   private alive_time: number = 10000
 
@@ -41,8 +42,8 @@ export class OverlayGeometry {
 
       const dir = Vector2.normalize(Vector2.sub(to, from))
 
-      from = Vector2.add(from, Vector2.scale(-stroke.width/ 3, dir))
-      to = Vector2.add(to, Vector2.scale(stroke.width/ 3, dir))
+      from = Vector2.add(from, Vector2.scale(-stroke.width / 3, dir))
+      to = Vector2.add(to, Vector2.scale(stroke.width / 3, dir))
 
       this.line(from, to, stroke)
     }
@@ -89,12 +90,8 @@ export class OverlayGeometry {
     return this
   }
 
-  show(): this {
-    if (this.shown_group_name) this.hide()
-
-    this.shown_group_name = uuid()
-
-    alt1.overLaySetGroup(this.shown_group_name)
+  private push_draw_calls(): this {
+    alt1.overLaySetGroup(this.group_name)
 
     for (let element of this.geometry) {
       switch (element.type) {
@@ -135,9 +132,12 @@ export class OverlayGeometry {
   }
 
   render(): this {
+    if(!this.group_name) this.group_name = uuid()
+
     this.freeze()
-    this.hide()
-    this.show()
+    alt1.overLayClearGroup(this.group_name)
+    this.push_draw_calls()
+    alt1.overLayRefreshGroup(this.group_name)
     this.unfreeze()
 
     return this
@@ -150,22 +150,25 @@ export class OverlayGeometry {
   }
 
   hide(): this {
-    alt1.overLayClearGroup(this.shown_group_name)
-    this.shown_group_name = null
+    if (this.group_name) {
+      alt1.overLayClearGroup(this.group_name)
+      alt1.overLayRefreshGroup(this.group_name)
+    }
 
     return this
   }
 
-  freeze() {
-    if (this.shown_group_name) {
-      alt1.overLayFreezeGroup(this.shown_group_name)
+  private freeze() {
+    if (this.group_name) {
+      alt1.overLayFreezeGroup(this.group_name)
       this.is_frozen = true
     }
   }
 
-  unfreeze() {
+  private unfreeze() {
     if (this.is_frozen) {
-      alt1.overLayContinueGroup(this.shown_group_name)
+      alt1.overLayContinueGroup(this.group_name)
+      this.is_frozen = false
     }
   }
 }

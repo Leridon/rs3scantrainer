@@ -105,7 +105,6 @@ class SliderGuideProcess {
   }
 
   private updateProgressOverlay() {
-
     if (!this.progress_overlay) {
       this.progress_overlay = over()
     }
@@ -292,13 +291,14 @@ class SliderGuideProcess {
   }
 
   private updateSolvingOverlay() {
-    if (this.solving_overlay) {
-      this.solving_overlay.hide()
-      this.solving_overlay = null
+    if (!this.solving_overlay) {
+      this.solving_overlay = over()
     }
 
+    this.solving_overlay.clear()
+
     if (this.solver) {
-      this.solving_overlay = over()
+      this.solving_overlay
         .text("Solving",
           Vector2.add(
             Rectangle.screenOrigin(this.parent.puzzle.ui.rect),
@@ -311,9 +311,9 @@ class SliderGuideProcess {
         Rectangle.screenOrigin(this.parent.puzzle.ui.rect),
         {x: 143, y: 153},
       ), 100, this.solver.getProgress(), 5)
-
-      this.solving_overlay.show()
     }
+
+    this.solving_overlay.render()
   }
 
   async run() {

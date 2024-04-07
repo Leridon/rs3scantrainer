@@ -134,6 +134,15 @@ export class OverlayGeometry {
     return this
   }
 
+  render(): this {
+    this.freeze()
+    this.hide()
+    this.show()
+    this.unfreeze()
+
+    return this
+  }
+
   clear(): this {
     this.geometry = []
 

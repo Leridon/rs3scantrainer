@@ -16,6 +16,15 @@ export namespace Sliders {
   export type SliderState = number[]
 
   export namespace SliderState {
+    export const SOLVED: SliderState =
+      [
+        0, 1, 2, 3, 4,
+        5, 6, 7, 8, 9,
+        10, 11, 12, 13, 14,
+        15, 16, 17, 18, 19,
+        20, 21, 22, 23, 24
+      ]
+
     export function equals(a: SliderState, b: SliderState): boolean {
       for (let i = 0; i < a.length; i++) {
         if (a[i] != b[i]) return false
@@ -77,15 +86,6 @@ export namespace Sliders {
       return moves.map(m => SliderState.withMove(state, m))
     }
   }
-
-  export const SolvedState =
-    [
-      0, 1, 2, 3, 4,
-      5, 6, 7, 8, 9,
-      10, 11, 12, 13, 14,
-      15, 16, 17, 18, 19,
-      20, 21, 22, 23, 24
-    ]
 
   /**
    * A move is the index offset from the current position of tile 24 to the tile you need to click next.

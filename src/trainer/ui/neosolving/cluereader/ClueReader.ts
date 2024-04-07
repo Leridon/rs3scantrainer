@@ -294,13 +294,8 @@ export class ClueReader {
           let bestscore = 0;
           let best: ScanStep | null = null;
 
-          console.log(scan_text_full)
-          console.log(scan_text)
-
           for (let clue of clue_data.scan) {
             let score = stringSimilarity(scan_text, clue.scantext);
-
-            console.log(`Score ${score}`)
 
             if (score > bestscore) {
               best = clue;

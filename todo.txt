@@ -1,7 +1,5 @@
 Planned for next release (b0.4):
 
-[Bug, 5] Context menu on entities causes tooltip to be off
-
 - Solving Behaviour
     - Path Panel
         - [Feature] Disable default teleport render when contained in step

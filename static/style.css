@@ -955,7 +955,7 @@ video {
 }
 
 .nisl-property-paragraph {
-    font-style: italic;
+
 }
 
 .nisl-property-hline {
@@ -2149,4 +2149,20 @@ input[type=checkbox] + span {
 
 .ctr-entity-wrong-level {
     filter: grayscale(1)
+}
+
+.ctr-modal-fullscreen {
+    --bs-modal-margin: 0.25rem;
+    max-width: revert;
+    width: calc(100% - 2 * var(--bs-modal-margin));
+    height: calc(100% - 2 * var(--bs-modal-margin));
+}
+
+.ctr-modal-fullscreen > .nisl-modal {
+    height: 100%;
+}
+
+.nisl-color-input > input{
+    height: 20px;
+    width: 100%;
 }

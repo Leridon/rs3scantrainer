@@ -8,7 +8,7 @@ type MapPoint = { cx: number, cy: number, f: boolean, p: boolean, x: number, y: 
 export type SlideMove = { x1: number, y1: number, x2: number, y2: number };
 type Point = { x: number, y: number };
 
-class Map {
+export class SliderMap {
 	tiles: MapPoint[] = [];
 	inverted: MapPoint[] = [];
 	empty: MapPoint;
@@ -38,7 +38,7 @@ class Map {
 		return n;
 	}
 	clone() {
-		var r = new Map(this.toList());
+		var r = new SliderMap(this.toList());
 		for (var a = 0; a < this.inverted.length; a++) {
 			r.inverted[a].f = this.inverted[a].f;
 			r.inverted[a].p = this.inverted[a].p;
@@ -225,7 +225,6 @@ export abstract class SlideSolver {
 		moves = optimisemoves(moves);
 		if (!this.bestsolution || moves.length < this.bestsolution.length) {
 			this.bestsolution = moves;
-			console.log(this.bestsolution.length);
 		}
 	}
 
@@ -238,7 +237,7 @@ export class SlideSolverRandom extends SlideSolver {
 		var first = this.firstrun;
 		this.firstrun = false;
 		var steps = 0;
-		var map = new Map(this.initialState);
+		var map = new SliderMap(this.initialState);
 		while (true) {
 			var actions = calcmap(map);
 			if (actions.length == 0) { break; }
@@ -246,18 +245,18 @@ export class SlideSolverRandom extends SlideSolver {
 			var n = (first ? 0 : Math.floor(actions.length * Math.random()));
 			var action = actions[n];
 			try { action.f(map); }
-			catch{ break; }//TODO still cehck skillbertssolver paths even if this is dead end
+			catch{ break; }//TODO still check solver paths even if this is dead end
 			if (steps++ > 50) {
 				console.log("failed to solve puzzle, over 50 actions attempted");
 				return null;
 			}
 		}
-		console.log(map.moves.length);
+
 		if (map.getMinMoves() == 0) { this.foundSolution(map.moves); }
 	}
 }
 
-type SolveMove = { dist: number, cost: number, h: number, map: Map, previous: SolveMove | null, score: number, n: string };
+type SolveMove = { dist: number, cost: number, h: number, map: SliderMap, previous: SolveMove | null, score: number, n: string };
 
 function backtracesolution(move: SolveMove) {
 	var winmoves: SlideMove[] = [];
@@ -279,7 +278,7 @@ export class SlideSolverAStar extends SlideSolver {
 	constructor(state: number[]) {
 		super(state);
 		this.incrementBias();
-		var init = new Map(state);
+		var init = new SliderMap(state);
 		let dist = init.getMinMoves();
 		this.moves.push({ map: init, cost: 0, dist: dist, h: dist, previous: null, score: 0, n: "" });
 	}
@@ -327,7 +326,7 @@ export class SlideSolverBeam extends SlideSolver {
 	constructor(state: number[], beamsize = 50) {
 		super(state);
 		this.beamsize = beamsize;
-		var init = new Map(state);
+		var init = new SliderMap(state);
 		let dist = init.getMinMoves();
 		this.moves.push({ map: init, cost: 0, dist: dist, h: dist, previous: null, score: 0, n: "" });
 	}
@@ -430,7 +429,7 @@ namespace FastMap {
 }
 
 
-function clogmap(map: Map) {
+function clogmap(map: SliderMap) {
 	for (let y = 0; y < maph; y++) {
 		//let str = y + " ";
 		let str = "";
@@ -445,10 +444,10 @@ function clogmap(map: Map) {
 	}
 }
 
-function calcmap(map: Map) {
+export function calcmap(map: SliderMap) {
 	var dirms = [[1, 0, 0, 1], [0, 1, 1, 0]];
 	var mirms = [[1, 0, 0, 1], [-1, 0, 0, 1]];
-	var actions: { score: number, n: string, f: (map: Map) => void }[] = [];
+	var actions: { score: number, n: string, f: (map: SliderMap) => void }[] = [];
 	var tutmode = false;
 
 	//clear map
@@ -541,14 +540,14 @@ function calcmap(map: Map) {
 				if (map.getv(va[0]) == map.getinvv(va[0])) {
 					if (map.getv(va[1]) == map.empty && map.getv(va[3]) == map.getinvv(va[1])) {
 						actions.push({
-							score: tutpenalty + 20, n: "0X,-1,-- " + va[0], f: function (va: number[][], map: Map) {
+							score: tutpenalty + 20, n: "0X,-1,-- " + va[0], f: function (va: number[][], map: SliderMap) {
 								map.movetile(map.getv(va[3]), va[1][0], va[1][1], [{ x: va[0][0], y: va[0][1] }]);
 							}.bind(null, va)
 						});
 					}
 					else if (map.getv(va[2]) == map.getinvv(va[1]) || map.getv(va[3]) == map.getinvv(va[1])) {
 						actions.push({
-							score: tutpenalty + 5 - 0.3 * map.tiledist(map.getv(va[1])), n: "0-,1-,-- || 0-,-1,-- " + va[0], f: function (va: number[][], map: Map) {
+							score: tutpenalty + 5 - 0.3 * map.tiledist(map.getv(va[1])), n: "0-,1-,-- || 0-,-1,-- " + va[0], f: function (va: number[][], map: SliderMap) {
 								map.movetile(map.getinvv(va[1]), va[5][0], va[5][1], [{ x: va[0][0], y: va[0][1] }]);
 								map.movetile(map.getinvv(va[0]), va[1][0], va[1][1], [{ x: va[5][0], y: va[5][1] }]);
 								map.movetile(map.getinvv(va[1]), va[3][0], va[3][1], [{ x: va[1][0], y: va[1][1] }]);
@@ -558,7 +557,7 @@ function calcmap(map: Map) {
 					}
 					else {
 						actions.push({
-							score: tutpenalty + 5 - 0.3 * map.tiledist(map.getv(va[1])), n: "0-,--,-- " + va[0], f: function (va: number[][], map: Map) {
+							score: tutpenalty + 5 - 0.3 * map.tiledist(map.getv(va[1])), n: "0-,--,-- " + va[0], f: function (va: number[][], map: SliderMap) {
 								map.movetile(map.getinvv(va[0]), va[1][0], va[1][1]);
 								map.movetile(map.getinvv(va[1]), va[3][0], va[3][1], [{ x: va[1][0], y: va[1][1] }]);
 								map.movetile(map.getinvv(va[1]), va[1][0], va[1][1]);
@@ -569,7 +568,7 @@ function calcmap(map: Map) {
 				else if (map.getv(va[0]) == map.getinvv(va[1])) {
 					if (map.getv(va[1]) == map.getinvv(va[0])) {
 						actions.push({
-							score: tutpenalty + 5 - 0.4 * map.tiledist(map.empty, va[2]), n: "10,--,-- " + va[0], f: function (va: number[][], map: Map) {
+							score: tutpenalty + 5 - 0.4 * map.tiledist(map.empty, va[2]), n: "10,--,-- " + va[0], f: function (va: number[][], map: SliderMap) {
 								map.movetile(map.getinvv(va[0]), va[0][0], va[0][1]);
 								map.movetile(map.getinvv(va[1]), va[4][0], va[4][1], [{ x: va[0][0], y: va[0][1] }]);
 								map.movetile(map.getinvv(va[0]), va[1][0], va[1][1], [{ x: va[4][0], y: va[4][1] }]);
@@ -580,7 +579,7 @@ function calcmap(map: Map) {
 					}
 					else if (map.getv(va[1]) == map.empty && map.getv(va[3]) == map.getinvv(va[0])) {
 						actions.push({
-							score: tutpenalty + 10, n: "1X,-0,-- " + va[0], f: function (va: number[][], map: Map) {
+							score: tutpenalty + 10, n: "1X,-0,-- " + va[0], f: function (va: number[][], map: SliderMap) {
 								map.movetile(map.getinvv(va[1]), va[1][0], va[1][1], [{ x: va[3][0], y: va[3][1] }]);
 								map.movetile(map.getinvv(va[0]), va[5][0], va[5][1], [{ x: va[1][0], y: va[1][1] }]);
 								map.movetile(map.getinvv(va[1]), va[0][0], va[0][1], [{ x: va[5][0], y: va[5][1] }]);
@@ -591,7 +590,7 @@ function calcmap(map: Map) {
 					}
 					else {
 						actions.push({
-							score: tutpenalty + 5 - 0.3 * map.tiledist(map.getinvv(va[0])), n: "1-,--,-- " + va[0], f: function (va: number[][], map: Map) {
+							score: tutpenalty + 5 - 0.3 * map.tiledist(map.getinvv(va[0])), n: "1-,--,-- " + va[0], f: function (va: number[][], map: SliderMap) {
 								map.movetile(map.getinvv(va[0]), va[2][0], va[2][1], [{ x: va[0][0], y: va[0][1] }]);
 								map.movetile(map.getinvv(va[0]), va[0][0], va[0][1]);
 							}.bind(null, va)
@@ -600,7 +599,7 @@ function calcmap(map: Map) {
 				}
 				else if (map.getv(va[0]) == map.empty && map.getv(va[2]) == map.getinvv(va[0]) && map.getv(va[3]) == map.getinvv(va[1])) {
 					actions.push({
-						score: tutpenalty + 19, n: "X-,01,-- " + va[0], f: function (va: number[][], map: Map) {
+						score: tutpenalty + 19, n: "X-,01,-- " + va[0], f: function (va: number[][], map: SliderMap) {
 							map.movetile(map.getinvv(va[0]), va[0][0], va[0][1], [{ x: va[3][0], y: va[3][1] }]);
 							map.movetile(map.getinvv(va[1]), va[5][0], va[5][1], [{ x: va[0][0], y: va[0][1] }]);
 							map.movetile(map.getinvv(va[0]), va[1][0], va[1][1], [{ x: va[5][0], y: va[5][1] }]);
@@ -616,7 +615,7 @@ function calcmap(map: Map) {
 					score -= 0.1 * map.tiledist(map.getinvv(va[1]), [map.empty.cx, map.empty.cy]);
 					score += (map.tiledist(map.getinvv(va[1]), va[0]) <= map.tiledist(map.getinvv(va[0]), va[0]) ? 0 : -10);
 					actions.push({
-						score: score, n: "--,--,-- " + va[0], f: function (va: number[][], map: Map) {
+						score: score, n: "--,--,-- " + va[0], f: function (va: number[][], map: SliderMap) {
 							map.movetile(map.getinvv(va[1]), va[0][0], va[0][1]);
 						}.bind(null, va)
 					});
@@ -635,7 +634,7 @@ function calcmap(map: Map) {
 				score -= 0.1 * map.tiledist(map.getinv(x, y), [0, 0]);
 				score -= 0.1 * map.tiledist(map.empty, [x, y])
 				score += (x >= mapw - 2 && y >= maph - 2 ? -100 : 0);
-				actions.push({ score: score, n: x + "," + y, f: function (x: number, y: number, map: Map) { map.movetile(map.getinv(x, y), x, y); }.bind(null, x, y) });
+				actions.push({ score: score, n: x + "," + y, f: function (x: number, y: number, map: SliderMap) { map.movetile(map.getinv(x, y), x, y); }.bind(null, x, y) });
 				if ((x == 0 || map.get(x - 1, y).f) && (y == 0 || map.get(x, y - 1).f)) { map.clearpath(x, y, false); }
 				else if ((x == 0 || map.get(x - 1, y).f) && (y == maph - 1 || map.get(x, y + 1).f)) { map.clearpath(x, y - 1, false); }
 				else if ((x == mapw - 1 || map.get(x + 1, y).f) && (y == 0 || map.get(x, y - 1).f)) { map.clearpath(x - 1, y, false); }
@@ -657,7 +656,7 @@ export function movesToString(movelist: SlideMove[]) {
 	return str;
 }
 
-function optimisemoves(movelist: SlideMove[]) {
+export function optimisemoves(movelist: SlideMove[]) {
 	if (movelist.length == 0) { return movelist; }
 
 	var trans = ["0321", "1230", "1230", "1230", "0321", "1230", "1230", "1230"];//0321,1

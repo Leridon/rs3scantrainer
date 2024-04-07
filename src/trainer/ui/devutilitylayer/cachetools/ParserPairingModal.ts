@@ -253,7 +253,6 @@ export class ParserPairingModal extends FormModal<{
 
     this.title.set("Edit Parser Pairing")
     this.shown.on(() => {
-      console.log("Shown")
       this.edit.center_map()
     })
 

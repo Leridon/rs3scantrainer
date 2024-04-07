@@ -9,7 +9,8 @@ export namespace AnchorImages {
     scanleveltext: ImageData,
     scanfartext: ImageData,
     scanfartext_pt: ImageData,
-    compassnorth: ImageData
+    compassnorth: ImageData,
+    slider_inverted_checkmark: ImageData
   } = null
 
   export async function getAnchorImages() {
@@ -21,7 +22,8 @@ export namespace AnchorImages {
       scanleveltext: await ImageDetect.imageDataFromUrl("alt1anchors/differentlevel.png"),
       scanfartext: await ImageDetect.imageDataFromUrl("alt1anchors/youaretofaraway.png"),
       scanfartext_pt: await ImageDetect.imageDataFromUrl("alt1anchors/youaretofaraway_pt.png"),
-      compassnorth: await ImageDetect.imageDataFromUrl("alt1anchors/compassnorth.png")
+      compassnorth: await ImageDetect.imageDataFromUrl("alt1anchors/compassnorth.png"),
+      slider_inverted_checkmark: await ImageDetect.imageDataFromUrl("alt1anchors/slider_inverted_checkmark.png")
     }
 
     return anchor_images

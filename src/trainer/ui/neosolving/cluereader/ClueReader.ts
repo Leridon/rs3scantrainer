@@ -1,6 +1,6 @@
 import {Clues} from "../../../../lib/runescape/clues";
 import * as a1lib from "@alt1/base";
-import {ImgRef} from "@alt1/base";
+import {captureHoldFullRs, ImgRef} from "@alt1/base";
 import {AnchorImages} from "./AnchorImages";
 import {Rectangle, Vector2} from "../../../../lib/math";
 import {deps} from "../../../dependencies";
@@ -10,7 +10,7 @@ import {coldiff} from "../../../../skillbertssolver/oldlib";
 import * as OCR from "@alt1/ocr";
 import ClueFont from "./ClueFont";
 import * as oldlib from "../../../../skillbertssolver/cluesolver/oldlib";
-import {comparetiledata} from "../../../../skillbertssolver/cluesolver/oldlib";
+import {imageFingerPrintDelta} from "../../../../skillbertssolver/cluesolver/oldlib";
 import {clue_data} from "../../../../data/clues";
 import {getdirection, isArcClue} from "../../../../skillbertssolver/cluesolver/compassclue";
 import {SlideReader} from "./SliderReader";
@@ -18,7 +18,8 @@ import {PuzzleModal} from "../PuzzleModal";
 import stringSimilarity = util.stringSimilarity;
 import ScanStep = Clues.ScanStep;
 
-const CLUEREADERDEBUG = false
+const CLUEREADERDEBUG = true
+const CLUEREADERDEBUG_READ_SCREEN_INSTEAD_OF_RS = false // This is broken
 
 export class ClueReader {
   anchors: {
@@ -110,6 +111,8 @@ export class ClueReader {
                   rect: Rectangle.fromOriginAndSize(Vector2.sub(locs[0], anchor.origin_offset), {x: 180, y: 190})
                 }
               case "slider":
+                console.log(locs[0])
+
                 return {
                   type: "slider",
                   image: img,
@@ -260,7 +263,7 @@ export class ClueReader {
                   let best_score = Number.MAX_VALUE
 
                   for (let clue of clue_data.map) {
-                    const score = comparetiledata(clue.ocr_data, tiled_img)
+                    const score = imageFingerPrintDelta(clue.ocr_data, tiled_img)
 
                     if (score < best_score) {
                       best_score = score
@@ -349,7 +352,11 @@ export class ClueReader {
   }
 
   async readScreen(): Promise<ClueReader.Result> {
-    return this.read(a1lib.captureHoldFullRs())
+    const img = CLUEREADERDEBUG_READ_SCREEN_INSTEAD_OF_RS
+      ? a1lib.captureHoldScreen(alt1.rsX, alt1.rsY, alt1.rsWidth, alt1.rsHeight) as ImgRef
+      : captureHoldFullRs()
+
+    return this.read(img)
   }
 }
 

@@ -7,6 +7,7 @@ import {Sliders} from "../puzzles/Sliders";
 export namespace SlideReader {
   import SliderPuzzle = Sliders.SliderPuzzle;
   import Tile = Sliders.Tile;
+
   export const SLIDER_SIZE = 5
 
   const TILING_INTERVAL = 12
@@ -48,9 +49,12 @@ export namespace SlideReader {
   export async function getReferenceSliders(): Promise<SliderPuzzle[]> {
 
     if (reference_sliders == undefined) {
-      const themes = ["archer", "bandos", "bridge", "castle", "cit", "corp", "dragon", "edicts", "elderdrag",
-        "elf", "float", "frost", "greg", "helwyr", "jas", "mage", "maple", "menn", "nomad", "rax", "seal", "troll", "tuska", "twins", "v", "vyre", "wolf"
+      const themes = ["adventurer", "araxxor", "archers", "black_dragon", "bridge", "castle", "clan_citadel", "corporeal_beast", "drakan_bloodveld",
+        "elves", "general_graardor", "gregorovic", "helwyr", "ice_strykewyrm", "menaphos_pharaoh", "nomad", "nymora", "sword_of_edicts", "tree", "troll", "tuska", "v", "vanstrom_klause", "werewolf", "wizard", "wyvern"
       ]
+
+      const unused_themes = ["seal"]
+
       reference_sliders = await Promise.all(themes.map(async theme => {
         return parseSliderImage(await ImageDetect.imageDataFromUrl(getThemeImageUrl(theme)),
           0,
@@ -85,7 +89,7 @@ export namespace SlideReader {
           tile_scores.push({
             tile: tile,
             reference_tile: ref_tile,
-            score: oldlib.comparetiledata(tile.signature, ref_tile.signature)
+            score: oldlib.imageFingerPrintDelta(tile.signature, ref_tile.signature)
           })
         }
       }
@@ -103,8 +107,30 @@ export namespace SlideReader {
         if (matched_tiles[match.tile.position]) continue
         if (tiles_used[match.reference_tile.position]) continue
 
+        console.log(`Matching ${match.tile.position} to reference tile #${match.reference_tile.position}`)
+
         matched_tiles[match.tile.position] = match
         tiles_used[match.reference_tile.position] = true
+      }
+
+      const debug_for = [17, 20, 21]
+
+      for (let ref_tile of debug_for) {
+        console.log(`Similarity to reference tile ${ref_tile}`)
+
+        const tiles = lodash.sortBy(tile_matches.filter(m => m.reference_tile.position == ref_tile), e => e.tile.position)
+
+        for (let y = 0; y < 5; y++) {
+          console.log(tiles.slice(y * 5, (y + 1) * 5).map(t => t.score.toFixed(0)).join(", "));
+        }
+
+        console.log()
+      }
+
+      console.log("Chosen similarity")
+
+      for (let y = 0; y < 5; y++) {
+        console.log(matched_tiles.slice(y * 5, (y + 1) * 5).map(t => t.score.toFixed(2)).join(", "));
       }
 
       return {

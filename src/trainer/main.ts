@@ -9,6 +9,7 @@ import LightButton from "./ui/widgets/LightButton";
 
 export async function makeshift_main(): Promise<void> {
 
+  /*
   await (new class extends NisModal {
     render() {
       super.render()
@@ -26,7 +27,7 @@ export async function makeshift_main(): Promise<void> {
           console.log(res)
         }).appendTo(this.body)
     }
-  }).show()
+  }).show()*/
 
 
   /* let output = ""

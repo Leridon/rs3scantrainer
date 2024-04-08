@@ -364,11 +364,12 @@ class SliderGuideProcess {
     while (!this.should_stop) {
       const read_result = await this.read()
 
-      const UNCERTAINTY_CLOSE_FACTOR = 100 // Fairly conservative estimate. In testing, factors were around 1000
+      const UNCERTAINTY_CLOSE_FACTOR = 0.1
 
-      const closed_factor = read_result.result.match_uncertainty / this.puzzle.match_uncertainty
+      const closed_factor = read_result.result.match_score / this.puzzle.match_score
 
-      if (closed_factor > UNCERTAINTY_CLOSE_FACTOR) {
+      if (closed_factor < UNCERTAINTY_CLOSE_FACTOR) {
+        console.log(`close factor ${closed_factor}`)
         this.interface_closed_event.trigger(this)
         this.stop()
         break

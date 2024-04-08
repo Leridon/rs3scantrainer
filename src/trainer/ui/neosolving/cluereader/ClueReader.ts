@@ -111,8 +111,6 @@ export class ClueReader {
                   rect: Rectangle.fromOriginAndSize(Vector2.sub(locs[0], anchor.origin_offset), {x: 180, y: 190})
                 }
               case "slider":
-                console.log(locs[0])
-
                 return {
                   type: "slider",
                   image: img,

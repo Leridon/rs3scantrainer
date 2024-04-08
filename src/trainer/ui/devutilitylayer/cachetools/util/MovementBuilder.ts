@@ -43,9 +43,9 @@ export class MovementBuilder {
     return this
   }
 
-  forcedOrientation(orientation: direction): this {
+  forcedOrientation(orientation: direction, relative: boolean = undefined): this {
     this.value.orientation = "forced"
-    this.value.forced_orientation = {dir: orientation}
+    this.value.forced_orientation = {dir: orientation, relative: relative}
 
     return this
   }

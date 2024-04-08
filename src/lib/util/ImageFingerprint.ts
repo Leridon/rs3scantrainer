@@ -84,6 +84,15 @@ export namespace ImageFingerprint {
     roughness: 2,
   }
 
+  /**
+   * Computes a fingerprint/perceptual hash of a section from the given image data.
+   * The fingerprint can then be used to compare the image to another image to find a similarity score.
+   *
+   * @param buf
+   * @param origin
+   * @param size
+   * @param kernel_size
+   */
   export function get(buf: ImageData, origin: Vector2, size: Vector2, kernel_size: Vector2): ImageFingerprint {
     const tiles_x = Math.floor(size.x / kernel_size.x)
     const tiles_y = Math.floor(size.y / kernel_size.y)

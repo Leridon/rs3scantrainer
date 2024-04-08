@@ -73,7 +73,7 @@ export class ParserManagementLayer extends GameLayer {
               .onClick(async () => {
                 const results = await Parsing.applyParsing(parsers3, this.data_file, this.parsing_table)
 
-                new ExportStringModal(cleanedJSON(results, 4)).show()
+                new ExportStringModal(cleanedJSON(results, 4), `Parserd ${results.length} transports.`).show()
               }),
           )
       ).addTo(this)

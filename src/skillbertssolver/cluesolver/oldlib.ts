@@ -5,9 +5,6 @@
  */
 
 
-import {Transform} from "../../lib/math";
-import col = Transform.col;
-
 export {addzeros, spacednr} from "../oldlib";
 
 //calculates the average color of an area in a imagedata object
@@ -34,30 +31,23 @@ export function coloravg(buf: ImageData, x: number, y: number, w: number, h: num
 
 //calculates the total amount of difference between adjecent pixels
 //used in a1lib.tiledata
-export function sumAdjacentColorDifference(buf: ImageData, origin_x: number, origin_y: number, w: number, h: number) {
-  const row = 4 * buf.width;
-  const column = 4;
+export function colordifsum(buf: ImageData, x: number, y: number, w: number, h: number) {
+  var a, b, c, s, i, row, column;
 
-  function col_dif(a: Uint8ClampedArray, b:Uint8ClampedArray): number {
-    return Math.abs(a[0] - b[0])
-      + Math.abs(a[1] - b[1])
-      + Math.abs(a[2] - b[2])
-  }
-
-  let s = 0;
-
-  for (let x = origin_x; x < origin_x + w - 1; x++) {
-    for (let y = origin_y; y < origin_y + h - 1; y++) {
-      const i = row * y + column * x;
-
-      const self = buf.data.slice(i, i + 3)
-      const below = buf.data.slice(i + row, i + row + 3)
-      const right = buf.data.slice(i + column, i + column + 3)
-
-      s += col_dif(self, below) + col_dif(self, right)
+  row = 4 * buf.width;
+  column = 4;
+  s = 0;
+  for (a = x; a < x + w; a++) {
+    for (c = y; c < y + h; c++) {
+      i = row * c + column * a;
+      s += Math.abs(buf.data[i] - buf.data[i + column]);
+      s += Math.abs(buf.data[i] - buf.data[i + row]);
+      s += Math.abs(buf.data[i + 1] - buf.data[i + 1 + column]);
+      s += Math.abs(buf.data[i + 1] - buf.data[i + 1 + row]);
+      s += Math.abs(buf.data[i + 2] - buf.data[i + 2 + column]);
+      s += Math.abs(buf.data[i + 2] - buf.data[i + 2 + row]);
     }
   }
-
   return s;
 }
 
@@ -65,34 +55,23 @@ export type ImageFingerprint = number[]
 
 //calculates a pattern from a buffer to compare to solver buffers
 //currently experimental, did wonders on slide puzzle tiles
-export function computeImageFingerprint(buf: ImageData, tile_width: number, tile_height: number, origin_x: number, origin_y: number, area_width: number, area_height: number): ImageFingerprint {
+export function computeImageFingerprint(buf: ImageData, rw: number, rh: number, x: number, y: number, w: number, h: number): ImageFingerprint {
 
-  const [base_hue, base_saturation, base_luminance] = rgbtohsl(coloravg(buf, origin_x, origin_y, area_width, area_height));
-
-  const tiles_x = Math.floor(area_width / tile_width)
-  const tiles_y = Math.floor(area_width / tile_height)
-
-  const r = new Array(3 + tiles_x * tiles_y).fill(0)
-
-  r[0] = base_hue
-  r[1] = base_saturation
-  r[2] = base_luminance
-
-  for (let xi = 0; xi < tiles_x; xi++) {
-    const x = origin_x + xi * tile_width;
-
-    for (let yi = 0; yi < tiles_y; yi++) {
-      const y = origin_y + yi * tile_height;
-
-      const i = xi * 5 + yi * Math.floor(area_width / tile_width) * 5 + 3;
-
-      let [b_hue, b_sat, b_lum] = rgbtohsl(coloravg(buf, x, y, tile_width, tile_height))
-
-      r[i + 0] = b_hue;//hue
-      r[i + 1] = b_sat;//sat
-      r[i + 2] = base_luminance - b_lum;//lum
-      r[i + 3] = Math.floor(sumAdjacentColorDifference(buf, x + 1, y + 1, tile_width - 2, tile_height - 2) / (tile_width * tile_height)); //min roughness (border -1 px)
-      r[i + 4] = Math.floor(sumAdjacentColorDifference(buf, x, y, tile_width, tile_height) / (tile_width * tile_height)); //max roughness (full square)
+  let basecol = rgbtohsl(coloravg(buf, x, y, w, h));
+  let r = [basecol[0], basecol[1], basecol[2]];
+  for (let cx = 0; (cx + 1) * rw <= w; cx++) {
+    let xx = x + cx * rw;
+    for (let cy = 0; (cy + 1) * rh <= h; cy++) {
+      let yy = y + cy * rh;
+      let i = cx * 5 + cy * Math.floor(w / rw) * 5 + 3;
+      let b = rgbtohsl(coloravg(buf, xx, yy, rw, rh));
+      r[i + 0] = b[0];//hue
+      if (r[i + 0] > 128) { r[i + 1] -= 256; }
+      if (r[i + 0] < -128) { r[i + 1] += 256; }
+      r[i + 1] = b[1];//sat
+      r[i + 2] = basecol[2] - b[2];//lum
+      r[i + 3] = Math.floor(colordifsum(buf, xx + 1, yy + 1, rw - 2, rh - 2) / rw / rh);//min roughtness (border -1 px)
+      r[i + 4] = Math.floor(colordifsum(buf, xx, yy, rw, rh) / rw / rh);//max roughness (full square)
     }
   }
   return r;
@@ -106,35 +85,27 @@ export function computeImageFingerprint(buf: ImageData, tile_width: number, tile
  * @param data1
  * @param data2
  */
-export function imageFingerPrintDelta(data1: ImageFingerprint, data2: ImageFingerprint): number {
+export function comparetiledata(data1: ImageFingerprint, data2: ImageFingerprint): number {
+  let r = 0;
+  let c = Math.abs(data1[0] - data2[0]);
+  r += Math.max(0, (c > 128 ? 255 - c : c) * 5 - 100);//basecol hue
+  r += Math.max(0, Math.abs(data1[1] - data2[1]) * 5 - 100);//basecol sat
 
-  function hue_delta(a: number, b: number) {
-    let c = Math.abs(a - b);
+  for (let a = 3; a < data1.length; a += 5) {
+    let b = 0;
+    c = Math.abs(data1[a] - data2[a]);//hue
+    b += (c > 128 ? 255 - c : c) * Math.max(data1[a], data2[a]) / 255;
+    b += Math.abs(data1[a + 1] - data2[a + 1]);//sat
 
-    if (c > 128) c = 255 - c
+    b += Math.max(0, data1[a + 3] - data2[a + 4]) * 100;//more roughness
+    b += Math.max(0, data2[a + 3] - data1[a + 4]) * 100;//less roughness
 
-    return c
+    r += b;
   }
-
-  let delta = 0;
-
-  delta += Math.max(0, hue_delta(data1[0], data2[0]) * 5 - 100);//basecol hue
-  delta += Math.max(0, Math.abs(data1[1] - data2[1]) * 5 - 100);//basecol sat
-
-  for (let i = 3; i < data1.length; i += 5) {
-    delta += hue_delta(data1[i], data2[i]);
-    delta += Math.abs(data1[i + 1] - data2[i + 1]);//sat
-
-    delta += Math.max(0, data1[i + 3] - data2[i + 4]) * 100; //more roughness
-    delta += Math.max(0, data2[i + 3] - data1[i + 4]) * 100; //less roughness
-  }
-
-  if (Number.isNaN(delta)) debugger
-
-  return delta;
+  return r;
 }
 
-export function rgbtohsl(r: number | number[], g?: number, b?: number): [number, number, number] {
+export function rgbtohsl(r: number | number[], g?: number, b?: number) {
   var mx, mn, cr, h, s, l;
 
   if (typeof r == "object") {

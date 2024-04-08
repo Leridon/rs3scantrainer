@@ -126,7 +126,7 @@ export class SlideReader {
 			var b: number;
 			var c: string;
 			tilelist[a].part.replace(/([A-Za-z_]+)(\d+)/, function () { b = +arguments[2]; c = arguments[1]; return ""; });
-			r[a] = { score: oldlib.imageFingerPrintDelta(vals as any, tilelist[a].scores as any), part: b!, theme: c! };
+			r[a] = { score: oldlib.comparetiledata(vals as any, tilelist[a].scores as any), part: b!, theme: c! };
 		}
 		r.sort(function (a, b) { return a.score - b.score });
 		return r;

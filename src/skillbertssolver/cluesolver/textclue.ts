@@ -126,7 +126,7 @@ function matchimgclue(cache: ClueCache, buf: ImageData): ClueSolution | null {
 	for (var a in cache.textclues) {
 		let clue = cache.textclues[a];
 		if (clue.type != "img" && clue.type != "emptyimg") { continue; }
-		var score = oldlib.imageFingerPrintDelta(tiledata, cache.textclues[a].clue);
+		var score = oldlib.comparetiledata(tiledata, cache.textclues[a].clue);
 		console.log("score: " + oldlib.spacednr(score));
 		if (score < bestscore) { bestscore = score; best = cache.textclues[a]; }
 	}

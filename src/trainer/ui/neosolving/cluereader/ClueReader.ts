@@ -10,7 +10,7 @@ import {coldiff} from "../../../../skillbertssolver/oldlib";
 import * as OCR from "@alt1/ocr";
 import ClueFont from "./ClueFont";
 import * as oldlib from "../../../../skillbertssolver/cluesolver/oldlib";
-import {imageFingerPrintDelta} from "../../../../skillbertssolver/cluesolver/oldlib";
+import {comparetiledata} from "../../../../skillbertssolver/cluesolver/oldlib";
 import {clue_data} from "../../../../data/clues";
 import {getdirection, isArcClue} from "../../../../skillbertssolver/cluesolver/compassclue";
 import {SlideReader} from "./SliderReader";
@@ -263,7 +263,7 @@ export class ClueReader {
                   let best_score = Number.MAX_VALUE
 
                   for (let clue of clue_data.map) {
-                    const score = imageFingerPrintDelta(clue.ocr_data, tiled_img)
+                    const score = comparetiledata(clue.ocr_data, tiled_img)
 
                     if (score < best_score) {
                       best_score = score

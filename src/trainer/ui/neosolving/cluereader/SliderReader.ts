@@ -5,6 +5,8 @@ import {Sliders} from "../puzzles/Sliders";
 import {ImageFingerprint} from "../../../../lib/util/ImageFingerprint";
 
 export namespace SlideReader {
+  export const DETECTION_THRESHOLD_SCORE = 0.9
+
   const DEBUG_SLIDE_READER = false
 
   import SliderPuzzle = Sliders.SliderPuzzle;

@@ -364,11 +364,7 @@ class SliderGuideProcess {
     while (!this.should_stop) {
       const read_result = await this.read()
 
-      const UNCERTAINTY_CLOSE_FACTOR = 100 // Fairly conservative estimate. In testing, factors were around 1000
-
-      const closed_factor = read_result.result.match_uncertainty / this.puzzle.match_uncertainty
-
-      if (closed_factor > UNCERTAINTY_CLOSE_FACTOR) {
+      if (read_result.result.match_score < SlideReader.DETECTION_THRESHOLD_SCORE) {
         this.interface_closed_event.trigger(this)
         this.stop()
         break

@@ -631,21 +631,24 @@ class SolvingSettingsEdit extends Widget {
     this.layout.named("Presets",
       new LightButton("Everything")
         .onClick(() => {
-          this.value = lodash.cloneDeep(NeoSolving.Settings.InfoPanel.EVERYTHING)
+          Object.assign(this.value, lodash.cloneDeep(NeoSolving.Settings.InfoPanel.EVERYTHING))
+          
           this.render()
         }))
 
     this.layout.named("",
       new LightButton("Reduced (Recommended)")
         .onClick(() => {
-          this.value = lodash.cloneDeep(NeoSolving.Settings.InfoPanel.REDUCED)
+          Object.assign(this.value, lodash.cloneDeep(NeoSolving.Settings.InfoPanel.REDUCED))
+
           this.render()
         }))
 
     this.layout.named("",
       new LightButton("Nothing")
         .onClick(() => {
-          this.value = lodash.cloneDeep(NeoSolving.Settings.InfoPanel.NOTHING)
+          Object.assign(this.value, lodash.cloneDeep(NeoSolving.Settings.InfoPanel.NOTHING))
+
           this.render()
         }))
 

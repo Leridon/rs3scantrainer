@@ -3,7 +3,7 @@ import {ewent} from "../../../../lib/reactive";
 import {delay} from "../../../../skillbertssolver/oldlib";
 
 export namespace Sliders {
-  export type SliderPuzzle = { tiles: Tile[], theme?: string, match_uncertainty?: number }
+  export type SliderPuzzle = { tiles: Tile[], theme?: string, match_score?: number }
 
   export namespace SliderPuzzle {
     export function getState(puzzle: SliderPuzzle): SliderState {

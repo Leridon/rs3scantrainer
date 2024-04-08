@@ -1,15 +1,20 @@
 import {ImageDetect, ImgRef} from "@alt1/base";
 import {Vector2} from "../../../../lib/math";
-import * as oldlib from "../../../../skillbertssolver/cluesolver/oldlib";
 import * as lodash from "lodash";
 import {Sliders} from "../puzzles/Sliders";
+import {ImageFingerprint} from "../../../../lib/util/ImageFingerprint";
 
 export namespace SlideReader {
+  export const DETECTION_THRESHOLD_SCORE = 0.9
+
+  const DEBUG_SLIDE_READER = false
+
   import SliderPuzzle = Sliders.SliderPuzzle;
   import Tile = Sliders.Tile;
+
   export const SLIDER_SIZE = 5
 
-  const TILING_INTERVAL = 12
+  const KERNEL_INTERVAL = 12
 
   /**
    * Parses the tiles of a slider image from a reference image.
@@ -31,10 +36,10 @@ export namespace SlideReader {
           {
             theme: known_theme,
             position: y * SLIDER_SIZE + x,
-            signature: oldlib.computeImageFingerprint(img, TILING_INTERVAL, TILING_INTERVAL,
-              x * (TILE_SIZE + gutter),
-              y * (TILE_SIZE + gutter),
-              TILE_SIZE, TILE_SIZE)
+            signature: ImageFingerprint.get(img, {x: x * (TILE_SIZE + gutter), y: y * (TILE_SIZE + gutter)},
+              {x: TILE_SIZE, y: TILE_SIZE},
+              {x: KERNEL_INTERVAL, y: KERNEL_INTERVAL}
+            )
           }
         )
       }
@@ -48,9 +53,12 @@ export namespace SlideReader {
   export async function getReferenceSliders(): Promise<SliderPuzzle[]> {
 
     if (reference_sliders == undefined) {
-      const themes = ["archer", "bandos", "bridge", "castle", "cit", "corp", "dragon", "edicts", "elderdrag",
-        "elf", "float", "frost", "greg", "helwyr", "jas", "mage", "maple", "menn", "nomad", "rax", "seal", "troll", "tuska", "twins", "v", "vyre", "wolf"
+      const themes = ["adventurer", "araxxor", "archers", "black_dragon", "bridge", "castle", "clan_citadel", "corporeal_beast", "drakan_bloodveld",
+        "elves", "general_graardor", "gregorovic", "helwyr", "ice_strykewyrm", "menaphos_pharaoh", "nomad", "nymora", "sword_of_edicts", "tree", "troll", "tuska", "v", "vanstrom_klause", "werewolf", "wizard", "wyvern"
       ]
+
+      const unused_themes = ["seal"]
+
       reference_sliders = await Promise.all(themes.map(async theme => {
         return parseSliderImage(await ImageDetect.imageDataFromUrl(getThemeImageUrl(theme)),
           0,
@@ -85,7 +93,7 @@ export namespace SlideReader {
           tile_scores.push({
             tile: tile,
             reference_tile: ref_tile,
-            score: oldlib.comparetiledata(tile.signature, ref_tile.signature)
+            score: ImageFingerprint.delta(tile.signature, ref_tile.signature)
           })
         }
       }
@@ -94,7 +102,7 @@ export namespace SlideReader {
     const grouped = lodash.groupBy(tile_scores, e => e.reference_tile.theme)
 
     const matches = Object.entries(grouped).map<ReadResult>(([theme, tile_matches]) => {
-      const sorted = lodash.sortBy(tile_matches, e => e.score)
+      const sorted = lodash.sortBy(tile_matches, e => -e.score)
 
       const matched_tiles: (typeof tile_scores)[number][] = new Array(25).fill(null)
       const tiles_used: boolean[] = new Array(25).fill(false)
@@ -103,18 +111,42 @@ export namespace SlideReader {
         if (matched_tiles[match.tile.position]) continue
         if (tiles_used[match.reference_tile.position]) continue
 
+        if (DEBUG_SLIDE_READER) console.log(`Matching ${match.tile.position} to reference tile #${match.reference_tile.position}`)
+
         matched_tiles[match.tile.position] = match
         tiles_used[match.reference_tile.position] = true
+      }
+
+      const debug_for = [17, 20, 21]
+
+      if (DEBUG_SLIDE_READER) {
+
+        for (let ref_tile of debug_for) {
+          console.log(`Similarity to reference tile ${ref_tile}`)
+
+          const tiles = lodash.sortBy(tile_matches.filter(m => m.reference_tile.position == ref_tile), e => e.tile.position)
+
+          for (let y = 0; y < 5; y++) {
+            console.log(tiles.slice(y * 5, (y + 1) * 5).map(t => t.score.toFixed(2)).join(", "));
+          }
+
+          console.log()
+        }
+
+        console.log("Chosen similarity")
+
+        for (let y = 0; y < 5; y++) {
+          console.log(matched_tiles.slice(y * 5, (y + 1) * 5).map(t => t.score.toFixed(2)).join(", "));
+        }
       }
 
       return {
         tiles: matched_tiles.map(m => m.reference_tile),
         theme: theme,
-        match_uncertainty: lodash.sumBy(matched_tiles, m => m.score)
+        match_score: lodash.sumBy(matched_tiles, m => m.score) / matched_tiles.length
       }
-
     })
 
-    return lodash.minBy(matches, m => m.match_uncertainty)
+    return lodash.maxBy(matches, m => m.match_score)
   }
 }

@@ -139,6 +139,7 @@ export const parsers3: TransportParser2[] = [
     PP.rec({
       action: PP.element("Action", PP.locAction()),
       time: PP.element("Time", PP.int([0, 100]).default(3)),
+      area: PP.element("Area", PP.tileArea(true), true),
     }), PP.rec({
       target: PP.element("Target", PP.tileArea()),
     }), async (instance, {per_loc, per_instance}) => {
@@ -146,6 +147,7 @@ export const parsers3: TransportParser2[] = [
 
       builder.action({
           index: per_loc.action.id,
+          interactive_area: per_loc.area
         }, fixed(TileArea.transform(per_instance.target, LocInstance.getTransform(instance)))
       )
 

@@ -42,6 +42,8 @@ import resolveTeleport = TransportData.resolveTeleport;
 import npc = C.npc;
 import staticentity = C.staticentity;
 import entity = C.entity;
+import {SlideReader} from "./ui/neosolving/cluereader/SliderReader";
+import {captureHoldScreen, ImgRef} from "@alt1/base";
 
 declare let DEV_MODE: boolean
 
@@ -393,6 +395,8 @@ export function initialize() {
   let app = new Application()
   Dependencies.instance().app = app
   app.start()
+
+
 
   //scantrainer.select(clues.find((c) => c.id == 361)) // zanaris
   //scantrainer.select(clues.find((c) => c.id == 399)) // compass

@@ -1,6 +1,6 @@
 import {Clues} from "../../../../lib/runescape/clues";
 import * as a1lib from "@alt1/base";
-import {ImgRef} from "@alt1/base";
+import {captureHoldFullRs, ImgRef} from "@alt1/base";
 import {AnchorImages} from "./AnchorImages";
 import {Rectangle, Vector2} from "../../../../lib/math";
 import {deps} from "../../../dependencies";
@@ -19,6 +19,7 @@ import stringSimilarity = util.stringSimilarity;
 import ScanStep = Clues.ScanStep;
 
 const CLUEREADERDEBUG = false
+const CLUEREADERDEBUG_READ_SCREEN_INSTEAD_OF_RS = false // This is broken
 
 export class ClueReader {
   anchors: {
@@ -129,14 +130,6 @@ export class ClueReader {
         }
       }
     })()
-
-    if (CLUEREADERDEBUG) {
-      if (found_ui) {
-        deps().app.notifications.notify({}, `Found '${found_ui.type} at ${Vector2.toString(found_ui.rect.topleft)}'`)
-      } else {
-        deps().app.notifications.notify({type: "error"}, `Nothing found'`)
-      }
-    }
 
     if (found_ui) {
 
@@ -330,9 +323,16 @@ export class ClueReader {
             deps().app.notifications.notify({}, `Found theme ${res.theme}`)
           }
 
-          return {
-            found_ui: found_ui,
-            puzzle: {type: "slider", ui: found_ui, puzzle: res},
+          if (res.match_score >= SlideReader.DETECTION_THRESHOLD_SCORE) {
+            return {
+              found_ui: found_ui,
+              puzzle: {type: "slider", ui: found_ui, puzzle: res},
+            }
+          } else {
+            return {
+              found_ui: found_ui,
+              puzzle: {type: "slider", ui: found_ui, puzzle: null},
+            }
           }
         case "compass": {
           const compass_state = ClueReader.readCompassState(img, Vector2.add(found_ui.rect.topleft, {x: -53, y: 54}))
@@ -349,7 +349,11 @@ export class ClueReader {
   }
 
   async readScreen(): Promise<ClueReader.Result> {
-    return this.read(a1lib.captureHoldFullRs())
+    const img = CLUEREADERDEBUG_READ_SCREEN_INSTEAD_OF_RS
+      ? a1lib.captureHoldScreen(alt1.rsX, alt1.rsY, alt1.rsWidth, alt1.rsHeight) as ImgRef
+      : captureHoldFullRs()
+
+    return this.read(img)
   }
 }
 

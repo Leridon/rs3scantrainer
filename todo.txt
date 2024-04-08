@@ -22,7 +22,6 @@ Planned for next release (b0.4):
 
 - Issues
     - [Bug, 1] SearchSelection: Very rarely the dropdown remains after the element is already gone
-    - [Bug, 3] SEQUIN DIRGE is read as Ysondria
 
 - Data
     - [Dev Tool, 3] Utility Layer for shortcut parsing
@@ -42,6 +41,7 @@ Planned for next release (b0.4):
     - Scale information gain down when zoomed out
 
 - Path Editor
+    - [Feature] Add cosmetic step that can have a range of icons, tooltips or areas
     - [Feature] Show number of tiles when drawing a run
     - [Feature, 3] Highlight step on hover
     - Teleports don't use tile areas correctly

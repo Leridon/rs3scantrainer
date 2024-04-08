@@ -30,7 +30,7 @@ import hbox = C.hbox;
 export type LocFilter = {
   names?: string[],
   actions?: string[],
-  object_id?: number,
+  object_ids?: number[],
   parser?: boolean | undefined
 }
 
@@ -46,7 +46,7 @@ export namespace LocFilter {
   }
 
   export function apply(filter: LocFilter, loc: LocWithUsages, parsing_table: LocParsingTable): boolean {
-    if (filter.object_id != null && loc.id != filter.object_id) return false
+    if (filter.object_ids != null && filter.object_ids.length > 0 && !filter.object_ids.includes(loc.id)) return false
 
     if (filter.names && filter.names.length > 0 && !filter.names.some(n => loc.location.name!.toLowerCase().includes(n.toLowerCase()))) return false
 
@@ -106,11 +106,11 @@ class LocFilterControl extends GameMapControl {
     )
 
     props.named("Loc ID", new TextField()
-      .setValue(this.filter.value().object_id != null ? this.filter.value().object_id.toString() : "")
+      .setValue(this.filter.value().object_ids ? this.filter.value().object_ids.join(";") : "")
       .onCommit((v) => {
-        const numeric = Number(v)
+        const ids = v.split(";").map(l => Number(l.trim().toLowerCase())).filter(l => l != 0 && !Number.isNaN(l))
 
-        this.filter.update(f => f.object_id = !v || isNaN(numeric) ? undefined : numeric)
+        this.filter.update(f => f.object_ids = ids)
       })
     )
 
@@ -267,8 +267,6 @@ export class FilteredLocLayer extends GameLayer {
 
 
     let count = 0
-
-    console.log("Applying filter")
 
     this.loc_entities.forEach(loc => {
       const visible = LocFilter.apply(pre_filter, loc.loc, this.parsing_table)

@@ -175,13 +175,6 @@ export namespace ParsingParameter {
         const transform = LocInstance.getTransform(loc)
         const inverse_transform = LocInstance.getInverseTransform(loc)
 
-        console.log(
-          TileTransform.chain(
-            transform,
-            inverse_transform
-          ).matrix
-        )
-
         return new class extends ParsingParameter.Editor<TileArea> {
           edited_tiles: TileCoordinates[]
           interaction: ValueInteraction<any> = null

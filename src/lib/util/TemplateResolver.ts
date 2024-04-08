@@ -26,11 +26,7 @@ export class TemplateResolver {
   resolve(template: string): Appendable[] {
     const expression = TemplateResolver.Expression.parse(template, this.templates)
 
-    console.log(expression)
-
     const result = TemplateResolver.Expression.evaluate(expression).map(TemplateResolver.Value.asAppendable)
-
-    console.log(result)
 
     return result
   }

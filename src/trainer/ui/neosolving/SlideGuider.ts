@@ -125,16 +125,42 @@ class SliderGuideProcess {
       const solving_time = (this.solved_time - this.guiding_start_time) / 1000
       const moves_per_second = this.solution.length / solving_time
 
+
+      const estimate_slider = this.settings.estimate_slider_speed
+
+
       this.progress_overlay.text(
         `Done! ${total_time.toFixed(1)}s, ${moves_per_second.toFixed(1)} moves/s`,
-        center,
+        Vector2.add(center, estimate_slider ? {x: 0, y: -10} : {x: 0, y: 0}),
         {
           color: mixColor(255, 255, 255),
           centered: true,
           shadow: true,
           width: 12
-        }
-      )
+        })
+
+      if (estimate_slider) {
+        const raw_solution = this.solution.map(s => s.move)
+
+        const solution_with_multimoves = MoveList.compress(raw_solution)
+        const small_step_solution = raw_solution.flatMap(Move.split)
+        const partial_steps = small_step_solution.length - solution_with_multimoves.length
+        const full_steps = small_step_solution.length - partial_steps
+        const counted = partial_steps * 0.5 + full_steps
+
+        const estimated_slider_speed = (solving_time - 0.5) / counted
+
+        this.progress_overlay.text(
+          `Slider Speed ${estimated_slider_speed.toFixed(3)}`,
+          Vector2.add(center, {x: 0, y: 10}),
+          {
+            color: mixColor(255, 255, 255),
+            centered: true,
+            shadow: true,
+            width: 12
+          })
+      }
+
     } else {
       const length = Math.min(2 * (solution_length ?? 120), 250)
       const progress = this.solution ? this.current_mainline_index / this.solution.length : 0
@@ -569,7 +595,8 @@ export namespace SlideGuider {
     color_mainline_line: number,
     color_recovery_move: number,
     color_recovery_line: number,
-    solve_time_ms: number
+    solve_time_ms: number,
+    estimate_slider_speed: boolean
   }
 
   export namespace Settings {
@@ -584,7 +611,8 @@ export namespace SlideGuider {
       color_mainline_line: A1Color.fromHex("#41740e"),
       color_recovery_move: A1Color.fromHex("#FF0000"),
       color_recovery_line: A1Color.fromHex("#ff6600"),
-      solve_time_ms: 2000
+      solve_time_ms: 2000,
+      estimate_slider_speed: false
     }
 
     export function normalize(settings: Settings): Settings {
@@ -601,6 +629,7 @@ export namespace SlideGuider {
       if ((typeof settings.color_recovery_move) != "number") settings.color_recovery_move = DEFAULT.color_recovery_move
       if ((typeof settings.color_recovery_line) != "number") settings.color_recovery_line = DEFAULT.color_recovery_line
       if ((typeof settings.solve_time_ms) != "number") settings.solve_time_ms = DEFAULT.solve_time_ms
+      if (![true, false].includes(settings.estimate_slider_speed)) settings.estimate_slider_speed = DEFAULT.estimate_slider_speed
 
       settings.solve_time_ms = lodash.clamp(settings.solve_time_ms, 500, 5000)
 

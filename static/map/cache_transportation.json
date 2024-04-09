@@ -15526,6 +15526,66 @@
     "direction": 4
   },
   {
+    "type": "door",
+    "name": "Gate",
+    "position": {
+      "x": 2924,
+      "y": 9803,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2888,
+      "y": 9830,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2893,
+      "y": 9825,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2888,
+      "y": 9831,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2892,
+      "y": 9825,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Wooden doors",
+    "position": {
+      "x": 2898,
+      "y": 9831,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
     "type": "entity",
     "entity": {
       "name": "Ladder",
@@ -68220,6 +68280,245 @@
               "level": 0
             },
             "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Obstacle pipe",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2886.5,
+        "y": 9799.5
+      },
+      "botright": {
+        "x": 2887.5,
+        "y": 9798.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 2886,
+            "y": 9799,
+            "level": 0
+          }
+        },
+        "name": "Squeeze-through",
+        "movement": [
+          {
+            "time": 14,
+            "offset": {
+              "x": 6,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Obstacle pipe",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2890.5,
+        "y": 9799.5
+      },
+      "botright": {
+        "x": 2891.5,
+        "y": 9798.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 2892,
+            "y": 9799,
+            "level": 0
+          }
+        },
+        "name": "Squeeze-through",
+        "movement": [
+          {
+            "time": 14,
+            "offset": {
+              "x": -6,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Stairs",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2883.5,
+        "y": 9794.5
+      },
+      "botright": {
+        "x": 2887.5,
+        "y": 9791.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Walk-up",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2885,
+                  "y": 3395,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Steps",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2883.5,
+        "y": 3399.5
+      },
+      "botright": {
+        "x": 2886.5,
+        "y": 3395.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 2884,
+            "y": 3395,
+            "level": 0
+          },
+          "size": {
+            "x": 3,
+            "y": 1
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2886,
+                  "y": 9795,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Strange floor",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2878.5,
+        "y": 9813.5
+      },
+      "botright": {
+        "x": 2879.5,
+        "y": 9812.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 2878,
+            "y": 9812,
+            "level": 0
+          },
+          "size": {
+            "x": 3,
+            "y": 3
+          },
+          "data": "AQE="
+        },
+        "name": "Jump-over",
+        "movement": [
+          {
+            "time": 4,
+            "valid_from": {
+              "origin": {
+                "x": 2880,
+                "y": 9814,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -2,
+              "y": -2,
+              "level": 0
+            }
+          },
+          {
+            "time": 4,
+            "valid_from": {
+              "origin": {
+                "x": 2878,
+                "y": 9812,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 2,
+              "y": 2,
+              "level": 0
+            }
           }
         ]
       }

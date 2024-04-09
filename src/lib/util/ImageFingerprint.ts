@@ -117,7 +117,7 @@ export namespace ImageFingerprint {
     return r;
   }
 
-  export function delta(data1: ImageFingerprint, data2: ImageFingerprint): number {
+  export function similarity(data1: ImageFingerprint, data2: ImageFingerprint): number {
     function hue_delta(a: number, b: number) {
       let c = Math.abs(a - b);
 
@@ -126,20 +126,15 @@ export namespace ImageFingerprint {
       return c / 128
     }
 
-    let delta = 0;
+    let similarity = 0;
 
     for (let i = 0; i < data1.length; i += 3) {
-
       // All components are normalized to the interval [0, 1]
-      delta += hue_delta(data1[i + OFFSETS.hue], data2[i + OFFSETS.hue]);
-
-      delta += Math.abs(data1[i + OFFSETS.sat] - data2[i + OFFSETS.sat]) / 255;
-
-      delta += Math.abs(data1[i + OFFSETS.roughness] - data2[i + OFFSETS.roughness]) / 255;
-
-      if (Number.isNaN(delta)) debugger
+      similarity += (1 - (hue_delta(data1[i + OFFSETS.hue], data2[i + OFFSETS.hue]))
+        * (1 - (Math.abs(data1[i + OFFSETS.sat] - data2[i + OFFSETS.sat]) / 255))
+        * (1 - (Math.abs(data1[i + OFFSETS.roughness] - data2[i + OFFSETS.roughness]) / 255)))
     }
 
-    return 1 - delta / data1.length;
+    return similarity / (data1.length / 3);
   }
 }

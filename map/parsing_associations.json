@@ -1,5 +1,5 @@
 {
-  "version": 847,
+  "version": 858,
   "associations": [
     {
       "group_id": 0,
@@ -201,7 +201,11 @@
         6104,
         6108,
         6102,
-        45003
+        45003,
+        2623,
+        77086,
+        77085,
+        77098
       ],
       "group_name": "Doors",
       "instance_groups": [],
@@ -1551,7 +1555,10 @@
         55345,
         111229,
         111228,
-        6092
+        6092,
+        74863,
+        95349,
+        74758
       ],
       "group_name": "Ignore",
       "instance_groups": [],
@@ -4889,6 +4896,201 @@
         ]
       },
       "group_name": "Lumbridge Swamp Cave Stepping Stone",
+      "instance_groups": [],
+      "parser_id": "prototypecopyloc"
+    },
+    {
+      "group_id": 851,
+      "loc_ids": [
+        9293
+      ],
+      "per_group_arg": {
+        "actions": [
+          {
+            "action": {
+              "id": 0
+            },
+            "area": {
+              "origin": {
+                "x": -1,
+                "y": 0,
+                "level": 0
+              }
+            },
+            "movements": [
+              {
+                "orientation": {
+                  "simple": "bymovement"
+                },
+                "movement": {
+                  "offset": {
+                    "x": 6,
+                    "y": 0,
+                    "level": 0
+                  }
+                },
+                "time": 14
+              }
+            ]
+          }
+        ]
+      },
+      "group_name": "",
+      "instance_groups": [],
+      "parser_id": "prototypecopyloc"
+    },
+    {
+      "group_id": 852,
+      "loc_ids": [
+        74864
+      ],
+      "per_group_arg": {
+        "action": {
+          "id": 0
+        },
+        "time": 2
+      },
+      "group_name": "",
+      "instance_groups": [
+        {
+          "id": 852,
+          "name": "",
+          "instances": [
+            {
+              "loc": 74864,
+              "origin": {
+                "x": 2884,
+                "y": 9792,
+                "level": 0
+              }
+            }
+          ],
+          "per_instance_argument": {
+            "target": {
+              "origin": {
+                "x": 2,
+                "y": 6399,
+                "level": 0
+              }
+            }
+          }
+        }
+      ],
+      "parser_id": "simpleremotetransport"
+    },
+    {
+      "group_id": 853,
+      "loc_ids": [
+        66991
+      ],
+      "per_group_arg": {
+        "action": {
+          "id": 0
+        },
+        "time": 2,
+        "area": {
+          "origin": {
+            "x": 0,
+            "y": -1,
+            "level": 0
+          },
+          "size": {
+            "x": 3,
+            "y": 1
+          }
+        }
+      },
+      "group_name": "",
+      "instance_groups": [
+        {
+          "id": 853,
+          "name": "",
+          "instances": [
+            {
+              "loc": 66991,
+              "origin": {
+                "x": 2884,
+                "y": 3396,
+                "level": 0
+              }
+            }
+          ],
+          "per_instance_argument": {
+            "target": {
+              "origin": {
+                "x": 2,
+                "y": 6399,
+                "level": 0
+              }
+            }
+          }
+        }
+      ],
+      "parser_id": "simpleremotetransport"
+    },
+    {
+      "group_id": 854,
+      "loc_ids": [
+        9294
+      ],
+      "per_group_arg": {
+        "actions": [
+          {
+            "action": {
+              "id": 0
+            },
+            "area": {
+              "origin": {
+                "x": -1,
+                "y": -1,
+                "level": 0
+              },
+              "size": {
+                "x": 3,
+                "y": 3
+              },
+              "data": "AQE="
+            },
+            "movements": [
+              {
+                "valid_from": {
+                  "origin": {
+                    "x": 1,
+                    "y": 1,
+                    "level": 0
+                  }
+                },
+                "movement": {
+                  "offset": {
+                    "x": -2,
+                    "y": -2,
+                    "level": 0
+                  }
+                },
+                "time": 4
+              },
+              {
+                "valid_from": {
+                  "origin": {
+                    "x": -1,
+                    "y": -1,
+                    "level": 0
+                  }
+                },
+                "movement": {
+                  "offset": {
+                    "x": 2,
+                    "y": 2,
+                    "level": 0
+                  }
+                },
+                "time": 4
+              }
+            ]
+          }
+        ]
+      },
+      "group_name": "",
       "instance_groups": [],
       "parser_id": "prototypecopyloc"
     }

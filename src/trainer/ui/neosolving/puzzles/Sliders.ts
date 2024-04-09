@@ -1,6 +1,7 @@
 import {calcmap, optimisemoves, SlideMove, SliderMap, SlideSolverRandom} from "../../../../skillbertssolver/cluesolver/slidesolver";
 import {ewent} from "../../../../lib/reactive";
 import {delay} from "../../../../skillbertssolver/oldlib";
+import * as lodash from "lodash";
 
 export namespace Sliders {
   export type SliderPuzzle = { tiles: Tile[], theme?: string, match_score?: number }
@@ -84,6 +85,46 @@ export namespace Sliders {
       if (!prestates_multitile_allowed) moves = moves.filter(Move.isSmallStep)
 
       return moves.map(m => SliderState.withMove(state, m))
+    }
+
+    export function sumManhattenDistance(state: SliderState): number {
+      return lodash.sumBy(state.map((target, position) =>
+        Math.abs(target % 5 - position % 5)
+        + Math.abs(Math.floor(target / 5) - Math.floor(position / 5))
+      ))
+    }
+
+    export function permutation_parity(state: SliderState): number {
+      const visited = new Array(25).fill(false)
+
+      let odd_cycles = 0
+      let even_cycles = 0
+
+      while (true) {
+        const next = visited.indexOf(false)
+
+        if (next < 0) break
+
+        let cycle_length = 0
+
+        let i = state[next]
+
+        while (!visited[i]) {
+          visited[i] = true
+          i = state[i]
+          cycle_length++
+        }
+
+        if (cycle_length % 2 == 0) even_cycles++
+        else odd_cycles++
+      }
+
+      return even_cycles % 2
+    }
+
+    export function isSolveable(state: SliderState): boolean {
+
+      return permutation_parity(state) % 2 == 0
     }
   }
 

@@ -6,8 +6,12 @@ import parseSliderImage = SlideReader.parseSliderImage;
 import getThemeImageUrl = SlideReader.getThemeImageUrl;
 import {NisModal} from "../lib/ui/NisModal";
 import LightButton from "./ui/widgets/LightButton";
+import SliderState = Sliders.SliderState;
 
 export async function makeshift_main(): Promise<void> {
+
+  console.log(`Parity ${SliderState.permutation_parity(SliderState.SOLVED)}`)
+  console.log(`Solveable ${SliderState.isSolveable(SliderState.SOLVED)}`)
 
   /*
   await (new class extends NisModal {

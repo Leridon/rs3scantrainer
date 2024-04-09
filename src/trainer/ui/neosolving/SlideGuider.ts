@@ -15,6 +15,7 @@ import {findLastIndex} from "lodash";
 import {ewent} from "../../../lib/reactive";
 import {util} from "../../../lib/util/util";
 import {AnchorImages} from "./cluereader/AnchorImages";
+import {AStarSlideSolver} from "./puzzles/AStarSlideSolver";
 import over = OverlayGeometry.over;
 import SliderState = Sliders.SliderState;
 import SliderPuzzle = Sliders.SliderPuzzle;
@@ -401,16 +402,19 @@ class SliderGuideProcess {
 
       if (!this.solution) {
         await new Promise<void>(async (resolve) => {
-          this.solver = SlideSolver.skillbertRandom(frame_state)
-            .setCombineStraights(this.settings.mode == "mouse" || this.settings.mode == "hybrid")
-            .onUpdate(solver => {
-              if (this.should_stop) resolve()
+          this.solver =
 
-              if (solver.isFinished()) resolve()
+            //SlideSolver.skillbertRandom(frame_state)
+            new AStarSlideSolver(frame_state)
+              .setCombineStraights(this.settings.mode == "mouse" || this.settings.mode == "hybrid")
+              .onUpdate(solver => {
+                if (this.should_stop) resolve()
 
-              this.updateSolvingOverlay()
-              this.updateProgressOverlay()
-            })
+                if (solver.isFinished()) resolve()
+
+                this.updateSolvingOverlay()
+                this.updateProgressOverlay()
+              })
 
           await this.solver.solve(this.settings.solve_time_ms)
 

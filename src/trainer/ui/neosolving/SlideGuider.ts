@@ -131,7 +131,7 @@ class SliderGuideProcess {
 
       this.progress_overlay.text(
         `Done! ${total_time.toFixed(1)}s, ${moves_per_second.toFixed(1)} moves/s`,
-        Vector2.add(center, estimate_slider ? {x: 0, y: -10} : {x: 0, y: 0}),
+        center,
         {
           color: mixColor(255, 255, 255),
           centered: true,
@@ -152,7 +152,7 @@ class SliderGuideProcess {
 
         this.progress_overlay.text(
           `Slider Speed ${estimated_slider_speed.toFixed(3)}`,
-          Vector2.add(center, {x: 0, y: 10}),
+          Vector2.add(center, {x: 0, y: 20}),
           {
             color: mixColor(255, 255, 255),
             centered: true,

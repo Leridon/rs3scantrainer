@@ -93,7 +93,7 @@ export namespace SlideReader {
           tile_scores.push({
             tile: tile,
             reference_tile: ref_tile,
-            score: ImageFingerprint.delta(tile.signature, ref_tile.signature)
+            score: ImageFingerprint.similarity(tile.signature, ref_tile.signature)
           })
         }
       }

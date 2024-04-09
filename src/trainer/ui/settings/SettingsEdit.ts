@@ -486,6 +486,11 @@ class PuzzleSettingsEdit extends Widget {
       .setValue(this.value.sliders.solve_time_ms / 1000)
       .onCommit(v => this.value.sliders.solve_time_ms = v * 1000)
     )
+
+    this.layout.header(new Checkbox("Estimate Slider Speed")
+      .onCommit(v => this.value.sliders.estimate_slider_speed = v)
+      .setValue(this.value.sliders.estimate_slider_speed), "left", 1)
+    this.layout.paragraph("Show an estimate for your equivalent slider speed in Alt1's builtin clue solver after finishing a slider. Takes the faster animation of multi-tile moves in the builtin solver into account.")
   }
 }
 

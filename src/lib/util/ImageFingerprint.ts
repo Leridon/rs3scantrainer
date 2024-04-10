@@ -135,6 +135,6 @@ export namespace ImageFingerprint {
         * (1 - (Math.abs(data1[i + OFFSETS.roughness] - data2[i + OFFSETS.roughness]) / 255)))
     }
 
-    return similarity / (data1.length / 3);
+    return Math.pow(similarity / (data1.length / 3), 3);
   }
 }

@@ -3,6 +3,10 @@ import {Vector2} from "../../../../lib/math";
 import * as lodash from "lodash";
 import {Sliders} from "../puzzles/Sliders";
 import {ImageFingerprint} from "../../../../lib/util/ImageFingerprint";
+import {time, timeSync} from "../../../../lib/gamemap/GameLayer";
+import {delay} from "../../../../oldlib";
+import {themes} from "../../../../skillbertssolver/cluesolver/slidetiles";
+import {deps} from "../../../dependencies";
 
 export namespace SlideReader {
   export const DETECTION_THRESHOLD_SCORE = 0.9
@@ -30,8 +34,8 @@ export namespace SlideReader {
 
     const tiles: Tile[] = []
 
-    for (let x = 0; x < SLIDER_SIZE; x++) {
-      for (let y = 0; y < SLIDER_SIZE; y++) {
+    for (let y = 0; y < SLIDER_SIZE; y++) {
+      for (let x = 0; x < SLIDER_SIZE; x++) {
         tiles.push(
           {
             theme: known_theme,
@@ -48,9 +52,9 @@ export namespace SlideReader {
     return {tiles, theme: known_theme}
   }
 
-  let reference_sliders: SliderPuzzle[] = undefined
+  let reference_sliders: Record<string, SliderPuzzle> = undefined
 
-  export async function getReferenceSliders(): Promise<SliderPuzzle[]> {
+  export async function getReferenceSliders(): Promise<Record<string, SliderPuzzle>> {
 
     if (reference_sliders == undefined) {
       const themes = ["adventurer", "araxxor", "archers", "black_dragon", "bridge", "castle", "clan_citadel", "corporeal_beast", "drakan_bloodveld",
@@ -59,11 +63,11 @@ export namespace SlideReader {
 
       const unused_themes = ["seal"]
 
-      reference_sliders = await Promise.all(themes.map(async theme => {
-        return parseSliderImage(await ImageDetect.imageDataFromUrl(getThemeImageUrl(theme)),
+      reference_sliders = Object.fromEntries(await Promise.all(themes.map(async theme => {
+        return [theme, parseSliderImage(await ImageDetect.imageDataFromUrl(getThemeImageUrl(theme)),
           0,
-          theme)
-      }))
+          theme)]
+      })))
     }
 
     return reference_sliders
@@ -86,9 +90,11 @@ export namespace SlideReader {
     }[] = []
 
     for (let tile of tiles.tiles) {
-      for (let slider of await getReferenceSliders()) {
-        if (known_theme && slider.theme != known_theme) continue
+      const compare_to = known_theme
+        ? [(await getReferenceSliders())[known_theme]]
+        : Object.values(await getReferenceSliders())
 
+      for (let slider of compare_to) {
         for (let ref_tile of slider.tiles) {
           tile_scores.push({
             tile: tile,
@@ -101,12 +107,19 @@ export namespace SlideReader {
 
     const grouped = lodash.groupBy(tile_scores, e => e.reference_tile.theme)
 
-    const matches = Object.entries(grouped).map<ReadResult>(([theme, tile_matches]) => {
+    const matches: {
+      theme: string,
+      all_match_pairs: (typeof tile_scores)[number][],
+      preliminary_best_matching: {
+        score: number,
+        match: (typeof tile_scores)[number][]
+      }
+    }[] = await Promise.all(Object.entries(grouped).map(async ([theme, tile_matches]) => {
       const sorted = lodash.sortBy(tile_matches, e => -e.score)
 
       const matched_tiles: (typeof tile_scores)[number][] = new Array(25).fill(null)
-      const tiles_used: boolean[] = new Array(25).fill(false)
 
+      const tiles_used: boolean[] = new Array(25).fill(false)
       for (let match of sorted) {
         if (matched_tiles[match.tile.position]) continue
         if (tiles_used[match.reference_tile.position]) continue
@@ -117,9 +130,8 @@ export namespace SlideReader {
         tiles_used[match.reference_tile.position] = true
       }
 
-      const debug_for = [17, 20, 21]
-
       if (DEBUG_SLIDE_READER) {
+        const debug_for = []
 
         for (let ref_tile of debug_for) {
           console.log(`Similarity to reference tile ${ref_tile}`)
@@ -141,12 +153,75 @@ export namespace SlideReader {
       }
 
       return {
-        tiles: matched_tiles.map(m => m.reference_tile),
         theme: theme,
-        match_score: lodash.sumBy(matched_tiles, m => m.score) / matched_tiles.length
+        all_match_pairs: tile_matches,
+        preliminary_best_matching: {
+          score: lodash.sumBy(matched_tiles, e => e.score) / matched_tiles.length,
+          match: matched_tiles
+        }
       }
-    })
+    }))
 
-    return lodash.maxBy(matches, m => m.match_score)
+    const greedy_best = lodash.maxBy(matches, m => m.preliminary_best_matching.score)
+
+    const DO_BACKTRACKING_IMPROVEMENT = deps().app.settings.settings.solving.puzzles.sliders.improve_slider_matches_backtracking && greedy_best.preliminary_best_matching.score > DETECTION_THRESHOLD_SCORE
+
+    if (DO_BACKTRACKING_IMPROVEMENT) {
+
+      let best: (typeof tile_scores)[number][] = greedy_best.preliminary_best_matching.match
+      let best_score = greedy_best.preliminary_best_matching.score * 25
+      const working_tiles = new Array(25).fill(null)
+
+      const max_improvements = new Array(25).fill(0).map((_, i) => {
+        return Math.max(...greedy_best.all_match_pairs.slice(i * 25, (i + 1) * 25).map(e => e.score))
+      })
+
+      for (let i = 23; i >= 0; i--) {
+        max_improvements[i] += max_improvements[i + 1]
+      }
+
+      const better_match_max_exist = max_improvements[0] > best_score
+
+      const reference_used = new Array(25).fill(false)
+
+      function backtracking(i: number, similarity_so_far: number) {
+        if (i >= 25) {
+          if (similarity_so_far > best_score) {
+            best = [...working_tiles]
+            best_score = similarity_so_far
+          }
+
+          return;
+        }
+
+        for (let index = 0; index < 25; index++) {
+          const match = greedy_best.all_match_pairs[i * 25 + index]
+
+          if (reference_used[match.reference_tile.position] || match.score < DETECTION_THRESHOLD_SCORE || (similarity_so_far + match.score) + max_improvements[i + 1] <= best_score) {
+            continue
+          }
+
+          tiles[i] = match
+          reference_used[match.reference_tile.position] = true
+          backtracking(i + 1, similarity_so_far + match.score)
+          reference_used[match.reference_tile.position] = false
+        }
+      }
+
+      if (better_match_max_exist) backtracking(0, 0)
+
+      return {
+        tiles: best.map(m => m.reference_tile),
+        theme: greedy_best.theme,
+        match_score: best_score / 25
+      }
+    } else {
+      return {
+        tiles: greedy_best.preliminary_best_matching?.match.map(e => e.reference_tile),
+        theme: greedy_best.theme,
+        match_score: greedy_best.preliminary_best_matching.score
+      }
+    }
+
   }
 }

@@ -413,8 +413,8 @@ class SliderGuideProcess {
         await new Promise<void>(async (resolve) => {
           this.solver =
 
-            SlideSolver.skillbertRandom(frame_state)
-            //  new AStarSlideSolver(frame_state)
+            //SlideSolver.skillbertRandom(frame_state)
+              new AStarSlideSolver(frame_state)
               .setCombineStraights(this.settings.mode == "mouse" || this.settings.mode == "hybrid")
               .onUpdate(solver => {
                 if (this.should_stop) resolve()

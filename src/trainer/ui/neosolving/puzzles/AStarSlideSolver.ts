@@ -1,7 +1,7 @@
 import {Sliders} from "./Sliders";
+import * as lodash from "lodash";
 import SliderState = Sliders.SliderState;
 import MoveList = Sliders.MoveList;
-import * as lodash from "lodash";
 import Move = Sliders.Move;
 
 export class AStarSlideSolver extends Sliders.SlideSolver {
@@ -9,10 +9,12 @@ export class AStarSlideSolver extends Sliders.SlideSolver {
     type Node = Sliders.SliderState
 
     function heuristic(node: Node): number {
-      return SliderState.sumManhattenDistance(node)
+      return SliderState.sumManhattenDistance(node) * 2
     }
 
     function is_goal(node: State): boolean {
+
+      if (!node) debugger
       return SliderState.equals(node.state, SliderState.SOLVED)
     }
 
@@ -58,7 +60,7 @@ export class AStarSlideSolver extends Sliders.SlideSolver {
         }
       }
 
-      return successors.filter(c => !conta(node, c))
+      return successors//.filter(c => !conta(node, c))
     }
 
     type State = {
@@ -77,7 +79,7 @@ export class AStarSlideSolver extends Sliders.SlideSolver {
     let best: State = null
 
     function found(state: State) {
-      if (state.depth < best.depth) {
+      if (!best || state.depth < best.depth) {
         best = state
         self.registerSolution(reduce(state))
       }
@@ -104,6 +106,8 @@ export class AStarSlideSolver extends Sliders.SlideSolver {
 
       let state = lodash.minBy(backlog, s => s.estimate)
 
+      if (!state) break
+
       while (!self.should_stop) {
         if (best && state.depth > best.depth) break
 
@@ -115,7 +119,7 @@ export class AStarSlideSolver extends Sliders.SlideSolver {
         const succe = lodash.sortBy(successors(state), c => c.estimate)
 
         // Push half of the successors except the most promising to a backlog
-        backlog.push(...succe.slice(1, succe.length / 2))
+        //backlog.push(...succe.slice(1, succe.length / 2))
 
         state = succe[0]
 

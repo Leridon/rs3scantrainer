@@ -428,7 +428,7 @@ class PuzzleSettingsEdit extends Widget {
         .checkboxes()
     ))
 
-    this.layout.header(new Checkbox("Enable")
+    this.layout.header(new Checkbox("Start solving automatically")
         .onCommit(v => this.value.sliders.autostart = v)
         .setValue(this.value.sliders.autostart)
       , "left", 1)
@@ -491,6 +491,11 @@ class PuzzleSettingsEdit extends Widget {
       .onCommit(v => this.value.sliders.estimate_slider_speed = v)
       .setValue(this.value.sliders.estimate_slider_speed), "left", 1)
     this.layout.paragraph("Show an estimate for your equivalent slider speed in Alt1's builtin clue solver after finishing a slider. Takes the faster animation of multi-tile moves in the builtin solver into account.")
+
+    this.layout.header(new Checkbox("Improve screen reader with backtracking (Experimental)")
+      .onCommit(v => this.value.sliders.estimate_slider_speed = v)
+      .setValue(this.value.sliders.estimate_slider_speed), "left", 1)
+    this.layout.paragraph("Currently experimental. When activated, tries to improve the match read from screen by doing a second search with a bounded backtracking algorithm.")
   }
 }
 
@@ -637,7 +642,7 @@ class SolvingSettingsEdit extends Widget {
       new LightButton("Everything")
         .onClick(() => {
           Object.assign(this.value, lodash.cloneDeep(NeoSolving.Settings.InfoPanel.EVERYTHING))
-          
+
           this.render()
         }))
 

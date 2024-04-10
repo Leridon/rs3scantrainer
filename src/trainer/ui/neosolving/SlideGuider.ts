@@ -23,6 +23,7 @@ import AnnotatedMoveList = Sliders.AnnotatedMoveList;
 import MoveList = Sliders.MoveList;
 import Move = Sliders.Move;
 import getAnchorImages = AnchorImages.getAnchorImages;
+import {time} from "../../../lib/gamemap/GameLayer";
 
 class SliderGuideProcess {
   private start_time = -1
@@ -596,7 +597,8 @@ export namespace SlideGuider {
     color_recovery_move: number,
     color_recovery_line: number,
     solve_time_ms: number,
-    estimate_slider_speed: boolean
+    estimate_slider_speed: boolean,
+    improve_slider_matches_backtracking: boolean,
   }
 
   export namespace Settings {
@@ -612,7 +614,8 @@ export namespace SlideGuider {
       color_recovery_move: A1Color.fromHex("#FF0000"),
       color_recovery_line: A1Color.fromHex("#ff6600"),
       solve_time_ms: 2000,
-      estimate_slider_speed: false
+      estimate_slider_speed: false,
+      improve_slider_matches_backtracking: true,
     }
 
     export function normalize(settings: Settings): Settings {
@@ -630,6 +633,7 @@ export namespace SlideGuider {
       if ((typeof settings.color_recovery_line) != "number") settings.color_recovery_line = DEFAULT.color_recovery_line
       if ((typeof settings.solve_time_ms) != "number") settings.solve_time_ms = DEFAULT.solve_time_ms
       if (![true, false].includes(settings.estimate_slider_speed)) settings.estimate_slider_speed = DEFAULT.estimate_slider_speed
+      if (![true, false].includes(settings.improve_slider_matches_backtracking)) settings.improve_slider_matches_backtracking = DEFAULT.improve_slider_matches_backtracking
 
       settings.solve_time_ms = lodash.clamp(settings.solve_time_ms, 500, 5000)
 

@@ -15586,6 +15586,106 @@
     "direction": 3
   },
   {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3191,
+      "y": 3363,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Guild Door",
+    "position": {
+      "x": 2933,
+      "y": 3289,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Odd-looking wall",
+    "position": {
+      "x": 2709,
+      "y": 3495,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Odd-looking wall",
+    "position": {
+      "x": 2710,
+      "y": 3495,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Gate",
+    "position": {
+      "x": 2555,
+      "y": 3475,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Gate",
+    "position": {
+      "x": 2567,
+      "y": 3456,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Gate",
+    "position": {
+      "x": 2555,
+      "y": 3474,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Gate",
+    "position": {
+      "x": 2568,
+      "y": 3456,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Doorway",
+    "position": {
+      "x": 2445,
+      "y": 4596,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Doorway",
+    "position": {
+      "x": 2509,
+      "y": 3636,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
     "type": "entity",
     "entity": {
       "name": "Ladder",
@@ -49330,6 +49430,158 @@
   {
     "type": "entity",
     "entity": {
+      "name": "Stile",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3042.5,
+        "y": 3305.5
+      },
+      "botright": {
+        "x": 3044.5,
+        "y": 3304.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "name": "Climb over",
+        "movement": [
+          {
+            "time": 5,
+            "valid_from": {
+              "origin": {
+                "x": 3042,
+                "y": 3304,
+                "level": 0
+              },
+              "size": {
+                "x": 2,
+                "y": 3
+              },
+              "data": "Jg=="
+            },
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3044,
+                  "y": 3305,
+                  "level": 0
+                }
+              },
+              "relative": true
+            }
+          },
+          {
+            "time": 5,
+            "valid_from": {
+              "origin": {
+                "x": 3044,
+                "y": 3304,
+                "level": 0
+              },
+              "size": {
+                "x": 2,
+                "y": 3
+              },
+              "data": "GQ=="
+            },
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3044,
+                  "y": 3305,
+                  "level": 0
+                }
+              },
+              "relative": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Stile",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3062.5,
+        "y": 3283.5
+      },
+      "botright": {
+        "x": 3063.5,
+        "y": 3281.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "name": "Climb over",
+        "movement": [
+          {
+            "time": 5,
+            "valid_from": {
+              "origin": {
+                "x": 3062,
+                "y": 3281,
+                "level": 0
+              },
+              "size": {
+                "x": 3,
+                "y": 2
+              },
+              "data": "Kg=="
+            },
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3063,
+                  "y": 3283,
+                  "level": 0
+                }
+              },
+              "relative": true
+            }
+          },
+          {
+            "time": 5,
+            "valid_from": {
+              "origin": {
+                "x": 3062,
+                "y": 3283,
+                "level": 0
+              },
+              "size": {
+                "x": 3,
+                "y": 2
+              },
+              "data": "FQ=="
+            },
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3063,
+                  "y": 3283,
+                  "level": 0
+                }
+              },
+              "relative": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
       "name": "Hole",
       "kind": "static"
     },
@@ -68518,6 +68770,4206 @@
               "x": 2,
               "y": 2,
               "level": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3010.5,
+        "y": 3235.5
+      },
+      "botright": {
+        "x": 3011.5,
+        "y": 3234.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 3012,
+            "y": 3235,
+            "level": 0
+          }
+        },
+        "name": "Climb up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3012.5,
+        "y": 3203.5
+      },
+      "botright": {
+        "x": 3013.5,
+        "y": 3202.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 3013,
+            "y": 3204,
+            "level": 0
+          }
+        },
+        "name": "Climb up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3012.5,
+        "y": 3244.5
+      },
+      "botright": {
+        "x": 3013.5,
+        "y": 3243.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 3013,
+            "y": 3245,
+            "level": 0
+          }
+        },
+        "name": "Climb up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3028.5,
+        "y": 3262.5
+      },
+      "botright": {
+        "x": 3029.5,
+        "y": 3261.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 3029,
+            "y": 3261,
+            "level": 0
+          }
+        },
+        "name": "Climb up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3010.5,
+        "y": 3235.5
+      },
+      "botright": {
+        "x": 3011.5,
+        "y": 3234.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 3012,
+            "y": 3235,
+            "level": 1
+          }
+        },
+        "name": "Climb down",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": -1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3012.5,
+        "y": 3203.5
+      },
+      "botright": {
+        "x": 3013.5,
+        "y": 3202.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 3013,
+            "y": 3204,
+            "level": 1
+          }
+        },
+        "name": "Climb down",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": -1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3012.5,
+        "y": 3244.5
+      },
+      "botright": {
+        "x": 3013.5,
+        "y": 3243.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 3013,
+            "y": 3245,
+            "level": 1
+          }
+        },
+        "name": "Climb down",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": -1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3028.5,
+        "y": 3262.5
+      },
+      "botright": {
+        "x": 3029.5,
+        "y": 3261.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 3029,
+            "y": 3261,
+            "level": 1
+          }
+        },
+        "name": "Climb down",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": -1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3009.5,
+        "y": 3184.5
+      },
+      "botright": {
+        "x": 3010.5,
+        "y": 3183.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 3011,
+            "y": 3184,
+            "level": 0
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3012.5,
+        "y": 3179.5
+      },
+      "botright": {
+        "x": 3013.5,
+        "y": 3178.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 3013,
+            "y": 3180,
+            "level": 1
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3009.5,
+        "y": 3184.5
+      },
+      "botright": {
+        "x": 3010.5,
+        "y": 3183.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 3011,
+            "y": 3184,
+            "level": 1
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": -1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3012.5,
+        "y": 3179.5
+      },
+      "botright": {
+        "x": 3013.5,
+        "y": 3178.5
+      },
+      "level": 2
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 3013,
+            "y": 3180,
+            "level": 2
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": -1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Staircase",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3022.5,
+        "y": 3250.5
+      },
+      "botright": {
+        "x": 3024.5,
+        "y": 3247.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 3023,
+            "y": 3247,
+            "level": 0
+          },
+          "size": {
+            "x": 2,
+            "y": 1
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 2,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3026,
+                  "y": 3250,
+                  "level": 1
+                }
+              },
+              "relative": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Staircase",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3022.5,
+        "y": 3250.5
+      },
+      "botright": {
+        "x": 3025.5,
+        "y": 3248.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 3026,
+            "y": 3250,
+            "level": 1
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 2,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3023,
+                  "y": 3247,
+                  "level": 0
+                }
+              },
+              "relative": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Trapdoor",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3014.5,
+        "y": 3257.5
+      },
+      "botright": {
+        "x": 3015.5,
+        "y": 3256.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "open",
+        "name": "Open",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3015,
+                  "y": 3257,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3219.5,
+        "y": 4522.5
+      },
+      "botright": {
+        "x": 3220.5,
+        "y": 4521.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3014,
+                  "y": 3257,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Staircase",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3188.5,
+        "y": 3433.5
+      },
+      "botright": {
+        "x": 3191.5,
+        "y": 3431.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3190,
+                  "y": 9834,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Staircase",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3186.5,
+        "y": 9834.5
+      },
+      "botright": {
+        "x": 3189.5,
+        "y": 9832.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3188,
+                  "y": 3433,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Staircase",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3033.5,
+        "y": 3364.5
+      },
+      "botright": {
+        "x": 3035.5,
+        "y": 3362.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 3035,
+            "y": 3362,
+            "level": 0
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 2,
+            "offset": {
+              "x": 1,
+              "y": 1,
+              "level": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Staircase",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3047.5,
+        "y": 3353.5
+      },
+      "botright": {
+        "x": 3049.5,
+        "y": 3351.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 3050,
+            "y": 3353,
+            "level": 0
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 2,
+            "offset": {
+              "x": -1,
+              "y": 1,
+              "level": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Staircase",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3034.5,
+        "y": 3363.5
+      },
+      "botright": {
+        "x": 3035.5,
+        "y": 3362.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 3036,
+            "y": 3363,
+            "level": 0
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 2,
+            "offset": {
+              "x": -1,
+              "y": -1,
+              "level": -1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Staircase",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3048.5,
+        "y": 3353.5
+      },
+      "botright": {
+        "x": 3049.5,
+        "y": 3352.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 3049,
+            "y": 3354,
+            "level": 0
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 2,
+            "offset": {
+              "x": 1,
+              "y": -1,
+              "level": -1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2982.5,
+        "y": 3351.5
+      },
+      "botright": {
+        "x": 2983.5,
+        "y": 3350.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2983,
+            "y": 3350,
+            "level": 0
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2993.5,
+        "y": 3341.5
+      },
+      "botright": {
+        "x": 2994.5,
+        "y": 3340.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2993,
+            "y": 3341,
+            "level": 0
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2982.5,
+        "y": 3352.5
+      },
+      "botright": {
+        "x": 2983.5,
+        "y": 3351.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2983,
+            "y": 3353,
+            "level": 1
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2995.5,
+        "y": 3341.5
+      },
+      "botright": {
+        "x": 2996.5,
+        "y": 3340.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2995,
+            "y": 3341,
+            "level": 1
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2982.5,
+        "y": 3351.5
+      },
+      "botright": {
+        "x": 2983.5,
+        "y": 3350.5
+      },
+      "level": 2
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2983,
+            "y": 3350,
+            "level": 2
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3056.5,
+        "y": 3356.5
+      },
+      "botright": {
+        "x": 3057.5,
+        "y": 3355.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 3058,
+            "y": 3356,
+            "level": 0
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 4592.5,
+        "y": 11484.5
+      },
+      "botright": {
+        "x": 4593.5,
+        "y": 11483.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 4594,
+            "y": 11484,
+            "level": 0
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2982.5,
+        "y": 3351.5
+      },
+      "botright": {
+        "x": 2983.5,
+        "y": 3350.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 2983,
+            "y": 3350,
+            "level": 1
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": -1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2993.5,
+        "y": 3341.5
+      },
+      "botright": {
+        "x": 2994.5,
+        "y": 3340.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 2993,
+            "y": 3341,
+            "level": 1
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": -1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2982.5,
+        "y": 3352.5
+      },
+      "botright": {
+        "x": 2983.5,
+        "y": 3351.5
+      },
+      "level": 2
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 2983,
+            "y": 3353,
+            "level": 2
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": -1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2995.5,
+        "y": 3341.5
+      },
+      "botright": {
+        "x": 2996.5,
+        "y": 3340.5
+      },
+      "level": 2
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 2995,
+            "y": 3341,
+            "level": 2
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": -1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2982.5,
+        "y": 3351.5
+      },
+      "botright": {
+        "x": 2983.5,
+        "y": 3350.5
+      },
+      "level": 3
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 2983,
+            "y": 3350,
+            "level": 3
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": -1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2993.5,
+        "y": 3341.5
+      },
+      "botright": {
+        "x": 2994.5,
+        "y": 3340.5
+      },
+      "level": 3
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 2995,
+            "y": 3341,
+            "level": 3
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": -1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3056.5,
+        "y": 3356.5
+      },
+      "botright": {
+        "x": 3057.5,
+        "y": 3355.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 3058,
+            "y": 3356,
+            "level": 1
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": -1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 4592.5,
+        "y": 11484.5
+      },
+      "botright": {
+        "x": 4593.5,
+        "y": 11483.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 4594,
+            "y": 11484,
+            "level": 1
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": -1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Stairs",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3058.5,
+        "y": 3377.5
+      },
+      "botright": {
+        "x": 3060.5,
+        "y": 3375.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 3061,
+            "y": 3376,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 2
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3058,
+                  "y": 9777,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3017.5,
+        "y": 3339.5
+      },
+      "botright": {
+        "x": 3018.5,
+        "y": 3338.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 3017,
+            "y": 3339,
+            "level": 0
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3017,
+                  "y": 9739,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3018.5,
+        "y": 3338.5
+      },
+      "botright": {
+        "x": 3019.5,
+        "y": 3337.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 3019,
+            "y": 3337,
+            "level": 0
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3019,
+                  "y": 9737,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3018.5,
+        "y": 3340.5
+      },
+      "botright": {
+        "x": 3019.5,
+        "y": 3339.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 3019,
+            "y": 3341,
+            "level": 0
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3019,
+                  "y": 9741,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3019.5,
+        "y": 3339.5
+      },
+      "botright": {
+        "x": 3020.5,
+        "y": 3338.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 3021,
+            "y": 3339,
+            "level": 0
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3021,
+                  "y": 9739,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Crumbling wall",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2934.5,
+        "y": 3355.5
+      },
+      "botright": {
+        "x": 2935.5,
+        "y": 3354.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 2934,
+            "y": 3355,
+            "level": 0
+          },
+          "size": {
+            "x": 3,
+            "y": 1
+          },
+          "data": "BQ=="
+        },
+        "name": "Climb-over",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2934,
+                "y": 3355,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 2,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2936,
+                "y": 3355,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -2,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Staircase",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3106.5,
+        "y": 3362.5
+      },
+      "botright": {
+        "x": 3110.5,
+        "y": 3361.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 3107,
+            "y": 3361,
+            "level": 0
+          },
+          "size": {
+            "x": 4,
+            "y": 1
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 1,
+            "valid_from": {
+              "origin": {
+                "x": 3107,
+                "y": 3361,
+                "level": 0
+              },
+              "size": {
+                "x": 2,
+                "y": 1
+              }
+            },
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3108,
+                  "y": 3366,
+                  "level": 1
+                }
+              },
+              "relative": true
+            }
+          },
+          {
+            "time": 1,
+            "valid_from": {
+              "origin": {
+                "x": 3109,
+                "y": 3361,
+                "level": 0
+              },
+              "size": {
+                "x": 2,
+                "y": 1
+              }
+            },
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3109,
+                  "y": 3366,
+                  "level": 1
+                }
+              },
+              "relative": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3104.5,
+        "y": 3363.5
+      },
+      "botright": {
+        "x": 3105.5,
+        "y": 3362.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 3105,
+            "y": 3364,
+            "level": 1
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": -2,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3104.5,
+        "y": 3363.5
+      },
+      "botright": {
+        "x": 3105.5,
+        "y": 3362.5
+      },
+      "level": 2
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 3105,
+            "y": 3362,
+            "level": 2
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 2,
+              "level": -1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Staircase",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3107.5,
+        "y": 3365.5
+      },
+      "botright": {
+        "x": 3109.5,
+        "y": 3363.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 3108,
+            "y": 3366,
+            "level": 1
+          },
+          "size": {
+            "x": 2,
+            "y": 1
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 1,
+            "offset": {
+              "x": 0,
+              "y": -5,
+              "level": -1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Trapdoor",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2967.5,
+        "y": 3201.5
+      },
+      "botright": {
+        "x": 2968.5,
+        "y": 3200.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "open",
+        "name": "Open",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3165,
+                  "y": 4515,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2947.5,
+        "y": 3215.5
+      },
+      "botright": {
+        "x": 2948.5,
+        "y": 3214.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2949,
+            "y": 3215,
+            "level": 0
+          }
+        },
+        "name": "Climb up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3523.5,
+        "y": 7055.5
+      },
+      "botright": {
+        "x": 3524.5,
+        "y": 7054.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 3525,
+            "y": 7055,
+            "level": 0
+          }
+        },
+        "name": "Climb up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2947.5,
+        "y": 3215.5
+      },
+      "botright": {
+        "x": 2948.5,
+        "y": 3214.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 2949,
+            "y": 3215,
+            "level": 1
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": -1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3523.5,
+        "y": 7055.5
+      },
+      "botright": {
+        "x": 3524.5,
+        "y": 7054.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 3525,
+            "y": 7055,
+            "level": 1
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": -1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Staircase",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2942.5,
+        "y": 3206.5
+      },
+      "botright": {
+        "x": 2943.5,
+        "y": 3203.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2943,
+            "y": 3203,
+            "level": 0
+          }
+        },
+        "name": "Climb up",
+        "movement": [
+          {
+            "time": 1,
+            "offset": {
+              "x": 0,
+              "y": 4,
+              "level": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Staircase",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2964.5,
+        "y": 3219.5
+      },
+      "botright": {
+        "x": 2967.5,
+        "y": 3218.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2964,
+            "y": 3219,
+            "level": 0
+          }
+        },
+        "name": "Climb up",
+        "movement": [
+          {
+            "time": 1,
+            "offset": {
+              "x": 4,
+              "y": 0,
+              "level": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Staircase",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2942.5,
+        "y": 3206.5
+      },
+      "botright": {
+        "x": 2943.5,
+        "y": 3203.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 2943,
+            "y": 3207,
+            "level": 1
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 1,
+            "offset": {
+              "x": 0,
+              "y": -4,
+              "level": -1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Staircase",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2964.5,
+        "y": 3219.5
+      },
+      "botright": {
+        "x": 2967.5,
+        "y": 3218.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 2968,
+            "y": 3219,
+            "level": 1
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 1,
+            "offset": {
+              "x": -4,
+              "y": 0,
+              "level": -1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2698.5,
+        "y": 3476.5
+      },
+      "botright": {
+        "x": 2699.5,
+        "y": 3475.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2699,
+            "y": 3475,
+            "level": 0
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2698.5,
+        "y": 3476.5
+      },
+      "botright": {
+        "x": 2699.5,
+        "y": 3475.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 2699,
+            "y": 3475,
+            "level": 1
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": -1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2714.5,
+        "y": 3472.5
+      },
+      "botright": {
+        "x": 2715.5,
+        "y": 3471.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2714,
+            "y": 3472,
+            "level": 1
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2714.5,
+        "y": 3470.5
+      },
+      "botright": {
+        "x": 2715.5,
+        "y": 3469.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 2715,
+            "y": 3471,
+            "level": 1
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": -1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2727.5,
+        "y": 3491.5
+      },
+      "botright": {
+        "x": 2728.5,
+        "y": 3490.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 2728,
+            "y": 3492,
+            "level": 1
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": -1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2714.5,
+        "y": 3470.5
+      },
+      "botright": {
+        "x": 2715.5,
+        "y": 3469.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2715,
+            "y": 3471,
+            "level": 0
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2727.5,
+        "y": 3491.5
+      },
+      "botright": {
+        "x": 2728.5,
+        "y": 3490.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2728,
+            "y": 3492,
+            "level": 0
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Staircase",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2709.5,
+        "y": 3498.5
+      },
+      "botright": {
+        "x": 2711.5,
+        "y": 3496.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 2709,
+            "y": 3498,
+            "level": 0
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2716,
+                  "y": 9888,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Staircase",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2713.5,
+        "y": 9888.5
+      },
+      "botright": {
+        "x": 2715.5,
+        "y": 9886.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2709,
+                  "y": 3497,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Staircase",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2441.5,
+        "y": 4601.5
+      },
+      "botright": {
+        "x": 2443.5,
+        "y": 4599.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2441,
+                  "y": 4601,
+                  "level": 1
+                }
+              },
+              "relative": true
+            }
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Climb-top",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2441,
+                  "y": 4601,
+                  "level": 2
+                }
+              },
+              "relative": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Staircase",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2505.5,
+        "y": 3641.5
+      },
+      "botright": {
+        "x": 2507.5,
+        "y": 3639.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2505,
+                  "y": 3641,
+                  "level": 1
+                }
+              },
+              "relative": true
+            }
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Climb-top",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2505,
+                  "y": 3641,
+                  "level": 2
+                }
+              },
+              "relative": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Broken bridge",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2595.5,
+        "y": 3608.5
+      },
+      "botright": {
+        "x": 2597.5,
+        "y": 3607.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 2595,
+            "y": 3608,
+            "level": 0
+          },
+          "size": {
+            "x": 4,
+            "y": 1
+          },
+          "data": "CQ=="
+        },
+        "name": "Cross",
+        "movement": [
+          {
+            "time": 7,
+            "valid_from": {
+              "origin": {
+                "x": 2595,
+                "y": 3608,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 3,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 7,
+            "valid_from": {
+              "origin": {
+                "x": 2598,
+                "y": 3608,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -3,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2746.5,
+        "y": 3493.5
+      },
+      "botright": {
+        "x": 2747.5,
+        "y": 3492.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2748,
+            "y": 3493,
+            "level": 0
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2748.5,
+        "y": 3491.5
+      },
+      "botright": {
+        "x": 2749.5,
+        "y": 3490.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2749,
+            "y": 3492,
+            "level": 1
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2768.5,
+        "y": 3493.5
+      },
+      "botright": {
+        "x": 2769.5,
+        "y": 3492.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2768,
+            "y": 3493,
+            "level": 0
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2766.5,
+        "y": 3491.5
+      },
+      "botright": {
+        "x": 2767.5,
+        "y": 3490.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2767,
+            "y": 3492,
+            "level": 1
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2746.5,
+        "y": 3493.5
+      },
+      "botright": {
+        "x": 2747.5,
+        "y": 3492.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 2748,
+            "y": 3493,
+            "level": 1
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": -1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2748.5,
+        "y": 3491.5
+      },
+      "botright": {
+        "x": 2749.5,
+        "y": 3490.5
+      },
+      "level": 2
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 2749,
+            "y": 3492,
+            "level": 2
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": -1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2768.5,
+        "y": 3493.5
+      },
+      "botright": {
+        "x": 2769.5,
+        "y": 3492.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 2768,
+            "y": 3493,
+            "level": 1
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": -1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2766.5,
+        "y": 3491.5
+      },
+      "botright": {
+        "x": 2767.5,
+        "y": 3490.5
+      },
+      "level": 2
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 2767,
+            "y": 3492,
+            "level": 2
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": -1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Cave entrance",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2628.5,
+        "y": 2999.5
+      },
+      "botright": {
+        "x": 2632.5,
+        "y": 2997.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2647,
+                  "y": 9378,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Tunnel",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2645.5,
+        "y": 9377.5
+      },
+      "botright": {
+        "x": 2646.5,
+        "y": 9376.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Pass through",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2629,
+                  "y": 2997,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Tunnel",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2646.5,
+        "y": 9377.5
+      },
+      "botright": {
+        "x": 2647.5,
+        "y": 9376.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Pass through",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2629,
+                  "y": 2997,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Rock passage",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2594.5,
+        "y": 2870.5
+      },
+      "botright": {
+        "x": 2597.5,
+        "y": 2869.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 2596,
+            "y": 2869,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 3
+          },
+          "data": "BQ=="
+        },
+        "name": "Squeeze-through",
+        "movement": [
+          {
+            "time": 3,
+            "valid_from": {
+              "origin": {
+                "x": 2596,
+                "y": 2871,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -2,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 3,
+            "valid_from": {
+              "origin": {
+                "x": 2596,
+                "y": 2869,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 2,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Cave entrance",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2498.5,
+        "y": 2990.5
+      },
+      "botright": {
+        "x": 2500.5,
+        "y": 2988.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2576,
+                  "y": 3029,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2574.5,
+        "y": 3029.5
+      },
+      "botright": {
+        "x": 2575.5,
+        "y": 3028.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2500,
+                  "y": 2988,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Battlement",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2506.5,
+        "y": 3011.5
+      },
+      "botright": {
+        "x": 2507.5,
+        "y": 3010.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 2506,
+            "y": 3011,
+            "level": 0
+          },
+          "size": {
+            "x": 3,
+            "y": 1
+          },
+          "data": "BQ=="
+        },
+        "name": "Climb-over",
+        "movement": [
+          {
+            "time": 5,
+            "valid_from": {
+              "origin": {
+                "x": 2506,
+                "y": 3011,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 2,
+              "y": 0,
+              "level": 0
+            }
+          },
+          {
+            "time": 5,
+            "valid_from": {
+              "origin": {
+                "x": 2508,
+                "y": 3011,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -2,
+              "y": 0,
+              "level": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Battlement",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2506.5,
+        "y": 3012.5
+      },
+      "botright": {
+        "x": 2507.5,
+        "y": 3011.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 2506,
+            "y": 3012,
+            "level": 0
+          },
+          "size": {
+            "x": 3,
+            "y": 1
+          },
+          "data": "BQ=="
+        },
+        "name": "Climb-over",
+        "movement": [
+          {
+            "time": 5,
+            "valid_from": {
+              "origin": {
+                "x": 2506,
+                "y": 3012,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 2,
+              "y": 0,
+              "level": 0
+            }
+          },
+          {
+            "time": 5,
+            "valid_from": {
+              "origin": {
+                "x": 2508,
+                "y": 3012,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -2,
+              "y": 0,
+              "level": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Gap",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2529.5,
+        "y": 3026.5
+      },
+      "botright": {
+        "x": 2530.5,
+        "y": 3025.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "name": "Jump-over",
+        "movement": [
+          {
+            "time": 4,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2530,
+                  "y": 3029,
+                  "level": 0
+                }
+              },
+              "relative": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Gap",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2530.5,
+        "y": 3029.5
+      },
+      "botright": {
+        "x": 2531.5,
+        "y": 3028.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 2530,
+            "y": 3029,
+            "level": 0
+          },
+          "size": {
+            "x": 2,
+            "y": 2
+          },
+          "data": "CQ=="
+        },
+        "name": "Jump-over",
+        "movement": [
+          {
+            "time": 4,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2531,
+                  "y": 3026,
+                  "level": 0
+                }
+              },
+              "relative": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2593.5,
+        "y": 3085.5
+      },
+      "botright": {
+        "x": 2594.5,
+        "y": 3084.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 2594,
+            "y": 3086,
+            "level": 0
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2594,
+                  "y": 9486,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2555.5,
+        "y": 3081.5
+      },
+      "botright": {
+        "x": 2556.5,
+        "y": 3080.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2555,
+            "y": 3081,
+            "level": 0
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2596.5,
+        "y": 3107.5
+      },
+      "botright": {
+        "x": 2597.5,
+        "y": 3106.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2597,
+            "y": 3106,
+            "level": 0
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2922.5,
+        "y": 3247.5
+      },
+      "botright": {
+        "x": 2923.5,
+        "y": 3246.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2924,
+            "y": 3247,
+            "level": 0
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3538.5,
+        "y": 3543.5
+      },
+      "botright": {
+        "x": 3539.5,
+        "y": 3542.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 3540,
+            "y": 3543,
+            "level": 0
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2596.5,
+        "y": 3107.5
+      },
+      "botright": {
+        "x": 2597.5,
+        "y": 3106.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 2597,
+            "y": 3106,
+            "level": 1
+          }
+        },
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": -1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Burthorpe Games Room",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2891.5,
+        "y": 3571.5
+      },
+      "botright": {
+        "x": 2893.5,
+        "y": 3567.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2892,
+            "y": 3567,
+            "level": 0
+          },
+          "size": {
+            "x": 2,
+            "y": 1
+          }
+        },
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2207,
+                  "y": 4938,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Stairs",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2667.5,
+        "y": 3244.5
+      },
+      "botright": {
+        "x": 2668.5,
+        "y": 3243.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2668,
+            "y": 3243,
+            "level": 0
+          }
+        },
+        "name": "Climb up",
+        "movement": [
+          {
+            "time": 1,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Stairs",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2666.5,
+        "y": 3243.5
+      },
+      "botright": {
+        "x": 2667.5,
+        "y": 3242.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "interactive_area": {
+          "origin": {
+            "x": 2668,
+            "y": 3243,
+            "level": 1
+          }
+        },
+        "name": "Climb down",
+        "movement": [
+          {
+            "time": 1,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": -1
             }
           }
         ]

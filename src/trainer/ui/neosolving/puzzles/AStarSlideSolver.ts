@@ -1,20 +1,25 @@
 import {Sliders} from "./Sliders";
-import {delay} from "../../../../oldlib";
 import SliderState = Sliders.SliderState;
 import MoveList = Sliders.MoveList;
+import * as lodash from "lodash";
+import Move = Sliders.Move;
 
 export class AStarSlideSolver extends Sliders.SlideSolver {
   protected async solve_implementation() {
     type Node = Sliders.SliderState
 
-    const FOUND = -1
-
     function heuristic(node: Node): number {
-      return SliderState.sumManhattenDistance(node) * 5
+      return SliderState.sumManhattenDistance(node)
     }
 
-    function is_goal(node: Node): boolean {
-      return SliderState.equals(node, SliderState.SOLVED)
+    function is_goal(node: State): boolean {
+      return SliderState.equals(node.state, SliderState.SOLVED)
+    }
+
+    function conta(state: State, config: State): boolean {
+      if (state == null) return false
+      if (SliderState.equals(state.state, config.state)) return true
+      return conta(state.parent?.state, config)
     }
 
     function successors(node: State): State[] {
@@ -26,17 +31,21 @@ export class AStarSlideSolver extends Sliders.SlideSolver {
 
       const successors: State[] = []
 
+      function child(move: Move) {
+        const state = SliderState.withMove(node.state, move)
+        successors.push({
+          parent: {state: node, move: move},
+          state: state,
+          depth: node.depth + 1,
+          blank: node.blank + move,
+          estimate: node.depth + 1 + heuristic(state)
+        })
+      }
+
       if (!was_horizontal) {
         for (let xi = 0; xi < 5; xi++) {
           if (xi != blank_x) {
-            const move = blank_y * 5 + xi - node.blank
-
-            successors.push({
-              parent: {state: node, move: move},
-              state: SliderState.withMove(node.state, move),
-              depth: node.depth + 1,
-              blank: node.blank + move
-            })
+            child(blank_y * 5 + xi - node.blank)
           }
         }
       }
@@ -44,19 +53,12 @@ export class AStarSlideSolver extends Sliders.SlideSolver {
       if (!was_vertical) {
         for (let yi = 0; yi < 5; yi++) {
           if (yi != blank_y) {
-            const move = yi * 5 + blank_x - node.blank
-
-            successors.push({
-              parent: {state: node, move: move},
-              state: SliderState.withMove(node.state, move),
-              depth: node.depth + 1,
-              blank: node.blank + move
-            })
+            child(yi * 5 + blank_x - node.blank)
           }
         }
       }
 
-      return successors
+      return successors.filter(c => !conta(node, c))
     }
 
     type State = {
@@ -66,54 +68,20 @@ export class AStarSlideSolver extends Sliders.SlideSolver {
       } | null,
       depth: number,
       state: SliderState,
-      blank: number
+      blank: number,
+      estimate: number
     }
 
-    async function ida_star(start_state: SliderState): Promise<State> {
-      let bound = heuristic(start_state)
+    const self = this
 
-      const path: State = {
-        parent: null,
-        state: start_state,
-        depth: 0,
-        blank: SliderState.blank(start_state)
-      }
+    let best: State = null
 
-      while (true) {
-        let [res, length] = await search(path, bound)
-
-        if (res && length == FOUND) return res
-        if (length == Number.MAX_SAFE_INTEGER) return null
-
-        bound = length
-
-        await delay(1)
+    function found(state: State) {
+      if (state.depth < best.depth) {
+        best = state
+        self.registerSolution(reduce(state))
       }
     }
-
-    async function search(node: State, bound: number): Promise<[State, number]> {
-      const f = node.depth + heuristic(node.state)
-
-      if (f > bound) return [null, f]
-
-      if (is_goal(node.state)) return [node, FOUND]
-
-      let min = Number.MAX_SAFE_INTEGER
-
-      for (let succ of successors(node)) {
-        await delay(1)
-
-        const [child_res, child_score] = await search(succ, bound)
-
-        if (child_score == FOUND) return [child_res, child_score]
-
-        if (child_score < min) min = child_score
-      }
-
-      return [null, min]
-    }
-
-    const res = ida_star(this.start_state)
 
     function reduce(state: State): MoveList {
       if (!state.parent) return []
@@ -123,6 +91,36 @@ export class AStarSlideSolver extends Sliders.SlideSolver {
       return par
     }
 
-    this.registerSolution(reduce(await res))
+    const backlog: State[] = [{
+      state: self.start_state,
+      estimate: heuristic(self.start_state),
+      depth: 0,
+      blank: SliderState.blank(self.start_state),
+      parent: null
+    }]
+
+    while (!self.should_stop) {
+      if (self.should_stop) break
+
+      let state = lodash.minBy(backlog, s => s.estimate)
+
+      while (!self.should_stop) {
+        if (best && state.depth > best.depth) break
+
+        if (is_goal(state)) {
+          found(state)
+          break;
+        }
+
+        const succe = lodash.sortBy(successors(state), c => c.estimate)
+
+        // Push half of the successors except the most promising to a backlog
+        backlog.push(...succe.slice(1, succe.length / 2))
+
+        state = succe[0]
+
+        await self.checkTime()
+      }
+    }
   }
 }

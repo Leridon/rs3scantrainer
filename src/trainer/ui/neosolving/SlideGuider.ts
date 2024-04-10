@@ -367,7 +367,7 @@ class SliderGuideProcess {
 
     this.solving_overlay.clear()
 
-    if (this.solver) {
+    if (!this.solver.isFinished()) {
       this.solving_overlay
         .text("Solving",
           Vector2.add(
@@ -381,6 +381,15 @@ class SliderGuideProcess {
         Rectangle.screenOrigin(this.parent.puzzle.ui.rect),
         {x: 143, y: 153},
       ), 100, this.solver.getProgress(), 5)
+    } else if (!this.solution) {
+      this.solving_overlay
+        .text("No solution found",
+          Vector2.add(
+            Rectangle.screenOrigin(this.parent.puzzle.ui.rect),
+            {x: 143, y: 133}
+          ),
+          {color: mixColor(255, 0, 0), width: 20, centered: true, shadow: true}
+        )
     }
 
     this.solving_overlay.render()
@@ -400,12 +409,12 @@ class SliderGuideProcess {
 
       const frame_state = read_result.state
 
-      if (!this.solution) {
+      if (!this.solver) {
         await new Promise<void>(async (resolve) => {
           this.solver =
 
-            //SlideSolver.skillbertRandom(frame_state)
-            new AStarSlideSolver(frame_state)
+            SlideSolver.skillbertRandom(frame_state)
+            //  new AStarSlideSolver(frame_state)
               .setCombineStraights(this.settings.mode == "mouse" || this.settings.mode == "hybrid")
               .onUpdate(solver => {
                 if (this.should_stop) resolve()
@@ -428,8 +437,11 @@ class SliderGuideProcess {
 
         this.updateSolvingOverlay()
 
-        this.solution = Sliders.MoveList.annotate(frame_state, this.solver.getBest(), this.settings.mode != "keyboard")
-        this.solver = null
+        if (this.solver.getBest()) {
+          this.solution = Sliders.MoveList.annotate(frame_state, this.solver.getBest(), this.settings.mode != "keyboard")
+        } else {
+          this.stop()
+        }
 
         this.updateSolvingOverlay()
 
@@ -437,6 +449,8 @@ class SliderGuideProcess {
       }
 
       await delay(10)
+
+      if (!this.solution) continue
 
       const inversion_changed = read_result.inverted_checkmark != this.arrow_keys_inverted
       this.arrow_keys_inverted = read_result.inverted_checkmark

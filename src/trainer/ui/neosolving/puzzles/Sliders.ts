@@ -89,8 +89,9 @@ export namespace Sliders {
 
     export function sumManhattenDistance(state: SliderState): number {
       return lodash.sumBy(state.map((target, position) =>
-        Math.abs(target % 5 - position % 5)
-        + Math.abs(Math.floor(target / 5) - Math.floor(position / 5))
+        target == 24 ? 0 :
+          Math.abs(target % 5 - position % 5)
+          + Math.abs(Math.floor(target / 5) - Math.floor(position / 5))
       ))
     }
 
@@ -169,6 +170,8 @@ export namespace Sliders {
   export namespace MoveList {
 
     export function annotate(state: SliderState, moves: MoveList, prestates_multitile_allowed: boolean = true): AnnotatedMoveList {
+      if (!moves) debugger
+
       const buffer: AnnotatedMoveList = []
 
       for (let move of moves) {
@@ -226,6 +229,7 @@ export namespace Sliders {
     private finished: boolean = false
 
     protected start_time: number
+    private last_interrupt_time: number
     protected end_time: number
     private progress: number
 
@@ -265,6 +269,7 @@ export namespace Sliders {
 
       this.start_time = Date.now();
       this.end_time = this.start_time + timelimit;
+      this.last_interrupt_time = this.start_time
 
       await this.solve_implementation()
 
@@ -298,6 +303,22 @@ export namespace Sliders {
 
     getBest(): MoveList {
       return this.best_solution
+    }
+
+    timeOver(): boolean {
+      return Date.now() >= this.end_time
+    }
+
+
+    protected async checkTime() {
+      const t = Date.now()
+
+      if (t >= this.end_time) this.stop()
+      else if (t >= this.last_interrupt_time + 50) {
+        this.updateProgress()
+        this.last_interrupt_time = t
+        await delay(1)
+      }
     }
   }
 
@@ -341,16 +362,10 @@ export namespace Sliders {
 
         override async solve_implementation() {
           while (!this.should_stop) {
-            let t = Date.now();
-
-            if (t > this.end_time) break
-
-            this.updateProgress()
-
-            while (Date.now() - t < 50) this.step();
+            this.step();
 
             //Let go of the thread for a bit so ui gets a chance
-            await delay(1);
+            await this.checkTime()
           }
         }
       }(start_state)

@@ -69,7 +69,7 @@ export async function makeshift_main(): Promise<void> {
 
       const test_set: SliderState[] = []
 
-      const TIMEOUT = 20000
+      const TIMEOUT = 10000
       const TEST_SIZE = 5
 
       while (test_set.length < TEST_SIZE) {

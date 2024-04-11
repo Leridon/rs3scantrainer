@@ -235,10 +235,10 @@ export class AStarSlideSolver extends Sliders.SlideSolver {
   private subprocess: IterativeDeepeningSlideSolver
 
   protected async solve_implementation() {
-    let factor = 2
+    let factor = 2.8
 
     while (!this.should_stop) {
-      this.subprocess = new IterativeDeepeningSlideSolver(this.start_state, 1 + factor)
+      this.subprocess = new IterativeDeepeningSlideSolver(this.start_state, factor)
         .withTimeout(this.end_time - Date.now())
         .onInterrupt(() => this.updateProgress())
 
@@ -248,7 +248,7 @@ export class AStarSlideSolver extends Sliders.SlideSolver {
         this.registerSolution(IterativeDeepeningAStar.State.moveSequence(result))
       }
 
-      factor *= 0.9
+      factor = 1 + (factor - 1) * 0.9
 
       await this.checkTime()
     }

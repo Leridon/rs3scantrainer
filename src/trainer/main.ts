@@ -13,7 +13,6 @@ import skillbertRandom = Sliders.SlideSolver.skillbertRandom;
 import isSolveable = Sliders.SliderState.isSolveable;
 
 export async function makeshift_main(): Promise<void> {
-
   console.log(isSolveable([
     0, 1, 2, 3, 4,
     5, 6, 7, 8, 9,
@@ -70,7 +69,7 @@ export async function makeshift_main(): Promise<void> {
 
       const test_set: SliderState[] = []
 
-      const TIMEOUT = 10000
+      const TIMEOUT = 20000
       const TEST_SIZE = 5
 
       while (test_set.length < TEST_SIZE) {
@@ -93,7 +92,20 @@ export async function makeshift_main(): Promise<void> {
           const solver = candidate.construct(test)
             .setCombineStraights(true)
 
-          const best = await solver.solve(TIMEOUT)
+          let best = await solver.solve(TIMEOUT)
+
+          if (best) {
+            let sanity = test
+
+            for (let m of best) {
+              sanity = SliderState.withMove(sanity, m)
+            }
+
+            if (!SliderState.equals(sanity, SliderState.SOLVED)) {
+              best = null
+              debugger
+            }
+          }
 
           testsResult.push({
             start: test,
@@ -117,7 +129,7 @@ export async function makeshift_main(): Promise<void> {
       layout.header("Results")
       layout.paragraph(`On a total of ${test_set.length} configurations with ${(TIMEOUT / 1000).toFixed(1)}s per configuration.`)
 
-      layout.named("", hgrid(span("#"), span("Average"), span("Performance")))
+      layout.named("", hgrid(span("Solved"), span("Average"), span("Performance")))
 
       const ref_average = results[0].average
 

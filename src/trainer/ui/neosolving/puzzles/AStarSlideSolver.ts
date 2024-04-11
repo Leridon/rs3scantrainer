@@ -105,13 +105,13 @@ export class IterativeDeepeningAStar<UnderlyingState, Move> extends Process<Iter
   private async step(state: IterativeDeepeningAStar.State<UnderlyingState, Move>,
                      bound: number
   ): Promise<[[IterativeDeepeningAStar.State<UnderlyingState, Move>, number], boolean]> {
-    await this.checkTime()
+    if (state.length % 10 == 0) await this.checkTime()
 
     const h = this.heuristic(state.state)
     const f = state.length + h
 
     if (f > bound || this.should_stop) {
-      return [[state, f], false]
+      return [[null, f], false]
     }
 
     if (this.isGoal(state.state)) {
@@ -235,7 +235,7 @@ export class AStarSlideSolver extends Sliders.SlideSolver {
   private subprocess: IterativeDeepeningSlideSolver
 
   protected async solve_implementation() {
-    let factor = 3
+    let factor = 2
 
     while (!this.should_stop) {
       this.subprocess = new IterativeDeepeningSlideSolver(this.start_state, 1 + factor)

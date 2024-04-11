@@ -101,7 +101,7 @@ export namespace Sliders {
     }
 
     export function permutation_parity(state: SliderState): number {
-      const visited = new Array(25).fill(false)
+      const visited = new Array(state.length).fill(false)
 
       let odd_cycles = 0
       let even_cycles = 0
@@ -129,7 +129,7 @@ export namespace Sliders {
     }
 
     export function isSolveable(state: SliderState): boolean {
-      return permutation_parity(state) % 2 == manhatten(24, blank(state))
+      return permutation_parity(state.filter(i => i != 24)) % 2 == 0
     }
   }
 

@@ -28,6 +28,7 @@ import * as assert from "assert";
 import {TextRendering} from "./ui/TextRendering";
 import {TransportData} from "../data/transports";
 import {PathGraphics} from "./ui/path_graphics";
+import {CrowdSourcing} from "./CrowdSourcing";
 import div = C.div;
 import vbox = C.vbox;
 import span = C.span;
@@ -42,8 +43,6 @@ import resolveTeleport = TransportData.resolveTeleport;
 import npc = C.npc;
 import staticentity = C.staticentity;
 import entity = C.entity;
-import {SlideReader} from "./ui/neosolving/cluereader/SliderReader";
-import {captureHoldScreen, ImgRef} from "@alt1/base";
 
 declare let DEV_MODE: boolean
 
@@ -218,6 +217,8 @@ export class SettingsManagement {
 
 export class Application extends Behaviour {
   version = "b0.3.1"
+
+  crowdsourcing: CrowdSourcing = new CrowdSourcing(this, "https://www.cluetrainer.app")
 
   settings = new SettingsManagement()
 
@@ -395,7 +396,6 @@ export function initialize() {
   let app = new Application()
   Dependencies.instance().app = app
   app.start()
-
 
 
   //scantrainer.select(clues.find((c) => c.id == 361)) // zanaris

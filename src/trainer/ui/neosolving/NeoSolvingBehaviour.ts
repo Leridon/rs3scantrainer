@@ -44,6 +44,7 @@ import {NislIcon} from "../nisl";
 import {ClueProperties} from "../theorycrafting/ClueProperties";
 import {SlideGuider, SliderModal} from "./SlideGuider";
 import {PuzzleModal} from "./PuzzleModal";
+import {Sliders} from "./puzzles/Sliders";
 import span = C.span;
 import todo = util.todo;
 import PulseInformation = ScanTheory.PulseInformation;
@@ -62,6 +63,7 @@ import bold = C.bold;
 import spacer = C.spacer;
 import space = C.space;
 import hboxl = C.hboxl;
+import SliderPuzzle = Sliders.SliderPuzzle;
 
 class NeoSolvingLayer extends GameLayer {
   public control_bar: NeoSolvingLayer.MainControlBar
@@ -527,13 +529,17 @@ class ClueSolvingReadingBehaviour extends Behaviour {
     this.setAutoSolve(false)
   }
 
-  private async solve(): Promise<ClueReader.Result> {
+  private async solve(is_autosolve: boolean = false): Promise<ClueReader.Result> {
     const res = await this.reader.readScreen()
 
     if (res?.step) {
       this.parent.setClueWithAutomaticMethod(res.step)
     } else if (res?.puzzle) {
-      this.parent.setPuzzle(res.puzzle)
+      const is_new_one = this.parent.setPuzzle(res.puzzle)
+
+      if (res.puzzle.type == "slider" && is_new_one) {
+        deps().app.crowdsourcing.pushSlider(SliderPuzzle.getState(res.puzzle.puzzle))
+      }
     }
 
     return res
@@ -549,7 +555,7 @@ class ClueSolvingReadingBehaviour extends Behaviour {
       // TODO: Adaptive timing to avoid running all the time?
 
       this.activeInterval = window.setInterval(() => {
-        this.solve()
+        this.solve(true)
       }, 300)
     }
   }
@@ -587,8 +593,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
     })
   }
 
-  setPuzzle(puzzle: PuzzleModal.Puzzle | null): void {
-    if (this.active_puzzle_modal?.puzzle?.type == puzzle?.type) return // Don't do anything if a puzzle of that type is already active
+  setPuzzle(puzzle: PuzzleModal.Puzzle | null): boolean {
+    if (this.active_puzzle_modal?.puzzle?.type == puzzle?.type) return false // Don't do anything if a puzzle of that type is already active
 
     this.reset()
 
@@ -615,6 +621,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
       this.active_puzzle_modal.start()
     }
+
+    return true
   }
 
   /**

@@ -22,6 +22,7 @@ import NumberSlider from "../../../lib/ui/controls/NumberSlider";
 import {ColorPicker} from "../../../lib/ui/controls/ColorPicker";
 import {util} from "../../../lib/util/util";
 import {SlideGuider} from "../neosolving/SlideGuider";
+import {CrowdSourcing} from "../../CrowdSourcing";
 import cls = C.cls;
 import PotaColor = Settings.PotaColor;
 import hbox = C.hbox;
@@ -674,6 +675,30 @@ class SolvingSettingsEdit extends Widget {
   }
 }
 
+class CrowdSourcingSettingsEdit extends Widget {
+
+  private layout: Properties
+
+  constructor(private value: CrowdSourcing.Settings) {
+    super()
+
+    this.layout = new Properties().appendTo(this)
+
+    this.render()
+  }
+
+  render() {
+
+    this.layout.paragraph("Here you can configure your participation in active crowdsourcing projects. Data is recorded without any personal data and no data beyond what is described here is collected.")
+
+    this.layout.header(new Checkbox("Initial Slider States")
+      .onCommit(v => this.value.slider_states = v)
+      .setValue(this.value.slider_states), "left", 1)
+    this.layout.paragraph("Record the initial order of tiles for puzzle boxes. For every puzzle box encountered while auto-solving is active, the initial state will be recorded.")
+
+  }
+}
+
 export class SettingsEdit extends Widget {
   value: Settings.Settings
 
@@ -702,6 +727,14 @@ export class SettingsEdit extends Widget {
           name: "Teleport Customization",
           short_name: "Teleports",
           renderer: () => new TeleportSettingsEdit(this.value.teleport_customization)
+        }
+        ]
+      }, {
+        name: "Advanced", entries: [{
+          id: "crowdsourcing",
+          name: "Crowdsourcing",
+          short_name: "Crowdsourcing",
+          renderer: () => new CrowdSourcingSettingsEdit(this.value.crowdsourcing)
         }
         ]
       },

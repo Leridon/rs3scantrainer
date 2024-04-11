@@ -331,7 +331,7 @@ export class ClueReader {
           } else {
             return {
               found_ui: found_ui,
-              puzzle: {type: "slider", ui: found_ui, puzzle: null},
+              puzzle: null,
             }
           }
         case "compass": {

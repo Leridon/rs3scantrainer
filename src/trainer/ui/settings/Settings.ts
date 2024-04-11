@@ -2,6 +2,7 @@ import {TypeUtil} from "../../../lib/util/type_util";
 import {ClueTier} from "../../../lib/runescape/clues";
 import {Transportation} from "../../../lib/runescape/transportation";
 import {NeoSolving} from "../neosolving/NeoSolvingBehaviour";
+import {CrowdSourcing} from "../../CrowdSourcing";
 
 export namespace Settings {
   import Tuple = TypeUtil.Tuple;
@@ -29,13 +30,15 @@ export namespace Settings {
   export type Settings = {
     teleport_customization: TeleportSettings,
     solving: NeoSolving.Settings,
+    crowdsourcing: CrowdSourcing.Settings
   }
 
   export function normalize(settings: Settings): Settings {
-    if (!settings) settings = {teleport_customization: undefined, solving: undefined}
+    if (!settings) settings = {teleport_customization: undefined, solving: undefined, crowdsourcing: undefined}
 
     settings.teleport_customization = TeleportSettings.normalize(settings.teleport_customization)
     settings.solving = NeoSolving.Settings.normalize(settings.solving)
+    settings.crowdsourcing = CrowdSourcing.Settings.normalize(settings.crowdsourcing)
 
     return settings
   }

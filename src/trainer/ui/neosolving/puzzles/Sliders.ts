@@ -87,6 +87,11 @@ export namespace Sliders {
       return moves.map(m => SliderState.withMove(state, m))
     }
 
+    function manhatten(a: number, b: number) {
+      return Math.abs(a % 5 - b % 5)
+        + Math.abs(Math.floor(a / 5) - Math.floor(b / 5))
+    }
+
     export function sumManhattenDistance(state: SliderState): number {
       return lodash.sumBy(state.map((target, position) =>
         target == 24 ? 0 :
@@ -124,8 +129,7 @@ export namespace Sliders {
     }
 
     export function isSolveable(state: SliderState): boolean {
-
-      return permutation_parity(state) % 2 == 0
+      return permutation_parity(state) % 2 == manhatten(24, blank(state))
     }
   }
 
@@ -308,7 +312,6 @@ export namespace Sliders {
     timeOver(): boolean {
       return Date.now() >= this.end_time
     }
-
 
     protected async checkTime() {
       const t = Date.now()

@@ -1,14 +1,139 @@
-import {SlideReader} from "./ui/neosolving/cluereader/SliderReader";
-import {captureHoldScreen, ImageDetect, ImgRef, ImgRefData} from "@alt1/base";
+import * as lodash from "lodash";
 import {Sliders} from "./ui/neosolving/puzzles/Sliders";
-import SliderPuzzle = Sliders.SliderPuzzle;
-import parseSliderImage = SlideReader.parseSliderImage;
-import getThemeImageUrl = SlideReader.getThemeImageUrl;
 import {NisModal} from "../lib/ui/NisModal";
+import Properties from "./ui/widgets/Properties";
+import {C} from "../lib/ui/constructors";
+import {AStarSlideSolver} from "./ui/neosolving/puzzles/AStarSlideSolver";
 import LightButton from "./ui/widgets/LightButton";
 import SliderState = Sliders.SliderState;
+import MoveList = Sliders.MoveList;
+import hgrid = C.hgrid;
+import span = C.span;
+import skillbertRandom = Sliders.SlideSolver.skillbertRandom;
+import isSolveable = Sliders.SliderState.isSolveable;
 
 export async function makeshift_main(): Promise<void> {
+
+  console.log(isSolveable([
+    0, 1, 2, 3, 4,
+    5, 6, 7, 8, 9,
+    10, 11, 12, 13, 14,
+    15, 16, 17, 18, 19,
+    20, 21, 23, 22, 24
+  ]))
+  console.log(isSolveable(SliderState.SOLVED))
+
+
+  await (new class extends NisModal {
+
+    layout: Properties
+    run_button: LightButton
+
+    constructor() {
+      super();
+
+      this.title.set("Slider Solving Benchmark")
+    }
+
+    render() {
+      super.render()
+      this.layout = new Properties().appendTo(this.body)
+
+      this.run_button = new LightButton("Run").onClick(() => {
+        this.run()
+      }).appendTo(this.body)
+    }
+
+    private async run() {
+
+      this.run_button.setEnabled(false)
+
+      type Candidate = {
+        name: string,
+        construct: (state: SliderState) => Sliders.SlideSolver
+      }
+
+      type Result = {
+        candidate: Candidate,
+        tests: {
+          start: SliderState,
+          moves: MoveList | null
+        }[],
+        success_count: number
+        average: number
+      }
+
+      const candidates: Candidate[] = [
+        {name: "Skillbert Random", construct: s => skillbertRandom(s)},
+        {name: "IDA* Default", construct: s => new AStarSlideSolver(s)},
+      ]
+
+      const test_set: SliderState[] = []
+
+      const TIMEOUT = 10000
+      const TEST_SIZE = 5
+
+      while (test_set.length < TEST_SIZE) {
+        const shuffled = lodash.shuffle(SliderState.SOLVED)
+
+        if (SliderState.isSolveable(shuffled)) test_set.push(shuffled)
+      }
+
+      const results: Result[] = []
+
+      for (let candidate_i = 0; candidate_i < candidates.length; candidate_i++) {
+        const candidate = candidates[candidate_i]
+
+        const testsResult: Result["tests"] = []
+
+        for (let test_i = 0; test_i < test_set.length; test_i++) {
+          this.layout.empty().row(`Running Candidate ${candidate_i + 1}/${candidates.length}, test ${test_i + 1}/${test_set.length}`)
+
+          const test = test_set[test_i]
+          const solver = candidate.construct(test)
+            .setCombineStraights(true)
+
+          const best = await solver.solve(TIMEOUT)
+
+          testsResult.push({
+            start: test,
+            moves: best
+          })
+        }
+
+        const success = testsResult.filter(e => !!e.moves)
+
+
+        results.push({
+          candidate: candidate,
+          tests: testsResult,
+          success_count: success.length,
+          average: success.length >= 1 ? lodash.sumBy(success, e => e.moves.length) / success.length : -1
+        })
+      }
+
+      const layout = this.layout.empty()
+
+      layout.header("Results")
+      layout.paragraph(`On a total of ${test_set.length} configurations with ${(TIMEOUT / 1000).toFixed(1)}s per configuration.`)
+
+      layout.named("", hgrid(span("#"), span("Average"), span("Performance")))
+
+      const ref_average = results[0].average
+
+      for (let row of results) {
+        layout.named(row.candidate.name, hgrid(
+          c().text(row.success_count),
+          c().text(row.average.toFixed(1)),
+          c().text(`${(100 * (row.average / ref_average - 1)).toFixed(2)}%`),
+        ))
+      }
+
+      this.run_button.setEnabled(false)
+    }
+
+  })
+    .show()
 
   /*
   await (new class extends NisModal {

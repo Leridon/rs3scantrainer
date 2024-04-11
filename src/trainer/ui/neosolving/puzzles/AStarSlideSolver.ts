@@ -102,10 +102,10 @@ export class IterativeDeepeningAStar<UnderlyingState, Move> extends Process<Iter
     })
   }
 
-  private step(state: IterativeDeepeningAStar.State<UnderlyingState, Move>,
-               bound: number
-  ): [[IterativeDeepeningAStar.State<UnderlyingState, Move>, number], boolean] {
-    this.checkTime()
+  private async step(state: IterativeDeepeningAStar.State<UnderlyingState, Move>,
+                     bound: number
+  ): Promise<[[IterativeDeepeningAStar.State<UnderlyingState, Move>, number], boolean]> {
+    await this.checkTime()
 
     const h = this.heuristic(state.state)
     const f = state.length + h
@@ -121,7 +121,7 @@ export class IterativeDeepeningAStar<UnderlyingState, Move> extends Process<Iter
     let min = Number.MAX_SAFE_INTEGER
 
     for (const child of this.getSuccessors(state)) {
-      const [[c, v], solved] = this.step(child, bound,)
+      const [[c, v], solved] = await this.step(child, bound,)
 
       if (solved) return [[c, v], solved]
 
@@ -141,7 +141,7 @@ export class IterativeDeepeningAStar<UnderlyingState, Move> extends Process<Iter
     let bound = this.heuristic(start_state.state)
 
     while (!this.should_stop) {
-      const [[state, v], solved] = this.step(start_state, bound)
+      const [[state, v], solved] = await this.step(start_state, bound)
 
       if (solved) return state
 
@@ -242,11 +242,7 @@ export class AStarSlideSolver extends Sliders.SlideSolver {
         .withTimeout(this.end_time - Date.now())
         .onInterrupt(() => this.updateProgress())
 
-      console.log("Starting subprocess")
-
       const result = await this.subprocess.run()
-
-      console.log("Subprocess ended")
 
       if (result) {
         this.registerSolution(IterativeDeepeningAStar.State.moveSequence(result))
@@ -254,7 +250,7 @@ export class AStarSlideSolver extends Sliders.SlideSolver {
 
       factor *= 0.9
 
-      this.checkTime()
+      await this.checkTime()
     }
   }
 

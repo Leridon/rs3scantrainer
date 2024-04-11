@@ -218,7 +218,7 @@ export class SettingsManagement {
 export class Application extends Behaviour {
   version = "b0.3.1"
 
-  crowdsourcing: CrowdSourcing = new CrowdSourcing(this, "https://www.cluetrainer.app")
+  crowdsourcing: CrowdSourcing = new CrowdSourcing(this, "https://cluetrainer.app")
 
   settings = new SettingsManagement()
 

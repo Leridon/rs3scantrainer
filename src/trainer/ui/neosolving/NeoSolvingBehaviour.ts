@@ -537,8 +537,8 @@ class ClueSolvingReadingBehaviour extends Behaviour {
     } else if (res?.puzzle) {
       const is_new_one = this.parent.setPuzzle(res.puzzle)
 
-      if (res.puzzle.type == "slider" && is_new_one) {
-        deps().app.crowdsourcing.pushSlider(SliderPuzzle.getState(res.puzzle.puzzle))
+      if (is_autosolve && res.puzzle.type == "slider" && is_new_one) {
+        deps().app.crowdsourcing.pushSlider(res.puzzle.puzzle)
       }
     }
 

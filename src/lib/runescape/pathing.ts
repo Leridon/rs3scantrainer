@@ -21,7 +21,6 @@ export namespace Path {
   import cooldown = MovementAbilities.cooldown;
   import capitalize = util.capitalize;
   import EntityTransportation = Transportation.GeneralEntityTransportation;
-  import default_interactive_area = Transportation.EntityTransportation.default_interactive_area;
   import activate = TileArea.activate;
   import defaultInteractiveArea = Transportation.EntityTransportation.defaultInteractiveArea;
   export type PathAssumptions = {
@@ -559,7 +558,7 @@ export namespace Path {
             // TODO: Add uncertainty
           }
 
-          switch (movement.orientation ?? "bymovement") {
+          switch (movement.orientation ?? "toentityafter") {
             case "bymovement":
               state.position.direction = direction.fromVector(Vector2.sub(state.position.tile, start_tile))
               break;

@@ -1,5 +1,5 @@
 {
-  "version": 992,
+  "version": 1012,
   "associations": [
     {
       "group_id": 0,
@@ -212,7 +212,10 @@
         26114,
         15604,
         15605,
-        4577
+        4577,
+        15512,
+        2712,
+        26810
       ],
       "group_name": "Doors",
       "instance_groups": [],
@@ -1627,7 +1630,10 @@
         2827,
         2826,
         2154,
-        2155
+        2155,
+        24626,
+        2079,
+        2400
       ],
       "group_name": "Ignore",
       "instance_groups": [],
@@ -3300,7 +3306,8 @@
     {
       "group_id": 756,
       "loc_ids": [
-        24359
+        24359,
+        37117
       ],
       "per_group_arg": {
         "actions": [
@@ -7080,6 +7087,191 @@
                   }
                 },
                 "time": 1
+              }
+            ]
+          }
+        ]
+      },
+      "group_name": "",
+      "instance_groups": [],
+      "parser_id": "prototypecopyloc"
+    },
+    {
+      "group_id": 992,
+      "loc_ids": [
+        24349,
+        31615
+      ],
+      "per_group_arg": {
+        "actions": [
+          {
+            "action": {
+              "id": 0
+            },
+            "area": {
+              "origin": {
+                "x": 0,
+                "y": -1,
+                "level": 0
+              },
+              "size": {
+                "x": 2,
+                "y": 1
+              }
+            },
+            "movements": [
+              {
+                "movement": {
+                  "offset": {
+                    "x": 0,
+                    "y": 0,
+                    "level": 0
+                  },
+                  "fixed": {
+                    "area": {
+                      "origin": {
+                        "x": 2,
+                        "y": 0,
+                        "level": 1
+                      }
+                    },
+                    "relative": true,
+                    "origin_only": false
+                  }
+                },
+                "time": 1
+              }
+            ]
+          }
+        ]
+      },
+      "group_name": "Varrock Spiral Staircase",
+      "instance_groups": [],
+      "parser_id": "prototypecopyloc"
+    },
+    {
+      "group_id": 993,
+      "loc_ids": [
+        24353,
+        31616
+      ],
+      "per_group_arg": {
+        "actions": [
+          {
+            "action": {
+              "id": 0
+            },
+            "area": {
+              "origin": {
+                "x": 2,
+                "y": 0,
+                "level": 0
+              }
+            },
+            "movements": [
+              {
+                "movement": {
+                  "offset": {
+                    "x": 0,
+                    "y": 0,
+                    "level": 0
+                  },
+                  "fixed": {
+                    "area": {
+                      "origin": {
+                        "x": 1,
+                        "y": -1,
+                        "level": -1
+                      }
+                    },
+                    "relative": false,
+                    "origin_only": false
+                  }
+                },
+                "time": 1
+              }
+            ]
+          }
+        ]
+      },
+      "group_name": "Varrock Spiral Staircase Down",
+      "instance_groups": [],
+      "parser_id": "prototypecopyloc"
+    },
+    {
+      "group_id": 1004,
+      "loc_ids": [
+        24357,
+        24356
+      ],
+      "per_group_arg": {
+        "actions": [
+          {
+            "action": {
+              "id": 0
+            },
+            "area": {
+              "origin": {
+                "x": 0,
+                "y": -1,
+                "level": 0
+              },
+              "size": {
+                "x": 2,
+                "y": 1
+              }
+            },
+            "movements": [
+              {
+                "movement": {
+                  "offset": {
+                    "x": 0,
+                    "y": 4,
+                    "level": 1
+                  }
+                },
+                "time": 2
+              }
+            ]
+          }
+        ]
+      },
+      "group_name": "",
+      "instance_groups": [],
+      "parser_id": "prototypecopyloc"
+    },
+    {
+      "group_id": 1011,
+      "loc_ids": [
+        24367
+      ],
+      "per_group_arg": {
+        "actions": [
+          {
+            "action": {
+              "id": 0
+            },
+            "area": {
+              "origin": {
+                "x": 0,
+                "y": 0,
+                "level": 0
+              },
+              "size": {
+                "x": 1,
+                "y": 1
+              }
+            },
+            "movements": [
+              {
+                "movement": {
+                  "offset": {
+                    "x": 0,
+                    "y": 4,
+                    "level": 1
+                  }
+                },
+                "time": 2
               }
             ]
           }

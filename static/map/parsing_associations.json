@@ -1,5 +1,5 @@
 {
-  "version": 991,
+  "version": 992,
   "associations": [
     {
       "group_id": 0,
@@ -4748,7 +4748,8 @@
         "action": {
           "id": 0
         },
-        "time": 2
+        "time": 2,
+        "plane_offset": -1
       },
       "group_name": "",
       "instance_groups": [

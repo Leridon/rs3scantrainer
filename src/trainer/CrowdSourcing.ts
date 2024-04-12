@@ -22,7 +22,7 @@ export class CrowdSourcing {
     return `${this.server_url}/api/crowdsourcing/${endpoint}`
   }
 
-  pushSlider(slider: SliderPuzzle): void {
+  async pushSlider(slider: SliderPuzzle): Promise<void> {
     if (this.parent.settings.settings.crowdsourcing.slider_states) {
 
       const last = this.last_slider_state.get()
@@ -33,6 +33,9 @@ export class CrowdSourcing {
       if (last && (last.theme == slider.theme || last.timestamp >= timestamp - 4500)) return
 
       const state = SliderPuzzle.getState(slider)
+
+      // Sliders start with the blank in the bottom right. Reject if this isn't the case
+      if (state[24] != 24) return
 
       this.last_slider_state.set({
         timestamp: timestamp,

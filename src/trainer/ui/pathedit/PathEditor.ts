@@ -48,10 +48,14 @@ import default_interactive_area = Transportation.EntityTransportation.default_in
 import vbox = C.vbox;
 import TeleportGroup = Transportation.TeleportGroup;
 import resolveTeleport = TransportData.resolveTeleport;
+import defaultInteractiveArea = Transportation.EntityTransportation.defaultInteractiveArea;
+import interactiveArea = Transportation.EntityAction.interactiveArea;
+import EntityAction = Transportation.EntityAction;
+import TeleportAccess = Transportation.TeleportGroup.TeleportAccess;
 
 function needRepairing(state: movement_state, shortcut: Path.step_transportation): boolean {
   return state.position.tile
-    && activate(shortcut.internal.actions[0].interactive_area ?? default_interactive_area(shortcut.internal.clickable_area))
+    && activate(EntityAction.interactiveArea(shortcut.internal, shortcut.internal.actions[0]))
       .query(state.position.tile)
     && !TileCoordinates.eq2(state.position.tile, shortcut.assumed_start)
 }
@@ -179,7 +183,7 @@ class PathEditorGameLayer extends GameLayer {
                   const current_tile = this.editor.value.cursor_state.value().state?.position?.tile
 
                   let assumed_start = current_tile
-                  const target = access.interactive_area || EntityTransportation.default_interactive_area(TileArea.toRect(access.clickable_area))
+                  const target = TeleportAccess.interactiveArea(access)
 
                   const steps: Path.Step[] = []
 
@@ -228,7 +232,10 @@ class PathEditorGameLayer extends GameLayer {
                 const current_tile = this.editor.value.cursor_state.value().state?.position?.tile
 
                 let assumed_start = current_tile
-                const target = a.interactive_area || EntityTransportation.default_interactive_area(s.clickable_area)
+
+                const target = interactiveArea(s, a)
+
+                console.log(activate(target).getTiles())
 
                 const steps: Path.Step[] = []
 

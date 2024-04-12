@@ -10,7 +10,6 @@ import {deps} from "../../trainer/dependencies";
 
 export namespace Transportation {
 
-
   export type transportation_base = { type: string, source_loc?: number }
 
   export type ImageUrl = { url: string, width?: number, height?: number }
@@ -110,9 +109,15 @@ export namespace Transportation {
   export namespace TeleportGroup {
     import activate = TileArea.activate;
     import PotaColor = Settings.PotaColor;
+
     export namespace TeleportAccess {
+
       export function isAnywhere(access: TeleportAccess): boolean {
         return access.type == "item" || access.type == "spellbook"
+      }
+
+      export function interactiveArea(access: TeleportAccess & { type: "entity" }): TileArea {
+        return access.interactive_area ?? EntityTransportation.default_interactive_area(TileArea.toRect(access.clickable_area))
       }
     }
 
@@ -244,6 +249,10 @@ export namespace Transportation {
         return !movement.valid_from || activate(movement.valid_from).query(tile)
       })
     }
+
+    export function interactiveArea(entity: GeneralEntityTransportation, action: EntityAction): TileArea {
+      return action.interactive_area ?? EntityTransportation.defaultInteractiveArea(entity)
+    }
   }
 
   export namespace EntityTransportation {
@@ -288,6 +297,10 @@ export namespace Transportation {
       tiles.save()
 
       return tiles.parent
+    }
+
+    export function defaultInteractiveArea(transport: GeneralEntityTransportation): TileArea {
+      return default_interactive_area(TileRectangle.extend(transport.clickable_area, -0.5))
     }
 
     export function isLocal(transport: EntityTransportation): boolean {

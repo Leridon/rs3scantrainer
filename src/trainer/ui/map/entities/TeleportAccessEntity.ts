@@ -11,14 +11,13 @@ import {CursorType} from "../../../../lib/runescape/CursorType";
 import * as leaflet from "leaflet";
 import {areaPolygon} from "../../polygon_helpers";
 import {ShortcutViewLayer} from "../../shortcut_editing/ShortcutView";
-import Widget from "../../../../lib/ui/Widget";
 import Properties from "../../widgets/Properties";
 import TeleportAccess = Transportation.TeleportAccess;
 import entity = C.entity;
 import COLORS = ShortcutViewLayer.COLORS;
 import TeleportGroup = Transportation.TeleportGroup;
 import vbox = C.vbox;
-import default_interactive_area = Transportation.EntityTransportation.default_interactive_area;
+
 
 export class TeleportAccessEntity extends MapEntity {
 
@@ -46,7 +45,7 @@ export class TeleportAccessEntity extends MapEntity {
     }).addTo(this);
 
     if (options.highlight) {
-      areaPolygon(access.interactive_area ?? default_interactive_area(TileArea.toRect(access.clickable_area))).setStyle({
+      areaPolygon(TeleportGroup.TeleportAccess.interactiveArea(access)).setStyle({
         color: COLORS.interactive_area,
         fillColor: COLORS.interactive_area,
         interactive: true,

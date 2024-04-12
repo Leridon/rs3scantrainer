@@ -23,6 +23,7 @@ export namespace Path {
   import EntityTransportation = Transportation.GeneralEntityTransportation;
   import default_interactive_area = Transportation.EntityTransportation.default_interactive_area;
   import activate = TileArea.activate;
+  import defaultInteractiveArea = Transportation.EntityTransportation.defaultInteractiveArea;
   export type PathAssumptions = {
     double_surge?: boolean,
     double_escape?: boolean,
@@ -531,7 +532,7 @@ export namespace Path {
           let entity = step.internal
           let action = entity.actions[0]
 
-          let in_interactive_area = !state.position.tile || activate(action.interactive_area || default_interactive_area(entity.clickable_area)).query(state.position.tile)
+          let in_interactive_area = !state.position.tile || activate(action.interactive_area || defaultInteractiveArea(entity)).query(state.position.tile)
 
           if (!in_interactive_area) {
             augmented.issues.push({level: 0, message: "Player is not in the interactive area for this shortcut!"})

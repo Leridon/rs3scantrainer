@@ -1,9 +1,19 @@
 import {Sliders} from "./ui/neosolving/puzzles/Sliders";
 import {Application} from "./application";
 import * as lodash from "lodash";
+import {storage} from "../lib/util/storage";
 import SliderPuzzle = Sliders.SliderPuzzle;
+import SliderState = Sliders.SliderState;
 
 export class CrowdSourcing {
+  private last_slider_state = new storage.Variable<{
+    timestamp: number,
+    theme: string,
+    state: SliderState
+  }>("crowdsourcing/last_slider_state",
+    () => null
+  )
+
   constructor(private parent: Application, private server_url: string) {
 
   }
@@ -14,12 +24,28 @@ export class CrowdSourcing {
 
   pushSlider(slider: SliderPuzzle): void {
     if (this.parent.settings.settings.crowdsourcing.slider_states) {
+
+      const last = this.last_slider_state.get()
+
+      const timestamp = Date.now()
+
+      // Don't use the same theme twice in a row and apply a cooldown to sanitize data
+      if (last && (last.theme == slider.theme || last.timestamp >= timestamp - 4500)) return
+
+      const state = SliderPuzzle.getState(slider)
+
+      this.last_slider_state.set({
+        timestamp: timestamp,
+        theme: slider.theme,
+        state: state
+      })
+
       console.log(`Adding ${slider} to crowdsourcing`)
 
       fetch(this.endpoint("initial_slider_state"), {
         method: "POST",
         body: JSON.stringify({
-          tiles: SliderPuzzle.getState(slider),
+          tiles: state,
           theme: slider.theme
         }),
         headers: {

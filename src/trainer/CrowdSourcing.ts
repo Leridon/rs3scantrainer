@@ -40,14 +40,16 @@ export class CrowdSourcing {
         state: state
       })
 
-      console.log(`Adding ${slider} to crowdsourcing`)
+      const body = JSON.stringify({
+        tiles: state,
+        theme: slider.theme
+      })
+
+      console.log(`Adding ${body} to crowdsourcing`)
 
       fetch(this.endpoint("initial_slider_state"), {
         method: "POST",
-        body: JSON.stringify({
-          tiles: state,
-          theme: slider.theme
-        }),
+        body: body,
         headers: {
           "Content-type": "application/json; charset=UTF-8"
         }

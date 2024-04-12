@@ -22,7 +22,7 @@ export class CrowdSourcing {
     return `${this.server_url}/api/crowdsourcing/${endpoint}`
   }
 
-  pushSlider(slider: SliderPuzzle): void {
+  async pushSlider(slider: SliderPuzzle): Promise<void> {
     if (this.parent.settings.settings.crowdsourcing.slider_states) {
 
       const last = this.last_slider_state.get()
@@ -34,20 +34,25 @@ export class CrowdSourcing {
 
       const state = SliderPuzzle.getState(slider)
 
+      // Sliders start with the blank in the bottom right. Reject if this isn't the case
+      if (state[24] != 24) return
+
       this.last_slider_state.set({
         timestamp: timestamp,
         theme: slider.theme,
         state: state
       })
 
-      console.log(`Adding ${slider} to crowdsourcing`)
+      const body = JSON.stringify({
+        tiles: state,
+        theme: slider.theme
+      })
+
+      console.log(`Adding ${body} to crowdsourcing`)
 
       fetch(this.endpoint("initial_slider_state"), {
         method: "POST",
-        body: JSON.stringify({
-          tiles: state,
-          theme: slider.theme
-        }),
+        body: body,
         headers: {
           "Content-type": "application/json; charset=UTF-8"
         }

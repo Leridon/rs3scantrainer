@@ -1623,9 +1623,17 @@ input[type=checkbox] + span {
 }
 
 .ctr-notification-content {
-    max-width: 600px;
-    min-width: 600px;
     display: flex;
+}
+
+.ctr-notification-content > *:first-child {
+    flex-grow: 1;
+}
+
+.ctr-notification-spacer {
+    flex-grow: 1;
+    max-width: 30px;
+    min-width: 30px;
 }
 
 .ctr-notification-dismiss {
@@ -2162,7 +2170,7 @@ input[type=checkbox] + span {
     height: 100%;
 }
 
-.nisl-color-input > input{
+.nisl-color-input > input {
     height: 20px;
     width: 100%;
 }

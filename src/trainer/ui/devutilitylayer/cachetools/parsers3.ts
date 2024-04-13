@@ -137,6 +137,7 @@ export const parsers3: TransportParser2[] = [
     }),
   parse("simpleremotetransport", "Remote",
     PP.rec({
+      plane_offset: PP.element("Plane Offset", PP.int([-3, 3]), true),
       action: PP.element("Action", PP.locAction()),
       time: PP.element("Time", PP.int([0, 100]).default(3)),
       area: PP.element("Area", PP.tileArea(true), true),
@@ -144,6 +145,7 @@ export const parsers3: TransportParser2[] = [
       target: PP.element("Target", PP.tileArea()),
     }), async (instance, {per_loc, per_instance}) => {
       const builder = EntityTransportationBuilder.from(instance)
+        .planeOffset(per_loc.plane_offset ?? 0)
 
       builder.action({
           index: per_loc.action.id,

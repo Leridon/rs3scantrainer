@@ -64,6 +64,8 @@ import spacer = C.spacer;
 import space = C.space;
 import hboxl = C.hboxl;
 import SliderPuzzle = Sliders.SliderPuzzle;
+import {Notification} from "../NotificationBar";
+import notification = Notification.notification;
 
 class NeoSolvingLayer extends GameLayer {
   public control_bar: NeoSolvingLayer.MainControlBar
@@ -564,7 +566,7 @@ class ClueSolvingReadingBehaviour extends Behaviour {
     const found = await this.solve()
 
     if (!found?.step && !found?.puzzle) {
-      this.parent.app.notifications.notify({type: "error"}, "No clue found on screen.")
+      notification("No clue found on screen.", "error")
     }
   }
 }

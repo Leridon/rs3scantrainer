@@ -2,6 +2,8 @@ import TextArea from "../../../../lib/ui/controls/TextArea";
 import {BigNisButton} from "../BigNisButton";
 import {deps} from "../../../dependencies";
 import {NisModal} from "../../../../lib/ui/NisModal";
+import {Notification} from "../../NotificationBar";
+import notification = Notification.notification;
 
 export default class ExportStringModal extends NisModal {
   textarea: TextArea
@@ -34,10 +36,8 @@ export default class ExportStringModal extends NisModal {
       new BigNisButton("Copy", "confirm")
         .onClick(async () => {
           await navigator.clipboard.writeText(this.string)
-          deps().app.notifications.notify({
-            type: "information"
-          }, "String copied to clipboard!")
 
+          notification("String copied to clipboard!").show()
         })
     ]
   }

@@ -24,9 +24,9 @@ export default class Properties extends Widget {
     return this
   }
 
-  paragraph(text: string): this {
+  paragraph(...text: Appendable[]): this {
 
-    this.row(cls("nisl-property-paragraph").text(text))
+    this.row(cls("nisl-property-paragraph").append(...text))
 
     return this
   }

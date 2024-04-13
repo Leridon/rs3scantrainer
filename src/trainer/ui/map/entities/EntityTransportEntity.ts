@@ -6,22 +6,21 @@ import {OpacityGroup} from "../../../../lib/gamemap/layers/OpacityLayer";
 import * as leaflet from "leaflet";
 import {CursorType} from "../../../../lib/runescape/CursorType";
 import {areaPolygon, boxPolygon2} from "../../polygon_helpers";
-import {floor_t, TileCoordinates, TileRectangle} from "../../../../lib/runescape/coordinates";
+import {floor_t, TileCoordinates} from "../../../../lib/runescape/coordinates";
 import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
-import Widget from "../../../../lib/ui/Widget";
 import Properties from "../../widgets/Properties";
 import {C} from "../../../../lib/ui/constructors";
 import {direction} from "../../../../lib/runescape/movement";
 import {GameMapContextMenuEvent} from "../../../../lib/gamemap/MapEvents";
 import {Menu} from "../../widgets/ContextMenu";
 import {PathGraphics} from "../../path_graphics";
-import default_interactive_area = Transportation.EntityTransportation.default_interactive_area;
 import GeneralEntityTransportation = Transportation.GeneralEntityTransportation;
 import EntityTransportation = Transportation.EntityTransportation;
 import entity = C.entity;
 import isLocal = Transportation.EntityTransportation.Movement.isLocal;
 import activate = TileArea.activate;
 import arrow = PathGraphics.arrow;
+import defaultInteractiveArea = Transportation.EntityTransportation.defaultInteractiveArea;
 
 export class EntityTransportEntity extends MapEntity {
   private normalized_shortcut: GeneralEntityTransportation
@@ -170,7 +169,7 @@ export class EntityTransportEntity extends MapEntity {
         action.movement.forEach(movement => {
 
           if (movement.offset) {
-            let center = TileRectangle.center(TileArea.toRect(movement.valid_from || action.interactive_area || default_interactive_area(TileRectangle.extend(shortcut.clickable_area, -0.5))), true)
+            let center = activate(movement.valid_from || action.interactive_area || defaultInteractiveArea(shortcut)).center()
 
             let target = Vector2.add(center, movement.offset)
 
@@ -189,7 +188,7 @@ export class EntityTransportEntity extends MapEntity {
                 .addTo(this)
             }
 
-            const center = TileArea.activate(movement.valid_from ?? action.interactive_area ?? default_interactive_area(shortcut.clickable_area)).center()
+            const center = TileArea.activate(movement.valid_from ?? action.interactive_area ?? defaultInteractiveArea(shortcut)).center()
             const target = TileArea.normalize(movement.fixed_target.target)
 
             render_transport_arrow(center, activate(target).center(), target.origin.level - center.level).addTo(this)
@@ -197,6 +196,15 @@ export class EntityTransportEntity extends MapEntity {
         })
       }
 
+      if (!shortcut.actions.some(a => !!a.interactive_area)) {
+        areaPolygon(EntityTransportation.defaultInteractiveArea(shortcut)).setStyle({
+          color: COLORS.interactive_area,
+          fillColor: COLORS.interactive_area,
+          interactive: true,
+          fillOpacity: 0.1,
+          weight: 2
+        }).addTo(this)
+      }
     }
 
     return marker.getElement()

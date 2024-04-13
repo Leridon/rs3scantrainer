@@ -40,18 +40,21 @@ import {TeleportAccessEntity} from "../map/entities/TeleportAccessEntity";
 import {TransportData} from "../../../data/transports";
 import {RemoteEntityTransportTarget} from "../map/entities/RemoteEntityTransportTarget";
 import {DrawCheatInteraction} from "./interactions/DrawCheatInteraction";
+import {Notification} from "../NotificationBar";
 import movement_state = Path.movement_state;
 import index = util.index;
-import EntityTransportation = Transportation.EntityTransportation;
 import activate = TileArea.activate;
-import default_interactive_area = Transportation.EntityTransportation.default_interactive_area;
 import vbox = C.vbox;
 import TeleportGroup = Transportation.TeleportGroup;
 import resolveTeleport = TransportData.resolveTeleport;
+import interactiveArea = Transportation.EntityAction.interactiveArea;
+import EntityAction = Transportation.EntityAction;
+import TeleportAccess = Transportation.TeleportGroup.TeleportAccess;
+import notification = Notification.notification;
 
 function needRepairing(state: movement_state, shortcut: Path.step_transportation): boolean {
   return state.position.tile
-    && activate(shortcut.internal.actions[0].interactive_area ?? default_interactive_area(shortcut.internal.clickable_area))
+    && activate(EntityAction.interactiveArea(shortcut.internal, shortcut.internal.actions[0]))
       .query(state.position.tile)
     && !TileCoordinates.eq2(state.position.tile, shortcut.assumed_start)
 }
@@ -95,9 +98,7 @@ class PathEditorGameLayer extends GameLayer {
                     waypoints: path_to_tile,
                   })
                 } else {
-                  deps().app.notifications.notify({
-                    type: "error"
-                  }, "No path found.")
+                  notification("No path found.", "error").show()
                 }
               }
             })
@@ -179,7 +180,7 @@ class PathEditorGameLayer extends GameLayer {
                   const current_tile = this.editor.value.cursor_state.value().state?.position?.tile
 
                   let assumed_start = current_tile
-                  const target = access.interactive_area || EntityTransportation.default_interactive_area(TileArea.toRect(access.clickable_area))
+                  const target = TeleportAccess.interactiveArea(access)
 
                   const steps: Path.Step[] = []
 
@@ -199,9 +200,7 @@ class PathEditorGameLayer extends GameLayer {
                       })
 
                     } else {
-                      deps().app.notifications.notify({
-                        type: "error"
-                      }, "No path to transportation found.")
+                      notification("No path to transportation found.", "error").show()
                     }
                   }
 
@@ -228,7 +227,10 @@ class PathEditorGameLayer extends GameLayer {
                 const current_tile = this.editor.value.cursor_state.value().state?.position?.tile
 
                 let assumed_start = current_tile
-                const target = a.interactive_area || EntityTransportation.default_interactive_area(s.clickable_area)
+
+                const target = interactiveArea(s, a)
+
+                console.log(activate(target).getTiles())
 
                 const steps: Path.Step[] = []
 
@@ -248,9 +250,7 @@ class PathEditorGameLayer extends GameLayer {
                     })
 
                   } else {
-                    deps().app.notifications.notify({
-                      type: "error"
-                    }, "No path to transportation found.")
+                    notification("No path to transportation found.").show()
                   }
                 }
 

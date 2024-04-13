@@ -14,7 +14,6 @@ import MainTabControl from "./ui/MainTabControl";
 import Widget from "../lib/ui/Widget";
 import {makeshift_main} from "./main";
 import {MethodPackManager} from "./model/MethodPackManager";
-import NotificationBar from "./ui/NotificationBar";
 import {C} from "../lib/ui/constructors";
 import {Observable, observe} from "../lib/reactive";
 import {FavoriteIndex} from "./favorites";
@@ -29,11 +28,10 @@ import {TextRendering} from "./ui/TextRendering";
 import {TransportData} from "../data/transports";
 import {PathGraphics} from "./ui/path_graphics";
 import {CrowdSourcing} from "./CrowdSourcing";
-import div = C.div;
+import {Notification, NotificationBar} from "./ui/NotificationBar";
 import vbox = C.vbox;
 import span = C.span;
 import hbox = C.hbox;
-import spacer = C.spacer;
 import ActiveTeleportCustomization = Transportation.TeleportGroup.ActiveTeleportCustomization;
 import TeleportSettings = Settings.TeleportSettings;
 import inlineimg = C.inlineimg;
@@ -43,6 +41,8 @@ import resolveTeleport = TransportData.resolveTeleport;
 import npc = C.npc;
 import staticentity = C.staticentity;
 import entity = C.entity;
+import cls = C.cls;
+import notification = Notification.notification;
 
 declare let DEV_MODE: boolean
 
@@ -174,18 +174,6 @@ class PatchNotesModal extends Modal {
 
 }
 
-class AboutModal extends Modal {
-
-  constructor(id: string, private app: Application) {
-    super(id);
-    jquery("#viewpatchnotes").on("click", async () => {
-
-    })
-
-    jquery("#current-version").text(app.version)
-  }
-}
-
 const DEBUG_SIMULATE_INALT1 = false
 
 export class SettingsManagement {
@@ -216,7 +204,7 @@ export class SettingsManagement {
 }
 
 export class Application extends Behaviour {
-  version = "b0.3.1"
+  version = "0.3.1"
 
   crowdsourcing: CrowdSourcing = new CrowdSourcing(this, "https://cluetrainer.app")
 
@@ -313,7 +301,7 @@ export class Application extends Behaviour {
 
     let map_widget: Widget
 
-    this.notifications = new NotificationBar().appendTo(jquery("body"))
+    this.notifications = NotificationBar.instance().appendTo(jquery("body"))
 
     container.append(
       this.menu_bar = new MainTabControl(this),
@@ -327,33 +315,32 @@ export class Application extends Behaviour {
     this.menu_bar.switchToTab(this.in_alt1 ? "solve" : "solve")
 
     if (this.mode() == "preview") {
-      this.notifications.notify({type: "information", duration: null}, div(
-        "This is a preview release of Scan Trainer and not recommended for general usage. Features may change or disappear without any notice. ",
-        c("<a href='https://leridon.github.io/cluetrainer-live/' style='color: unset; text-decoration: underline'>Click here to get to the official release.</a>")
-      ))
+      if (!this.startup_settings.value().hide_preview_notice) {
+        notification("Preview Notice: Clue Trainer is actively in development and currently incomplete.")
+          .setDuration(null)
+          .addButton("Don't show again", (not) => {
+            this.startup_settings.update(s => s.hide_preview_notice = true)
+            not.dismiss()
+          }).show()
+      }
     }
 
     if (!this.in_alt1 && !this.startup_settings.value().dont_recommend_alt1) {
-      this.notifications.notify({type: "information", duration: null}, not => vbox(
-        span("Scan Trainer is an Alt1 plugin and has clue-solving features when installed."),
-        hbox(
-          c(`<a href='${this.addToAlt1Link()}' class="ctr-notification-link">Click here to install.</a>`),
-          spacer().css("max-width", "60px"),
-          c(`<span class="ctr-notification-link">Don't show again.</span>`).on("click", () => {
-            this.startup_settings.update(s => s.dont_recommend_alt1 = true)
-            not.dismiss()
-          })
-        )
-      ))
+      notification("Clue Trainer is an Alt1 plugin and has clue-solving features when installed.")
+        .setDuration(null)
+        .addButton(c(`<a href='${this.addToAlt1Link()}' class="ctr-notification-link">Click here to install.</a>`))
+        .addButton("Don't show again", (not) => {
+          this.startup_settings.update(s => s.dont_recommend_alt1 = true)
+          not.dismiss()
+        }).show()
     }
 
     if (this.startup_settings.value().last_loaded_version != null && this.startup_settings.value().last_loaded_version != this.version) {
-      this.notifications.notify({type: "information"}, not => vbox(
-        span("There has been an update! "),
-        c(`<span class="ctr-notification-link">View patchnotes.</span>`).on("click", () => {
+      notification("There has been an update!")
+        .addButton("View patchnotes", (not) => {
+          // TODO: Actually view patchnotes
           not.dismiss()
         })
-      ))
     }
 
     this.startup_settings.update(s => s.last_loaded_version = this.version)
@@ -369,6 +356,8 @@ export class Application extends Behaviour {
   }
 
   mode(): "development" | "live" | "preview" {
+    return "preview"
+
     if (window.location.host.includes("localhost"))
       return "development"
 
@@ -388,7 +377,8 @@ export class Application extends Behaviour {
 namespace Application {
   export type Preferences = {
     last_loaded_version?: string,
-    dont_recommend_alt1?: boolean
+    dont_recommend_alt1?: boolean,
+    hide_preview_notice?: boolean
   }
 }
 

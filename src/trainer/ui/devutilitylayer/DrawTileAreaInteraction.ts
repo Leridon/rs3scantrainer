@@ -11,6 +11,8 @@ import {deps} from "../../dependencies";
 import {util} from "../../../lib/util/util";
 import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
 import cleanedJSON = util.cleanedJSON;
+import {Notification} from "../NotificationBar";
+import notification = Notification.notification;
 
 export class DrawTileAreaInteraction extends ValueInteraction<TileCoordinates[]> {
   drawing: {
@@ -56,18 +58,18 @@ export class DrawTileAreaInteraction extends ValueInteraction<TileCoordinates[]>
                 .onClick(() => {
                   if (this.tiles.length > 0) {
                     navigator.clipboard.writeText(cleanedJSON(TileArea.fromTiles(this.tiles)))
-                    deps().app.notifications.notify({}, "Copied")
+                    notification("Copied").show()
                   } else {
-                    deps().app.notifications.notify({type: "error"}, "No tiles")
+                    notification("No tiles", "error")
                   }
                 }),
               new LightButton("Copy Array")
                 .onClick(() => {
                   if (this.tiles.length > 0) {
                     navigator.clipboard.writeText(cleanedJSON(this.tiles))
-                    deps().app.notifications.notify({}, "Copied")
+                    notification("Copied").show()
                   } else {
-                    deps().app.notifications.notify({type: "error"}, "No tiles")
+                   notification("No tiles", "error")
                   }
 
                 }),

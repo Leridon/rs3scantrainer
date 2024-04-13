@@ -12,6 +12,8 @@ import {EditMethodPackModal, NewMethodPackModal} from "./MethodPackModal";
 import {util} from "../../../lib/util/util";
 import exp = ExportImport.exp;
 import cleanedJSON = util.cleanedJSON;
+import {Notification} from "../NotificationBar";
+import notification = Notification.notification;
 
 export default class PackWidget extends Widget {
   constructor(public pack: Pack,
@@ -90,10 +92,7 @@ export default class PackWidget extends Widget {
               if (really) {
                 await manager.deletePack(pack)
 
-                Dependencies.instance().app.notifications.notify({
-                  type: "information",
-                  duration: 3000
-                }, `Deleted pack '${this.pack.name}'`)
+                notification(`Deleted pack '${this.pack.name}'`).show()
               }
             }
           })

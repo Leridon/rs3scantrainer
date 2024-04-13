@@ -21,6 +21,8 @@ import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import GenericPathMethod = SolvingMethods.GenericPathMethod;
 import Method = SolvingMethods.Method;
 import ClueSpot = Clues.ClueSpot;
+import {Notification} from "../NotificationBar";
+import notification = Notification.notification;
 
 class MethodEditSideBar extends MapSideBar {
   save_row: ButtonRow
@@ -84,7 +86,7 @@ class MethodEditSideBar extends MapSideBar {
 
           if (this.parent.method.pack) {
             await MethodPackManager.instance().updateMethod(this.parent.method)
-            Dependencies.instance().app.notifications.notify({type: "information", duration: 3000}, `Successfully saved in Pack '${this.parent.method.pack.name}'.`)
+            notification(`Successfully saved in Pack '${this.parent.method.pack.name}'.`).show()
           } else {
             const result = await new SelectPackModal().do()
 
@@ -92,7 +94,8 @@ class MethodEditSideBar extends MapSideBar {
               await MethodPackManager.instance().updatePack(result.pack, p => p.methods.push(this.parent.method.method))
 
               this.parent.method.pack = result.pack
-              Dependencies.instance().app.notifications.notify({type: "information", duration: 3000}, `Successfully saved in Pack '${this.parent.method.pack.name}'.`)
+
+              notification(`Successfully saved in Pack '${this.parent.method.pack.name}'.`).show()
 
               this.renderSaveRow()
             }

@@ -19,6 +19,7 @@ import ClueSpot = Clues.ClueSpot;
 import natural_join = util.natural_join;
 import plural = util.plural;
 import activate = TileArea.activate;
+import {Notification} from "../NotificationBar";
 
 export class ClueProperties extends Properties {
   render_promise: Promise<this> = null
@@ -158,6 +159,8 @@ export class ClueProperties extends Properties {
 
 export namespace ClueProperties {
 
+  import notification = Notification.notification;
+
   export function header(clue: Clues.ClueSpot) {
     return hbox(
       span(`${ClueType.meta(clue.clue.tier).name} ${ClueType.meta(clue.clue.type).name} Step (Id ${clue.clue.id})`).css("font-weight", "bold"),
@@ -247,10 +250,8 @@ export namespace ClueProperties {
 
                 if (really) {
                   MethodPackManager.instance().deleteMethod(m)
-                  Dependencies.instance().app.notifications.notify({
-                    type: "information",
-                    duration: 3000
-                  }, "Deleted")
+
+                  notification("Deleted").show()
                 }
               }
             })

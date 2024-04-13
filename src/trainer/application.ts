@@ -174,18 +174,6 @@ class PatchNotesModal extends Modal {
 
 }
 
-class AboutModal extends Modal {
-
-  constructor(id: string, private app: Application) {
-    super(id);
-    jquery("#viewpatchnotes").on("click", async () => {
-
-    })
-
-    jquery("#current-version").text(app.version)
-  }
-}
-
 const DEBUG_SIMULATE_INALT1 = false
 
 export class SettingsManagement {
@@ -216,7 +204,7 @@ export class SettingsManagement {
 }
 
 export class Application extends Behaviour {
-  version = "b0.3.1"
+  version = "0.3.1"
 
   crowdsourcing: CrowdSourcing = new CrowdSourcing(this, "https://cluetrainer.app")
 
@@ -338,7 +326,7 @@ export class Application extends Behaviour {
     }
 
     if (!this.in_alt1 && !this.startup_settings.value().dont_recommend_alt1) {
-      notification("Scan Trainer is an Alt1 plugin and has clue-solving features when installed.")
+      notification("Clue Trainer is an Alt1 plugin and has clue-solving features when installed.")
         .setDuration(null)
         .addButton(c(`<a href='${this.addToAlt1Link()}' class="ctr-notification-link">Click here to install.</a>`))
         .addButton("Don't show again", (not) => {

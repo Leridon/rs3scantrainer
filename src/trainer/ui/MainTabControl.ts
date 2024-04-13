@@ -11,6 +11,7 @@ import Behaviour from "../../lib/ui/Behaviour";
 import NeoSolvingBehaviour from "./neosolving/NeoSolvingBehaviour";
 import Properties from "./widgets/Properties";
 import {SettingsModal} from "./settings/SettingsEdit";
+import {AboutModal} from "../AboutModal";
 import spacer = C.spacer;
 import span = C.span;
 
@@ -137,9 +138,11 @@ export default class MainTabControl extends Widget {
           , {
             placement: "right",
             hideOnClick: false
-          })
-      ,
-      c(`<div style="font-size: 6pt" class='nisl-textlink'>Version b0.3.1</div>`)
+          }),
+      c(`<div style="font-size: 8pt" class='nisl-textlink'>About</div>`)
+        .on("click", () => {
+          new AboutModal().show()
+        })
     )
 
     this.updateState()

@@ -2159,7 +2159,7 @@ input[type=checkbox] + span {
 }
 
 .ctr-modal-fullscreen > .nisl-modal {
-    height: 100%;
+    min-height: 100%;
 }
 
 .nisl-color-input > input{

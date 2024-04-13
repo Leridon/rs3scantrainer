@@ -131,6 +131,16 @@ export namespace Sliders {
     export function isSolveable(state: SliderState): boolean {
       return permutation_parity(state.filter(i => i != 24)) % 2 == 0
     }
+
+    export function createRandom(): SliderState {
+      let state: SliderState = null
+
+      do {
+        state = [...lodash.shuffle(SOLVED.slice(0, 24)), 24]
+      } while (!isSolveable(state));
+
+      return state
+    }
   }
 
   /**

@@ -3,7 +3,6 @@ import * as a1lib from "@alt1/base";
 import {captureHoldFullRs, ImgRef} from "@alt1/base";
 import {AnchorImages} from "./AnchorImages";
 import {Rectangle, Vector2} from "../../../../lib/math";
-import {deps} from "../../../dependencies";
 import {ModalUI, ModalUIReader} from "../../../../skillbertssolver/cluesolver/modeluireader";
 import {util} from "../../../../lib/util/util";
 import {coldiff} from "../../../../skillbertssolver/oldlib";
@@ -15,8 +14,10 @@ import {clue_data} from "../../../../data/clues";
 import {getdirection, isArcClue} from "../../../../skillbertssolver/cluesolver/compassclue";
 import {SlideReader} from "./SliderReader";
 import {PuzzleModal} from "../PuzzleModal";
+import {Notification} from "../../NotificationBar";
 import stringSimilarity = util.stringSimilarity;
 import ScanStep = Clues.ScanStep;
+import notification = Notification.notification;
 
 const CLUEREADERDEBUG = false
 const CLUEREADERDEBUG_READ_SCREEN_INSTEAD_OF_RS = false // This is broken
@@ -210,11 +211,9 @@ export class ClueReader {
 
           if (CLUEREADERDEBUG) {
             if (modal_type) {
-              deps().app.notifications.notify({},
-                `Modal type ${modal_type}`)
+              notification(`Modal type ${modal_type}`).show()
             } else {
-              deps().app.notifications.notify({type: "error"},
-                `No modal type identified'`)
+              notification(`No modal type identified'`).show()
             }
           }
 
@@ -275,14 +274,12 @@ export class ClueReader {
             img, Rectangle.screenOrigin(found_ui.rect)
           )
 
-          if (CLUEREADERDEBUG) deps().app.notifications.notify({},
-            `Scan ${scan_text_full}`)
+          if (CLUEREADERDEBUG) notification(`Scan ${scan_text_full}`).show()
 
           const scan_text = scan_text_full.split("\n")[0]
 
           if (CLUEREADERDEBUG)
-            deps().app.notifications.notify({},
-              `Scan ${scan_text}`)
+            notification(`Scan ${scan_text}`).show()
 
           let bestscore = 0;
           let best: ScanStep | null = null;
@@ -320,7 +317,7 @@ export class ClueReader {
               )
             })
 
-            deps().app.notifications.notify({}, `Found theme ${res.theme}`)
+            notification(`Found theme ${res.theme}`).show()
           }
 
           if (res.match_score >= SlideReader.DETECTION_THRESHOLD_SCORE) {
@@ -338,8 +335,7 @@ export class ClueReader {
           const compass_state = ClueReader.readCompassState(img, Vector2.add(found_ui.rect.topleft, {x: -53, y: 54}))
 
           if (CLUEREADERDEBUG)
-            deps().app.notifications.notify({},
-              `Compass ${JSON.stringify(compass_state)}`)
+            notification(`Compass ${JSON.stringify(compass_state)}`).show()
 
           if (compass_state.isArc) return {found_ui: found_ui, step: {step: clue_data.arc_compass, text_index: 0}}
           else return {found_ui: found_ui, step: {step: clue_data.gielinor_compass, text_index: 0}}

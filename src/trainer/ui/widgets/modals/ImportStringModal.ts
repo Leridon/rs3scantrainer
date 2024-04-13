@@ -2,6 +2,8 @@ import TextArea from "../../../../lib/ui/controls/TextArea";
 import {BigNisButton} from "../BigNisButton";
 import {deps} from "../../../dependencies";
 import {FormModal} from "../../../../lib/ui/controls/FormModal";
+import {Notification} from "../../NotificationBar";
+import notification = Notification.notification;
 
 export default class ImportStringModal<T> extends FormModal<{
   imported: T
@@ -43,9 +45,7 @@ export default class ImportStringModal<T> extends FormModal<{
 
             if (imported == null) {
 
-              deps().app.notifications.notify({
-                type: "error",
-              }, "Invalid input")
+              notification("Invalid input").setType("error").show()
 
               return
             }

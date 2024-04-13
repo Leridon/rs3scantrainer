@@ -28,6 +28,8 @@ import vbox = C.vbox;
 import hbox = C.hbox;
 import spacer = C.spacer;
 import cleanedJSON = util.cleanedJSON;
+import {Notification} from "../NotificationBar";
+import notification = Notification.notification;
 
 class ChunkGridGraticule extends Graticule {
   constructor() {
@@ -214,7 +216,7 @@ class GeometryDrawing extends GameLayer {
           new LightButton("Copy").onClick(() => {
             if (this.value) {
               navigator.clipboard.writeText(this.value)
-              deps().app.notifications.notify({type: "information"}, "Copied")
+              notification("Copied").show()
             }
           })
         ),

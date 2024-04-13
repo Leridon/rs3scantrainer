@@ -1,52 +1,116 @@
 import Widget from "../../lib/ui/Widget";
 import {C} from "../../lib/ui/constructors";
-import spacer = C.spacer;
 import cls = C.cls;
+import Appendable = C.Appendable;
 
-class Notification extends Widget {
-  body: Widget = null
-  content: Widget = null
+export class Notification {
+  private _type: Notification.Kind = "information"
+  _duration: number | null = 3000
+  private hasDismiss: boolean = true
+  private options: {
+    content: string | Widget,
+    handler: (not: NotificationInstance) => void
+  }[] = []
+  private _content: Appendable = c()
 
-  constructor(public options: {
-    type?: "error" | "information",
-    duration?: number | null,
-    fixed?: boolean
-  }) {
-    super();
-
-    this.addClass("ctr-notification")
-      .addClass(`ctr-notification-${options.type ?? "information"}`)
-
-    this.body = cls("ctr-notification-content").appendTo(this)
-
-    this.body.append(spacer()
-      .css("max-width", "30px")
-      .css("min-width", "30px")
-    )
-
-    if (!options.fixed) {
-      this.body.append(c("<div class='ctr-notification-dismiss'>&times;</div>")
-        .tooltip("Dismiss")
-        .on("click", () => this.dismiss()))
-    }
+  constructor() {
 
   }
 
-  setContent(content: Widget): this {
-    if (this.content) this.content.remove()
+  show(bar: NotificationBar = undefined) {
+    if (!bar) bar = NotificationBar.instance()
 
-    this.content = content.css("flex-grow", "1").prependTo(this.body)
+    bar.do(this)
+  }
+
+  render(instance: NotificationInstance): Widget {
+    const widget = cls("ctr-notification")
+
+    widget
+      .addClass(`ctr-notification-${this._type ?? "information"}`)
+
+    const body = cls("ctr-notification-content")
+      .append(
+        this._content,
+      )
+      .appendTo(widget)
+
+    for (let option of this.options) {
+      const content = typeof option.content == "string"
+        ? cls("ctr-notification-link").append(option.content)
+        : option.content
+
+      body.append(
+        cls("ctr-notification-spacer"),
+        content.on("click", () => {
+          option.handler(instance)
+        }),
+      )
+    }
+
+    if (this.hasDismiss) {
+      body.append(
+        cls("ctr-notification-spacer"),
+        c("<div class='ctr-notification-dismiss'>&times;</div>")
+          .tooltip("Dismiss")
+          .on("click", () => instance.dismiss()))
+    }
+
+    return widget
+  }
+
+  setType(type: Notification.Kind): this {
+    this._type = type
 
     return this
   }
 
-  dismiss(fade: boolean = false) {
-    if (fade) this.container.fadeOut(300, () => this.remove())
-    else this.remove()
+  addButton(text: string | Widget, handler: (_: NotificationInstance) => void = () => {}): this {
+    this.options.push({
+      content: text,
+      handler: handler
+    })
+
+    return this
+  }
+
+  setDuration(duration: number | null): this {
+    this._duration = duration
+
+    return this
+  }
+
+  setContent(content: Appendable): this {
+    this._content = content
+
+    return this
   }
 }
 
-export default class NotificationBar extends Widget {
+
+export class NotificationInstance {
+  widget: Widget
+
+  constructor(private original: Notification,
+              private bar: NotificationBar) {
+    this.widget = original.render(this)
+  }
+
+  dismiss(fade: boolean = false) {
+    if (fade) this.widget.container.fadeOut(300, () => this.widget.remove())
+    else this.widget.remove()
+  }
+}
+
+export namespace Notification {
+  export type Kind = "error" | "information"
+
+  export function notification(content: Appendable, type: "error" | "information" = "information"): Notification {
+    return new Notification().setContent(content).setType(type)
+  }
+}
+
+export class NotificationBar extends Widget {
 
   constructor() {
     super();
@@ -55,37 +119,29 @@ export default class NotificationBar extends Widget {
   }
 
   do(notification: Notification): this {
-    notification
+    const instance = new NotificationInstance(notification, this)
+
+    instance.widget
       .css("display", "none")
       .appendTo(this)
       .container.animate({
       "height": "toggle"
     }, 300)
 
-    if (notification.options.duration !== null) {
+    if (notification._duration != null) {
       setTimeout(() => {
-        notification.dismiss(true)
-      }, notification.options.duration ?? 3000)
+        instance.dismiss(true)
+      }, notification._duration)
     }
 
     return this
   }
 
-  notify(options: {
-    type?: "error" | "information",
-    duration?: number | null,
-    fixed?: boolean
-  }, content: (string | Widget | ((_: Notification) => (string | Widget)))) {
+  static _instance: NotificationBar = null
 
-    let notification = new Notification(options)
+  static instance(): NotificationBar {
+    if (!this._instance) this._instance = new NotificationBar()
 
-    if (typeof content == "function") content = content(notification)
-    if (typeof content == "string") content = c().text(content)
-
-    notification.setContent(content)
-
-    this.do(notification)
-
-    return notification
+    return this._instance
   }
 }

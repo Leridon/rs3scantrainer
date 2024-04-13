@@ -10,6 +10,8 @@ import {FormModal} from "../../../lib/ui/controls/FormModal";
 import AbstractEditWidget from "../widgets/AbstractEditWidget";
 import {util} from "../../../lib/util/util";
 import copyUpdate = util.copyUpdate;
+import {Notification} from "../NotificationBar";
+import notification = Notification.notification;
 
 export class MethodPackMetaEdit extends AbstractEditWidget<Pack.Meta> {
 
@@ -114,9 +116,7 @@ export class NewMethodPackModal extends FormModal<{
                 methods: []
               })
 
-          deps().app.notifications.notify({
-            type: "information"
-          }, `Method Pack '${pack.name}' created!`)
+          notification(`Method Pack '${pack.name}' created!`).show()
 
           this.confirm({
             created: pack
@@ -157,9 +157,7 @@ export class EditMethodPackModal extends FormModal<{
           const pack = await MethodPackManager.instance().updatePack(this.pack,
             p => Pack.setMeta(p, this.edit.get()))
 
-          deps().app.notifications.notify({
-            type: "information"
-          }, `Saved changes to method Pack '${pack.name}'!`)
+          notification(`Saved changes to method Pack '${pack.name}'!`).show()
 
           this.confirm({
             saved: true

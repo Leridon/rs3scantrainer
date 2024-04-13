@@ -40,18 +40,17 @@ import {TeleportAccessEntity} from "../map/entities/TeleportAccessEntity";
 import {TransportData} from "../../../data/transports";
 import {RemoteEntityTransportTarget} from "../map/entities/RemoteEntityTransportTarget";
 import {DrawCheatInteraction} from "./interactions/DrawCheatInteraction";
+import {Notification} from "../NotificationBar";
 import movement_state = Path.movement_state;
 import index = util.index;
-import EntityTransportation = Transportation.EntityTransportation;
 import activate = TileArea.activate;
-import default_interactive_area = Transportation.EntityTransportation.default_interactive_area;
 import vbox = C.vbox;
 import TeleportGroup = Transportation.TeleportGroup;
 import resolveTeleport = TransportData.resolveTeleport;
-import defaultInteractiveArea = Transportation.EntityTransportation.defaultInteractiveArea;
 import interactiveArea = Transportation.EntityAction.interactiveArea;
 import EntityAction = Transportation.EntityAction;
 import TeleportAccess = Transportation.TeleportGroup.TeleportAccess;
+import notification = Notification.notification;
 
 function needRepairing(state: movement_state, shortcut: Path.step_transportation): boolean {
   return state.position.tile
@@ -99,9 +98,7 @@ class PathEditorGameLayer extends GameLayer {
                     waypoints: path_to_tile,
                   })
                 } else {
-                  deps().app.notifications.notify({
-                    type: "error"
-                  }, "No path found.")
+                  notification("No path found.", "error").show()
                 }
               }
             })
@@ -203,9 +200,7 @@ class PathEditorGameLayer extends GameLayer {
                       })
 
                     } else {
-                      deps().app.notifications.notify({
-                        type: "error"
-                      }, "No path to transportation found.")
+                      notification("No path to transportation found.", "error").show()
                     }
                   }
 
@@ -255,9 +250,7 @@ class PathEditorGameLayer extends GameLayer {
                     })
 
                   } else {
-                    deps().app.notifications.notify({
-                      type: "error"
-                    }, "No path to transportation found.")
+                    notification("No path to transportation found.").show()
                   }
                 }
 

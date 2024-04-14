@@ -201,6 +201,20 @@ export class PathStepEntity extends MapEntity {
           }).addTo(this)
 
           return marker.getElement()
+
+        }
+
+        case "cosmetic": {
+          const marker = leaflet.marker(Vector2.toLatLong(step.position), {
+            icon: leaflet.icon({
+              iconUrl: `assets/icons/${step.icon}`,
+              iconSize: options.highlight ? [42, 48] : [28, 31],
+              iconAnchor: options.highlight ? [6, 2] : [4, 1],
+              className: cls
+            })
+          }).addTo(this)
+
+          return marker.getElement()
         }
 
       }

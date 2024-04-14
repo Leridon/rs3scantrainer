@@ -86,8 +86,18 @@ export namespace Path {
     ticks: number
   }
 
-  export type Step = step_orientation | step_ability | step_run | step_teleport | step_redclick | step_powerburst | step_transportation | step_cheat
+  export type step_cosmetic = step_base & {
+    type: "cosmetic",
+    icon: string,
+    position: TileCoordinates,
+    area?: TileArea,
+    area_color?: string,
+    area_only_on_hover?: boolean
+    arrow?: [TileCoordinates, TileCoordinates],
+    arrow_color?: string
+  }
 
+  export type Step = step_orientation | step_ability | step_run | step_teleport | step_redclick | step_powerburst | step_transportation | step_cheat | step_cosmetic
 
   export type movement_state = {
     tick: number,
@@ -226,6 +236,7 @@ export namespace Path {
         case "redclick":
         case "orientation":
         case "powerburst":
+        case "cosmetic":
           break;
       }
     }
@@ -618,6 +629,9 @@ export namespace Path {
           state.acceleration_activation_tick = state.tick
 
           break;
+        case "cosmetic":
+          // Cosmetic steps do nothing to the movement state
+          break
       }
 
       augmented.post_state = lodash.cloneDeep(state)
@@ -660,7 +674,8 @@ export namespace Path {
         return "Use Powerburst"
       case "cheat":
         return "Custom Movement"
-
+      case "cosmetic":
+        return "Note"
     }
 
     return "MISSING"
@@ -728,6 +743,8 @@ export namespace Path {
           return bounds
         case "orientation":
           return Rectangle.from({x: 0, y: 0})
+        case "cosmetic":
+          return Rectangle.from(step.position)
         default:
           return null
       }
@@ -751,6 +768,8 @@ export namespace Path {
           return step.internal.clickable_area.level
         case "cheat":
           return step.target.level
+        case "cosmetic":
+          return step.position.level
       }
     }
 

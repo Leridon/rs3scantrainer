@@ -16,7 +16,7 @@ import * as assert from "assert";
 import * as lodash from "lodash";
 import {Menu, MenuEntry} from "../widgets/ContextMenu";
 import PlaceRedClickInteraction from "./interactions/PlaceRedClickInteraction";
-import SelectTileInteraction from "../../../lib/gamemap/interaction/SelectTileInteraction";
+import {SelectTileInteraction} from "../../../lib/gamemap/interaction/SelectTileInteraction";
 import InteractionTopControl from "../map/InteractionTopControl";
 import DrawRunInteraction from "./interactions/DrawRunInteraction";
 import {direction, PathFinder} from "../../../lib/runescape/movement";

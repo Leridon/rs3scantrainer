@@ -1,6 +1,6 @@
 import {Path} from "lib/runescape/pathing";
 import InteractionTopControl from "../../map/InteractionTopControl";
-import SelectTileInteraction from "../../../../lib/gamemap/interaction/SelectTileInteraction";
+import {SelectTileInteraction} from "../../../../lib/gamemap/interaction/SelectTileInteraction";
 import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInteraction";
 import ContextMenu, {Menu, MenuEntry} from "../../widgets/ContextMenu";
 import {PathStepEntity} from "../../map/entities/PathStepEntity";

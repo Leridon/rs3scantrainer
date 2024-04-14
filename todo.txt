@@ -1,5 +1,9 @@
 Planned for next release (b0.4):
 
+Must be done in April:
+    - Cosmetic Path Step
+    - Ngis' transport list
+
 - Solving Behaviour
     - Path Panel
         - [Feature] Disable default teleport render when contained in step

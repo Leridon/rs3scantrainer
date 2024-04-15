@@ -452,7 +452,7 @@ export namespace ScanTree {
   export function defaultScanTreeInstructions(node: AugmentedScanTreeNode): string {
     let path_short =
       node.raw.path.length > 0
-        ? node.raw.path.map(PathingGraphics.templateString).join(" - ")
+        ? node.raw.path.filter(p => p.type != "cosmetic").map(PathingGraphics.templateString).join(" - ")
         : "Go"
 
     /* TODO:

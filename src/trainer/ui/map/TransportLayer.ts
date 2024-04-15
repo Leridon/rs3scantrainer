@@ -11,50 +11,72 @@ import TeleportGroup = Transportation.TeleportGroup;
 import EntityTransportation = Transportation.EntityTransportation;
 
 export default class TransportLayer extends GameLayer {
-  constructor(interactive: boolean) {
+  constructor(interactive: boolean, config: TransportLayer.Options = {
+    teleport_policy: "all",
+    transport_policy: "all"
+  }) {
     super();
 
-    deps().app.settings.active_teleport_customization.subscribe(customization => {
-      this.eachEntity(e => {
-        if (e instanceof TeleportSpotEntity) {
-          e.teleport.refresh()
+    if (config.teleport_policy == "all") {
+      deps().app.settings.active_teleport_customization.subscribe(customization => {
+        this.eachEntity(e => {
+          if (e instanceof TeleportSpotEntity) {
+            e.teleport.refresh()
 
-          e.render(true)
-        }
-      })
-    }, false, e => this.handler_pool.bind(e))
-
-    TransportData.getAll().then(transports => transports.forEach(trans => {
-      if (trans.type == "entity" || trans.type == "door") {
-        new EntityTransportEntity(trans)
-          .setInteractive(interactive).addTo(this)
-
-
-        if (trans.type == "entity") {
-
-          trans.actions.forEach(action => {
-            action.movement.forEach(movement => {
-              if (!EntityTransportation.Movement.isLocal(movement)) {
-                new RemoteEntityTransportTarget(trans, action, movement)
-                  .setInteractive(interactive).addTo(this)
-              }
-            })
-          })
-        }
-      } else if (trans.type == "teleports") {
-        trans.spots.forEach(spot => {
-          new TeleportSpotEntity(new TeleportGroup.Spot(trans, spot, trans.access[0]))
-            .setInteractive(interactive)
-            .addTo(this)
-        })
-
-        trans.access.forEach(access => {
-          if (access.type == "entity") {
-            new TeleportAccessEntity(trans, access)
-              .setInteractive(interactive)
-              .addTo(this)
+            e.render(true)
           }
         })
+      }, false, e => this.handler_pool.bind(e))
+    }
+
+    TransportData.getAll().then(transports => transports.forEach(trans => {
+      switch (trans.type) {
+        case "entity":
+        case "door":
+          if (config.transport_policy != "all") break;
+
+          new EntityTransportEntity(trans)
+            .setInteractive(interactive).addTo(this)
+
+          if (trans.type == "entity") {
+            trans.actions.forEach(action => {
+              action.movement.forEach(movement => {
+                if (!EntityTransportation.Movement.isLocal(movement)) {
+                  new RemoteEntityTransportTarget(trans, action, movement)
+                    .setInteractive(interactive).addTo(this)
+                }
+              })
+            })
+          }
+
+          break
+
+        case "teleports":
+          if (config.teleport_policy == "none") break;
+
+          trans.spots.forEach(spot => {
+            new TeleportSpotEntity(new TeleportGroup.Spot(trans, spot, trans.access[0]))
+              .setInteractive(interactive)
+              .addTo(this)
+          })
+
+          if (config.teleport_policy != "target_only") {
+            trans.access.forEach(access => {
+              if (access.type == "entity") {
+                new TeleportAccessEntity(trans, access)
+                  .setInteractive(interactive)
+                  .addTo(this)
+              }
+            })
+          }
+
+          break;
+      }
+
+      if (trans.type == "entity" || trans.type == "door") {
+
+      } else if (trans.type == "teleports") {
+
       }
     }))
 
@@ -67,6 +89,11 @@ export namespace TransportLayer {
   import TeleportAccess = Transportation.TeleportAccess;
   import TeleportGroup = Transportation.TeleportGroup;
   import EntityTransportation = Transportation.EntityTransportation;
+
+  export type Options = {
+    teleport_policy: "all" | "target_only" | "none"
+    transport_policy: "all" | "none",
+  }
 
   export type Config = {
     contructors?: {

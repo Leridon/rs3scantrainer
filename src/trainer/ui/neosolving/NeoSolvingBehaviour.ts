@@ -14,7 +14,7 @@ import PreparedSearchIndex from "../../../lib/util/PreparedSearchIndex";
 import {Observable, observe} from "../../../lib/reactive";
 import {floor_t, TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 import * as lodash from "lodash";
-import {Vector2} from "../../../lib/math";
+import {Rectangle, Vector2} from "../../../lib/math";
 import {util} from "../../../lib/util/util";
 import {Path} from "../../../lib/runescape/pathing";
 import {AugmentedMethod, MethodPackManager} from "../../model/MethodPackManager";
@@ -44,7 +44,8 @@ import {NislIcon} from "../nisl";
 import {ClueProperties} from "../theorycrafting/ClueProperties";
 import {SlideGuider, SliderModal} from "./SlideGuider";
 import {PuzzleModal} from "./PuzzleModal";
-import {Sliders} from "./puzzles/Sliders";
+import {Notification} from "../NotificationBar";
+import TransportLayer from "../map/TransportLayer";
 import span = C.span;
 import todo = util.todo;
 import PulseInformation = ScanTheory.PulseInformation;
@@ -63,8 +64,6 @@ import bold = C.bold;
 import spacer = C.spacer;
 import space = C.space;
 import hboxl = C.hboxl;
-import SliderPuzzle = Sliders.SliderPuzzle;
-import {Notification} from "../NotificationBar";
 import notification = Notification.notification;
 
 class NeoSolvingLayer extends GameLayer {
@@ -82,6 +81,8 @@ class NeoSolvingLayer extends GameLayer {
 
   constructor(private behaviour: NeoSolvingBehaviour) {
     super();
+
+    new TransportLayer(true, {transport_policy: "none", teleport_policy: "target_only"}).addTo(this)
 
     this.sidebar = new GameMapControl({
       position: "top-left",
@@ -331,9 +332,8 @@ export class ScanTreeSolvingControl extends Behaviour {
     }
 
     // 6. The path
-    // TODO: Include path bounds, without augmenting it!
 
-    bounds.addRectangle(Path.bounds(node.raw.path))
+    if (node.raw.path.length > 0) bounds.addRectangle(Path.bounds(node.raw.path))
 
     this.parent.layer.fit(bounds.get())
   }
@@ -353,7 +353,8 @@ export class ScanTreeSolvingControl extends Behaviour {
       this.parent.layer.getMap().floor.set(Math.min(...node.remaining_candidates.map((c) => c.level)) as floor_t)
     }
 
-    if (pos && node.remaining_candidates.length > 1) {
+    if (pos && node.remaining_candidates.length > 1
+      && !(node.region && node.region.area && Rectangle.width(TileArea.toRect(node.region.area)) > this.method.method.tree.assumed_range * 2)) {
       this.parent.layer.scan_layer.marker.setFixedSpot(pos)
     } else {
       this.parent.layer.scan_layer.marker.setFixedSpot(null)

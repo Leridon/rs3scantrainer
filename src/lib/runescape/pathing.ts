@@ -723,7 +723,7 @@ export namespace Path {
   }
 
   export function level(path: Path): floor_t {
-    return Step.level(path[path.length - 1])
+    return path.length == 0 ? 0 : Step.level(path[path.length - 1])
   }
 
   export namespace Step {

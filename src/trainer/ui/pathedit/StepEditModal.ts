@@ -12,7 +12,14 @@ import InteractionSelect from "./InteractionSelect";
 import {EntityNameEdit} from "../widgets/EntityNameEdit";
 import TextField from "../../../lib/ui/controls/TextField";
 import NumberInput from "../../../lib/ui/controls/NumberInput";
+import {SearchSelection} from "../widgets/SearchSelection";
+import {CTRIcon} from "../../CTRIcon";
+import {C} from "../../../lib/ui/constructors";
+import {Checkbox} from "../../../lib/ui/controls/Checkbox";
 import copyUpdate = util.copyUpdate;
+import hboxl = C.hboxl;
+import inlineimg = C.inlineimg;
+import {ColorPicker} from "../../../lib/ui/controls/ColorPicker";
 
 class StepDetailEdit extends AbstractEditWidget<Path.Step> {
 
@@ -153,6 +160,42 @@ class StepDetailEdit extends AbstractEditWidget<Path.Step> {
         )
 
         break;
+
+      case "cosmetic":
+        props.named("Icon", new SearchSelection<CTRIcon>({
+            type_class: {
+              toHTML: (v: CTRIcon): C.Appendable => hboxl(inlineimg(CTRIcon.url(v)), C.space(), v.name)
+            },
+            search_term: CTRIcon.search_term
+          }, CTRIcon.all)
+            .setValue(CTRIcon.get(value.icon))
+            .onSelection(v => {
+              this.commit(copyUpdate(this.get() as Path.step_cosmetic, e => e.icon = v.id))
+            })
+        )
+
+        props.row(new Checkbox("Hide when not hovered?")
+          .setValue(!!value.hide_when_not_hovered)
+          .onCommit(v =>
+            this.commit(copyUpdate(this.get() as Path.step_cosmetic, e => e.hide_when_not_hovered = v))
+          )
+        )
+
+        props.named("Area Color", new ColorPicker()
+          .setValue(value.area_color ?? Path.COSMETIC_DEFAULT_COLORS.area)
+          .onCommit(v => {
+            this.commit(copyUpdate(this.get() as Path.step_cosmetic, e => e.area_color = v))
+          })
+        )
+
+        props.named("Arrow Color", new ColorPicker()
+          .setValue(value.arrow_color ?? Path.COSMETIC_DEFAULT_COLORS.arrow)
+          .onCommit(v => {
+            this.commit(copyUpdate(this.get() as Path.step_cosmetic, e => e.arrow_color = v))
+          })
+        )
+
+        break
     }
   }
 }

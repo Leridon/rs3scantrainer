@@ -137,8 +137,8 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
             .onCommit((step) => self.editor.value.add(step))
           )
         }).tooltip("Cheat"),
-        cosmetic: new ActionBarButton('assets/icons/Rotten_potato.png', (e) => {
-          return interact(new DrawCosmeticInteraction("Meerkats_pouch.png")
+        cosmetic: new ActionBarButton('assets/icons/notes.png', (e) => {
+          return interact(new DrawCosmeticInteraction()
             .onCommit((step) => self.editor.value.add(step))
           )
         }).tooltip("Cosmetic"),

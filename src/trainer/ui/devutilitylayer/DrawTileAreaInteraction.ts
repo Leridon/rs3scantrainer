@@ -7,11 +7,10 @@ import InteractionTopControl from "../map/InteractionTopControl";
 import {GameMap} from "../../../lib/gamemap/GameMap";
 import ButtonRow from "../../../lib/ui/ButtonRow";
 import LightButton from "../widgets/LightButton";
-import {deps} from "../../dependencies";
 import {util} from "../../../lib/util/util";
 import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
-import cleanedJSON = util.cleanedJSON;
 import {Notification} from "../NotificationBar";
+import cleanedJSON = util.cleanedJSON;
 import notification = Notification.notification;
 
 export class DrawTileAreaInteraction extends ValueInteraction<TileCoordinates[]> {
@@ -21,7 +20,7 @@ export class DrawTileAreaInteraction extends ValueInteraction<TileCoordinates[]>
 
   tiles: TileCoordinates[] = []
 
-  constructor(start_tiles: TileCoordinates[] = []) {
+  constructor(start_tiles: TileCoordinates[] = [], private show_commands: boolean = false) {
     super({
       preview_render: area => {
         let lay = leaflet.featureGroup()
@@ -48,7 +47,7 @@ export class DrawTileAreaInteraction extends ValueInteraction<TileCoordinates[]>
         c("<div style='font-family: monospace; white-space:pre'></div>")
           .append(c().text(`[Shift + Mouse] add tiles`))
           .append(c().text(`[Alt + Mouse] remove tiles`))
-          .append(new ButtonRow()
+          .append(!this.show_commands ? undefined : new ButtonRow()
             .buttons(
               new LightButton("Commit")
                 .onClick(() => {
@@ -69,7 +68,7 @@ export class DrawTileAreaInteraction extends ValueInteraction<TileCoordinates[]>
                     navigator.clipboard.writeText(cleanedJSON(this.tiles))
                     notification("Copied").show()
                   } else {
-                   notification("No tiles", "error")
+                    notification("No tiles", "error")
                   }
 
                 }),

@@ -197,7 +197,7 @@ class GeometryDrawing extends GameLayer {
           }),
           new ActionBar.ActionBarButton("assets/icons/cursor_pray.png", () => {
 
-            this.guard.set(new DrawTileAreaInteraction())
+            this.guard.set(new DrawTileAreaInteraction([], true))
               .onCommit((a) => {
                 //this.setLayer(boxPolygon(a.area))
 

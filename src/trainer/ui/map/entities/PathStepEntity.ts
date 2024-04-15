@@ -4,7 +4,6 @@ import * as leaflet from "leaflet";
 import {Rectangle, Vector2} from "../../../../lib/math";
 import {floor_t, TileCoordinates, TileRectangle} from "../../../../lib/runescape/coordinates";
 import {MapEntity} from "../../../../lib/gamemap/MapEntity";
-import Widget from "../../../../lib/ui/Widget";
 import {PathStepProperties} from "../../pathing/PathStepProperties";
 import Dependencies from "../../../dependencies";
 import {GameLayer} from "../../../../lib/gamemap/GameLayer";
@@ -16,6 +15,9 @@ import {Menu} from "../../widgets/ContextMenu";
 import {FloorLevels} from "../../../../lib/gamemap/ZoomLevels";
 import {Transportation} from "../../../../lib/runescape/transportation";
 import {PathGraphics} from "../../path_graphics";
+import {MapIcon} from "../MapIcon";
+import {CTRIcon} from "../../../CTRIcon";
+import {areaPolygon} from "../../polygon_helpers";
 import arrow = PathGraphics.arrow;
 import createX = PathGraphics.createX;
 
@@ -201,18 +203,30 @@ export class PathStepEntity extends MapEntity {
           }).addTo(this)
 
           return marker.getElement()
-
         }
 
         case "cosmetic": {
-          const marker = leaflet.marker(Vector2.toLatLong(step.position), {
-            icon: leaflet.icon({
-              iconUrl: `assets/icons/${step.icon}`,
-              iconSize: options.highlight ? [42, 48] : [28, 31],
-              iconAnchor: options.highlight ? [6, 2] : [4, 1],
-              className: cls
-            })
+          const marker = new MapIcon(step.position, {
+            icon: CTRIcon.get(step.icon),
+            scale: options.highlight ? 1.5 : 1,
+            cls: cls
           }).addTo(this)
+
+          if (options.highlight || !step.hide_when_not_hovered) {
+            if (step.area) {
+              areaPolygon(step.area).setStyle({
+                color: step.area_color ?? Path.COSMETIC_DEFAULT_COLORS.area,
+                weight: options.highlight ? 6 : 4
+              }).addTo(this)
+            }
+
+            if (step.arrow) {
+              arrow(step.arrow[0], step.arrow[1]).setStyle({
+                color: step.arrow_color ?? Path.COSMETIC_DEFAULT_COLORS.arrow,
+                weight: options.highlight ? 6 : 4
+              }).addTo(this)
+            }
+          }
 
           return marker.getElement()
         }

@@ -10,6 +10,7 @@ import {TileArea} from "./coordinates/TileArea";
 import {CursorType} from "./CursorType";
 import {EntityName} from "./EntityName";
 import {TransportData} from "../../data/transports";
+import {CTRIcon} from "../../trainer/CTRIcon";
 import movement_ability = MovementAbilities.movement_ability;
 
 export type Path = Path.raw;
@@ -88,13 +89,18 @@ export namespace Path {
 
   export type step_cosmetic = step_base & {
     type: "cosmetic",
-    icon: string,
+    icon: CTRIcon.ID,
     position: TileCoordinates,
+    hide_when_not_hovered?: boolean,
     area?: TileArea,
     area_color?: string,
-    area_only_on_hover?: boolean
     arrow?: [TileCoordinates, TileCoordinates],
     arrow_color?: string
+  }
+
+  export const COSMETIC_DEFAULT_COLORS = {
+    arrow: "#6970d9",
+    area: "#6970d9",
   }
 
   export type Step = step_orientation | step_ability | step_run | step_teleport | step_redclick | step_powerburst | step_transportation | step_cheat | step_cosmetic

@@ -190,8 +190,6 @@ export namespace TemplateResolver {
     export function parse(input: string, table: Record<string, Function>): Expression {
       const tokens = tokenize(input)
 
-      console.log(tokens)
-
       let lookahead_index = 0
 
       function getLookahead(): Token {

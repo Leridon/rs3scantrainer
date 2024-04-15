@@ -6,22 +6,21 @@ import InteractionTopControl from "../../map/InteractionTopControl";
 
 
 export class DrawCosmeticInteraction extends ValueInteraction<Path.step_cosmetic> {
-  constructor(private icon: string) {
+  constructor(private prototype: Path.step_cosmetic = {type: "cosmetic", icon: "notes", position: {x: 0, y: 0, level: 0}}) {
     super({
-      preview_render: step => new PathStepEntity(step).setInteractive(false)
+      preview_render: step => new PathStepEntity({...step, hide_when_not_hovered: false}).setInteractive(false)
     });
 
     this.attachTopControl(new InteractionTopControl({name: "Place Path Annotation"}).setContent(
       c("<div style='font-family: monospace; white-space:pre'></div>")
-        .append(c().text(`Hold [Shift] to disable snapping`))
+        .append(c().text(`Hold [Shift] to disable tile-snapping`))
     ))
 
     new SelectTileInteraction({}, "optional").addTo(this)
       .onChange(v => {
         const t: Path.step_cosmetic = {
-          type: "cosmetic",
+          ...this.prototype,
           position: v.value,
-          icon: this.icon
         }
 
         if (v.committed) this.commit(t)

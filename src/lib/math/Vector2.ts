@@ -89,6 +89,10 @@ export namespace Vector2 {
     return leaflet.latLng(point.y, point.x)
   }
 
+  export function asTuple(point: Vector2): [number, number] {
+    return [point.x, point.y]
+  }
+
   export function fromLatLong(point: LatLng): Vector2 {
     return {x: point.lng, y: point.lat}
   }

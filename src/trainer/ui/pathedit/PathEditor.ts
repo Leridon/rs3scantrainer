@@ -16,7 +16,7 @@ import * as assert from "assert";
 import * as lodash from "lodash";
 import {Menu, MenuEntry} from "../widgets/ContextMenu";
 import PlaceRedClickInteraction from "./interactions/PlaceRedClickInteraction";
-import SelectTileInteraction from "../../../lib/gamemap/interaction/SelectTileInteraction";
+import {SelectTileInteraction} from "../../../lib/gamemap/interaction/SelectTileInteraction";
 import InteractionTopControl from "../map/InteractionTopControl";
 import DrawRunInteraction from "./interactions/DrawRunInteraction";
 import {direction, PathFinder} from "../../../lib/runescape/movement";
@@ -35,12 +35,15 @@ import {BookmarkStorage} from "./BookmarkStorage";
 import {PathEditOverlayControl} from "./PathEditOverlays";
 import {C} from "../../../lib/ui/constructors";
 import {PathEditMenuBar} from "./PathEditMenuBar";
-import {deps} from "../../dependencies";
 import {TeleportAccessEntity} from "../map/entities/TeleportAccessEntity";
 import {TransportData} from "../../../data/transports";
 import {RemoteEntityTransportTarget} from "../map/entities/RemoteEntityTransportTarget";
 import {DrawCheatInteraction} from "./interactions/DrawCheatInteraction";
 import {Notification} from "../NotificationBar";
+import {DrawCosmeticInteraction} from "./interactions/DrawCosmeticInteraction";
+import {DrawTileAreaInteraction} from "../devutilitylayer/DrawTileAreaInteraction";
+import {DrawArrowInteraction} from "./interactions/DrawArrowInteraction";
+import {PathGraphics} from "../path_graphics";
 import movement_state = Path.movement_state;
 import index = util.index;
 import activate = TileArea.activate;
@@ -51,6 +54,7 @@ import interactiveArea = Transportation.EntityAction.interactiveArea;
 import EntityAction = Transportation.EntityAction;
 import TeleportAccess = Transportation.TeleportGroup.TeleportAccess;
 import notification = Notification.notification;
+import arrow = PathGraphics.arrow;
 
 function needRepairing(state: movement_state, shortcut: Path.step_transportation): boolean {
   return state.position.tile
@@ -535,6 +539,14 @@ export class PathEditor extends Behaviour {
           }))
           .attachTopControl(new InteractionTopControl().setName("Selecting tile").setText(`Select the specific target of the teleport by clicking the tile.`))
       )
+    } else if (v.raw.type == "cosmetic") {
+      this.editStep(
+        value,
+        new DrawCosmeticInteraction(v.raw)
+          .onCommit(new_s => value.update<Path.step_cosmetic>(v => {
+            Object.assign(v, new_s)
+          }))
+      )
     }
   }
 
@@ -564,7 +576,7 @@ export class PathEditor extends Behaviour {
       })
     }
 
-    if (step.step.raw.type == "powerburst" || step.step.raw.type == "redclick" || step.step.raw.type == "teleport") {
+    if (step.step.raw.type == "powerburst" || step.step.raw.type == "redclick" || step.step.raw.type == "teleport" || step.step.raw.type == "cosmetic") {
 
       entries.push({
         type: "basic",
@@ -617,6 +629,47 @@ export class PathEditor extends Behaviour {
             step.update<Path.step_redclick>(s => s.how = cursor.type)
           }
         }))
+      })
+    }
+
+    if (step.step.raw.type == "cosmetic") {
+
+      const s = step.step.raw
+
+      entries.push({
+        type: "basic",
+        text: `Edit area`,
+        handler: () => {
+          this.editStep(step,
+            new DrawTileAreaInteraction(s.area ? activate(s.area).getTiles() : [])
+              .setPreviewFunction(tiles =>
+                leaflet.featureGroup(
+                  tiles.map(tile => tilePolygon(tile)
+                    .setStyle({
+                      color: s.arrow_color ?? Path.COSMETIC_DEFAULT_COLORS.area,
+                      fillOpacity: 0.4,
+                      stroke: false
+                    })
+                  )))
+              .onPreview(tiles => {
+                s.area = TileArea.fromTiles(tiles)
+              })
+          )
+        }
+      })
+
+      entries.push({
+        type: "basic",
+        text: `Edit arrow`,
+        handler: () => {
+          this.editStep(step,
+            new DrawArrowInteraction(true)
+              .setPreviewFunction(([from, to]) => arrow(from, to).setStyle({weight: 4, color: s.arrow_color ?? Path.COSMETIC_DEFAULT_COLORS.arrow}))
+              .onCommit(tiles => {
+                s.arrow = tiles
+              })
+          )
+        }
       })
     }
 

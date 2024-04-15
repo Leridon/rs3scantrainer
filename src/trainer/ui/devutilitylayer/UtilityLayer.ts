@@ -10,7 +10,7 @@ import {areaPolygon, tilePolygon} from "../polygon_helpers";
 import LightButton from "../widgets/LightButton";
 import {floor_t, TileCoordinates} from "../../../lib/runescape/coordinates";
 import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
-import SelectTileInteraction from "../../../lib/gamemap/interaction/SelectTileInteraction";
+import {SelectTileInteraction} from "../../../lib/gamemap/interaction/SelectTileInteraction";
 import InteractionTopControl from "../map/InteractionTopControl";
 import {GameMapKeyboardEvent, GameMapMouseEvent, GameMapViewChangedEvent} from "../../../lib/gamemap/MapEvents";
 import {C} from "../../../lib/ui/constructors";
@@ -197,7 +197,7 @@ class GeometryDrawing extends GameLayer {
           }),
           new ActionBar.ActionBarButton("assets/icons/cursor_pray.png", () => {
 
-            this.guard.set(new DrawTileAreaInteraction())
+            this.guard.set(new DrawTileAreaInteraction([], true))
               .onCommit((a) => {
                 //this.setLayer(boxPolygon(a.area))
 

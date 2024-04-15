@@ -5,18 +5,30 @@ import {Observable, observe} from "lib/reactive";
 export class ValueInteraction<T> extends InteractionLayer {
   private _preview: leaflet.Layer = null
 
+  private previewFunction: (_: T) => leaflet.Layer
+
   value: Observable<{ value: T, committed: boolean }> = observe({value: null, committed: false})
 
   constructor(protected config: ValueInteraction.option_t<T> = {}) {
     super();
 
+    this.setPreviewFunction(config.preview_render)
+
     if (config.preview_render) {
       this.onPreview(value => {
         if (this._preview) this._preview.remove()
 
-        if (value != null) this._preview = this.config.preview_render(value)?.addTo(this)
+        if (value != null) this._preview = this.previewFunction?.(value)?.addTo(this)
       })
     }
+  }
+
+  setPreviewFunction(f: (_: T) => leaflet.Layer): this {
+    this.previewFunction = f
+
+    this.preview(this.value.value().value)
+
+    return this
   }
 
   cancel() {

@@ -18,6 +18,9 @@ import surge_cooldown = Path.movement_state.surge_cooldown;
 import escape_cooldown = Path.movement_state.escape_cooldown;
 import barge_cooldown = Path.movement_state.barge_cooldown;
 import dive_cooldown = Path.movement_state.dive_cooldown;
+import {SelectTileInteraction} from "../../../lib/gamemap/interaction/SelectTileInteraction";
+import {TileMarker} from "../../../lib/gamemap/TileMarker";
+import {DrawCosmeticInteraction} from "./interactions/DrawCosmeticInteraction";
 
 export default class PathEditActionBar extends GameMapControl<ControlWithHeader> {
   bar: ActionBar
@@ -31,6 +34,7 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
     redclick: ActionBarButton,
     powerburst: ActionBarButton,
     cheat: ActionBarButton,
+    cosmetic: ActionBarButton
   }
 
   state: Observable<movement_state> = observe(movement_state.start({}))
@@ -132,7 +136,12 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
           return interact(new DrawCheatInteraction(self.state.value().position?.tile)
             .onCommit((step) => self.editor.value.add(step))
           )
-        }).tooltip("Cheat")
+        }).tooltip("Cheat"),
+        cosmetic: new ActionBarButton('assets/icons/notes.png', (e) => {
+          return interact(new DrawCosmeticInteraction()
+            .onCommit((step) => self.editor.value.add(step))
+          )
+        }).tooltip("Cosmetic"),
       }
 
       this.bar = new ActionBar([
@@ -143,7 +152,8 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
         this.buttons.run,
         this.buttons.redclick,
         this.buttons.powerburst,
-        this.buttons.cheat
+        this.buttons.cheat,
+        this.buttons.cosmetic
       ]).appendTo(this.content.body)
     }
 

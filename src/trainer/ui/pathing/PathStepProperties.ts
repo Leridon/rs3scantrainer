@@ -90,6 +90,7 @@ export class PathStepProperties extends Properties {
 
         break;
 
+      case "cosmetic":
       case "ability":
       case "teleport":
       case "cheat":
@@ -98,9 +99,7 @@ export class PathStepProperties extends Properties {
     }
 
     if (this.step.description) {
-      this.header("Additional Info", "left", 1)
-
-      this.row(c().append(...this.template_resolver.resolve(this.step.description)))
+      this.paragraph(...this.template_resolver.resolve(this.step.description))
     }
   }
 }
@@ -134,7 +133,8 @@ export namespace PathStepProperties {
         return "Use entity"
       case "cheat":
         return "Cheat"
-
+      case "cosmetic":
+        return "Note"
     }
   }
 }

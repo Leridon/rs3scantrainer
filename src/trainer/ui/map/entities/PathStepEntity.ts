@@ -4,7 +4,6 @@ import * as leaflet from "leaflet";
 import {Rectangle, Vector2} from "../../../../lib/math";
 import {floor_t, TileCoordinates, TileRectangle} from "../../../../lib/runescape/coordinates";
 import {MapEntity} from "../../../../lib/gamemap/MapEntity";
-import Widget from "../../../../lib/ui/Widget";
 import {PathStepProperties} from "../../pathing/PathStepProperties";
 import Dependencies from "../../../dependencies";
 import {GameLayer} from "../../../../lib/gamemap/GameLayer";
@@ -16,6 +15,9 @@ import {Menu} from "../../widgets/ContextMenu";
 import {FloorLevels} from "../../../../lib/gamemap/ZoomLevels";
 import {Transportation} from "../../../../lib/runescape/transportation";
 import {PathGraphics} from "../../path_graphics";
+import {MapIcon} from "../MapIcon";
+import {CTRIcon} from "../../../CTRIcon";
+import {areaPolygon} from "../../polygon_helpers";
 import arrow = PathGraphics.arrow;
 import createX = PathGraphics.createX;
 
@@ -45,33 +47,33 @@ export class PathStepEntity extends MapEntity {
 
     const cls = floor_group.value.correct_level ? "ctr-step-graphics" : "ctr-step-graphics-dl"
 
+    const scale = options.highlight ? 1.5 : 1
+    const weight = scale * 3
+
     const element: Element = (() => {
       switch (step.type) {
         case "orientation":
           return null
         case "ability": {
-          const meta: Record<MovementAbilities.movement_ability, { color: string, icon: string }> = {
-            barge: {color: "#a97104", icon: "assets/icons/barge.png"},
-            dive: {color: "#e7d82c", icon: "assets/icons/dive.png"},
-            escape: {color: "#56ba0f", icon: "assets/icons/escape.png"},
-            surge: {color: "#0091f2", icon: "assets/icons/surge.png"}
+          const meta: Record<MovementAbilities.movement_ability, { color: string, icon: CTRIcon.ID }> = {
+            barge: {color: "#a97104", icon: "ability-barge"},
+            dive: {color: "#e7d82c", icon: "ability-dive-combined"},
+            escape: {color: "#56ba0f", icon: "ability-escape"},
+            surge: {color: "#0091f2", icon: "ability-surge"}
           }
 
           arrow(step.from, step.to)
             .setStyle({
               color: meta[step.ability].color,
-              weight: options.highlight ? 6 : 4,
+              weight: weight,
               interactive: true,
               className: cls
             }).addTo(this)
 
-          const marker = leaflet.marker(Vector2.toLatLong(Vector2.scale(1 / 2, Vector2.add(step.from, step.to))), {
-            icon: leaflet.icon({
-              iconUrl: meta[step.ability].icon,
-              iconSize: options.highlight ? [36, 36] : [24, 24],
-              iconAnchor: options.highlight ? [18, 18] : [12, 12],
-              className: cls
-            })
+          const marker = new MapIcon(Vector2.scale(1 / 2, Vector2.add(step.from, step.to)), {
+            icon: CTRIcon.get(meta[step.ability].icon),
+            scale: scale,
+            cls: cls
           }).addTo(this)
 
           return marker.getElement()
@@ -92,14 +94,14 @@ export class PathStepEntity extends MapEntity {
             lines.map((t) => t.map(Vector2.toLatLong)),
             {
               color: "#b4b4b4",
-              weight: options.highlight ? 6 : 4,
+              weight: weight,
               className: cls
             }
           ).addTo(this)
 
           let marker = createX(step.waypoints[step.waypoints.length - 1],
             "yellow",
-            options.highlight ? 30 : 20,
+            scale * 16,
             cls
           ).addTo(this)
 
@@ -109,39 +111,42 @@ export class PathStepEntity extends MapEntity {
           let teleport = TransportData.resolveTeleport(step.id)
 
           const marker = leaflet.marker(Vector2.toLatLong(step.spot ?? teleport.centerOfTarget()), {
-            icon: new TeleportSpotEntity.TeleportMapIcon(teleport, options.highlight ? 1.5 : 1),
-            riseOnHover: true
+            icon: new TeleportSpotEntity.TeleportMapIcon(teleport, scale, w => w.addClass(cls)),
+            riseOnHover: true,
           }).addTo(this)
+
+          if (options.highlight) {
+            areaPolygon(teleport.targetArea())
+              .setStyle({
+                fillColor: "lightgreen",
+                color: "lightgreen",
+                stroke: true
+              }).addTo(this)
+          }
 
           return marker.getElement()
         }
         case "redclick": {
 
           createX(step.where, "red",
-            options.highlight ? 30 : 20,
+            scale * 20,
             "ctr-step-graphics"
           ).addTo(this)
 
-          const marker = leaflet.marker(Vector2.toLatLong(step.where), {
-            icon: leaflet.icon({
-              iconUrl: CursorType.meta(step.how).icon_url,
-              iconSize: options.highlight ? [42, 48] : [28, 31],
-              iconAnchor: options.highlight ? [6, 2] : [4, 1],
-              className: cls
-            })
+          const marker = new MapIcon(step.where, {
+            icon: CursorType.getIcon(step.how),
+            scale: scale,
+            cls: cls
           }).addTo(this)
 
           return marker.getElement()
         }
         case "powerburst": {
 
-          const marker = leaflet.marker(Vector2.toLatLong(step.where), {
-            icon: leaflet.icon({
-              iconUrl: "assets/icons/accel.png",
-              iconSize: options.highlight ? [26, 36] : [18, 24],
-              iconAnchor: options.highlight ? [13, 18] : [9, 12],
-              className: cls
-            })
+          const marker = new MapIcon(step.where, {
+            icon: CTRIcon.get("item/powerburst-of-acceleration"),
+            scale: scale,
+            cls: cls,
           }).addTo(this)
 
           return marker.getElement()
@@ -160,18 +165,15 @@ export class PathStepEntity extends MapEntity {
           arrow(step.assumed_start, is_remote ? center_of_entity : ends_up)
             .setStyle({
               color: "#069334",
-              weight: options.highlight ? 6 : 4,
+              weight: weight,
               dashArray: '10, 10',
               className: cls
             }).addTo(this)
 
-          const marker = leaflet.marker(Vector2.toLatLong(center_of_entity), {
-            icon: leaflet.icon({
-              iconUrl: CursorType.meta(action.cursor).icon_url,
-              iconSize: options.highlight ? [42, 48] : [28, 31],
-              iconAnchor: options.highlight ? [6, 2] : [4, 1],
-              className: cls
-            }),
+          const marker = new MapIcon(center_of_entity, {
+            icon: CursorType.getIcon(action.cursor),
+            scale: scale,
+            cls: cls
           }).addTo(this)
 
           return marker.getElement();
@@ -185,20 +187,43 @@ export class PathStepEntity extends MapEntity {
             arrow(step.assumed_start, step.target)
               .setStyle({
                 color: "#069334",
-                weight: options.highlight ? 6 : 4,
+                weight: weight,
                 dashArray: '10, 10',
                 className: cls
               }).addTo(this)
           }
 
-          const marker = leaflet.marker(Vector2.toLatLong(marker_pos), {
-            icon: leaflet.icon({
-              iconUrl: "assets/icons/Rotten_potato.png",
-              iconSize: options.highlight ? [33, 24] : [21, 16],
-              iconAnchor: options.highlight ? [15, 12] : [10, 8],
-              className: cls
-            }),
+          const marker = new MapIcon(marker_pos, {
+            icon: CTRIcon.get("item/rotten-potato"),
+            cls: cls,
+            scale: scale
           }).addTo(this)
+
+          return marker.getElement()
+        }
+
+        case "cosmetic": {
+          const marker = new MapIcon(step.position, {
+            icon: CTRIcon.get(step.icon),
+            scale: options.highlight ? 1.5 : 1,
+            cls: cls
+          }).addTo(this)
+
+          if (options.highlight || !step.hide_when_not_hovered) {
+            if (step.area) {
+              areaPolygon(step.area).setStyle({
+                color: step.area_color ?? Path.COSMETIC_DEFAULT_COLORS.area,
+                weight: weight
+              }).addTo(this)
+            }
+
+            if (step.arrow) {
+              arrow(step.arrow[0], step.arrow[1]).setStyle({
+                color: step.arrow_color ?? Path.COSMETIC_DEFAULT_COLORS.arrow,
+                weight: weight
+              }).addTo(this)
+            }
+          }
 
           return marker.getElement()
         }

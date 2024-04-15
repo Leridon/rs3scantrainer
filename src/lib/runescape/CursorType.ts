@@ -1,4 +1,5 @@
 import {EntityName} from "./EntityName";
+import {CTRIcon} from "../../trainer/CTRIcon";
 
 export type CursorType =
   "generic"
@@ -127,6 +128,17 @@ export namespace CursorType {
       case "loot":
       case "equip":
         return {kind: "item", name: "Item"}
+    }
+  }
+
+  export function getIcon(cursor: CursorType): CTRIcon {
+    const meta = CursorType.meta(cursor)
+    return {
+      file_name: `${meta.short_icon}.png`,
+      id: "",
+      name: meta.description,
+      size_on_map: {x: 28, y: 31},
+      map_anchor: {x: 4, y: 1}
     }
   }
 

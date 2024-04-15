@@ -41,6 +41,9 @@ import {RemoteEntityTransportTarget} from "../map/entities/RemoteEntityTransport
 import {DrawCheatInteraction} from "./interactions/DrawCheatInteraction";
 import {Notification} from "../NotificationBar";
 import {DrawCosmeticInteraction} from "./interactions/DrawCosmeticInteraction";
+import {DrawTileAreaInteraction} from "../devutilitylayer/DrawTileAreaInteraction";
+import {DrawArrowInteraction} from "./interactions/DrawArrowInteraction";
+import {PathGraphics} from "../path_graphics";
 import movement_state = Path.movement_state;
 import index = util.index;
 import activate = TileArea.activate;
@@ -51,8 +54,7 @@ import interactiveArea = Transportation.EntityAction.interactiveArea;
 import EntityAction = Transportation.EntityAction;
 import TeleportAccess = Transportation.TeleportGroup.TeleportAccess;
 import notification = Notification.notification;
-import {DrawTileAreaInteraction} from "../devutilitylayer/DrawTileAreaInteraction";
-import {DrawArrowInteraction} from "./interactions/DrawArrowInteraction";
+import arrow = PathGraphics.arrow;
 
 function needRepairing(state: movement_state, shortcut: Path.step_transportation): boolean {
   return state.position.tile
@@ -630,7 +632,7 @@ export class PathEditor extends Behaviour {
       })
     }
 
-    if(step.step.raw.type == "cosmetic") {
+    if (step.step.raw.type == "cosmetic") {
 
       const s = step.step.raw
 
@@ -640,10 +642,19 @@ export class PathEditor extends Behaviour {
         handler: () => {
           this.editStep(step,
             new DrawTileAreaInteraction(s.area ? activate(s.area).getTiles() : [])
+              .setPreviewFunction(tiles =>
+                leaflet.featureGroup(
+                  tiles.map(tile => tilePolygon(tile)
+                    .setStyle({
+                      color: s.arrow_color ?? Path.COSMETIC_DEFAULT_COLORS.area,
+                      fillOpacity: 0.4,
+                      stroke: false
+                    })
+                  )))
               .onPreview(tiles => {
                 s.area = TileArea.fromTiles(tiles)
               })
-            )
+          )
         }
       })
 
@@ -653,11 +664,11 @@ export class PathEditor extends Behaviour {
         handler: () => {
           this.editStep(step,
             new DrawArrowInteraction(true)
+              .setPreviewFunction(([from, to]) => arrow(from, to).setStyle({weight: 4, color: s.arrow_color ?? Path.COSMETIC_DEFAULT_COLORS.arrow}))
               .onCommit(tiles => {
-                console.log("Commit arrow")
                 s.arrow = tiles
               })
-            )
+          )
         }
       })
     }

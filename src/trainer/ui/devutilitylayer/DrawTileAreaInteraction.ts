@@ -22,20 +22,15 @@ export class DrawTileAreaInteraction extends ValueInteraction<TileCoordinates[]>
 
   constructor(start_tiles: TileCoordinates[] = [], private show_commands: boolean = false) {
     super({
-      preview_render: area => {
-        let lay = leaflet.featureGroup()
-
-        for (let tile of area) {
-          tilePolygon(tile)
+      preview_render: area =>  leaflet.featureGroup(
+          area.map(tile => tilePolygon(tile)
             .setStyle({
               color: "blue",
               fillOpacity: 0.4,
               stroke: false
-            }).addTo(lay)
-        }
-
-        return lay
-      }
+            })
+          )
+        )
     });
 
     this.tiles = start_tiles

@@ -68,7 +68,7 @@ export class DrawArrowInteraction extends ValueInteraction<[TileCoordinates, Til
   eventHover(event: GameMapMouseEvent) {
     event.onPost(() => {
       if (this.start_position.value()) {
-        this.preview([this.start_position.value(), event.tile()])
+        this.previewed_target_position.set(event.coordinates)
       }
     })
   }
@@ -83,7 +83,7 @@ export class DrawArrowInteraction extends ValueInteraction<[TileCoordinates, Til
 
     if(this.allow_off_grid) {
       event.onPost(() => {
-        if (event.original.key == "Shift") this.snap_target_position.set(true)
+        if (event.original.key == "Shift") this.snap_target_position.set(false)
       })
     }
   }
@@ -91,7 +91,7 @@ export class DrawArrowInteraction extends ValueInteraction<[TileCoordinates, Til
   eventKeyUp(event: GameMapKeyboardEvent) {
     if(this.allow_off_grid) {
       event.onPost(() => {
-        if (event.original.key == "Shift") this.snap_target_position.set(false)
+        if (event.original.key == "Shift") this.snap_target_position.set(true)
       })
     }
   }

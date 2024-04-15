@@ -36,6 +36,8 @@ export class DrawArrowInteraction extends ValueInteraction<[TileCoordinates, Til
   }
 
   updateInstructions() {
+    if(!this.top_control) return
+
     if (this.start_position.value()) {
       this.top_control.setContent(
         c("<div style='font-family: monospace; white-space:pre'></div>")
@@ -50,6 +52,12 @@ export class DrawArrowInteraction extends ValueInteraction<[TileCoordinates, Til
           .append(this.allow_off_grid ? c().text(`[Shift] to disable tile snapping.`) : undefined)
       )
     }
+  }
+
+  setStartPosition(pos: TileCoordinates): this {
+    this.start_position.set(pos)
+
+    return this
   }
 
   eventClick(event: GameMapMouseEvent) {

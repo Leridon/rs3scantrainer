@@ -616,7 +616,7 @@ video {
     display: flex;
     justify-content: center;
     line-height: 20px;
-    padding: 3px;
+    padding: 1px;
 }
 
 .path-step-edit-widget-control-row > div:not(:last-child) {
@@ -1752,7 +1752,7 @@ input[type=checkbox] + span {
 .ctr-neosolving-sidebar > *:not(:empty) {
     margin-bottom: 5px;
     border-radius: 5px;
-    background-color: rgba(10, 31, 41, 1);
+    background-color: rgba(10, 31, 41, 0.85);
     border: 1px solid rgba(5, 56, 66, 0.6);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0 rgba(0, 0, 0, 0.02);
 }
@@ -1811,7 +1811,7 @@ input[type=checkbox] + span {
 }
 
 .ctr-neosolving-main-bar-section {
-    padding: 3px
+    padding: 1px
 }
 
 .ctr-neosolving-main-bar-section:not(:last-child) {
@@ -1846,7 +1846,7 @@ input[type=checkbox] + span {
 }
 
 .ctr-neosolving-solution-row {
-    padding: 3px;
+    padding: 1px;
 }
 
 .ctr-neosolving-solution-row-shortened {
@@ -1981,12 +1981,12 @@ input[type=checkbox] + span {
 
 .ctr-step-graphics {
     image-rendering: pixelated;
-    filter: drop-shadow(2px 0 2px rgb(0 0 0 / 0.25)) drop-shadow(-2px 0 2px rgb(0 0 0 / 0.25)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.25)) drop-shadow(0 -2px 2px rgb(0 0 0 / 0.25));
+    filter: drop-shadow(1px 0 1px rgb(0 0 0 / 0.25)) drop-shadow(-1px 0 1px rgb(0 0 0 / 0.25)) drop-shadow(0 1px 1px rgb(0 0 0 / 0.25)) drop-shadow(0 -1px 1px rgb(0 0 0 / 0.25));
 }
 
 .ctr-step-graphics-dl {
     image-rendering: pixelated;
-    filter: grayscale(1) drop-shadow(2px 0 2px rgb(0 0 0 / 0.25)) drop-shadow(-2px 0 2px rgb(0 0 0 / 0.25)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.25)) drop-shadow(0 -2px 2px rgb(0 0 0 / 0.25));
+    filter: grayscale(0.5) opacity(0.7);
 }
 
 .no-antialiasing {

@@ -2,7 +2,7 @@ import Widget from "lib/ui/Widget";
 import {floor_t} from "lib/runescape/coordinates";
 import * as lodash from "lodash"
 import {tap} from "lodash"
-import SelectTileInteraction from "lib/gamemap/interaction/SelectTileInteraction";
+import {SelectTileInteraction} from "lib/gamemap/interaction/SelectTileInteraction";
 import AbstractEditWidget from "./AbstractEditWidget";
 import {TileCoordinates} from "../../../lib/runescape/coordinates";
 import {SmallImageButton} from "./SmallImageButton";

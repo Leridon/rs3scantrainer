@@ -147,7 +147,9 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
   }
 
   eventHover(event: GameMapMouseEvent) {
-    this.current_target.set({tile: event.tile(), forced: event.original.shiftKey})
+    event.onPre(() => {
+      this.current_target.set({tile: event.tile(), forced: event.original.shiftKey})
+    })
   }
 
   eventKeyDown(event: GameMapKeyboardEvent) {

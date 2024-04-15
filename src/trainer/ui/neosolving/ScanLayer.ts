@@ -169,7 +169,6 @@ export class AdaptiveScanRadiusMarker extends GameLayer {
 
   surface_is_complement = observe(false)
 
-
   private fixedMarker: Observable<TileCoordinates> = observe(null)
   private manualMarker: Observable<TileCoordinates> = observe(null)
   private cursorMarker: Observable<TileCoordinates> = observe(null)

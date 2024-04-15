@@ -23,6 +23,7 @@ import {GameLayer} from "../../../lib/gamemap/GameLayer";
 import {CursorType} from "../../../lib/runescape/CursorType";
 import {TransportData} from "../../../data/transports";
 import {deps} from "../../dependencies";
+import {CTRIcon} from "../../CTRIcon";
 import hbox = C.hbox;
 import span = C.span;
 import GenericPathMethod = SolvingMethods.GenericPathMethod;
@@ -109,6 +110,8 @@ export class PathSectionControl extends Widget {
 
           let graphics_node = TreeArray.index(this.step_graphics, sectionindex)
           assert(graphics_node.type == "leaf")
+
+          if (graphics_node.value.step.type == "cosmetic") return
 
           new PathSectionControl.StepRow(
             sectionindex,
@@ -290,6 +293,11 @@ export namespace PathSectionControl {
         case "cheat":
           icon.append(img("assets/icons/Rotten_potato.png"))
           content.append("")
+          break
+
+        case "cosmetic":
+          icon.append(img(CTRIcon.url(CTRIcon.get(step.icon))))
+          content.append("Note")
           break
       }
 

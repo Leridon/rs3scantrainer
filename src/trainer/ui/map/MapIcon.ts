@@ -10,7 +10,8 @@ export class MapIcon extends leaflet.Marker {
     override_base_size?: Vector2,
     scale?: number,
     cls?: string,
-    centered_anchor?: boolean
+    centered_anchor?: boolean,
+    opacity?: number
   }) {
     const sz = Vector2.scale(options.scale ?? 1, (options.override_base_size ?? options.icon.size_on_map))
     const anchor = (options.centered_anchor || !options.icon.map_anchor)
@@ -22,8 +23,9 @@ export class MapIcon extends leaflet.Marker {
         iconUrl: `assets/icons/${options.icon.file_name}`,
         iconSize: Vector2.asTuple(sz),
         iconAnchor: Vector2.asTuple(anchor),
-        className: options.cls
-      })
+        className: options.cls,
+      }),
+      opacity: options.opacity
     })
   }
 }

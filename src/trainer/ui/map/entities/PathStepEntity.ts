@@ -50,6 +50,8 @@ export class PathStepEntity extends MapEntity {
     const scale = options.highlight ? 1.5 : 1
     const weight = scale * 3
 
+    const opacity = options.opacity
+
     const element: Element = (() => {
       switch (step.type) {
         case "orientation":
@@ -67,13 +69,15 @@ export class PathStepEntity extends MapEntity {
               color: meta[step.ability].color,
               weight: weight,
               interactive: true,
-              className: cls
+              className: cls,
+              opacity: opacity
             }).addTo(this)
 
           const marker = new MapIcon(Vector2.scale(1 / 2, Vector2.add(step.from, step.to)), {
             icon: CTRIcon.get(meta[step.ability].icon),
             scale: scale,
-            cls: cls
+            cls: cls,
+            opacity
           }).addTo(this)
 
           return marker.getElement()
@@ -95,14 +99,16 @@ export class PathStepEntity extends MapEntity {
             {
               color: "#b4b4b4",
               weight: weight,
-              className: cls
+              className: cls,
+              opacity
             }
           ).addTo(this)
 
           let marker = createX(step.waypoints[step.waypoints.length - 1],
             "yellow",
             scale * 16,
-            cls
+            cls,
+            opacity
           ).addTo(this)
 
           return marker.getElement()
@@ -113,6 +119,7 @@ export class PathStepEntity extends MapEntity {
           const marker = leaflet.marker(Vector2.toLatLong(step.spot ?? teleport.centerOfTarget()), {
             icon: new TeleportSpotEntity.TeleportMapIcon(teleport, scale, w => w.addClass(cls)),
             riseOnHover: true,
+            opacity
           }).addTo(this)
 
           if (options.highlight) {
@@ -120,7 +127,8 @@ export class PathStepEntity extends MapEntity {
               .setStyle({
                 fillColor: "lightgreen",
                 color: "lightgreen",
-                stroke: true
+                stroke: true,
+                opacity
               }).addTo(this)
           }
 
@@ -130,13 +138,15 @@ export class PathStepEntity extends MapEntity {
 
           createX(step.where, "red",
             scale * 20,
-            "ctr-step-graphics"
+            "ctr-step-graphics",
+            opacity
           ).addTo(this)
 
           const marker = new MapIcon(step.where, {
             icon: CursorType.getIcon(step.how),
             scale: scale,
-            cls: cls
+            cls: cls,
+            opacity
           }).addTo(this)
 
           return marker.getElement()
@@ -147,6 +157,7 @@ export class PathStepEntity extends MapEntity {
             icon: CTRIcon.get("item/powerburst-of-acceleration"),
             scale: scale,
             cls: cls,
+            opacity
           }).addTo(this)
 
           return marker.getElement()
@@ -167,13 +178,15 @@ export class PathStepEntity extends MapEntity {
               color: "#069334",
               weight: weight,
               dashArray: '10, 10',
-              className: cls
+              className: cls,
+              opacity
             }).addTo(this)
 
           const marker = new MapIcon(center_of_entity, {
             icon: CursorType.getIcon(action.cursor),
             scale: scale,
-            cls: cls
+            cls: cls,
+            opacity
           }).addTo(this)
 
           return marker.getElement();
@@ -189,14 +202,16 @@ export class PathStepEntity extends MapEntity {
                 color: "#069334",
                 weight: weight,
                 dashArray: '10, 10',
-                className: cls
+                className: cls,
+                opacity
               }).addTo(this)
           }
 
           const marker = new MapIcon(marker_pos, {
             icon: CTRIcon.get("item/rotten-potato"),
             cls: cls,
-            scale: scale
+            scale: scale,
+            opacity
           }).addTo(this)
 
           return marker.getElement()
@@ -206,21 +221,24 @@ export class PathStepEntity extends MapEntity {
           const marker = new MapIcon(step.position, {
             icon: CTRIcon.get(step.icon),
             scale: options.highlight ? 1.5 : 1,
-            cls: cls
+            cls: cls,
+            opacity
           }).addTo(this)
 
           if (options.highlight || !step.hide_when_not_hovered) {
             if (step.area) {
               areaPolygon(step.area).setStyle({
                 color: step.area_color ?? Path.COSMETIC_DEFAULT_COLORS.area,
-                weight: weight
+                weight: weight,
+                opacity
               }).addTo(this)
             }
 
             if (step.arrow) {
               arrow(step.arrow[0], step.arrow[1]).setStyle({
                 color: step.arrow_color ?? Path.COSMETIC_DEFAULT_COLORS.arrow,
-                weight: weight
+                weight: weight,
+                opacity
               }).addTo(this)
             }
           }
@@ -233,7 +251,8 @@ export class PathStepEntity extends MapEntity {
 
     this.setStyle({
       interactive: true,
-      className: "ctr-step-graphics"
+      className: "ctr-step-graphics",
+      opacity
     })
 
     return element

@@ -309,7 +309,6 @@ export class ScanTreeSolvingControl extends Behaviour {
   }
 
   private fit() {
-    // TODO: This is a copy of the old implementation
     let node = this.node
 
     let bounds = new BoundsBuilder()
@@ -365,11 +364,11 @@ export class ScanTreeSolvingControl extends Behaviour {
     new ScanRegionPolygon(ScanTree.getTargetRegion(node)).setOpacity(1).addTo(this.layer)
 
     AugmentedScanTree.collect_parents(node, false).forEach(n => {
-      new ScanRegionPolygon(ScanTree.getTargetRegion(n)).setOpacity(0.2).addTo(this.layer)
-      PathStepEntity.renderPath(n.raw.path).eachEntity(e => e.setOpacity(0.2)).addTo(this.layer)
+      new ScanRegionPolygon(ScanTree.getTargetRegion(n)).setOpacity(0.5).addTo(this.layer)
+      PathStepEntity.renderPath(n.raw.path).eachEntity(e => e.setOpacity(0.5)).addTo(this.layer)
     })
 
-    // Children paths to dig spots are rendered with 0.5
+    // Children pathsare rendered with 0.5
     node.children.forEach(c => {
       PathStepEntity.renderPath(c.value.raw.path).eachEntity(l => l.setOpacity(0.5)).addTo(this.layer)
       new ScanRegionPolygon(ScanTree.getTargetRegion(c.value)).setOpacity(0.5).addTo(this.layer)

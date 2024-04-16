@@ -72,7 +72,8 @@ export namespace PathGraphics {
   export function createX(coordinate: TileCoordinates,
                           color: "red" | "yellow",
                           size: number = 16,
-                          className: string = undefined
+                          className: string = undefined,
+                          opacity: number = undefined
   ): leaflet.Marker {
     const click_icons = {
       "red": "assets/icons/redclick.png",
@@ -86,10 +87,11 @@ export namespace PathGraphics {
         iconAnchor: [size / 2, size / 2],
         className:
           className ? `
-      no - antialiasing ${className}`
+      no-antialiasing ${className}`
             : "no-antialiasing"
       }),
       interactive: false,
+      opacity
     })
   }
 

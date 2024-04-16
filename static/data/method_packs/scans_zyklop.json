@@ -1,18 +1,18 @@
 {
-  "name": "Default Scans",
-  "description": "",
-  "author": "",
+  "type": "default",
+  "local_id": "default:scanmethods",
+  "original_id": "default:scanmethods",
+  "author": "Zyklop Marco",
+  "timestamp": 1712180920,
+  "name": "Default Scan Methods",
+  "description": "This default pack features standard scan routes based on the guide by Fiery and some other contributors.",
+  "default_method_name": "Default Scan Route",
   "default_assumptions": {
-    "meerkats_active": true,
-    "double_surge": true,
     "double_escape": true,
+    "double_surge": true,
+    "meerkats_active": true,
     "mobile_perk": true
   },
-  "default_method_name": "Default Scan Route",
-  "type": "local",
-  "local_id": "7fcb6488-9230-469c-a1b6-38dc22fe75eb",
-  "original_id": "7fcb6488-9230-469c-a1b6-38dc22fe75eb",
-  "timestamp": 1712935933,
   "methods": [
     {
       "id": "ae666278-8ec6-4073-8e7a-8835bd1af082",

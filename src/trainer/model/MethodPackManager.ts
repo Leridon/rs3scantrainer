@@ -3,7 +3,6 @@ import KeyValueStore from "../../lib/util/KeyValueStore";
 import {uuid} from "../../oldlib";
 import {ClueSpotIndex} from "../../lib/runescape/clues/ClueIndex";
 import {Clues} from "../../lib/runescape/clues";
-import {default_generic_method_pack, default_scan_method_pack} from "../builtin_methods";
 import {clue_data} from "../../data/clues";
 import {ewent, Ewent} from "../../lib/reactive";
 import * as lodash from "lodash";
@@ -89,14 +88,13 @@ export class MethodPackManager {
     = ClueSpotIndex.simple(clue_data.index).with(() => ({methods: []}))
 
   private constructor() {
-    this.default_packs = [
-      default_scan_method_pack,
-      default_generic_method_pack
-    ]
+    this.initialized = (async () => {
+      this.local_packs = (await this.local_pack_store.get()) ?? []
 
-    this.initialized = this.local_pack_store.get().then(async v => {
-      this.local_packs = v || []
-    })
+      this.default_packs = [
+        await (await fetch("data/method_packs/scans_zyklop.json")).json()
+      ]
+    })()
 
     this.invalidateIndex()
 

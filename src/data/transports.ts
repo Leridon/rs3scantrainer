@@ -1,6 +1,5 @@
 import teleport_data from "./teleport_data";
 import {Transportation} from "../lib/runescape/transportation";
-import Dependencies from "../trainer/dependencies";
 
 export namespace TransportData {
   import TeleportGroup = Transportation.TeleportGroup;
@@ -37,7 +36,7 @@ export namespace TransportData {
     return teleports.find(g => g.id == id)
   }
 
-  export function getAllTeleportSpots(  ): Transportation.TeleportGroup.Spot[] {
+  export function getAllTeleportSpots(): Transportation.TeleportGroup.Spot[] {
     if (!teleport_spots) {
       teleport_spots = teleports.filter(TeleportGroup.canBeAccessedAnywhere).flatMap(group => {
         return group.spots.map(spot => {

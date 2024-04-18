@@ -23,6 +23,8 @@ const CLUEREADERDEBUG = false
 const CLUEREADERDEBUG_READ_SCREEN_INSTEAD_OF_RS = false // This is broken
 
 export class ClueReader {
+
+  private initialized: Promise<void>
   anchors: {
     slide: ImageData;
     slidelegacy: ImageData;
@@ -35,14 +37,17 @@ export class ClueReader {
   }
 
   constructor() {
-    this.init()
+    this.initialized = this.init()
   }
 
   async init() {
     this.anchors = await AnchorImages.getAnchorImages()
+    console.log("Initialized anchors")
   }
 
   async read(img: ImgRef): Promise<ClueReader.Result> {
+    await this.initialized
+
     const found_ui = await (async (): Promise<ClueReader.MatchedUI> => {
       const ui_type_map: {
         type: ClueReader.UIType,

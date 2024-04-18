@@ -1,11 +1,9 @@
 import {TileCoordinates} from "../runescape/coordinates";
 import {Vector2} from "../math";
-import {Sliders} from "../../trainer/ui/neosolving/puzzles/Sliders";
 import {posmod} from "../../skillbertssolver/util";
 
 export namespace Compasses {
 
-  import Tile = Sliders.Tile;
   export type TriangulationPoint = {
     position: TileCoordinates,
     angle_radians: number

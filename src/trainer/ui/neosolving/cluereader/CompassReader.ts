@@ -77,7 +77,6 @@ export namespace CompassReader {
     //mx = mx - round(mx) + size / 2;
     //my = my - round(my) + size / 2;
 
-
     let sx = 0
     let sy = 0
     let m1 = 0;
@@ -112,10 +111,10 @@ export namespace CompassReader {
     let m2 = 0;
     for (let cx = 0; cx < buf.width; cx++) {
       for (let cy = 0; cy < buf.height; cy++) {
-        var i = 4 * cx + 4 * buf.width * cy;
-        var dx = cx - mx - massx;
-        var dy = cy - my - massy;
-        var rr = dx * dx + dy * dy;
+        const i = 4 * cx + 4 * buf.width * cy;
+        const dx = cx - mx - massx;
+        const dy = cy - my - massy;
+        const rr = dx * dx + dy * dy;
         if (rr >= maxr2 * maxr2 || rr <= minr2 * minr2) { continue; }
         if (coldiff(buf.data[i], buf.data[i + 1], buf.data[i + 2], 19, 19, 18) < 20//java
           || buf.data[i] < 5 && buf.data[i + 1] < 5 && buf.data[i + 2] < 5) {//nxt
@@ -140,10 +139,10 @@ export namespace CompassReader {
 
     //top.ImageData.prototype.show.call(buf)
 
-    var under: typeof newAngleTrans[number] = null!;
-    var above: typeof newAngleTrans[number] = null!;
-    var dunder = -10;
-    var dabove = 10;
+    let under: typeof newAngleTrans[number] = null!;
+    let above: typeof newAngleTrans[number] = null!;
+    let dunder = -10;
+    let dabove = 10;
     for (let opt of newAngleTrans) {
       let d = angleDifference(angle, opt.raw);
       if (d <= 0 && d > dunder) {

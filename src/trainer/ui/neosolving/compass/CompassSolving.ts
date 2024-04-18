@@ -16,6 +16,8 @@ import cls = C.cls;
 import {Compasses} from "../../../../lib/cluetheory/Compasses";
 import {TeleportSpotEntity} from "../../map/entities/TeleportSpotEntity";
 import * as lodash from "lodash";
+import {ClueReader} from "../cluereader/ClueReader";
+import MatchedUI = ClueReader.MatchedUI;
 
 class CompassHandlingLayer extends GameLayer {
   private lines: {
@@ -100,10 +102,6 @@ class KnownCompassSpot extends MapEntity {
     super()
 
     this.spot = clue.spots[spot_id]
-
-    this.setTooltip(() => {
-      return c().text(`${radiansToDegrees(Compasses.getExpectedAngle({x: 2114, y: 3915, level: 0}, this.spot)).toFixed()}°`)
-    })
   }
 
   bounds(): Rectangle {
@@ -115,6 +113,12 @@ class KnownCompassSpot extends MapEntity {
       .setOpacity(props.opacity)
 
     return marker.marker.getElement()
+  }
+}
+
+class CompassReadProcess {
+  async run() {
+  
   }
 }
 
@@ -142,9 +146,9 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     line: leaflet.Layer
   }[] = []
 
-  private debug_solution: TileCoordinates
+  private readonly debug_solution: TileCoordinates
 
-  constructor(parent: NeoSolvingBehaviour, public clue: Clues.Compass) {
+  constructor(parent: NeoSolvingBehaviour, public clue: Clues.Compass, public ui: MatchedUI.Compass | null) {
     super(parent, true)
 
     this.debug_solution = clue.spots[lodash.random(0, clue.spots.length)]

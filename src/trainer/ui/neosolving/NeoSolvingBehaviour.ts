@@ -68,6 +68,7 @@ import notification = Notification.notification;
 import {NeoSolvingSubBehaviour} from "./NeoSolvingSubBehaviour";
 import {CompassSolving} from "./compass/CompassSolving";
 import {ScanTreeSolvingControl} from "./scans/ScanTreeSolving";
+import MatchedUI = ClueReader.MatchedUI;
 
 class NeoSolvingLayer extends GameLayer {
   public control_bar: NeoSolvingLayer.MainControlBar
@@ -276,7 +277,7 @@ namespace NeoSolvingLayer {
         }
       })
         .onSelected(async clue => {
-          this.parent.setClueWithAutomaticMethod(clue)
+          this.parent.setClueWithAutomaticMethod(clue, null)
         })
         .onClosed(() => {
           this.search_bar_collapsible.collapse()
@@ -321,7 +322,7 @@ class ClueSolvingReadingBehaviour extends Behaviour {
     const res = await this.reader.readScreen()
 
     if (res?.step) {
-      this.parent.setClueWithAutomaticMethod(res.step)
+      this.parent.setClueWithAutomaticMethod(res.step, res)
     } else if (res?.puzzle) {
       const is_new_one = this.parent.setPuzzle(res.puzzle)
 
@@ -418,8 +419,9 @@ export default class NeoSolvingBehaviour extends Behaviour {
    *
    * @param step The clue step combined with the index of the selected text variant.
    * @param fit_target
+   * @param read_result
    */
-  setClue(step: { step: Clues.Step, text_index: number }, fit_target: boolean = true): void {
+  setClue(step: { step: Clues.Step, text_index: number }, fit_target: boolean = true, read_result: ClueReader.Result): void {
     this.reset()
 
     if (this.active_clue && this.active_clue.step.id == step.step.id && this.active_clue.text_index == step.text_index) {
@@ -710,9 +712,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
     }
 
     if (clue.type == "compass") {
-      this.sub_behaviour.set(new CompassSolving(this, clue))
+      this.sub_behaviour.set(new CompassSolving(this, clue, read_result?.found_ui as MatchedUI.Compass))
     }
-
 
     this.setMethod(null)
   }
@@ -755,7 +756,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
     }
   }
 
-  async setClueWithAutomaticMethod(step: { step: Clues.Step, text_index: number }) {
+  async setClueWithAutomaticMethod(step: { step: Clues.Step, text_index: number }, read_result: ClueReader.Result) {
     if (this.active_clue && this.active_clue.step.id == step.step.id && this.active_clue.text_index == step.text_index) {
       return
     }
@@ -767,7 +768,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
       if (ms.length > 0) m = ms[0]
     }
 
-    this.setClue(step, !m)
+    this.setClue(step, !m, read_result)
 
     if (m) this.setMethod(m)
   }

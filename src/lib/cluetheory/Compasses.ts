@@ -13,7 +13,7 @@ export namespace Compasses {
   export const ANGLE_REFERENCE_VECTOR = {x: 1, y: 0}
 
   export function angleDifference(a: number, b: number) {
-    return posmod(b - a + Math.PI, 2 * Math.PI) - Math.PI;
+    return Math.abs(posmod(b - a + Math.PI, 2 * Math.PI) - Math.PI);
   }
 
   /**

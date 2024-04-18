@@ -2,16 +2,18 @@ import {coldiff} from "../../../../skillbertssolver/oldlib";
 import {posmod} from "../../../../skillbertssolver/util";
 import {Compasses} from "../../../../lib/cluetheory/Compasses";
 import {ImgRef, mixColor} from "@alt1/base";
-import {Rectangle, Vector2} from "../../../../lib/math";
+import {circularMean, degreesToRadians, normalizeAngle, radiansToDegrees, Rectangle, Vector2} from "../../../../lib/math";
 import {ClueReader} from "./ClueReader";
 import * as lodash from "lodash";
 import {OverlayGeometry} from "../../../../lib/util/OverlayGeometry";
+import {DomEvent} from "leaflet";
 
 export namespace CompassReader {
 
   import angleDifference = Compasses.angleDifference;
   import MatchedUI = ClueReader.MatchedUI;
   import ANGLE_REFERENCE_VECTOR = Compasses.ANGLE_REFERENCE_VECTOR;
+  import off = DomEvent.off;
 
 
   export const EPSILON = (2 / 360) * 2 * Math.PI // About two degrees in either direction
@@ -50,11 +52,42 @@ export namespace CompassReader {
 
   const debug_overlay = new OverlayGeometry()
 
+  const CALIBRATION_TABLE: { offset: number; angle: number }[] = (() => {
+    const data: {
+      position: Vector2,
+      offset: number
+    }[] = [
+      {position: {x: 2, y: 0}, offset: 0.73},
+      {position: {x: 2, y: 1}, offset: 4.56},
+      {position: {x: 2, y: 2}, offset: 0.25},
+      {position: {x: 1, y: 2}, offset: -4.23},
+      {position: {x: 0, y: 2}, offset: -0.73},
+      {position: {x: -1, y: 2}, offset: 3.23},
+      {position: {x: -2, y: 2}, offset: -1.27},
+      {position: {x: -2, y: 1}, offset: -5.38},
+      {position: {x: -2, y: 0}, offset: -1.46},
+      {position: {x: -2, y: -1}, offset: 2.56},
+      {position: {x: -2, y: -2}, offset: -1.39},
+      {position: {x: -1, y: -2}, offset: -4.77},
+      {position: {x: 0, y: -2}, offset: -0.37},
+      {position: {x: 1, y: -2}, offset: 4.02},
+      {position: {x: 2, y: -2}, offset: 0.26},
+      {position: {x: 2, y: -1}, offset: -3.68}
+    ]
+
+    return lodash.sortBy(data.map(({position, offset}) => {
+      return {
+        angle: Vector2.angle(Compasses.ANGLE_REFERENCE_VECTOR, Vector2.scale(-1, Vector2.normalize(position))),
+        offset: degreesToRadians(offset)
+      }
+    }), e => e.angle)
+  })()
+
   function getCompassAngle(buf: ImageData, origin: Vector2): number {
     const CENTER_OFFSET = {x: 88, y: 138}
     const CENTER_SIZE = 2
     const OFFSET = CENTER_SIZE - 1
-    const SAMPLING_RADIUS: number = 79
+    const SAMPLING_RADIUS: number = 77
 
     debug_overlay.clear()
 
@@ -64,7 +97,6 @@ export namespace CompassReader {
 
       function sample(x: number, y: number): void {
         const i = 4 * ((CENTER_OFFSET.y + y) * buf.width + x + CENTER_OFFSET.x)
-
 
         if (buf.data[i] < 5 && buf.data[i + 1] < 5 && buf.data[i + 2] < 5) {
           sampled.push({x, y})
@@ -124,19 +156,32 @@ export namespace CompassReader {
 
     debug_overlay.render()
 
-    function circularMean(angles: number[]): number {
-      const res = Math.atan2(lodash.sum(angles.map(Math.sin)), lodash.sum(angles.map(Math.cos)))
-
-      if (res < 0) return res + 2 * Math.PI
-      else return res
-    }
 
     if (sampled_pixels.length == 0) return null
 
-    const angles = sampled_pixels.map(p => Vector2.angle(
-      ANGLE_REFERENCE_VECTOR, Vector2.normalize({x: p.x - 0.5, y: -p.y + 0.5}))) //
 
-    return circularMean(angles)
+    // Map all sample points to their respective angle
+    // The angle is taken from the true center of the compass arrow, which is why we offset the samples by 0.5
+    // Also, the y axis is flipped to convert from screen coordinates to the internally used coordinate system
+    const angles = sampled_pixels.map(p => Vector2.angle(
+      ANGLE_REFERENCE_VECTOR, Vector2.normalize({x: p.x - 0.5, y: -p.y}))
+    )
+
+    const angle = normalizeAngle(circularMean(angles))
+
+    const index_a = lodash.findLastIndex(CALIBRATION_TABLE, e => e.angle < angle)
+    const index_b = (index_a + 1) % CALIBRATION_TABLE.length
+
+    const previous = CALIBRATION_TABLE[index_a]
+    const next = CALIBRATION_TABLE[index_b]
+
+    const t = normalizeAngle(angle - previous.angle) / angleDifference(next.angle, previous.angle)
+
+    const offset = (1 - t) * previous.offset + t * next.offset
+
+    console.log(`Fixing by ${radiansToDegrees(offset).toFixed(2)}° at t=${t.toFixed(2)}`)
+
+    return normalizeAngle(angle + offset)
   }
 
   export function isArcClue(buf: ImageData) {

@@ -146,14 +146,12 @@ class CompassReadProcess extends Process<void> {
       const read = this.state = CompassReader.readCompassState(CompassReader.find(img, Rectangle.screenOrigin(capture_rect)))
 
       if (read) {
-        this.overlay.text(`${radiansToDegrees(read.angle).toFixed(1)}°`, Vector2.add(Rectangle.center(capture_rect), {x: 0, y: -300}))
+        this.overlay.text(`${radiansToDegrees(read.angle).toFixed(2)}°`, Vector2.add(Rectangle.center(capture_rect), {x: 0, y: -150}))
       }
 
       this.overlay.render()
       await this.checkTime()
     }
-
-    return
   }
 
 }

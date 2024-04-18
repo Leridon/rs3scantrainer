@@ -1,6 +1,7 @@
 import {TileCoordinates} from "../runescape/coordinates";
 import {Vector2} from "../math";
 import {posmod} from "../../skillbertssolver/util";
+import {CompassReader} from "../../trainer/ui/neosolving/cluereader/CompassReader";
 
 export namespace Compasses {
 
@@ -10,8 +11,6 @@ export namespace Compasses {
   }
 
   export const ANGLE_REFERENCE_VECTOR = {x: 1, y: 0}
-  export const RESOLUTION = 32
-  export const EPSILON = (2 * Math.PI) / RESOLUTION / 2
 
   export function angleDifference(a: number, b: number) {
     return posmod(b - a + Math.PI, 2 * Math.PI) - Math.PI;
@@ -35,11 +34,8 @@ export namespace Compasses {
   }
 
   export function isPossible(information: TriangulationPoint[], spot: TileCoordinates): boolean {
-
-
-
     return information.every(i =>
-      Math.abs(angleDifference(getExpectedAngle(i.position, spot), i.angle_radians)) < EPSILON
+      Math.abs(angleDifference(getExpectedAngle(i.position, spot), i.angle_radians)) < CompassReader.EPSILON
     )
   }
 }

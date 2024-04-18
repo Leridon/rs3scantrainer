@@ -15,7 +15,6 @@ import {findLastIndex} from "lodash";
 import {ewent} from "../../../lib/reactive";
 import {util} from "../../../lib/util/util";
 import {AnchorImages} from "./cluereader/AnchorImages";
-import {AStarSlideSolver} from "./puzzles/AStarSlideSolver";
 import over = OverlayGeometry.over;
 import SliderState = Sliders.SliderState;
 import SliderPuzzle = Sliders.SliderPuzzle;
@@ -24,7 +23,6 @@ import AnnotatedMoveList = Sliders.AnnotatedMoveList;
 import MoveList = Sliders.MoveList;
 import Move = Sliders.Move;
 import getAnchorImages = AnchorImages.getAnchorImages;
-import {time} from "../../../lib/gamemap/GameLayer";
 
 class SliderGuideProcess {
   private start_time = -1

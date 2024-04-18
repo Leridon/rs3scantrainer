@@ -1,63 +1,46 @@
 import {coldiff} from "../../../../skillbertssolver/oldlib";
 import {posmod} from "../../../../skillbertssolver/util";
 import {Compasses} from "../../../../lib/cluetheory/Compasses";
-import {ImgRef} from "@alt1/base";
-import {Vector2} from "../../../../lib/math";
+import {ImgRef, mixColor} from "@alt1/base";
+import {Rectangle, Vector2} from "../../../../lib/math";
+import {ClueReader} from "./ClueReader";
+import * as lodash from "lodash";
+import {OverlayGeometry} from "../../../../lib/util/OverlayGeometry";
 
 export namespace CompassReader {
 
   import angleDifference = Compasses.angleDifference;
-  const newAngleTrans: { dx: number, dz: number, raw: number }[] = [
-    {dx: -5, dz: 0, raw: 0.0454},
-    {dx: -5, dz: 1, raw: 0.2037},
-    {dx: -5, dz: 2, raw: 0.359},
-    {dx: -5, dz: 3, raw: 0.5237},
-    {dx: -5, dz: 4, raw: 0.6809},
-    {dx: -5, dz: 5, raw: 0.8382},
-    {dx: -4, dz: 5, raw: 0.9919},
-    {dx: -3, dz: 5, raw: 1.1473},
-    {dx: -2, dz: 5, raw: 1.3094},
-    {dx: -1, dz: 5, raw: 1.4671},
-    {dx: 0, dz: 5, raw: 1.6218},
-    {dx: 1, dz: 5, raw: 1.7809},
-    {dx: 2, dz: 5, raw: 1.9308},
-    {dx: 3, dz: 5, raw: 2.0947},
-    {dx: 4, dz: 5, raw: 2.2519},
-    {dx: 5, dz: 5, raw: 2.4098},
-    {dx: 5, dz: 4, raw: 2.5633},
-    {dx: 5, dz: 3, raw: 2.7193},
-    {dx: 5, dz: 2, raw: 2.8785},
-    {dx: 5, dz: 1, raw: -3.243},
-    {dx: 5, dz: 0, raw: -3.0895},
-    {dx: 5, dz: -1, raw: -2.9294},
-    {dx: 5, dz: -2, raw: -2.7802},
-    {dx: 5, dz: -3, raw: -2.6201},
-    {dx: 5, dz: -4, raw: -2.4627},
-    {dx: 5, dz: -5, raw: -2.3011},
-    {dx: 4, dz: -5, raw: -2.147},
-    {dx: 3, dz: -5, raw: -1.992},
-    {dx: 2, dz: -6, raw: -1.7791},//different dz!!
-    {dx: 1, dz: -5, raw: -1.6773},
-    {dx: 0, dz: -5, raw: -1.5167},
-    {dx: -1, dz: -5, raw: -1.3567},
-    {dx: -2, dz: -5, raw: -1.207},
-    {dx: -3, dz: -5, raw: -1.0464},
-    {dx: -4, dz: -5, raw: -0.8892},
-    {dx: -5, dz: -5, raw: -0.7311},
-    {dx: -5, dz: -4, raw: -0.577},
-    {dx: -5, dz: -3, raw: -0.4213},
-    {dx: -5, dz: -2, raw: -0.2666},
-    {dx: -5, dz: -1, raw: -0.1103}
-  ]
+  import MatchedUI = ClueReader.MatchedUI;
+  import ANGLE_REFERENCE_VECTOR = Compasses.ANGLE_REFERENCE_VECTOR;
+
+
+  export const EPSILON = (2 / 360) * 2 * Math.PI // About two degrees in either direction
 
   export type CompassState = {
     angle: number,
     isArc: boolean
   }
 
-  export function readCompassState(img: ImgRef, pos: Vector2): CompassState {
-    let data = img.toData(pos.x, pos.y, 130, 170);
-    let dir = CompassReader.getCompassAngle(data);
+  export function find(img: ImgRef,
+                       origin: Vector2
+  ): MatchedUI.Compass {
+    return {
+      type: "compass",
+      image: img,
+      rect: Rectangle.fromOriginAndSize(origin, {x: 172, y: 259})
+    }
+  }
+
+  export const UI_SIZE = {x: 172, y: 259}
+
+  export function readCompassState(ui: MatchedUI.Compass): CompassState {
+    let data = ui.image.toData(
+      Rectangle.screenOrigin(ui.rect).x,
+      Rectangle.screenOrigin(ui.rect).y,
+      UI_SIZE.x - 1,
+      UI_SIZE.y - 1);
+
+    let dir = getCompassAngle(data, Rectangle.screenOrigin(ui.rect));
 
     if (dir == null) { return null; }
 
@@ -65,103 +48,100 @@ export namespace CompassReader {
     return {angle: dir, isArc: isArc};
   }
 
-  export function getCompassAngle(buf: ImageData): number {
-    //var size = 170;
-    const maxr = 60;
-    const minr2 = 20;
-    const maxr2 = 50;
-    const mx = 65;//x + 15;
-    const my = 65;//y + 118;
+  const debug_overlay = new OverlayGeometry()
 
-    //var buf = img.toData(round(mx) - size / 2, round(my) - size / 2, size, size);
-    //mx = mx - round(mx) + size / 2;
-    //my = my - round(my) + size / 2;
+  function getCompassAngle(buf: ImageData, origin: Vector2): number {
+    const CENTER_OFFSET = {x: 88, y: 138}
+    const CENTER_SIZE = 2
+    const OFFSET = CENTER_SIZE - 1
+    const SAMPLING_RADIUS: number = 79
 
-    let sx = 0
-    let sy = 0
-    let m1 = 0;
-    for (let cx = 0; cx < buf.width; cx++) {
-      for (let cy = 0; cy < buf.height; cy++) {
-        const i = 4 * cx + 4 * buf.width * cy;
-        const dx = cx - mx;
-        const dy = cy - my;
-        const rr = dx * dx + dy * dy;
-        if (rr >= maxr * maxr) { continue; }
-        if (coldiff(buf.data[i], buf.data[i + 1], buf.data[i + 2], 19, 19, 18) < 20//java
-          || buf.data[i] < 5 && buf.data[i + 1] < 5 && buf.data[i + 2] < 5) {//nxt
-          sx += dx;
-          sy += dy;
-          //buf.data[i] = 0; buf.data[i + 1] = 255; buf.data[i + 2] = 0;
-          m1++;
+    debug_overlay.clear()
+
+    const sampled_pixels: Vector2[] = (() => {
+      const sampled: Vector2[] = []
+      const r = SAMPLING_RADIUS
+
+      function sample(x: number, y: number): void {
+        const i = 4 * ((CENTER_OFFSET.y + y) * buf.width + x + CENTER_OFFSET.x)
+
+
+        if (buf.data[i] < 5 && buf.data[i + 1] < 5 && buf.data[i + 2] < 5) {
+          sampled.push({x, y})
+          debug_overlay.rect(Rectangle.centeredOn(Vector2.add(origin, CENTER_OFFSET, {x, y}), 1), {color: mixColor(255, 0, 0), width: 1})
         } else {
-          //buf.data[i] = 255; buf.data[i + 1] = 0; buf.data[i + 2] = 0;
+          debug_overlay.rect(Rectangle.centeredOn(Vector2.add(origin, CENTER_OFFSET, {x, y}), 1), {color: mixColor(0, 255, 0), width: 1})
         }
       }
-    }
-    if (m1 == 0) { return 0; }
-    const massx = sx / m1;
-    const massy = sy / m1;
-    let angle = Math.atan2(massy, massx);
 
-    const PI = Math.PI;
-    const PI2 = Math.PI * 2;
+      let x = CENTER_SIZE + SAMPLING_RADIUS
+      let y = 0;
 
-    let dirsum = 0
-
-    let m2 = 0;
-    for (let cx = 0; cx < buf.width; cx++) {
-      for (let cy = 0; cy < buf.height; cy++) {
-        const i = 4 * cx + 4 * buf.width * cy;
-        const dx = cx - mx - massx;
-        const dy = cy - my - massy;
-        const rr = dx * dx + dy * dy;
-        if (rr >= maxr2 * maxr2 || rr <= minr2 * minr2) { continue; }
-        if (coldiff(buf.data[i], buf.data[i + 1], buf.data[i + 2], 19, 19, 18) < 20//java
-          || buf.data[i] < 5 && buf.data[i + 1] < 5 && buf.data[i + 2] < 5) {//nxt
-          let dir = posmod(Math.atan2(dy, dx) - angle, PI2);
-
-          if (dir > PI * 3 / 2) { dir -= PI2; } else if (dir > PI / 2) { dir -= PI; }
-
-          dirsum += dir;
-          m2++;
-          //buf.data[i] = 0; buf.data[i + 1] = 255; buf.data[i + 2] = 0;
-        } else {
-          //buf.data[i] = 255; buf.data[i + 1] = 0; buf.data[i + 2] = 0;
+      // Initialising the value of P
+      let P = 1 - r;
+      while (x > y) {
+        if (P <= 0) {
+          // Mid-point is inside or on the perimeter
+          P = P + 2 * y + 1;
+        } else { // Mid-point is outside the perimeter
+          x--;
+          P = P + 2 * y - 2 * x + 1;
         }
+
+        // All the perimeter points have already been printed
+        if (x < y) break;
+
+        // Printing the generated point and its reflection
+        // in the other octants after translation
+
+        sample(x, y + OFFSET) // Octant 1
+        sample(-x + OFFSET, y + OFFSET) // Octant 4
+        sample(-x + OFFSET, -y) // Octant 5
+        sample(x, -y) // Octant 8
+
+        // If the generated point is on the line x = y then
+        // the perimeter points have already been printed
+        if (x != y) {
+          sample(y + OFFSET, x)       // Octant 2
+          sample(-y, x)                   // Octant 3
+          sample(-y, -x + OFFSET)        // Octant 6
+          sample(y + OFFSET, -x + OFFSET) // Octant 7
+        }
+
+        y++;
       }
+
+      return sampled
+    })()
+
+    for (let p of sampled_pixels) {
+      debug_overlay.line(
+        Vector2.add(origin, CENTER_OFFSET),
+        Vector2.add(origin, CENTER_OFFSET, p),
+        {width: 1, color: mixColor(255, 0, 0)}
+      )
     }
 
-    if (m2 == 0) { return 0; }
-    let ddir = dirsum / m2;
-    angle += ddir;
-    //console.log(ddir.toFixed(4));
-    // console.log((angle / Math.PI * 180).toFixed(2).padStart(7, " ") + massx.toFixed(2).padStart(7, " ") + "," + massy.toFixed(2).padStart(4, " "));
+    debug_overlay.render()
 
-    //top.ImageData.prototype.show.call(buf)
+    function circularMean(angles: number[]): number {
+      const res = Math.atan2(lodash.sum(angles.map(Math.sin)), lodash.sum(angles.map(Math.cos)))
 
-    let under: typeof newAngleTrans[number] = null!;
-    let above: typeof newAngleTrans[number] = null!;
-    let dunder = -10;
-    let dabove = 10;
-    for (let opt of newAngleTrans) {
-      let d = angleDifference(angle, opt.raw);
-      if (d <= 0 && d > dunder) {
-        under = opt;
-        dunder = d;
-      }
-      if (d >= 0 && d < dabove) {
-        above = opt;
-        dabove = d;
-      }
+      if (res < 0) return res + 2 * Math.PI
+      else return res
     }
-    //interpolate between the 2 closest points
-    let alpha = (under == above ? 1 : dabove / (dabove - dunder));
-    let dirz = alpha * under.dz + (1 - alpha) * above.dz;
-    let dirx = alpha * under.dx + (1 - alpha) * above.dx;
-    return Math.atan2(-dirz, -dirx);
+
+    if (sampled_pixels.length == 0) return null
+
+    const angles = sampled_pixels.map(p => Vector2.angle(
+      ANGLE_REFERENCE_VECTOR, Vector2.normalize({x: p.x - 0.5, y: -p.y + 0.5}))) //
+
+    return circularMean(angles)
   }
 
   export function isArcClue(buf: ImageData) {
+
+    // TODO: Reimplement.
     let n = 0;
     for (let a = 20; a < 120; a++) {
       const i = a * 4 + 163 * buf.width * 4;

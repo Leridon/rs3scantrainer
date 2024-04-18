@@ -18,8 +18,10 @@ import stringSimilarity = util.stringSimilarity;
 import ScanStep = Clues.ScanStep;
 import notification = Notification.notification;
 import {CompassReader} from "./CompassReader";
+import {Scans} from "../../../../lib/runescape/clues/scans";
+import comp = Scans.Pulse.comp;
 
-const CLUEREADERDEBUG = false
+const CLUEREADERDEBUG = true
 const CLUEREADERDEBUG_READ_SCREEN_INSTEAD_OF_RS = false // This is broken
 
 export class ClueReader {
@@ -90,7 +92,7 @@ export class ClueReader {
           {
             type: "compass", anchors: [{
               img: this.anchors.compassnorth,
-              origin_offset: {x: 56, y: 19}
+              origin_offset: {x: 78, y: 20},
             }]
           },
         ]
@@ -129,7 +131,7 @@ export class ClueReader {
                 return {
                   type: "compass",
                   image: img,
-                  rect: Rectangle.fromOriginAndSize(locs[0], {x: 1, y: 1})
+                  rect: Rectangle.fromOriginAndSize(Vector2.sub(locs[0], anchor.origin_offset), CompassReader.UI_SIZE)
                 }
             }
           }
@@ -337,7 +339,9 @@ export class ClueReader {
             }
           }
         case "compass": {
-          const compass_state = CompassReader.readCompassState(img, Vector2.add(found_ui.rect.topleft, {x: -53, y: 54}))
+          const compass_state = CompassReader.readCompassState(found_ui)
+
+          if (!compass_state) return null
 
           if (CLUEREADERDEBUG)
             notification(`Compass ${JSON.stringify(compass_state)}`).show()

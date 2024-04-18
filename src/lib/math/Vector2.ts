@@ -29,6 +29,7 @@ export namespace Vector2 {
   export function dot(a: Vector2, b: Vector2): number {
     return a.x * b.x + a.y * b.y
   }
+
   export function det(a: Vector2, b: Vector2): number {
     return a.x * b.y - a.y * b.x
   }
@@ -74,6 +75,16 @@ export namespace Vector2 {
       x: cos * v.x - sin * v.y,
       y: sin * v.x + cos * v.y,
     }
+  }
+
+  /**
+   * Gets the angle between two normalized vectors
+   */
+  export function angle(a: Vector2, b: Vector2): number {
+    const res = Math.atan2(Vector2.det(a, b), Vector2.dot(a, b))
+
+    if (res < 0) return res + 2 * Math.PI
+    else return res
   }
 
   export function eq(a: Vector2, b: Vector2): boolean {

@@ -18,6 +18,10 @@ import {TeleportSpotEntity} from "../../map/entities/TeleportSpotEntity";
 import * as lodash from "lodash";
 import {ClueReader} from "../cluereader/ClueReader";
 import MatchedUI = ClueReader.MatchedUI;
+import {Process} from "../../../../lib/Process";
+import * as a1lib from "@alt1/base";
+import {CompassReader} from "../cluereader/CompassReader";
+import {OverlayGeometry} from "../../../../lib/util/OverlayGeometry";
 
 class CompassHandlingLayer extends GameLayer {
   private lines: {
@@ -60,20 +64,19 @@ class CompassHandlingLayer extends GameLayer {
 
       const to = Vector2.add(from, off)
 
-      const corner_a = Vector2.add(from, Vector2.transform(off, Transform.rotationRadians(-Compasses.EPSILON)))
-      const corner_b = Vector2.add(from, Vector2.transform(off, Transform.rotationRadians(Compasses.EPSILON)))
+      const corner_a = Vector2.add(from, Vector2.transform(off, Transform.rotationRadians(-CompassReader.EPSILON)))
+      const corner_b = Vector2.add(from, Vector2.transform(off, Transform.rotationRadians(CompassReader.EPSILON)))
 
       return {
         line:
           leaflet.featureGroup([
-            //leaflet.polyline([Vector2.toLatLong(from), Vector2.toLatLong(to)]),
+            leaflet.polyline([Vector2.toLatLong(from), Vector2.toLatLong(to)]),
             leaflet.polygon([
               Vector2.toLatLong(from),
               Vector2.toLatLong(corner_a),
               Vector2.toLatLong(corner_b),
             ])
           ]).addTo(this)
-
       }
     })
 
@@ -87,6 +90,8 @@ class CompassHandlingLayer extends GameLayer {
 
       if (event.active_entity instanceof TeleportSpotEntity) {
         this.solving.registerSpot(event.active_entity.teleport.centerOfTarget())
+      } else {
+        this.solving.registerSpot(event.tile())
       }
 
       //this.solving.pending[0].position = event.tile()
@@ -116,14 +121,47 @@ class KnownCompassSpot extends MapEntity {
   }
 }
 
-class CompassReadProcess {
-  async run() {
-  
+class CompassReadProcess extends Process<void> {
+  public state: CompassReader.CompassState = null
+
+  constructor(private solving: CompassSolving) {super();}
+
+  private overlay: OverlayGeometry = new OverlayGeometry()
+
+  async implementation(): Promise<void> {
+
+    while (!this.should_stop) {
+      const capture_rect = this.solving.ui.rect
+
+      const img = a1lib.captureHold(
+        Rectangle.screenOrigin(capture_rect).x,
+        Rectangle.screenOrigin(capture_rect).y,
+        Rectangle.width(capture_rect) + 5,
+        Rectangle.height(capture_rect) + 5,
+      )
+
+      this.overlay.clear()
+      //this.overlay.rect(capture_rect)
+
+      const read = this.state = CompassReader.readCompassState(CompassReader.find(img, Rectangle.screenOrigin(capture_rect)))
+
+      if (read) {
+        this.overlay.text(`${radiansToDegrees(read.angle).toFixed(1)}°`, Vector2.add(Rectangle.center(capture_rect), {x: 0, y: -300}))
+      }
+
+      this.overlay.render()
+      await this.checkTime()
+    }
+
+    return
   }
+
 }
 
 export class CompassSolving extends NeoSolvingSubBehaviour {
   layer: CompassHandlingLayer
+
+  process: CompassReadProcess
 
   entries: {
     position?: {
@@ -152,6 +190,8 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     super(parent, true)
 
     this.debug_solution = clue.spots[lodash.random(0, clue.spots.length)]
+
+    if (ui) this.process = new CompassReadProcess(this)
   }
 
   renderWidget() {
@@ -226,7 +266,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     if (!this.entries[i]?.position) return
     if (this.entries[i].angle != null) return
 
-    this.entries[i].angle = Compasses.getExpectedAngle(this.entries[i].position.coords, this.debug_solution)
+    this.entries[i].angle = this.process.state.angle
 
     if (!this.entries.some(e => e.angle == null)) {
       this.entries.push({
@@ -259,9 +299,13 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     this.layer.updateOverlay()
 
     this.parent.layer.add(this.layer)
+
+    this.process.run()
   }
 
   protected end() {
     this.layer.remove()
+
+    if (this.process) this.process.stop()
   }
 }

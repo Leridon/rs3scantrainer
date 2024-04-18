@@ -9,32 +9,101 @@ import {C} from "../../../../lib/ui/constructors";
 import hbox = C.hbox;
 import span = C.span;
 import * as leaflet from "leaflet"
-import {Rectangle, Transform, Vector2} from "../../../../lib/math";
+import {radiansToDegrees, Rectangle, Transform, Vector2} from "../../../../lib/math";
 import spacer = C.spacer;
 import {MapEntity} from "../../../../lib/gamemap/MapEntity";
 import cls = C.cls;
-import {random} from "lodash";
+import {Compasses} from "../../../../lib/cluetheory/Compasses";
+import {TeleportSpotEntity} from "../../map/entities/TeleportSpotEntity";
+import * as lodash from "lodash";
 
 class CompassHandlingLayer extends GameLayer {
+  private lines: {
+    line: leaflet.Layer
+  }[] = []
+
+  private known_spot_markers: KnownCompassSpot[]
+
   constructor(private solving: CompassSolving) {
     super()
+
+    this.known_spot_markers = this.solving.clue.spots.map((e, i) =>
+      new KnownCompassSpot(this.solving.clue, i)
+        .setInteractive(true)
+        .addTo(this)
+    )
+  }
+
+  updateOverlay() {
+    this.lines.forEach(l => {
+      l.line.remove()
+    })
+
+    this.lines = []
+
+    const information = this.solving.entries.filter(e => e.position && e.angle != null).map<Compasses.TriangulationPoint>(e => {
+
+      return {
+        position: e.position.coords,
+        angle_radians: e.angle
+      }
+    })
+
+    this.lines = information.map(info => {
+      console.log(radiansToDegrees(info.angle_radians).toFixed(0))
+
+      const from = info.position
+
+      const off = Vector2.transform(Vector2.scale(2000, Compasses.ANGLE_REFERENCE_VECTOR), Transform.rotationRadians(info.angle_radians))
+
+      const to = Vector2.add(from, off)
+
+      const corner_a = Vector2.add(from, Vector2.transform(off, Transform.rotationRadians(-Compasses.EPSILON)))
+      const corner_b = Vector2.add(from, Vector2.transform(off, Transform.rotationRadians(Compasses.EPSILON)))
+
+      return {
+        line:
+          leaflet.featureGroup([
+            //leaflet.polyline([Vector2.toLatLong(from), Vector2.toLatLong(to)]),
+            leaflet.polygon([
+              Vector2.toLatLong(from),
+              Vector2.toLatLong(corner_a),
+              Vector2.toLatLong(corner_b),
+            ])
+          ]).addTo(this)
+
+      }
+    })
+
+    this.known_spot_markers.forEach(m => {
+      m.setOpacity(Compasses.isPossible(information, m.spot) ? 1 : 0.5)
+    })
   }
 
   eventClick(event: GameMapMouseEvent) {
     event.onPost(() => {
-      this.solving.pending[0].position = event.tile()
-      this.solving.renderWidget()
+
+      if (event.active_entity instanceof TeleportSpotEntity) {
+        this.solving.registerSpot(event.active_entity.teleport.centerOfTarget())
+      }
+
+      //this.solving.pending[0].position = event.tile()
+      //this.solving.renderWidget()
     })
   }
 }
 
 class KnownCompassSpot extends MapEntity {
-  private readonly spot: TileCoordinates
+  public readonly spot: TileCoordinates
 
-  constructor(private clue: Clues.Compass, private spot_id: number) {
+  constructor(public readonly clue: Clues.Compass, public readonly spot_id: number) {
     super()
 
     this.spot = clue.spots[spot_id]
+
+    this.setTooltip(() => {
+      return c().text(`${radiansToDegrees(Compasses.getExpectedAngle({x: 2114, y: 3915, level: 0}, this.spot)).toFixed()}°`)
+    })
   }
 
   bounds(): Rectangle {
@@ -43,6 +112,7 @@ class KnownCompassSpot extends MapEntity {
 
   protected async render_implementation(props: MapEntity.RenderProps): Promise<Element> {
     const marker = new TileMarker(this.spot).withMarker(null, props.highlight ? 1.5 : 1).addTo(this)
+      .setOpacity(props.opacity)
 
     return marker.marker.getElement()
   }
@@ -51,55 +121,33 @@ class KnownCompassSpot extends MapEntity {
 export class CompassSolving extends NeoSolvingSubBehaviour {
   layer: CompassHandlingLayer
 
-  committed: {
-    position: TileCoordinates,
-    teleport_id?: {
-      group: string,
-      spot: string,
-      access?: string
-    }
-    angle: number,
-  }[] = []
+  entries: {
+    position?: {
+      coords: TileCoordinates
+      teleport_id?: {
+        group: string,
+        spot: string,
+        access?: string
+      }
+    },
+    angle: number | null,
+  }[] = [
+    {position: {coords: {"x": 2112, "y": 3913, "level": 0}, teleport_id: {group: "lunarspellbook", spot: "moonclan"}}, angle: null},
+    {position: {coords: {"x": 2416, "y": 2851, "level": 0}, teleport_id: {group: "normalspellbook", spot: "southfeldiphills"}}, angle: null},
+  ]
 
-  pending: {
-    position: TileCoordinates,
-    teleport_id?: {
-      group: string,
-      spot: string,
-      access?: string
-    }
-  }[] = [{
-    position: {x: 3000, y: 3000, level: 0},
-  }]
+  selection_index: number = 0
 
   lines: {
     line: leaflet.Layer
   }[] = []
 
-  constructor(parent: NeoSolvingBehaviour, private clue: Clues.Compass) {
+  private debug_solution: TileCoordinates
+
+  constructor(parent: NeoSolvingBehaviour, public clue: Clues.Compass) {
     super(parent, true)
-  }
 
-  updateLines() {
-
-    this.lines.forEach(l => {
-      l.line.remove()
-    })
-
-    this.lines = []
-
-    this.lines = this.committed.map(e => {
-      const from = e.position
-
-      const off = Vector2.transform({x: 1000, y: 0}, Transform.rotationRadians(e.angle))
-
-      const to = Vector2.add(from, off)
-
-      return {
-        line: leaflet.polyline([Vector2.toLatLong(from), Vector2.toLatLong(to)])
-          .addTo(this.parent.layer)
-      }
-    })
+    this.debug_solution = clue.spots[lodash.random(0, clue.spots.length)]
   }
 
   renderWidget() {
@@ -111,74 +159,100 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       .text("Compass Solver")
       .appendTo(container)
 
-    this.committed.forEach((element, i) => {
-      hbox(
-        span(`${element.angle.toFixed(0)}°`),
-        span(TileCoordinates.toString(element.position)),
-        spacer(),
-        c().text("X").css("border", "1px solid red")
+    this.entries.forEach((element, i) => {
+      const row = hbox()
+        .on("click", () => {
+          this.selection_index = i
+          this.renderWidget()
+        })
+
+      if (this.selection_index == i) {
+        row.css("border", "1px solid red")
+      }
+
+      if (element.angle != null) {
+        row.append(
+          span(`${radiansToDegrees(element.angle).toFixed(0)}°`),
+        )
+      } else {
+        row.append(
+          span(`NULL°`),
+        )
+      }
+
+      if (element.position) {
+        row.append(span(TileCoordinates.toString(element.position.coords)))
+      } else {
+        row.append(span("???"))
+      }
+
+      row.append(spacer())
+
+      if (element.angle != null) {
+        row.append(c().text("X").css("border", "1px solid red")
           .on("click", () => {
             this.discard(i)
-          })
-      ).appendTo(container)
-    })
-
-    this.pending.forEach((element, i) => {
-      hbox(
-        span(TileCoordinates.toString(element.position)),
-        spacer(),
-        c().text("J").css("border", "1px solid green")
+          }))
+      } else {
+        row.append(c().text("J").css("border", "1px solid green")
           .on("click", () => {
             this.commit(i)
-          })
-      ).appendTo(container)
+          }))
+      }
+
+
+      row.appendTo(container)
     })
   }
 
   discard(i: number) {
-    if (!this.committed[i]) return
+    if (!this.entries[i]) return
 
-    this.committed.splice(i, 1)
+    this.entries.splice(i, 1)
 
-    this.updateLines()
+    if (this.selection_index >= i) this.selection_index--
+
+    this.layer.updateOverlay()
     this.renderWidget()
   }
 
-
   commit(i: number = undefined) {
-    if (i == undefined) i = 0
+    if (i == undefined) i = this.selection_index
 
-    if (!this.pending[i]) return
+    if (!this.entries[i]?.position) return
+    if (this.entries[i].angle != null) return
 
-    this.committed.push({
-      ...this.pending[i],
-      angle: random(0, 2 * 3.1415)
-    })
+    this.entries[i].angle = Compasses.getExpectedAngle(this.entries[i].position.coords, this.debug_solution)
 
-    this.pending.splice(i, 1)
-
-    if (this.pending.length == 0) {
-      this.pending.push({
-        position: {x: 3000, y: 3000, level: 0},
+    if (!this.entries.some(e => e.angle == null)) {
+      this.entries.push({
+        position: {coords: {x: 2114, y: 3915, level: 0}},
+        angle: null
       })
     }
 
+    this.selection_index = this.entries.findIndex(e => e.angle == null)
+
     this.renderWidget()
-    this.updateLines()
+    this.layer.updateOverlay()
+  }
+
+  registerSpot(coords: TileCoordinates): void {
+    this.entries[this.selection_index] = {
+      position: {
+        coords: coords,
+      },
+      angle: null
+    }
+
+    this.renderWidget()
   }
 
   protected begin() {
     this.layer = new CompassHandlingLayer(this)
 
-    this.clue.spots.forEach((e, i) => {
-      this.layer.addLayer(
-        new KnownCompassSpot(this.clue, i)
-          .setInteractive(true)
-      )
-    })
-
     this.renderWidget()
-    this.updateLines()
+    this.layer.updateOverlay()
 
     this.parent.layer.add(this.layer)
   }

@@ -11,13 +11,13 @@ import ClueFont from "./ClueFont";
 import * as oldlib from "../../../../skillbertssolver/cluesolver/oldlib";
 import {comparetiledata} from "../../../../skillbertssolver/cluesolver/oldlib";
 import {clue_data} from "../../../../data/clues";
-import {getdirection, isArcClue} from "../../../../skillbertssolver/cluesolver/compassclue";
 import {SlideReader} from "./SliderReader";
 import {PuzzleModal} from "../PuzzleModal";
 import {Notification} from "../../NotificationBar";
 import stringSimilarity = util.stringSimilarity;
 import ScanStep = Clues.ScanStep;
 import notification = Notification.notification;
+import {CompassReader} from "./CompassReader";
 
 const CLUEREADERDEBUG = false
 const CLUEREADERDEBUG_READ_SCREEN_INSTEAD_OF_RS = false // This is broken
@@ -337,7 +337,7 @@ export class ClueReader {
             }
           }
         case "compass": {
-          const compass_state = ClueReader.readCompassState(img, Vector2.add(found_ui.rect.topleft, {x: -53, y: 54}))
+          const compass_state = CompassReader.readCompassState(img, Vector2.add(found_ui.rect.topleft, {x: -53, y: 54}))
 
           if (CLUEREADERDEBUG)
             notification(`Compass ${JSON.stringify(compass_state)}`).show()
@@ -468,20 +468,5 @@ export namespace ClueReader {
     }
 
     return text
-  }
-
-  export type CompassState = {
-    angle: number,
-    isArc: boolean
-  }
-
-  export function readCompassState(img: ImgRef, pos: Vector2): CompassState {
-    let data = img.toData(pos.x, pos.y, 130, 170);
-    let dir = getdirection(data);
-
-    if (dir == null) { return null; }
-
-    let isArc = isArcClue(data);
-    return {angle: dir, isArc: isArc};
   }
 }

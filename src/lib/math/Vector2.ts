@@ -26,6 +26,13 @@ export namespace Vector2 {
     }
   }
 
+  export function dot(a: Vector2, b: Vector2): number {
+    return a.x * b.x + a.y * b.y
+  }
+  export function det(a: Vector2, b: Vector2): number {
+    return a.x * b.y - a.y * b.x
+  }
+
   export function neg(a: Vector2): Vector2 {
     return {
       x: -a.x,

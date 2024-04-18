@@ -330,7 +330,7 @@ class SliderAnalysisModal extends NisModal {
 
 export async function makeshift_main(): Promise<void> {
 
-  await new SliderAnalysisModal().show()
+  //await new SliderAnalysisModal().show()
 
   /*
   await (new class extends NisModal {

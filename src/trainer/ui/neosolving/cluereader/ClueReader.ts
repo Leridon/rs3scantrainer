@@ -14,12 +14,11 @@ import {clue_data} from "../../../../data/clues";
 import {SlideReader} from "./SliderReader";
 import {PuzzleModal} from "../PuzzleModal";
 import {Notification} from "../../NotificationBar";
+import {CompassReader} from "./CompassReader";
+import {Scans} from "../../../../lib/runescape/clues/scans";
 import stringSimilarity = util.stringSimilarity;
 import ScanStep = Clues.ScanStep;
 import notification = Notification.notification;
-import {CompassReader} from "./CompassReader";
-import {Scans} from "../../../../lib/runescape/clues/scans";
-import comp = Scans.Pulse.comp;
 
 const CLUEREADERDEBUG = true
 const CLUEREADERDEBUG_READ_SCREEN_INSTEAD_OF_RS = false // This is broken
@@ -341,12 +340,12 @@ export class ClueReader {
         case "compass": {
           const compass_state = CompassReader.readCompassState(found_ui)
 
-          if (!compass_state) return null
+          if (compass_state?.type != "success") return null
 
           if (CLUEREADERDEBUG)
             notification(`Compass ${JSON.stringify(compass_state)}`).show()
 
-          if (compass_state.isArc) return {found_ui: found_ui, step: {step: clue_data.arc_compass, text_index: 0}}
+          if (compass_state.state.isArc) return {found_ui: found_ui, step: {step: clue_data.arc_compass, text_index: 0}}
           else return {found_ui: found_ui, step: {step: clue_data.gielinor_compass, text_index: 0}}
         }
       }

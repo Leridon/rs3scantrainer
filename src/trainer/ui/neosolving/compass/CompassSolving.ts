@@ -6,22 +6,22 @@ import {TileMarker} from "../../../../lib/gamemap/TileMarker";
 import {TileCoordinates} from "../../../../lib/runescape/coordinates";
 import {GameMapMouseEvent} from "../../../../lib/gamemap/MapEvents";
 import {C} from "../../../../lib/ui/constructors";
-import hbox = C.hbox;
-import span = C.span;
 import * as leaflet from "leaflet"
 import {radiansToDegrees, Rectangle, Transform, Vector2} from "../../../../lib/math";
-import spacer = C.spacer;
 import {MapEntity} from "../../../../lib/gamemap/MapEntity";
-import cls = C.cls;
 import {Compasses} from "../../../../lib/cluetheory/Compasses";
 import {TeleportSpotEntity} from "../../map/entities/TeleportSpotEntity";
 import * as lodash from "lodash";
 import {ClueReader} from "../cluereader/ClueReader";
-import MatchedUI = ClueReader.MatchedUI;
 import {Process} from "../../../../lib/Process";
 import * as a1lib from "@alt1/base";
 import {CompassReader} from "../cluereader/CompassReader";
 import {OverlayGeometry} from "../../../../lib/util/OverlayGeometry";
+import hbox = C.hbox;
+import span = C.span;
+import spacer = C.spacer;
+import cls = C.cls;
+import MatchedUI = ClueReader.MatchedUI;
 
 class CompassHandlingLayer extends GameLayer {
   private lines: {
@@ -143,10 +143,14 @@ class CompassReadProcess extends Process<void> {
       this.overlay.clear()
       //this.overlay.rect(capture_rect)
 
-      const read = this.state = CompassReader.readCompassState(CompassReader.find(img, Rectangle.screenOrigin(capture_rect)))
+      const read = CompassReader.readCompassState(CompassReader.find(img, Rectangle.screenOrigin(capture_rect)))
+
+      if (read.type != "success") continue
+
+      this.state = read.state
 
       if (read) {
-        this.overlay.text(`${radiansToDegrees(read.angle).toFixed(2)}°`, Vector2.add(Rectangle.center(capture_rect), {x: 0, y: -150}))
+        this.overlay.text(`${radiansToDegrees(read.state.angle).toFixed(2)}°`, Vector2.add(Rectangle.center(capture_rect), {x: 0, y: -150}))
       }
 
       this.overlay.render()

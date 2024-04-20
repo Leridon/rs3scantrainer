@@ -94,10 +94,16 @@ export abstract class TransportParser<
 export abstract class TransportParser2 {
   per_loc_group_parameter: ParsingParameter
   per_instance_parameter: ParsingParameter
+  legacy: boolean = false
 
   constructor(public readonly id: string, public readonly name: string) { }
 
   abstract apply(instance: LocInstance, args: { per_loc: any, per_instance?: any }): Promise<Transportation.Transportation[]>
+
+  makeLegacy(): this {
+    this.legacy = true
+    return this
+  }
 }
 
 export namespace TransportParser {

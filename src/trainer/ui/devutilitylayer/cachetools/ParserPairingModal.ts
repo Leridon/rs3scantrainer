@@ -126,7 +126,7 @@ export class ParserPairingEdit extends Widget {
           type_class: {
             toHTML: (v: TransportParser2) => c().text(v ? v.name : "None")
           }
-        }, parsers3)
+        }, parsers3.filter(p => !p.legacy))
           .setValue(this.pairing.group.parser)
           .onSelection(parser => {
             this.pairing.group.parser = parser

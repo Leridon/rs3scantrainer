@@ -62,7 +62,7 @@ export class ParserManagementLayer extends GameLayer {
                 const really = await new ConfirmationModal({
                   body: "Do you really want to delete local parsing associations?",
                   options: [
-                    {value: true, kind: "neutral", text: "Cancel"},
+                    {value: false, kind: "neutral", text: "Cancel"},
                     {value: true, kind: "cancel", text: "Delete"}
                   ]
                 }).do()
@@ -73,7 +73,7 @@ export class ParserManagementLayer extends GameLayer {
               .onClick(async () => {
                 const results = await Parsing.applyParsing(parsers3, this.data_file, this.parsing_table)
 
-                new ExportStringModal(cleanedJSON(results, 4), `Parserd ${results.length} transports.`).show()
+                new ExportStringModal(cleanedJSON(results, 4), `Parsed ${results.length} transports.`).show()
               }),
           )
       ).addTo(this)

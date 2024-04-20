@@ -1,7 +1,23 @@
 Planned for next release (b0.4):
 
 Must be done in April:
-    - Ngis' transport list
+Not in dataset:
+    Holgart/Jeb travel to the fishing platform
+    Observatory rope shortcut
+    Het's oasis agility course log
+    Entrana monk ship
+    Digsite cranes into the caves below
+
+Unsure:
+    Ranging guild entrance
+
+    White wolf mountain cave entrances
+    Grave entrance to the Morytania mausoleum/experiment cave, door inside, and ladder to the outside
+    Canifis trapdoor shortcut to morton (temple trekking unlock)
+    Dense forests
+    Charter boats 🥺
+    Mort myre gate shortcut
+    Air obelisk agility shortcut
 
 - Solving Behaviour
     - Path Panel
@@ -18,7 +34,6 @@ Must be done in April:
         - Make fit include the entire path
         - Better render of in-route teleports
         - Spacing in the tree view is bad
-    - Marker Icons for paths are too large and obscure more important info, especially when not zoomed in.
 
 - [5] Settings Modal
     - Method Pack Management

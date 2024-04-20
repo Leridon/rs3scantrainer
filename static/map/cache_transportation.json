@@ -16156,6 +16156,256 @@
     "direction": 2
   },
   {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2785,
+      "y": 4385,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2786,
+      "y": 4391,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2805,
+      "y": 5947,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2805,
+      "y": 5955,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3190,
+      "y": 3957,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3191,
+      "y": 3963,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Gate",
+    "position": {
+      "x": 3008,
+      "y": 3850,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Gate",
+    "position": {
+      "x": 3071,
+      "y": 3860,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Gate",
+    "position": {
+      "x": 3008,
+      "y": 3849,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Gate",
+    "position": {
+      "x": 3071,
+      "y": 3861,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Wall",
+    "position": {
+      "x": 2836,
+      "y": 9600,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Long hall door",
+    "position": {
+      "x": 3079,
+      "y": 3435,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Long hall door",
+    "position": {
+      "x": 4615,
+      "y": 11563,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Long hall door",
+    "position": {
+      "x": 3078,
+      "y": 3435,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Long hall door",
+    "position": {
+      "x": 4614,
+      "y": 11563,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3098,
+      "y": 3426,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3096,
+      "y": 3429,
+      "level": 2
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 4634,
+      "y": 11554,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 4632,
+      "y": 11557,
+      "level": 2
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3115,
+      "y": 3449,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 3086,
+      "y": 3457,
+      "level": 0
+    },
+    "direction": 1
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2727,
+      "y": 9690,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2723,
+      "y": 9710,
+      "level": 0
+    },
+    "direction": 2
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2722,
+      "y": 9672,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2719,
+      "y": 9672,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
     "type": "entity",
     "entity": {
       "name": "Ladder",
@@ -27047,6 +27297,44 @@
                   "x": -1892,
                   "y": 5847,
                   "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Cave entrance",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2846.5,
+        "y": 3691.5
+      },
+      "botright": {
+        "x": 2850.5,
+        "y": 3687.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2837,
+                  "y": 10090,
+                  "level": 2
                 }
               }
             }
@@ -82291,6 +82579,2425 @@
               "level": -1
             },
             "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Lever",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2560.5,
+        "y": 3311.5
+      },
+      "botright": {
+        "x": 2561.5,
+        "y": 3310.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2561,
+            "y": 3311,
+            "level": 0
+          }
+        },
+        "name": "Pull",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2625,
+                  "y": 3761,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Lever",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3089.5,
+        "y": 3474.5
+      },
+      "botright": {
+        "x": 3090.5,
+        "y": 3473.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 3090,
+            "y": 3474,
+            "level": 0
+          }
+        },
+        "name": "Pull",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3154,
+                  "y": 3924,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Lever",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3152.5,
+        "y": 3923.5
+      },
+      "botright": {
+        "x": 3153.5,
+        "y": 3922.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 3153,
+            "y": 3923,
+            "level": 0
+          }
+        },
+        "name": "Pull",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2562,
+                  "y": 3311,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Web",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3028.5,
+        "y": 3852.5
+      },
+      "botright": {
+        "x": 3029.5,
+        "y": 3851.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 3029,
+            "y": 3852,
+            "level": 0
+          },
+          "size": {
+            "x": 2,
+            "y": 1
+          }
+        },
+        "name": "Slash",
+        "movement": [
+          {
+            "time": 3,
+            "valid_from": {
+              "origin": {
+                "x": 3029,
+                "y": 3852,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 1,
+              "y": 0,
+              "level": 0
+            }
+          },
+          {
+            "time": 3,
+            "valid_from": {
+              "origin": {
+                "x": 3030,
+                "y": 3852,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -1,
+              "y": 0,
+              "level": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Web",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3116.5,
+        "y": 3856.5
+      },
+      "botright": {
+        "x": 3117.5,
+        "y": 3855.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 3117,
+            "y": 3855,
+            "level": 1
+          },
+          "size": {
+            "x": 1,
+            "y": 2
+          }
+        },
+        "name": "Slash",
+        "movement": [
+          {
+            "time": 3,
+            "valid_from": {
+              "origin": {
+                "x": 3117,
+                "y": 3856,
+                "level": 1
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -1,
+              "level": 0
+            }
+          },
+          {
+            "time": 3,
+            "valid_from": {
+              "origin": {
+                "x": 3117,
+                "y": 3855,
+                "level": 1
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 1,
+              "level": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Web",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3157.5,
+        "y": 3951.5
+      },
+      "botright": {
+        "x": 3158.5,
+        "y": 3950.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 3158,
+            "y": 3950,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 2
+          }
+        },
+        "name": "Slash",
+        "movement": [
+          {
+            "time": 3,
+            "valid_from": {
+              "origin": {
+                "x": 3158,
+                "y": 3951,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -1,
+              "level": 0
+            }
+          },
+          {
+            "time": 3,
+            "valid_from": {
+              "origin": {
+                "x": 3158,
+                "y": 3950,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 1,
+              "level": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Web",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 4506.5,
+        "y": 11505.5
+      },
+      "botright": {
+        "x": 4507.5,
+        "y": 11504.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 4507,
+            "y": 11504,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 2
+          }
+        },
+        "name": "Slash",
+        "movement": [
+          {
+            "time": 3,
+            "valid_from": {
+              "origin": {
+                "x": 4507,
+                "y": 11505,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -1,
+              "level": 0
+            }
+          },
+          {
+            "time": 3,
+            "valid_from": {
+              "origin": {
+                "x": 4507,
+                "y": 11504,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 1,
+              "level": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Web",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 4510.5,
+        "y": 11516.5
+      },
+      "botright": {
+        "x": 4511.5,
+        "y": 11515.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 4510,
+            "y": 11516,
+            "level": 0
+          },
+          "size": {
+            "x": 2,
+            "y": 1
+          }
+        },
+        "name": "Slash",
+        "movement": [
+          {
+            "time": 3,
+            "valid_from": {
+              "origin": {
+                "x": 4511,
+                "y": 11516,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -1,
+              "y": 0,
+              "level": 0
+            }
+          },
+          {
+            "time": 3,
+            "valid_from": {
+              "origin": {
+                "x": 4510,
+                "y": 11516,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 1,
+              "y": 0,
+              "level": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Web",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 4514.5,
+        "y": 11498.5
+      },
+      "botright": {
+        "x": 4515.5,
+        "y": 11497.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 4515,
+            "y": 11498,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 2
+          }
+        },
+        "name": "Slash",
+        "movement": [
+          {
+            "time": 3,
+            "valid_from": {
+              "origin": {
+                "x": 4515,
+                "y": 11498,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 1,
+              "level": 0
+            }
+          },
+          {
+            "time": 3,
+            "valid_from": {
+              "origin": {
+                "x": 4515,
+                "y": 11499,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -1,
+              "level": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Web",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 4521.5,
+        "y": 11495.5
+      },
+      "botright": {
+        "x": 4522.5,
+        "y": 11494.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 4522,
+            "y": 11495,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 2
+          }
+        },
+        "name": "Slash",
+        "movement": [
+          {
+            "time": 3,
+            "valid_from": {
+              "origin": {
+                "x": 4522,
+                "y": 11495,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 1,
+              "level": 0
+            }
+          },
+          {
+            "time": 3,
+            "valid_from": {
+              "origin": {
+                "x": 4522,
+                "y": 11496,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -1,
+              "level": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Web",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3090.5,
+        "y": 3958.5
+      },
+      "botright": {
+        "x": 3091.5,
+        "y": 3957.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 3091,
+            "y": 3958,
+            "level": 0
+          },
+          "size": {
+            "x": 2,
+            "y": 1
+          }
+        },
+        "name": "Slash",
+        "movement": [
+          {
+            "time": 3,
+            "valid_from": {
+              "origin": {
+                "x": 3091,
+                "y": 3958,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 1,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 3,
+            "valid_from": {
+              "origin": {
+                "x": 3092,
+                "y": 3958,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -1,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Web",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3093.5,
+        "y": 3958.5
+      },
+      "botright": {
+        "x": 3094.5,
+        "y": 3957.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 3093,
+            "y": 3958,
+            "level": 0
+          },
+          "size": {
+            "x": 2,
+            "y": 1
+          }
+        },
+        "name": "Slash",
+        "movement": [
+          {
+            "time": 3,
+            "valid_from": {
+              "origin": {
+                "x": 3094,
+                "y": 3958,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -1,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 3,
+            "valid_from": {
+              "origin": {
+                "x": 3093,
+                "y": 3958,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 1,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Lever",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3088.5,
+        "y": 3957.5
+      },
+      "botright": {
+        "x": 3089.5,
+        "y": 3956.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 3089,
+            "y": 3957,
+            "level": 0
+          }
+        },
+        "name": "Pull",
+        "movement": [
+          {
+            "time": 8,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2539,
+                  "y": 4712,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Lever",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2538.5,
+        "y": 4712.5
+      },
+      "botright": {
+        "x": 2539.5,
+        "y": 4711.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2539,
+            "y": 4712,
+            "level": 0
+          }
+        },
+        "name": "Pull",
+        "movement": [
+          {
+            "time": 8,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3090,
+                  "y": 3956,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Rockslide",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2759.5,
+        "y": 3655.5
+      },
+      "botright": {
+        "x": 2760.5,
+        "y": 3650.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 2759,
+            "y": 3653,
+            "level": 0
+          },
+          "size": {
+            "x": 3,
+            "y": 1
+          },
+          "data": "BQ=="
+        },
+        "name": "Climb-over",
+        "movement": [
+          {
+            "time": 4,
+            "valid_from": {
+              "origin": {
+                "x": 2759,
+                "y": 3653,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 2,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 4,
+            "valid_from": {
+              "origin": {
+                "x": 2761,
+                "y": 3653,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -2,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Cliffside",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2755.5,
+        "y": 3660.5
+      },
+      "botright": {
+        "x": 2759.5,
+        "y": 3657.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 2757,
+            "y": 3657,
+            "level": 0
+          }
+        },
+        "name": "Climb",
+        "movement": [
+          {
+            "time": 9,
+            "offset": {
+              "x": 0,
+              "y": 4,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Troll ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2811.5,
+        "y": 3668.5
+      },
+      "botright": {
+        "x": 2812.5,
+        "y": 3667.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2831,
+                  "y": 10076,
+                  "level": 2
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Troll ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2830.5,
+        "y": 10077.5
+      },
+      "botright": {
+        "x": 2831.5,
+        "y": 10076.5
+      },
+      "level": 2
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2812,
+                  "y": 3667,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Exit",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2837.5,
+        "y": 10091.5
+      },
+      "botright": {
+        "x": 2839.5,
+        "y": 10088.5
+      },
+      "level": 2
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Leave",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2848,
+                  "y": 3686,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Cliffside",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2875.5,
+        "y": 3674.5
+      },
+      "botright": {
+        "x": 2878.5,
+        "y": 3670.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 2875,
+            "y": 3672,
+            "level": 0
+          },
+          "size": {
+            "x": 5,
+            "y": 1
+          },
+          "data": "EQ=="
+        },
+        "name": "Climb",
+        "movement": [
+          {
+            "time": 9,
+            "valid_from": {
+              "origin": {
+                "x": 2875,
+                "y": 3672,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 4,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 9,
+            "valid_from": {
+              "origin": {
+                "x": 2879,
+                "y": 3672,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -4,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Cliffside",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2872.5,
+        "y": 3662.5
+      },
+      "botright": {
+        "x": 2876.5,
+        "y": 3659.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 2875,
+            "y": 3659,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 5
+          },
+          "data": "EQ=="
+        },
+        "name": "Climb",
+        "movement": [
+          {
+            "time": 9,
+            "valid_from": {
+              "origin": {
+                "x": 2875,
+                "y": 3659,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 4,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 9,
+            "valid_from": {
+              "origin": {
+                "x": 2875,
+                "y": 3663,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -4,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Cliffside",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2854.5,
+        "y": 3666.5
+      },
+      "botright": {
+        "x": 2857.5,
+        "y": 3662.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 2854,
+            "y": 3664,
+            "level": 0
+          },
+          "size": {
+            "x": 5,
+            "y": 1
+          },
+          "data": "EQ=="
+        },
+        "name": "Climb",
+        "movement": [
+          {
+            "time": 9,
+            "valid_from": {
+              "origin": {
+                "x": 2854,
+                "y": 3664,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 4,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 9,
+            "valid_from": {
+              "origin": {
+                "x": 2858,
+                "y": 3664,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -4,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Cliffside",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2893.5,
+        "y": 3675.5
+      },
+      "botright": {
+        "x": 2896.5,
+        "y": 3671.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 2893,
+            "y": 3674,
+            "level": 0
+          },
+          "size": {
+            "x": 5,
+            "y": 1
+          },
+          "data": "EQ=="
+        },
+        "name": "Climb",
+        "movement": [
+          {
+            "time": 9,
+            "valid_from": {
+              "origin": {
+                "x": 2897,
+                "y": 3674,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -4,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 9,
+            "valid_from": {
+              "origin": {
+                "x": 2893,
+                "y": 3674,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 4,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Cliffside",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2908.5,
+        "y": 3688.5
+      },
+      "botright": {
+        "x": 2911.5,
+        "y": 3684.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 2908,
+            "y": 3687,
+            "level": 0
+          },
+          "size": {
+            "x": 5,
+            "y": 1
+          },
+          "data": "EQ=="
+        },
+        "name": "Climb",
+        "movement": [
+          {
+            "time": 9,
+            "valid_from": {
+              "origin": {
+                "x": 2912,
+                "y": 3687,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -4,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 9,
+            "valid_from": {
+              "origin": {
+                "x": 2908,
+                "y": 3687,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 4,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Cliffside",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2930.5,
+        "y": 3683.5
+      },
+      "botright": {
+        "x": 2933.5,
+        "y": 3679.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 2930,
+            "y": 3681,
+            "level": 0
+          },
+          "size": {
+            "x": 5,
+            "y": 1
+          },
+          "data": "EQ=="
+        },
+        "name": "Climb",
+        "movement": [
+          {
+            "time": 9,
+            "valid_from": {
+              "origin": {
+                "x": 2930,
+                "y": 3681,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 4,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 9,
+            "valid_from": {
+              "origin": {
+                "x": 2934,
+                "y": 3681,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -4,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Cliffside",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 1775.5,
+        "y": 4149.5
+      },
+      "botright": {
+        "x": 1779.5,
+        "y": 4146.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 1778,
+            "y": 4146,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 5
+          },
+          "data": "EQ=="
+        },
+        "name": "Climb",
+        "movement": [
+          {
+            "time": 9,
+            "valid_from": {
+              "origin": {
+                "x": 1778,
+                "y": 4146,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 4,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 9,
+            "valid_from": {
+              "origin": {
+                "x": 1778,
+                "y": 4150,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -4,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Cliffside",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2098.5,
+        "y": 5948.5
+      },
+      "botright": {
+        "x": 2102.5,
+        "y": 5945.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 2101,
+            "y": 5945,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 5
+          },
+          "data": "EQ=="
+        },
+        "name": "Climb",
+        "movement": [
+          {
+            "time": 9,
+            "valid_from": {
+              "origin": {
+                "x": 2101,
+                "y": 5945,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 4,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 9,
+            "valid_from": {
+              "origin": {
+                "x": 2101,
+                "y": 5949,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -4,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Cliffside",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2098.5,
+        "y": 6076.5
+      },
+      "botright": {
+        "x": 2102.5,
+        "y": 6073.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 2101,
+            "y": 6073,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 5
+          },
+          "data": "EQ=="
+        },
+        "name": "Climb",
+        "movement": [
+          {
+            "time": 9,
+            "valid_from": {
+              "origin": {
+                "x": 2101,
+                "y": 6073,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 4,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 9,
+            "valid_from": {
+              "origin": {
+                "x": 2101,
+                "y": 6077,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -4,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Cliffside",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2873.5,
+        "y": 3597.5
+      },
+      "botright": {
+        "x": 2877.5,
+        "y": 3594.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 2876,
+            "y": 3594,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 5
+          },
+          "data": "EQ=="
+        },
+        "name": "Climb",
+        "movement": [
+          {
+            "time": 9,
+            "valid_from": {
+              "origin": {
+                "x": 2876,
+                "y": 3594,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 4,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 9,
+            "valid_from": {
+              "origin": {
+                "x": 2876,
+                "y": 3598,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -4,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Cliffside",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2950.5,
+        "y": 3684.5
+      },
+      "botright": {
+        "x": 2953.5,
+        "y": 3680.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 2950,
+            "y": 3683,
+            "level": 0
+          },
+          "size": {
+            "x": 5,
+            "y": 1
+          },
+          "data": "EQ=="
+        },
+        "name": "Climb",
+        "movement": [
+          {
+            "time": 9,
+            "valid_from": {
+              "origin": {
+                "x": 2954,
+                "y": 3683,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -4,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 9,
+            "valid_from": {
+              "origin": {
+                "x": 2950,
+                "y": 3683,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 4,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Cliffside",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 4217.5,
+        "y": 7437.5
+      },
+      "botright": {
+        "x": 4221.5,
+        "y": 7434.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 4220,
+            "y": 7434,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 5
+          },
+          "data": "EQ=="
+        },
+        "name": "Climb",
+        "movement": [
+          {
+            "time": 9,
+            "valid_from": {
+              "origin": {
+                "x": 4220,
+                "y": 7434,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 4,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 9,
+            "valid_from": {
+              "origin": {
+                "x": 4220,
+                "y": 7438,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -4,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Cliffside",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 4345.5,
+        "y": 7437.5
+      },
+      "botright": {
+        "x": 4349.5,
+        "y": 7434.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 4348,
+            "y": 7434,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 5
+          },
+          "data": "EQ=="
+        },
+        "name": "Climb",
+        "movement": [
+          {
+            "time": 9,
+            "valid_from": {
+              "origin": {
+                "x": 4348,
+                "y": 7434,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 4,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 9,
+            "valid_from": {
+              "origin": {
+                "x": 4348,
+                "y": 7438,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -4,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Rocks",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2855.5,
+        "y": 3169.5
+      },
+      "botright": {
+        "x": 2857.5,
+        "y": 3167.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2856,
+                  "y": 3168,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Climbing rope",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2855.5,
+        "y": 9569.5
+      },
+      "botright": {
+        "x": 2856.5,
+        "y": 9568.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "name": "Climb",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2856,
+                  "y": 3167,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Climbing rope",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2832.5,
+        "y": 9657.5
+      },
+      "botright": {
+        "x": 2833.5,
+        "y": 9656.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "name": "Climb",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2834,
+                  "y": 3258,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Hole",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2832.5,
+        "y": 3257.5
+      },
+      "botright": {
+        "x": 2835.5,
+        "y": 3254.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2833,
+                  "y": 9658,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Huge Gate",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2383.5,
+        "y": 3334.5
+      },
+      "botright": {
+        "x": 2385.5,
+        "y": 3333.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2384,
+            "y": 3333,
+            "level": 0
+          },
+          "size": {
+            "x": 2,
+            "y": 3
+          },
+          "data": "Mw=="
+        },
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 3,
+            "valid_from": {
+              "origin": {
+                "x": 2385,
+                "y": 3335,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -2,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 3,
+            "valid_from": {
+              "origin": {
+                "x": 2385,
+                "y": 3333,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 2,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Huge Gate",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2385.5,
+        "y": 3334.5
+      },
+      "botright": {
+        "x": 2387.5,
+        "y": 3333.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2386,
+            "y": 3333,
+            "level": 0
+          },
+          "size": {
+            "x": 2,
+            "y": 3
+          },
+          "data": "Mw=="
+        },
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 3,
+            "valid_from": {
+              "origin": {
+                "x": 2386,
+                "y": 3333,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 2,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 3,
+            "valid_from": {
+              "origin": {
+                "x": 2386,
+                "y": 3335,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -2,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Old ruin entrance",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2695.5,
+        "y": 3283.5
+      },
+      "botright": {
+        "x": 2696.5,
+        "y": 3282.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "name": "Climb-down",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2696,
+                  "y": 9684,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Exit",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2695.5,
+        "y": 9682.5
+      },
+      "botright": {
+        "x": 2696.5,
+        "y": 9681.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2696,
+                  "y": 9682,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Workshop",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2994.5,
+        "y": 3440.5
+      },
+      "botright": {
+        "x": 2999.5,
+        "y": 3439.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2997,
+            "y": 3439,
+            "level": 0
+          }
+        },
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 6169,
+                  "y": 1039,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Exit",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 6167.5,
+        "y": 1037.5
+      },
+      "botright": {
+        "x": 6170.5,
+        "y": 1036.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Leave",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2997,
+                  "y": 3439,
+                  "level": 0
+                }
+              }
+            }
           }
         ]
       }

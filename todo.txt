@@ -11,21 +11,13 @@ Not in dataset:
 Unsure:
     Ranging guild entrance
 
-
-    Grave entrance to the Morytania mausoleum/experiment cave, door inside, and ladder to the outside
-    Karamja volcano dungeon secret door, ladder up to crandor
-    Canifis trapdoor shortcut to morton (temple trekking unlock)
-    Wilderness/ardy/edgeville lever
-    Mountain camp wall climb (rope+cliffside as well?)
     White wolf mountain cave entrances
+    Grave entrance to the Morytania mausoleum/experiment cave, door inside, and ladder to the outside
+    Canifis trapdoor shortcut to morton (temple trekking unlock)
     Dense forests
     Charter boats 🥺
-    Arandar pass gate
     Mort myre gate shortcut
     Air obelisk agility shortcut
-    Troll stronghold entrance and ladder from herb patch
-    Wildy lever cobweb
-    Kbd wildy pen gate
 
 - Solving Behaviour
     - Path Panel
@@ -42,7 +34,6 @@ Unsure:
         - Make fit include the entire path
         - Better render of in-route teleports
         - Spacing in the tree view is bad
-    - Marker Icons for paths are too large and obscure more important info, especially when not zoomed in.
 
 - [5] Settings Modal
     - Method Pack Management

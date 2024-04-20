@@ -1,7 +1,39 @@
 Planned for next release (b0.4):
 
 Must be done in April:
-    - Ngis' transport list
+Not in dataset:
+    Holgart/Jeb travel to the fishing platform
+    Observatory rope shortcut
+    Het's oasis agility course log
+
+Unsure:
+    Ranging guild entrance
+
+
+    Digsite cranes into the caves below
+    Desert mining camp gate
+    Witchaven dungeon entrance
+    Grave entrance to the Morytania mausoleum/experiment cave, door inside, and ladder to the outside
+    West ardougne manhole to sewers, sewers connection to edmond's yard
+    Rantz cave entrance
+    Karamja volcano dungeon secret door, ladder up to crandor
+    Canifis trapdoor shortcut to morton (temple trekking unlock)
+    Dark warriors fortress entrance and courtyard doors
+    Menaphos teletab locations
+    Entrana monk ship
+    Wilderness/ardy/edgeville lever
+    Ladder out of Shilo Village mine
+    Mountain camp wall climb (rope+cliffside as well?)
+    White wolf mountain cave entrances
+    Dense forests
+    Charter boats 🥺
+    Arandar pass gate
+    Mort myre gate shortcut
+    Nature spirit grotto bridge
+    Air obelisk agility shortcut
+    Troll stronghold entrance and ladder from herb patch
+    Wildy lever cobweb
+    Kbd wildy pen gate
 
 - Solving Behaviour
     - Path Panel

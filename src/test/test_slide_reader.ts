@@ -30,6 +30,7 @@ export async function test_slide_reader(): Promise<boolean> {
     },
     {file: "test_assets/sliders/castle_solved.png", expected: {theme: "castle", state: SliderState.SOLVED}},
     {file: "test_assets/sliders/tree_solved.png", expected: {theme: "tree", state: SliderState.SOLVED}},
+    {file: "test_assets/sliders/pharaoh_solved.png", expected: {theme: "menaphos_pharaoh", state: SliderState.SOLVED}},
     {file: "test_assets/sliders/troll_solved.png", expected: {theme: "troll", state: SliderState.SOLVED}},
     {
       file: "test_assets/sliders/bridge_swapped.png", expected: {
@@ -51,6 +52,7 @@ export async function test_slide_reader(): Promise<boolean> {
     const res = await time("reading", async () =>
       await SlideReader.read(img,
         {x: 0, y: 0},
+        test_case.expected.theme
       )
     )
 

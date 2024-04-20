@@ -13,6 +13,7 @@ import span = C.span;
 import skillbertRandom = Sliders.SlideSolver.skillbertRandom;
 import spacer = C.spacer;
 import hbox = C.hbox;
+import {test_slide_reader} from "../test/test_slide_reader";
 
 class SliderBenchmarkModal extends NisModal {
   layout: Properties
@@ -327,10 +328,8 @@ class SliderAnalysisModal extends NisModal {
   }
 }
 
-
 export async function makeshift_main(): Promise<void> {
-
-  //await test_slide_reader()
+  // await test_slide_reader()
 
   //await new SliderAnalysisModal().show()
 

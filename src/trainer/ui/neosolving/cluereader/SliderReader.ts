@@ -170,7 +170,9 @@ export namespace SlideReader {
       })
     }
 
-    const DO_BACKTRACKING_IMPROVEMENT = deps().app.settings.settings.solving.puzzles.sliders.improve_slider_matches_backtracking && greedy_best.preliminary_best_matching.score > DETECTION_THRESHOLD_SCORE
+    const DO_BACKTRACKING_IMPROVEMENT =
+      deps().app.settings.settings.solving.puzzles.sliders.improve_slider_matches_backtracking
+      && greedy_best.preliminary_best_matching.score > DETECTION_THRESHOLD_SCORE
 
     if (DO_BACKTRACKING_IMPROVEMENT) {
       let best: (typeof tile_scores)[number][] = greedy_best.preliminary_best_matching.match
@@ -184,8 +186,6 @@ export namespace SlideReader {
       for (let i = 23; i >= 0; i--) {
         max_improvements[i] += max_improvements[i + 1]
       }
-
-      const better_match_max_exist = max_improvements[0] > best_score
 
       const reference_used = new Array(25).fill(false)
 
@@ -206,14 +206,19 @@ export namespace SlideReader {
             continue
           }
 
-          tiles[i] = match
+          working_tiles[i] = match
           reference_used[match.reference_tile.position] = true
           backtracking(i + 1, similarity_so_far + match.score)
           reference_used[match.reference_tile.position] = false
         }
       }
 
+      if(DEBUG_SLIDE_READER) console.log(`Potential ${max_improvements[0]} vs. ${best_score}`)
+
+      const better_match_max_exist = max_improvements[0] > best_score
       if (better_match_max_exist) backtracking(0, 0)
+
+      if(DEBUG_SLIDE_READER) console.log(`Before BT: ${greedy_best.preliminary_best_matching.score}, After BT: ${best_score / 25}`)
 
       return {
         tiles: best.map(m => m.reference_tile),

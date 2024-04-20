@@ -6,6 +6,7 @@ import {C} from "../lib/ui/constructors";
 import {AStarSlideSolver} from "./ui/neosolving/puzzles/AStarSlideSolver";
 import LightButton from "./ui/widgets/LightButton";
 import Widget from "../lib/ui/Widget";
+import {test_slide_reader} from "../test/test_slide_reader";
 import SliderState = Sliders.SliderState;
 import MoveList = Sliders.MoveList;
 import hgrid = C.hgrid;
@@ -329,6 +330,8 @@ class SliderAnalysisModal extends NisModal {
 
 
 export async function makeshift_main(): Promise<void> {
+
+  await test_slide_reader()
 
   //await new SliderAnalysisModal().show()
 

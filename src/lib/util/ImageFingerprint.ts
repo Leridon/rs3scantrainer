@@ -4,7 +4,6 @@ export type ImageFingerprint = number[]
 
 export namespace ImageFingerprint {
 
-
   export function averageColor(buf: ImageData, x: number, y: number, w: number, h: number): [number, number, number] {
     let r = 0;
     let g = 0;
@@ -97,7 +96,7 @@ export namespace ImageFingerprint {
     const tiles_x = Math.floor(size.x / kernel_size.x)
     const tiles_y = Math.floor(size.y / kernel_size.y)
 
-    const r = new Array(tiles_x * tiles_y)
+    const r = new Array(tiles_x * tiles_y * 3)
 
     for (let xi = 0; xi < tiles_x; xi++) {
       const x = origin.x + xi * kernel_size.x;
@@ -107,11 +106,11 @@ export namespace ImageFingerprint {
 
         const i = 3 * (xi + yi * tiles_x)
 
-        let [hue, sat, _] = rgbToHsl(...averageColor(buf, x, y, kernel_size.x, kernel_size.y))
+        let [hue, sat, lightness] = rgbToHsl(...averageColor(buf, x, y, kernel_size.x, kernel_size.y))
 
         r[i + OFFSETS.hue] = hue
         r[i + OFFSETS.sat] = sat
-        r[i + OFFSETS.roughness] = averageColorDifference(buf, x, y, kernel_size.x, kernel_size.y)
+        r[i + OFFSETS.roughness] = lightness // averageColorDifference(buf, x, y, kernel_size.x, kernel_size.y)
       }
     }
     return r;

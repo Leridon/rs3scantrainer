@@ -141,6 +141,13 @@ export namespace Sliders {
 
       return state
     }
+
+    export function toString(state: SliderState) {
+      return [0, 1, 2, 3, 4].map(row =>
+        state.slice(row * 5, (row + 1) * 5)
+          .map(t => ("  " + t.toString()).slice(-2)).join(", ")
+      ).join("\n")
+    }
   }
 
   /**

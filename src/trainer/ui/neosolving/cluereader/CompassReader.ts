@@ -65,7 +65,7 @@ export namespace CompassReader {
   // Calibrated without Antialiasing
   const CALIBRATION_TABLE = AngularKeyframeFunction.fromCalibrationSamples([
 
-    // Immediate neighbours
+    // Immediate neighbours (3x3)
     {position: {x: 1, y: 0}, is_angle_degrees: 178.65},
     {position: {x: 1, y: 1}, is_angle_degrees: 223.87},
     {position: {x: 0, y: 1}, is_angle_degrees: 269.20},
@@ -75,7 +75,7 @@ export namespace CompassReader {
     {position: {x: 0, y: -1}, is_angle_degrees: 88.74},
     {position: {x: 1, y: -1}, is_angle_degrees: 133.69},
 
-    // Knight moves
+    // Knight moves (5x5)
     {position: {x: -2, y: 1}, is_angle_degrees: 336.92},
     {position: {x: -2, y: -1}, is_angle_degrees: 21.82},
     {position: {x: -1, y: -2}, is_angle_degrees: 66.56},

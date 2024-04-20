@@ -826,60 +826,65 @@ const raw_data: Transportation.TeleportGroup[] = [
       name: {name: "Attuned crystal teleport seed", kind: "item"},
       action_name: "Activate"
     }]
-  },/*
-            {
-                type: "teleports",
-                id: "menaphostablets",
-                name: "Menaphos Tablets",
-                img: {url: ""},
-                spots: [
-                    {
-                        id: "imperial",
-                        target: {origin: {x: 3177, y: 2730, level: 1}},
-                        img: {url: "imperialdistrict.gif"},
-                        name: "Imperial district",
-                        code: "1",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks + 2
-                    },
-                    {
-                        id: "merchant",
-                        target: {origin: {x: 3208, y: 2784, level: 1}},
-                        img: {url: "merchantdistrict.gif"},
-                        name: "Merchant district",
-                        code: "2",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks + 2
-                    },
-                    {
-                        id: "port",
-                        target: {origin: {x: 3187, y: 2654, level: 1}},
-                        img: {url: "portdistrict.gif"},
-                        name: "Port district",
-                        code: "3",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks + 2
-                    },
-                    {
-                        id: "worker",
-                        target: {origin: {x: 3154, y: 2800, level: 1}},
-                        img: {url: "workerdistrict.gif"},
-                        name: "Worker district",
-                        code: "4",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks + 2
-                    },
-                    {
-                        id: "sophanem",
-                        target: {origin: {x: 3291, y: 2710, level: 1}},
-                        img: {url: "sophanemdungeon.gif"},
-                        name: "Sophanem Dungeon",
-                        code: "5",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks + 2
-                    },
-                ]
-            },*/
+  },
+  {
+    type: "teleports",
+    id: "menaphostablets",
+    name: "Menaphos Tablets",
+    img: {url: ""},
+    menu_ticks: 0,
+    animation_ticks: default_teleport_ticks + 2,
+    spots: [
+      {
+        id: "imperial",
+        target: {"origin":{"x":3174,"y":2727,"level":0},"size":{"x":4,"y":5}},
+        img: {url: "imperialdistrict.gif"},
+        name: "Imperial district",
+        code: "1",
+      },
+      {
+        id: "merchant",
+        target: {"origin":{"x":3206,"y":2781,"level":0},"size":{"x":5,"y":5},"data":"///3AA=="},
+        img: {url: "merchantdistrict.gif"},
+        name: "Merchant district",
+        code: "2",
+      },
+      {
+        id: "port",
+        target: {"origin":{"x":3184,"y":2652,"level":0},"size":{"x":5,"y":5},"data":"/v//AQ=="},
+        img: {url: "portdistrict.gif"},
+        name: "Port district",
+        code: "3",
+      },
+      {
+        id: "worker",
+        target: {"origin":{"x":3154,"y":2794,"level":0},"size":{"x":5,"y":5},"data":"GP//AQ=="},
+        img: {url: "workerdistrict.gif"},
+        name: "Worker district",
+        code: "4",
+      },
+      {
+        id: "sophanem",
+        target: {"origin":{"x":3287,"y":2706,"level":0},"size":{"x":5,"y":4},"data":"/38M"},
+        img: {url: "sophanemdungeon.gif"},
+        name: "Sophanem Slayer Dungeon",
+        code: "5",
+      },
+      {
+        id: "shiftingtombs",
+        target: {"origin":{"x":2077,"y":6950,"level":0},"size":{"x":4,"y":5}},
+        img: {url: "shiftingtombs.webp"},
+        name: "Menaphos shifting tombs",
+        code: "5",
+      },
+    ],
+    access: [{
+      id: "tablet",
+      type: "item",
+      name: {name: "Tablet", kind: "item"},
+      action_name: "Break",
+    }]
+  },
   {
     type: "teleports",
     id: "spirittree",
@@ -4292,7 +4297,7 @@ code: "5",
     spots: [
       {
         id: "return",
-        target: {"origin":{"x":2741,"y":3235,"level":0}},
+        target: {"origin": {"x": 2741, "y": 3235, "level": 0}},
         name: "Return",
         animation_ticks: 2,
       },

@@ -202,6 +202,174 @@ export const parsers3: TransportParser2[] = [
             if (m.movement.fixed.origin_only) {
               let a = m.movement.fixed.area
 
+              a = TileArea.transform(a, LocInstance.getTransform(instance))
+
+              a = TileArea.init(a.origin)
+
+              b = fixed(a, m.movement.fixed.relative)
+            } else {
+              let a = m.movement.fixed.area
+              a = TileArea.transform(a, LocInstance.getTransform(instance))
+              b = fixed(a, m.movement.fixed.relative)
+            }
+
+          } else if (m.movement.offset) b = offset(m.movement.offset)
+
+          if (m.orientation) {
+            if (m.orientation.simple) b.orientation(m.orientation.simple)
+            if (m.orientation.forced) b.forcedOrientation(m.orientation.forced.dir, !!m.orientation.forced.relative)
+          }
+
+          b.time(m.time ?? 3)
+
+          if (m.valid_from) {
+            b.restrict(m.valid_from)
+          }
+
+          return b
+        }))
+      }
+
+      return [builder.finish()]
+    }
+  ),
+  parse("prototypecopylocperinstance", "Prototype Per Instance",
+    null,
+    rec({
+      plane_offset: PP.element("Plane Offset", PP.int([-3, 3]), true),
+      actions: PP.element("Actions", PP.list(PP.rec({
+        action: PP.element("Action", PP.locAction()),
+        area: PP.element("Area", PP.tileArea(), true),
+        movements: PP.element("Movements", PP.list(PP.rec({
+          valid_from: PP.element("Valid", PP.tileArea(), true),
+          orientation: PP.element("Orientation", PP.either({
+            simple: PP.choose<EntityActionMovement["orientation"]>({
+              toHTML: (v) => c().text(v)
+            }, ["bymovement", "toentitybefore", "toentityafter", "keep"]),
+            forced: PP.rec({
+              dir: PP.element("Direction", PP.dir()),
+              relative: PP.element("Relative", PP.bool())
+            })
+          }), true),
+          movement: PP.element("Movement", PP.either({
+            offset: PP.offset(),
+            fixed: PP.rec({
+              area: PP.element("Area", PP.tileArea()),
+              relative: PP.element("Relative", PP.bool()),
+              origin_only: PP.element("Origin only", PP.bool()),
+            }),
+          })),
+          time: PP.element("Time", PP.int([0, 30]).default(3))
+        })))
+      })))
+    }),
+    async (instance, {per_instance}) => {
+      const builder = EntityTransportationBuilder.from(instance)
+        .planeOffset(per_instance.plane_offset ?? 0)
+
+      for (const action of per_instance.actions) {
+        builder.action({
+          index: action.action.id,
+          interactive_area: action.area
+        }, ...action.movements.map(m => {
+
+          let b: MovementBuilder = null
+
+          if (m.movement.fixed) {
+
+            if (m.movement.fixed.origin_only) {
+              let a = m.movement.fixed.area
+
+              a = TileArea.transform(a, LocInstance.getTransform(instance))
+
+              a = TileArea.init(a.origin)
+
+              a = TileArea.transform(a, LocInstance.getInverseTransform(instance))
+
+              b = fixed(a, m.movement.fixed.relative)
+            } else {
+              let a = m.movement.fixed.area
+              a = TileArea.transform(a, LocInstance.getTransform(instance))
+              b = fixed(a, m.movement.fixed.relative)
+            }
+
+          } else if (m.movement.offset) b = offset(m.movement.offset)
+
+          if (m.orientation) {
+            if (m.orientation.simple) b.orientation(m.orientation.simple)
+            if (m.orientation.forced) b.forcedOrientation(m.orientation.forced.dir, !!m.orientation.forced.relative)
+          }
+
+          b.time(m.time ?? 3)
+
+          if (m.valid_from) {
+            b.restrict(m.valid_from)
+          }
+
+          return b
+        }))
+      }
+
+      return [builder.finish()]
+    }
+  ),
+
+
+
+
+
+
+
+
+
+
+  parse("prototypecopyloclegacy", "(LEGACY) Prototype",
+    rec({
+      plane_offset: PP.element("Plane Offset", PP.int([-3, 3]), true),
+      actions: PP.element("Actions", PP.list(PP.rec({
+        action: PP.element("Action", PP.locAction()),
+        area: PP.element("Area", PP.tileArea(), true),
+        movements: PP.element("Movements", PP.list(PP.rec({
+          valid_from: PP.element("Valid", PP.tileArea(), true),
+          orientation: PP.element("Orientation", PP.either({
+            simple: PP.choose<EntityActionMovement["orientation"]>({
+              toHTML: (v) => c().text(v)
+            }, ["bymovement", "toentitybefore", "toentityafter", "keep", "forced"]),
+            forced: PP.rec({
+              dir: PP.element("Direction", PP.dir()),
+              relative: PP.element("Relative", PP.bool())
+            })
+          }), true),
+          movement: PP.element("Movement", PP.either({
+            offset: PP.offset(),
+            fixed: PP.rec({
+              area: PP.element("Area", PP.tileArea()),
+              relative: PP.element("Relative", PP.bool()),
+              origin_only: PP.element("Origin only", PP.bool()),
+            }),
+          })),
+          time: PP.element("Time", PP.int([0, 30]).default(3))
+        })))
+      })))
+    })
+    , null,
+    async (instance, {per_loc}) => {
+      const builder = EntityTransportationBuilder.from(instance)
+        .planeOffset(per_loc.plane_offset ?? 0)
+
+      for (const action of per_loc.actions) {
+        builder.action({
+          index: action.action.id,
+          interactive_area: action.area
+        }, ...action.movements.map(m => {
+
+          let b: MovementBuilder = null
+
+          if (m.movement.fixed) {
+
+            if (m.movement.fixed.origin_only) {
+              let a = m.movement.fixed.area
+
               if (m.movement.fixed.relative) {
                 a = TileArea.transform(a, LocInstance.getTransform(instance))
               }
@@ -236,8 +404,8 @@ export const parsers3: TransportParser2[] = [
 
       return [builder.finish()]
     }
-  ),
-  parse("prototypecopylocperinstance", "Prototype Per Instance",
+  ).makeLegacy(),
+  parse("prototypecopylocperinstancelegacy", "(LEGACY) Prototype Per Instance",
     null,
     rec({
       plane_offset: PP.element("Plane Offset", PP.int([-3, 3]), true),
@@ -318,7 +486,8 @@ export const parsers3: TransportParser2[] = [
 
       return [builder.finish()]
     }
-  ),
+  ).makeLegacy(),
+
 ]
 
 export namespace Parsers3 {

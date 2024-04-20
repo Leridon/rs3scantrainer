@@ -3,9 +3,6 @@ import {Vector2} from "../../../../lib/math";
 import * as lodash from "lodash";
 import {Sliders} from "../puzzles/Sliders";
 import {ImageFingerprint} from "../../../../lib/util/ImageFingerprint";
-import {time, timeSync} from "../../../../lib/gamemap/GameLayer";
-import {delay} from "../../../../oldlib";
-import {themes} from "../../../../skillbertssolver/cluesolver/slidetiles";
 import {deps} from "../../../dependencies";
 
 export namespace SlideReader {
@@ -18,7 +15,7 @@ export namespace SlideReader {
 
   export const SLIDER_SIZE = 5
 
-  const KERNEL_INTERVAL = 12
+  const KERNEL_INTERVAL = 7
 
   /**
    * Parses the tiles of a slider image from a reference image.
@@ -164,10 +161,18 @@ export namespace SlideReader {
 
     const greedy_best = lodash.maxBy(matches, m => m.preliminary_best_matching.score)
 
+    if (DEBUG_SLIDE_READER) {
+      const perfect_pairs = greedy_best.all_match_pairs.filter(e => e.score == 1)
+      console.log(`Perfect score pairs ${perfect_pairs.length}`)
+
+      perfect_pairs.forEach(e => {
+        console.log((`Perfect Match: Tile ${e.tile.position} with ${e.reference_tile.position}`))
+      })
+    }
+
     const DO_BACKTRACKING_IMPROVEMENT = deps().app.settings.settings.solving.puzzles.sliders.improve_slider_matches_backtracking && greedy_best.preliminary_best_matching.score > DETECTION_THRESHOLD_SCORE
 
     if (DO_BACKTRACKING_IMPROVEMENT) {
-
       let best: (typeof tile_scores)[number][] = greedy_best.preliminary_best_matching.match
       let best_score = greedy_best.preliminary_best_matching.score * 25
       const working_tiles = new Array(25).fill(null)
@@ -222,6 +227,5 @@ export namespace SlideReader {
         match_score: greedy_best.preliminary_best_matching.score
       }
     }
-
   }
 }

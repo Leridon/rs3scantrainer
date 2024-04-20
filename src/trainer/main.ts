@@ -330,6 +330,8 @@ class SliderAnalysisModal extends NisModal {
 
 export async function makeshift_main(): Promise<void> {
 
+  //await test_slide_reader()
+
   //await new SliderAnalysisModal().show()
 
   /*

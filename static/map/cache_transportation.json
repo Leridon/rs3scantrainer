@@ -16156,46 +16156,6 @@
     "direction": 2
   },
   {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2723,
-      "y": 9710,
-      "level": 0
-    },
-    "direction": 2
-  },
-  {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2727,
-      "y": 9690,
-      "level": 0
-    },
-    "direction": 3
-  },
-  {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2719,
-      "y": 9672,
-      "level": 0
-    },
-    "direction": 4
-  },
-  {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2722,
-      "y": 9672,
-      "level": 0
-    },
-    "direction": 4
-  },
-  {
     "type": "entity",
     "entity": {
       "name": "Ladder",
@@ -56397,13 +56357,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 0,
-                  "y": 0,
-                  "level": 0
-                },
-                "size": {
-                  "x": 1,
-                  "y": 1
+                  "x": 2401,
+                  "y": 3450,
+                  "level": 1
                 }
               }
             },
@@ -56451,13 +56407,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 0,
-                  "y": 0,
-                  "level": 0
-                },
-                "size": {
-                  "x": 1,
-                  "y": 1
+                  "x": 2416,
+                  "y": 3446,
+                  "level": 1
                 }
               }
             },
@@ -56873,13 +56825,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 0,
-                  "y": 0,
-                  "level": 0
-                },
-                "size": {
-                  "x": 1,
-                  "y": 1
+                  "x": 2418,
+                  "y": 3491,
+                  "level": 1
                 }
               }
             },
@@ -56927,13 +56875,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 0,
-                  "y": 0,
-                  "level": 0
-                },
-                "size": {
-                  "x": 1,
-                  "y": 1
+                  "x": 2421,
+                  "y": 3472,
+                  "level": 1
                 }
               }
             },
@@ -56981,13 +56925,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 0,
-                  "y": 0,
-                  "level": 0
-                },
-                "size": {
-                  "x": 1,
-                  "y": 1
+                  "x": 2440,
+                  "y": 3404,
+                  "level": 1
                 }
               }
             },
@@ -57219,13 +57159,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 0,
-                  "y": 0,
-                  "level": 0
-                },
-                "size": {
-                  "x": 1,
-                  "y": 1
+                  "x": 2479,
+                  "y": 3408,
+                  "level": 1
                 }
               }
             },
@@ -57273,13 +57209,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 0,
-                  "y": 0,
-                  "level": 0
-                },
-                "size": {
-                  "x": 1,
-                  "y": 1
+                  "x": 2482,
+                  "y": 3402,
+                  "level": 1
                 }
               }
             },
@@ -57327,13 +57259,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 0,
-                  "y": 0,
-                  "level": 0
-                },
-                "size": {
-                  "x": 1,
-                  "y": 1
+                  "x": 2489,
+                  "y": 3408,
+                  "level": 1
                 }
               }
             },
@@ -60655,8 +60583,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2545,
-                  "y": 3325,
+                  "x": 5088,
+                  "y": 6650,
                   "level": 1
                 }
               },
@@ -60705,8 +60633,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2565,
-                  "y": 3321,
+                  "x": 5886,
+                  "y": 758,
                   "level": 1
                 }
               },
@@ -60755,8 +60683,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2572,
-                  "y": 3326,
+                  "x": 2,
+                  "y": 0,
                   "level": 1
                 }
               },
@@ -60805,8 +60733,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2611,
-                  "y": 3307,
+                  "x": -696,
+                  "y": 5916,
                   "level": 1
                 }
               },
@@ -60855,8 +60783,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2578,
-                  "y": 3331,
+                  "x": 5154,
+                  "y": 6662,
                   "level": 1
                 }
               },
@@ -60905,8 +60833,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2647,
-                  "y": 3311,
+                  "x": 2,
+                  "y": 0,
                   "level": 1
                 }
               },
@@ -60955,8 +60883,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2652,
-                  "y": 3280,
+                  "x": 5302,
+                  "y": 6560,
                   "level": 1
                 }
               },
@@ -61005,8 +60933,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2652,
-                  "y": 3286,
+                  "x": 5302,
+                  "y": 6572,
                   "level": 1
                 }
               },
@@ -61055,8 +60983,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2653,
-                  "y": 3292,
+                  "x": 2,
+                  "y": 0,
                   "level": 1
                 }
               },
@@ -61105,8 +61033,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2666,
-                  "y": 3293,
+                  "x": -627,
+                  "y": 5957,
                   "level": 1
                 }
               },
@@ -61155,8 +61083,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2672,
-                  "y": 3310,
+                  "x": 2,
+                  "y": 0,
                   "level": 1
                 }
               },
@@ -61205,8 +61133,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2673,
-                  "y": 3300,
+                  "x": 2,
+                  "y": 0,
                   "level": 1
                 }
               },
@@ -61251,9 +61179,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2542,
-                  "y": 3325,
-                  "level": 0
+                  "x": 5085,
+                  "y": 6650,
+                  "level": 1
                 }
               },
               "relative": true
@@ -61297,9 +61225,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2565,
-                  "y": 3324,
-                  "level": 0
+                  "x": 5889,
+                  "y": 758,
+                  "level": 1
                 }
               },
               "relative": true
@@ -61343,9 +61271,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2575,
-                  "y": 3326,
-                  "level": 0
+                  "x": -1,
+                  "y": 0,
+                  "level": 1
                 }
               },
               "relative": true
@@ -61389,9 +61317,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2611,
-                  "y": 3304,
-                  "level": 0
+                  "x": -693,
+                  "y": 5916,
+                  "level": 1
                 }
               },
               "relative": true
@@ -61435,9 +61363,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2575,
-                  "y": 3331,
-                  "level": 0
+                  "x": 5151,
+                  "y": 6662,
+                  "level": 1
                 }
               },
               "relative": true
@@ -61481,9 +61409,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2650,
-                  "y": 3311,
-                  "level": 0
+                  "x": -1,
+                  "y": 0,
+                  "level": 1
                 }
               },
               "relative": true
@@ -61527,9 +61455,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2649,
-                  "y": 3280,
-                  "level": 0
+                  "x": 5299,
+                  "y": 6560,
+                  "level": 1
                 }
               },
               "relative": true
@@ -61573,9 +61501,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2649,
-                  "y": 3286,
-                  "level": 0
+                  "x": 5299,
+                  "y": 6572,
+                  "level": 1
                 }
               },
               "relative": true
@@ -61619,9 +61547,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2656,
-                  "y": 3292,
-                  "level": 0
+                  "x": -1,
+                  "y": 0,
+                  "level": 1
                 }
               },
               "relative": true
@@ -61665,9 +61593,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2666,
-                  "y": 3290,
-                  "level": 0
+                  "x": -624,
+                  "y": 5957,
+                  "level": 1
                 }
               },
               "relative": true
@@ -61711,9 +61639,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2675,
-                  "y": 3310,
-                  "level": 0
+                  "x": -1,
+                  "y": 0,
+                  "level": 1
                 }
               },
               "relative": true
@@ -61757,9 +61685,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2676,
-                  "y": 3300,
-                  "level": 0
+                  "x": -1,
+                  "y": 0,
+                  "level": 1
                 }
               },
               "relative": true
@@ -65734,8 +65662,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2716,
-                  "y": 6337,
+                  "x": 2,
+                  "y": 0,
                   "level": 1
                 }
               },
@@ -65784,8 +65712,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2972,
-                  "y": 3385,
+                  "x": 2,
+                  "y": 0,
                   "level": 1
                 }
               },
@@ -70042,8 +69970,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3026,
-                  "y": 3250,
+                  "x": 6049,
+                  "y": 6498,
                   "level": 1
                 }
               },
@@ -70088,9 +70016,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3023,
-                  "y": 3247,
-                  "level": 0
+                  "x": 6046,
+                  "y": 6496,
+                  "level": 1
                 }
               },
               "relative": true
@@ -71394,8 +71322,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3108,
-                  "y": 3366,
+                  "x": 6215,
+                  "y": 6728,
                   "level": 1
                 }
               },
@@ -71418,8 +71346,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3109,
-                  "y": 3366,
+                  "x": 6216,
+                  "y": 6728,
                   "level": 1
                 }
               },
@@ -72333,8 +72261,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2441,
-                  "y": 4601,
+                  "x": 2,
+                  "y": 0,
                   "level": 1
                 }
               },
@@ -72352,8 +72280,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2441,
-                  "y": 4601,
+                  "x": 2,
+                  "y": 0,
                   "level": 2
                 }
               },
@@ -72391,8 +72319,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2505,
-                  "y": 3641,
+                  "x": 2,
+                  "y": 0,
                   "level": 1
                 }
               },
@@ -72410,8 +72338,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2505,
-                  "y": 3641,
+                  "x": 2,
+                  "y": 0,
                   "level": 2
                 }
               },
@@ -73251,9 +73179,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2530,
-                  "y": 3029,
-                  "level": 0
+                  "x": 5060,
+                  "y": 6055,
+                  "level": 1
                 }
               },
               "relative": true
@@ -73302,8 +73230,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2531,
-                  "y": 3026,
+                  "x": 0,
+                  "y": 3,
                   "level": 0
                 }
               },
@@ -73738,8 +73666,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 1249,
-                  "y": 6729,
+                  "x": 2496,
+                  "y": 13458,
                   "level": 1
                 }
               },
@@ -73788,8 +73716,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 1915,
-                  "y": 5565,
+                  "x": 3828,
+                  "y": 11130,
                   "level": 1
                 }
               },
@@ -73838,8 +73766,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 1896,
-                  "y": 5614,
+                  "x": 3790,
+                  "y": 11228,
                   "level": 1
                 }
               },
@@ -73888,8 +73816,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3257,
-                  "y": 3421,
+                  "x": 6512,
+                  "y": 6842,
                   "level": 1
                 }
               },
@@ -73938,8 +73866,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3220,
-                  "y": 3496,
+                  "x": 6438,
+                  "y": 6992,
                   "level": 1
                 }
               },
@@ -73988,8 +73916,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3769,
-                  "y": 9053,
+                  "x": 7536,
+                  "y": 18106,
                   "level": 1
                 }
               },
@@ -74038,8 +73966,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 1231,
-                  "y": 6759,
+                  "x": 2460,
+                  "y": 13518,
                   "level": 1
                 }
               },
@@ -74088,8 +74016,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3239,
-                  "y": 3447,
+                  "x": 6476,
+                  "y": 6894,
                   "level": 1
                 }
               },
@@ -74138,8 +74066,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3751,
-                  "y": 9079,
+                  "x": 7500,
+                  "y": 18158,
                   "level": 1
                 }
               },
@@ -74184,9 +74112,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 1,
-                  "y": -1,
-                  "level": -1
+                  "x": 1248,
+                  "y": 6728,
+                  "level": 0
                 }
               }
             }
@@ -74229,9 +74157,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 1,
-                  "y": -1,
-                  "level": -1
+                  "x": 1914,
+                  "y": 5564,
+                  "level": 0
                 }
               }
             }
@@ -74274,9 +74202,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 1,
-                  "y": -1,
-                  "level": -1
+                  "x": 1895,
+                  "y": 5613,
+                  "level": 0
                 }
               }
             }
@@ -74319,9 +74247,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 1,
-                  "y": -1,
-                  "level": -1
+                  "x": 1879,
+                  "y": 5614,
+                  "level": 1
                 }
               }
             }
@@ -74364,9 +74292,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 1,
-                  "y": -1,
-                  "level": -1
+                  "x": 1898,
+                  "y": 5589,
+                  "level": 2
                 }
               }
             }
@@ -74409,9 +74337,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 1,
-                  "y": -1,
-                  "level": -1
+                  "x": 3256,
+                  "y": 3420,
+                  "level": 0
                 }
               }
             }
@@ -74454,9 +74382,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 1,
-                  "y": -1,
-                  "level": -1
+                  "x": 3219,
+                  "y": 3495,
+                  "level": 0
                 }
               }
             }
@@ -74499,9 +74427,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 1,
-                  "y": -1,
-                  "level": -1
+                  "x": 3203,
+                  "y": 3496,
+                  "level": 1
                 }
               }
             }
@@ -74544,9 +74472,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 1,
-                  "y": -1,
-                  "level": -1
+                  "x": 3222,
+                  "y": 3471,
+                  "level": 2
                 }
               }
             }
@@ -74589,9 +74517,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 1,
-                  "y": -1,
-                  "level": -1
+                  "x": 3257,
+                  "y": 3487,
+                  "level": 2
                 }
               }
             }
@@ -74634,9 +74562,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 1,
-                  "y": -1,
-                  "level": -1
+                  "x": 3768,
+                  "y": 9052,
+                  "level": 0
                 }
               }
             }
@@ -74679,9 +74607,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 1,
-                  "y": -1,
-                  "level": -1
+                  "x": 3769,
+                  "y": 9119,
+                  "level": 2
                 }
               }
             }
@@ -74724,9 +74652,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 1,
-                  "y": -1,
-                  "level": -1
+                  "x": 1230,
+                  "y": 6758,
+                  "level": 0
                 }
               }
             }
@@ -74769,9 +74697,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 1,
-                  "y": -1,
-                  "level": -1
+                  "x": 3238,
+                  "y": 3446,
+                  "level": 0
                 }
               }
             }
@@ -74814,9 +74742,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 1,
-                  "y": -1,
-                  "level": -1
+                  "x": 3750,
+                  "y": 9078,
+                  "level": 0
                 }
               }
             }
@@ -75872,8 +75800,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2736,
-                  "y": 3580,
+                  "x": 6316,
+                  "y": 846,
                   "level": 1
                 }
               },
@@ -75918,9 +75846,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2736,
-                  "y": 3580,
-                  "level": 0
+                  "x": 6316,
+                  "y": 845,
+                  "level": 1
                 }
               },
               "relative": true
@@ -76303,8 +76231,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 1880,
-                  "y": 5615,
+                  "x": 3758,
+                  "y": 11230,
                   "level": 1
                 }
               },
@@ -76353,9 +76281,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 1899,
-                  "y": 5590,
-                  "level": 3
+                  "x": 3796,
+                  "y": 11180,
+                  "level": 5
                 }
               },
               "relative": true
@@ -76403,8 +76331,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3204,
-                  "y": 3497,
+                  "x": 6406,
+                  "y": 6994,
                   "level": 1
                 }
               },
@@ -76453,8 +76381,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3258,
-                  "y": 3486,
+                  "x": 6744,
+                  "y": 230,
                   "level": 1
                 }
               },
@@ -76503,9 +76431,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3223,
-                  "y": 3472,
-                  "level": 3
+                  "x": 6444,
+                  "y": 6944,
+                  "level": 5
                 }
               },
               "relative": true
@@ -76553,8 +76481,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3770,
-                  "y": 9118,
+                  "x": 12888,
+                  "y": 5350,
                   "level": 1
                 }
               },
@@ -76603,9 +76531,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 1880,
-                  "y": 5615,
-                  "level": 2
+                  "x": 3758,
+                  "y": 11230,
+                  "level": 3
                 }
               },
               "relative": true
@@ -76633,9 +76561,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 1879,
-                  "y": 5614,
-                  "level": 0
+                  "x": 3757,
+                  "y": 11229,
+                  "level": 1
                 }
               },
               "relative": true
@@ -76683,9 +76611,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3204,
-                  "y": 3497,
-                  "level": 2
+                  "x": 6406,
+                  "y": 6994,
+                  "level": 3
                 }
               },
               "relative": true
@@ -76713,9 +76641,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3203,
-                  "y": 3496,
-                  "level": 0
+                  "x": 6405,
+                  "y": 6993,
+                  "level": 1
                 }
               },
               "relative": true
@@ -76763,9 +76691,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3258,
-                  "y": 3486,
-                  "level": 2
+                  "x": 6744,
+                  "y": 230,
+                  "level": 3
                 }
               },
               "relative": true
@@ -76793,9 +76721,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3257,
-                  "y": 3487,
-                  "level": 0
+                  "x": 6745,
+                  "y": 231,
+                  "level": 1
                 }
               },
               "relative": true
@@ -76843,9 +76771,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3258,
-                  "y": 3486,
-                  "level": 3
+                  "x": 6744,
+                  "y": 230,
+                  "level": 5
                 }
               },
               "relative": true
@@ -76873,9 +76801,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3257,
-                  "y": 3487,
-                  "level": 1
+                  "x": 6745,
+                  "y": 231,
+                  "level": 3
                 }
               },
               "relative": true
@@ -76923,9 +76851,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3770,
-                  "y": 9118,
-                  "level": 2
+                  "x": 12888,
+                  "y": 5350,
+                  "level": 3
                 }
               },
               "relative": true
@@ -76953,9 +76881,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3769,
-                  "y": 9119,
-                  "level": 0
+                  "x": 12889,
+                  "y": 5351,
+                  "level": 1
                 }
               },
               "relative": true
@@ -77003,9 +76931,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3770,
-                  "y": 9118,
-                  "level": 3
+                  "x": 12888,
+                  "y": 5350,
+                  "level": 5
                 }
               },
               "relative": true
@@ -77033,9 +76961,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3769,
-                  "y": 9119,
-                  "level": 1
+                  "x": 12889,
+                  "y": 5351,
+                  "level": 3
                 }
               },
               "relative": true
@@ -77980,8 +77908,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2333,
-                  "y": 7851,
+                  "x": 10184,
+                  "y": 5518,
                   "level": 1
                 }
               },
@@ -78031,8 +77959,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3357,
-                  "y": 3307,
+                  "x": 6664,
+                  "y": -50,
                   "level": 1
                 }
               },
@@ -78081,8 +78009,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2345,
-                  "y": 7851,
+                  "x": 10194,
+                  "y": 5506,
                   "level": 1
                 }
               },
@@ -78131,8 +78059,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3369,
-                  "y": 3307,
+                  "x": 6674,
+                  "y": -62,
                   "level": 1
                 }
               },
@@ -78181,9 +78109,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2342,
-                  "y": 7850,
-                  "level": 0
+                  "x": 10193,
+                  "y": 5508,
+                  "level": 1
                 }
               },
               "relative": true
@@ -78231,9 +78159,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3366,
-                  "y": 3306,
-                  "level": 0
+                  "x": 6673,
+                  "y": -60,
+                  "level": 1
                 }
               },
               "relative": true
@@ -78281,9 +78209,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2336,
-                  "y": 7850,
-                  "level": 0
+                  "x": 10183,
+                  "y": 5514,
+                  "level": 1
                 }
               },
               "relative": true
@@ -78331,9 +78259,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3360,
-                  "y": 3306,
-                  "level": 0
+                  "x": 6663,
+                  "y": -54,
+                  "level": 1
                 }
               },
               "relative": true
@@ -78681,8 +78609,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2471,
-                  "y": 3423,
+                  "x": 4942,
+                  "y": 6848,
                   "level": 1
                 }
               },
@@ -78732,8 +78660,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2473,
-                  "y": 3423,
+                  "x": 4946,
+                  "y": 6848,
                   "level": 1
                 }
               },
@@ -78783,8 +78711,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2475,
-                  "y": 3423,
+                  "x": 4950,
+                  "y": 6848,
                   "level": 1
                 }
               },
@@ -79587,8 +79515,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 74,
-                  "y": -17,
+                  "x": 2588,
+                  "y": 9573,
                   "level": 0
                 }
               }
@@ -79625,8 +79553,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": -11,
-                  "y": -61,
+                  "x": 2567,
+                  "y": 9524,
                   "level": 0
                 }
               }
@@ -79916,8 +79844,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 12,
-                  "y": 6390,
+                  "x": 2826,
+                  "y": 2998,
                   "level": 0
                 }
               }
@@ -79961,9 +79889,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2,
-                  "y": 1,
-                  "level": 0
+                  "x": 3439,
+                  "y": 3331,
+                  "level": 1
                 }
               }
             },
@@ -80007,9 +79935,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2,
-                  "y": 1,
-                  "level": 0
+                  "x": 3441,
+                  "y": 3329,
+                  "level": 1
                 }
               }
             }
@@ -80052,9 +79980,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2,
-                  "y": 1,
-                  "level": 0
+                  "x": 3440,
+                  "y": 3331,
+                  "level": 1
                 }
               }
             },
@@ -80098,9 +80026,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2,
-                  "y": 1,
-                  "level": 0
+                  "x": 3442,
+                  "y": 3329,
+                  "level": 1
                 }
               }
             }
@@ -80288,8 +80216,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": -1067,
-                  "y": 4178,
+                  "x": 2079,
+                  "y": 6960,
                   "level": 0
                 }
               }
@@ -80306,8 +80234,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 46,
-                  "y": -67,
+                  "x": 3192,
+                  "y": 2715,
                   "level": 0
                 }
               }
@@ -80324,8 +80252,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 81,
-                  "y": -3,
+                  "x": 3227,
+                  "y": 2779,
                   "level": 0
                 }
               }
@@ -80342,8 +80270,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 27,
-                  "y": -142,
+                  "x": 3173,
+                  "y": 2640,
                   "level": 0
                 }
               }
@@ -80380,8 +80308,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 1131,
-                  "y": -4157,
+                  "x": 2097,
+                  "y": 6941,
                   "level": 0
                 }
               }
@@ -80398,8 +80326,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 36,
-                  "y": 69,
+                  "x": 3192,
+                  "y": 2715,
                   "level": 0
                 }
               }
@@ -80416,8 +80344,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 55,
-                  "y": 144,
+                  "x": 3173,
+                  "y": 2640,
                   "level": 0
                 }
               }
@@ -80434,8 +80362,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 78,
-                  "y": -2,
+                  "x": 3150,
+                  "y": 2786,
                   "level": 0
                 }
               }
@@ -80472,8 +80400,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": -1131,
-                  "y": 4233,
+                  "x": 2060,
+                  "y": 6942,
                   "level": 0
                 }
               }
@@ -80490,8 +80418,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 36,
-                  "y": 70,
+                  "x": 3227,
+                  "y": 2779,
                   "level": 0
                 }
               }
@@ -80508,8 +80436,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": -18,
-                  "y": -69,
+                  "x": 3173,
+                  "y": 2640,
                   "level": 0
                 }
               }
@@ -80526,8 +80454,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": -41,
-                  "y": 77,
+                  "x": 3150,
+                  "y": 2786,
                   "level": 0
                 }
               }
@@ -80564,8 +80492,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 1097,
-                  "y": -4285,
+                  "x": 2078,
+                  "y": 6923,
                   "level": 0
                 }
               }
@@ -80582,8 +80510,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": -17,
-                  "y": -77,
+                  "x": 3192,
+                  "y": 2715,
                   "level": 0
                 }
               }
@@ -80600,8 +80528,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": -52,
-                  "y": -141,
+                  "x": 3227,
+                  "y": 2779,
                   "level": 0
                 }
               }
@@ -80618,8 +80546,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 25,
-                  "y": -148,
+                  "x": 3150,
+                  "y": 2786,
                   "level": 0
                 }
               }
@@ -82363,89 +82291,6 @@
               "level": -1
             },
             "orientation": "toentitybefore"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Old ruin entrance",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2695.5,
-        "y": 3283.5
-      },
-      "botright": {
-        "x": 2696.5,
-        "y": 3282.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderdown",
-        "interactive_area": {
-          "origin": {
-            "x": 2697,
-            "y": 3283,
-            "level": 0
-          }
-        },
-        "name": "Climb-down",
-        "movement": [
-          {
-            "time": 1,
-            "fixed_target": {
-              "target": {
-                "origin": {
-                  "x": 2696,
-                  "y": 9684,
-                  "level": 0
-                }
-              }
-            }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Exit",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2695.5,
-        "y": 9682.5
-      },
-      "botright": {
-        "x": 2696.5,
-        "y": 9681.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 1,
-            "fixed_target": {
-              "target": {
-                "origin": {
-                  "x": 2697,
-                  "y": 3283,
-                  "level": 0
-                }
-              }
-            }
           }
         ]
       }

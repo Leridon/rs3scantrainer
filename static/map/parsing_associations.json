@@ -1902,7 +1902,7 @@
       },
       "group_name": "Simple Jump to rock",
       "instance_groups": [],
-      "parser_id": "prototypecopyloc"
+      "parser_id": "prototypecopyloclegacy"
     },
     {
       "group_id": 581,
@@ -2297,7 +2297,7 @@
       },
       "group_name": "Dorgesh Kaan Stair Up",
       "instance_groups": [],
-      "parser_id": "prototypecopyloc"
+      "parser_id": "prototypecopyloclegacy"
     },
     {
       "group_id": 660,
@@ -2351,7 +2351,7 @@
       },
       "group_name": "",
       "instance_groups": [],
-      "parser_id": "prototypecopyloc"
+      "parser_id": "prototypecopyloclegacy"
     },
     {
       "group_id": 663,
@@ -2410,7 +2410,7 @@
       },
       "group_name": "",
       "instance_groups": [],
-      "parser_id": "prototypecopyloc"
+      "parser_id": "prototypecopyloclegacy"
     },
     {
       "group_id": 664,
@@ -2469,7 +2469,7 @@
       },
       "group_name": "",
       "instance_groups": [],
-      "parser_id": "prototypecopyloc"
+      "parser_id": "prototypecopyloclegacy"
     },
     {
       "group_id": 667,
@@ -2562,7 +2562,7 @@
       },
       "group_name": "Stiles",
       "instance_groups": [],
-      "parser_id": "prototypecopyloc"
+      "parser_id": "prototypecopyloclegacy"
     },
     {
       "group_id": 668,

@@ -13,7 +13,14 @@ export abstract class Process<Result> {
   protected end_time: number
   private progress: number
 
+  private interrupt_length: number = 1
+
   private timeout: number = Number.MAX_SAFE_INTEGER
+
+  withInterrupt(length: number): this {
+    this.interrupt_length = length
+    return this
+  }
 
   withTimeout(timeout: number): this {
     this.timeout = timeout
@@ -50,7 +57,7 @@ export abstract class Process<Result> {
 
   protected async interrupt() {
     this.interrupt_ewent.trigger(null)
-    await delay(1)
+    await delay(this.interrupt_length)
   }
 
   stop() {

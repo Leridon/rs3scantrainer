@@ -6,7 +6,6 @@ export interface Ewent<T> {
   filtered(predicate: (e: T) => boolean): Ewent.Filtered<T>
 }
 
-
 export function ewent<T>(): Ewent.Real<T> {
   return new Ewent.Real<T>()
 }

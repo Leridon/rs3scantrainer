@@ -314,6 +314,7 @@ export namespace CompassReader {
 
 
   export function isArcClue(buf: ImageData) {
+    return false
 
     // TODO: Reimplement.
     let n = 0;

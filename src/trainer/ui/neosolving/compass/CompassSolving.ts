@@ -17,11 +17,19 @@ import {Process} from "../../../../lib/Process";
 import * as a1lib from "@alt1/base";
 import {CompassReader} from "../cluereader/CompassReader";
 import {OverlayGeometry} from "../../../../lib/util/OverlayGeometry";
+import {Transportation} from "../../../../lib/runescape/transportation";
+import {TransportData} from "../../../../data/transports";
+import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
+import {PathGraphics} from "../../path_graphics";
+import {util} from "../../../../lib/util/util";
 import hbox = C.hbox;
 import span = C.span;
-import spacer = C.spacer;
 import cls = C.cls;
 import MatchedUI = ClueReader.MatchedUI;
+import TeleportGroup = Transportation.TeleportGroup;
+import findBestMatch = util.findBestMatch;
+import stringSimilarity = util.stringSimilarity;
+
 
 class CompassHandlingLayer extends GameLayer {
   private lines: {
@@ -48,9 +56,8 @@ class CompassHandlingLayer extends GameLayer {
     this.lines = []
 
     const information = this.solving.entries.filter(e => e.position && e.angle != null).map<Compasses.TriangulationPoint>(e => {
-
       return {
-        position: e.position.coords,
+        position: CompassSolving.Spot.coords(e.position),
         angle_radians: e.angle
       }
     })
@@ -58,7 +65,7 @@ class CompassHandlingLayer extends GameLayer {
     this.lines = information.map(info => {
       console.log(radiansToDegrees(info.angle_radians).toFixed(0))
 
-      const from = info.position
+      const from = info.position.center()
 
       const off = Vector2.transform(Vector2.scale(2000, Compasses.ANGLE_REFERENCE_VECTOR), Transform.rotationRadians(info.angle_radians))
 
@@ -89,7 +96,7 @@ class CompassHandlingLayer extends GameLayer {
     event.onPost(() => {
 
       if (event.active_entity instanceof TeleportSpotEntity) {
-        this.solving.registerSpot(event.active_entity.teleport.centerOfTarget())
+        this.solving.registerSpot(event.active_entity.teleport)
       } else {
         this.solving.registerSpot(event.tile())
       }
@@ -114,7 +121,7 @@ class KnownCompassSpot extends MapEntity {
   }
 
   protected async render_implementation(props: MapEntity.RenderProps): Promise<Element> {
-    const marker = new TileMarker(this.spot).withMarker(null, props.highlight ? 1.5 : 1).addTo(this)
+    const marker = new TileMarker(this.spot).withMarker(null, 0.5 * (props.highlight ? 1.5 : 1)).addTo(this)
       .setOpacity(props.opacity)
 
     return marker.marker.getElement()
@@ -124,7 +131,11 @@ class KnownCompassSpot extends MapEntity {
 class CompassReadProcess extends Process<void> {
   public state: CompassReader.CompassState = null
 
-  constructor(private solving: CompassSolving) {super();}
+  constructor(private solving: CompassSolving) {
+    super();
+
+    this.withInterrupt(20)
+  }
 
   private overlay: OverlayGeometry = new OverlayGeometry()
 
@@ -166,18 +177,17 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
   process: CompassReadProcess
 
   entries: {
-    position?: {
-      coords: TileCoordinates
-      teleport_id?: {
-        group: string,
-        spot: string,
-        access?: string
-      }
-    },
+    position?: TileCoordinates | TeleportGroup.Spot,
     angle: number | null,
   }[] = [
-    {position: {coords: {"x": 2112, "y": 3913, "level": 0}, teleport_id: {group: "lunarspellbook", spot: "moonclan"}}, angle: null},
-    {position: {coords: {"x": 2416, "y": 2851, "level": 0}, teleport_id: {group: "normalspellbook", spot: "southfeldiphills"}}, angle: null},
+    {
+      position: TransportData.resolveTeleport({group: "lunarspellbook", spot: "moonclan"}),
+      angle: null
+    },
+    {
+      position: TransportData.resolveTeleport({group: "normalspellbook", spot: "southfeldiphills"}),
+      angle: null
+    },
   ]
 
   selection_index: number = 0
@@ -202,6 +212,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     const container = this.parent.layer.compass_container
 
     cls("ctr-neosolving-solution-row")
+      .addClass("ctr-neosolving-compass-entries-header")
       .text("Compass Solver")
       .appendTo(container)
 
@@ -212,38 +223,56 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
           this.renderWidget()
         })
 
-      if (this.selection_index == i) {
-        row.css("border", "1px solid red")
-      }
-
-      if (element.angle != null) {
-        row.append(
-          span(`${radiansToDegrees(element.angle).toFixed(0)}°`),
-        )
-      } else {
-        row.append(
-          span(`NULL°`),
-        )
-      }
+      if (this.selection_index == i) row.addClass("ctr-neosolving-compass-entry-selected")
 
       if (element.position) {
-        row.append(span(TileCoordinates.toString(element.position.coords)))
+        const position = cls("ctr-neosolving-compass-entry-position").appendTo(row)
+
+        if (element.position instanceof TeleportGroup.Spot) {
+          position.append(PathGraphics.Teleport.asSpan(element.position),
+            span(element.position.spot.name)
+          )
+        } else {
+          position.append(span(TileCoordinates.toString(element.position)))
+        }
+
       } else {
         row.append(span("???"))
       }
+      {
+        const angle = cls("ctr-neosolving-compass-entry-angle").appendTo(row)
 
-      row.append(spacer())
+        if (element.angle != null) {
+          angle.append(
+            span(`${radiansToDegrees(element.angle).toFixed(0)}°`),
+          )
+        } else {
+          angle.append(
+            span(`???°`),
+          )
+        }
+      }
 
-      if (element.angle != null) {
-        row.append(c().text("X").css("border", "1px solid red")
+      {
+        const button = cls("ctr-neosolving-compass-entry-button")
+          .appendTo(row)
           .on("click", () => {
-            this.discard(i)
-          }))
-      } else {
-        row.append(c().text("J").css("border", "1px solid green")
-          .on("click", () => {
-            this.commit(i)
-          }))
+            if (element.angle != null) {
+              this.discard(i)
+            } else {
+              this.commit(i)
+            }
+          })
+
+        if (element.angle != null) {
+
+          button.addClass("ctr-neosolving-compass-entry-button-discard")
+            .text("X")
+        } else {
+
+          button.addClass("ctr-neosolving-compass-entry-button-commit")
+            .text("J")
+        }
       }
 
 
@@ -272,7 +301,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     if (!this.entries.some(e => e.angle == null)) {
       this.entries.push({
-        position: {coords: {x: 2114, y: 3915, level: 0}},
+        position: TransportData.resolveTeleport({group: "lunarspellbook", spot: "moonclan"}),
         angle: null
       })
     }
@@ -283,11 +312,9 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     this.layer.updateOverlay()
   }
 
-  registerSpot(coords: TileCoordinates): void {
+  registerSpot(coords: TileCoordinates | TeleportGroup.Spot): void {
     this.entries[this.selection_index] = {
-      position: {
-        coords: coords,
-      },
+      position: coords,
       angle: null
     }
 
@@ -303,6 +330,20 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     this.parent.layer.add(this.layer)
 
     this.process.run()
+
+    this.parent.app.main_hotkey.subscribe(0, e => {
+      if (e.text) {
+        const matched_teleport = findBestMatch(CompassSolving.teleport_hovers, ref => stringSimilarity(e.text, ref.expected), 0.9)
+
+        if (matched_teleport) {
+          const tele = TransportData.resolveTeleport(matched_teleport.value.teleport_id)
+          if (!tele) return
+          this.registerSpot(tele)
+        }
+      } else {
+        this.commit()
+      }
+    })
   }
 
   protected end() {
@@ -310,4 +351,53 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     if (this.process) this.process.stop()
   }
+}
+
+export namespace CompassSolving {
+  export type Spot = TileCoordinates | TeleportGroup.Spot
+
+  export namespace Spot {
+    import activate = TileArea.activate;
+
+    export function coords(spot: Spot): TileArea.ActiveTileArea {
+      if (spot instanceof TeleportGroup.Spot) return activate(spot.targetArea())
+      else return activate(TileArea.init(spot))
+    }
+  }
+  export const teleport_hovers: {
+    expected: string,
+    teleport_id: TeleportGroup.SpotId
+  }[] = [
+    {
+      expected: "Cast South Feldip Hills Teleport",
+      teleport_id: {group: "normalspellbook", spot: "southfeldiphills"}
+    }, {
+      expected: "Cast Taverley Teleport",
+      teleport_id: {group: "normalspellbook", spot: "taverley"}
+    }, {
+      expected: "Cast Varrock Teleport",
+      teleport_id: {group: "normalspellbook", spot: "varrock"}
+    }, {
+      expected: "Cast Lumbridge Teleport",
+      teleport_id: {group: "normalspellbook", spot: "lumbridge"}
+    }, {
+      expected: "Cast Falador Teleport",
+      teleport_id: {group: "normalspellbook", spot: "falador"}
+    }, {
+      expected: "Cast Camelot Teleport",
+      teleport_id: {group: "normalspellbook", spot: "camelot"}
+    }, {
+      expected: "Cast Ardougne Teleport",
+      teleport_id: {group: "normalspellbook", spot: "ardougne"}
+    }, {
+      expected: "Cast Watchtower Teleport",
+      teleport_id: {group: "normalspellbook", spot: "watchtower-yanille"}
+    }, {
+      expected: "Cast Trollheim Teleport",
+      teleport_id: {group: "normalspellbook", spot: "trollheim"}
+    }, {
+      expected: "Cast God Wars Dungeon Teleport",
+      teleport_id: {group: "normalspellbook", spot: "godwars"}
+    },
+  ]
 }

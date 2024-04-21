@@ -230,10 +230,25 @@ export namespace util {
   }
 
   export function stringSimilarity(string: string, reference: string): number {
-
     return 1 - levenshteinEditDistance(string, reference, true) / reference.length
   }
 
+  export function findBestMatch<T>(collection: T[], score_f: (_: T) => number, min_score: number = undefined, inverted: boolean = false): {
+    value: T,
+    score: number
+  } | null {
+    const elements = collection.map(e => ({value: e, score: score_f(e)}))
+
+    if (inverted) {
+      const e = lodash.minBy(elements, e => e.score)
+      if (min_score != undefined && e.score > min_score) return null
+      else return e
+    } else {
+      const e = lodash.maxBy(elements, e => e.score)
+      if (min_score != undefined && e.score < min_score) return null
+      else return e
+    }
+  }
 
   export namespace A1Color {
     export function fromHex(hex: string): number {

@@ -14,9 +14,7 @@ class AngularKeyframeFunction {
     angle: number,
     value: number
   }[]) {
-
     this.keyframes = lodash.sortBy(keyframes, e => e.angle)
-    console.log(this.keyframes)
   }
 
   sample(angle: number): number {
@@ -40,8 +38,6 @@ class AngularKeyframeFunction {
   static fromCalibrationSamples(samples: {
     position: Vector2, is_angle_degrees: number
   }[]): AngularKeyframeFunction {
-    console.log(samples)
-
     return new AngularKeyframeFunction(
       samples.map(({position, is_angle_degrees}) => {
         const should_angle = Vector2.angle(ANGLE_REFERENCE_VECTOR, {x: -position.x, y: -position.y})
@@ -109,7 +105,7 @@ export namespace CompassReader {
 
   ])
 
-  const DEBUG_COMPASS_READER = true
+  const DEBUG_COMPASS_READER = false
   const DISABLE_CALIBRATION = false
 
   import angleDifference = Compasses.angleDifference;
@@ -247,7 +243,8 @@ export namespace CompassReader {
       debug_overlay.render()
     }
 
-    if (circle_sampled_pixels.length == 0) return {type: "likely_concealed"}
+    if (circle_sampled_pixels.length == 0) return {type: "likely_closed"}
+    if (circle_sampled_pixels.length > 5) return {type: "likely_concealed"}
 
     // Map all sample points to their respective angle
     // The angle is taken from the true center of the compass arrow, which is why we offset the samples by 0.5

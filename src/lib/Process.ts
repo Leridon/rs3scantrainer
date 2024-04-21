@@ -11,14 +11,38 @@ export abstract class Process<Result> {
   protected start_time: number
   private last_interrupt_time: number
   protected end_time: number
-  private progress: number
 
-  private interrupt_length: number = 1
+  private interrupt_settings: {
+    interval?: number,
+    interrupt?: {
+      interval: number,
+      length: number
+    }
+  } = {
+    interrupt: {
+      interval: 50,
+      length: 1
+    }
+  }
 
   private timeout: number = Number.MAX_SAFE_INTEGER
 
-  withInterrupt(length: number): this {
-    this.interrupt_length = length
+  asInterval(interval: number): this {
+    this.interrupt_settings = {
+      interval: interval
+    }
+
+    return this
+  }
+
+  withInterrupt(interval: number, length: number): this {
+    this.interrupt_settings = {
+      interrupt: {
+        interval: interval,
+        length: length,
+      }
+    }
+
     return this
   }
 
@@ -55,9 +79,9 @@ export abstract class Process<Result> {
     return this
   }
 
-  protected async interrupt() {
+  protected async interrupt(length: number) {
     this.interrupt_ewent.trigger(null)
-    await delay(this.interrupt_length)
+    await delay(length)
   }
 
   stop() {
@@ -76,12 +100,27 @@ export abstract class Process<Result> {
   protected async checkTime() {
     const t = Date.now()
 
-    const INTERRUPT_FREQUENCY = 50
+    if (this.interrupt_settings.interval) {
+      await this.interrupt(Math.max(this.interrupt_settings.interval / 2, (this.last_interrupt_time + this.interrupt_settings.interval) - t))
+    } else {
+      if (t >= this.end_time) this.stop()
+      else if (t >= this.last_interrupt_time + this.interrupt_settings.interrupt.interval) {
+        this.last_interrupt_time = t
+        await this.interrupt(this.interrupt_settings.interrupt.length)
+      }
+    }
+  }
+}
 
-    if (t >= this.end_time) this.stop()
-    else if (t >= this.last_interrupt_time + INTERRUPT_FREQUENCY) {
-      this.last_interrupt_time = t
-      await this.interrupt()
+export namespace Process {
+  export type ArcheType = {
+    type: "interval",
+    interval: number
+  } | {
+    type: "process",
+    interrupt: {
+      interval: number,
+      length: number
     }
   }
 }

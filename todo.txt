@@ -1,6 +1,23 @@
-Planned for next release (b0.4):
+Compass solver:
+    - Finish calibration.
+    - Context Menu Matchers for lodestones, lunar and ancient spellbooks
+    - Configuration Options:
+        - Auto-Commit on angle change > threshold
+        - Prepared sequence for elite/master
+        - Antialiasing
+    - Fit to spots when < 5 candidates or something
+    - Don't fit to entire world on start
+    - Add method selectors for candidate spots
+        - Show paths for all candidates? Or just the selected one?
+    - Update ???° to currently predicted angle
+    - Improve entry styling
+    - Tweak "likely_concealed" and "likely_closed" to actually work properly
+    - Explanation Modal
+    - Actually include size of Tile Area in isPossible and drawn lines
+    - Properly disable clue reader while compass reader is active (?)
+    - Chatbox read service to look for sextant message
 
-Must be done in April:
+Must be done in April (transports):
 Not in dataset:
     Holgart/Jeb travel to the fishing platform
     Observatory rope shortcut

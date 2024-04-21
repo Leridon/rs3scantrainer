@@ -15,6 +15,7 @@ import * as lodash from "lodash";
 import {ClueReader} from "../cluereader/ClueReader";
 import {Process} from "../../../../lib/Process";
 import * as a1lib from "@alt1/base";
+import {mixColor} from "@alt1/base";
 import {CompassReader} from "../cluereader/CompassReader";
 import {OverlayGeometry} from "../../../../lib/util/OverlayGeometry";
 import {Transportation} from "../../../../lib/runescape/transportation";
@@ -22,6 +23,7 @@ import {TransportData} from "../../../../data/transports";
 import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
 import {PathGraphics} from "../../path_graphics";
 import {util} from "../../../../lib/util/util";
+import {ewent, observe} from "../../../../lib/reactive";
 import hbox = C.hbox;
 import span = C.span;
 import cls = C.cls;
@@ -128,13 +130,14 @@ class KnownCompassSpot extends MapEntity {
   }
 }
 
-class CompassReadProcess extends Process<void> {
-  public state: CompassReader.CompassState = null
+class CompassReadService extends Process<void> {
+  angle = observe<number>(null)
+  closed = ewent<this>()
 
-  constructor(private solving: CompassSolving) {
+  constructor(private matched_ui: MatchedUI.Compass) {
     super();
 
-    this.withInterrupt(20)
+    this.asInterval(100)
   }
 
   private overlay: OverlayGeometry = new OverlayGeometry()
@@ -142,7 +145,7 @@ class CompassReadProcess extends Process<void> {
   async implementation(): Promise<void> {
 
     while (!this.should_stop) {
-      const capture_rect = this.solving.ui.rect
+      const capture_rect = this.matched_ui.rect
 
       const img = a1lib.captureHold(
         Rectangle.screenOrigin(capture_rect).x,
@@ -156,12 +159,24 @@ class CompassReadProcess extends Process<void> {
 
       const read = CompassReader.readCompassState(CompassReader.find(img, Rectangle.screenOrigin(capture_rect)))
 
-      if (read.type != "success") continue
+      switch (read.type) {
+        case "likely_closed":
+          this.closed.trigger(this)
+          break;
+        case "likely_concealed":
+          break;
+        case "success":
+          this.angle.set(read.state.angle)
 
-      this.state = read.state
+          this.overlay.text(`${radiansToDegrees(read.state.angle).toFixed(2)}°`,
+            Vector2.add(Rectangle.center(capture_rect), {x: 5, y: 8}), {
+              shadow: true,
+              centered: true,
+              width: 15,
+              color: mixColor(255, 255, 255)
+            })
 
-      if (read) {
-        this.overlay.text(`${radiansToDegrees(read.state.angle).toFixed(2)}°`, Vector2.add(Rectangle.center(capture_rect), {x: 0, y: -150}))
+          break;
       }
 
       this.overlay.render()
@@ -174,7 +189,7 @@ class CompassReadProcess extends Process<void> {
 export class CompassSolving extends NeoSolvingSubBehaviour {
   layer: CompassHandlingLayer
 
-  process: CompassReadProcess
+  process: CompassReadService
 
   entries: {
     position?: TileCoordinates | TeleportGroup.Spot,
@@ -203,7 +218,13 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     this.debug_solution = clue.spots[lodash.random(0, clue.spots.length)]
 
-    if (ui) this.process = new CompassReadProcess(this)
+    if (ui) {
+      this.process = new CompassReadService(this.ui)
+
+      this.process.closed.on(() => {
+        this.stop()
+      })
+    }
   }
 
   renderWidget() {
@@ -235,10 +256,10 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
         } else {
           position.append(span(TileCoordinates.toString(element.position)))
         }
-
       } else {
-        row.append(span("???"))
+        row.append()
       }
+
       {
         const angle = cls("ctr-neosolving-compass-entry-angle").appendTo(row)
 
@@ -297,7 +318,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     if (!this.entries[i]?.position) return
     if (this.entries[i].angle != null) return
 
-    this.entries[i].angle = this.process.state.angle
+    this.entries[i].angle = this.process.angle.value()
 
     if (!this.entries.some(e => e.angle == null)) {
       this.entries.push({

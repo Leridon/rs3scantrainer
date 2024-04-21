@@ -12,24 +12,15 @@ import {Clues} from "../../../lib/runescape/clues";
 import {clue_data} from "../../../data/clues";
 import PreparedSearchIndex from "../../../lib/util/PreparedSearchIndex";
 import {Observable, observe} from "../../../lib/reactive";
-import {floor_t, TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
+import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 import * as lodash from "lodash";
-import {Rectangle, Vector2} from "../../../lib/math";
-import {util} from "../../../lib/util/util";
 import {Path} from "../../../lib/runescape/pathing";
 import {AugmentedMethod, MethodPackManager} from "../../model/MethodPackManager";
-import {ScanTheory} from "../../../lib/cluetheory/scans/Scans";
-import {Scans} from "../../../lib/runescape/clues/scans";
 import {SolvingMethods} from "../../model/methods";
-import {ScanTree} from "../../../lib/cluetheory/scans/ScanTree";
-import * as leaflet from "leaflet"
-import {ScanRegionPolygon} from "./ScanLayer";
 import BoundsBuilder from "../../../lib/gamemap/BoundsBuilder";
 import {RenderingUtility} from "../map/RenderingUtility";
-import PulseButton, {PulseIcon} from "./PulseButton";
 import MethodSelector from "./MethodSelector";
 import PathControl from "./PathControl";
-import {PathStepEntity} from "../map/entities/PathStepEntity";
 import {CursorType} from "../../../lib/runescape/CursorType";
 import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
 import {ScanEditLayer} from "../theorycrafting/scanedit/ScanEditor";
@@ -37,8 +28,6 @@ import {ClueReader} from "./cluereader/ClueReader";
 import {deps} from "../../dependencies";
 import {storage} from "../../../lib/util/storage";
 import {SettingsModal} from "../settings/SettingsEdit";
-import {TemplateResolver} from "../../../lib/util/TemplateResolver";
-import {TextRendering} from "../TextRendering";
 import {ClueEntities} from "./ClueEntities";
 import {NislIcon} from "../nisl";
 import {ClueProperties} from "../theorycrafting/ClueProperties";
@@ -46,17 +35,14 @@ import {SlideGuider, SliderModal} from "./SlideGuider";
 import {PuzzleModal} from "./PuzzleModal";
 import {Notification} from "../NotificationBar";
 import TransportLayer from "../map/TransportLayer";
+import {NeoSolvingSubBehaviour} from "./NeoSolvingSubBehaviour";
+import {CompassSolving} from "./compass/CompassSolving";
+import {ScanTreeSolvingControl} from "./scans/ScanTreeSolving";
 import span = C.span;
-import todo = util.todo;
-import PulseInformation = ScanTheory.PulseInformation;
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
-import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
 import interactionMarker = RenderingUtility.interactionMarker;
-import Order = util.Order;
-import spotNumber = ScanTree.spotNumber;
 import GenericPathMethod = SolvingMethods.GenericPathMethod;
 import inlineimg = C.inlineimg;
-import activate = TileArea.activate;
 import item = C.item;
 import cls = C.cls;
 import vbox = C.vbox;
@@ -65,9 +51,6 @@ import spacer = C.spacer;
 import space = C.space;
 import hboxl = C.hboxl;
 import notification = Notification.notification;
-import {NeoSolvingSubBehaviour} from "./NeoSolvingSubBehaviour";
-import {CompassSolving} from "./compass/CompassSolving";
-import {ScanTreeSolvingControl} from "./scans/ScanTreeSolving";
 import MatchedUI = ClueReader.MatchedUI;
 
 class NeoSolvingLayer extends GameLayer {
@@ -791,9 +774,12 @@ export default class NeoSolvingBehaviour extends Behaviour {
     }
   }
 
-
   protected begin() {
     this.app.map.addGameLayer(this.layer = new NeoSolvingLayer(this))
+
+    this.sub_behaviour.content_stopped.on(() => {
+      this.reset()
+    })
   }
 
   protected end() {

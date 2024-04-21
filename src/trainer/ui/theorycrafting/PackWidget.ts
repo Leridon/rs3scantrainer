@@ -5,14 +5,13 @@ import {C} from "../../../lib/ui/constructors";
 import {ExportImport} from "../../../lib/util/exportString";
 import ExportStringModal from "../widgets/modals/ExportStringModal";
 import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
-import Dependencies from "../../dependencies";
 import ContextMenu, {Menu} from "../widgets/ContextMenu";
 import {AssumptionProperty} from "./AssumptionProperty";
 import {EditMethodPackModal, NewMethodPackModal} from "./MethodPackModal";
 import {util} from "../../../lib/util/util";
+import {Notification} from "../NotificationBar";
 import exp = ExportImport.exp;
 import cleanedJSON = util.cleanedJSON;
-import {Notification} from "../NotificationBar";
 import notification = Notification.notification;
 
 export default class PackWidget extends Widget {
@@ -112,7 +111,7 @@ export default class PackWidget extends Widget {
             type: "basic",
             text: "Export JSON",
             handler: () => {
-              new ExportStringModal(cleanedJSON(pack)).show()
+              new ExportStringModal(cleanedJSON(pack, 4)).show()
             }
           })
         }

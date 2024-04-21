@@ -99,6 +99,16 @@ export abstract class MapEntity extends leaflet.FeatureGroup implements QuadTree
 
   abstract bounds(): Rectangle
 
+  isStillHovered(): boolean {
+    return this.getLayers().some(e => {
+      if(e instanceof leaflet.Marker || e instanceof  leaflet.Path) {
+        return e.getElement().matches(":hover")
+      }
+
+      return false
+    })
+  }
+
   isActive(): boolean {
     return this.parent?.activeEntity() == this
   }

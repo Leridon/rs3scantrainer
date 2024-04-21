@@ -136,6 +136,10 @@ export class GameMap extends leaflet.Map {
       this.on("mousemove", (e) => {
         let t = this.eventCoordinate(e)
 
+        if (this.internal_root_layer.activeEntity()?.isStillHovered() == false) {
+          this.internal_root_layer.requestEntityActivation(null)
+        }
+
         if (!TileCoordinates.eq2(t, this._lastHoveredTile)) {
           this._lastHoveredTile = t
           this.event(new GameMapMouseEvent(this, e, t), (l) => (e) => l.eventHover(e))

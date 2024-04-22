@@ -31,6 +31,7 @@ import MatchedUI = ClueReader.MatchedUI;
 import TeleportGroup = Transportation.TeleportGroup;
 import findBestMatch = util.findBestMatch;
 import stringSimilarity = util.stringSimilarity;
+import {isArray} from "lodash";
 
 
 class CompassHandlingLayer extends GameLayer {
@@ -388,11 +389,12 @@ export namespace CompassSolving {
   export const teleport_hovers: {
     expected: string,
     teleport_id: TeleportGroup.SpotId
-  }[] = [
-    {
-      expected: "Cast South Feldip Hills Teleport",
-      teleport_id: {group: "normalspellbook", spot: "southfeldiphills"}
-    }, {
+  }[] =
+    [
+      {
+        expected: "Cast South Feldip Hills Teleport",
+        teleport_id: {group: "normalspellbook", spot: "southfeldiphills"}
+      }, {
       expected: "Cast Taverley Teleport",
       teleport_id: {group: "normalspellbook", spot: "taverley"}
     }, {
@@ -420,5 +422,29 @@ export namespace CompassSolving {
       expected: "Cast God Wars Dungeon Teleport",
       teleport_id: {group: "normalspellbook", spot: "godwars"}
     },
-  ]
+    ]
+
+  export type Settings = {
+    auto_commit_on_angle_change: boolean,
+    preset_triangulation_points: {
+      compass_id: number,
+      sequence: (TileCoordinates | TeleportGroup.SpotId)[]
+    }[],
+  }
+
+  export namespace Settings  {
+    export const DEFAULT: Settings = {
+      auto_commit_on_angle_change: true,
+      preset_triangulation_points: []
+    }
+
+    export function normalize(settings: Settings): Settings {
+      if(!settings) return DEFAULT
+
+      if(!isArray(settings.preset_triangulation_points)) settings.preset_triangulation_points = []
+      if(![true, false].includes(settings.auto_commit_on_angle_change)) settings.auto_commit_on_angle_change = DEFAULT.auto_commit_on_angle_change
+
+      return settings
+    }
+  }
 }

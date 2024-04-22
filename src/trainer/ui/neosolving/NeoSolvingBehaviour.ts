@@ -790,7 +790,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
 export namespace NeoSolving {
   export type Settings = {
     info_panel: Settings.InfoPanel,
-    puzzles: Settings.Puzzles
+    puzzles: Settings.Puzzles,
+    compass: CompassSolving.Settings
   }
 
   export namespace Settings {
@@ -903,6 +904,7 @@ export namespace NeoSolving {
     export const DEFAULT: Settings = {
       info_panel: InfoPanel.EVERYTHING,
       puzzles: Puzzles.DEFAULT,
+      compass: CompassSolving.Settings.DEFAULT
     }
 
     export function normalize(settings: Settings): Settings {
@@ -910,7 +912,7 @@ export namespace NeoSolving {
 
       settings.info_panel = InfoPanel.normalize(settings.info_panel)
       settings.puzzles = Puzzles.normalize(settings.puzzles)
-
+      settings.compass = CompassSolving.Settings.normalize(settings.compass)
 
       return settings
     }

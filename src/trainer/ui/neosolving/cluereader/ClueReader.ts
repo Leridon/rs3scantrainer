@@ -340,7 +340,10 @@ export class ClueReader {
         case "compass": {
           const compass_state = CompassReader.readCompassState(found_ui)
 
-          if (compass_state?.type != "success") return null
+          if (compass_state?.type != "success") {
+            console.log(compass_state.type)
+            return null
+          }
 
           if (CLUEREADERDEBUG)
             notification(`Compass ${JSON.stringify(compass_state)}`).show()

@@ -18,6 +18,9 @@ class AngularKeyframeFunction {
   }
 
   sample(angle: number): number {
+    if (this.keyframes.length == 0) return 0
+    if (this.keyframes.length == 1) return this.keyframes[0].value
+
     let index_a = lodash.findLastIndex(this.keyframes, e => e.angle < angle)
     if (index_a < 0) index_a = this.keyframes.length - 1
 
@@ -28,18 +31,15 @@ class AngularKeyframeFunction {
 
     const t = angleDifference(angle, previous.angle) / angleDifference(next.angle, previous.angle)
 
-    let res = (1 - t) * previous.value + t * next.value  // Linearly interpolate between keyframes
-
-    //console.log(`Correcting by ${res.toFixed(2)}`)
-
-    return res
+    // Linearly interpolate between keyframes
+    return (1 - t) * previous.value + t * next.value
   }
 
   static fromCalibrationSamples(samples: {
     position: Vector2, is_angle_degrees: number
   }[]): AngularKeyframeFunction {
     return new AngularKeyframeFunction(
-      samples.map(({position, is_angle_degrees}) => {
+      samples.filter(s => s.is_angle_degrees != undefined).map(({position, is_angle_degrees}) => {
         const should_angle = Vector2.angle(ANGLE_REFERENCE_VECTOR, {x: -position.x, y: -position.y})
         const is_angle = degreesToRadians(is_angle_degrees)
 
@@ -58,55 +58,8 @@ class AngularKeyframeFunction {
 
 export namespace CompassReader {
 
-  // Calibrated without Antialiasing
-  const CALIBRATION_TABLE = AngularKeyframeFunction.fromCalibrationSamples([
-
-    // Immediate neighbours (3x3)
-    {position: {x: 1, y: 0}, is_angle_degrees: 178.65},
-    {position: {x: 1, y: 1}, is_angle_degrees: 223.87},
-    {position: {x: 0, y: 1}, is_angle_degrees: 269.20},
-    {position: {x: -1, y: 1}, is_angle_degrees: 314.42},
-    {position: {x: -1, y: 0}, is_angle_degrees: 359.54},
-    {position: {x: -1, y: -1}, is_angle_degrees: 44.35},
-    {position: {x: 0, y: -1}, is_angle_degrees: 88.74},
-    {position: {x: 1, y: -1}, is_angle_degrees: 133.69},
-
-    // Knight moves (5x5)
-    {position: {x: -2, y: 1}, is_angle_degrees: 336.92},
-    {position: {x: -2, y: -1}, is_angle_degrees: 21.82},
-    {position: {x: -1, y: -2}, is_angle_degrees: 66.56},
-    {position: {x: 1, y: -2}, is_angle_degrees: 111.15},
-    {position: {x: 2, y: -1}, is_angle_degrees: 156.08},
-    {position: {x: 2, y: 1}, is_angle_degrees: 201.11},
-    {position: {x: -1, y: 2}, is_angle_degrees: 291.64},
-    {position: {x: 1, y: 2}, is_angle_degrees: 246.43},
-
-    // Tiles in the 7 by 7
-    {position: {x: -3, y: 1}, is_angle_degrees: 344.44},
-    {position: {x: -3, y: 2}, is_angle_degrees: 329.45},
-    {position: {x: -3, y: -1}, is_angle_degrees: 14.43},
-    {position: {x: -3, y: -2}, is_angle_degrees: 29.37},
-
-    {position: {x: -2, y: 3}, is_angle_degrees: 299.44},
-    {position: {x: -1, y: 3}, is_angle_degrees: 284.20},
-    {position: {x: 1, y: 3}, is_angle_degrees: 254.16},
-    {position: {x: 2, y: 3}, is_angle_degrees: 238.93},
-
-    {position: {x: 3, y: -1}, is_angle_degrees: 163.72},
-    {position: {x: 3, y: -2}, is_angle_degrees: 148.82},
-    // TODO: Two missing calibration spots
-
-    {position: {x: 2, y: -3}, is_angle_degrees: 118.86},
-    {position: {x: 1, y: -3}, is_angle_degrees: 103.92},
-    {position: {x: -1, y: -3}, is_angle_degrees: 73.95},
-    {position: {x: -2, y: -3}, is_angle_degrees: 59.20},
-
-    // 9 by 9 area
-
-  ])
-
-  const DEBUG_COMPASS_READER = false
-  const DISABLE_CALIBRATION = false
+  const DEBUG_COMPASS_READER = true
+  const DISABLE_CALIBRATION = true
 
   import angleDifference = Compasses.angleDifference;
   import MatchedUI = ClueReader.MatchedUI;
@@ -143,14 +96,16 @@ export namespace CompassReader {
   } | { type: "likely_closed" }
     | { type: "likely_concealed" }
 
-  export function readCompassState(ui: MatchedUI.Compass): CompassReadResult {
+  export function readCompassState(ui: MatchedUI.Compass,
+                                   calibration_mode: CompassReader.CalibrationMode = "off"
+  ): CompassReadResult {
     let data = ui.image.toData(
       Rectangle.screenOrigin(ui.rect).x,
       Rectangle.screenOrigin(ui.rect).y,
       UI_SIZE.x - 1,
       UI_SIZE.y - 1);
 
-    let dir = getCompassAngle(data, Rectangle.screenOrigin(ui.rect));
+    let dir = getCompassAngle(data, Rectangle.screenOrigin(ui.rect), calibration_mode);
 
     if (dir.type != "success") return {type: dir.type}
 
@@ -160,11 +115,14 @@ export namespace CompassReader {
 
   const debug_overlay = new OverlayGeometry()
 
-  function getCompassAngle(buf: ImageData, origin: Vector2): AngleResult {
-    const CENTER_OFFSET = {x: 88, y: 138}
+  function getCompassAngle(buf: ImageData, origin: Vector2,
+                           calibration_mode: CompassReader.CalibrationMode = "off"
+  ): AngleResult {
+    const CENTER_OFFSET = {x: 88, y: 137}
     const CENTER_SIZE = 2
     const OFFSET = CENTER_SIZE - 1
-    const SAMPLING_RADIUS: number = 77
+    const INITIAL_SAMPLING_RADIUS: number = 75
+    const TOTAL_SAMPLING_RADIUS: number = 80
 
     function isArrow(x: number, y: number) {
       const i = 4 * ((CENTER_OFFSET.y + y) * buf.width + x + CENTER_OFFSET.x)
@@ -180,18 +138,28 @@ export namespace CompassReader {
 
     const circle_sampled_pixels: Vector2[] = (() => {
       const sampled: Vector2[] = []
-      const r = SAMPLING_RADIUS
+      const r = INITIAL_SAMPLING_RADIUS
 
       function sample(x: number, y: number): void {
         if (isArrow(x, y)) {
           sampled.push({x, y})
-          if (DEBUG_COMPASS_READER) debug_overlay.rect(Rectangle.centeredOn(Vector2.add(origin, CENTER_OFFSET, {x, y}), 1), {color: mixColor(255, 0, 0), width: 1})
-        } else {
-          if (DEBUG_COMPASS_READER) debug_overlay.rect(Rectangle.centeredOn(Vector2.add(origin, CENTER_OFFSET, {x, y}), 1), {color: mixColor(0, 255, 0), width: 1})
         }
+
+        if (DEBUG_COMPASS_READER) {
+          /*debug_overlay.line(
+            Vector2.add(origin, CENTER_OFFSET, {x, y}),
+            Vector2.add(origin, CENTER_OFFSET, {x, y}),
+            {color: isArrow(x, y) ? mixColor(255, 0, 0) : mixColor(0, 255, 0), width: 0}
+          )*/
+
+          debug_overlay.rect(
+            Rectangle.centeredOn(Vector2.add(origin, CENTER_OFFSET, {x, y}), 0),
+            {color: isArrow(x, y) ? mixColor(255, 0, 0) : mixColor(0, 255, 0), width: 1})
+        }
+
       }
 
-      let x = CENTER_SIZE + SAMPLING_RADIUS
+      let x = CENTER_SIZE + INITIAL_SAMPLING_RADIUS
       let y = 0;
 
       // Initialising the value of P
@@ -260,8 +228,8 @@ export namespace CompassReader {
       weight: number
     }[] = []
 
-    for (let x = -SAMPLING_RADIUS + 5; x <= SAMPLING_RADIUS + 5; x++) {
-      for (let y = -SAMPLING_RADIUS + 5; y <= SAMPLING_RADIUS + 5; y++) {
+    for (let x = -TOTAL_SAMPLING_RADIUS; x <= TOTAL_SAMPLING_RADIUS; x++) {
+      for (let y = -TOTAL_SAMPLING_RADIUS; y <= TOTAL_SAMPLING_RADIUS; y++) {
         if (isArrow(x, y)) {
           let angle = Vector2.angle(ANGLE_REFERENCE_VECTOR, Vector2.normalize({x, y: -y}))
 
@@ -285,30 +253,15 @@ export namespace CompassReader {
       lodash.sum(rectangle_samples.map(a => a.weight * Math.cos(a.angle))),
     ))
 
-    const final_angle = DISABLE_CALIBRATION
-      ? angle_after_rectangle_sample
-      : normalizeAngle(angle_after_rectangle_sample + CALIBRATION_TABLE.sample(angle_after_rectangle_sample))
+    const final_angle = calibration_mode && !DISABLE_CALIBRATION
+      ? normalizeAngle(angle_after_rectangle_sample + CompassReader.calibration_tables[calibration_mode].sample(angle_after_rectangle_sample))
+      : angle_after_rectangle_sample
 
     return {
       type: "success",
       angle: final_angle
     }
-
-    /*
-    const index_a = lodash.findLastIndex(CALIBRATION_TABLE, e => e.angle < angle_after_circle_sampling)
-    const index_b = (index_a + 1) % CALIBRATION_TABLE.length
-
-    const previous = CALIBRATION_TABLE[index_a]
-    const next = CALIBRATION_TABLE[index_b]
-
-    const t = normalizeAngle(angle_after_circle_sampling - previous.angle) / angleDifference(next.angle, previous.angle)
-
-    const offset = (1 - t) * previous.offset + t * next.offset
-
-    return {type: "success", angle: normalizeAngle(angle_after_circle_sampling + offset)}
-     */
   }
-
 
   export function isArcClue(buf: ImageData) {
     return false
@@ -323,4 +276,110 @@ export namespace CompassReader {
     }
     return n > 5;
   }
+
+  export const calibration_tables = {
+    "off": AngularKeyframeFunction.fromCalibrationSamples([
+      // Immediate neighbours (3x3)
+      {position: {x: -1, y: 1}, is_angle_degrees: undefined},
+      {position: {x: 0, y: 1}, is_angle_degrees: undefined},
+      {position: {x: 1, y: 1}, is_angle_degrees: undefined},
+      {position: {x: 1, y: 0}, is_angle_degrees: undefined},
+      {position: {x: 1, y: -1}, is_angle_degrees: undefined},
+      {position: {x: 0, y: -1}, is_angle_degrees: undefined},
+      {position: {x: -1, y: -1}, is_angle_degrees: undefined},
+      {position: {x: -1, y: 0}, is_angle_degrees: undefined},
+
+      // Knight moves (5x5)
+      {position: {x: -1, y: 2}, is_angle_degrees: undefined},
+      {position: {x: 1, y: 2}, is_angle_degrees: undefined},
+      {position: {x: 2, y: 1}, is_angle_degrees: undefined},
+      {position: {x: 2, y: -1}, is_angle_degrees: undefined},
+      {position: {x: 1, y: -2}, is_angle_degrees: undefined},
+      {position: {x: -1, y: -2}, is_angle_degrees: undefined},
+      {position: {x: -2, y: -1}, is_angle_degrees: undefined},
+      {position: {x: -2, y: 1}, is_angle_degrees: undefined},
+
+      // 7 by 7 area
+      {position: {x: -2, y: 3}, is_angle_degrees: undefined},
+      {position: {x: -1, y: 3}, is_angle_degrees: undefined},
+      {position: {x: 1, y: 3}, is_angle_degrees: undefined},
+      {position: {x: 2, y: 3}, is_angle_degrees: undefined},
+
+      {position: {x: 3, y: -2}, is_angle_degrees: undefined},
+      {position: {x: 3, y: -1}, is_angle_degrees: undefined},
+      {position: {x: 3, y: 1}, is_angle_degrees: undefined},
+      {position: {x: 3, y: 2}, is_angle_degrees: undefined},
+
+      {position: {x: 2, y: -3}, is_angle_degrees: undefined},
+      {position: {x: 1, y: -3}, is_angle_degrees: undefined},
+      {position: {x: -1, y: -3}, is_angle_degrees: undefined},
+      {position: {x: -2, y: -3}, is_angle_degrees: undefined},
+
+      {position: {x: -3, y: -2}, is_angle_degrees: undefined},
+      {position: {x: -3, y: -1}, is_angle_degrees: undefined},
+      {position: {x: -3, y: 1}, is_angle_degrees: undefined},
+      {position: {x: -3, y: 2}, is_angle_degrees: undefined},
+
+      // 9 by 9 area
+      {position: {x: -3, y: 4}, is_angle_degrees: undefined},
+      {position: {x: -1, y: 4}, is_angle_degrees: undefined},
+      {position: {x: 1, y: 4}, is_angle_degrees: undefined},
+      {position: {x: 3, y: 4}, is_angle_degrees: undefined},
+
+      {position: {x: 4, y: -3}, is_angle_degrees: undefined},
+      {position: {x: 4, y: -1}, is_angle_degrees: undefined},
+      {position: {x: 4, y: 1}, is_angle_degrees: undefined},
+      {position: {x: 4, y: 3}, is_angle_degrees: undefined},
+
+      {position: {x: 3, y: -4}, is_angle_degrees: undefined},
+      {position: {x: 1, y: -4}, is_angle_degrees: undefined},
+      {position: {x: -1, y: -4}, is_angle_degrees: undefined},
+      {position: {x: -3, y: -4}, is_angle_degrees: undefined},
+
+      {position: {x: -4, y: -3}, is_angle_degrees: undefined},
+      {position: {x: -4, y: -1}, is_angle_degrees: undefined},
+      {position: {x: -4, y: 1}, is_angle_degrees: undefined},
+      {position: {x: -4, y: 3}, is_angle_degrees: undefined},
+
+      // 11 by 11 area
+      {position: {x: -4, y: 5}, is_angle_degrees: undefined},
+      {position: {x: -3, y: 5}, is_angle_degrees: undefined},
+      {position: {x: -2, y: 5}, is_angle_degrees: undefined},
+      {position: {x: -1, y: 5}, is_angle_degrees: undefined},
+      {position: {x: 1, y: 5}, is_angle_degrees: undefined},
+      {position: {x: 2, y: 5}, is_angle_degrees: undefined},
+      {position: {x: 3, y: 5}, is_angle_degrees: undefined},
+      {position: {x: 4, y: 5}, is_angle_degrees: undefined},
+
+      {position: {x: 5, y: 4}, is_angle_degrees: undefined},
+      {position: {x: 5, y: 3}, is_angle_degrees: undefined},
+      {position: {x: 5, y: 2}, is_angle_degrees: undefined},
+      {position: {x: 5, y: 1}, is_angle_degrees: undefined},
+      {position: {x: 5, y: -1}, is_angle_degrees: undefined},
+      {position: {x: 5, y: -2}, is_angle_degrees: undefined},
+      {position: {x: 5, y: -3}, is_angle_degrees: undefined},
+      {position: {x: 5, y: -4}, is_angle_degrees: undefined},
+
+      {position: {x: 4, y: -5}, is_angle_degrees: undefined},
+      {position: {x: 3, y: -5}, is_angle_degrees: undefined},
+      {position: {x: 2, y: -5}, is_angle_degrees: undefined},
+      {position: {x: 1, y: -5}, is_angle_degrees: undefined},
+      {position: {x: -1, y: -5}, is_angle_degrees: undefined},
+      {position: {x: -2, y: -5}, is_angle_degrees: undefined},
+      {position: {x: -3, y: -5}, is_angle_degrees: undefined},
+      {position: {x: -4, y: -5}, is_angle_degrees: undefined},
+
+      {position: {x: -5, y: -4}, is_angle_degrees: undefined},
+      {position: {x: -5, y: -3}, is_angle_degrees: undefined},
+      {position: {x: -5, y: -2}, is_angle_degrees: undefined},
+      {position: {x: -5, y: -1}, is_angle_degrees: undefined},
+      {position: {x: -5, y: 1}, is_angle_degrees: undefined},
+      {position: {x: -5, y: 2}, is_angle_degrees: undefined},
+      {position: {x: -5, y: 3}, is_angle_degrees: undefined},
+      {position: {x: -5, y: 4}, is_angle_degrees: undefined},
+
+    ])
+  }
+
+  export type CalibrationMode = keyof typeof calibration_tables
 }

@@ -374,10 +374,16 @@ const raw_data: Transportation.TeleportGroup[] = [
     animation_ticks: default_teleport_ticks,
     spots: [
       {
+        id: "paddewwa",
+        target: {"origin":{"x":3096,"y":9880,"level":0},"size":{"x":5,"y":5}},
+        img: {url: "tele-paddewwa.png"},
+        name: "Paddewwa",
+      },
+      {
         id: "senntisten",
         target: {"origin": {"x": 3375, "y": 3400, "level": 0}, "size": {"x": 5, "y": 5}},
         img: {url: "tele-senntisten.png"},
-        name: "Senntisten (Dig site)",
+        name: "Senntisten",
       },
       {
         id: "kharyll",

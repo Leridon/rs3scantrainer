@@ -12,6 +12,7 @@ import {MapEntity} from "../../../../lib/gamemap/MapEntity";
 import {Compasses} from "../../../../lib/cluetheory/Compasses";
 import {TeleportSpotEntity} from "../../map/entities/TeleportSpotEntity";
 import * as lodash from "lodash";
+import {isArray} from "lodash";
 import {ClueReader} from "../cluereader/ClueReader";
 import {Process} from "../../../../lib/Process";
 import * as a1lib from "@alt1/base";
@@ -24,6 +25,7 @@ import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
 import {PathGraphics} from "../../path_graphics";
 import {util} from "../../../../lib/util/util";
 import {ewent, observe} from "../../../../lib/reactive";
+import {deps} from "../../../dependencies";
 import hbox = C.hbox;
 import span = C.span;
 import cls = C.cls;
@@ -31,8 +33,6 @@ import MatchedUI = ClueReader.MatchedUI;
 import TeleportGroup = Transportation.TeleportGroup;
 import findBestMatch = util.findBestMatch;
 import stringSimilarity = util.stringSimilarity;
-import {isArray} from "lodash";
-import {deps} from "../../../dependencies";
 import angleDifference = Compasses.angleDifference;
 
 
@@ -137,7 +137,9 @@ class CompassReadService extends Process<void> {
   angle = observe<number>(null)
   closed = ewent<this>()
 
-  constructor(private matched_ui: MatchedUI.Compass) {
+  constructor(private matched_ui: MatchedUI.Compass,
+              private calibration_mode: CompassReader.CalibrationMode
+  ) {
     super();
 
     this.asInterval(100)
@@ -160,7 +162,10 @@ class CompassReadService extends Process<void> {
       this.overlay.clear()
       //this.overlay.rect(capture_rect)
 
-      const read = CompassReader.readCompassState(CompassReader.find(img, Rectangle.screenOrigin(capture_rect)))
+      const read = CompassReader.readCompassState(
+        CompassReader.find(img, Rectangle.screenOrigin(capture_rect)),
+        this.calibration_mode
+      )
 
       switch (read.type) {
         case "likely_closed":
@@ -171,20 +176,26 @@ class CompassReadService extends Process<void> {
         case "success":
           this.angle.set(read.state.angle)
 
-          this.overlay.text(`${radiansToDegrees(read.state.angle).toFixed(2)}°`,
-            Vector2.add(Rectangle.center(capture_rect), {x: 5, y: 8}), {
-              shadow: true,
-              centered: true,
-              width: 15,
-              color: mixColor(255, 255, 255)
-            })
-
           break;
       }
+
+      if (this.angle.value() != null) {
+        this.overlay.text(`${radiansToDegrees(this.angle.value()).toFixed(2)}°`,
+          Vector2.add(Rectangle.center(capture_rect), {x: 5, y: 8}), {
+            shadow: true,
+            centered: true,
+            width: 15,
+            color: mixColor(255, 255, 255)
+          })
+      }
+
 
       this.overlay.render()
       await this.checkTime()
     }
+
+    this.overlay?.clear()
+    this.overlay?.render()
   }
 
 }
@@ -201,13 +212,18 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     angle: number | null,
   }[] = [
     {
+      position: null,
+      angle: null
+    },
+
+    /*{
       position: TransportData.resolveTeleport({group: "lunarspellbook", spot: "moonclan"}),
       angle: null
     },
     {
       position: TransportData.resolveTeleport({group: "normalspellbook", spot: "southfeldiphills"}),
       angle: null
-    },
+    },*/
   ]
 
   selection_index: number = 0
@@ -223,19 +239,19 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     this.settings = deps().app.settings.settings.solving.compass
 
-    
-
     this.debug_solution = clue.spots[lodash.random(0, clue.spots.length)]
 
     if (ui) {
-      this.process = new CompassReadService(this.ui)
+      this.process = new CompassReadService(this.ui,
+        this.settings.calibration_mode
+      )
 
       this.process.closed.on(() => {
         this.stop()
       })
 
       this.process.angle.subscribe((new_angle, old_angle) => {
-        if (this.settings.auto_commit_on_angle_change && angleDifference(new_angle, old_angle) > CompassSolving.ANGLE_CHANGE_COMMIT_THRESHOLD) {
+        if (old_angle != null && this.settings.auto_commit_on_angle_change && angleDifference(new_angle, old_angle) > CompassSolving.ANGLE_CHANGE_COMMIT_THRESHOLD) {
           this.commit()
         }
       })
@@ -261,18 +277,18 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
       if (this.selection_index == i) row.addClass("ctr-neosolving-compass-entry-selected")
 
-      if (element.position) {
+      {
         const position = cls("ctr-neosolving-compass-entry-position").appendTo(row)
 
-        if (element.position instanceof TeleportGroup.Spot) {
-          position.append(PathGraphics.Teleport.asSpan(element.position),
-            span(element.position.spot.name)
-          )
-        } else {
-          position.append(span(TileCoordinates.toString(element.position)))
+        if (element.position) {
+          if (element.position instanceof TeleportGroup.Spot) {
+            position.append(PathGraphics.Teleport.asSpan(element.position),
+              span(element.position.spot.name)
+            )
+          } else {
+            position.append(span(TileCoordinates.toString(element.position)))
+          }
         }
-      } else {
-        row.append()
       }
 
       {
@@ -337,7 +353,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     if (!this.entries.some(e => e.angle == null)) {
       this.entries.push({
-        position: TransportData.resolveTeleport({group: "lunarspellbook", spot: "moonclan"}),
+        position: null,
         angle: null
       })
     }
@@ -435,6 +451,30 @@ export namespace CompassSolving {
     }, {
       expected: "Cast God Wars Dungeon Teleport",
       teleport_id: {group: "normalspellbook", spot: "godwars"}
+    }, {
+      expected: "Cast Paddewwa Teleport",
+      teleport_id: {group: "ancientspellook", spot: "paddewwa"}
+    }, {
+      expected: "Cast Senntisten Teleport",
+      teleport_id: {group: "ancientspellook", spot: "senntisten"}
+    }, {
+      expected: "Cast Kharyll Teleport",
+      teleport_id: {group: "ancientspellook", spot: "kharyll"}
+    }, {
+      expected: "Cast Lassar Teleport",
+      teleport_id: {group: "ancientspellook", spot: "lassar"}
+    }, {
+      expected: "Cast Dareeyak Teleport",
+      teleport_id: {group: "ancientspellook", spot: "dareeyak"}
+    }, {
+      expected: "Cast Carrallanger Teleport",
+      teleport_id: {group: "ancientspellook", spot: "carallaner"}
+    }, {
+      expected: "Cast Annakarl Teleport",
+      teleport_id: {group: "ancientspellook", spot: "annakarl"}
+    }, {
+      expected: "Cast Ghorrock Teleport",
+      teleport_id: {group: "ancientspellook", spot: "ghorrock"}
     },
     ]
 
@@ -442,6 +482,7 @@ export namespace CompassSolving {
 
   export type Settings = {
     auto_commit_on_angle_change: boolean,
+    calibration_mode: CompassReader.CalibrationMode,
     preset_triangulation_points: {
       compass_id: number,
       sequence: (TileCoordinates | TeleportGroup.SpotId)[]
@@ -451,6 +492,7 @@ export namespace CompassSolving {
   export namespace Settings {
     export const DEFAULT: Settings = {
       auto_commit_on_angle_change: true,
+      calibration_mode: "off",
       preset_triangulation_points: []
     }
 
@@ -459,6 +501,8 @@ export namespace CompassSolving {
 
       if (!isArray(settings.preset_triangulation_points)) settings.preset_triangulation_points = []
       if (![true, false].includes(settings.auto_commit_on_angle_change)) settings.auto_commit_on_angle_change = DEFAULT.auto_commit_on_angle_change
+
+      if (!Object.keys(CompassReader.calibration_tables).includes(settings.calibration_mode)) settings.calibration_mode = DEFAULT.calibration_mode
 
       return settings
     }

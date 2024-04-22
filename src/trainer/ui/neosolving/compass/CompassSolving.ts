@@ -1,9 +1,9 @@
 import {NeoSolvingSubBehaviour} from "../NeoSolvingSubBehaviour";
 import NeoSolvingBehaviour from "../NeoSolvingBehaviour";
-import {GameLayer} from "../../../../lib/gamemap/GameLayer";
+import {GameLayer, timeSync} from "../../../../lib/gamemap/GameLayer";
 import {Clues} from "../../../../lib/runescape/clues";
 import {TileMarker} from "../../../../lib/gamemap/TileMarker";
-import {TileCoordinates} from "../../../../lib/runescape/coordinates";
+import {TileCoordinates, TileRectangle} from "../../../../lib/runescape/coordinates";
 import {GameMapMouseEvent} from "../../../../lib/gamemap/MapEvents";
 import {C} from "../../../../lib/ui/constructors";
 import * as leaflet from "leaflet"
@@ -60,41 +60,57 @@ class CompassHandlingLayer extends GameLayer {
 
     this.lines = []
 
-    const information = this.solving.entries.filter(e => e.position && e.angle != null).map<Compasses.TriangulationPoint>(e => {
-      return {
-        position: CompassSolving.Spot.coords(e.position),
-        angle_radians: e.angle
-      }
-    })
+    const information = this.solving.entries.filter(e => e.position && e.angle != null).map<Compasses.TriangulationPoint>(e =>
+      Compasses.TriangulationPoint.construct(CompassSolving.Spot.coords(e.position), e.angle)
+    )
 
     this.lines = information.map(info => {
-      console.log(radiansToDegrees(info.angle_radians).toFixed(0))
-
       const from = info.position.center()
 
       const off = Vector2.transform(Vector2.scale(2000, Compasses.ANGLE_REFERENCE_VECTOR), Transform.rotationRadians(info.angle_radians))
 
       const to = Vector2.add(from, off)
 
-      const corner_a = Vector2.add(from, Vector2.transform(off, Transform.rotationRadians(-CompassReader.EPSILON)))
-      const corner_b = Vector2.add(from, Vector2.transform(off, Transform.rotationRadians(CompassReader.EPSILON)))
+      const right = Vector2.transform(info.direction, Transform.rotationRadians(Math.PI / 2))
+
+      const corner_near_left = Vector2.add(from, Vector2.scale(info.uncertainty, right))
+      const corner_near_right = Vector2.add(from, Vector2.scale(-info.uncertainty, right))
+      const corner_far_left = Vector2.add(from, Vector2.transform(off, Transform.rotationRadians(-CompassReader.EPSILON)))
+      const corner_far_right = Vector2.add(from, Vector2.transform(off, Transform.rotationRadians(CompassReader.EPSILON)))
 
       return {
         line:
           leaflet.featureGroup([
-            leaflet.polyline([Vector2.toLatLong(from), Vector2.toLatLong(to)]),
+            leaflet.polyline([Vector2.toLatLong(from), Vector2.toLatLong(to)])
+            ,
             leaflet.polygon([
-              Vector2.toLatLong(from),
-              Vector2.toLatLong(corner_a),
-              Vector2.toLatLong(corner_b),
-            ])
+              Vector2.toLatLong(corner_near_left),
+              Vector2.toLatLong(corner_near_right),
+              Vector2.toLatLong(corner_far_left),
+              Vector2.toLatLong(corner_far_right),
+            ]).setStyle({
+              stroke: false,
+              fillOpacity: 0.2
+            })
           ]).addTo(this)
       }
     })
 
+    let possible_count = 0
+
     this.known_spot_markers.forEach(m => {
-      m.setOpacity(Compasses.isPossible(information, m.spot) ? 1 : 0.5)
+      const p = Compasses.isPossible(information, m.spot)
+
+      if (p) possible_count++
+
+      m.setPossible(p)
     })
+
+    if (possible_count <= 5) {
+      this.getMap().fitView(TileRectangle.from(
+        ...this.known_spot_markers.filter(s => s.isPossible()).map(s => s.spot)
+      ))
+    }
   }
 
   eventClick(event: GameMapMouseEvent) {
@@ -115,10 +131,25 @@ class CompassHandlingLayer extends GameLayer {
 class KnownCompassSpot extends MapEntity {
   public readonly spot: TileCoordinates
 
+  private possible = observe(true)
+
   constructor(public readonly clue: Clues.Compass, public readonly spot_id: number) {
     super()
 
     this.spot = clue.spots[spot_id]
+
+    this.possible.subscribe(v => {
+      this.setOpacity(v ? 1 : 0.5)
+    })
+  }
+
+  setPossible(v: boolean): this {
+    this.possible.set(v)
+    return this
+  }
+
+  isPossible(): boolean {
+    return this.possible.value()
   }
 
   bounds(): Rectangle {
@@ -211,19 +242,18 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     position?: TileCoordinates | TeleportGroup.Spot,
     angle: number | null,
   }[] = [
-    {
+    /*{
       position: null,
       angle: null
-    },
-
-    /*{
+    },*/
+    {
       position: TransportData.resolveTeleport({group: "lunarspellbook", spot: "moonclan"}),
       angle: null
     },
     {
       position: TransportData.resolveTeleport({group: "normalspellbook", spot: "southfeldiphills"}),
       angle: null
-    },*/
+    },
   ]
 
   selection_index: number = 0

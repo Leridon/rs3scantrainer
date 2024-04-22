@@ -93,6 +93,8 @@ class NeoSolvingLayer extends GameLayer {
   }
 
   fit(view: TileRectangle): this {
+    if (!view) return this
+
     let copy = lodash.cloneDeep(view)
 
     let padding: [number, number] = null
@@ -433,6 +435,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
             cls("ctr-neosolving-solution-row").text(step.step.text[step.text_index]).appendTo(w)
             break
           case "abridged":
+            if (clue.type == "compass") break
+
             const short = Clues.Step.shortString(clue, step.text_index)
 
             const row = cls("ctr-neosolving-solution-row").text(short).appendTo(w)
@@ -614,7 +618,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
         bounds.addTile(...clue.spots)
       } else if (clue.type == "compass") {
-        bounds.addTile(...clue.spots)
+        // bounds.addTile(...clue.spots)
       }
 
       if (clue.challenge && clue.challenge.length > 0) {

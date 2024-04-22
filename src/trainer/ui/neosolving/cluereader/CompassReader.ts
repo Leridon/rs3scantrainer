@@ -58,14 +58,14 @@ class AngularKeyframeFunction {
 
 export namespace CompassReader {
 
-  const DEBUG_COMPASS_READER = true
+  const DEBUG_COMPASS_READER = false
   const DISABLE_CALIBRATION = false
 
   import angleDifference = Compasses.angleDifference;
   import MatchedUI = ClueReader.MatchedUI;
   import ANGLE_REFERENCE_VECTOR = Compasses.ANGLE_REFERENCE_VECTOR;
 
-  export const EPSILON = (2 / 360) * 2 * Math.PI // About two degrees in either direction
+  export const EPSILON = (0.2 / 360) * 2 * Math.PI
 
   export type CompassState = {
     angle: number,

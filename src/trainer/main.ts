@@ -13,7 +13,6 @@ import span = C.span;
 import skillbertRandom = Sliders.SlideSolver.skillbertRandom;
 import spacer = C.spacer;
 import hbox = C.hbox;
-import {test_slide_reader} from "../test/test_slide_reader";
 
 class SliderBenchmarkModal extends NisModal {
   layout: Properties

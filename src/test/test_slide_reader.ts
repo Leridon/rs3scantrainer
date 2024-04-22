@@ -42,6 +42,16 @@ export async function test_slide_reader(): Promise<boolean> {
             17, 20, 22, 23, 24]
       }
     },
+    {
+      file: "test_assets/sliders/greg_scrambled_low_graphhics.png", expected: {
+        theme: "gregorovic", state:
+          [5, 8, 13, 4, 1,
+            2, 20, 0, 14, 3,
+            16, 7, 10, 15, 6,
+            11, 12, 19, 21, 9,
+            18, 17, 23, 22, 24]
+      }
+    },
   ]
 
   let correct = 0
@@ -52,7 +62,7 @@ export async function test_slide_reader(): Promise<boolean> {
     const res = await time("reading", async () =>
       await SlideReader.read(img,
         {x: 0, y: 0},
-        test_case.expected.theme
+        //test_case.expected.theme
       )
     )
 

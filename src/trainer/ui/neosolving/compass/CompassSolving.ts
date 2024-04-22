@@ -7,7 +7,7 @@ import {TileCoordinates} from "../../../../lib/runescape/coordinates";
 import {GameMapMouseEvent} from "../../../../lib/gamemap/MapEvents";
 import {C} from "../../../../lib/ui/constructors";
 import * as leaflet from "leaflet"
-import {radiansToDegrees, Rectangle, Transform, Vector2} from "../../../../lib/math";
+import {degreesToRadians, radiansToDegrees, Rectangle, Transform, Vector2} from "../../../../lib/math";
 import {MapEntity} from "../../../../lib/gamemap/MapEntity";
 import {Compasses} from "../../../../lib/cluetheory/Compasses";
 import {TeleportSpotEntity} from "../../map/entities/TeleportSpotEntity";
@@ -32,6 +32,8 @@ import TeleportGroup = Transportation.TeleportGroup;
 import findBestMatch = util.findBestMatch;
 import stringSimilarity = util.stringSimilarity;
 import {isArray} from "lodash";
+import {deps} from "../../../dependencies";
+import angleDifference = Compasses.angleDifference;
 
 
 class CompassHandlingLayer extends GameLayer {
@@ -188,6 +190,8 @@ class CompassReadService extends Process<void> {
 }
 
 export class CompassSolving extends NeoSolvingSubBehaviour {
+  readonly settings: CompassSolving.Settings
+
   layer: CompassHandlingLayer
 
   process: CompassReadService
@@ -217,6 +221,10 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
   constructor(parent: NeoSolvingBehaviour, public clue: Clues.Compass, public ui: MatchedUI.Compass | null) {
     super(parent, true)
 
+    this.settings = deps().app.settings.settings.solving.compass
+
+    
+
     this.debug_solution = clue.spots[lodash.random(0, clue.spots.length)]
 
     if (ui) {
@@ -224,6 +232,12 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
       this.process.closed.on(() => {
         this.stop()
+      })
+
+      this.process.angle.subscribe((new_angle, old_angle) => {
+        if (this.settings.auto_commit_on_angle_change && angleDifference(new_angle, old_angle) > CompassSolving.ANGLE_CHANGE_COMMIT_THRESHOLD) {
+          this.commit()
+        }
       })
     }
   }
@@ -424,6 +438,8 @@ export namespace CompassSolving {
     },
     ]
 
+  export const ANGLE_CHANGE_COMMIT_THRESHOLD = degreesToRadians(10)
+
   export type Settings = {
     auto_commit_on_angle_change: boolean,
     preset_triangulation_points: {
@@ -432,17 +448,17 @@ export namespace CompassSolving {
     }[],
   }
 
-  export namespace Settings  {
+  export namespace Settings {
     export const DEFAULT: Settings = {
       auto_commit_on_angle_change: true,
       preset_triangulation_points: []
     }
 
     export function normalize(settings: Settings): Settings {
-      if(!settings) return DEFAULT
+      if (!settings) return DEFAULT
 
-      if(!isArray(settings.preset_triangulation_points)) settings.preset_triangulation_points = []
-      if(![true, false].includes(settings.auto_commit_on_angle_change)) settings.auto_commit_on_angle_change = DEFAULT.auto_commit_on_angle_change
+      if (!isArray(settings.preset_triangulation_points)) settings.preset_triangulation_points = []
+      if (![true, false].includes(settings.auto_commit_on_angle_change)) settings.auto_commit_on_angle_change = DEFAULT.auto_commit_on_angle_change
 
       return settings
     }

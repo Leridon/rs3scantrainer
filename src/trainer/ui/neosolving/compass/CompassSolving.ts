@@ -64,7 +64,7 @@ class CompassHandlingLayer extends GameLayer {
     const information = this.solving.entries.filter(e => e.information).map(l => l.information)
 
     this.lines = information.map(info => {
-      const from = info.position.center()
+      const from = Rectangle.center(info.position.rect(), false)
 
       const off = Vector2.transform(Vector2.scale(2000, Compasses.ANGLE_REFERENCE_VECTOR), Transform.rotationRadians(info.angle_radians))
 
@@ -233,7 +233,7 @@ class CompassReadService extends Process<void> {
         if (state.spinning) {
           text = "Spinning"
         } else if (state.angle != null) {
-          text = `${radiansToDegrees(state.angle).toFixed(2)}°`
+          text = `${radiansToDegrees(state.angle).toFixed(3)}°`
         }
 
         if (text) {
@@ -442,7 +442,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     const possible = this.spots.filter(s => s.isPossible)
 
     if (maybe_fit) {
-      if (possible.length > 0 && information.length > 0) {
+      if (possible.length > 0 && (information.length > 0 || possible.length < 100)) {
         this.layer.getMap().fitView(TileRectangle.from(...possible.map(s => s.spot)))
       }
     }
@@ -528,7 +528,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       }
     }).bindTo(this.handler_pool)
 
-    this.update(false)
+    this.update(true)
   }
 
   protected end() {

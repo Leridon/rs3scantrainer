@@ -24,7 +24,6 @@ import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
 import {identity} from "lodash";
 import {Path} from "../../../../lib/runescape/pathing";
 import {IssueWidget} from "../../pathedit/EditedPathOverview";
-import {ScanTreeSolvingControl} from "../../neosolving/NeoSolvingBehaviour";
 import decision_tree = ScanTree.ScanTreeNode;
 import natural_join = util.natural_join;
 import shorten_integer_list = util.shorten_integer_list;
@@ -41,6 +40,7 @@ import hboxl = C.hboxl;
 import collect_issues = Path.collect_issues;
 import scan_tree_template_resolvers = ScanTreeSolvingControl.scan_tree_template_resolvers;
 import cls = C.cls;
+import {ScanTreeSolvingControl} from "../../neosolving/scans/ScanTreeSolving";
 
 export class DrawRegionAction extends ValueInteraction<ScanRegion> {
   constructor(name: string) {

@@ -256,7 +256,7 @@ export class MethodPackManager {
   async getForClue(id: ClueSpot.Id, pack_ids: string[] = undefined): Promise<AugmentedMethod[]> {
     await this.index_created
 
-    const all_methods = this.method_index.get(id).methods
+    const all_methods = this.method_index.get(id)?.methods ?? []
 
     if (pack_ids) {
       return all_methods.filter(m => pack_ids.includes(m.pack.local_id))

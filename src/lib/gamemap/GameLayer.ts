@@ -262,9 +262,9 @@ export class GameLayer extends leaflet.FeatureGroup {
       this.rendering.lock()
 
       if (this.quad_tree_debug_rendering) {
-        timeSync("Culling", () => this.entity_quadtree.cull(event.new_view.rect, false))
+        timeSync("Culling", () => this.entity_quadtree.cull(event.new_view.rect, true))
       } else {
-        this.entity_quadtree.cull(event.new_view.rect, false)
+        this.entity_quadtree.cull(event.new_view.rect, true)
       }
 
       if (this.quad_tree_debug_rendering) {

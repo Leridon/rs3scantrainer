@@ -45,6 +45,10 @@ export namespace C {
     return create("<span></span>").text(text)
   }
 
+  export function italic(text: string = ""): Widget {
+    return create("<span style='font-style: italic'></span>").text(text)
+  }
+
   export function bold(text: string): Widget {
     return create("<span style='font-weight: bold'></span>").text(text)
   }

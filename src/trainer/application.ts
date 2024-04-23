@@ -29,9 +29,7 @@ import {TransportData} from "../data/transports";
 import {PathGraphics} from "./ui/path_graphics";
 import {CrowdSourcing} from "./CrowdSourcing";
 import {Notification, NotificationBar} from "./ui/NotificationBar";
-import vbox = C.vbox;
-import span = C.span;
-import hbox = C.hbox;
+import {Alt1MainHotkeyEvent} from "./Alt1MainHotkeyEvent";
 import ActiveTeleportCustomization = Transportation.TeleportGroup.ActiveTeleportCustomization;
 import TeleportSettings = Settings.TeleportSettings;
 import inlineimg = C.inlineimg;
@@ -41,10 +39,7 @@ import resolveTeleport = TransportData.resolveTeleport;
 import npc = C.npc;
 import staticentity = C.staticentity;
 import entity = C.entity;
-import cls = C.cls;
 import notification = Notification.notification;
-
-declare let DEV_MODE: boolean
 
 export class SimpleLayerBehaviour extends Behaviour {
   constructor(private map: GameMap, private layer: GameLayer) {
@@ -221,6 +216,8 @@ export class Application extends Behaviour {
   favourites: FavoriteIndex
 
   main_behaviour = this.withSub(new SingleBehaviour())
+
+  main_hotkey = new Alt1MainHotkeyEvent()
 
   template_resolver = new TemplateResolver(
     {name: "surge", apply: () => [{type: "domelement", value: inlineimg('assets/icons/surge.png')}]},

@@ -42,6 +42,16 @@ export namespace Transform {
     ]
   }
 
+  export function rotationRadians(radians: number): Transform {
+    let theta = radians
+
+    return [
+      [Math.cos(theta), -Math.sin(theta), 0],
+      [Math.sin(theta), Math.cos(theta), 0],
+      [0, 0, 1]
+    ]
+  }
+
   export function scale(scale: Vector2): Transform {
     return [
       [scale.x, 0, 0],

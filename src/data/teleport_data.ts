@@ -16,7 +16,7 @@ const raw_data: Transportation.TeleportGroup[] = [
 
         img: {url: "lode_alkharid.png", width: 28},
         code: "A",
-        name: "Al-Kharid",
+        name: "Al Kharid",
         target: {origin: {x: 3297, y: 3184, level: 0}},
         facing: direction.south,
       },
@@ -59,7 +59,7 @@ const raw_data: Transportation.TeleportGroup[] = [
         code: "B",
         target: {origin: {x: 2899, y: 3544, level: 0}},
         facing: direction.south,
-        name: "Burthope",
+        name: "Burthorpe",
       },
       {
         id: "canifis",
@@ -75,7 +75,7 @@ const raw_data: Transportation.TeleportGroup[] = [
         code: "C",
         target: {origin: {x: 2811, y: 3449, level: 0}},
         facing: direction.south,
-        name: "Cathery",
+        name: "Catherby",
       },
       {
         id: "draynor",
@@ -92,7 +92,7 @@ const raw_data: Transportation.TeleportGroup[] = [
         code: "Alt+E",
         target: {origin: {x: 2366, y: 3479, level: 0}},
         facing: direction.south,
-        name: "Eagle's Peak",
+        name: "Eagles` Peak",
       },
       {
         id: "edgeville",
@@ -111,12 +111,20 @@ const raw_data: Transportation.TeleportGroup[] = [
         name: "Falador",
       },
       {
+        id: "fortforinthry",
+        img: {url: "lode_fortforinthry.png", height: 28},
+        code: "Alt+W",
+        target: {origin: {x: 3298, y: 3525, level: 0}},
+        facing: direction.south,
+        name: "Fort Forinthry",
+      },
+      {
         id: "fremmenik",
         img: {url: "lode_fremennik.png", height: 28},
         code: "Alt+F",
         target: {origin: {x: 2712, y: 3677, level: 0}},
         facing: direction.south,
-        name: "Fremmenik Province",
+        name: "Fremennik Province",
       },
       {
         id: "karamja",
@@ -143,12 +151,20 @@ const raw_data: Transportation.TeleportGroup[] = [
         name: "Lunar Isle",
       },
       {
+        id: "menaphos",
+        img: {url: "lode_menaphos.png", height: 28},
+        code: "M",
+        target: {origin: {x: 3216, y: 2716, level: 0}},
+        facing: direction.south,
+        name: "Menaphos",
+      },
+      {
         id: "ooglog",
         img: {url: "lode_ooglog.png", height: 28},
         code: "O",
         target: {origin: {x: 2532, y: 2871, level: 0}},
         facing: direction.south,
-        name: "Oo'glog",
+        name: "Oo´glog",
       },
       {
         id: "portsarim",
@@ -172,7 +188,7 @@ const raw_data: Transportation.TeleportGroup[] = [
         code: "S",
         target: {origin: {x: 2689, y: 3482, level: 0}},
         facing: direction.south,
-        name: "Seers' Village",
+        name: "Seers´ Village",
       }
       , {
         id: "taverley",
@@ -214,23 +230,6 @@ const raw_data: Transportation.TeleportGroup[] = [
         target: {origin: {x: 2529, y: 3094, level: 0}},
         facing: direction.south,
         name: "Yanille",
-      }
-      ,
-      {
-        id: "menaphos",
-        img: {url: "lode_menaphos.png", height: 28},
-        code: "M",
-        target: {origin: {x: 3216, y: 2716, level: 0}},
-        facing: direction.south,
-        name: "Menaphos",
-      },
-      {
-        id: "fortforinthry",
-        img: {url: "lode_fortforinthry.png", height: 28},
-        code: "Alt+W",
-        target: {origin: {x: 3298, y: 3525, level: 0}},
-        facing: direction.south,
-        name: "Fort Forinthry",
       },
       {
         id: "cityofum",
@@ -374,10 +373,16 @@ const raw_data: Transportation.TeleportGroup[] = [
     animation_ticks: default_teleport_ticks,
     spots: [
       {
+        id: "paddewwa",
+        target: {"origin": {"x": 3096, "y": 9880, "level": 0}, "size": {"x": 5, "y": 5}},
+        img: {url: "tele-paddewwa.png", width: 28, height: 28},
+        name: "Paddewwa",
+      },
+      {
         id: "senntisten",
         target: {"origin": {"x": 3375, "y": 3400, "level": 0}, "size": {"x": 5, "y": 5}},
         img: {url: "tele-senntisten.png"},
-        name: "Senntisten (Dig site)",
+        name: "Senntisten",
       },
       {
         id: "kharyll",
@@ -457,7 +462,7 @@ const raw_data: Transportation.TeleportGroup[] = [
         id: "barbarian",
         target: {"origin": {"x": 2541, "y": 3567, "level": 0}, "size": {"x": 5, "y": 5}},
         img: {url: "tele-barbarian.png"},
-        name: "Barbarian Outpost",
+        name: "Barbarian",
       },
       {
         id: "northardougne",
@@ -469,7 +474,7 @@ const raw_data: Transportation.TeleportGroup[] = [
         id: "khazard",
         target: {"origin": {"x": 2634, "y": 3165, "level": 0}, "size": {"x": 5, "y": 5}, "data": "8P//AQ=="},
         img: {url: "tele-khazard.png"},
-        name: "Port Khazard",
+        name: "Khazard",
       },
       {
         id: "fishing",
@@ -837,42 +842,42 @@ const raw_data: Transportation.TeleportGroup[] = [
     spots: [
       {
         id: "imperial",
-        target: {"origin":{"x":3174,"y":2727,"level":0},"size":{"x":4,"y":5}},
+        target: {"origin": {"x": 3174, "y": 2727, "level": 0}, "size": {"x": 4, "y": 5}},
         img: {url: "imperialdistrict.gif"},
         name: "Imperial district",
         code: "1",
       },
       {
         id: "merchant",
-        target: {"origin":{"x":3206,"y":2781,"level":0},"size":{"x":5,"y":5},"data":"///3AA=="},
+        target: {"origin": {"x": 3206, "y": 2781, "level": 0}, "size": {"x": 5, "y": 5}, "data": "///3AA=="},
         img: {url: "merchantdistrict.gif"},
         name: "Merchant district",
         code: "2",
       },
       {
         id: "port",
-        target: {"origin":{"x":3184,"y":2652,"level":0},"size":{"x":5,"y":5},"data":"/v//AQ=="},
+        target: {"origin": {"x": 3184, "y": 2652, "level": 0}, "size": {"x": 5, "y": 5}, "data": "/v//AQ=="},
         img: {url: "portdistrict.gif"},
         name: "Port district",
         code: "3",
       },
       {
         id: "worker",
-        target: {"origin":{"x":3154,"y":2794,"level":0},"size":{"x":5,"y":5},"data":"GP//AQ=="},
+        target: {"origin": {"x": 3154, "y": 2794, "level": 0}, "size": {"x": 5, "y": 5}, "data": "GP//AQ=="},
         img: {url: "workerdistrict.gif"},
         name: "Worker district",
         code: "4",
       },
       {
         id: "sophanem",
-        target: {"origin":{"x":3287,"y":2706,"level":0},"size":{"x":5,"y":4},"data":"/38M"},
+        target: {"origin": {"x": 3287, "y": 2706, "level": 0}, "size": {"x": 5, "y": 4}, "data": "/38M"},
         img: {url: "sophanemdungeon.gif"},
         name: "Sophanem Slayer Dungeon",
         code: "5",
       },
       {
         id: "shiftingtombs",
-        target: {"origin":{"x":2077,"y":6950,"level":0},"size":{"x":4,"y":5}},
+        target: {"origin": {"x": 2077, "y": 6950, "level": 0}, "size": {"x": 4, "y": 5}},
         img: {url: "shiftingtombs.webp"},
         name: "Menaphos shifting tombs",
         code: "5",

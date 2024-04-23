@@ -42,6 +42,8 @@ export default class BoundsBuilder {
   }
 
   get(): TileRectangle {
+    if (!this.bounds) return null
+
     return {
       topleft: this.bounds.topleft,
       botright: this.bounds.botright,

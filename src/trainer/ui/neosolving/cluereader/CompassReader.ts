@@ -338,8 +338,8 @@ export namespace CompassReader {
       {position: {x: 1, y: 4}, is_angle_degrees: 257.930},
       {position: {x: 3, y: 4}, is_angle_degrees: 235.408},
 
-      {position: {x: 4, y: 3}, is_angle_degrees: undefined},
-      {position: {x: 4, y: 1}, is_angle_degrees: undefined},
+      {position: {x: 4, y: 3}, is_angle_degrees: 213.784},
+      {position: {x: 4, y: 1}, is_angle_degrees: 190.278},
       {position: {x: 4, y: -1}, is_angle_degrees: 167.683},
       {position: {x: 4, y: -3}, is_angle_degrees: 145.202},
 
@@ -363,9 +363,9 @@ export namespace CompassReader {
       {position: {x: 3, y: 5}, is_angle_degrees: 242.062},
       {position: {x: 4, y: 5}, is_angle_degrees: 233.060},
 
-      {position: {x: 5, y: 4}, is_angle_degrees: undefined},
-      {position: {x: 5, y: 3}, is_angle_degrees: undefined},
-      {position: {x: 5, y: 2}, is_angle_degrees: undefined},
+      {position: {x: 5, y: 4}, is_angle_degrees: 215.118},
+      {position: {x: 5, y: 3}, is_angle_degrees: 206.127},
+      {position: {x: 5, y: 2}, is_angle_degrees: 197.108},
       {position: {x: 5, y: 1}, is_angle_degrees: 187.930},
       {position: {x: 5, y: -1}, is_angle_degrees: 169.970},
       {position: {x: 5, y: -2}, is_angle_degrees: 161.059},
@@ -375,7 +375,7 @@ export namespace CompassReader {
       {position: {x: 4, y: -5}, is_angle_degrees: 124.976},
       {position: {x: 3, y: -5}, is_angle_degrees: 116.022},
       {position: {x: 2, y: -5}, is_angle_degrees: 107.043},
-      {position: {x: 1, y: -5}, is_angle_degrees: undefined},
+      {position: {x: 1, y: -5}, is_angle_degrees: 98.113},
       {position: {x: -1, y: -5}, is_angle_degrees: 79.843},
       {position: {x: -2, y: -5}, is_angle_degrees: 71.029},
       {position: {x: -3, y: -5}, is_angle_degrees: 61.987},

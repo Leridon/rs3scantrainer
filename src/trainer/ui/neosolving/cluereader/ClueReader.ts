@@ -11,10 +11,11 @@ import ClueFont from "./ClueFont";
 import * as oldlib from "../../../../skillbertssolver/cluesolver/oldlib";
 import {comparetiledata} from "../../../../skillbertssolver/cluesolver/oldlib";
 import {clue_data} from "../../../../data/clues";
-import {getdirection, isArcClue} from "../../../../skillbertssolver/cluesolver/compassclue";
 import {SlideReader} from "./SliderReader";
 import {PuzzleModal} from "../PuzzleModal";
 import {Notification} from "../../NotificationBar";
+import {CompassReader} from "./CompassReader";
+import {Scans} from "../../../../lib/runescape/clues/scans";
 import stringSimilarity = util.stringSimilarity;
 import ScanStep = Clues.ScanStep;
 import notification = Notification.notification;
@@ -90,7 +91,7 @@ export class ClueReader {
           {
             type: "compass", anchors: [{
               img: this.anchors.compassnorth,
-              origin_offset: {x: 56, y: 19}
+              origin_offset: {x: 78, y: 20},
             }]
           },
         ]
@@ -129,7 +130,7 @@ export class ClueReader {
                 return {
                   type: "compass",
                   image: img,
-                  rect: Rectangle.fromOriginAndSize(locs[0], {x: 1, y: 1})
+                  rect: Rectangle.fromOriginAndSize(Vector2.sub(locs[0], anchor.origin_offset), CompassReader.UI_SIZE)
                 }
             }
           }
@@ -337,12 +338,17 @@ export class ClueReader {
             }
           }
         case "compass": {
-          const compass_state = ClueReader.readCompassState(img, Vector2.add(found_ui.rect.topleft, {x: -53, y: 54}))
+          const compass_state = CompassReader.readCompassState(found_ui)
+
+          if (compass_state?.type != "success") {
+            console.log(compass_state.type)
+            return null
+          }
 
           if (CLUEREADERDEBUG)
             notification(`Compass ${JSON.stringify(compass_state)}`).show()
 
-          if (compass_state.isArc) return {found_ui: found_ui, step: {step: clue_data.arc_compass, text_index: 0}}
+          if (compass_state.state.isArc) return {found_ui: found_ui, step: {step: clue_data.arc_compass, text_index: 0}}
           else return {found_ui: found_ui, step: {step: clue_data.gielinor_compass, text_index: 0}}
         }
       }
@@ -468,20 +474,5 @@ export namespace ClueReader {
     }
 
     return text
-  }
-
-  export type CompassState = {
-    angle: number,
-    isArc: boolean
-  }
-
-  export function readCompassState(img: ImgRef, pos: Vector2): CompassState {
-    let data = img.toData(pos.x, pos.y, 130, 170);
-    let dir = getdirection(data);
-
-    if (dir == null) { return null; }
-
-    let isArc = isArcClue(data);
-    return {angle: dir, isArc: isArc};
   }
 }

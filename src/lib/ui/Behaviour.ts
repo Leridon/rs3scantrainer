@@ -95,7 +95,9 @@ export class SingleBehaviour<T extends Behaviour = Behaviour> extends Behaviour 
     if (behaviour) {
       this.behaviour.set(behaviour)
 
-      behaviour.stopped.on(() => this.content_stopped.trigger(behaviour))
+      behaviour.stopped.on(() => {
+        if (this.behaviour.value() == behaviour) this.content_stopped.trigger(behaviour)
+      })
 
       if (this.isActive()) behaviour.start()
     }

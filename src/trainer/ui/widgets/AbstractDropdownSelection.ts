@@ -36,7 +36,7 @@ export abstract class AbstractDropdownSelection<T> extends Widget {
     this.setItems([inital_item])
   }
 
-  private renderInput(): void {
+  renderInput(): void {
     this.input = c("<div class='nisl-textinput nisl-selectdropdown-input' tabindex='-1'>")
       .css("padding-right", "13px")
       .on("click", (e) => {
@@ -114,11 +114,6 @@ export abstract class AbstractDropdownSelection<T> extends Widget {
     this.selection.set(v)
 
     return this
-  }
-
-  protected selectValue(v: T) {
-    this.setValue(v)
-    this.selection.set(v)
   }
 
   onSelection(f: (v: T) => any, trigger_now: boolean = false): this {
@@ -330,7 +325,6 @@ export namespace AbstractDropdownSelection {
       return this
     }
   }
-
 
   export type selectable<T> = {
     toHTML(v: T): Appendable

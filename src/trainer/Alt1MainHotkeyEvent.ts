@@ -32,7 +32,7 @@ export class Alt1MainHotkeyEvent {
     }
   }
 
-  subscribe(priority: number, handler: (e: Alt1MainHotkeyEvent.Event) => void) {
+  subscribe(priority: number, handler: (e: Alt1MainHotkeyEvent.Event) => void): Alt1MainHotkeyEvent.Handler {
     this.clean_pass()
 
     let h = new Alt1MainHotkeyEvent.Handler(priority, handler)

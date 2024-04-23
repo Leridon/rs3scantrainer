@@ -27,6 +27,7 @@ import {util} from "../../../../lib/util/util";
 import {ewent, observe} from "../../../../lib/reactive";
 import {deps} from "../../../dependencies";
 import {clue_data} from "../../../../data/clues";
+import Properties from "../../widgets/Properties";
 import hbox = C.hbox;
 import span = C.span;
 import cls = C.cls;
@@ -35,6 +36,7 @@ import TeleportGroup = Transportation.TeleportGroup;
 import findBestMatch = util.findBestMatch;
 import stringSimilarity = util.stringSimilarity;
 import angleDifference = Compasses.angleDifference;
+import italic = C.italic;
 
 
 class CompassHandlingLayer extends GameLayer {
@@ -42,28 +44,24 @@ class CompassHandlingLayer extends GameLayer {
     line: leaflet.Layer
   }[] = []
 
-  private known_spot_markers: KnownCompassSpot[]
-
   constructor(private solving: CompassSolving) {
     super()
 
-    this.known_spot_markers = this.solving.clue.spots.map((e, i) =>
-      new KnownCompassSpot(this.solving.clue, i)
+    this.solving.spots.forEach((e, i) =>
+      e.marker = new KnownCompassSpot(this.solving.clue, i)
         .setInteractive(true)
         .addTo(this)
     )
   }
 
-  updateOverlay() {
+  async updateOverlay() {
     this.lines.forEach(l => {
       l.line.remove()
     })
 
     this.lines = []
 
-    const information = this.solving.entries.filter(e => e.position && e.angle != null).map<Compasses.TriangulationPoint>(e =>
-      Compasses.TriangulationPoint.construct(CompassSolving.Spot.coords(e.position), e.angle)
-    )
+    const information = this.solving.entries.filter(e => e.information).map(l => l.information)
 
     this.lines = information.map(info => {
       const from = info.position.center()
@@ -96,22 +94,6 @@ class CompassHandlingLayer extends GameLayer {
           ]).addTo(this)
       }
     })
-
-    let possible_count = 0
-
-    this.known_spot_markers.forEach(m => {
-      const p = Compasses.isPossible(information, m.spot)
-
-      if (p) possible_count++
-
-      m.setPossible(p)
-    })
-
-    if (possible_count <= 5) {
-      this.getMap().fitView(TileRectangle.from(
-        ...this.known_spot_markers.filter(s => s.isPossible()).map(s => s.spot)
-      ))
-    }
   }
 
   eventClick(event: GameMapMouseEvent) {
@@ -141,6 +123,14 @@ class KnownCompassSpot extends MapEntity {
 
     this.possible.subscribe(v => {
       this.setOpacity(v ? 1 : 0.5)
+    })
+
+    this.setTooltip(() => {
+      const layout = new Properties()
+
+      layout.header(`Compass spot ${this.spot_id + 1}`)
+
+      return layout
     })
   }
 
@@ -235,27 +225,24 @@ class CompassReadService extends Process<void> {
 export class CompassSolving extends NeoSolvingSubBehaviour {
   readonly settings: CompassSolving.Settings
 
+  spots: {
+    spot: TileCoordinates,
+    isPossible: boolean,
+    marker?: KnownCompassSpot
+  }[]
+
   layer: CompassHandlingLayer
 
   process: CompassReadService
 
   entries: {
-    position?: TileCoordinates | TeleportGroup.Spot,
+    position: TileCoordinates | TeleportGroup.Spot | null,
     angle: number | null,
-  }[] = [
-    /*{
-      position: null,
-      angle: null
-    },*/
-    {
-      position: TransportData.resolveTeleport({group: "lunarspellbook", spot: "moonclan"}),
-      angle: null
-    },
-    {
-      position: TransportData.resolveTeleport({group: "normalspellbook", spot: "southfeldiphills"}),
-      angle: null
-    },
-  ]
+    information: Compasses.TriangulationPoint | null,
+    preconfigured?: CompassSolving.TriangulationPreset["sequence"][number]
+  }[] = []
+
+  private preconfigured_sequence: CompassSolving.TriangulationPreset = null
 
   selection_index: number = 0
 
@@ -269,6 +256,17 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     super(parent, true)
 
     this.settings = deps().app.settings.settings.solving.compass
+
+    const preconfigured_id = this.settings.active_triangulation_presets.find(p => p.compass_id == clue.id)?.preset_id
+
+    if (preconfigured_id != null) {
+      this.preconfigured_sequence = [
+        ...CompassSolving.TriangulationPreset.builtin,
+        ...this.settings.custom_triangulation_presets
+      ].find(p => p.id == preconfigured_id)
+    }
+
+    this.spots = clue.spots.map(s => ({spot: s, isPossible: true}))
 
     this.debug_solution = clue.spots[lodash.random(0, clue.spots.length)]
 
@@ -319,6 +317,8 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
           } else {
             position.append(span(TileCoordinates.toString(element.position)))
           }
+        } else {
+          position.append(italic("No location selected"))
         }
       }
 
@@ -348,13 +348,14 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
           })
 
         if (element.angle != null) {
-
           button.addClass("ctr-neosolving-compass-entry-button-discard")
             .text("X")
+            .tooltip("Delete entry")
         } else {
 
           button.addClass("ctr-neosolving-compass-entry-button-commit")
             .text("J")
+            .tooltip("Commit angle. (Alt + 1)")
         }
       }
 
@@ -370,46 +371,104 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     if (this.selection_index >= i) this.selection_index--
 
-    this.layer.updateOverlay()
-    this.renderWidget()
+    this.update(false)
   }
 
   commit(i: number = undefined) {
     if (i == undefined) i = this.selection_index
 
-    if (!this.entries[i]?.position) return
-    if (this.entries[i].angle != null) return
+    const entry = this.entries[i]
 
-    this.entries[i].angle = this.process.angle.value()
+    if (!entry?.position) return
+    if (entry.angle != null) return
 
-    if (!this.entries.some(e => e.angle == null)) {
-      this.entries.push({
-        position: null,
-        angle: null
-      })
+    entry.angle = this.process.angle.value()
+    entry.information = Compasses.TriangulationPoint.construct(CompassSolving.Spot.coords(entry.position), entry.angle)
+
+    this.update(true)
+  }
+
+  update(maybe_fit: boolean) {
+    const information = this.entries.filter(e => e.information).map(e => e.information)
+
+    this.spots.forEach(m => {
+      const p = Compasses.isPossible(information, m.spot)
+
+      m.isPossible = p
+      m.marker?.setPossible(p)
+    })
+
+    const possible = this.spots.filter(s => s.isPossible)
+
+    if (maybe_fit) {
+      if (possible.length > 0 && information.length > 0) {
+        this.layer.getMap().fitView(TileRectangle.from(...possible.map(s => s.spot)))
+      }
     }
 
-    this.selection_index = this.entries.findIndex(e => e.angle == null)
+    if (this.entries.every(e => e.information) && possible.length > 1) {
 
-    this.renderWidget()
+      let added = false
+
+      const unused_preconfigured = this.preconfigured_sequence?.sequence?.find(step => !this.entries.some(e => e.preconfigured == step))
+
+      if (unused_preconfigured) {
+        const spot = unused_preconfigured.teleport
+          ? TransportData.resolveTeleport(unused_preconfigured.teleport)
+          : unused_preconfigured.tile
+
+        if (spot) {
+          this.entries.push({
+            position: spot,
+            angle: null,
+            information: null,
+            preconfigured: unused_preconfigured,
+          })
+          added = true
+        }
+      }
+
+      if (!added) {
+        this.entries.push({
+          position: null,
+          angle: null,
+          information: null,
+          preconfigured: unused_preconfigured,
+        })
+      }
+    }
+
+    this.selection_index = this.entries.findIndex(e => e.information == null)
+
+    /*
+    if (possible.length == 1) {
+      const m = await deps().app.favourites.getMethod({
+        clue: this.solving.clue.id, spot:
+        this.known_spot_markers.find(s => s.isPossible()).spot
+      })
+
+      if (m) this.solving.parent.path_control.setMethod(m as AugmentedMethod<GenericPathMethod>)
+    }*/
+
     this.layer.updateOverlay()
+    this.renderWidget()
   }
 
   registerSpot(coords: TileCoordinates | TeleportGroup.Spot): void {
-    this.entries[this.selection_index] = {
-      position: coords,
-      angle: null
-    }
+    const i = this.selection_index
 
-    this.renderWidget()
+    const entry = this.entries[i]
+
+    entry.position = coords
+    entry.angle = null
+    entry.information = null
+    entry.preconfigured = null
+
+    this.update(false)
   }
 
   protected begin() {
     this.layer = new CompassHandlingLayer(this)
-
-    this.renderWidget()
-    this.layer.updateOverlay()
-
     this.parent.layer.add(this.layer)
 
     this.process.run()
@@ -426,7 +485,9 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       } else {
         this.commit()
       }
-    })
+    }).bindTo(this.handler_pool)
+
+    this.update(false)
   }
 
   protected end() {
@@ -641,7 +702,6 @@ export namespace CompassSolving {
         {teleport: {group: "normalspellbook", spot: "falador"}},
       ]
     }
-
 
     export const builtin: TriangulationPreset[] = [
       elite_moonclan_southfeldiphills,

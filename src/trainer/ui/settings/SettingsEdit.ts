@@ -739,6 +739,11 @@ class CompassSettingsEdit extends Widget {
       .setValue(this.value.auto_commit_on_angle_change), "left", 1)
     this.layout.paragraph("When active, the next triangulation line is automatically drawn when the compass angle changes by more than 10° at once. This is the default behaviour in Alt1's built-in clue solver.")
 
+    this.layout.header(new Checkbox("Show status overlay")
+      .onCommit(v => this.value.enable_status_overlay = v)
+      .setValue(this.value.enable_status_overlay), "left", 1)
+    this.layout.paragraph("Shows detected angle on top of the compass.")
+
     this.layout.header("Preconfigured Triangulation Strategy")
 
     this.layout.paragraph("Preconfigured strategies are used to automatically load trinagulation spots whenever you receive a compass clue.")

@@ -19,7 +19,7 @@ export namespace Compasses {
 
       const direction_vector = Vector2.transform(Compasses.ANGLE_REFERENCE_VECTOR, Transform.rotationRadians(angle))
 
-      const uncertainty = Math.ceil(Vector2.length(position.size) / 2 - 1)
+      const uncertainty = Vector2.length(position.size) / 2
 
       const l = uncertainty / Math.tan(CompassReader.EPSILON)
 

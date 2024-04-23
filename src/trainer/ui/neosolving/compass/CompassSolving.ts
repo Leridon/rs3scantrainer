@@ -632,10 +632,22 @@ export namespace CompassSolving {
       ]
     }
 
+
+    export const elite_falador: TriangulationPreset = {
+      compass_id: clue_data.gielinor_compass.id,
+      id: -4,
+      name: "{{teleport normalspellbook falador}} Falador",
+      sequence: [
+        {teleport: {group: "normalspellbook", spot: "falador"}},
+      ]
+    }
+
+
     export const builtin: TriangulationPreset[] = [
       elite_moonclan_southfeldiphills,
       elite_moonclan_iceplateu,
-      master_turtle_island
+      master_turtle_island,
+      elite_falador
     ]
   }
 

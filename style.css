@@ -969,7 +969,7 @@ video {
 
 .nisl-selectdropdown {
     position: relative;
-    overflow: visible;
+    overflow: hidden;
 }
 
 .nisl-selectdropdown-input {
@@ -1919,6 +1919,8 @@ input[type=checkbox] + span {
 .ctr-teleport-icon > img {
     width: 100%;
     height: 100%;
+    max-width: 30px;
+    max-height: 30px;
 }
 
 .ctr-teleport-icon > div {
@@ -1975,6 +1977,13 @@ input[type=checkbox] + span {
 
 .nisl-icon {
     display: inline-block;
+}
+
+.nisl-icon:before {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
 }
 
 /* Step graphics */
@@ -2173,4 +2182,50 @@ input[type=checkbox] + span {
 .nisl-color-input > input {
     height: 20px;
     width: 100%;
+}
+
+/* Compass solver */
+
+.ctr-neosolving-compass-entry-selected {
+    background: rgb(40, 89, 112);
+}
+
+.ctr-neosolving-compass-entries-header {
+    font-weight: bold;
+}
+
+.ctr-neosolving-compass-entry-position {
+    flex-grow: 1;
+    display: flex;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.ctr-neosolving-compass-entry-angle {
+    width: 30px;
+    min-width: 30px;
+    margin-left: 3px;
+    margin-right: 3px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.ctr-neosolving-compass-entry-button {
+    width: 20px;
+    min-width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.ctr-neosolving-compass-entry-button-commit {
+    border: 2px solid #005600;
+    background: #009400;
+}
+
+.ctr-neosolving-compass-entry-button-discard {
+    border: 2px solid #c40000;
+    background: #ff0000;
 }

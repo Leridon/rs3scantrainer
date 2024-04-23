@@ -341,7 +341,6 @@ export class ClueReader {
           const compass_state = CompassReader.readCompassState(found_ui)
 
           if (compass_state?.type != "success") {
-            console.log(compass_state.type)
             return null
           }
 

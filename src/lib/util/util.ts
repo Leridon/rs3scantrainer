@@ -272,4 +272,14 @@ export namespace util {
       return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
     }
   }
+
+  export function rgbSimilarity(a: [number, number, number], b: [number, number, number]): number {
+    function channelSimilarity(x: number, y: number): number {
+      return Math.max(0, 1 - Math.abs(x - y) / 128)
+    }
+
+    return (channelSimilarity(a[0], b[0])
+      + channelSimilarity(a[1], b[1])
+      + channelSimilarity(a[2], b[2])) / 3
+  }
 }

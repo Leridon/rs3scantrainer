@@ -64,7 +64,7 @@ class CompassHandlingLayer extends GameLayer {
     const information = this.solving.entries.filter(e => e.information).map(l => l.information)
 
     this.lines = information.map(info => {
-      const from = info.position.center()
+      const from = Rectangle.center(info.position.rect(), false)
 
       const off = Vector2.transform(Vector2.scale(2000, Compasses.ANGLE_REFERENCE_VECTOR), Transform.rotationRadians(info.angle_radians))
 
@@ -156,11 +156,18 @@ class KnownCompassSpot extends MapEntity {
 }
 
 class CompassReadService extends Process<void> {
-  angle = observe<number>(null)
+  state = observe<{
+    angle: number,
+    spinning: boolean
+  }>(null).equality((a, b) => a?.angle == b?.angle && a?.spinning == b?.spinning)
   closed = ewent<this>()
 
+  last_read_angle: number = null
+  ticks_since_stationary: number = 0
+
   constructor(private matched_ui: MatchedUI.Compass,
-              private calibration_mode: CompassReader.CalibrationMode
+              private calibration_mode: CompassReader.CalibrationMode,
+              private show_overlay: boolean
   ) {
     super();
 
@@ -196,23 +203,52 @@ class CompassReadService extends Process<void> {
         case "likely_concealed":
           break;
         case "success":
-          this.angle.set(read.state.angle)
+          if (this.last_read_angle == read.state.angle) {
+            this.state.set({
+              angle: read.state.angle,
+              spinning: false
+            })
+            this.ticks_since_stationary = 0
+          } else {
+            this.ticks_since_stationary++
+
+            if (this.ticks_since_stationary > 2) {
+              this.state.set({
+                angle: null,
+                spinning: true
+              })
+            }
+          }
+
+          this.last_read_angle = read.state.angle
 
           break;
       }
 
-      if (this.angle.value() != null) {
-        this.overlay.text(`${radiansToDegrees(this.angle.value()).toFixed(2)}°`,
-          Vector2.add(Rectangle.center(capture_rect), {x: 5, y: 8}), {
-            shadow: true,
-            centered: true,
-            width: 15,
-            color: mixColor(255, 255, 255)
-          })
+      if (this.state.value()) {
+        let text: string = null
+
+        const state = this.state.value()
+
+        if (state.spinning) {
+          text = "Spinning"
+        } else if (state.angle != null) {
+          text = `${radiansToDegrees(state.angle).toFixed(3)}°`
+        }
+
+        if (text) {
+          this.overlay.text(text,
+            Vector2.add(Rectangle.center(capture_rect), {x: 5, y: 8}), {
+              shadow: true,
+              centered: true,
+              width: 15,
+              color: mixColor(255, 255, 255)
+            })
+        }
       }
 
+      if (this.show_overlay) this.overlay.render()
 
-      this.overlay.render()
       await this.checkTime()
     }
 
@@ -272,16 +308,21 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     if (ui) {
       this.process = new CompassReadService(this.ui,
-        this.settings.calibration_mode
+        this.settings.calibration_mode,
+        this.settings.enable_status_overlay
       )
 
       this.process.closed.on(() => {
         this.stop()
       })
 
-      this.process.angle.subscribe((new_angle, old_angle) => {
-        if (old_angle != null && this.settings.auto_commit_on_angle_change && angleDifference(new_angle, old_angle) > CompassSolving.ANGLE_CHANGE_COMMIT_THRESHOLD) {
-          this.commit()
+      this.process.state.subscribe((is_state, was_state) => {
+
+        if (was_state && this.settings.auto_commit_on_angle_change && !is_state.spinning) {
+          if (was_state.spinning ||
+            angleDifference(is_state.angle, was_state.angle) > CompassSolving.ANGLE_CHANGE_COMMIT_THRESHOLD) {
+            this.commit()
+          }
         }
       })
     }
@@ -382,7 +423,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     if (!entry?.position) return
     if (entry.angle != null) return
 
-    entry.angle = this.process.angle.value()
+    entry.angle = this.process.state.value().angle
     entry.information = Compasses.TriangulationPoint.construct(CompassSolving.Spot.coords(entry.position), entry.angle)
 
     this.update(true)
@@ -401,7 +442,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     const possible = this.spots.filter(s => s.isPossible)
 
     if (maybe_fit) {
-      if (possible.length > 0 && information.length > 0) {
+      if (possible.length > 0 && (information.length > 0 || possible.length < 100)) {
         this.layer.getMap().fitView(TileRectangle.from(...possible.map(s => s.spot)))
       }
     }
@@ -487,7 +528,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       }
     }).bindTo(this.handler_pool)
 
-    this.update(false)
+    this.update(true)
   }
 
   protected end() {
@@ -644,6 +685,7 @@ export namespace CompassSolving {
 
   export type Settings = {
     auto_commit_on_angle_change: boolean,
+    enable_status_overlay: boolean,
     calibration_mode: CompassReader.CalibrationMode,
     active_triangulation_presets: {
       compass_id: number,
@@ -693,7 +735,6 @@ export namespace CompassSolving {
       ]
     }
 
-
     export const elite_falador: TriangulationPreset = {
       compass_id: clue_data.gielinor_compass.id,
       id: -4,
@@ -703,17 +744,37 @@ export namespace CompassSolving {
       ]
     }
 
+    export const master_turtle_island_dock: TriangulationPreset = {
+      compass_id: clue_data.arc_compass.id,
+      id: -5,
+      name: "{{teleport arctabs sarim}} Ship to Turtle Island",
+      sequence: [
+        {tile: {x: 2242, y: 11424, level: 0}},
+      ]
+    }
+
+    export const master_whales_maw: TriangulationPreset = {
+      compass_id: clue_data.arc_compass.id,
+      id: -6,
+      name: "{{teleport arctabs whalesmaw}} Whale`s Maw",
+      sequence: [
+        {teleport: {group: "arctabs", spot: "whalesmaw"}},
+      ]
+    }
     export const builtin: TriangulationPreset[] = [
       elite_moonclan_southfeldiphills,
       elite_moonclan_iceplateu,
       master_turtle_island,
-      elite_falador
+      elite_falador,
+      master_turtle_island_dock,
+      master_whales_maw
     ]
   }
 
   export namespace Settings {
     export const DEFAULT: Settings = {
       auto_commit_on_angle_change: true,
+      enable_status_overlay: true,
       calibration_mode: "off",
       custom_triangulation_presets: [],
       active_triangulation_presets: []
@@ -725,6 +786,7 @@ export namespace CompassSolving {
       if (!isArray(settings.custom_triangulation_presets)) settings.custom_triangulation_presets = []
       if (!isArray(settings.active_triangulation_presets)) settings.active_triangulation_presets = []
       if (![true, false].includes(settings.auto_commit_on_angle_change)) settings.auto_commit_on_angle_change = DEFAULT.auto_commit_on_angle_change
+      if (![true, false].includes(settings.enable_status_overlay)) settings.enable_status_overlay = DEFAULT.enable_status_overlay
 
       if (!Object.keys(CompassReader.calibration_tables).includes(settings.calibration_mode)) settings.calibration_mode = DEFAULT.calibration_mode
 

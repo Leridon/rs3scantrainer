@@ -7,6 +7,7 @@ import * as lodash from "lodash";
 import {OverlayGeometry} from "../../../../lib/util/OverlayGeometry";
 import angleDifference = Compasses.angleDifference;
 import ANGLE_REFERENCE_VECTOR = Compasses.ANGLE_REFERENCE_VECTOR;
+import {util} from "../../../../lib/util/util";
 
 
 class AngularKeyframeFunction {
@@ -58,6 +59,7 @@ class AngularKeyframeFunction {
 
 export namespace CompassReader {
 
+  import rgbSimilarity = util.rgbSimilarity;
   const DEBUG_COMPASS_READER = false
   const DISABLE_CALIBRATION = false
 
@@ -109,7 +111,7 @@ export namespace CompassReader {
 
     if (dir.type != "success") return {type: dir.type}
 
-    let isArc = CompassReader.isArcClue(data);
+    let isArc = CompassReader.isArcCompass(data);
     return {type: "success", state: {angle: dir.angle, isArc: isArc}};
   }
 
@@ -263,18 +265,25 @@ export namespace CompassReader {
     }
   }
 
-  export function isArcClue(buf: ImageData) {
-    return false
+  export function isArcCompass(buf: ImageData) {
+    const Y = 235
+    const X_MIN = 34
+    const X_MAX = 146
 
-    // TODO: Reimplement.
+    const THRESHOLD = 5
+
+    const text_color: [number, number, number] = [51, 25, 0]
+
     let n = 0;
-    for (let a = 20; a < 120; a++) {
-      const i = a * 4 + 163 * buf.width * 4;
-      if (coldiff(buf.data[i], buf.data[i + 1], buf.data[i + 2], 52, 31, 5) < 50) {
+    for (let x = X_MIN; x < X_MAX; x++) {
+      const i = x * 4 + Y * buf.width * 4;
+
+      if (rgbSimilarity(text_color, [buf.data[i], buf.data[i+1], buf.data[i+2]]) > 0.9) {
         n++;
       }
     }
-    return n > 5;
+
+    return n > THRESHOLD;
   }
 
   export const calibration_tables = {

@@ -26,6 +26,7 @@ import {PathGraphics} from "../../path_graphics";
 import {util} from "../../../../lib/util/util";
 import {ewent, observe} from "../../../../lib/reactive";
 import {deps} from "../../../dependencies";
+import {clue_data} from "../../../../data/clues";
 import hbox = C.hbox;
 import span = C.span;
 import cls = C.cls;
@@ -436,6 +437,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 }
 
 export namespace CompassSolving {
+
   export type Spot = TileCoordinates | TeleportGroup.Spot
 
   export namespace Spot {
@@ -582,23 +584,74 @@ export namespace CompassSolving {
   export type Settings = {
     auto_commit_on_angle_change: boolean,
     calibration_mode: CompassReader.CalibrationMode,
-    preset_triangulation_points: {
+    active_triangulation_presets: {
       compass_id: number,
-      sequence: (TileCoordinates | TeleportGroup.SpotId)[]
+      preset_id: number | null
     }[],
+    custom_triangulation_presets: TriangulationPreset[],
+  }
+
+  export type TriangulationPreset = {
+    id: number,
+    compass_id: number,
+    name: string,
+    sequence: {
+      tile?: TileCoordinates,
+      teleport?: TeleportGroup.SpotId
+    }[]
+  }
+
+  export namespace TriangulationPreset {
+
+    export const elite_moonclan_southfeldiphills: TriangulationPreset = {
+      compass_id: clue_data.gielinor_compass.id,
+      id: -1,
+      name: "{{teleport lunarspellbook moonclan}} Moonclan - {{teleport normalspellbook southfeldiphills}} South Feldip Hills",
+      sequence: [
+        {teleport: {group: "lunarspellbook", spot: "moonclan"}},
+        {teleport: {group: "normalspellbook", spot: "southfeldiphills"}},
+      ]
+    }
+
+    export const elite_moonclan_iceplateu: TriangulationPreset = {
+      compass_id: clue_data.gielinor_compass.id,
+      id: -2,
+      name: "{{teleport lunarspellbook moonclan}} Moonclan - {{teleport lunarspellbook iceplateu}} Ice Plateau",
+      sequence: [
+        {teleport: {group: "lunarspellbook", spot: "moonclan"}},
+        {teleport: {group: "lunarspellbook", spot: "iceplateu"}},
+      ]
+    }
+
+    export const master_turtle_island: TriangulationPreset = {
+      compass_id: clue_data.arc_compass.id,
+      id: -3,
+      name: "{{teleport arctabs turtleislands}} Turtle Island",
+      sequence: [
+        {teleport: {group: "arctabs", spot: "turtleislands"}},
+      ]
+    }
+
+    export const builtin: TriangulationPreset[] = [
+      elite_moonclan_southfeldiphills,
+      elite_moonclan_iceplateu,
+      master_turtle_island
+    ]
   }
 
   export namespace Settings {
     export const DEFAULT: Settings = {
       auto_commit_on_angle_change: true,
       calibration_mode: "off",
-      preset_triangulation_points: []
+      custom_triangulation_presets: [],
+      active_triangulation_presets: []
     }
 
     export function normalize(settings: Settings): Settings {
       if (!settings) return DEFAULT
 
-      if (!isArray(settings.preset_triangulation_points)) settings.preset_triangulation_points = []
+      if (!isArray(settings.custom_triangulation_presets)) settings.custom_triangulation_presets = []
+      if (!isArray(settings.active_triangulation_presets)) settings.active_triangulation_presets = []
       if (![true, false].includes(settings.auto_commit_on_angle_change)) settings.auto_commit_on_angle_change = DEFAULT.auto_commit_on_angle_change
 
       if (!Object.keys(CompassReader.calibration_tables).includes(settings.calibration_mode)) settings.calibration_mode = DEFAULT.calibration_mode

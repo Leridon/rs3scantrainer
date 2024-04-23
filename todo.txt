@@ -1,12 +1,9 @@
 Compass solver:
-    - Context Menu Matchers for lodestones, lunar spellbooks
-    - Configuration Options:
-        - Prepared sequence for elite/master
-        - Antialiasing
     - Add method selectors for candidate spots
         - Show paths for all candidates? Or just the selected one?
     - Update ???° to currently predicted angle
     - Improve entry styling
+        - Entry options: Delete, Commit/Refresh
     - Tweak "likely_concealed" and "likely_closed" to actually work properly
     - Explanation Modal
     - Properly disable clue reader while compass reader is active (?)

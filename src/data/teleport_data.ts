@@ -375,7 +375,7 @@ const raw_data: Transportation.TeleportGroup[] = [
       {
         id: "paddewwa",
         target: {"origin": {"x": 3096, "y": 9880, "level": 0}, "size": {"x": 5, "y": 5}},
-        img: {url: "tele-paddewwa.png"},
+        img: {url: "tele-paddewwa.png", width: 28, height: 28},
         name: "Paddewwa",
       },
       {

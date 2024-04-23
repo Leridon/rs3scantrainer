@@ -434,7 +434,9 @@ export class GameMapMiniWidget extends Widget {
     this.interaction_guard = new InteractionGuard().setDefaultLayer(this.main_layer)
   }
 
-  setInteraction(interaction: ValueInteraction<any>) {
+  setInteraction(interaction: ValueInteraction<any>): this {
     this.interaction_guard.set(interaction)
+
+    return this
   }
 }

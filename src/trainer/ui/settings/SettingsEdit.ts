@@ -12,7 +12,7 @@ import {Checkbox} from "../../../lib/ui/controls/Checkbox";
 import * as lodash from "lodash";
 import {DropdownSelection} from "../widgets/DropdownSelection";
 import LightButton from "../widgets/LightButton";
-import {ClueTier, ClueType} from "../../../lib/runescape/clues";
+import {Clues, ClueTier, ClueType} from "../../../lib/runescape/clues";
 import ButtonRow from "../../../lib/ui/ButtonRow";
 import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
 import {FormModal} from "../../../lib/ui/controls/FormModal";
@@ -23,6 +23,19 @@ import {ColorPicker} from "../../../lib/ui/controls/ColorPicker";
 import {util} from "../../../lib/util/util";
 import {SlideGuider} from "../neosolving/SlideGuider";
 import {CrowdSourcing} from "../../CrowdSourcing";
+import {CompassSolving} from "../neosolving/compass/CompassSolving";
+import {clue_data} from "../../../data/clues";
+import {NislIcon} from "../nisl";
+import {TransportData} from "../../../data/transports";
+import {Transportation} from "../../../lib/runescape/transportation";
+import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
+import {SearchSelection} from "../widgets/SearchSelection";
+import {GameMapMiniWidget} from "../../../lib/gamemap/GameMap";
+import {ValueInteraction} from "../../../lib/gamemap/interaction/ValueInteraction";
+import {GameMapMouseEvent} from "../../../lib/gamemap/MapEvents";
+import {TeleportSpotEntity} from "../map/entities/TeleportSpotEntity";
+import InteractionTopControl from "../map/InteractionTopControl";
+import TransportLayer from "../map/TransportLayer";
 import cls = C.cls;
 import PotaColor = Settings.PotaColor;
 import hbox = C.hbox;
@@ -32,6 +45,10 @@ import hgrid = C.hgrid;
 import hboxl = C.hboxl;
 import centered = C.centered;
 import A1Color = util.A1Color;
+import italic = C.italic;
+import spacer = C.spacer;
+import TeleportGroup = Transportation.TeleportGroup;
+import span = C.span;
 
 class SectionControl extends Widget {
   menu_bar: Widget
@@ -699,6 +716,293 @@ class CrowdSourcingSettingsEdit extends Widget {
   }
 }
 
+class CompassSettingsEdit extends Widget {
+
+  private layout: Properties
+  private active_preset: CompassSolving.TriangulationPreset | null = null
+
+  constructor(private value: CompassSolving.Settings) {
+    super()
+
+    this.layout = new Properties().appendTo(this)
+
+    this.render()
+  }
+
+  render() {
+    this.layout.empty()
+
+    this.layout.paragraph("Configure the behaviour of the compass solver.")
+
+    this.layout.header(new Checkbox("Automatically commit angle on teleport")
+      .onCommit(v => this.value.auto_commit_on_angle_change = v)
+      .setValue(this.value.auto_commit_on_angle_change), "left", 1)
+    this.layout.paragraph("When active, the next triangulation line is automatically drawn when the compass angle changes by more than 10° at once. This is the default behaviour in Alt1's built-in clue solver.")
+
+    this.layout.header("Preconfigured Triangulation Strategy")
+
+    this.layout.paragraph("Preconfigured strategies are used to automatically load trinagulation spots whenever you receive a compass clue.")
+
+    for (const compass of clue_data.compass) {
+      let binding = this.value.active_triangulation_presets.find(p => p.compass_id == compass.id)
+
+      if (!binding) {
+        this.value.active_triangulation_presets.push(binding = {
+          compass_id: compass.id,
+          preset_id: null
+        })
+      }
+
+      const candidate_presets = [
+        ...this.value.custom_triangulation_presets,
+        ...CompassSolving.TriangulationPreset.builtin
+      ].filter(p => p.compass_id == compass.id)
+
+      const preset_selector = new DropdownSelection<CompassSolving.TriangulationPreset>({
+        type_class: {
+          toHTML: (v: CompassSolving.TriangulationPreset) => {
+            if (v) return hboxl(...deps().app.template_resolver.resolve(v.name))
+            else return italic("None")
+          }
+        }
+      }, [...candidate_presets, null])
+        .setValue(candidate_presets.find(p => p.id == binding.preset_id))
+        .onSelection(v => {
+          binding.preset_id = v ? v.id : null
+        })
+
+      this.layout.named(hboxl(inlineimg(ClueType.meta(compass.tier).icon_url), lodash.capitalize(compass.tier)), preset_selector)
+    }
+
+    this.layout.header("Custom Strategies")
+
+    this.layout.paragraph("Create your own strategies.")
+
+    type T = CompassSolving.TriangulationPreset | "create"
+
+    const preset_selector = new DropdownSelection<T>({
+      type_class: {
+        toHTML: (v: T) => {
+          if (v == "create") return "Create New"
+          else if (v) return hboxl(...deps().app.template_resolver.resolve(v.name))
+          else return "None selected"
+        }
+      }
+    }, [...this.value.custom_triangulation_presets, "create"])
+      .setValue(this.active_preset)
+      .onSelection(v => {
+        if (v == "create") {
+          const id =
+            this.value.custom_triangulation_presets.length == 0
+              ? 1
+              : Math.max(...this.value.custom_triangulation_presets.map(p => p.id)) + 1
+
+          this.value.custom_triangulation_presets.push(this.active_preset = {
+            compass_id: clue_data.gielinor_compass.id,
+            name: `Custom Preset ${id}`,
+            id: id,
+            sequence: []
+          })
+        } else {
+          this.active_preset = v
+        }
+
+        this.render()
+      })
+      .css("flex-grow", "1")
+
+    this.layout.named("Preset", hbox(preset_selector,
+        this.active_preset ? NislIcon.delete()
+          .withClick(async () => {
+
+            const really = await (new ConfirmationModal({
+              title: "Delete preset",
+              body: `Do you want to delete the preset '${this.active_preset.name}' preset? It cannot be undone.`,
+              options: [
+                {kind: "neutral", text: "Cancel", value: false, is_cancel: true},
+                {kind: "cancel", text: "Delete", value: true},
+              ]
+            })).do()
+
+            if (really) {
+              this.value.custom_triangulation_presets = this.value.custom_triangulation_presets.filter(p => p != this.active_preset)
+              this.active_preset = null
+              this.render()
+            }
+          }) : undefined
+      )
+    )
+
+    if (this.active_preset) {
+      this.layout.named("Name", new TextField()
+        .setValue(this.active_preset.name)
+        .onCommit(v => {
+          this.active_preset.name = v
+
+          // Reset selector value to rerender name
+          preset_selector.renderInput()
+        })
+      )
+
+      const clue = clue_data.compass.find(c => c.id == this.active_preset.compass_id)
+
+      this.layout.named("Tier", new DropdownSelection<Clues.Compass>({
+          type_class: {
+            toHTML: (v: Clues.Compass) => {
+              return hboxl(inlineimg(ClueType.meta(v.tier).icon_url), lodash.capitalize(v.tier))
+            }
+          }
+        }, clue_data.compass)
+          .setValue(clue)
+          .onSelection(v => {
+            this.active_preset.compass_id = v.id
+            this.render()
+          })
+      )
+
+
+      const sequence = new Properties()
+
+      this.layout.named("Sequence", sequence)
+
+      if (this.active_preset.sequence.length == 0) {
+        sequence.row("No triangulation points found.")
+      } else {
+        for (let i = 0; i < this.active_preset.sequence.length; i++) {
+          const point = this.active_preset.sequence[i]
+
+          sequence.header(
+            hbox(
+              spacer(),
+              `Spot ${i + 1}`,
+              spacer(),
+              NislIcon.delete()
+                .withClick(e => {
+                  this.active_preset.sequence.splice(i, 1)
+                  this.render()
+                })
+            ), "center", 1)
+
+          type T = TeleportGroup.Spot | TileCoordinates
+
+          const selector = new SearchSelection<T>({
+            type_class: {
+              toHTML: (v: T) => {
+                if (v instanceof Transportation.TeleportGroup.Spot) {
+                  return hboxl(hbox(inlineimg(`assets/icons/teleports/${v.image().url}`))
+                      .css2({
+                        "min-width": "20px",
+                        "max-width": "20px",
+                      })
+                    , span(v.hover()))
+                    .css2({
+                      "white-space": "nowrap",
+                      "overflow": "hidden",
+                      "text-overflow": "ellipsis"
+                    })
+                } else {
+                  return `${v.x} | ${v.y} | ${v.level}`
+                }
+              }
+            },
+            search_term: (t: Transportation.TeleportGroup.Spot) => t.hover()
+          }, TransportData.getAllTeleportSpots())
+            .onSelection((s: TeleportGroup.Spot) => {
+              point.teleport = s.id()
+            })
+            .css("flex-grow", "1")
+
+          if (point.teleport) {
+            selector.setValue(TransportData.resolveTeleport(point.teleport))
+          } else if (point.tile) {
+            selector.setValue(point.tile)
+          }
+
+          sequence.row(
+            hbox(selector,
+              new LightButton(NislIcon.from("assets/icons/select.png"))
+                .onClick(async () => {
+                  const res = await (new class extends FormModal<T> {
+                    map: GameMapMiniWidget
+
+                    constructor() {
+                      super();
+                      this.shown.on(() => {
+                        this.map.map.fitView(TileRectangle.extend(
+                          TileRectangle.from(...clue.spots), 3), {maxZoom: 20})
+                      })
+                    }
+
+                    render() {
+                      super.render()
+
+                      this.body.append(this.map = new GameMapMiniWidget()
+                        .css("width", "100%")
+                        .css("height", "400px")
+                        .setInteraction((new class extends ValueInteraction<T> {
+                            constructor() {
+                              super();
+
+                              this.add(new TransportLayer(true, {
+                                transport_policy: "none",
+                                teleport_policy: "target_only"
+                              }))
+
+                            }
+
+                            eventClick(event: GameMapMouseEvent) {
+                              event.onPre(() => {
+                                if (event.active_entity instanceof TeleportSpotEntity) {
+                                  this.commit(event.active_entity.teleport)
+                                } else {
+                                  this.commit(event.tile())
+                                }
+                              })
+                            }
+                          })
+                            .attachTopControl(new InteractionTopControl()
+                              .setContent(c().text("Click a teleport spot or any tile on the map to select it as a triangulation spot."))
+                            )
+                            .onCommit(v => this.confirm(v))
+                        )
+                      )
+                    }
+
+                    getButtons(): BigNisButton[] {
+                      return [
+                        new BigNisButton("Cancel", "neutral")
+                          .onClick(() => this.cancel())
+                      ]
+                    }
+
+                    protected getValueForCancel(): T {
+                      return null
+                    }
+                  })
+                    .do()
+
+                  if (res) {
+                    if (res instanceof TeleportGroup.Spot) point.teleport = res.id()
+                    else point.tile = res
+
+                    this.render()
+                  }
+                })
+            )
+          )
+        }
+      }
+
+      sequence.row(new LightButton("+ Add another spot")
+        .onClick(() => {
+          this.active_preset.sequence.push({})
+          this.render()
+        })
+      )
+    }
+  }
+}
+
 export class SettingsEdit extends Widget {
   value: Settings.Settings
 
@@ -719,6 +1023,11 @@ export class SettingsEdit extends Widget {
           name: "Puzzle Solving",
           short_name: "Puzzles",
           renderer: () => new PuzzleSettingsEdit(this.value.solving.puzzles)
+        }, {
+          id: "compass",
+          name: "Compass Solving",
+          short_name: "Compass",
+          renderer: () => new CompassSettingsEdit(this.value.solving.compass)
         }
         ]
       }, {

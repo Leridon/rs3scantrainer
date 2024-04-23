@@ -40,6 +40,14 @@ export class NislIcon extends Widget {
   static info(): NislIcon {
     return new NislIcon().css("cursor", "help").setSource("assets/icons/info.png")
   }
+
+  static delete(): NislIcon {
+    return new NislIcon().setSource("assets/icons/delete.png")
+  }
+
+  static from(url: string) {
+    return new NislIcon().setSource(url)
+  }
 }
 
 export class FavouriteIcon extends NislIcon {

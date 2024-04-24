@@ -15,7 +15,6 @@ import {SlideReader} from "./SliderReader";
 import {PuzzleModal} from "../PuzzleModal";
 import {Notification} from "../../NotificationBar";
 import {CompassReader} from "./CompassReader";
-import {Scans} from "../../../../lib/runescape/clues/scans";
 import stringSimilarity = util.stringSimilarity;
 import ScanStep = Clues.ScanStep;
 import notification = Notification.notification;
@@ -236,7 +235,13 @@ export class ClueReader {
 
                     for (let text_index = 0; text_index < clue.text.length; text_index++) {
 
-                      const score = stringSimilarity(text, clue.text[text_index])
+                      let reference_text = clue.text[text_index]
+
+                      if (clue.type == "skilling") {
+                        reference_text = `Complete the action to solve the clue: ${reference_text}`
+                      }
+
+                      const score = stringSimilarity(text, reference_text)
 
                       if (score > best_score) {
                         best_score = score

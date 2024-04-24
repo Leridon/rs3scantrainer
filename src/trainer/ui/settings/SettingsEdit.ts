@@ -1005,6 +1005,13 @@ class CompassSettingsEdit extends Widget {
         })
       )
     }
+
+    this.layout.header("Manual Tile Selection Inaccuracy", "left", 1)
+    this.layout.paragraph("Choose how accurate your manual spot selection when you click the map should be assumed to be. 1 considers your selection to be precisely the tile you stand on, higher values leave more room for error. This does not apply to tiles selected as part of a preconfigured strategy.")
+    this.layout.row(new NumberSlider(1, 10, 1)
+      .setValue(this.value.manual_tile_inaccuracy)
+      .onCommit(v => this.value.manual_tile_inaccuracy = v)
+    )
   }
 }
 

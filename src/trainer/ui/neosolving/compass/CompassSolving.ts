@@ -28,6 +28,7 @@ import {ewent, observe} from "../../../../lib/reactive";
 import {deps} from "../../../dependencies";
 import {clue_data} from "../../../../data/clues";
 import Properties from "../../widgets/Properties";
+import {Notification} from "../../NotificationBar";
 import hbox = C.hbox;
 import span = C.span;
 import cls = C.cls;
@@ -37,6 +38,8 @@ import findBestMatch = util.findBestMatch;
 import stringSimilarity = util.stringSimilarity;
 import angleDifference = Compasses.angleDifference;
 import italic = C.italic;
+import activate = TileArea.activate;
+import notification = Notification.notification;
 
 
 class CompassHandlingLayer extends GameLayer {
@@ -102,7 +105,13 @@ class CompassHandlingLayer extends GameLayer {
       if (event.active_entity instanceof TeleportSpotEntity) {
         this.solving.registerSpot(event.active_entity.teleport)
       } else {
-        this.solving.registerSpot(event.tile())
+        this.solving.registerSpot(
+          activate(TileArea.fromRect(TileRectangle.lift(
+              Rectangle.centeredOn(event.tile(), this.solving.settings.manual_tile_inaccuracy),
+              0
+            ))
+          )
+        )
       }
 
       //this.solving.pending[0].position = event.tile()
@@ -179,83 +188,87 @@ class CompassReadService extends Process<void> {
   async implementation(): Promise<void> {
 
     while (!this.should_stop) {
-      const capture_rect = this.matched_ui.rect
+      try {
 
-      const img = a1lib.captureHold(
-        Rectangle.screenOrigin(capture_rect).x,
-        Rectangle.screenOrigin(capture_rect).y,
-        Rectangle.width(capture_rect) + 5,
-        Rectangle.height(capture_rect) + 5,
-      )
 
-      this.overlay.clear()
-      //this.overlay.rect(capture_rect)
+        const capture_rect = this.matched_ui.rect
 
-      const read = CompassReader.readCompassState(
-        CompassReader.find(img, Rectangle.screenOrigin(capture_rect)),
-        this.calibration_mode
-      )
+        const img = a1lib.captureHold(
+          Rectangle.screenOrigin(capture_rect).x,
+          Rectangle.screenOrigin(capture_rect).y,
+          Rectangle.width(capture_rect) + 5,
+          Rectangle.height(capture_rect) + 5,
+        )
 
-      switch (read.type) {
-        case "likely_closed":
-          this.closed.trigger(this)
-          break;
-        case "likely_concealed":
-          break;
-        case "success":
-          if (this.last_read_angle == read.state.angle) {
-            this.state.set({
-              angle: read.state.angle,
-              spinning: false
-            })
-            this.ticks_since_stationary = 0
-          } else {
-            this.ticks_since_stationary++
+        this.overlay.clear()
+        //this.overlay.rect(capture_rect)
 
-            if (this.ticks_since_stationary > 2) {
+        const read = CompassReader.readCompassState(
+          CompassReader.find(img, Rectangle.screenOrigin(capture_rect)),
+          this.calibration_mode
+        )
+
+        switch (read.type) {
+          case "likely_closed":
+            this.closed.trigger(this)
+            break;
+          case "likely_concealed":
+            break;
+          case "success":
+            if (this.last_read_angle == read.state.angle) {
               this.state.set({
-                angle: null,
-                spinning: true
+                angle: read.state.angle,
+                spinning: false
               })
+              this.ticks_since_stationary = 0
+            } else {
+              this.ticks_since_stationary++
+
+              if (this.ticks_since_stationary > 2) {
+                this.state.set({
+                  angle: null,
+                  spinning: true
+                })
+              }
             }
+
+            this.last_read_angle = read.state.angle
+
+            break;
+        }
+
+        if (this.state.value()) {
+          let text: string = null
+
+          const state = this.state.value()
+
+          if (state.spinning) {
+            text = "Spinning"
+          } else if (state.angle != null) {
+            text = `${radiansToDegrees(state.angle).toFixed(2)}°`
           }
 
-          this.last_read_angle = read.state.angle
-
-          break;
-      }
-
-      if (this.state.value()) {
-        let text: string = null
-
-        const state = this.state.value()
-
-        if (state.spinning) {
-          text = "Spinning"
-        } else if (state.angle != null) {
-          text = `${radiansToDegrees(state.angle).toFixed(3)}°`
+          if (text) {
+            this.overlay.text(text,
+              Vector2.add(Rectangle.center(capture_rect), {x: 5, y: 8}), {
+                shadow: true,
+                centered: true,
+                width: 15,
+                color: mixColor(255, 255, 255)
+              })
+          }
         }
 
-        if (text) {
-          this.overlay.text(text,
-            Vector2.add(Rectangle.center(capture_rect), {x: 5, y: 8}), {
-              shadow: true,
-              centered: true,
-              width: 15,
-              color: mixColor(255, 255, 255)
-            })
-        }
+        if (this.show_overlay) this.overlay.render()
+      } catch (e) {
+        // Catch errors to avoid crashing on rare errors.
       }
-
-      if (this.show_overlay) this.overlay.render()
-
       await this.checkTime()
     }
 
     this.overlay?.clear()
     this.overlay?.render()
   }
-
 }
 
 export class CompassSolving extends NeoSolvingSubBehaviour {
@@ -272,7 +285,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
   process: CompassReadService
 
   entries: {
-    position: TileCoordinates | TeleportGroup.Spot | null,
+    position: TileArea.ActiveTileArea | TeleportGroup.Spot | null,
     angle: number | null,
     information: Compasses.TriangulationPoint | null,
     preconfigured?: CompassSolving.TriangulationPreset["sequence"][number]
@@ -356,7 +369,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
               span(element.position.spot.name)
             )
           } else {
-            position.append(span(TileCoordinates.toString(element.position)))
+            position.append(span(TileCoordinates.toString(element.position.center())))
           }
         } else {
           position.append(italic("No location selected"))
@@ -384,7 +397,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
             if (element.angle != null) {
               this.discard(i)
             } else {
-              this.commit(i)
+              this.commit(i, true)
             }
           })
 
@@ -405,17 +418,17 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     })
   }
 
-  discard(i: number) {
+  async discard(i: number) {
     if (!this.entries[i]) return
 
     this.entries.splice(i, 1)
 
     if (this.selection_index >= i) this.selection_index--
 
-    this.update(false)
+    await this.update(false)
   }
 
-  commit(i: number = undefined) {
+  async commit(i: number = undefined, is_manual: boolean = false) {
     if (i == undefined) i = this.selection_index
 
     const entry = this.entries[i]
@@ -423,13 +436,22 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     if (!entry?.position) return
     if (entry.angle != null) return
 
-    entry.angle = this.process.state.value().angle
-    entry.information = Compasses.TriangulationPoint.construct(CompassSolving.Spot.coords(entry.position), entry.angle)
+    const angle = this.process.state.value().angle
 
-    this.update(true)
+    const info = Compasses.TriangulationPoint.construct(CompassSolving.Spot.coords(entry.position), angle)
+
+    if (!this.spots.some(s => Compasses.isPossible([info], s.spot))) {
+      if (is_manual) notification("Refusing to lock in impossible angle.", "error").show()
+      return
+    }
+
+    entry.angle = angle
+    entry.information = info
+
+    await this.update(true)
   }
 
-  update(maybe_fit: boolean) {
+  async update(maybe_fit: boolean) {
     const information = this.entries.filter(e => e.information).map(e => e.information)
 
     this.spots.forEach(m => {
@@ -456,7 +478,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       if (unused_preconfigured) {
         const spot = unused_preconfigured.teleport
           ? TransportData.resolveTeleport(unused_preconfigured.teleport)
-          : unused_preconfigured.tile
+          : activate(TileArea.init(unused_preconfigured.tile))
 
         if (spot) {
           this.entries.push({
@@ -481,6 +503,8 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     this.selection_index = this.entries.findIndex(e => e.information == null)
 
+    if (this.selection_index < 0) this.selection_index = this.entries.length - 1
+
     /*
     if (possible.length == 1) {
       const m = await deps().app.favourites.getMethod({
@@ -491,21 +515,23 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       if (m) this.solving.parent.path_control.setMethod(m as AugmentedMethod<GenericPathMethod>)
     }*/
 
-    this.layer.updateOverlay()
+    await this.layer.updateOverlay()
     this.renderWidget()
   }
 
-  registerSpot(coords: TileCoordinates | TeleportGroup.Spot): void {
+  async registerSpot(coords: TileArea.ActiveTileArea | TeleportGroup.Spot): Promise<void> {
     const i = this.selection_index
 
     const entry = this.entries[i]
+
+    if (!entry) return
 
     entry.position = coords
     entry.angle = null
     entry.information = null
     entry.preconfigured = null
 
-    this.update(false)
+    await this.update(false)
   }
 
   protected begin() {
@@ -524,7 +550,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
           this.registerSpot(tele)
         }
       } else {
-        this.commit()
+        this.commit(undefined, true)
       }
     }).bindTo(this.handler_pool)
 
@@ -540,14 +566,14 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
 export namespace CompassSolving {
 
-  export type Spot = TileCoordinates | TeleportGroup.Spot
+  export type Spot = TileArea.ActiveTileArea | TeleportGroup.Spot
 
   export namespace Spot {
     import activate = TileArea.activate;
 
     export function coords(spot: Spot): TileArea.ActiveTileArea {
       if (spot instanceof TeleportGroup.Spot) return activate(spot.targetArea())
-      else return activate(TileArea.init(spot))
+      else return spot
     }
   }
   export const teleport_hovers: {
@@ -692,6 +718,7 @@ export namespace CompassSolving {
       preset_id: number | null
     }[],
     custom_triangulation_presets: TriangulationPreset[],
+    manual_tile_inaccuracy: number
   }
 
   export type TriangulationPreset = {
@@ -777,7 +804,8 @@ export namespace CompassSolving {
       enable_status_overlay: true,
       calibration_mode: "off",
       custom_triangulation_presets: [],
-      active_triangulation_presets: []
+      active_triangulation_presets: [],
+      manual_tile_inaccuracy: 3
     }
 
     export function normalize(settings: Settings): Settings {
@@ -787,6 +815,7 @@ export namespace CompassSolving {
       if (!isArray(settings.active_triangulation_presets)) settings.active_triangulation_presets = []
       if (![true, false].includes(settings.auto_commit_on_angle_change)) settings.auto_commit_on_angle_change = DEFAULT.auto_commit_on_angle_change
       if (![true, false].includes(settings.enable_status_overlay)) settings.enable_status_overlay = DEFAULT.enable_status_overlay
+      if (typeof settings.manual_tile_inaccuracy != "number") settings.manual_tile_inaccuracy = DEFAULT.manual_tile_inaccuracy
 
       if (!Object.keys(CompassReader.calibration_tables).includes(settings.calibration_mode)) settings.calibration_mode = DEFAULT.calibration_mode
 

@@ -42,8 +42,8 @@ export namespace LocUtil {
     return [0, 1, 2, 3, 4].map(i => getAction(loc, i)).filter(a => a != null).map(a => a!)
   }
 
-  export function getNthAction(loc: objects, n: number) {
-    return getActions(loc)[n]
+  export function getNthAction(loc: objects, cache_id: number) {
+    return getActions(loc).find(a => a.cache_id == cache_id)
   }
 
   export function getAction(loc: objects, index: number = 0): {

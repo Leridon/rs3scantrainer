@@ -33,6 +33,9 @@ export class EntityTransportationBuilder {
 
   finish(): EntityTransportation {
     let transport = this.value
+
+    transport.source_loc = this.underlying.loc_id
+
     let use = this.underlying
 
     // Apply rotation

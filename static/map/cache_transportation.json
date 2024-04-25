@@ -16406,6 +16406,26 @@
     "direction": 4
   },
   {
+    "type": "door",
+    "name": "Entrance",
+    "position": {
+      "x": 3510,
+      "y": 9957,
+      "level": 0
+    },
+    "direction": 3
+  },
+  {
+    "type": "door",
+    "name": "Wall",
+    "position": {
+      "x": 3480,
+      "y": 9837,
+      "level": 0
+    },
+    "direction": 4
+  },
+  {
     "type": "entity",
     "entity": {
       "name": "Ladder",
@@ -84956,6 +84976,1221 @@
                 "origin": {
                   "x": 2997,
                   "y": 3439,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Guild door",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2657.5,
+        "y": 3438.5
+      },
+      "botright": {
+        "x": 2658.5,
+        "y": 3437.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "open",
+        "interactive_area": {
+          "origin": {
+            "x": 2657,
+            "y": 3437,
+            "level": 0
+          },
+          "size": {
+            "x": 3,
+            "y": 3
+          },
+          "data": "qgA="
+        },
+        "name": "Open",
+        "movement": [
+          {
+            "time": 5,
+            "valid_from": {
+              "origin": {
+                "x": 2657,
+                "y": 3438,
+                "level": 0
+              },
+              "size": {
+                "x": 2,
+                "y": 2
+              },
+              "data": "CQ=="
+            },
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 5317,
+                  "y": 6875,
+                  "level": 0
+                }
+              },
+              "relative": true
+            },
+            "orientation": "forced",
+            "forced_orientation": {
+              "dir": 7,
+              "relative": false
+            }
+          },
+          {
+            "time": 5,
+            "valid_from": {
+              "origin": {
+                "x": 2658,
+                "y": 3437,
+                "level": 0
+              },
+              "size": {
+                "x": 2,
+                "y": 2
+              },
+              "data": "CQ=="
+            },
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 5315,
+                  "y": 6877,
+                  "level": 0
+                }
+              },
+              "relative": true
+            },
+            "orientation": "forced",
+            "forced_orientation": {
+              "dir": 5,
+              "relative": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Gate",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3443.5,
+        "y": 3458.5
+      },
+      "botright": {
+        "x": 3444.5,
+        "y": 3457.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "open",
+        "interactive_area": {
+          "origin": {
+            "x": 3444,
+            "y": 3457,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 2
+          }
+        },
+        "name": "Open",
+        "movement": [
+          {
+            "time": 1,
+            "valid_from": {
+              "origin": {
+                "x": 3444,
+                "y": 3458,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -1,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 1,
+            "valid_from": {
+              "origin": {
+                "x": 3444,
+                "y": 3457,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 1,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 3444,
+            "y": 3458,
+            "level": 0
+          }
+        },
+        "name": "Quick travel",
+        "movement": [
+          {
+            "time": 2,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3431,
+                  "y": 3328,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Gate",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3891.5,
+        "y": 7618.5
+      },
+      "botright": {
+        "x": 3892.5,
+        "y": 7617.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "open",
+        "interactive_area": {
+          "origin": {
+            "x": 3892,
+            "y": 7617,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 2
+          }
+        },
+        "name": "Open",
+        "movement": [
+          {
+            "time": 1,
+            "valid_from": {
+              "origin": {
+                "x": 3892,
+                "y": 7618,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -1,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 1,
+            "valid_from": {
+              "origin": {
+                "x": 3892,
+                "y": 7617,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 1,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 3892,
+            "y": 7618,
+            "level": 0
+          }
+        },
+        "name": "Quick travel",
+        "movement": [
+          {
+            "time": 2,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3879,
+                  "y": 7488,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Gate",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3442.5,
+        "y": 3458.5
+      },
+      "botright": {
+        "x": 3443.5,
+        "y": 3457.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "open",
+        "interactive_area": {
+          "origin": {
+            "x": 3443,
+            "y": 3457,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 2
+          }
+        },
+        "name": "Open",
+        "movement": [
+          {
+            "time": 1,
+            "valid_from": {
+              "origin": {
+                "x": 3443,
+                "y": 3458,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -1,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 1,
+            "valid_from": {
+              "origin": {
+                "x": 3443,
+                "y": 3457,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 1,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 3443,
+            "y": 3458,
+            "level": 0
+          }
+        },
+        "name": "Quick travel",
+        "movement": [
+          {
+            "time": 2,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3430,
+                  "y": 3328,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Gate",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3890.5,
+        "y": 7618.5
+      },
+      "botright": {
+        "x": 3891.5,
+        "y": 7617.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "open",
+        "interactive_area": {
+          "origin": {
+            "x": 3891,
+            "y": 7617,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 2
+          }
+        },
+        "name": "Open",
+        "movement": [
+          {
+            "time": 1,
+            "valid_from": {
+              "origin": {
+                "x": 3891,
+                "y": 7618,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -1,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 1,
+            "valid_from": {
+              "origin": {
+                "x": 3891,
+                "y": 7617,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 1,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 3891,
+            "y": 7618,
+            "level": 0
+          }
+        },
+        "name": "Quick travel",
+        "movement": [
+          {
+            "time": 2,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3878,
+                  "y": 7488,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Memorial",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3504.5,
+        "y": 3571.5
+      },
+      "botright": {
+        "x": 3506.5,
+        "y": 3570.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 3504,
+            "y": 3571,
+            "level": 0
+          }
+        },
+        "name": "Push",
+        "movement": [
+          {
+            "time": 3,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3504,
+                  "y": 9969,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Memorial",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3577.5,
+        "y": 3528.5
+      },
+      "botright": {
+        "x": 3578.5,
+        "y": 3526.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 3578,
+            "y": 3526,
+            "level": 0
+          }
+        },
+        "name": "Push",
+        "movement": [
+          {
+            "time": 3,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3577,
+                  "y": 9927,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3503.5,
+        "y": 9970.5
+      },
+      "botright": {
+        "x": 3504.5,
+        "y": 9969.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 3504,
+            "y": 9969,
+            "level": 0
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 2,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3504,
+                  "y": 3569,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3577.5,
+        "y": 9927.5
+      },
+      "botright": {
+        "x": 3578.5,
+        "y": 9926.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 3577,
+            "y": 9927,
+            "level": 0
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3577,
+                  "y": 3527,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Trapdoor",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3494.5,
+        "y": 3465.5
+      },
+      "botright": {
+        "x": 3495.5,
+        "y": 3464.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "open",
+        "interactive_area": {
+          "origin": {
+            "x": 3494,
+            "y": 3464,
+            "level": 0
+          },
+          "size": {
+            "x": 3,
+            "y": 3
+          },
+          "data": "ugA="
+        },
+        "name": "Open",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3519,
+                  "y": 3285,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Swamp Boat",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3523.5,
+        "y": 3285.5
+      },
+      "botright": {
+        "x": 3526.5,
+        "y": 3282.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Board",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3498,
+                  "y": 3380,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Swamp Boat",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3497.5,
+        "y": 3379.5
+      },
+      "botright": {
+        "x": 3500.5,
+        "y": 3376.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Board",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3522,
+                  "y": 3285,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Winch",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3376.5,
+        "y": 3445.5
+      },
+      "botright": {
+        "x": 3377.5,
+        "y": 3443.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Operate",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3177,
+                  "y": 5731,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Winch",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3355.5,
+        "y": 3434.5
+      },
+      "botright": {
+        "x": 3356.5,
+        "y": 3432.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Operate",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3160,
+                  "y": 5721,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ancient doors",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3372.5,
+        "y": 3404.5
+      },
+      "botright": {
+        "x": 3373.5,
+        "y": 3400.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2828,
+                  "y": 12627,
+                  "level": 2
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Rocks",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3085.5,
+        "y": 3562.5
+      },
+      "botright": {
+        "x": 3086.5,
+        "y": 3561.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 3086,
+            "y": 3561,
+            "level": 0
+          }
+        },
+        "name": "Climb",
+        "movement": [
+          {
+            "time": 6,
+            "offset": {
+              "x": 0,
+              "y": 3,
+              "level": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Rocks",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3085.5,
+        "y": 3563.5
+      },
+      "botright": {
+        "x": 3086.5,
+        "y": 3562.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 3086,
+            "y": 3562,
+            "level": 0
+          }
+        },
+        "name": "Climb",
+        "movement": [
+          {
+            "time": 6,
+            "offset": {
+              "x": 0,
+              "y": 3,
+              "level": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Cave",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2805.5,
+        "y": 3464.5
+      },
+      "botright": {
+        "x": 2813.5,
+        "y": 3462.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2820,
+                  "y": 9882,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Stairs",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2819.5,
+        "y": 9885.5
+      },
+      "botright": {
+        "x": 2821.5,
+        "y": 9882.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2820,
+            "y": 9882,
+            "level": 0
+          },
+          "size": {
+            "x": 2,
+            "y": 1
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2807,
+                  "y": 3461,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Cave",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2821.5,
+        "y": 3482.5
+      },
+      "botright": {
+        "x": 2829.5,
+        "y": 3480.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2827,
+                  "y": 3498,
+                  "level": 1
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Cave",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2849.5,
+        "y": 3509.5
+      },
+      "botright": {
+        "x": 2851.5,
+        "y": 3501.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2825,
+                  "y": 3524,
+                  "level": 1
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Cave",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2824.5,
+        "y": 3503.5
+      },
+      "botright": {
+        "x": 2826.5,
+        "y": 3495.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2826,
+                  "y": 3479,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Cave",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2821.5,
+        "y": 3527.5
+      },
+      "botright": {
+        "x": 2823.5,
+        "y": 3519.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2853,
+                  "y": 3506,
                   "level": 0
                 }
               }

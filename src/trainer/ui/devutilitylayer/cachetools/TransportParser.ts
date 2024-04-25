@@ -124,16 +124,12 @@ export namespace TransportParser {
       return this
     }
 
-    apply(instance: LocInstance, data: { per_loc: LocT & { plane_offset?: number }; per_instance?: InstanceT }): Transportation.Transportation[] {
+    apply(instance: LocInstance, data: { per_loc: LocT, per_instance?: InstanceT }): Transportation.Transportation[] {
       const builder = this.instantiate(instance, data)
 
       this.f(builder, data, instance)
 
       builder.finish()
-
-      if (data.per_loc?.plane_offset != null) {
-        builder.planeOffset(data.per_loc.plane_offset)
-      }
 
       return [builder.value]
     }

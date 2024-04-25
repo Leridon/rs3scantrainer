@@ -1194,7 +1194,6 @@
         21314
       ],
       "per_group_arg": {
-        "plane_offset": -1,
         "actions": [
           {
             "action": {
@@ -1739,7 +1738,6 @@
         99374
       ],
       "per_group_arg": {
-        "plane_offset": 0,
         "actions": [
           {
             "action": {
@@ -2229,7 +2227,6 @@
         3932
       ],
       "per_group_arg": {
-        "plane_offset": -1,
         "actions": [
           {
             "action": {
@@ -2267,7 +2264,6 @@
         3933
       ],
       "per_group_arg": {
-        "plane_offset": -1,
         "actions": [
           {
             "action": {
@@ -4850,8 +4846,7 @@
         "action": {
           "id": 0
         },
-        "time": 2,
-        "plane_offset": -1
+        "time": 2
       },
       "group_name": "",
       "instance_groups": [
@@ -6477,7 +6472,6 @@
         73681
       ],
       "per_group_arg": {
-        "plane_offset": -1,
         "actions": [
           {
             "action": {
@@ -6900,7 +6894,6 @@
         2830
       ],
       "per_group_arg": {
-        "plane_offset": -1,
         "actions": [
           {
             "action": {
@@ -8586,7 +8579,6 @@
         69526
       ],
       "per_group_arg": {
-        "plane_offset": -1,
         "actions": [
           {
             "action": {
@@ -9317,7 +9309,7 @@
               "origin": {
                 "x": 3441,
                 "y": 3329,
-                "level": 1
+                "level": 0
               }
             },
             {
@@ -9325,12 +9317,11 @@
               "origin": {
                 "x": 3440,
                 "y": 3329,
-                "level": 1
+                "level": 0
               }
             }
           ],
           "per_instance_argument": {
-            "plane_offset": -1,
             "actions": [
               {
                 "action": {
@@ -9382,7 +9373,7 @@
               "origin": {
                 "x": 3440,
                 "y": 3331,
-                "level": 1
+                "level": 0
               }
             },
             {
@@ -9390,12 +9381,11 @@
               "origin": {
                 "x": 3441,
                 "y": 3331,
-                "level": 1
+                "level": 0
               }
             }
           ],
           "per_instance_argument": {
-            "plane_offset": -1,
             "actions": [
               {
                 "action": {

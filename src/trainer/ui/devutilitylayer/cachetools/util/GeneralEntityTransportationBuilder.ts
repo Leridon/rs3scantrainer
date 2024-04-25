@@ -28,19 +28,14 @@ export class EntityActionBuilder {
 }
 
 export class EntityTransportationBuilder {
-  private plane_offset = 0
-
   constructor(public underlying: LocInstance,
               public value: EntityTransportation) {}
 
-  planeOffset(offset: number): this {
-    this.plane_offset = offset
-
-    return this
-  }
-
   finish(): EntityTransportation {
     let transport = this.value
+
+    transport.source_loc = this.underlying.loc_id
+
     let use = this.underlying
 
     // Apply rotation
@@ -55,7 +50,7 @@ export class EntityTransportationBuilder {
       : transport.position
 
     transport = Transportation.transform(transport,
-      TileTransform.translation(Vector2.sub(use.origin, current_origin), use.plane + this.plane_offset),
+      TileTransform.translation(Vector2.sub(use.origin, current_origin), use.effectiveLevel),
     )
 
     if (transport.type == "entity") {

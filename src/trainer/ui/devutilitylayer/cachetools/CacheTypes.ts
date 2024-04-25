@@ -196,6 +196,22 @@ export namespace CacheTypes {
     }[] | null
   };
 
+  export type WorldLocation = {
+    x: number,
+    z: number,
+    type: number,
+    rotation: number,
+    plane: number,
+    locid: number,
+    resolvedlocid: number,
+    location: objects,
+    sizex: number,
+    sizez: number,
+    placement: mapsquare_locations["locations"][number]["uses"][number]["extra"],
+    visualLevel: number,
+    effectiveLevel: number
+  }
+
   export type mapsquare_locations = {
     locations: {
       id: number,
@@ -220,17 +236,18 @@ export namespace CacheTypes {
     }[],
   };
 
-  export type LocUse = (mapsquare_locations["locations"][number]["uses"][number] & {
+  export type LocUse = Omit<WorldLocation, "location"> & {
+    location: undefined,
     box: TileRectangle,
     origin: TileCoordinates
-  })
+  }
 
   export type LocWithUsages = {
     id: number,
     location: objects,
     uses: LocUse[]
   }
-  9
+
   export type LocInstance = LocUse & {
     loc_with_usages: LocWithUsages,
     prototype: objects,

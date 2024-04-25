@@ -35,5 +35,9 @@ export class LocInstanceProperties extends Properties {
       this.named("IGroup", parser?.instance_group?.name ?? "-")
     }
 
+    this.row(c()
+      .css("font", "monospace")
+      .text(JSON.stringify(this.instance.loc_with_usages.location, null, 4))
+    )
   }
 }

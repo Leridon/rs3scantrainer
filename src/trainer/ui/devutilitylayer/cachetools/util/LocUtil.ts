@@ -42,8 +42,8 @@ export namespace LocUtil {
     return [0, 1, 2, 3, 4].map(i => getAction(loc, i)).filter(a => a != null).map(a => a!)
   }
 
-  export function getNthAction(loc: objects, n: number) {
-    return getActions(loc)[n]
+  export function getNthAction(loc: objects, cache_id: number) {
+    return getActions(loc).find(a => a.cache_id == cache_id)
   }
 
   export function getAction(loc: objects, index: number = 0): {
@@ -51,13 +51,15 @@ export namespace LocUtil {
     name: string,
     cursor: CursorType
   } | undefined {
-    let exists = !!loc[`actions_${index}`]
+    const action = loc[`actions_${index}`] ?? loc[`members_action_${index}`]
+
+    let exists = !!action
 
     if (!exists) return undefined
 
     return {
       cache_id: index,
-      name: loc[`actions_${index}`] as string,
+      name: action as string,
       cursor: CursorType.fromCacheCursor(loc[`action_cursors_${index}`]),
     }
   }

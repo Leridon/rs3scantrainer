@@ -3846,92 +3846,144 @@ name: "Entrana",
       img: {url: "enchantedlyre.png"},
       action_name: "Play",
     }]
-  },/*
-    {
-        type: "teleports",
-        id: "charterships",
-name: "Charter Ships",
-img: {url: "sail.png"},
-        spots: [
-            {
-                id: "tyras",
-target: {origin: {x: 2142, y: 3122, level: 0}},
-name: "Port Tyras",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "brimhaven",
-target: {origin: {x: 2760, y: 3238, level: 0}},
-name: "Brimhaven",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "catherby",
-target: {origin: {x: 2796, y: 3406, level: 0}},
-name: "Catherby",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "khazard",
-target: {origin: {x: 2674, y: 3144, level: 0}},
-name: "Port Khazard",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "ooglog",
-target: {origin: {x: 2623, y: 2857, level: 0}},
-name: "Oo'glog",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "karamja",
-target: {origin: {x: 2954, y: 3158, level: 0}},
-name: "Karamja",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "shipyard",
-target: {origin: {x: 3001, y: 3032, level: 0}},
-name: "Shipyard",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "sarim",
-target: {origin: {x: 3043, y: 3191, level: 0}},
-name: "Port Sarim",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "phasmatys",
-target: {origin: {x: 3702, y: 3503, level: 0}},
-name: "Port Phasmatys",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "mosleharmless",
-target: {origin: {x: 3671, y: 2931, level: 0}},
-name: "Mos Le'Harmless",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "menaphos",
-target: {origin: {x: 3140, y: 2662, level: 0}},
-name: "Menaphos",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-        ]
-    },*/
+  },
+  {
+    type: "teleports",
+    id: "charterships",
+    name: "Charter Ships",
+    img: {url: "sail.png"},
+    menu_ticks: 1,
+    animation_ticks: 5,
+    spots: [
+      {
+        id: "tyras",
+        target: {origin: {x: 2142, y: 3122, level: 0}},
+        name: "Port Tyras",
+      },
+      {
+        id: "brimhaven",
+        target: {origin: {x: 2760, y: 3238, level: 0}},
+        name: "Brimhaven",
+      },
+      {
+        id: "catherby",
+        target: {origin: {x: 2796, y: 3406, level: 0}},
+        name: "Catherby",
+      },
+      {
+        id: "khazard",
+        target: {origin: {x: 2674, y: 3144, level: 0}},
+        name: "Port Khazard",
+      },
+      {
+        id: "ooglog",
+        target: {origin: {x: 2623, y: 2857, level: 0}},
+        name: "Oo'glog",
+      },
+      {
+        id: "karamja",
+        target: {origin: {x: 2954, y: 3158, level: 0}},
+        name: "Karamja",
+      },
+      {
+        id: "shipyard",
+        target: {origin: {x: 3001, y: 3032, level: 0}},
+        name: "Shipyard",
+      },
+      {
+        id: "sarim",
+        target: {origin: {x: 3043, y: 3191, level: 0}},
+        name: "Port Sarim",
+      },
+      {
+        id: "phasmatys",
+        target: {origin: {x: 3702, y: 3503, level: 0}},
+        name: "Port Phasmatys",
+      },
+      {
+        id: "mosleharmless",
+        target: {origin: {x: 3671, y: 2931, level: 0}},
+        name: "Mos Le'Harmless",
+      },
+      {
+        id: "menaphos",
+        target: {origin: {x: 3140, y: 2662, level: 0}},
+        name: "Menaphos",
+      },
+    ],
+    access: [
+      {
+        type: "entity",
+        id: "sarim",
+        name: {kind: "npc", name: "Trader Crewmember (Port Sarim)"},
+        clickable_area: {"origin": {"x": 3035, "y": 3190, "level": 0}, "size": {"x": 15, "y": 3}},
+        action_name: "Charter"
+      },
+      {
+        type: "entity",
+        id: "catherbvy",
+        name: {kind: "npc", name: "Trader Crewmember (Catherby)"},
+        clickable_area: {"origin": {"x": 2792, "y": 3405, "level": 0}, "size": {"x": 4, "y": 7}},
+        action_name: "Charter"
+      },
+      {
+        type: "entity",
+        id: "tyras",
+        name: {kind: "npc", name: "Trader Crewmember (Port Tyras)"},
+        clickable_area: {"origin": {"x": 2141, "y": 3121, "level": 0}, "size": {"x": 8, "y": 3}},
+        action_name: "Charter"
+      },
+      {
+        type: "entity",
+        id: "brimhaven",
+        name: {kind: "npc", name: "Trader Crewmember (Brimhaven)"},
+        clickable_area: {"origin": {"x": 2759, "y": 3237, "level": 0}, "size": {"x": 2, "y": 3}},
+        action_name: "Charter"
+      },
+      {
+        type: "entity",
+        id: "khazard",
+        name: {kind: "npc", name: "Trader Crewmember (Port Khazard)"},
+        clickable_area: {"origin": {"x": 2673, "y": 3144, "level": 0}, "size": {"x": 3, "y": 5}},
+        action_name: "Charter"
+      },
+      {
+        type: "entity",
+        id: "ooglog",
+        name: {kind: "npc", name: "Trader Crewmember (Oo'glog)"},
+        clickable_area: {"origin": {"x": 2619, "y": 2856, "level": 0}, "size": {"x": 5, "y": 2}},
+        action_name: "Charter"
+      },
+      {
+        type: "entity",
+        id: "musa",
+        name: {kind: "npc", name: "Trader Crewmember (Musa Point)"},
+        clickable_area: {"origin": {"x": 2953, "y": 3153, "level": 0}, "size": {"x": 3, "y": 11}},
+        action_name: "Charter"
+      },
+      {
+        type: "entity",
+        id: "shipyard",
+        name: {kind: "npc", name: "Trader Crewmember (Shipyard)"},
+        clickable_area: {"origin": {"x": 3000, "y": 3028, "level": 0}, "size": {"x": 3, "y": 11}},
+        action_name: "Charter"
+      },
+      {
+        type: "entity",
+        id: "phasmatys",
+        name: {kind: "npc", name: "Trader Crewmember (Port Phasmatys)"},
+        clickable_area: {"origin": {"x": 3701, "y": 3499, "level": 0}, "size": {"x": 2, "y": 7}},
+        action_name: "Charter"
+      },
+      {
+        type: "entity",
+        id: "menaphos",
+        name: {kind: "npc", name: "Trader Crewmember (Menaphos)"},
+        clickable_area: {"origin": {"x": 3139, "y": 2661, "level": 0}, "size": {"x": 11, "y": 2}},
+        action_name: "Charter"
+      },
+    ]
+  },
   {
     type: "teleports",
     id: "dragontrinkets",

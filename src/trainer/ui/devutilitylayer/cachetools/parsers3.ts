@@ -52,7 +52,7 @@ function transformWithLoc(transport: Transportation.EntityTransportation, use: L
     : transport.position
 
   transport = Transportation.transform(transport,
-    TileTransform.translation(Vector2.sub(use.origin, current_origin), use.plane - current_origin.level),
+    TileTransform.translation(Vector2.sub(use.origin, current_origin), use.effectiveLevel - current_origin.level),
   )
 
   if (transport.type == "entity") {
@@ -137,7 +137,6 @@ export const parsers3: TransportParser2[] = [
     }),
   parse("simpleremotetransport", "Remote",
     PP.rec({
-      plane_offset: PP.element("Plane Offset", PP.int([-3, 3]), true),
       action: PP.element("Action", PP.locAction()),
       time: PP.element("Time", PP.int([0, 100]).default(3)),
       area: PP.element("Area", PP.tileArea(true), true),
@@ -145,7 +144,6 @@ export const parsers3: TransportParser2[] = [
       target: PP.element("Target", PP.tileArea()),
     }), async (instance, {per_loc, per_instance}) => {
       const builder = EntityTransportationBuilder.from(instance)
-        .planeOffset(per_loc.plane_offset ?? 0)
 
       builder.action({
           index: per_loc.action.id,
@@ -157,7 +155,6 @@ export const parsers3: TransportParser2[] = [
     }),
   parse("prototypecopyloc", "Prototype",
     rec({
-      plane_offset: PP.element("Plane Offset", PP.int([-3, 3]), true),
       actions: PP.element("Actions", PP.list(PP.rec({
         action: PP.element("Action", PP.locAction()),
         area: PP.element("Area", PP.tileArea(), true),
@@ -187,7 +184,6 @@ export const parsers3: TransportParser2[] = [
     , null,
     async (instance, {per_loc}) => {
       const builder = EntityTransportationBuilder.from(instance)
-        .planeOffset(per_loc.plane_offset ?? 0)
 
       for (const action of per_loc.actions) {
         builder.action({
@@ -236,7 +232,6 @@ export const parsers3: TransportParser2[] = [
   parse("prototypecopylocperinstance", "Prototype Per Instance",
     null,
     rec({
-      plane_offset: PP.element("Plane Offset", PP.int([-3, 3]), true),
       actions: PP.element("Actions", PP.list(PP.rec({
         action: PP.element("Action", PP.locAction()),
         area: PP.element("Area", PP.tileArea(), true),
@@ -265,7 +260,6 @@ export const parsers3: TransportParser2[] = [
     }),
     async (instance, {per_instance}) => {
       const builder = EntityTransportationBuilder.from(instance)
-        .planeOffset(per_instance.plane_offset ?? 0)
 
       for (const action of per_instance.actions) {
         builder.action({
@@ -325,7 +319,6 @@ export const parsers3: TransportParser2[] = [
 
   parse("prototypecopyloclegacy", "(LEGACY) Prototype",
     rec({
-      plane_offset: PP.element("Plane Offset", PP.int([-3, 3]), true),
       actions: PP.element("Actions", PP.list(PP.rec({
         action: PP.element("Action", PP.locAction()),
         area: PP.element("Area", PP.tileArea(), true),
@@ -355,7 +348,6 @@ export const parsers3: TransportParser2[] = [
     , null,
     async (instance, {per_loc}) => {
       const builder = EntityTransportationBuilder.from(instance)
-        .planeOffset(per_loc.plane_offset ?? 0)
 
       for (const action of per_loc.actions) {
         builder.action({
@@ -408,7 +400,6 @@ export const parsers3: TransportParser2[] = [
   parse("prototypecopylocperinstancelegacy", "(LEGACY) Prototype Per Instance",
     null,
     rec({
-      plane_offset: PP.element("Plane Offset", PP.int([-3, 3]), true),
       actions: PP.element("Actions", PP.list(PP.rec({
         action: PP.element("Action", PP.locAction()),
         area: PP.element("Area", PP.tileArea(), true),
@@ -437,7 +428,6 @@ export const parsers3: TransportParser2[] = [
     }),
     async (instance, {per_instance}) => {
       const builder = EntityTransportationBuilder.from(instance)
-        .planeOffset(per_instance.plane_offset ?? 0)
 
       for (const action of per_instance.actions) {
         builder.action({

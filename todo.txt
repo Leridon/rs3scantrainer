@@ -17,18 +17,9 @@ Not in dataset:
     Observatory rope shortcut
     Het's oasis agility course log
     Entrana monk ship
-    Digsite cranes into the caves below
 
 Unsure:
-    Ranging guild entrance
-
-    White wolf mountain cave entrances
-    Grave entrance to the Morytania mausoleum/experiment cave, door inside, and ladder to the outside
-    Canifis trapdoor shortcut to morton (temple trekking unlock)
     Dense forests
-    Charter boats 🥺
-    Mort myre gate shortcut
-    Air obelisk agility shortcut
 
 - Solving Behaviour
     - Path Panel

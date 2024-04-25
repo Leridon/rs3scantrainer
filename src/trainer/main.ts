@@ -15,7 +15,10 @@ import span = C.span;
 import skillbertRandom = Sliders.SlideSolver.skillbertRandom;
 import spacer = C.spacer;
 import hbox = C.hbox;
-import cleanedJSON = util.cleanedJSON;
+import {test_slide_reader} from "../test/test_slide_reader";
+import {timeSync} from "../lib/gamemap/GameLayer";
+import {Towers} from "../lib/cluetheory/Towers";
+import towers = Towers.towers;
 
 type DataEntry = {
   id: number,
@@ -378,25 +381,21 @@ export async function makeshift_main(): Promise<void> {
 /*
   let repo_data: LocParsingTableData = await (await fetch("map/parsing_associations.json")).json().catch(() => undefined)
 
-  function fix(name: string, value: any) {
-    if (typeof value == "object" && name == "movement" && value["offset"] && value["fixed"]) {
-      value["offset"] = undefined
-    }
+  console.log(Towers.StreetLabel.candidateMap())
 
-    if (Array.isArray(value)) {
-      value.forEach(e => fix(null, e))
-    } else if (typeof value == "object") {
-      Object.entries(value).forEach(([key, value]) => {
-        fix(key, value)
-      })
-    }
-  }
+  Towers.towers.forEach(left => towers.forEach(right => {
+    console.log(`${left}:${right} = ${Towers.StreetLabel.getCandidates([left, right]).length}`)
+  }))
 
-  fix("associations", repo_data.associations)
+  const result = timeSync("solve", () => {
+    return Towers.Puzzle.solve({
+      rows: [[3, 2], [2, 3], [2, 1], [1, 3], [3, 2]],
+      columns: [[3, 2], [2, 2], [1, 4], [5, 1], [2, 3]],
+    })
+  })
 
-  new ExportStringModal(cleanedJSON(repo_data, 4)).show()*/
+  console.log(result.rows.map(row => row.join("  ")).join("\n"));
 
-  //await clue_trainer_test_set.run()
 
   // await test_slide_reader()
 

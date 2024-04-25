@@ -51,13 +51,15 @@ export namespace LocUtil {
     name: string,
     cursor: CursorType
   } | undefined {
-    let exists = !!loc[`actions_${index}`]
+    const action = loc[`actions_${index}`] ?? loc[`members_action_${index}`]
+
+    let exists = !!action
 
     if (!exists) return undefined
 
     return {
       cache_id: index,
-      name: loc[`actions_${index}`] as string,
+      name: action as string,
       cursor: CursorType.fromCacheCursor(loc[`action_cursors_${index}`]),
     }
   }

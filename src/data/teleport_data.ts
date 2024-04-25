@@ -574,7 +574,7 @@ const raw_data: Transportation.TeleportGroup[] = [
     type: "teleports",
     id: "houseteleports", // house teleport timings assume the spell, tablets are two ticks slower
     name: "House Teleports",
-    img: {url: "modhouse.gif"},
+    img: {url: "modhouse.png"},
     spots: [
       {
         id: "rimmington",
@@ -760,7 +760,7 @@ const raw_data: Transportation.TeleportGroup[] = [
     type: "teleports",
     id: "teleportseed",
     name: "Teleport Seed",
-    img: {url: "crystal.gif"},
+    img: {url: "crystal.png"},
     menu_ticks: 1,
     animation_ticks: default_teleport_ticks,
     spots: [
@@ -974,7 +974,7 @@ const raw_data: Transportation.TeleportGroup[] = [
     type: "teleports",
     id: "fairyring",
     name: "Fairy Ring", // assume favorite for menu times
-    img: {url: "fairyring.gif"},
+    img: {url: "fairyring.png"},
     animation_ticks: 7,
     spots: [
       {
@@ -1721,7 +1721,7 @@ name: "Guthix Memorial",
         id: "amulet",
         type: "item",
         name: {name: "Desert amulet", kind: "item"},
-        img: {url: "desertamulet.gif"},
+        img: {url: "desertamulet.png"},
         action_name: "Teleport",
       }
     ]
@@ -2284,7 +2284,7 @@ name: "Harmony Island",
     id: "davesspellbook",
     type: "teleports",
     name: "Dave's spellbook",
-    img: {url: "davebook.gif"},
+    img: {url: "davebook.png"},
     spots: [
       {
         id: "watchtower",
@@ -2324,7 +2324,7 @@ name: "Harmony Island",
       },
     ],
     access: [{
-      img: {url: "davebook.gif"},
+      img: {url: "davebook.png"},
       id: "spellbook",
       type: "item",
       name: {kind: "item", name: "Dave's spellbook"},
@@ -2561,7 +2561,7 @@ name: "Goshima Docks",
     access: [{
       id: "quiver",
       type: "item",
-      img: {url: "quiver.gif"},
+      img: {url: "quiver.png"},
       name: {name: "Tirannwn quiver", kind: "item"},
       action_name: "Teleport",
     }]
@@ -2832,7 +2832,7 @@ name: "Goshima Docks",
       id: "wickedhood",
       type: "item",
       name: {name: "Wicked hood", kind: "item"},
-      img: {url: "wicked.gif"},
+      img: {url: "wicked.png"},
       action_name: "Teleport",
     }]
   },
@@ -3538,8 +3538,7 @@ name: "Entrana",
     type: "teleports",
     id: "karamjagloves",
     name: "Karamja gloves",
-    img: {url: "karamjagloves.gif"}
-    ,
+    img: {url: "karamjagloves.png"},
     spots: [{
       id: "gemmine",
       name: "Gem Mine",

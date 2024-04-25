@@ -6671,7 +6671,7 @@
     "position": {
       "x": 2590,
       "y": 3405,
-      "level": 1
+      "level": 0
     },
     "direction": 1
   },
@@ -6681,7 +6681,7 @@
     "position": {
       "x": 2609,
       "y": 3397,
-      "level": 1
+      "level": 0
     },
     "direction": 1
   },
@@ -6691,7 +6691,7 @@
     "position": {
       "x": 2607,
       "y": 3397,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -6701,7 +6701,7 @@
     "position": {
       "x": 2611,
       "y": 3397,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -10671,7 +10671,7 @@
     "position": {
       "x": 1501,
       "y": 4324,
-      "level": 1
+      "level": 0
     },
     "direction": 1
   },
@@ -10761,7 +10761,7 @@
     "position": {
       "x": 2768,
       "y": 3276,
-      "level": 1
+      "level": 0
     },
     "direction": 1
   },
@@ -10771,7 +10771,7 @@
     "position": {
       "x": 2768,
       "y": 3288,
-      "level": 1
+      "level": 0
     },
     "direction": 1
   },
@@ -10781,7 +10781,7 @@
     "position": {
       "x": 2767,
       "y": 3285,
-      "level": 2
+      "level": 1
     },
     "direction": 1
   },
@@ -49965,6 +49965,82 @@
     },
     "clickable_area": {
       "topleft": {
+        "x": 2760.5,
+        "y": 3437.5
+      },
+      "botright": {
+        "x": 2761.5,
+        "y": 3435.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "name": "Climb over",
+        "movement": [
+          {
+            "time": 5,
+            "valid_from": {
+              "origin": {
+                "x": 2760,
+                "y": 3435,
+                "level": 0
+              },
+              "size": {
+                "x": 3,
+                "y": 2
+              },
+              "data": "Kg=="
+            },
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2761,
+                  "y": 3437,
+                  "level": 0
+                }
+              },
+              "relative": true
+            }
+          },
+          {
+            "time": 5,
+            "valid_from": {
+              "origin": {
+                "x": 2760,
+                "y": 3437,
+                "level": 0
+              },
+              "size": {
+                "x": 3,
+                "y": 2
+              },
+              "data": "FQ=="
+            },
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2761,
+                  "y": 3437,
+                  "level": 0
+                }
+              },
+              "relative": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Stile",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
         "x": 3117.5,
         "y": 3293.5
       },
@@ -50327,82 +50403,6 @@
                 "origin": {
                   "x": 3063,
                   "y": 3283,
-                  "level": 0
-                }
-              },
-              "relative": true
-            }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
-      "name": "Stile",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2760.5,
-        "y": 3437.5
-      },
-      "botright": {
-        "x": 2761.5,
-        "y": 3435.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "agility",
-        "name": "Climb over",
-        "movement": [
-          {
-            "time": 5,
-            "valid_from": {
-              "origin": {
-                "x": 2760,
-                "y": 3435,
-                "level": 0
-              },
-              "size": {
-                "x": 3,
-                "y": 2
-              },
-              "data": "Kg=="
-            },
-            "fixed_target": {
-              "target": {
-                "origin": {
-                  "x": 2761,
-                  "y": 3437,
-                  "level": 0
-                }
-              },
-              "relative": true
-            }
-          },
-          {
-            "time": 5,
-            "valid_from": {
-              "origin": {
-                "x": 2760,
-                "y": 3437,
-                "level": 0
-              },
-              "size": {
-                "x": 3,
-                "y": 2
-              },
-              "data": "FQ=="
-            },
-            "fixed_target": {
-              "target": {
-                "origin": {
-                  "x": 2761,
-                  "y": 3437,
                   "level": 0
                 }
               },
@@ -69162,44 +69162,6 @@
   {
     "type": "entity",
     "entity": {
-      "name": "Exit",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2175.5,
-        "y": 5664.5
-      },
-      "botright": {
-        "x": 2176.5,
-        "y": 5662.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "generic",
-        "name": "Enter",
-        "movement": [
-          {
-            "time": 1,
-            "fixed_target": {
-              "target": {
-                "origin": {
-                  "x": 2939,
-                  "y": 10198,
-                  "level": 0
-                }
-              }
-            }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "entity": {
       "name": "Tunnel",
       "kind": "static"
     },
@@ -73469,7 +73431,7 @@
                 "origin": {
                   "x": 5060,
                   "y": 6055,
-                  "level": 1
+                  "level": 0
                 }
               },
               "relative": true
@@ -80179,7 +80141,7 @@
                 "origin": {
                   "x": 3439,
                   "y": 3331,
-                  "level": 1
+                  "level": 0
                 }
               }
             },
@@ -80225,7 +80187,7 @@
                 "origin": {
                   "x": 3441,
                   "y": 3329,
-                  "level": 1
+                  "level": 0
                 }
               }
             }
@@ -80270,7 +80232,7 @@
                 "origin": {
                   "x": 3440,
                   "y": 3331,
-                  "level": 1
+                  "level": 0
                 }
               }
             },
@@ -80316,7 +80278,7 @@
                 "origin": {
                   "x": 3442,
                   "y": 3329,
-                  "level": 1
+                  "level": 0
                 }
               }
             }
@@ -82801,7 +82763,7 @@
         "x": 3117.5,
         "y": 3855.5
       },
-      "level": 1
+      "level": 0
     },
     "actions": [
       {
@@ -82810,7 +82772,7 @@
           "origin": {
             "x": 3117,
             "y": 3855,
-            "level": 1
+            "level": 0
           },
           "size": {
             "x": 1,
@@ -82825,7 +82787,7 @@
               "origin": {
                 "x": 3117,
                 "y": 3856,
-                "level": 1
+                "level": 0
               }
             },
             "offset": {
@@ -82840,7 +82802,7 @@
               "origin": {
                 "x": 3117,
                 "y": 3855,
-                "level": 1
+                "level": 0
               }
             },
             "offset": {

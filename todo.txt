@@ -17,18 +17,6 @@ Not in dataset:
     Observatory rope shortcut
     Het's oasis agility course log
     Entrana monk ship
-    Digsite cranes into the caves below
-
-Unsure:
-    Ranging guild entrance
-
-    White wolf mountain cave entrances
-    Grave entrance to the Morytania mausoleum/experiment cave, door inside, and ladder to the outside
-    Canifis trapdoor shortcut to morton (temple trekking unlock)
-    Dense forests
-    Charter boats 🥺
-    Mort myre gate shortcut
-    Air obelisk agility shortcut
 
 - Solving Behaviour
     - Path Panel
@@ -54,7 +42,6 @@ Unsure:
 
 - Data
     - [Dev Tool, 3] Utility Layer for shortcut parsing
-        - [Bug, 5] Offsets/coordinates need to be considered in relation to the active instance
         - Option to overlay parsed transports
             - Dialog "Parsed <x> methods of transportation. [Export] [Show on Map]"
         - "Go to next entity"

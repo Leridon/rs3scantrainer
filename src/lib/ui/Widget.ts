@@ -4,6 +4,7 @@ import {C} from "./constructors";
 import Appendable = C.Appendable;
 
 export default class Widget<T extends HTMLElement = HTMLElement> {
+  protected _raw: T
   public container: JQuery
 
   constructor(init: JQuery | Widget = jquery("<div>")) {
@@ -15,11 +16,13 @@ export default class Widget<T extends HTMLElement = HTMLElement> {
     else if (!init) this.container = jquery("<div>")
     else this.container = init
 
+    this._raw = this.container.get()[0] as T
+
     return this
   }
 
   raw(): T {
-    return this.container.get()[0] as T
+    return this._raw
   }
 
   empty(): this {
@@ -164,7 +167,7 @@ export default class Widget<T extends HTMLElement = HTMLElement> {
   }
 
   setAttribute(name: string, value: string = ""): this {
-    this.raw().setAttribute(name, value)
+    this._raw.setAttribute(name, value)
 
     return this
   }

@@ -3,8 +3,8 @@ import * as popper from "@popperjs/core"
 import {ewent, Observable, observe} from "../../../lib/reactive";
 import {util} from "../../../lib/util/util";
 import {C} from "../../../lib/ui/constructors";
-import inlineimg = C.inlineimg;
 import * as jquery from "jquery";
+import inlineimg = C.inlineimg;
 import Appendable = C.Appendable;
 
 export abstract class AbstractDropdownSelection<T> extends Widget {
@@ -192,7 +192,9 @@ export namespace AbstractDropdownSelection {
         this.rows = this.selectable_items.value().map((item, index) => {
           return this.options.renderItem(item)
             .toggleClass("selected", this.highlight_index.value() == index)
-            .on("click", () => {
+            .on("click", (e) => {
+              e.stopPropagation()
+
               this.select(item)
             })
             .on("mousemove", () => {

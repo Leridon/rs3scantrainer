@@ -208,7 +208,7 @@ namespace NeoSolvingLayer {
             .toggleClass("nisl-textinput", false)
             .addClass("ctr-neosolving-main-bar-search")
             .setVisible(false)
-            .onChange(({value}) => {
+            .onPreview((value) => {
               let results = this.prepared_search_index.search(value)
 
               this.dropdown.setItems(results)

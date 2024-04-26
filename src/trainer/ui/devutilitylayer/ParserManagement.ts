@@ -160,7 +160,7 @@ export class ParserManagementLayer extends GameLayer {
                   instance_group: undefined
                 }
 
-                if (pair.group.parser.per_instance_parameter) {
+                if (pair.group.parser.instance_group_required) {
                   let result = await new ParserPairingModal(instance, this.parsing_table, pair).do()
 
                   if (result.type == "saved") {

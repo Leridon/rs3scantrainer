@@ -61,14 +61,13 @@ export namespace C {
     return create(`<h${level}>${text}</h${level}>`)
   }
 
-  export function img(src: string, alt: string = ""): Widget {
+  export function img(src: string): Widget {
     return create(`<img>`)
       .setAttribute("src", src)
-      .setAttribute("alt", alt)
   }
 
-  export function inlineimg(src: string, alt: string = ""): Widget {
-    return img(src, alt)
+  export function inlineimg(src: string): Widget {
+    return img(src)
       .addClass("text-icon")
   }
 

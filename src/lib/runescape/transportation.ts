@@ -399,6 +399,7 @@ export namespace Transportation {
       case "door":
         return {
           type: "door",
+          source_loc: transport.source_loc,
           name: transport.name,
           position: TileCoordinates.transform(transport.position, transform),
           direction: direction.transform(transport.direction, transform.matrix),
@@ -406,6 +407,7 @@ export namespace Transportation {
       case "entity":
         return {
           type: "entity",
+          source_loc: transport.source_loc,
           entity: transport.entity,
           clickable_area: TileRectangle.transform(transport.clickable_area, transform),
           actions: transport.actions.map((a): EntityAction => ({

@@ -1,6 +1,6 @@
 import {FormModal} from "../../../../lib/ui/controls/FormModal";
 import {CacheTypes} from "./CacheTypes";
-import {TransportParser2} from "./TransportParser";
+import {TransportParser} from "./TransportParser";
 import Properties from "../../widgets/Properties";
 import {Parsers3, parsers3} from "./parsers3";
 import {DropdownSelection} from "../../widgets/DropdownSelection";
@@ -122,9 +122,9 @@ export class ParserPairingEdit extends Widget {
           this.renderProps()
         }))
 
-      props.named("Parser", new DropdownSelection<TransportParser2>({
+      props.named("Parser", new DropdownSelection<TransportParser>({
           type_class: {
-            toHTML: (v: TransportParser2) => c().text(v ? v.name : "None")
+            toHTML: (v: TransportParser) => c().text(v ? v.name : "None")
           }
         }, parsers3.filter(p => !p.legacy))
           .setValue(this.pairing.group.parser)

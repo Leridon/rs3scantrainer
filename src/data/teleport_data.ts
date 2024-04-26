@@ -2095,7 +2095,7 @@ name: "Harmony Island",
         id: "tarnslair",
         target: {"origin": {"x": 3183, "y": 4599, "level": 0}, "size": {"x": 5, "y": 3}, "data": "hHw="},
         code: "3",
-        name: "Tarn's Kair",
+        name: "Tarn's Lair",
       },
     ],
     access: [{

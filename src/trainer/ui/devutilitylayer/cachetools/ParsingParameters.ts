@@ -20,7 +20,6 @@ import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInterac
 import InteractionTopControl from "../../map/InteractionTopControl";
 import {DrawOffset} from "../../shortcut_editing/interactions/DrawOffset";
 import {Transportation} from "../../../../lib/runescape/transportation";
-import {TileTransform} from "../../../../lib/runescape/coordinates/TileTransform";
 import LocInstance = CacheTypes.LocInstance;
 
 export abstract class ParsingParameter<T = any> {
@@ -264,6 +263,22 @@ export namespace ParsingParameter {
     }
   }
 
+  export function cursorType(): ParsingParameter<CursorType> {
+    return choose<CursorType>(() => ({
+      toHTML: (v: CursorType) => {
+        let meta = CursorType.meta(v)
+        return c(`<div><img style="height: 18px; object-fit: contain; margin-right: 3px" src="${meta.icon_url}" alt="${meta.description}">${meta.description}</div>`)
+      }
+    }), CursorType.all().map(i => i.type))
+  }
+
+  export function customAction() {
+    return rec({
+      name: element("Name", string()),
+      cursor: element("Icon", cursorType())
+    })
+  }
+
   export function locAction(): ParsingParameter<{
     id: number
   }> {
@@ -279,6 +294,16 @@ export namespace ParsingParameter {
     }), (loc) => getActions(loc.prototype).map(a => ({id: a.cache_id})))
   }
 
+  export function action() {
+    return either({
+      loc: locAction(),
+      custom: customAction(),
+    }).default(() => ({
+      loc: {
+        id: 0
+      }
+    }) as any)
+  }
 
   export abstract class Editor<T = any, ParT extends ParsingParameter<T> = ParsingParameter<T>> {
     public control = c()

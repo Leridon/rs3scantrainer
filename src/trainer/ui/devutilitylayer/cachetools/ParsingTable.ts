@@ -1,8 +1,7 @@
 import {Observable, observe} from "../../../../lib/reactive";
 import {TileCoordinates} from "../../../../lib/runescape/coordinates";
 import {CacheTypes} from "./CacheTypes";
-import {TransportParser, TransportParser2} from "./TransportParser";
-import {util} from "../../../../lib/util/util";
+import {TransportParser} from "./TransportParser";
 import {parsers3} from "./parsers3";
 import LocInstance = CacheTypes.LocInstance;
 
@@ -28,7 +27,7 @@ export type LocParsingTableData = {
 
 export type ParserPairing = {
   group: {
-    parser: TransportParser2,
+    parser: TransportParser,
     id: number,
     name: string,
     argument: any
@@ -176,7 +175,7 @@ export class LocParsingTable {
     return this.data.associations.find(g => g.group_id == group_id)
   }
 
-  getGroup2(parser: TransportParser2, id: number): ParserPairing["group"] {
+  getGroup2(parser: TransportParser, id: number): ParserPairing["group"] {
     const a = this.data.associations.find(a => a.parser_id == parser.id && (id < 0 || a.group_id == id))
 
     if (a) {

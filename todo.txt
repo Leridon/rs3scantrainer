@@ -18,9 +18,6 @@ Not in dataset:
     Het's oasis agility course log
     Entrana monk ship
 
-Unsure:
-    Dense forests
-
 - Solving Behaviour
     - Path Panel
         - [Feature] Disable default teleport render when contained in step

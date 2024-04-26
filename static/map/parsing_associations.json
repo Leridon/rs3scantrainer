@@ -1,5 +1,5 @@
 {
-  "version": 1263,
+  "version": 1264,
   "associations": [
     {
       "group_id": 0,
@@ -252,74 +252,7 @@
       ],
       "group_name": "Doors",
       "instance_groups": [],
-      "parser_id": "prototypecopyloc",
-      "per_group_arg": {
-        "actions": [
-          {
-            "action": {
-              "loc": {
-                "id": 0
-              }
-            },
-            "area": {
-              "origin": {
-                "x": -1,
-                "y": 0,
-                "level": 0
-              },
-              "size": {
-                "x": 3,
-                "y": 2
-              },
-              "data": "LQ=="
-            },
-            "movements": [
-              {
-                "valid_from": {
-                  "origin": {
-                    "x": 1,
-                    "y": 0,
-                    "level": 0
-                  },
-                  "size": {
-                    "x": 1,
-                    "y": 2
-                  }
-                },
-                "movement": {
-                  "offset": {
-                    "x": -2,
-                    "y": 0,
-                    "level": 0
-                  }
-                },
-                "time": 2
-              },
-              {
-                "valid_from": {
-                  "origin": {
-                    "x": -1,
-                    "y": 0,
-                    "level": 0
-                  },
-                  "size": {
-                    "x": 1,
-                    "y": 2
-                  }
-                },
-                "movement": {
-                  "offset": {
-                    "x": 2,
-                    "y": 0,
-                    "level": 0
-                  }
-                },
-                "time": 2
-              }
-            ]
-          }
-        ]
-      }
+      "parser_id": "west-facing-doors"
     },
     {
       "group_id": 12,

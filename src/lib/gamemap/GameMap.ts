@@ -244,8 +244,7 @@ export class GameMap extends leaflet.Map {
   }
 
   private updateBaseLayers() {
-    // Hardcoded
-    const MAP_ID = 4
+    const MAP_ID = 4 // Hardcoded
     const SKILLBERT_ATTRIBUTION = '<a href="https://runeapps.org/" title="Creator of Alt1 and RuneApps.org">Skillbert</a>'
 
     function backupUrl(filename: string, version: number) {

@@ -47058,11 +47058,20 @@
     ]
   },
   {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2590,
-      "y": 3405,
+    "type": "entity",
+    "entity": {
+      "name": "Door",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2589.5,
+        "y": 3405.5
+      },
+      "botright": {
+        "x": 2590.5,
+        "y": 3404.5
+      },
       "level": 0
     },
     "actions": [
@@ -47072,7 +47081,7 @@
           "origin": {
             "x": 2589,
             "y": 3405,
-            "level": 1
+            "level": 0
           },
           "size": {
             "x": 3,
@@ -47088,7 +47097,7 @@
               "origin": {
                 "x": 2591,
                 "y": 3405,
-                "level": 1
+                "level": 0
               },
               "size": {
                 "x": 1,
@@ -47107,7 +47116,7 @@
               "origin": {
                 "x": 2589,
                 "y": 3405,
-                "level": 1
+                "level": 0
               },
               "size": {
                 "x": 1,
@@ -47125,11 +47134,20 @@
     ]
   },
   {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2609,
-      "y": 3397,
+    "type": "entity",
+    "entity": {
+      "name": "Door",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2608.5,
+        "y": 3397.5
+      },
+      "botright": {
+        "x": 2609.5,
+        "y": 3396.5
+      },
       "level": 0
     },
     "actions": [
@@ -47139,7 +47157,7 @@
           "origin": {
             "x": 2608,
             "y": 3397,
-            "level": 1
+            "level": 0
           },
           "size": {
             "x": 3,
@@ -47155,7 +47173,7 @@
               "origin": {
                 "x": 2610,
                 "y": 3397,
-                "level": 1
+                "level": 0
               },
               "size": {
                 "x": 1,
@@ -47174,7 +47192,7 @@
               "origin": {
                 "x": 2608,
                 "y": 3397,
-                "level": 1
+                "level": 0
               },
               "size": {
                 "x": 1,
@@ -47192,11 +47210,20 @@
     ]
   },
   {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2607,
-      "y": 3397,
+    "type": "entity",
+    "entity": {
+      "name": "Door",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2606.5,
+        "y": 3397.5
+      },
+      "botright": {
+        "x": 2607.5,
+        "y": 3396.5
+      },
       "level": 1
     },
     "actions": [
@@ -47206,7 +47233,7 @@
           "origin": {
             "x": 2606,
             "y": 3397,
-            "level": 2
+            "level": 1
           },
           "size": {
             "x": 3,
@@ -47222,7 +47249,7 @@
               "origin": {
                 "x": 2608,
                 "y": 3397,
-                "level": 2
+                "level": 1
               },
               "size": {
                 "x": 1,
@@ -47241,7 +47268,7 @@
               "origin": {
                 "x": 2606,
                 "y": 3397,
-                "level": 2
+                "level": 1
               },
               "size": {
                 "x": 1,
@@ -47259,11 +47286,20 @@
     ]
   },
   {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2611,
-      "y": 3397,
+    "type": "entity",
+    "entity": {
+      "name": "Door",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2610.5,
+        "y": 3397.5
+      },
+      "botright": {
+        "x": 2611.5,
+        "y": 3396.5
+      },
       "level": 1
     },
     "actions": [
@@ -47273,7 +47309,7 @@
           "origin": {
             "x": 2610,
             "y": 3397,
-            "level": 2
+            "level": 1
           },
           "size": {
             "x": 3,
@@ -47289,7 +47325,7 @@
               "origin": {
                 "x": 2612,
                 "y": 3397,
-                "level": 2
+                "level": 1
               },
               "size": {
                 "x": 1,
@@ -47308,7 +47344,7 @@
               "origin": {
                 "x": 2610,
                 "y": 3397,
-                "level": 2
+                "level": 1
               },
               "size": {
                 "x": 1,
@@ -77422,11 +77458,20 @@
     ]
   },
   {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 1501,
-      "y": 4324,
+    "type": "entity",
+    "entity": {
+      "name": "Door",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 1500.5,
+        "y": 4324.5
+      },
+      "botright": {
+        "x": 1501.5,
+        "y": 4323.5
+      },
       "level": 0
     },
     "actions": [
@@ -77436,7 +77481,7 @@
           "origin": {
             "x": 1500,
             "y": 4324,
-            "level": 1
+            "level": 0
           },
           "size": {
             "x": 3,
@@ -77452,7 +77497,7 @@
               "origin": {
                 "x": 1502,
                 "y": 4324,
-                "level": 1
+                "level": 0
               },
               "size": {
                 "x": 1,
@@ -77471,7 +77516,7 @@
               "origin": {
                 "x": 1500,
                 "y": 4324,
-                "level": 1
+                "level": 0
               },
               "size": {
                 "x": 1,
@@ -78097,11 +78142,20 @@
     ]
   },
   {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2768,
-      "y": 3276,
+    "type": "entity",
+    "entity": {
+      "name": "Door",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2767.5,
+        "y": 3276.5
+      },
+      "botright": {
+        "x": 2768.5,
+        "y": 3275.5
+      },
       "level": 0
     },
     "actions": [
@@ -78111,7 +78165,7 @@
           "origin": {
             "x": 2767,
             "y": 3276,
-            "level": 1
+            "level": 0
           },
           "size": {
             "x": 3,
@@ -78127,7 +78181,7 @@
               "origin": {
                 "x": 2769,
                 "y": 3276,
-                "level": 1
+                "level": 0
               },
               "size": {
                 "x": 1,
@@ -78146,7 +78200,7 @@
               "origin": {
                 "x": 2767,
                 "y": 3276,
-                "level": 1
+                "level": 0
               },
               "size": {
                 "x": 1,
@@ -78164,11 +78218,20 @@
     ]
   },
   {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2768,
-      "y": 3288,
+    "type": "entity",
+    "entity": {
+      "name": "Door",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2767.5,
+        "y": 3288.5
+      },
+      "botright": {
+        "x": 2768.5,
+        "y": 3287.5
+      },
       "level": 0
     },
     "actions": [
@@ -78178,7 +78241,7 @@
           "origin": {
             "x": 2767,
             "y": 3288,
-            "level": 1
+            "level": 0
           },
           "size": {
             "x": 3,
@@ -78194,7 +78257,7 @@
               "origin": {
                 "x": 2769,
                 "y": 3288,
-                "level": 1
+                "level": 0
               },
               "size": {
                 "x": 1,
@@ -78213,7 +78276,7 @@
               "origin": {
                 "x": 2767,
                 "y": 3288,
-                "level": 1
+                "level": 0
               },
               "size": {
                 "x": 1,
@@ -78231,11 +78294,20 @@
     ]
   },
   {
-    "type": "door",
-    "name": "Door",
-    "position": {
-      "x": 2767,
-      "y": 3285,
+    "type": "entity",
+    "entity": {
+      "name": "Door",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2766.5,
+        "y": 3285.5
+      },
+      "botright": {
+        "x": 2767.5,
+        "y": 3284.5
+      },
       "level": 1
     },
     "actions": [
@@ -78245,7 +78317,7 @@
           "origin": {
             "x": 2766,
             "y": 3285,
-            "level": 2
+            "level": 1
           },
           "size": {
             "x": 3,
@@ -78261,7 +78333,7 @@
               "origin": {
                 "x": 2768,
                 "y": 3285,
-                "level": 2
+                "level": 1
               },
               "size": {
                 "x": 1,
@@ -78280,7 +78352,7 @@
               "origin": {
                 "x": 2766,
                 "y": 3285,
-                "level": 2
+                "level": 1
               },
               "size": {
                 "x": 1,
@@ -121010,24 +121082,156 @@
     ]
   },
   {
-    "type": "door",
-    "name": "Entrance",
-    "position": {
-      "x": 3510,
-      "y": 9957,
+    "type": "entity",
+    "entity": {
+      "name": "Entrance",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3509.5,
+        "y": 9957.5
+      },
+      "botright": {
+        "x": 3510.5,
+        "y": 9956.5
+      },
       "level": 0
     },
-    "direction": 3
+    "actions": [
+      {
+        "cursor": "open",
+        "interactive_area": {
+          "origin": {
+            "x": 3509,
+            "y": 9956,
+            "level": 0
+          },
+          "size": {
+            "x": 3,
+            "y": 2
+          },
+          "data": "LQ=="
+        },
+        "name": "Open",
+        "movement": [
+          {
+            "time": 2,
+            "valid_from": {
+              "origin": {
+                "x": 3509,
+                "y": 9956,
+                "level": 0
+              },
+              "size": {
+                "x": 1,
+                "y": 2
+              }
+            },
+            "offset": {
+              "x": 2,
+              "y": 0,
+              "level": 0
+            }
+          },
+          {
+            "time": 2,
+            "valid_from": {
+              "origin": {
+                "x": 3511,
+                "y": 9956,
+                "level": 0
+              },
+              "size": {
+                "x": 1,
+                "y": 2
+              }
+            },
+            "offset": {
+              "x": -2,
+              "y": 0,
+              "level": 0
+            }
+          }
+        ]
+      }
+    ]
   },
   {
-    "type": "door",
-    "name": "Wall",
-    "position": {
-      "x": 3480,
-      "y": 9837,
+    "type": "entity",
+    "entity": {
+      "name": "Wall",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3479.5,
+        "y": 9837.5
+      },
+      "botright": {
+        "x": 3480.5,
+        "y": 9836.5
+      },
       "level": 0
     },
-    "direction": 4
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 3479,
+            "y": 9836,
+            "level": 0
+          },
+          "size": {
+            "x": 2,
+            "y": 3
+          },
+          "data": "Mw=="
+        },
+        "name": "Search",
+        "movement": [
+          {
+            "time": 2,
+            "valid_from": {
+              "origin": {
+                "x": 3479,
+                "y": 9838,
+                "level": 0
+              },
+              "size": {
+                "x": 2,
+                "y": 1
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -2,
+              "level": 0
+            }
+          },
+          {
+            "time": 2,
+            "valid_from": {
+              "origin": {
+                "x": 3479,
+                "y": 9836,
+                "level": 0
+              },
+              "size": {
+                "x": 2,
+                "y": 1
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 2,
+              "level": 0
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "entity",
@@ -190116,6 +190320,25 @@
     },
     "clickable_area": {
       "topleft": {
+        "x": 3573.5,
+        "y": 3527.5
+      },
+      "botright": {
+        "x": 3574.5,
+        "y": 3525.5
+      },
+      "level": 0
+    },
+    "actions": []
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Memorial",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
         "x": 3577.5,
         "y": 3528.5
       },
@@ -190152,6 +190375,63 @@
         ]
       }
     ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Memorial",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3952.5,
+        "y": 7731.5
+      },
+      "botright": {
+        "x": 3954.5,
+        "y": 7730.5
+      },
+      "level": 0
+    },
+    "actions": []
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2555.5,
+        "y": 9844.5
+      },
+      "botright": {
+        "x": 2556.5,
+        "y": 9843.5
+      },
+      "level": 0
+    },
+    "actions": []
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2593.5,
+        "y": 9485.5
+      },
+      "botright": {
+        "x": 2594.5,
+        "y": 9484.5
+      },
+      "level": 0
+    },
+    "actions": []
   },
   {
     "type": "entity",
@@ -190799,6 +191079,2227 @@
                 }
               }
             }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Dense forest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2186.5,
+        "y": 3170.5
+      },
+      "botright": {
+        "x": 2189.5,
+        "y": 3168.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2188,
+            "y": 3168,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 4
+          },
+          "data": "CQ=="
+        },
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2188,
+                "y": 3171,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -3,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2188,
+                "y": 3168,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 3,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2188,
+            "y": 3171,
+            "level": 0
+          }
+        },
+        "name": "Enter (Quiver)",
+        "movement": [
+          {
+            "time": 6,
+            "offset": {
+              "x": 0,
+              "y": -9,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Dense forest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2186.5,
+        "y": 3164.5
+      },
+      "botright": {
+        "x": 2189.5,
+        "y": 3162.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2188,
+            "y": 3162,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 4
+          },
+          "data": "CQ=="
+        },
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2188,
+                "y": 3165,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -3,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2188,
+                "y": 3162,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 3,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2188,
+            "y": 3162,
+            "level": 0
+          }
+        },
+        "name": "Enter (Quiver)",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2188,
+                "y": 3162,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 9,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Dense forest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2186.5,
+        "y": 3167.5
+      },
+      "botright": {
+        "x": 2189.5,
+        "y": 3165.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2188,
+            "y": 3165,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 4
+          },
+          "data": "CQ=="
+        },
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2188,
+                "y": 3168,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -3,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2188,
+                "y": 3165,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 3,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Dense forest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2215.5,
+        "y": 3162.5
+      },
+      "botright": {
+        "x": 2218.5,
+        "y": 3160.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2217,
+            "y": 3160,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 4
+          },
+          "data": "CQ=="
+        },
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2217,
+                "y": 3163,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -3,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2217,
+                "y": 3160,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 3,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2217,
+            "y": 3160,
+            "level": 0
+          }
+        },
+        "name": "Enter (Quiver)",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2217,
+                "y": 3160,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 9,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Dense forest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2215.5,
+        "y": 3168.5
+      },
+      "botright": {
+        "x": 2218.5,
+        "y": 3166.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2217,
+            "y": 3166,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 4
+          },
+          "data": "CQ=="
+        },
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2217,
+                "y": 3169,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -3,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2217,
+                "y": 3166,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 3,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2217,
+            "y": 3169,
+            "level": 0
+          }
+        },
+        "name": "Enter (Quiver)",
+        "movement": [
+          {
+            "time": 6,
+            "offset": {
+              "x": 0,
+              "y": -9,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Dense forest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2237.5,
+        "y": 3150.5
+      },
+      "botright": {
+        "x": 2239.5,
+        "y": 3147.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2237,
+            "y": 3149,
+            "level": 0
+          },
+          "size": {
+            "x": 4,
+            "y": 1
+          },
+          "data": "CQ=="
+        },
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2240,
+                "y": 3149,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -3,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2237,
+                "y": 3149,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 3,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2240,
+            "y": 3149,
+            "level": 0
+          }
+        },
+        "name": "Enter (Quiver)",
+        "movement": [
+          {
+            "time": 6,
+            "offset": {
+              "x": -9,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Dense forest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2229.5,
+        "y": 3220.5
+      },
+      "botright": {
+        "x": 2231.5,
+        "y": 3217.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2229,
+            "y": 3219,
+            "level": 0
+          },
+          "size": {
+            "x": 4,
+            "y": 1
+          },
+          "data": "CQ=="
+        },
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2229,
+                "y": 3219,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 3,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2232,
+                "y": 3219,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -3,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Dense forest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2233.5,
+        "y": 3250.5
+      },
+      "botright": {
+        "x": 2235.5,
+        "y": 3247.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2233,
+            "y": 3249,
+            "level": 0
+          },
+          "size": {
+            "x": 4,
+            "y": 1
+          },
+          "data": "CQ=="
+        },
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2236,
+                "y": 3249,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -3,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2233,
+                "y": 3249,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 3,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Dense forest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2235.5,
+        "y": 3220.5
+      },
+      "botright": {
+        "x": 2237.5,
+        "y": 3217.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2235,
+            "y": 3219,
+            "level": 0
+          },
+          "size": {
+            "x": 4,
+            "y": 1
+          },
+          "data": "CQ=="
+        },
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2235,
+                "y": 3219,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 3,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2238,
+                "y": 3219,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -3,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2238,
+            "y": 3219,
+            "level": 0
+          }
+        },
+        "name": "Enter (Quiver)",
+        "movement": [
+          {
+            "time": 6,
+            "offset": {
+              "x": -12,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Dense forest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2268.5,
+        "y": 3193.5
+      },
+      "botright": {
+        "x": 2270.5,
+        "y": 3190.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2268,
+            "y": 3192,
+            "level": 0
+          },
+          "size": {
+            "x": 4,
+            "y": 1
+          },
+          "data": "CQ=="
+        },
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2268,
+                "y": 3192,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 3,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2271,
+                "y": 3192,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -3,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Dense forest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2277.5,
+        "y": 3230.5
+      },
+      "botright": {
+        "x": 2280.5,
+        "y": 3228.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2279,
+            "y": 3228,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 4
+          },
+          "data": "CQ=="
+        },
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2279,
+                "y": 3228,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 3,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2279,
+                "y": 3231,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -3,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2279,
+            "y": 3231,
+            "level": 0
+          }
+        },
+        "name": "Enter (Quiver)",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2279,
+                "y": 3231,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -9,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Dense forest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2301.5,
+        "y": 3221.5
+      },
+      "botright": {
+        "x": 2304.5,
+        "y": 3219.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2303,
+            "y": 3219,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 4
+          },
+          "data": "CQ=="
+        },
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2303,
+                "y": 3219,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 3,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2303,
+                "y": 3222,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -3,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Dense forest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2215.5,
+        "y": 3165.5
+      },
+      "botright": {
+        "x": 2218.5,
+        "y": 3163.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2217,
+            "y": 3163,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 4
+          },
+          "data": "CQ=="
+        },
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2217,
+                "y": 3166,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -3,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2217,
+                "y": 3163,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 3,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Dense forest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2234.5,
+        "y": 3150.5
+      },
+      "botright": {
+        "x": 2236.5,
+        "y": 3147.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2234,
+            "y": 3149,
+            "level": 0
+          },
+          "size": {
+            "x": 4,
+            "y": 1
+          },
+          "data": "CQ=="
+        },
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2237,
+                "y": 3149,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -3,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2234,
+                "y": 3149,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 3,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Dense forest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2226.5,
+        "y": 3220.5
+      },
+      "botright": {
+        "x": 2228.5,
+        "y": 3217.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2226,
+            "y": 3219,
+            "level": 0
+          },
+          "size": {
+            "x": 4,
+            "y": 1
+          },
+          "data": "CQ=="
+        },
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2226,
+                "y": 3219,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 3,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2229,
+                "y": 3219,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -3,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2226,
+            "y": 3219,
+            "level": 0
+          }
+        },
+        "name": "Enter (Quiver)",
+        "movement": [
+          {
+            "time": 6,
+            "offset": {
+              "x": 12,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Dense forest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2230.5,
+        "y": 3250.5
+      },
+      "botright": {
+        "x": 2232.5,
+        "y": 3247.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2230,
+            "y": 3249,
+            "level": 0
+          },
+          "size": {
+            "x": 4,
+            "y": 1
+          },
+          "data": "CQ=="
+        },
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2233,
+                "y": 3249,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -3,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2230,
+                "y": 3249,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 3,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2230,
+            "y": 3249,
+            "level": 0
+          }
+        },
+        "name": "Enter (Quiver)",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2230,
+                "y": 3249,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 9,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Dense forest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2265.5,
+        "y": 3193.5
+      },
+      "botright": {
+        "x": 2267.5,
+        "y": 3190.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2265,
+            "y": 3192,
+            "level": 0
+          },
+          "size": {
+            "x": 4,
+            "y": 1
+          },
+          "data": "CQ=="
+        },
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2265,
+                "y": 3192,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 3,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2268,
+                "y": 3192,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -3,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2265,
+            "y": 3192,
+            "level": 0
+          }
+        },
+        "name": "Enter (Quiver)",
+        "movement": [
+          {
+            "time": 6,
+            "offset": {
+              "x": 9,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Dense forest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2277.5,
+        "y": 3224.5
+      },
+      "botright": {
+        "x": 2280.5,
+        "y": 3222.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2279,
+            "y": 3222,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 4
+          },
+          "data": "CQ=="
+        },
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2279,
+                "y": 3225,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -3,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2279,
+                "y": 3222,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 3,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2279,
+            "y": 3222,
+            "level": 0
+          }
+        },
+        "name": "Enter (Quiver)",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2279,
+                "y": 3222,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 9,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Dense forest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2301.5,
+        "y": 3218.5
+      },
+      "botright": {
+        "x": 2304.5,
+        "y": 3216.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2303,
+            "y": 3216,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 4
+          },
+          "data": "CQ=="
+        },
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2303,
+                "y": 3219,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -3,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2303,
+                "y": 3216,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 3,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Dense forest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2301.5,
+        "y": 3224.5
+      },
+      "botright": {
+        "x": 2304.5,
+        "y": 3222.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2303,
+            "y": 3222,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 4
+          },
+          "data": "CQ=="
+        },
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2303,
+                "y": 3225,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -3,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2303,
+                "y": 3222,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 3,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2303,
+            "y": 3225,
+            "level": 0
+          }
+        },
+        "name": "Enter (Quiver)",
+        "movement": [
+          {
+            "time": 6,
+            "offset": {
+              "x": 0,
+              "y": -12,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Dense forest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2231.5,
+        "y": 3150.5
+      },
+      "botright": {
+        "x": 2233.5,
+        "y": 3147.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2231,
+            "y": 3149,
+            "level": 0
+          },
+          "size": {
+            "x": 4,
+            "y": 1
+          },
+          "data": "CQ=="
+        },
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2234,
+                "y": 3149,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -3,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2231,
+                "y": 3149,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 3,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2231,
+            "y": 3149,
+            "level": 0
+          }
+        },
+        "name": "Enter (Quiver)",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2231,
+                "y": 3149,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 9,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Dense forest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2232.5,
+        "y": 3220.5
+      },
+      "botright": {
+        "x": 2234.5,
+        "y": 3217.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2232,
+            "y": 3219,
+            "level": 0
+          },
+          "size": {
+            "x": 4,
+            "y": 1
+          },
+          "data": "CQ=="
+        },
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2232,
+                "y": 3219,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 3,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2235,
+                "y": 3219,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -3,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Dense forest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2236.5,
+        "y": 3250.5
+      },
+      "botright": {
+        "x": 2238.5,
+        "y": 3247.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2236,
+            "y": 3249,
+            "level": 0
+          },
+          "size": {
+            "x": 4,
+            "y": 1
+          },
+          "data": "CQ=="
+        },
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2239,
+                "y": 3249,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -3,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2236,
+                "y": 3249,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 3,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2239,
+            "y": 3249,
+            "level": 0
+          }
+        },
+        "name": "Enter (Quiver)",
+        "movement": [
+          {
+            "time": 6,
+            "offset": {
+              "x": -9,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Dense forest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2271.5,
+        "y": 3193.5
+      },
+      "botright": {
+        "x": 2273.5,
+        "y": 3190.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2271,
+            "y": 3192,
+            "level": 0
+          },
+          "size": {
+            "x": 4,
+            "y": 1
+          },
+          "data": "CQ=="
+        },
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2271,
+                "y": 3192,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 3,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2274,
+                "y": 3192,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -3,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2274,
+            "y": 3192,
+            "level": 0
+          }
+        },
+        "name": "Enter (Quiver)",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2274,
+                "y": 3192,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -9,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Dense forest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2277.5,
+        "y": 3227.5
+      },
+      "botright": {
+        "x": 2280.5,
+        "y": 3225.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2279,
+            "y": 3225,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 4
+          },
+          "data": "CQ=="
+        },
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2279,
+                "y": 3228,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -3,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2279,
+                "y": 3225,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 3,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Dense forest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2301.5,
+        "y": 3215.5
+      },
+      "botright": {
+        "x": 2304.5,
+        "y": 3213.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2303,
+            "y": 3213,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 4
+          },
+          "data": "CQ=="
+        },
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2303,
+                "y": 3213,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 3,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 2303,
+                "y": 3216,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -3,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2303,
+            "y": 3213,
+            "level": 0
+          }
+        },
+        "name": "Enter (Quiver)",
+        "movement": [
+          {
+            "time": 6,
+            "offset": {
+              "x": 0,
+              "y": 12,
+              "level": 0
+            },
+            "orientation": "bymovement"
           }
         ]
       }

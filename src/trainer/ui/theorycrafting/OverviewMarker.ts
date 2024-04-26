@@ -97,7 +97,7 @@ export namespace ClueOverviewMarker {
 
         if (i >= 0 && clue.clue.areas?.length > 0) {
           if (i >= clue.clue.areas.length) i = 0
-          return TileRectangle.center(clue.clue.areas[i])
+          return activate(clue.clue.areas[i]).center()
         }
 
         break

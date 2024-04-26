@@ -607,9 +607,9 @@ export default class NeoSolvingBehaviour extends Behaviour {
           span(clue.answer)
         ))
 
-        bounds.addRectangle(clue.areas[0])
+        bounds.addRectangle(TileArea.toRect(clue.areas[0]))
 
-        interactionMarker(TileRectangle.center(clue.areas[0]), clue.cursor)
+        interactionMarker(activate(clue.areas[0]).center(), clue.cursor)
           .addTo(this.layer.generic_solution_layer)
       } else if (clue.type == "scan") {
         this.layer.scan_layer.marker.setClickable(true)

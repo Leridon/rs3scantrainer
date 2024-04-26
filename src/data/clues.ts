@@ -6455,7 +6455,9 @@ export namespace clue_data {
       "text": ["Crossing the desert I met a crocodile. She gave me a dazzling smile but she had something in her teeth."],
       "tier": "master",
       "id": 372,
-      "areas": [{"topleft": {"x": 3274, "y": 2685}, "botright": {"x": 3290, "y": 2662}, "level": 0}],
+      "areas": [
+        {"origin": {"x": 3274, "y": 2677, "level": 0}, "size": {"x": 8, "y": 9}}
+      ],
       "answer": "Catch a plover bird in the southern part of Sophanem.",
       "cursor": "hunt"
     }, {
@@ -6463,7 +6465,9 @@ export namespace clue_data {
       "text": ["I once met a man returning from market. He showed me the spoils of his day. It's precious to see what people pay for."],
       "tier": "master",
       "id": 373,
-      "areas": [{"topleft": {"x": 2666, "y": 3304}, "botright": {"x": 2669, "y": 3301}, "level": 0}],
+      "areas": [
+        {"origin": {"x": 2666, "y": 3301, "level": 0}, "size": {"x": 4, "y": 5}}
+      ],
       "answer": "Steal from the Ardougne Gem Stall.",
       "cursor": "thieve"
     }, {
@@ -6471,7 +6475,9 @@ export namespace clue_data {
       "text": ["A view of the city from high above. I can hear their prayers below."],
       "tier": "master",
       "id": 374,
-      "areas": [{"topleft": {"x": 2183, "y": 3454}, "botright": {"x": 2196, "y": 3441}, "level": 2}],
+      "areas": [
+        {"origin": {"x": 2189, "y": 3441, "level": 2}, "size": {"x": 3, "y": 3}}
+      ],
       "cursor": "agility",
       "answer": "Go to the top of the Hefin Agility Course."
     }, {
@@ -6479,7 +6485,9 @@ export namespace clue_data {
       "text": ["Round and round we go, burning, burning all aglow."],
       "tier": "master",
       "id": 375,
-      "areas": [{"topleft": {"x": 3018, "y": 9249}, "botright": {"x": 3052, "y": 9228}, "level": 0}],
+      "areas": [
+        {"origin": {"x": 3017, "y": 9242, "level": 0}, "size": {"x": 4, "y": 4}}
+      ],
       "cursor": "burn",
       "answer": "Start a firepit with a Curly Root in the Jadinko Lair."
     }, {
@@ -6487,11 +6495,9 @@ export namespace clue_data {
       "text": ["When I encountered this individual, she had more rings than any I had seen before."],
       "tier": "master",
       "id": 376,
-      "areas": [{"topleft": {"x": 2269, "y": 3390}, "botright": {"x": 2273, "y": 3386}, "level": 1}, {
-        "topleft": {"x": 3259, "y": 3373},
-        "botright": {"x": 3265, "y": 3367},
-        "level": 0
-      }],
+      "areas": [
+        {"origin": {"x": 2269, "y": 3386, "level": 1}, "size": {"x": 5, "y": 5}}
+      ],
       "answer": "Cut some elder logs from an elder tree.",
       "cursor": "chop"
     }, {
@@ -6507,7 +6513,9 @@ export namespace clue_data {
       "text": ["In a station of power someone requires assistance. Do a good deed to spread some happiness."],
       "tier": "master",
       "id": 378,
-      "areas": [{"topleft": {"x": 2688, "y": 5247}, "botright": {"x": 2751, "y": 5184}, "level": 3}],
+      "areas": [
+        {"origin": {"x": 2698, "y": 5186, "level": 2}, "size": {"x": 50, "y": 61}}
+      ],
       "cursor": "agility",
       "answer": "Help Turgall at the Dorgesh-Kaan Agility Course."
     }, {
@@ -6515,7 +6523,9 @@ export namespace clue_data {
       "text": ["Those things I once held dear continue to fade. I look upon her face and barely know who she is. But her eyes... They are still so radiant."],
       "tier": "master",
       "id": 379,
-      "areas": [{"topleft": {"x": 3801, "y": 3555}, "botright": {"x": 3808, "y": 3548}, "level": 0}],
+      "areas": [
+        {"origin": {"x": 3800, "y": 3547, "level": 0}, "size": {"x": 10, "y": 10}}
+      ],
       "cursor": "divine",
       "answer": "Harvest a radiant memory."
     }, {
@@ -6524,7 +6534,9 @@ export namespace clue_data {
       "tier": "master",
       "cursor": "pray",
       "id": 380,
-      "areas": [{"topleft": {"x": 2100, "y": 3459}, "botright": {"x": 2292, "y": 3277}, "level": 1}],
+      "areas": [
+        {"origin": {"x": 2199, "y": 3352, "level": 1}, "size": {"x": 19, "y": 19}}
+      ],
       "answer": "Active the Light Form Prayer in Prifddinas"
     }, {
       "type": "skilling",
@@ -6547,7 +6559,9 @@ export namespace clue_data {
       "text": ["Magical energy floats unleashed. The fluid of life that flows through us all. Span the gap to capture this energy."],
       "tier": "master",
       "id": 383,
-      "areas": [{"topleft": {"x": 4343, "y": 6055}, "botright": {"x": 4364, "y": 6038}, "level": 1}],
+      "areas": [
+        {"origin": {"x": 4348, "y": 6059, "level": 0}, "size": {"x": 11, "y": 12}}
+      ],
       "answer": "Siphon some blood runes in the Runespan.",
       "cursor": "runecraft"
     }, {
@@ -6557,7 +6571,9 @@ export namespace clue_data {
       "id": 384,
       "answer": "Craft a black dragonhide body.",
       "cursor": "craft",
-      "areas": null
+      "areas": [
+        {"origin": {"x": 2274, "y": 3311, "level": 1}, "size": {"x": 5, "y": 3}}
+      ]
     }, {
       "type": "skilling",
       "text": ["Ernie once mentioned to me a secret to improve my cooking. His idea was strong but I went the extra mile."],
@@ -6565,7 +6581,9 @@ export namespace clue_data {
       "id": 385,
       "answer": "Add a fire rune to a decorated cooking urn (nr).",
       "cursor": "craft",
-      "areas": null
+      "areas": [
+        {"origin": {"x": 2274, "y": 3311, "level": 1}, "size": {"x": 5, "y": 3}}
+      ]
     }, {
       "type": "skilling",
       "text": ["I have all the ingredients for soup but sometimes a simple meal tastes the best."],
@@ -6573,7 +6591,9 @@ export namespace clue_data {
       "id": 386,
       "answer": "Cook a raw shark, raw rocktail or raw sailfish.",
       "cursor": "cook",
-      "areas": null
+      "areas": [
+        {"origin":{"x":4310,"y":823,"level":0},"size":{"x":3,"y":3}}
+      ]
     }, {
       "type": "skilling",
       "text": ["Take the journey to a distant mining site. Become a blight to your foes."],
@@ -6581,13 +6601,17 @@ export namespace clue_data {
       "id": 387,
       "answer": "Smelt a Bane bar at a furnace.",
       "cursor": "smith",
-      "areas": null
+      "areas": [
+        {"origin": {"x": 3225, "y": 3255, "level": 0}, "size": {"x": 5, "y": 3}}
+      ]
     }, {
       "type": "skilling",
       "text": ["Where there is Light there is also Death. Should you contain this you may progress."],
       "tier": "master",
       "id": 388,
-      "areas": [{"topleft": {"x": 2203, "y": 4838}, "botright": {"x": 2207, "y": 4834}, "level": 0}],
+      "areas": [
+        {"origin": {"x": 2203, "y": 4834, "level": 0}, "size": {"x": 5, "y": 5}}
+      ],
       "answer": "Craft a death rune.",
       "cursor": "runecraft"
     }, {
@@ -6595,7 +6619,9 @@ export namespace clue_data {
       "text": ["There is a temple where there are rivers of red. Bind the magic to get ahead."],
       "tier": "master",
       "id": 389,
-      "areas": [{"topleft": {"x": 2460, "y": 4898}, "botright": {"x": 2465, "y": 4893}, "level": 1}],
+      "areas": [
+        {"origin": {"x": 2460, "y": 4893, "level": 1}, "size": {"x": 6, "y": 6}}
+      ],
       "answer": "Craft a blood rune.",
       "cursor": "runecraft"
     }, {
@@ -6603,7 +6629,9 @@ export namespace clue_data {
       "text": ["Corruption seeps from this stone but there are those who work to cleanse it. Lend your voice."],
       "tier": "master",
       "id": 390,
-      "areas": [{"topleft": {"x": 2187, "y": 3451}, "botright": {"x": 2193, "y": 3445}, "level": 1}],
+      "areas": [
+        {"origin": {"x": 2188, "y": 3446, "level": 1}, "size": {"x": 5, "y": 5}}
+      ],
       "answer": "Completely use up a cleansing crystal on the Corrupted Seren Stone.",
       "cursor": "pray"
     }, {
@@ -6611,7 +6639,9 @@ export namespace clue_data {
       "text": ["Charm me and I shall unlock. But be brave in the darkness."],
       "tier": "master",
       "id": 391,
-      "areas": [{"topleft": {"x": 3365, "y": 3748}, "botright": {"x": 3380, "y": 3731}, "level": 0}],
+      "areas": [
+        {"origin": {"x": 3365, "y": 3730, "level": 0}, "size": {"x": 21, "y": 21}}
+      ],
       "answer": "Catch a charming moth in the Wilderness.",
       "cursor": "hunt"
     }, {
@@ -6629,7 +6659,9 @@ export namespace clue_data {
       "id": 393,
       "answer": "Mine a concentrated gold deposit in the Living Rock Caverns.",
       "cursor": "mine",
-      "areas": null
+      "areas": [
+        {"origin":{"x":3646,"y":5141,"level":0},"size":{"x":3,"y":5}}
+      ]
     }, {
       "type": "skilling",
       "text": ["Rumours of a great shark continue to spread. Catch me one and I will be fed."],
@@ -6637,7 +6669,9 @@ export namespace clue_data {
       "id": 394,
       "answer": "Catch a raw great white shark.",
       "cursor": "fish",
-      "areas": null
+      "areas": [
+        {"origin": {"x": 2845, "y": 3424, "level": 0}, "size": {"x": 19, "y": 7}, "data": "wA8A/wD8z+H/j/9//v///x8="}
+      ]
     }, {
       "type": "skilling",
       "text": ["The God of Order requires a sacrifice of strength but in return restores me. If only we could keep that feeling in his absence."],
@@ -6645,7 +6679,9 @@ export namespace clue_data {
       "id": 395,
       "answer": "Create a Saradomin brew.",
       "cursor": "herblore",
-      "areas": null
+      "areas": [
+        {"origin": {"x": 2274, "y": 3311, "level": 1}, "size": {"x": 5, "y": 3}}
+      ]
     }, {
       "type": "skilling",
       "text": ["Head protection is never a bad thing. Make it from rune for the best chance of survival."],
@@ -6653,7 +6689,9 @@ export namespace clue_data {
       "id": 396,
       "answer": "Smith a rune med helm or rune full helm.",
       "cursor": "smith",
-      "areas": null
+      "areas": [
+        {"origin": {"x": 3228, "y": 3253, "level": 0}, "size": {"x": 2, "y": 3}}
+      ]
     }, {
       "type": "skilling",
       "text": ["Being open to Chaos can raise your defences. It may also bring you closer to death. Take a moment to bottle this feeling."],
@@ -6661,7 +6699,9 @@ export namespace clue_data {
       "id": 397,
       "answer": "Create a Zamorak brew.",
       "cursor": "herblore",
-      "areas": null
+      "areas": [
+        {"origin": {"x": 2274, "y": 3311, "level": 1}, "size": {"x": 5, "y": 3}}
+      ]
     }, {
       "type": "skilling",
       "text": ["Catching only one shark. That don't impress me much."],
@@ -6669,7 +6709,9 @@ export namespace clue_data {
       "id": 398,
       "answer": "Catch two sharks at once.",
       "cursor": "fish",
-      "areas": null
+      "areas": [
+        {"origin": {"x": 2845, "y": 3424, "level": 0}, "size": {"x": 19, "y": 7}, "data": "wA8A/wD8z+H/j/9//v///x8="}
+      ]
     }]
 
   export const all: Clues.Step[] = [

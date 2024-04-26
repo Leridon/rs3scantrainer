@@ -125,7 +125,7 @@ export namespace Clues {
   export type Simple = StepShared & { type: "simple", solution: Solution }
   export type Skilling = StepShared & {
     type: "skilling",
-    areas: TileRectangle[],
+    areas: TileArea[],
     answer: string,
     cursor: CursorType
   }

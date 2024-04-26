@@ -1,4 +1,4 @@
-import {TransportParser2} from "./TransportParser";
+import {TransportParser} from "./TransportParser";
 import {CacheTypes} from "./CacheTypes";
 import {Transportation} from "../../../../lib/runescape/transportation";
 import {TileRectangle} from "../../../../lib/runescape/coordinates";
@@ -16,18 +16,58 @@ import offset = MovementBuilder.offset;
 import fixed = MovementBuilder.fixed;
 import EntityActionMovement = Transportation.EntityActionMovement;
 
+const orientation: ParsingParameter<{
+
+}> = PP.either({
+  simple: PP.choose<EntityActionMovement["orientation"]>({
+    toHTML: (v) => c().text(v)
+  }, ["bymovement", "toentitybefore", "toentityafter", "keep", "forced"]),
+  forced: PP.rec({
+    dir: PP.element("Direction", PP.dir()),
+    relative: PP.element("Relative", PP.bool())
+  })
+})
+
+const actions_parameter = PP.list(PP.rec({
+  action: PP.element("Action", PP.action()),
+  area: PP.element("Area", PP.tileArea(), true),
+  movements: PP.element("Movements", PP.list(PP.rec({
+    valid_from: PP.element("Valid", PP.tileArea(), true),
+    orientation: PP.element("Orientation", PP.either({
+      simple: PP.choose<EntityActionMovement["orientation"]>({
+        toHTML: (v) => c().text(v)
+      }, ["bymovement", "toentitybefore", "toentityafter", "keep", "forced"]),
+      forced: PP.rec({
+        dir: PP.element("Direction", PP.dir()),
+        relative: PP.element("Relative", PP.bool())
+      })
+    }), true),
+    movement: PP.element("Movement", PP.either({
+      offset: PP.offset(),
+      fixed: PP.rec({
+        area: PP.element("Area", PP.tileArea()),
+        relative: PP.element("Relative", PP.bool()),
+        origin_only: PP.element("Origin only", PP.bool()),
+      }),
+    })),
+    time: PP.element("Time", PP.int([0, 30]).default(3))
+  })))
+}))
+
 function parse<GroupT, InstanceT>(id: string,
                                   name: string,
                                   groupPar: ParsingParameter<GroupT>,
                                   instancePar: ParsingParameter<InstanceT>,
+                                  instance_group_required: boolean,
                                   apply: (instance: CacheTypes.LocInstance, args: { per_loc: GroupT; per_instance?: InstanceT }) => Promise<Transportation.Transportation[]>) {
 
-  return (new class extends TransportParser2 {
+  return (new class extends TransportParser {
     constructor() {
       super(id, name);
 
       this.per_loc_group_parameter = groupPar
       this.per_instance_parameter = instancePar
+      this.instance_group_required = instancePar && instance_group_required
     }
 
     apply(instance: CacheTypes.LocInstance, args: { per_loc: GroupT; per_instance?: InstanceT }): Promise<Transportation.Transportation[]> {
@@ -62,8 +102,8 @@ function transformWithLoc(transport: Transportation.EntityTransportation, use: L
   return transport
 }
 
-export const parsers3: TransportParser2[] = [
-  parse("west-facing-doors", "Standard West Doors", null, null, async (instance) => {
+export const parsers3: TransportParser[] = [
+  parse("west-facing-doors", "Standard West Doors", null, null, false, async (instance) => {
 
       const door: Transportation.DoorTransportation = {
         type: "door",
@@ -75,7 +115,7 @@ export const parsers3: TransportParser2[] = [
       return [transformWithLoc(door, instance)]
     }
   ),
-  parse("ignore", "Ignore", null, null, async (instance) => {
+  parse("ignore", "Ignore", null, null, false, async (instance) => {
       return []
     }
   ),
@@ -89,7 +129,7 @@ export const parsers3: TransportParser2[] = [
         level: PP.element("Floor", PP.floor())
       }), true),
     })
-    , null, async (instance, {per_loc}) => {
+    , null, false, async (instance, {per_loc}) => {
       const builder = EntityTransportationBuilder.from(instance)
 
       const off = per_loc.single_side && per_loc.across
@@ -142,7 +182,7 @@ export const parsers3: TransportParser2[] = [
       area: PP.element("Area", PP.tileArea(true), true),
     }), PP.rec({
       target: PP.element("Target", PP.tileArea()),
-    }), async (instance, {per_loc, per_instance}) => {
+    }), true, async (instance, {per_loc, per_instance}) => {
       const builder = EntityTransportationBuilder.from(instance)
 
       builder.action({
@@ -155,168 +195,67 @@ export const parsers3: TransportParser2[] = [
     }),
   parse("prototypecopyloc", "Prototype",
     rec({
-      actions: PP.element("Actions", PP.list(PP.rec({
-        action: PP.element("Action", PP.locAction()),
-        area: PP.element("Area", PP.tileArea(), true),
-        movements: PP.element("Movements", PP.list(PP.rec({
-          valid_from: PP.element("Valid", PP.tileArea(), true),
-          orientation: PP.element("Orientation", PP.either({
-            simple: PP.choose<EntityActionMovement["orientation"]>({
-              toHTML: (v) => c().text(v)
-            }, ["bymovement", "toentitybefore", "toentityafter", "keep", "forced"]),
-            forced: PP.rec({
-              dir: PP.element("Direction", PP.dir()),
-              relative: PP.element("Relative", PP.bool())
-            })
-          }), true),
-          movement: PP.element("Movement", PP.either({
-            offset: PP.offset(),
-            fixed: PP.rec({
-              area: PP.element("Area", PP.tileArea()),
-              relative: PP.element("Relative", PP.bool()),
-              origin_only: PP.element("Origin only", PP.bool()),
-            }),
-          })),
-          time: PP.element("Time", PP.int([0, 30]).default(3))
-        })))
-      })))
-    })
-    , null,
-    async (instance, {per_loc}) => {
+      actions: PP.element("Actions", actions_parameter)
+    }), rec({
+      actions: PP.element("Actions", actions_parameter)
+    }), false,
+    async (instance, {per_loc, per_instance}) => {
       const builder = EntityTransportationBuilder.from(instance)
 
-      for (const action of per_loc.actions) {
-        builder.action({
-          index: action.action.id,
-          interactive_area: action.area
-        }, ...action.movements.map(m => {
+      for (const action of [...per_loc.actions, ...(per_instance?.actions ?? [])]) {
+        builder.action(
+          {
+            index:
+              action.action.custom
+                ? null
+                : action.action.loc.id,
+            name: action.action.custom
+              ? action.action.custom.name
+              : null,
+            cursor: action.action.custom
+              ? action.action.custom.cursor
+              : null,
+            interactive_area: action.area
+          }, ...action.movements.map(m => {
 
-          let b: MovementBuilder = null
+            let b: MovementBuilder = null
 
-          if (m.movement.fixed) {
+            if (m.movement.fixed) {
 
-            if (m.movement.fixed.origin_only) {
-              let a = m.movement.fixed.area
+              if (m.movement.fixed.origin_only) {
+                let a = m.movement.fixed.area
 
-              a = TileArea.transform(a, LocInstance.getTransform(instance))
+                a = TileArea.transform(a, LocInstance.getTransform(instance))
 
-              a = TileArea.init(a.origin)
+                a = TileArea.init(a.origin)
 
-              b = fixed(a, m.movement.fixed.relative)
-            } else {
-              let a = m.movement.fixed.area
-              a = TileArea.transform(a, LocInstance.getTransform(instance))
-              b = fixed(a, m.movement.fixed.relative)
+                b = fixed(a, m.movement.fixed.relative)
+              } else {
+                let a = m.movement.fixed.area
+                a = TileArea.transform(a, LocInstance.getTransform(instance))
+                b = fixed(a, m.movement.fixed.relative)
+              }
+
+            } else if (m.movement.offset) b = offset(m.movement.offset)
+
+            if (m.orientation) {
+              if (m.orientation.simple) b.orientation(m.orientation.simple)
+              if (m.orientation.forced) b.forcedOrientation(m.orientation.forced.dir, !!m.orientation.forced.relative)
             }
 
-          } else if (m.movement.offset) b = offset(m.movement.offset)
+            b.time(m.time ?? 3)
 
-          if (m.orientation) {
-            if (m.orientation.simple) b.orientation(m.orientation.simple)
-            if (m.orientation.forced) b.forcedOrientation(m.orientation.forced.dir, !!m.orientation.forced.relative)
-          }
+            if (m.valid_from) {
+              b.restrict(m.valid_from)
+            }
 
-          b.time(m.time ?? 3)
-
-          if (m.valid_from) {
-            b.restrict(m.valid_from)
-          }
-
-          return b
-        }))
+            return b
+          }))
       }
 
       return [builder.finish()]
     }
   ),
-  parse("prototypecopylocperinstance", "Prototype Per Instance",
-    null,
-    rec({
-      actions: PP.element("Actions", PP.list(PP.rec({
-        action: PP.element("Action", PP.locAction()),
-        area: PP.element("Area", PP.tileArea(), true),
-        movements: PP.element("Movements", PP.list(PP.rec({
-          valid_from: PP.element("Valid", PP.tileArea(), true),
-          orientation: PP.element("Orientation", PP.either({
-            simple: PP.choose<EntityActionMovement["orientation"]>({
-              toHTML: (v) => c().text(v)
-            }, ["bymovement", "toentitybefore", "toentityafter", "keep"]),
-            forced: PP.rec({
-              dir: PP.element("Direction", PP.dir()),
-              relative: PP.element("Relative", PP.bool())
-            })
-          }), true),
-          movement: PP.element("Movement", PP.either({
-            offset: PP.offset(),
-            fixed: PP.rec({
-              area: PP.element("Area", PP.tileArea()),
-              relative: PP.element("Relative", PP.bool()),
-              origin_only: PP.element("Origin only", PP.bool()),
-            }),
-          })),
-          time: PP.element("Time", PP.int([0, 30]).default(3))
-        })))
-      })))
-    }),
-    async (instance, {per_instance}) => {
-      const builder = EntityTransportationBuilder.from(instance)
-
-      for (const action of per_instance.actions) {
-        builder.action({
-          index: action.action.id,
-          interactive_area: action.area
-        }, ...action.movements.map(m => {
-
-          let b: MovementBuilder = null
-
-          if (m.movement.fixed) {
-
-            if (m.movement.fixed.origin_only) {
-              let a = m.movement.fixed.area
-
-              a = TileArea.transform(a, LocInstance.getTransform(instance))
-
-              a = TileArea.init(a.origin)
-
-              a = TileArea.transform(a, LocInstance.getInverseTransform(instance))
-
-              b = fixed(a, m.movement.fixed.relative)
-            } else {
-              let a = m.movement.fixed.area
-              a = TileArea.transform(a, LocInstance.getTransform(instance))
-              b = fixed(a, m.movement.fixed.relative)
-            }
-
-          } else if (m.movement.offset) b = offset(m.movement.offset)
-
-          if (m.orientation) {
-            if (m.orientation.simple) b.orientation(m.orientation.simple)
-            if (m.orientation.forced) b.forcedOrientation(m.orientation.forced.dir, !!m.orientation.forced.relative)
-          }
-
-          b.time(m.time ?? 3)
-
-          if (m.valid_from) {
-            b.restrict(m.valid_from)
-          }
-
-          return b
-        }))
-      }
-
-      return [builder.finish()]
-    }
-  ),
-
-
-
-
-
-
-
-
-
-
   parse("prototypecopyloclegacy", "(LEGACY) Prototype",
     rec({
       actions: PP.element("Actions", PP.list(PP.rec({
@@ -345,7 +284,7 @@ export const parsers3: TransportParser2[] = [
         })))
       })))
     })
-    , null,
+    , null, false,
     async (instance, {per_loc}) => {
       const builder = EntityTransportationBuilder.from(instance)
 
@@ -425,7 +364,7 @@ export const parsers3: TransportParser2[] = [
           time: PP.element("Time", PP.int([0, 30]).default(3))
         })))
       })))
-    }),
+    }), true,
     async (instance, {per_instance}) => {
       const builder = EntityTransportationBuilder.from(instance)
 
@@ -481,7 +420,7 @@ export const parsers3: TransportParser2[] = [
 ]
 
 export namespace Parsers3 {
-  export function getById(id: string): TransportParser2 {
+  export function getById(id: string): TransportParser {
     return parsers3.find(p => p.id == id)
   }
 }

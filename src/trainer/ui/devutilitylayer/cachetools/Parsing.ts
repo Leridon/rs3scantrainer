@@ -1,4 +1,4 @@
-import {TransportParser2} from "./TransportParser";
+import {TransportParser} from "./TransportParser";
 import {CacheTypes} from "./CacheTypes";
 import {LocParsingTable} from "./ParsingTable";
 import {Transportation} from "../../../../lib/runescape/transportation";
@@ -9,7 +9,7 @@ export namespace Parsing {
 
   import LocDataFile = CacheTypes.LocDataFile;
 
-  export async function applyParsing(parsers: TransportParser2[], data: LocDataFile, parsing_table: LocParsingTable): Promise<Transportation.Transportation[]> {
+  export async function applyParsing(parsers: TransportParser[], data: LocDataFile, parsing_table: LocParsingTable): Promise<Transportation.Transportation[]> {
     let results: Transportation.Transportation[] = []
 
     for (const loc_group of parsing_table.data.associations) {
@@ -36,7 +36,7 @@ export namespace Parsing {
               )?.per_instance_argument
               : undefined
 
-          if (!parser.per_instance_parameter || per_instance_arg !== undefined) {
+          if (!parser.instance_group_required || per_instance_arg !== undefined) {
             try {
               const res = await parser.apply(instance, {per_loc: loc_group.per_group_arg, per_instance: per_instance_arg})
 

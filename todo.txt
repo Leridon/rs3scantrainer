@@ -18,9 +18,6 @@ Not in dataset:
     Het's oasis agility course log
     Entrana monk ship
 
-Unsure:
-    Dense forests
-
 - Solving Behaviour
     - Path Panel
         - [Feature] Disable default teleport render when contained in step
@@ -45,7 +42,6 @@ Unsure:
 
 - Data
     - [Dev Tool, 3] Utility Layer for shortcut parsing
-        - [Bug, 5] Offsets/coordinates need to be considered in relation to the active instance
         - Option to overlay parsed transports
             - Dialog "Parsed <x> methods of transportation. [Export] [Show on Map]"
         - "Go to next entity"

@@ -6,6 +6,7 @@ import {C} from "../lib/ui/constructors";
 import {AStarSlideSolver} from "./ui/neosolving/puzzles/AStarSlideSolver";
 import LightButton from "./ui/widgets/LightButton";
 import Widget from "../lib/ui/Widget";
+import ExportStringModal from "./ui/widgets/modals/ExportStringModal";
 import SliderState = Sliders.SliderState;
 import MoveList = Sliders.MoveList;
 import hgrid = C.hgrid;
@@ -328,6 +329,61 @@ class SliderAnalysisModal extends NisModal {
 }
 
 export async function makeshift_main(): Promise<void> {
+  return
+
+  const old = await fetch("map/parsing_associations.json").then(r => r.json())
+
+  const mapped = {
+    version: old.version,
+    associations: old.associations.map(e => {
+      if (e.parser_id == "prototypecopyloc") {
+        return {
+          ...e,
+          per_group_arg: {
+            actions: e.per_group_arg.actions.map(a => {
+              return {
+                ...a,
+                action: {
+                  loc: {
+                    id: a.action.id
+                  }
+                }
+              }
+            })
+          }
+        }
+      } else if (e.parser_id == "prototypecopylocperinstance") {
+        return {
+          ...e,
+          parser_id: "prototypecopyloc",
+          per_group_arg: {
+            actions: []
+          },
+          instance_groups: e.instance_groups.map(igroup => {
+
+            return {
+              ...igroup,
+              per_instance_argument: {
+                actions: igroup.per_instance_argument.actions.map(a => {
+                  return {
+                    ...a,
+                    action: {
+                      loc: {
+                        id: a.action.id
+                      }
+                    }
+                  }
+                })
+              }
+            }
+          })
+        }
+      } else return e
+    })
+  }
+
+  new ExportStringModal(JSON.stringify(mapped, null, 4)).show()
+
   // await test_slide_reader()
 
   //await new SliderAnalysisModal().show()

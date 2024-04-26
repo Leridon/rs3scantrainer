@@ -1,5 +1,5 @@
 {
-  "version": 1241,
+  "version": 1264,
   "associations": [
     {
       "group_id": 0,
@@ -252,72 +252,7 @@
       ],
       "group_name": "Doors",
       "instance_groups": [],
-      "parser_id": "prototypecopyloc",
-      "per_group_arg": {
-        "actions": [
-          {
-            "action": {
-              "id": 0
-            },
-            "area": {
-              "origin": {
-                "x": -1,
-                "y": 0,
-                "level": 0
-              },
-              "size": {
-                "x": 3,
-                "y": 2
-              },
-              "data": "LQ=="
-            },
-            "movements": [
-              {
-                "valid_from": {
-                  "origin": {
-                    "x": 1,
-                    "y": 0,
-                    "level": 0
-                  },
-                  "size": {
-                    "x": 1,
-                    "y": 2
-                  }
-                },
-                "movement": {
-                  "offset": {
-                    "x": -2,
-                    "y": 0,
-                    "level": 0
-                  }
-                },
-                "time": 2
-              },
-              {
-                "valid_from": {
-                  "origin": {
-                    "x": -1,
-                    "y": 0,
-                    "level": 0
-                  },
-                  "size": {
-                    "x": 1,
-                    "y": 2
-                  }
-                },
-                "movement": {
-                  "offset": {
-                    "x": 2,
-                    "y": 0,
-                    "level": 0
-                  }
-                },
-                "time": 2
-              }
-            ]
-          }
-        ]
-      }
+      "parser_id": "west-facing-doors"
     },
     {
       "group_id": 12,
@@ -1264,7 +1199,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -1302,7 +1239,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -1435,7 +1374,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -1512,7 +1453,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "movements": [
               {
@@ -1828,7 +1771,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -1865,7 +1810,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -1903,7 +1850,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -2052,7 +2001,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -2118,7 +2069,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -2184,7 +2137,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -2250,7 +2205,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -2317,7 +2274,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -2354,7 +2313,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -2613,8 +2574,7 @@
       "loc_ids": [
         45205,
         112215,
-        85080,
-        993
+        85080
       ],
       "per_group_arg": {
         "actions": [
@@ -2710,7 +2670,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -2833,7 +2795,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -2870,7 +2834,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -3074,7 +3040,9 @@
             "actions": [
               {
                 "action": {
-                  "id": 0
+                  "loc": {
+                    "id": 0
+                  }
                 },
                 "area": {
                   "origin": {
@@ -3179,7 +3147,9 @@
             "actions": [
               {
                 "action": {
-                  "id": 0
+                  "loc": {
+                    "id": 0
+                  }
                 },
                 "area": {
                   "origin": {
@@ -3212,7 +3182,10 @@
           }
         }
       ],
-      "parser_id": "prototypecopylocperinstance"
+      "parser_id": "prototypecopyloc",
+      "per_group_arg": {
+        "actions": []
+      }
     },
     {
       "group_id": 735,
@@ -3294,7 +3267,9 @@
             "actions": [
               {
                 "action": {
-                  "id": 0
+                  "loc": {
+                    "id": 0
+                  }
                 },
                 "area": {
                   "origin": {
@@ -3446,7 +3421,9 @@
             "actions": [
               {
                 "action": {
-                  "id": 0
+                  "loc": {
+                    "id": 0
+                  }
                 },
                 "area": {
                   "origin": {
@@ -3479,7 +3456,10 @@
           }
         }
       ],
-      "parser_id": "prototypecopylocperinstance"
+      "parser_id": "prototypecopyloc",
+      "per_group_arg": {
+        "actions": []
+      }
     },
     {
       "group_id": 756,
@@ -3491,7 +3471,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -3535,7 +3517,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -3572,7 +3556,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -3609,7 +3595,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -3653,7 +3641,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -3697,7 +3687,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -3749,7 +3741,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -3797,7 +3791,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -3841,7 +3837,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -3878,7 +3876,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -3915,7 +3915,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -3944,7 +3946,9 @@
           },
           {
             "action": {
-              "id": 1
+              "loc": {
+                "id": 1
+              }
             },
             "movements": [
               {
@@ -3974,7 +3978,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -4003,7 +4009,9 @@
           },
           {
             "action": {
-              "id": 1
+              "loc": {
+                "id": 1
+              }
             },
             "area": {
               "origin": {
@@ -4045,7 +4053,9 @@
         "actions": [
           {
             "action": {
-              "id": 1
+              "loc": {
+                "id": 1
+              }
             },
             "area": {
               "origin": {
@@ -4074,7 +4084,9 @@
           },
           {
             "action": {
-              "id": 2
+              "loc": {
+                "id": 2
+              }
             },
             "area": {
               "origin": {
@@ -4116,7 +4128,9 @@
         "actions": [
           {
             "action": {
-              "id": 1
+              "loc": {
+                "id": 1
+              }
             },
             "area": {
               "origin": {
@@ -4145,7 +4159,9 @@
           },
           {
             "action": {
-              "id": 2
+              "loc": {
+                "id": 2
+              }
             },
             "area": {
               "origin": {
@@ -4186,7 +4202,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -4215,7 +4233,9 @@
           },
           {
             "action": {
-              "id": 1
+              "loc": {
+                "id": 1
+              }
             },
             "area": {
               "origin": {
@@ -4257,7 +4277,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -4286,7 +4308,9 @@
           },
           {
             "action": {
-              "id": 1
+              "loc": {
+                "id": 1
+              }
             },
             "area": {
               "origin": {
@@ -4328,7 +4352,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -4369,7 +4395,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -4410,7 +4438,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -4462,7 +4492,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -4547,7 +4579,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -4658,7 +4692,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -4702,7 +4738,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -4746,7 +4784,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -4783,7 +4823,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -4820,7 +4862,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -4857,7 +4901,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -5051,7 +5097,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -5163,7 +5211,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -5292,7 +5342,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -5422,7 +5474,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -5474,7 +5528,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -5682,7 +5738,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -5719,7 +5777,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -5953,7 +6013,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -6025,7 +6087,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -6152,7 +6216,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -6264,7 +6330,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -6301,7 +6369,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -6503,7 +6573,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "movements": [
               {
@@ -6526,7 +6598,9 @@
           },
           {
             "action": {
-              "id": 1
+              "loc": {
+                "id": 1
+              }
             },
             "movements": [
               {
@@ -6562,7 +6636,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -6768,7 +6844,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -6918,7 +6996,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -6984,7 +7064,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "movements": [
               {
@@ -7025,7 +7107,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -7206,7 +7290,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -7243,7 +7329,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -7281,7 +7369,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -7334,7 +7424,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -7383,7 +7475,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -7424,7 +7518,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -7467,7 +7563,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -7538,7 +7636,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -7590,7 +7690,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -7774,7 +7876,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -7846,7 +7950,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -7898,7 +8004,9 @@
         "actions": [
           {
             "action": {
-              "id": 1
+              "loc": {
+                "id": 1
+              }
             },
             "area": {
               "origin": {
@@ -7937,7 +8045,9 @@
           },
           {
             "action": {
-              "id": 2
+              "loc": {
+                "id": 2
+              }
             },
             "area": {
               "origin": {
@@ -7989,7 +8099,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -8017,7 +8129,9 @@
           },
           {
             "action": {
-              "id": 1
+              "loc": {
+                "id": 1
+              }
             },
             "area": {
               "origin": {
@@ -8058,7 +8172,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -8086,7 +8202,9 @@
           },
           {
             "action": {
-              "id": 1
+              "loc": {
+                "id": 1
+              }
             },
             "area": {
               "origin": {
@@ -8127,7 +8245,9 @@
         "actions": [
           {
             "action": {
-              "id": 1
+              "loc": {
+                "id": 1
+              }
             },
             "area": {
               "origin": {
@@ -8155,7 +8275,9 @@
           },
           {
             "action": {
-              "id": 2
+              "loc": {
+                "id": 2
+              }
             },
             "area": {
               "origin": {
@@ -8183,7 +8305,9 @@
           },
           {
             "action": {
-              "id": 3
+              "loc": {
+                "id": 3
+              }
             },
             "area": {
               "origin": {
@@ -8211,7 +8335,9 @@
           },
           {
             "action": {
-              "id": 4
+              "loc": {
+                "id": 4
+              }
             },
             "area": {
               "origin": {
@@ -8252,7 +8378,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -8318,7 +8446,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -8366,7 +8496,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -8418,7 +8550,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -8470,7 +8604,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -8561,7 +8697,9 @@
         "actions": [
           {
             "action": {
-              "id": 1
+              "loc": {
+                "id": 1
+              }
             },
             "area": {
               "origin": {
@@ -8585,7 +8723,9 @@
           },
           {
             "action": {
-              "id": 2
+              "loc": {
+                "id": 2
+              }
             },
             "area": {
               "origin": {
@@ -8622,7 +8762,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "movements": [
               {
@@ -8639,7 +8781,9 @@
           },
           {
             "action": {
-              "id": 1
+              "loc": {
+                "id": 1
+              }
             },
             "movements": [
               {
@@ -8669,7 +8813,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -8709,7 +8855,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -8764,7 +8912,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -8804,7 +8954,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -8876,7 +9028,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -8914,7 +9068,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -8952,7 +9108,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -8992,7 +9150,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -9029,7 +9189,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -9145,7 +9307,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -9185,7 +9349,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -9222,7 +9388,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "movements": [
               {
@@ -9263,7 +9431,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "movements": [
               {
@@ -9304,7 +9474,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -9341,7 +9513,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -9412,7 +9586,9 @@
             "actions": [
               {
                 "action": {
-                  "id": 0
+                  "loc": {
+                    "id": 0
+                  }
                 },
                 "area": {
                   "origin": {
@@ -9476,7 +9652,9 @@
             "actions": [
               {
                 "action": {
-                  "id": 0
+                  "loc": {
+                    "id": 0
+                  }
                 },
                 "area": {
                   "origin": {
@@ -9513,7 +9691,10 @@
           }
         }
       ],
-      "parser_id": "prototypecopylocperinstance"
+      "parser_id": "prototypecopyloc",
+      "per_group_arg": {
+        "actions": []
+      }
     },
     {
       "group_id": 1100,
@@ -9680,7 +9861,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "movements": [
               {
@@ -9708,7 +9891,9 @@
           },
           {
             "action": {
-              "id": 1
+              "loc": {
+                "id": 1
+              }
             },
             "movements": [
               {
@@ -9736,7 +9921,9 @@
           },
           {
             "action": {
-              "id": 2
+              "loc": {
+                "id": 2
+              }
             },
             "movements": [
               {
@@ -9764,7 +9951,9 @@
           },
           {
             "action": {
-              "id": 3
+              "loc": {
+                "id": 3
+              }
             },
             "movements": [
               {
@@ -9805,7 +9994,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "movements": [
               {
@@ -9833,7 +10024,9 @@
           },
           {
             "action": {
-              "id": 1
+              "loc": {
+                "id": 1
+              }
             },
             "movements": [
               {
@@ -9861,7 +10054,9 @@
           },
           {
             "action": {
-              "id": 2
+              "loc": {
+                "id": 2
+              }
             },
             "movements": [
               {
@@ -9889,7 +10084,9 @@
           },
           {
             "action": {
-              "id": 3
+              "loc": {
+                "id": 3
+              }
             },
             "movements": [
               {
@@ -9930,7 +10127,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "movements": [
               {
@@ -9958,7 +10157,9 @@
           },
           {
             "action": {
-              "id": 1
+              "loc": {
+                "id": 1
+              }
             },
             "movements": [
               {
@@ -9986,7 +10187,9 @@
           },
           {
             "action": {
-              "id": 2
+              "loc": {
+                "id": 2
+              }
             },
             "movements": [
               {
@@ -10014,7 +10217,9 @@
           },
           {
             "action": {
-              "id": 3
+              "loc": {
+                "id": 3
+              }
             },
             "movements": [
               {
@@ -10055,7 +10260,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "movements": [
               {
@@ -10083,7 +10290,9 @@
           },
           {
             "action": {
-              "id": 1
+              "loc": {
+                "id": 1
+              }
             },
             "movements": [
               {
@@ -10111,7 +10320,9 @@
           },
           {
             "action": {
-              "id": 2
+              "loc": {
+                "id": 2
+              }
             },
             "movements": [
               {
@@ -10139,7 +10350,9 @@
           },
           {
             "action": {
-              "id": 3
+              "loc": {
+                "id": 3
+              }
             },
             "movements": [
               {
@@ -10269,7 +10482,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -10512,7 +10727,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -10577,7 +10794,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -10648,7 +10867,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -10696,7 +10917,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -10744,7 +10967,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -10816,7 +11041,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -10979,7 +11206,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -11212,7 +11441,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -11451,7 +11682,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -11564,7 +11797,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -11622,7 +11857,9 @@
           },
           {
             "action": {
-              "id": 2
+              "loc": {
+                "id": 2
+              }
             },
             "area": {
               "origin": {
@@ -11685,7 +11922,9 @@
             "actions": [
               {
                 "action": {
-                  "id": 0
+                  "loc": {
+                    "id": 0
+                  }
                 },
                 "area": {
                   "origin": {
@@ -11738,7 +11977,9 @@
             "actions": [
               {
                 "action": {
-                  "id": 0
+                  "loc": {
+                    "id": 0
+                  }
                 },
                 "area": {
                   "origin": {
@@ -11775,7 +12016,10 @@
           }
         }
       ],
-      "parser_id": "prototypecopylocperinstance"
+      "parser_id": "prototypecopyloc",
+      "per_group_arg": {
+        "actions": []
+      }
     },
     {
       "group_id": 1206,
@@ -11801,7 +12045,9 @@
             "actions": [
               {
                 "action": {
-                  "id": 0
+                  "loc": {
+                    "id": 0
+                  }
                 },
                 "area": {
                   "origin": {
@@ -11854,7 +12100,9 @@
             "actions": [
               {
                 "action": {
-                  "id": 0
+                  "loc": {
+                    "id": 0
+                  }
                 },
                 "area": {
                   "origin": {
@@ -11891,7 +12139,10 @@
           }
         }
       ],
-      "parser_id": "prototypecopylocperinstance"
+      "parser_id": "prototypecopyloc",
+      "per_group_arg": {
+        "actions": []
+      }
     },
     {
       "group_id": 1210,
@@ -12197,7 +12448,9 @@
         "actions": [
           {
             "action": {
-              "id": 1
+              "loc": {
+                "id": 1
+              }
             },
             "area": {
               "origin": {
@@ -12421,6 +12674,392 @@
         }
       ],
       "parser_id": "simpleremotetransport"
+    },
+    {
+      "group_id": 1241,
+      "loc_ids": [
+        3998,
+        3999,
+        3939,
+        3938,
+        3937
+      ],
+      "per_group_arg": {
+        "actions": [
+          {
+            "action": {
+              "loc": {
+                "id": 0
+              }
+            },
+            "area": {
+              "origin": {
+                "x": 1,
+                "y": -1,
+                "level": 0
+              },
+              "size": {
+                "x": 1,
+                "y": 4
+              },
+              "data": "CQ=="
+            },
+            "movements": [
+              {
+                "valid_from": {
+                  "origin": {
+                    "x": 1,
+                    "y": -1,
+                    "level": 0
+                  }
+                },
+                "orientation": {
+                  "simple": "bymovement"
+                },
+                "movement": {
+                  "offset": {
+                    "x": 0,
+                    "y": 3,
+                    "level": 0
+                  }
+                },
+                "time": 6
+              },
+              {
+                "valid_from": {
+                  "origin": {
+                    "x": 1,
+                    "y": 2,
+                    "level": 0
+                  }
+                },
+                "orientation": {
+                  "simple": "bymovement"
+                },
+                "movement": {
+                  "offset": {
+                    "x": 0,
+                    "y": -3,
+                    "level": 0
+                  }
+                },
+                "time": 6
+              }
+            ]
+          }
+        ]
+      },
+      "group_name": "Dense Forest",
+      "instance_groups": [
+        {
+          "id": 1247,
+          "name": "Quick 3 North",
+          "instances": [
+            {
+              "loc": 3998,
+              "origin": {
+                "x": 2187,
+                "y": 3169,
+                "level": 0
+              }
+            },
+            {
+              "loc": 3939,
+              "origin": {
+                "x": 2216,
+                "y": 3167,
+                "level": 0
+              }
+            },
+            {
+              "loc": 3939,
+              "origin": {
+                "x": 2238,
+                "y": 3148,
+                "level": 0
+              }
+            },
+            {
+              "loc": 3938,
+              "origin": {
+                "x": 2266,
+                "y": 3191,
+                "level": 0
+              }
+            },
+            {
+              "loc": 3937,
+              "origin": {
+                "x": 2237,
+                "y": 3248,
+                "level": 0
+              }
+            }
+          ],
+          "per_instance_argument": {
+            "actions": [
+              {
+                "action": {
+                  "loc": {
+                    "id": 0
+                  },
+                  "custom": {
+                    "name": "Enter (Quiver)",
+                    "cursor": "generic"
+                  }
+                },
+                "area": {
+                  "origin": {
+                    "x": 1,
+                    "y": -1,
+                    "level": 0
+                  }
+                },
+                "movements": [
+                  {
+                    "orientation": {
+                      "simple": "bymovement"
+                    },
+                    "movement": {
+                      "offset": {
+                        "x": 0,
+                        "y": 9,
+                        "level": 0
+                      }
+                    },
+                    "time": 6
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": 1248,
+          "name": "Quick 3 South",
+          "instances": [
+            {
+              "loc": 3999,
+              "origin": {
+                "x": 2187,
+                "y": 3163,
+                "level": 0
+              }
+            },
+            {
+              "loc": 3939,
+              "origin": {
+                "x": 2216,
+                "y": 3161,
+                "level": 0
+              }
+            },
+            {
+              "loc": 3937,
+              "origin": {
+                "x": 2232,
+                "y": 3148,
+                "level": 0
+              }
+            },
+            {
+              "loc": 3937,
+              "origin": {
+                "x": 2272,
+                "y": 3191,
+                "level": 0
+              }
+            },
+            {
+              "loc": 3938,
+              "origin": {
+                "x": 2278,
+                "y": 3223,
+                "level": 0
+              }
+            },
+            {
+              "loc": 3939,
+              "origin": {
+                "x": 2278,
+                "y": 3229,
+                "level": 0
+              }
+            },
+            {
+              "loc": 3938,
+              "origin": {
+                "x": 2231,
+                "y": 3248,
+                "level": 0
+              }
+            }
+          ],
+          "per_instance_argument": {
+            "actions": [
+              {
+                "action": {
+                  "loc": {
+                    "id": 0
+                  },
+                  "custom": {
+                    "name": "Enter (Quiver)",
+                    "cursor": "generic"
+                  }
+                },
+                "area": {
+                  "origin": {
+                    "x": 1,
+                    "y": 2,
+                    "level": 0
+                  }
+                },
+                "movements": [
+                  {
+                    "valid_from": {
+                      "origin": {
+                        "x": 1,
+                        "y": 2,
+                        "level": 0
+                      }
+                    },
+                    "orientation": {
+                      "simple": "bymovement"
+                    },
+                    "movement": {
+                      "offset": {
+                        "x": 0,
+                        "y": -9,
+                        "level": 0
+                      }
+                    },
+                    "time": 6
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": 1259,
+          "name": "Quick 4 South",
+          "instances": [
+            {
+              "loc": 3939,
+              "origin": {
+                "x": 2236,
+                "y": 3218,
+                "level": 0
+              }
+            }
+          ],
+          "per_instance_argument": {
+            "actions": [
+              {
+                "action": {
+                  "loc": {
+                    "id": 0
+                  },
+                  "custom": {
+                    "name": "Enter (Quiver)",
+                    "cursor": "generic"
+                  }
+                },
+                "area": {
+                  "origin": {
+                    "x": 1,
+                    "y": 2,
+                    "level": 0
+                  }
+                },
+                "movements": [
+                  {
+                    "orientation": {
+                      "simple": "bymovement"
+                    },
+                    "movement": {
+                      "offset": {
+                        "x": 0,
+                        "y": -12,
+                        "level": 0
+                      }
+                    },
+                    "time": 6
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": 1260,
+          "name": "Quick 4 North",
+          "instances": [
+            {
+              "loc": 3938,
+              "origin": {
+                "x": 2227,
+                "y": 3218,
+                "level": 0
+              }
+            },
+            {
+              "loc": 3937,
+              "origin": {
+                "x": 2302,
+                "y": 3214,
+                "level": 0
+              }
+            },
+            {
+              "loc": 3938,
+              "origin": {
+                "x": 2302,
+                "y": 3223,
+                "level": 0
+              }
+            }
+          ],
+          "per_instance_argument": {
+            "actions": [
+              {
+                "action": {
+                  "loc": {
+                    "id": 0
+                  },
+                  "custom": {
+                    "name": "Enter (Quiver)",
+                    "cursor": "generic"
+                  }
+                },
+                "area": {
+                  "origin": {
+                    "x": 1,
+                    "y": -1,
+                    "level": 0
+                  }
+                },
+                "movements": [
+                  {
+                    "orientation": {
+                      "simple": "bymovement"
+                    },
+                    "movement": {
+                      "offset": {
+                        "x": 0,
+                        "y": 12,
+                        "level": 0
+                      }
+                    },
+                    "time": 6
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "parser_id": "prototypecopyloc"
     }
   ]
 }

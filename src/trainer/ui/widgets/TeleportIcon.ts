@@ -13,7 +13,7 @@ export default class TeleportIcon extends Widget {
     this.addClass("ctr-teleport-icon")
 
     this.append(
-      img(`assets/icons/teleports/${spot.image().url}`, spot.hover()),
+      img(`assets/icons/teleports/${spot.image().url}`),
       div().text(spot.code())
     )
   }

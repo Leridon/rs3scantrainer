@@ -52,6 +52,7 @@ import space = C.space;
 import hboxl = C.hboxl;
 import notification = Notification.notification;
 import MatchedUI = ClueReader.MatchedUI;
+import activate = TileArea.activate;
 
 class NeoSolvingLayer extends GameLayer {
   public control_bar: NeoSolvingLayer.MainControlBar

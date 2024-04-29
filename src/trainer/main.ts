@@ -84,7 +84,7 @@ class SliderBenchmarkModal extends NisModal {
         const solver = candidate.construct(test)
           .setCombineStraights(true)
 
-        let best = await solver.solve(TIMEOUT)
+        let best = await solver.withTimeout(TIMEOUT).run()
 
         if (best) {
           let sanity = test

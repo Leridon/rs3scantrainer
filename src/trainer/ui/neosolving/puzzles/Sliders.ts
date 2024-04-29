@@ -2,6 +2,7 @@ import {calcmap, optimisemoves, SlideMove, SliderMap, SlideSolverRandom} from ".
 import {ewent} from "../../../../lib/reactive";
 import {delay} from "../../../../skillbertssolver/oldlib";
 import * as lodash from "lodash";
+import {Process} from "../../../../lib/Process";
 
 export namespace Sliders {
   export type SliderPuzzle = { tiles: Tile[], theme?: string, match_score?: number }
@@ -241,23 +242,20 @@ export namespace Sliders {
     return (move.y2 - move.y1) * 5 + (move.x2 - move.x1)
   }
 
-  export abstract class SlideSolver {
+  export abstract class SlideSolver extends Process<MoveList> {
     private update_event = ewent<this>()
+    private better_solution_found = ewent<MoveList>()
     private best_solution: MoveList = null
 
-    private is_running: boolean = false
-    protected should_stop: boolean = false
-    private finished: boolean = false
-
-    protected start_time: number
-    private last_interrupt_time: number
-    protected end_time: number
     private progress: number
 
     private compress_moves: boolean = false
 
     constructor(protected start_state: SliderState) {
+      super()
 
+      this.withInterrupt(50, 1)
+        .onInterrupt(() => this.updateProgress())
     }
 
     setCombineStraights(value: boolean = true): this {
@@ -280,33 +278,12 @@ export namespace Sliders {
       this.update_event.trigger(this)
     }
 
-    protected abstract solve_implementation()
+    protected abstract solve_implementation(): Promise<void>
 
-    async solve(timelimit: number): Promise<MoveList> {
-      if (this.is_running || this.finished) return
-
-      this.is_running = true
-      this.should_stop = false
-
-      this.start_time = Date.now();
-      this.end_time = this.start_time + timelimit;
-      this.last_interrupt_time = this.start_time
-
+    override async implementation(): Promise<Sliders.MoveList> {
       await this.solve_implementation()
 
-      this.updateProgress()
-
-      this.is_running = false
-      this.should_stop = false
-      this.finished = true
-
-      return this.best_solution
-    }
-
-    stop() {
-      if (!this.is_running) return
-
-      this.should_stop = true
+      return this.getBest()
     }
 
     onUpdate(f: (_: this) => void): this {
@@ -314,8 +291,9 @@ export namespace Sliders {
       return this
     }
 
-    isFinished(): boolean {
-      return this.finished
+    onFound(f: (_: MoveList) => void): this {
+      this.better_solution_found.on(f)
+      return this
     }
 
     getProgress(): number {
@@ -324,21 +302,6 @@ export namespace Sliders {
 
     getBest(): MoveList {
       return this.best_solution
-    }
-
-    timeOver(): boolean {
-      return Date.now() >= this.end_time
-    }
-
-    protected async checkTime() {
-      const t = Date.now()
-
-      if (t >= this.end_time) this.stop()
-      else if (t >= this.last_interrupt_time + 50) {
-        this.updateProgress()
-        this.last_interrupt_time = t
-        await delay(1)
-      }
     }
   }
 

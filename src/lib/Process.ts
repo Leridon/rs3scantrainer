@@ -74,6 +74,10 @@ export abstract class Process<Result> {
     return result
   }
 
+  isFinished(): boolean {
+    return this.finished
+  }
+
   onInterrupt(f: () => void): this {
     this.interrupt_ewent.on(f)
     return this

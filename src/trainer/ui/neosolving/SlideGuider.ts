@@ -23,6 +23,7 @@ import AnnotatedMoveList = Sliders.AnnotatedMoveList;
 import MoveList = Sliders.MoveList;
 import Move = Sliders.Move;
 import getAnchorImages = AnchorImages.getAnchorImages;
+import {TileRectangle} from "../../../lib/runescape/coordinates";
 
 class SliderGuideProcess {
   private start_time = -1
@@ -32,7 +33,10 @@ class SliderGuideProcess {
   private puzzle: SliderPuzzle
   private should_stop: boolean = false
 
-  private solver: SlideSolver = null
+  private solver: {
+    solver: SlideSolver,
+    solving_from: number
+  } = null
 
   private error_recovery_solution: {
     sequence: AnnotatedMoveList,
@@ -113,7 +117,7 @@ class SliderGuideProcess {
 
     this.progress_overlay.clear()
 
-    const solution_length = this.solution?.length ?? this.solver?.getBest()?.length
+    const solution_length = this.solution?.length ?? this.solver?.solver?.getBest()?.length
 
     const center = Vector2.add(
       Rectangle.screenOrigin(this.parent.puzzle.ui.rect),
@@ -125,9 +129,7 @@ class SliderGuideProcess {
       const solving_time = (this.solved_time - this.guiding_start_time) / 1000
       const moves_per_second = this.solution.length / solving_time
 
-
       const estimate_slider = this.settings.estimate_slider_speed
-
 
       this.progress_overlay.text(
         `Done! ${total_time.toFixed(1)}s, ${moves_per_second.toFixed(1)} moves/s`,
@@ -365,7 +367,7 @@ class SliderGuideProcess {
 
     this.solving_overlay.clear()
 
-    if (!this.solver.isFinished()) {
+    if (!this.solution && this.solver) {
       this.solving_overlay
         .text("Solving",
           Vector2.add(
@@ -378,7 +380,7 @@ class SliderGuideProcess {
       this.solving_overlay.progressbar(Vector2.add(
         Rectangle.screenOrigin(this.parent.puzzle.ui.rect),
         {x: 143, y: 153},
-      ), 100, this.solver.getProgress(), 5)
+      ), 100, this.solver.solver.getProgress(), 5)
     } else if (!this.solution) {
       this.solving_overlay
         .text("No solution found",
@@ -407,36 +409,33 @@ class SliderGuideProcess {
 
       const frame_state = read_result.state
 
-      if (!this.solver) {
-        await new Promise<void>(async (resolve) => {
-          this.solver =
+      const LASOLVING = 20
 
-            SlideSolver.skillbertRandom(frame_state)
-              //new AStarSlideSolver(frame_state)
-              .setCombineStraights(this.settings.mode == "mouse" || this.settings.mode == "hybrid")
-              .onUpdate(solver => {
-                if (this.should_stop) resolve()
+      if (!this.solver && !this.solution) {
+        this.solver = {
+          solver: SlideSolver.skillbertRandom(frame_state)
+            //new AStarSlideSolver(frame_state)
+            .setCombineStraights(this.settings.mode == "mouse" || this.settings.mode == "hybrid")
+            .onUpdate(solver => {
+              this.updateSolvingOverlay()
+              this.updateProgressOverlay()
+            })
+            .withTimeout(this.settings.solve_time_ms),
+          solving_from: 0
+        }
 
-                if (solver.isFinished()) resolve()
+        const initial_solution = await this.solver.solver.run()
 
-                this.updateSolvingOverlay()
-                this.updateProgressOverlay()
-              })
-
-          await this.solver.solve(this.settings.solve_time_ms)
-
-          this.current_mainline_index = 0
-          this.error_recovery_solution = {sequence: [], recovering_to_mainline_index: 0}
-
-          resolve()
-        })
+        this.solver = null
+        this.current_mainline_index = 0
+        this.error_recovery_solution = {sequence: [], recovering_to_mainline_index: 0}
 
         this.guiding_start_time = Date.now()
 
         this.updateSolvingOverlay()
 
-        if (this.solver.getBest()) {
-          this.solution = Sliders.MoveList.annotate(frame_state, this.solver.getBest(), this.settings.mode != "keyboard")
+        if (initial_solution) {
+          this.solution = Sliders.MoveList.annotate(frame_state, initial_solution, this.settings.mode != "keyboard")
         } else {
           this.stop()
         }
@@ -449,6 +448,41 @@ class SliderGuideProcess {
       await delay(10)
 
       if (!this.solution) continue
+
+      if (this.settings.continue_solving_after_initial_solve) {
+        if (this.solver && this.current_mainline_index + this.settings.max_lookahead + 2 >= this.solver.solving_from) {
+          // Getting close to the current start of the solving, stop the solving process
+          this.solver.solver.stop()
+          this.solver = null
+        }
+
+        if (!this.solver && (this.current_mainline_index + LASOLVING < this.solution.length)) {
+          const solving_start_index = this.current_mainline_index + LASOLVING
+
+          const solving_start_state = this.solution[solving_start_index].post_state
+
+          this.solver = {
+            solver: SlideSolver.skillbertRandom(solving_start_state)
+              //new AStarSlideSolver(frame_state)
+              .setCombineStraights(this.settings.mode == "mouse" || this.settings.mode == "hybrid")
+              .withInterrupt(20, 10) // Cooperative interrupt behaviour
+              .onFound(better => {
+                if (solving_start_index == this.solver?.solving_from) {
+                  const annotated = MoveList.annotate(solving_start_state, better, this.settings.mode != "keyboard")
+
+                  this.solution.splice(
+                    solving_start_index,
+                    this.solution.length,
+                    ...annotated
+                  )
+                }
+              }),
+            solving_from: solving_start_index
+          }
+
+          this.solver.solver.run()
+        }
+      }
 
       const inversion_changed = read_result.inverted_checkmark != this.arrow_keys_inverted
       this.arrow_keys_inverted = read_result.inverted_checkmark
@@ -615,6 +649,7 @@ export namespace SlideGuider {
     solve_time_ms: number,
     estimate_slider_speed: boolean,
     improve_slider_matches_backtracking: boolean,
+    continue_solving_after_initial_solve: boolean,
   }
 
   export namespace Settings {
@@ -632,6 +667,7 @@ export namespace SlideGuider {
       solve_time_ms: 2000,
       estimate_slider_speed: false,
       improve_slider_matches_backtracking: true,
+      continue_solving_after_initial_solve: true
     }
 
     export function normalize(settings: Settings): Settings {
@@ -650,6 +686,7 @@ export namespace SlideGuider {
       if ((typeof settings.solve_time_ms) != "number") settings.solve_time_ms = DEFAULT.solve_time_ms
       if (![true, false].includes(settings.estimate_slider_speed)) settings.estimate_slider_speed = DEFAULT.estimate_slider_speed
       if (![true, false].includes(settings.improve_slider_matches_backtracking)) settings.improve_slider_matches_backtracking = DEFAULT.improve_slider_matches_backtracking
+      if (![true, false].includes(settings.continue_solving_after_initial_solve)) settings.continue_solving_after_initial_solve = DEFAULT.continue_solving_after_initial_solve
 
       settings.solve_time_ms = lodash.clamp(settings.solve_time_ms, 500, 5000)
 

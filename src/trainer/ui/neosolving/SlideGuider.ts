@@ -24,14 +24,13 @@ import MoveList = Sliders.MoveList;
 import Move = Sliders.Move;
 import getAnchorImages = AnchorImages.getAnchorImages;
 import {TileRectangle} from "../../../lib/runescape/coordinates";
+import {Process} from "../../../lib/Process";
 
-class SliderGuideProcess {
-  private start_time = -1
+class SliderGuideProcess extends Process {
   private guiding_start_time = -1
   private solved_time = -1
 
   private puzzle: SliderPuzzle
-  private should_stop: boolean = false
 
   private solver: {
     solver: SlideSolver,
@@ -60,6 +59,10 @@ class SliderGuideProcess {
   private arrow_keys_inverted: boolean = false
 
   constructor(private parent: SliderModal, private settings: SlideGuider.Settings) {
+    super()
+
+    this.asInterval(1000 / 50) // Goal of 50 fps
+
     this.puzzle = parent.puzzle.puzzle
   }
 
@@ -395,9 +398,7 @@ class SliderGuideProcess {
     this.solving_overlay.render()
   }
 
-  async run() {
-    this.start_time = Date.now()
-
+  override async implementation(): Promise<void> {
     while (!this.should_stop) {
       const read_result = await this.read()
 
@@ -552,11 +553,10 @@ class SliderGuideProcess {
       this.updateMoveOverlay()
     }
 
-    this.solution = null
-
     this.move_overlay?.hide()
     this.solving_overlay?.hide()
     this.progress_overlay?.hide()
+    this.solver?.solver?.stop()
   }
 
   private getLastKnownMove() {

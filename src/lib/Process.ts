@@ -1,7 +1,7 @@
 import {ewent} from "./reactive";
 import {delay} from "../skillbertssolver/oldlib";
 
-export abstract class Process<Result> {
+export abstract class Process<Result = void> {
   private finished_event = ewent<this>()
 
   private is_running: boolean = false

@@ -34,19 +34,21 @@ export namespace Sliders {
       return true
     }
 
-    export function withMove(state: SliderState, move: Move): SliderState {
+    export function withMove(state: SliderState, ...moves: Move[]): SliderState {
       const copy = [...state]
 
-      const split_moves = Move.split(move)
+      moves.forEach(move => {
+        const split_moves = Move.split(move)
 
-      let blank = state.indexOf(24)
+        let blank = copy.indexOf(24)
 
-      for (let move of split_moves) {
-        copy[blank] = copy[blank + move]
-        blank += move
-      }
+        for (let move of split_moves) {
+          copy[blank] = copy[blank + move]
+          blank += move
+        }
 
-      copy[blank] = 24
+        copy[blank] = 24
+      })
 
       return copy
     }
@@ -263,13 +265,15 @@ export namespace Sliders {
       return this
     }
 
-    protected registerSolution(moves: MoveList) {
+    registerSolution(moves: MoveList): this {
       if (this.compress_moves) moves = MoveList.compress(moves)
 
       if (!this.best_solution || moves.length < this.best_solution.length) {
         this.best_solution = moves
         this.updateProgress()
       }
+
+      return this
     }
 
     protected updateProgress() {
@@ -311,6 +315,8 @@ export namespace Sliders {
      * @param start_state
      */
     export function skillbertRandom(start_state: SliderState): SlideSolver {
+      if(start_state.includes(undefined)) debugger
+
       return new class extends Sliders.SlideSolver {
         firstrun = true;
 

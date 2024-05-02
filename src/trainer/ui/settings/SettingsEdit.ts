@@ -514,6 +514,11 @@ class PuzzleSettingsEdit extends Widget {
       .onCommit(v => this.value.sliders.estimate_slider_speed = v)
       .setValue(this.value.sliders.estimate_slider_speed), "left", 1)
     this.layout.paragraph("Currently experimental. When activated, tries to improve the match read from screen by doing a second search with a bounded backtracking algorithm.")
+
+    this.layout.header(new Checkbox("Continuous solving (Experimental)")
+      .onCommit(v => this.value.sliders.continue_solving_after_initial_solve = v)
+      .setValue(this.value.sliders.continue_solving_after_initial_solve), "left", 1)
+    this.layout.paragraph("When active, the puzzle solver will continue to look for shorter solutions while completing a puzzle to reduce the number of required moves. Currently experimental, disable if you notice issues.")
   }
 }
 

@@ -24,6 +24,7 @@ import {CursorType} from "../../../lib/runescape/CursorType";
 import {TransportData} from "../../../data/transports";
 import {deps} from "../../dependencies";
 import {CTRIcon} from "../../CTRIcon";
+import KeyValueStore from "../../../lib/util/KeyValueStore";
 import hbox = C.hbox;
 import span = C.span;
 import GenericPathMethod = SolvingMethods.GenericPathMethod;
@@ -37,15 +38,43 @@ import entity = C.entity;
 import SectionedPath = Path.SectionedPath;
 import index = util.index;
 
-export class PathSectionControl extends Widget {
+class SectionMemory {
 
+  private data = KeyValueStore.instance().variable<Record<string, number[]>>("preferences/pathsectionmemory")
+
+  constructor() {
+    if (!this.data.get()) {
+      this.data.set({})
+    }
+  }
+
+  private hash(method: AugmentedMethod): string {
+    return method.pack.local_id + method.method.id
+  }
+
+  async get(method: AugmentedMethod): Promise<number[]> {
+    return (await this.data.get()) ?. [this.hash(method)]
+  }
+
+  async store(method: AugmentedMethod, section: number[]) {
+    const value = (await this.data.get()) ?? {}
+
+    value[this.hash(method)] = section
+
+    console.log(value)
+
+    await this.data.set(value)
+  }
+}
+
+export class PathSectionControl extends Widget {
   section_selected = ewent<Path.raw>()
 
   public selected_section: Path.raw = undefined
 
   constructor(
     private sections: SectionedPath,
-    private current_section_id: number[],
+    public current_section_id: number[],
     private step_graphics: TreeArray<PathStepEntity, {}>,
     private template_resolver: TemplateResolver,
   ) {
@@ -307,6 +336,8 @@ export namespace PathSectionControl {
 }
 
 export default class PathControl extends Behaviour {
+  private section_memory = new SectionMemory()
+
   private method: AugmentedMethod<GenericPathMethod> = null
   private sectioned_path: SectionedPath = null
 
@@ -366,12 +397,18 @@ export default class PathControl extends Behaviour {
     this.set(method, sectioned)
   }
 
-  private set(method: AugmentedMethod<GenericPathMethod>,
-              sections: SectionedPath,
-              active_id: number[] = null
+  private async set(method: AugmentedMethod<GenericPathMethod>,
+                    sections: SectionedPath,
+                    active_id: number[] = null
   ) {
     this.sectioned_path = sections
     this.method = method
+
+    if (method && !active_id) {
+      active_id = await this.section_memory.get(method)
+      if (active_id) console.log(`Remembering ${active_id.join(",")}`)
+    }
+
     const section_id = TreeArray.fixIndex(this.sectioned_path, active_id || [])
 
     this.path_layer.clearLayers()
@@ -414,7 +451,14 @@ export default class PathControl extends Behaviour {
         this.step_graphics,
         this.parent.app.template_resolver
       )
-        .onSelection(p => this.section_selected.trigger(p))
+        .onSelection(p => {
+          if (this.method) {
+            this.section_memory.store(this.method, section_control.current_section_id)
+            console.log(`Storing ${section_control.current_section_id.join(",")}`)
+          }
+
+          this.section_selected.trigger(p)
+        })
         .addClass("ctr-neosolving-solution-row")
 
       // Only actually add the widget if there is something to show to avoid borders showing up

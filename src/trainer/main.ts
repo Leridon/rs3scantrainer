@@ -379,29 +379,27 @@ class SliderAnalysisModal extends NisModal {
 }
 
 export async function makeshift_main(): Promise<void> {
-/*
-  let repo_data: LocParsingTableData = await (await fetch("map/parsing_associations.json")).json().catch(() => undefined)
+  /*
+   const shape: CelticKnots.PuzzleShape = {
+     snake_lengths: [16, 16, 16],
+     locks: [
+       {first: {snake: 0, tile: 5}, second: {snake: 1, tile: 3}},
+       {first: {snake: 0, tile: 6}, second: {snake: 2, tile: 2}},
+       {first: {snake: 1, tile: 5}, second: {snake: 2, tile: 3}},
 
-  const shape: CelticKnots.PuzzleShape = {
-    snake_lengths: [16, 16, 16],
-    locks: [
-      {first: {snake: 0, tile: 5}, second: {snake: 1, tile: 3}},
-      {first: {snake: 0, tile: 6}, second: {snake: 2, tile: 2}},
-      {first: {snake: 1, tile: 5}, second: {snake: 2, tile: 3}},
+       {first: {snake: 0, tile: 11}, second: {snake: 1, tile: 13}},
+       {first: {snake: 0, tile: 10}, second: {snake: 2, tile: 14}},
+       {first: {snake: 1, tile: 11}, second: {snake: 2, tile: 13}},
+     ]
+   }
 
-      {first: {snake: 0, tile: 11}, second: {snake: 1, tile: 13}},
-      {first: {snake: 0, tile: 10}, second: {snake: 2, tile: 14}},
-      {first: {snake: 1, tile: 11}, second: {snake: 2, tile: 13}},
-    ]
-  }
+   const puzzles = new Array(10000).fill(0).map(() => CelticKnots.PuzzleState.shuffle(CelticKnots.PuzzleState.generashape)))
 
-  const puzzles = new Array(10000).fill(0).map(() => CelticKnots.PuzzleState.shuffle(CelticKnots.PuzzleState.generate(shape)))
+   /*const solutions = timeSync("Solving", () =>
+     puzzles.map(p => CelticKnots.solve(p))
+   )
 
-  const solutions = timeSync("Solving", () =>
-    puzzles.map(p => CelticKnots.solve(p))
-  )
-
-  console.log(solutions.every(s => CelticKnots.PuzzleState.isSolved(s.end_state)))
+   console.log(solutions.every(s => CelticKnots.PuzzleState.isSolved(s.end_state)))*/
 
   /*
   console.log(Towers.StreetLabel.candidateMap())

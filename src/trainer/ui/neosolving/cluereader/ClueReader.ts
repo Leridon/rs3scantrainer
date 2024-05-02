@@ -18,6 +18,7 @@ import {CompassReader} from "./CompassReader";
 import stringSimilarity = util.stringSimilarity;
 import ScanStep = Clues.ScanStep;
 import notification = Notification.notification;
+import {KnotReader} from "./KnotReader";
 
 const CLUEREADERDEBUG = false
 const CLUEREADERDEBUG_READ_SCREEN_INSTEAD_OF_RS = false // This is broken
@@ -276,6 +277,8 @@ export class ClueReader {
                     step: {step: best, text_index: 0}
                   }
                 }
+              case "knot":
+                KnotReader.read(found_ui)
             }
           }
 

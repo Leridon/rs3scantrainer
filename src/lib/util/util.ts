@@ -250,6 +250,22 @@ export namespace util {
     }
   }
 
+  export function hslSimilarity(a: [number, number, number], b: [number, number, number]): number {
+    function hue_delta(a: number, b: number) {
+      let c = Math.abs(a - b);
+
+      if (c > 128) c = 255 - c
+
+      return c / 128
+    }
+
+    // All components are normalized to the interval [0, 1]
+    return (1 - (hue_delta(a[0], b[0]))
+      * (1 - (Math.abs(a[1] - b[1]) / 255))
+      * (1 - (Math.abs(a[2] - b[2]) / 255)))
+  }
+
+
   export namespace A1Color {
     export function fromHex(hex: string): number {
       const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);

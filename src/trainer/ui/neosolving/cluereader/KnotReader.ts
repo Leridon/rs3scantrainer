@@ -36,29 +36,27 @@ export namespace KnotReader {
     return lodash.max(samples.map(s => rgbSimilarity(s, color))) > 0.8
   }
 
-  function getTrackColor(rgb: [number, number, number]): { lane_id: number, certainty: number }[] {
+  function getTrackColor(samples: [number, number, number][]): { lane_id: number, certainty: number } {
     const refs: {
       track_id: number | null,
       colors: [number, number, number][]
     }[] =
       [
-        {
-          track_id: 0, colors: [ // blue
-            [50, 50, 85]
-          ]
-        },
-        {track_id: 1, colors: [[144, 107, 6]],},
-        {track_id: 2, colors: [[23, 23, 35]],}, //darkblue
-        {track_id: 3, colors: [[109, 77, 0], [205, 146, 0]],}, //yellow bl
+        {track_id: 0, colors: [[46, 46, 77], [45, 45, 75], [28, 28, 47], [28, 28, 47], [35, 25, 58], [50, 50, 85]]},// blue
+        {track_id: 1, colors: [[137, 60, 43], [67, 29, 21], [97, 43, 30], [62, 27, 17]],}, // red
+        {track_id: 2, colors: [[12, 12, 18], [11, 11, 16], [18, 18, 27]],}, //darkblue
+        {track_id: 3, colors: [[43, 30, 0], [159, 112, 0], [205, 146, 0]]}, // yellow
+        {track_id: 4, colors: [[95, 89, 76], [123, 116, 98], [30, 28, 24]]}, // gray
       ]
 
-
-    return refs.map(r => ({
+    const res = lodash.maxBy(refs.map(r => ({
       lane_id: r.track_id,
-      certainty: lodash.max(r.colors.map(ref_color => rgbSimilarity(ref_color, rgb)))
-    }))
-  }
+      certainty: lodash.sum(samples.map(col => lodash.max(r.colors.map(ref_color => rgbSimilarity(ref_color, col))))) / samples.length
+    })), e => e.certainty)
 
+    if (res.certainty > 0.8) return res
+    else return null
+  }
 
   export type Result = {
     state: CelticKnots.PuzzleState,
@@ -128,18 +126,43 @@ export namespace KnotReader {
           if (tile.rune) {
             const n = count(tile.rune.neighbours_exist, identity)
 
-            overlay.text(n.toString(), Vector2.add(o, Vector2.scale(0.5, TILE_SIZE)), {
-              width: n == 4 ? 5 : 10,
-              shadow: true,
-              color: mixColor(255, 255, 255),
-              centered: true
-            })
+            const colors = [
+              mixColor(0, 0, 255),
+              mixColor(255, 0, 0),
+              mixColor(23, 23, 35),
+              mixColor(235, 167, 0),
+              mixColor(99, 93, 79),
+            ]
+
+            //overlay.text(n.toString(), Vector2.add(o, Vector2.scale(0.5, TILE_SIZE)), {
+            overlay.text(tile.rune.id.toString(), Vector2.add(o, Vector2.scale(0.5, TILE_SIZE)), {
+                width: n == 4 ? 5 : 10,
+                shadow: true,
+                color: colors[tile.rune.strip_color] ?? mixColor(255, 255, 255),
+                centered: true
+              }
+            )
 
           }
         }
       }
 
       overlay.render()
+    }
+
+    private identifyRune(img: ImageFingerprint): number {
+      const similarities = this.detected_rune_types.map((r, i) => {
+        return {id: i, certainty: ImageFingerprint.similarity(img, r)}
+      })
+
+      const best = lodash.maxBy(similarities, e => e.certainty)
+
+      if (best && best.certainty > 0.8) {
+        return best.id
+      } else {
+        this.detected_rune_types.push(img)
+        return this.detected_rune_types.length - 1
+      }
     }
 
     private findOrigin() {
@@ -190,8 +213,8 @@ export namespace KnotReader {
       this.runes_on_odd_tiles = (index_of_detected_rune.x + index_of_detected_rune.y) % 2 == 1
 
       this.grid_size = {
-        x: Math.floor((this.ui.rect.botright.x - this.anchor_grid_origin.x - DEAD.x) / TILE_SIZE.x),
-        y: Math.floor((this.ui.rect.topleft.y - this.anchor_grid_origin.y - DEAD.y) / TILE_SIZE.y)
+        x: Math.floor((this.ui.rect.botright.x - this.anchor_grid_origin.x - DEAD.x - TILE_SIZE.x) / TILE_SIZE.x),
+        y: Math.floor((this.ui.rect.topleft.y - this.anchor_grid_origin.y - DEAD.y - TILE_SIZE.y) / TILE_SIZE.y)
       }
     }
 
@@ -215,38 +238,28 @@ export namespace KnotReader {
 
       const background = background_sample_positions.map(pos => isBackground(this.sample(Vector2.add(tile_origin, pos)))) as [boolean, boolean, boolean, boolean]
 
-      if (pos.x == 3 && pos.y == 2) {
-        const bg = background_sample_positions.map(pos => this.sample(Vector2.add(tile_origin, pos)))
-
-        console.log(background)
-        console.log(bg)
-
-        debugger
-      }
-
       const background_neighbours = count(background, identity)
 
-      //if (background_neighbours > 2) return {pos: pos, rune: null}
+      if (background_neighbours > 2) return {pos: pos, rune: null}
 
       const is_intersection = background_neighbours == 0
 
-      const lane_color_sample_positions: Vector2[] = [
-        {x: 2, y: 2},
-        {x: 22, y: 2},
-        {x: 2, y: 22},
-        {x: 22, y: 22},
+      const lane_color_sample_positions: [Vector2, Vector2][] = [
+        [{x: 0, y: 0}, {x: 2, y: 2}],
+        [{x: 23, y: 0}, {x: 21, y: 2}],
+        [{x: 0, y: 23}, {x: 1, y: 22}],
+        [{x: 23, y: 23}, {x: 22, y: 22}],
       ]
 
-      /*
-      lane_color_sample_positions.map(pos => {
-        getTrackColor(this.sample(Vector2.add(tile_origin, pos)))
-      })*/
+      const track_color = getTrackColor(lane_color_sample_positions.map((pos, i) => this.sample(Vector2.add(tile_origin, background[i] ? pos[1] : pos[0]))))
+
+      const rune_fingerprint = ImageFingerprint.get(this.img_data, Vector2.add(tile_origin, {x: 7, y: 7}), {x: 12, y: 12}, {x: 3, y: 3})
 
       return {
         pos: pos,
         rune: {
-          id: 0,
-          strip_color: 0,
+          id: this.identifyRune(rune_fingerprint),
+          strip_color: track_color?.lane_id ?? 5,
           neighbours_exist: background.map(e => !!e),
           intersection: is_intersection ? {matches: false} : null
         }

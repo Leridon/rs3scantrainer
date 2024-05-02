@@ -2,6 +2,7 @@ import {calcmap, optimisemoves, SlideMove, SliderMap, SlideSolverRandom} from ".
 import {ewent} from "../../../../lib/reactive";
 import {delay} from "../../../../skillbertssolver/oldlib";
 import * as lodash from "lodash";
+import {Process} from "../../../../lib/Process";
 
 export namespace Sliders {
   export type SliderPuzzle = { tiles: Tile[], theme?: string, match_score?: number }
@@ -33,19 +34,21 @@ export namespace Sliders {
       return true
     }
 
-    export function withMove(state: SliderState, move: Move): SliderState {
+    export function withMove(state: SliderState, ...moves: Move[]): SliderState {
       const copy = [...state]
 
-      const split_moves = Move.split(move)
+      moves.forEach(move => {
+        const split_moves = Move.split(move)
 
-      let blank = state.indexOf(24)
+        let blank = copy.indexOf(24)
 
-      for (let move of split_moves) {
-        copy[blank] = copy[blank + move]
-        blank += move
-      }
+        for (let move of split_moves) {
+          copy[blank] = copy[blank + move]
+          blank += move
+        }
 
-      copy[blank] = 24
+        copy[blank] = 24
+      })
 
       return copy
     }
@@ -241,23 +244,20 @@ export namespace Sliders {
     return (move.y2 - move.y1) * 5 + (move.x2 - move.x1)
   }
 
-  export abstract class SlideSolver {
+  export abstract class SlideSolver extends Process<MoveList> {
     private update_event = ewent<this>()
+    private better_solution_found = ewent<MoveList>()
     private best_solution: MoveList = null
 
-    private is_running: boolean = false
-    protected should_stop: boolean = false
-    private finished: boolean = false
-
-    protected start_time: number
-    private last_interrupt_time: number
-    protected end_time: number
     private progress: number
 
     private compress_moves: boolean = false
 
     constructor(protected start_state: SliderState) {
+      super()
 
+      this.withInterrupt(50, 1)
+        .onInterrupt(() => this.updateProgress())
     }
 
     setCombineStraights(value: boolean = true): this {
@@ -265,13 +265,15 @@ export namespace Sliders {
       return this
     }
 
-    protected registerSolution(moves: MoveList) {
+    registerSolution(moves: MoveList): this {
       if (this.compress_moves) moves = MoveList.compress(moves)
 
       if (!this.best_solution || moves.length < this.best_solution.length) {
         this.best_solution = moves
-        this.updateProgress()
+        this.better_solution_found.trigger(moves)
       }
+
+      return this
     }
 
     protected updateProgress() {
@@ -280,33 +282,12 @@ export namespace Sliders {
       this.update_event.trigger(this)
     }
 
-    protected abstract solve_implementation()
+    protected abstract solve_implementation(): Promise<void>
 
-    async solve(timelimit: number): Promise<MoveList> {
-      if (this.is_running || this.finished) return
-
-      this.is_running = true
-      this.should_stop = false
-
-      this.start_time = Date.now();
-      this.end_time = this.start_time + timelimit;
-      this.last_interrupt_time = this.start_time
-
+    override async implementation(): Promise<Sliders.MoveList> {
       await this.solve_implementation()
 
-      this.updateProgress()
-
-      this.is_running = false
-      this.should_stop = false
-      this.finished = true
-
-      return this.best_solution
-    }
-
-    stop() {
-      if (!this.is_running) return
-
-      this.should_stop = true
+      return this.getBest()
     }
 
     onUpdate(f: (_: this) => void): this {
@@ -314,8 +295,9 @@ export namespace Sliders {
       return this
     }
 
-    isFinished(): boolean {
-      return this.finished
+    onFound(f: (_: MoveList) => void): this {
+      this.better_solution_found.on(f)
+      return this
     }
 
     getProgress(): number {
@@ -325,21 +307,6 @@ export namespace Sliders {
     getBest(): MoveList {
       return this.best_solution
     }
-
-    timeOver(): boolean {
-      return Date.now() >= this.end_time
-    }
-
-    protected async checkTime() {
-      const t = Date.now()
-
-      if (t >= this.end_time) this.stop()
-      else if (t >= this.last_interrupt_time + 50) {
-        this.updateProgress()
-        this.last_interrupt_time = t
-        await delay(1)
-      }
-    }
   }
 
   export namespace SlideSolver {
@@ -348,6 +315,8 @@ export namespace Sliders {
      * @param start_state
      */
     export function skillbertRandom(start_state: SliderState): SlideSolver {
+      if(start_state.includes(undefined)) debugger
+
       return new class extends Sliders.SlideSolver {
         firstrun = true;
 

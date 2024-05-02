@@ -1,6 +1,5 @@
 import {SolvingMethods} from "./methods";
 import KeyValueStore from "../../lib/util/KeyValueStore";
-import {uuid} from "../../oldlib";
 import {ClueSpotIndex} from "../../lib/runescape/clues/ClueIndex";
 import {Clues} from "../../lib/runescape/clues";
 import {clue_data} from "../../data/clues";
@@ -11,6 +10,7 @@ import Method = SolvingMethods.Method;
 import timestamp = util.timestamp;
 import ClueSpot = Clues.ClueSpot;
 import ClueAssumptions = SolvingMethods.ClueAssumptions;
+import uuid = util.uuid;
 
 export type Pack = Pack.Meta & {
   type: "default" | "local" | "imported"

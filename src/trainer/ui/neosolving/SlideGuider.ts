@@ -2,7 +2,6 @@ import {Sliders} from "./puzzles/Sliders";
 import {Rectangle, Transform, Vector2} from "../../../lib/math";
 import * as a1lib from "@alt1/base";
 import {mixColor} from "@alt1/base";
-import {delay} from "../../../oldlib";
 import {OverlayGeometry} from "../../../lib/util/OverlayGeometry";
 import {SlideReader} from "./cluereader/SliderReader";
 import {C} from "../../../lib/ui/constructors";
@@ -15,6 +14,7 @@ import {findLastIndex} from "lodash";
 import {ewent} from "../../../lib/reactive";
 import {util} from "../../../lib/util/util";
 import {AnchorImages} from "./cluereader/AnchorImages";
+import {Process} from "../../../lib/Process";
 import over = OverlayGeometry.over;
 import SliderState = Sliders.SliderState;
 import SliderPuzzle = Sliders.SliderPuzzle;
@@ -24,15 +24,16 @@ import MoveList = Sliders.MoveList;
 import Move = Sliders.Move;
 import getAnchorImages = AnchorImages.getAnchorImages;
 
-class SliderGuideProcess {
-  private start_time = -1
+class SliderGuideProcess extends Process {
   private guiding_start_time = -1
   private solved_time = -1
 
   private puzzle: SliderPuzzle
-  private should_stop: boolean = false
 
-  private solver: SlideSolver = null
+  private solver: {
+    solver: SlideSolver,
+    solving_from: number
+  } = null
 
   private error_recovery_solution: {
     sequence: AnnotatedMoveList,
@@ -56,6 +57,10 @@ class SliderGuideProcess {
   private arrow_keys_inverted: boolean = false
 
   constructor(private parent: SliderModal, private settings: SlideGuider.Settings) {
+    super()
+
+    this.asInterval(1000 / 50) // Goal of 50 fps
+
     this.puzzle = parent.puzzle.puzzle
   }
 
@@ -113,7 +118,7 @@ class SliderGuideProcess {
 
     this.progress_overlay.clear()
 
-    const solution_length = this.solution?.length ?? this.solver?.getBest()?.length
+    const solution_length = this.solution?.length ?? this.solver?.solver?.getBest()?.length
 
     const center = Vector2.add(
       Rectangle.screenOrigin(this.parent.puzzle.ui.rect),
@@ -125,9 +130,7 @@ class SliderGuideProcess {
       const solving_time = (this.solved_time - this.guiding_start_time) / 1000
       const moves_per_second = this.solution.length / solving_time
 
-
       const estimate_slider = this.settings.estimate_slider_speed
-
 
       this.progress_overlay.text(
         `Done! ${total_time.toFixed(1)}s, ${moves_per_second.toFixed(1)} moves/s`,
@@ -365,7 +368,7 @@ class SliderGuideProcess {
 
     this.solving_overlay.clear()
 
-    if (!this.solver.isFinished()) {
+    if (!this.solution && this.solver) {
       this.solving_overlay
         .text("Solving",
           Vector2.add(
@@ -378,7 +381,7 @@ class SliderGuideProcess {
       this.solving_overlay.progressbar(Vector2.add(
         Rectangle.screenOrigin(this.parent.puzzle.ui.rect),
         {x: 143, y: 153},
-      ), 100, this.solver.getProgress(), 5)
+      ), 100, this.solver.solver.getProgress(), 5)
     } else if (!this.solution) {
       this.solving_overlay
         .text("No solution found",
@@ -393,136 +396,169 @@ class SliderGuideProcess {
     this.solving_overlay.render()
   }
 
-  async run() {
-    this.start_time = Date.now()
-
+  override async implementation(): Promise<void> {
     while (!this.should_stop) {
-      const read_result = await this.read()
+      try {
+        const read_result = await this.read()
 
-      if (read_result.result.match_score < SlideReader.DETECTION_THRESHOLD_SCORE) {
-        this.interface_closed_event.trigger(this)
-        this.stop()
-        break
-      }
+        if (read_result.result.match_score < SlideReader.DETECTION_THRESHOLD_SCORE) {
+          this.interface_closed_event.trigger(this)
+          this.stop()
+          break
+        }
 
-      const frame_state = read_result.state
+        const frame_state = read_result.state
 
-      if (!this.solver) {
-        await new Promise<void>(async (resolve) => {
-          this.solver =
-
-            SlideSolver.skillbertRandom(frame_state)
+        if (!this.solver && !this.solution) {
+          this.solver = {
+            solver: SlideSolver.skillbertRandom(frame_state)
               //new AStarSlideSolver(frame_state)
               .setCombineStraights(this.settings.mode == "mouse" || this.settings.mode == "hybrid")
               .onUpdate(solver => {
-                if (this.should_stop) resolve()
-
-                if (solver.isFinished()) resolve()
-
                 this.updateSolvingOverlay()
                 this.updateProgressOverlay()
               })
+              .withTimeout(this.settings.solve_time_ms),
+            solving_from: 0
+          }
 
-          await this.solver.solve(this.settings.solve_time_ms)
+          const initial_solution = await this.solver.solver.run()
 
+          this.solver = null
           this.current_mainline_index = 0
           this.error_recovery_solution = {sequence: [], recovering_to_mainline_index: 0}
 
-          resolve()
-        })
+          this.guiding_start_time = Date.now()
 
-        this.guiding_start_time = Date.now()
+          this.updateSolvingOverlay()
 
-        this.updateSolvingOverlay()
-
-        if (this.solver.getBest()) {
-          this.solution = Sliders.MoveList.annotate(frame_state, this.solver.getBest(), this.settings.mode != "keyboard")
-        } else {
-          this.stop()
-        }
-
-        this.updateSolvingOverlay()
-
-        continue
-      }
-
-      await delay(10)
-
-      if (!this.solution) continue
-
-      const inversion_changed = read_result.inverted_checkmark != this.arrow_keys_inverted
-      this.arrow_keys_inverted = read_result.inverted_checkmark
-
-      // Rerender move overlay every 10 seconds, so it does not expire
-      if (inversion_changed || Date.now() - this.last_overlay_render > 10000) this.updateMoveOverlay()
-
-      // Early exit if state has not changed
-      if (this.last_frame_state && SliderState.equals(this.last_frame_state, frame_state)) {
-        this.updateProgressOverlay()
-        continue
-      }
-
-      let mainline_index = findLastIndex(this.solution, a => a.pre_states.some(s => SliderState.equals(s, frame_state)))
-
-      if (mainline_index == this.solution.length - 2 && SliderState.equals(frame_state, SliderState.SOLVED)) {
-        mainline_index = this.solution.length
-
-        this.solved_time = Date.now()
-      }
-
-      if (mainline_index >= 0) {
-
-        // pre_states also includes all states that can be reached from the target state.
-        // This causes a bug where a wrong mainline index is inferred
-        // This case is fixed with the following hack
-        /*if (mainline_index < this.solution.length - 1 && SliderState.equals(frame_state, this.solution[mainline_index + 1].post_state)) {
-          mainline_index += 2
-        }*/
-
-        this.current_mainline_index = mainline_index
-        this.error_recovery_solution = {sequence: [], recovering_to_mainline_index: mainline_index}
-      } else {
-        let recovery_index = this.error_recovery_solution.sequence.findIndex(a => a.pre_states.some(s => SliderState.equals(s, frame_state)))
-
-        if (recovery_index >= 0) {
-          // Prune the recovery sequence to just contain the remaining steps
-          this.error_recovery_solution.sequence = this.error_recovery_solution.sequence.slice(recovery_index)
-
-          this.current_mainline_index = this.error_recovery_solution.recovering_to_mainline_index
-        } else {
-          // The current state was not found in the recovery sequence
-
-          let recovery_move: Move | null = null
-
-          for (let target of (this.getLastKnownMove()?.pre_states ?? [])) {
-            recovery_move = SliderState.findMove(frame_state, target)
-            if (recovery_move) break
+          if (initial_solution) {
+            this.solution = Sliders.MoveList.annotate(frame_state, initial_solution, this.settings.mode != "keyboard")
+          } else {
+            this.stop()
           }
 
-          if (recovery_move != null) {
-            // Add recovery move to sequence
-            this.error_recovery_solution.sequence.splice(0, 0,
-              ...MoveList.annotate(frame_state, [recovery_move], this.settings.mode != "keyboard"))
+          this.updateSolvingOverlay()
+
+          continue
+        }
+
+        await this.checkTime()
+
+        if (!this.solution) continue
+
+        const LASOLVING = this.settings.max_lookahead + 7
+        if (this.settings.continue_solving_after_initial_solve) {
+          if (this.solver && this.current_mainline_index + this.settings.max_lookahead + 2 >= this.solver.solving_from) {
+            // Getting close to the current start of the solving, stop the solving process
+            this.solver.solver.stop()
+            this.solver = null
+          }
+
+          if (!this.solver && (this.current_mainline_index + LASOLVING < this.solution.length)) {
+            const solving_start_index = this.current_mainline_index + LASOLVING
+
+            const solving_start_state = this.solution[solving_start_index - 1].post_state
+
+            this.solver = {
+              solver: SlideSolver.skillbertRandom(solving_start_state)
+                //new AStarSlideSolver(frame_state)
+                .setCombineStraights(this.settings.mode == "mouse" || this.settings.mode == "hybrid")
+                .registerSolution(this.solution.slice(solving_start_index).map(m => m.move))
+                .withInterrupt(20, 10) // Cooperative interrupt behaviour
+                .onFound(better => {
+                  if (solving_start_index == this.solver?.solving_from) {
+                    const annotated = MoveList.annotate(solving_start_state, better, this.settings.mode != "keyboard")
+
+                    this.solution.splice(
+                      solving_start_index,
+                      this.solution.length,
+                      ...annotated
+                    )
+                  }
+                }),
+              solving_from: solving_start_index
+            }
+
+            this.solver.solver.run()
+          }
+        }
+
+        const inversion_changed = read_result.inverted_checkmark != this.arrow_keys_inverted
+        this.arrow_keys_inverted = read_result.inverted_checkmark
+
+        // Rerender move overlay at least every 10 seconds, so it does not expire
+        if (inversion_changed || Date.now() - this.last_overlay_render > 10000) this.updateMoveOverlay()
+
+        // Early exit if state has not changed
+        if (this.last_frame_state && SliderState.equals(this.last_frame_state, frame_state)) {
+          this.updateProgressOverlay()
+          continue
+        }
+
+        let mainline_index = findLastIndex(this.solution, a => a.pre_states.some(s => SliderState.equals(s, frame_state)))
+
+        if (mainline_index == this.solution.length - 2 && SliderState.equals(frame_state, SliderState.SOLVED)) {
+          mainline_index = this.solution.length
+
+          this.solved_time = Date.now()
+        }
+
+        if (mainline_index >= 0) {
+
+          // pre_states also includes all states that can be reached from the target state.
+          // This causes a bug where a wrong mainline index is inferred
+          // This case is fixed with the following hack
+          /*if (mainline_index < this.solution.length - 1 && SliderState.equals(frame_state, this.solution[mainline_index + 1].post_state)) {
+            mainline_index += 2
+          }*/
+
+          this.current_mainline_index = mainline_index
+          this.error_recovery_solution = {sequence: [], recovering_to_mainline_index: mainline_index}
+        } else {
+          let recovery_index = this.error_recovery_solution.sequence.findIndex(a => a.pre_states.some(s => SliderState.equals(s, frame_state)))
+
+          if (recovery_index >= 0) {
+            // Prune the recovery sequence to just contain the remaining steps
+            this.error_recovery_solution.sequence = this.error_recovery_solution.sequence.slice(recovery_index)
 
             this.current_mainline_index = this.error_recovery_solution.recovering_to_mainline_index
           } else {
-            // Lost track. Start reset countdown or something
+            // The current state was not found in the recovery sequence
 
-            this.current_mainline_index = null
+            let recovery_move: Move | null = null
+
+            for (let target of (this.getLastKnownMove()?.pre_states ?? [])) {
+              recovery_move = SliderState.findMove(frame_state, target)
+              if (recovery_move) break
+            }
+
+            if (recovery_move != null) {
+              // Add recovery move to sequence
+              this.error_recovery_solution.sequence.splice(0, 0,
+                ...MoveList.annotate(frame_state, [recovery_move], this.settings.mode != "keyboard"))
+
+              this.current_mainline_index = this.error_recovery_solution.recovering_to_mainline_index
+            } else {
+              // Lost track. Start reset countdown or something
+
+              this.current_mainline_index = null
+            }
           }
         }
+
+        this.last_frame_state = frame_state
+
+        this.updateMoveOverlay()
+      } catch (e) {
+        console.log(e.toString())
       }
-
-      this.last_frame_state = frame_state
-
-      this.updateMoveOverlay()
     }
-
-    this.solution = null
 
     this.move_overlay?.hide()
     this.solving_overlay?.hide()
     this.progress_overlay?.hide()
+    this.solver?.solver?.stop()
   }
 
   private getLastKnownMove() {
@@ -615,6 +651,7 @@ export namespace SlideGuider {
     solve_time_ms: number,
     estimate_slider_speed: boolean,
     improve_slider_matches_backtracking: boolean,
+    continue_solving_after_initial_solve: boolean,
   }
 
   export namespace Settings {
@@ -632,6 +669,7 @@ export namespace SlideGuider {
       solve_time_ms: 2000,
       estimate_slider_speed: false,
       improve_slider_matches_backtracking: true,
+      continue_solving_after_initial_solve: true
     }
 
     export function normalize(settings: Settings): Settings {
@@ -650,6 +688,7 @@ export namespace SlideGuider {
       if ((typeof settings.solve_time_ms) != "number") settings.solve_time_ms = DEFAULT.solve_time_ms
       if (![true, false].includes(settings.estimate_slider_speed)) settings.estimate_slider_speed = DEFAULT.estimate_slider_speed
       if (![true, false].includes(settings.improve_slider_matches_backtracking)) settings.improve_slider_matches_backtracking = DEFAULT.improve_slider_matches_backtracking
+      if (![true, false].includes(settings.continue_solving_after_initial_solve)) settings.continue_solving_after_initial_solve = DEFAULT.continue_solving_after_initial_solve
 
       settings.solve_time_ms = lodash.clamp(settings.solve_time_ms, 500, 5000)
 

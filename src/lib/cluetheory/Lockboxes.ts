@@ -1,14 +1,7 @@
 import * as lodash from "lodash";
-import {util} from "../util/util";
-import {Sliders} from "../../trainer/ui/neosolving/puzzles/Sliders";
-import {tiles} from "../../skillbertssolver/cluesolver/slidetiles";
-import {PathFinder} from "../runescape/movement";
 
 export namespace Lockboxes {
-  import todo = util.todo;
-  import Move = Sliders.Move;
-  import minimize = Lockboxes.MoveMap.minimize;
-  import state = PathFinder.state;
+
   export type Tile = 0 | 1 | 2
 
   export const SIZE = 5
@@ -43,33 +36,24 @@ export namespace Lockboxes {
         [0, 2, 0, 1, 0]
       ],
       [
-        [1, 0, 1, 0, 0],
-        [2, 1, 2, 2, 0],
+        [0, 1, 0, 2, 0],
+        [2, 2, 0, 1, 1],
         [2, 1, 0, 2, 1],
-        [1, 2, 1, 1, 0],
-        [1, 1, 2, 2, 1],
+        [1, 1, 0, 2, 2],
+        [2, 0, 0, 0, 1],
       ],
       [
-        [0, 1, 2, 2, 2],
-        [2, 0, 1, 0, 2],
+        [0, 0, 1, 0, 1],
+        [0, 2, 2, 1, 2],
         [1, 2, 0, 1, 2],
-        [1, 0, 2, 0, 1],
-        [1, 1, 1, 2, 0],
-      ],
-      [
-        [1, 0, 2, 0, 1],
-        [2, 0, 1, 0, 2],
-        [0, 0, 0, 0, 0],
-        [1, 0, 2, 0, 1],
-        [2, 0, 1, 0, 2],
-      ], [
-        [1, 1, 0, 2, 2],
-        [1, 1, 0, 2, 2],
-        [0, 0, 0, 0, 0],
-        [2, 2, 0, 1, 1],
-        [2, 2, 0, 1, 1],
+        [0, 1, 1, 2, 1],
+        [1, 2, 2, 1, 1]
       ]
     ]
+
+    export function repeat(moves: MoveMap, repetition: number) : MoveMap {
+      return moves.map(row => row.map(m => (m * repetition) % 3)) as MoveMap
+    }
 
     export function get(moves: MoveMap, row: number, col: number): Tile {
       if (row < 0 || row >= SIZE || col < 0 || col >= SIZE) return 0
@@ -92,8 +76,25 @@ export namespace Lockboxes {
       return State.equals(State.applyMoves(State.SOLVED, map), State.SOLVED)
     }
 
+    let all_quiet_patterns: MoveMap[] = null
+
     export function allQuietPatterns(): MoveMap[] {
-      return [None, ...BASIC_QUIET_PATTERNS] // TODO: Quiet pattern recombinations
+      if(!all_quiet_patterns) {
+        // This is taken from the JS implementation at https://www.jaapsch.net/puzzles/lights.htm#java2000
+        // It doesn't really match the text description there, so it might not actually be optimal
+
+        const mults = [0, 1, 2].flatMap(a => [0, 1, 2].flatMap(b => [0, 1, 2].map(c => [a, b, c])))
+
+        all_quiet_patterns = mults.map(([a, b, c]) =>
+          MoveMap.chain(
+            repeat(BASIC_QUIET_PATTERNS[0], a),
+            repeat(BASIC_QUIET_PATTERNS[1], b),
+            repeat(BASIC_QUIET_PATTERNS[2], c),
+          )
+        )
+      }
+
+      return all_quiet_patterns
     }
 
     export function minimize(map: MoveMap): MoveMap {

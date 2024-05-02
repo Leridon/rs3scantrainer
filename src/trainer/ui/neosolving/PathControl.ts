@@ -61,8 +61,6 @@ class SectionMemory {
 
     value[this.hash(method)] = section
 
-    console.log(value)
-
     await this.data.set(value)
   }
 }
@@ -406,7 +404,6 @@ export default class PathControl extends Behaviour {
 
     if (method && !active_id) {
       active_id = await this.section_memory.get(method)
-      if (active_id) console.log(`Remembering ${active_id.join(",")}`)
     }
 
     const section_id = TreeArray.fixIndex(this.sectioned_path, active_id || [])
@@ -454,7 +451,6 @@ export default class PathControl extends Behaviour {
         .onSelection(p => {
           if (this.method) {
             this.section_memory.store(this.method, section_control.current_section_id)
-            console.log(`Storing ${section_control.current_section_id.join(",")}`)
           }
 
           this.section_selected.trigger(p)

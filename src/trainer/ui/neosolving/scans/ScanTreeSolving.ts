@@ -17,16 +17,16 @@ import NeoSolvingBehaviour from "../NeoSolvingBehaviour";
 import {TemplateResolver} from "../../../../lib/util/TemplateResolver";
 import {util} from "../../../../lib/util/util";
 import {SolvingMethods} from "../../../model/methods";
-import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import {NeoSolvingSubBehaviour} from "../NeoSolvingSubBehaviour";
+import {C} from "../../../../lib/ui/constructors";
+import {TextRendering} from "../../TextRendering";
+import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import activate = TileArea.activate;
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
-import {C} from "../../../../lib/ui/constructors";
 import cls = C.cls;
 import Order = util.Order;
 import span = C.span;
 import spotNumber = ScanTree.spotNumber;
-import {TextRendering} from "../../TextRendering";
 
 export class ScanTreeSolvingControl extends NeoSolvingSubBehaviour {
   node: ScanTree.Augmentation.AugmentedScanTreeNode = null
@@ -102,10 +102,12 @@ export class ScanTreeSolvingControl extends NeoSolvingSubBehaviour {
     })
 
     // Children pathsare rendered with 0.5
-    node.children.forEach(c => {
-      PathStepEntity.renderPath(c.value.raw.path).eachEntity(l => l.setOpacity(0.5)).addTo(this.layer)
-      new ScanRegionPolygon(ScanTree.getTargetRegion(c.value)).setOpacity(0.5).addTo(this.layer)
-    })
+    node.children
+      .filter(c => c.key.pulse != 3)
+      .forEach(c => {
+        PathStepEntity.renderPath(c.value.raw.path).eachEntity(l => l.setOpacity(0.5)).addTo(this.layer)
+        new ScanRegionPolygon(ScanTree.getTargetRegion(c.value)).setOpacity(0.5).addTo(this.layer)
+      })
   }
 
   setNode(node: ScanTree.Augmentation.AugmentedScanTreeNode) {

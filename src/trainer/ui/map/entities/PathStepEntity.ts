@@ -37,7 +37,7 @@ export class PathStepEntity extends MapEntity {
   }
 
   bounds(): Rectangle {
-    return Path.Step.bounds(this.step)
+    return Path.Step.bounds(this.step, false)
   }
 
   protected override async render_implementation(options: MapEntity.RenderProps): Promise<Element> {

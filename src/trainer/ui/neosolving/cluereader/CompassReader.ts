@@ -1,13 +1,12 @@
-import {coldiff} from "../../../../skillbertssolver/oldlib";
 import {Compasses} from "../../../../lib/cluetheory/Compasses";
 import {ImgRef, mixColor} from "@alt1/base";
 import {circularMean, degreesToRadians, normalizeAngle, Rectangle, Vector2} from "../../../../lib/math";
 import {ClueReader} from "./ClueReader";
 import * as lodash from "lodash";
 import {OverlayGeometry} from "../../../../lib/util/OverlayGeometry";
+import {util} from "../../../../lib/util/util";
 import angleDifference = Compasses.angleDifference;
 import ANGLE_REFERENCE_VECTOR = Compasses.ANGLE_REFERENCE_VECTOR;
-import {util} from "../../../../lib/util/util";
 
 
 class AngularKeyframeFunction {
@@ -60,14 +59,13 @@ class AngularKeyframeFunction {
 export namespace CompassReader {
 
   import rgbSimilarity = util.rgbSimilarity;
-  const DEBUG_COMPASS_READER = false
-  const DISABLE_CALIBRATION = false
-
   import angleDifference = Compasses.angleDifference;
   import MatchedUI = ClueReader.MatchedUI;
   import ANGLE_REFERENCE_VECTOR = Compasses.ANGLE_REFERENCE_VECTOR;
+  const DEBUG_COMPASS_READER = false
+  const DISABLE_CALIBRATION = false
 
-  export const EPSILON = (0.2 / 360) * 2 * Math.PI
+  export const EPSILON = (0.4 / 360) * 2 * Math.PI
 
   export type CompassState = {
     angle: number,
@@ -278,7 +276,7 @@ export namespace CompassReader {
     for (let x = X_MIN; x < X_MAX; x++) {
       const i = x * 4 + Y * buf.width * 4;
 
-      if (rgbSimilarity(text_color, [buf.data[i], buf.data[i+1], buf.data[i+2]]) > 0.9) {
+      if (rgbSimilarity(text_color, [buf.data[i], buf.data[i + 1], buf.data[i + 2]]) > 0.9) {
         n++;
       }
     }

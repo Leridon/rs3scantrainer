@@ -718,8 +718,8 @@ export namespace Path {
     })(str)
   }
 
-  export function bounds(path: Path.raw): TileRectangle {
-    return TileRectangle.lift(Rectangle.combine(...path.map(Step.bounds)), level(path))
+  export function bounds(path: Path.raw, prune_far_transports: boolean = true): TileRectangle {
+    return TileRectangle.lift(Rectangle.combine(...path.map(s => Step.bounds(s, prune_far_transports))), level(path))
   }
 
   export function level(path: Path): floor_t {
@@ -727,7 +727,7 @@ export namespace Path {
   }
 
   export namespace Step {
-    export function bounds(step: Step): Rectangle {
+    export function bounds(step: Step, prune_far_transports: boolean = true): Rectangle {
       switch (step.type) {
         case "ability":
           return Rectangle.from(step.from, step.to)
@@ -740,11 +740,21 @@ export namespace Path {
         case "powerburst":
           return Rectangle.from(step.where)
         case "cheat":
-          return Rectangle.from(step.target)
+          if (prune_far_transports && Vector2.max_axis(Vector2.sub(step.target, step.assumed_start)) > 64) {
+            return Rectangle.from(step.assumed_start)
+          } else {
+            return Rectangle.from(step.assumed_start, step.target)
+          }
+
         case "transport":
           let bounds: Rectangle = step.internal.clickable_area
           bounds = Rectangle.extendTo(bounds, step.assumed_start)
-          bounds = Rectangle.extendTo(bounds, Path.ends_up([step]))
+
+          const ends_up = Path.ends_up([step])
+
+          if (!prune_far_transports && Vector2.max_axis(Vector2.sub(ends_up, step.assumed_start)) <= 64) {
+            bounds = Rectangle.extendTo(bounds, ends_up)
+          }
 
           return bounds
         case "orientation":

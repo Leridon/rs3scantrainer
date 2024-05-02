@@ -1,13 +1,13 @@
 import {ScanTree} from "lib/cluetheory/scans/ScanTree";
 import {Path} from "lib/runescape/pathing";
 import {Clues} from "../../lib/runescape/clues";
-import {uuid} from "../../oldlib";
 import {util} from "../../lib/util/util";
 import * as lodash from "lodash";
 
 export namespace SolvingMethods {
   import timestamp = util.timestamp;
   import ClueSpot = Clues.ClueSpot;
+  import uuid = util.uuid;
   export type method_kind = "scantree" | "general_path"
 
   export type ClueAssumptions = {

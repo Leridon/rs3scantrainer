@@ -1,7 +1,7 @@
 import {ewent} from "./reactive";
 import {delay} from "../skillbertssolver/oldlib";
 
-export abstract class Process<Result> {
+export abstract class Process<Result = void> {
   private finished_event = ewent<this>()
 
   private is_running: boolean = false
@@ -72,6 +72,10 @@ export abstract class Process<Result> {
     this.finished = true
 
     return result
+  }
+
+  isFinished(): boolean {
+    return this.finished
   }
 
   onInterrupt(f: () => void): this {

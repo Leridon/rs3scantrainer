@@ -15,6 +15,17 @@ import skillbertRandom = Sliders.SlideSolver.skillbertRandom;
 import spacer = C.spacer;
 import hbox = C.hbox;
 
+type DataEntry = {
+  id: number,
+  state: SliderState,
+  timestamp: number,
+  theme: string
+}
+
+async function crowdsourcedSliderData(): Promise<DataEntry[]> {
+  return await (await fetch("data/sliders.json")).json()
+}
+
 class SliderBenchmarkModal extends NisModal {
   layout: Properties
   run_button: LightButton
@@ -41,33 +52,53 @@ class SliderBenchmarkModal extends NisModal {
 
     type Candidate = {
       name: string,
-      construct: (state: SliderState) => Sliders.SlideSolver
+      construct: (state: SliderState) => Sliders.SlideSolver,
+      continuation_solving?: {
+        lookahead: number,
+        assumed_moves_per_second: number
+      } | null
     }
 
     type Result = {
       candidate: Candidate,
       tests: {
         start: SliderState,
-        moves: MoveList | null
+        moves: MoveList | null,
+        moves_after_continuation: MoveList | null
       }[],
       success_count: number
-      average: number
+      average: number,
+      average_continuation: number
     }
 
     const candidates: Candidate[] = [
-      {name: "Skillbert Random", construct: s => skillbertRandom(s)},
-      {name: "IDA* Default", construct: s => new AStarSlideSolver(s)},
+      /* {name: "Skillbert Random", construct: s => skillbertRandom(s)},
+       {name: "Skillbert Random", construct: s => skillbertRandom(s), continuation_solving: {lookahead: 20, assumed_moves_per_second: 4}},
+       {name: "Skillbert Random", construct: s => skillbertRandom(s), continuation_solving: {lookahead: 20, assumed_moves_per_second: 5}},
+       {name: "Skillbert Random", construct: s => skillbertRandom(s), continuation_solving: {lookahead: 20, assumed_moves_per_second: 6}},
+ */
+      //{name: "IDA* Default", construct: s => new AStarSlideSolver(s)},
     ]
+
+    for (let mps = 4; mps <= 6; mps++) {
+      for (let la = 10; la <= 20; la += 2) {
+        candidates.push(
+          {name: "Skillbert Random", construct: s => skillbertRandom(s), continuation_solving: {lookahead: la, assumed_moves_per_second: mps}},
+        )
+      }
+    }
 
     const test_set: SliderState[] = []
 
-    const TIMEOUT = 10000
-    const TEST_SIZE = 5
+    const TIMEOUT = 2000
+    const TEST_SIZE = 20
+
+    const data = await crowdsourcedSliderData()
 
     while (test_set.length < TEST_SIZE) {
-      const shuffled = lodash.shuffle(SliderState.SOLVED)
+      const shuffled = data[lodash.random(data.length - 1)]
 
-      if (SliderState.isSolveable(shuffled)) test_set.push(shuffled)
+      if (SliderState.isSolveable(shuffled.state)) test_set.push(shuffled.state)
     }
 
     const results: Result[] = []
@@ -84,14 +115,27 @@ class SliderBenchmarkModal extends NisModal {
         const solver = candidate.construct(test)
           .setCombineStraights(true)
 
-        let best = await solver.solve(TIMEOUT)
+        let best = await solver.withTimeout(TIMEOUT).run()
+
+        const best_before_continuation = [...best]
+
+        if (candidate.continuation_solving && best) {
+          const TIME_PER_STEP = (candidate.continuation_solving.lookahead / candidate.continuation_solving.assumed_moves_per_second) * 1000
+
+          for (let i = candidate.continuation_solving.lookahead; i < best.length; i += candidate.continuation_solving.lookahead) {
+            const better = await candidate.construct(SliderState.withMove(test, ...best.slice(0, i)))
+              .withTimeout(TIME_PER_STEP)
+              .withInterrupt(30, 10)
+              .setCombineStraights(true)
+              .registerSolution(best.slice(i))
+              .run()
+
+            best.splice(i, best.length, ...better)
+          }
+        }
 
         if (best) {
-          let sanity = test
-
-          for (let m of best) {
-            sanity = SliderState.withMove(sanity, m)
-          }
+          let sanity = SliderState.withMove(test, ...best)
 
           if (!SliderState.equals(sanity, SliderState.SOLVED)) {
             best = null
@@ -101,18 +145,19 @@ class SliderBenchmarkModal extends NisModal {
 
         testsResult.push({
           start: test,
-          moves: best
+          moves: best_before_continuation,
+          moves_after_continuation: best
         })
       }
 
       const success = testsResult.filter(e => !!e.moves)
 
-
       results.push({
         candidate: candidate,
         tests: testsResult,
         success_count: success.length,
-        average: success.length >= 1 ? lodash.sumBy(success, e => e.moves.length) / success.length : -1
+        average: success.length >= 1 ? lodash.sumBy(success, e => e.moves.length) / success.length : -1,
+        average_continuation: success.length >= 1 ? lodash.sumBy(success, e => e.moves_after_continuation.length) / success.length : -1
       })
     }
 
@@ -121,15 +166,20 @@ class SliderBenchmarkModal extends NisModal {
     layout.header("Results")
     layout.paragraph(`On a total of ${test_set.length} configurations with ${(TIMEOUT / 1000).toFixed(1)}s per configuration.`)
 
-    layout.named("", hgrid(span("Solved"), span("Average"), span("Performance")))
+    layout.named("", hgrid(span("Solved"), span("Average"), span("Performance"), span("Cont"), span("Average cont."), span("Performance cont.")))
 
     const ref_average = results[0].average
 
     for (let row of results) {
+
       layout.named(row.candidate.name, hgrid(
         c().text(row.success_count),
         c().text(row.average.toFixed(1)),
         c().text(`${(100 * (row.average / ref_average - 1)).toFixed(2)}%`),
+
+        row.candidate.continuation_solving ? c().text(`${row.candidate.continuation_solving.lookahead}LA@${row.candidate.continuation_solving.assumed_moves_per_second}mps`) : c(),
+        row.candidate.continuation_solving ? c().text(row.average_continuation.toFixed(1)) : c(),
+        row.candidate.continuation_solving ? c().text(`${(100 * (row.average_continuation / row.average - 1)).toFixed(2)}%`) : c(),
       ))
     }
 
@@ -168,12 +218,6 @@ class SliderAnalysisModal extends NisModal {
       counts: [SliderState, DataEntry[]][]
     }
 
-    type DataEntry = {
-      id: number,
-      state: SliderState,
-      timestamp: number,
-      theme: string
-    }
 
     type DataSet = {
       states: DataEntry[],
@@ -329,64 +373,11 @@ class SliderAnalysisModal extends NisModal {
 }
 
 export async function makeshift_main(): Promise<void> {
-  return
-
-  const old = await fetch("map/parsing_associations.json").then(r => r.json())
-
-  const mapped = {
-    version: old.version,
-    associations: old.associations.map(e => {
-      if (e.parser_id == "prototypecopyloc") {
-        return {
-          ...e,
-          per_group_arg: {
-            actions: e.per_group_arg.actions.map(a => {
-              return {
-                ...a,
-                action: {
-                  loc: {
-                    id: a.action.id
-                  }
-                }
-              }
-            })
-          }
-        }
-      } else if (e.parser_id == "prototypecopylocperinstance") {
-        return {
-          ...e,
-          parser_id: "prototypecopyloc",
-          per_group_arg: {
-            actions: []
-          },
-          instance_groups: e.instance_groups.map(igroup => {
-
-            return {
-              ...igroup,
-              per_instance_argument: {
-                actions: igroup.per_instance_argument.actions.map(a => {
-                  return {
-                    ...a,
-                    action: {
-                      loc: {
-                        id: a.action.id
-                      }
-                    }
-                  }
-                })
-              }
-            }
-          })
-        }
-      } else return e
-    })
-  }
-
-  new ExportStringModal(JSON.stringify(mapped, null, 4)).show()
 
   // await test_slide_reader()
 
   //await new SliderAnalysisModal().show()
+  //await new SliderBenchmarkModal().show()
 
   /*
   await (new class extends NisModal {

@@ -377,7 +377,7 @@ export async function makeshift_main(): Promise<void> {
   // await test_slide_reader()
 
   //await new SliderAnalysisModal().show()
-  await new SliderBenchmarkModal().show()
+  //await new SliderBenchmarkModal().show()
 
   /*
   await (new class extends NisModal {

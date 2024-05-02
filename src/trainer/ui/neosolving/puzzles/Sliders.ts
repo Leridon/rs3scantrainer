@@ -270,7 +270,7 @@ export namespace Sliders {
 
       if (!this.best_solution || moves.length < this.best_solution.length) {
         this.best_solution = moves
-        this.updateProgress()
+        this.better_solution_found.trigger(moves)
       }
 
       return this

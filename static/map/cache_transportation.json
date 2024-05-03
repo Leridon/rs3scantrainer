@@ -76609,134 +76609,6 @@
   },
   {
     "type": "entity",
-    "source_loc": 17209,
-    "entity": {
-      "name": "Cave entrance",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2402.5,
-        "y": 3420.5
-      },
-      "botright": {
-        "x": 2404.5,
-        "y": 3417.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "generic",
-        "interactive_area": {
-          "origin": {
-            "x": 2402,
-            "y": 3418,
-            "level": 0
-          },
-          "size": {
-            "x": 1,
-            "y": 3
-          }
-        },
-        "name": "Enter",
-        "movement": [
-          {
-            "time": 1,
-            "fixed_target": {
-              "target": {
-                "origin": {
-                  "x": 2409,
-                  "y": 9812,
-                  "level": 0
-                }
-              }
-            }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "source_loc": 17222,
-    "entity": {
-      "name": "Tunnel",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2407.5,
-        "y": 9811.5
-      },
-      "botright": {
-        "x": 2408.5,
-        "y": 9810.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "generic",
-        "name": "Exit",
-        "movement": [
-          {
-            "time": 1,
-            "fixed_target": {
-              "target": {
-                "origin": {
-                  "x": 2408,
-                  "y": 9811,
-                  "level": 0
-                }
-              }
-            }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "source_loc": 17223,
-    "entity": {
-      "name": "Tunnel",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2408.5,
-        "y": 9811.5
-      },
-      "botright": {
-        "x": 2409.5,
-        "y": 9810.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "generic",
-        "name": "Exit",
-        "movement": [
-          {
-            "time": 1,
-            "fixed_target": {
-              "target": {
-                "origin": {
-                  "x": 2402,
-                  "y": 3419,
-                  "level": 0
-                }
-              }
-            }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
     "source_loc": 91457,
     "entity": {
       "name": "Stile",
@@ -90037,6 +89909,197 @@
                 }
               }
             }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 17222,
+    "entity": {
+      "name": "Tunnel",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2407.5,
+        "y": 9811.5
+      },
+      "botright": {
+        "x": 2408.5,
+        "y": 9810.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Exit",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2402,
+                  "y": 3419,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 17223,
+    "entity": {
+      "name": "Tunnel",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2408.5,
+        "y": 9811.5
+      },
+      "botright": {
+        "x": 2409.5,
+        "y": 9810.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Exit",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2402,
+                  "y": 3419,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 17209,
+    "entity": {
+      "name": "Cave entrance",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2402.5,
+        "y": 3420.5
+      },
+      "botright": {
+        "x": 2404.5,
+        "y": 3417.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2409,
+                  "y": 9812,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Fallen palm tree",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3338.5,
+        "y": 3242.5
+      },
+      "botright": {
+        "x": 3339.5,
+        "y": 3241.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "name": "Run across",
+        "movement": [
+          {
+            "offset": {
+              "x": 6,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement",
+            "time": 5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Rope",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2446.5,
+        "y": 3171.5
+      },
+      "botright": {
+        "x": 2447.5,
+        "y": 3170.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "name": "Climb",
+        "cursor": "agility",
+        "movement": [
+          {
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2443,
+                  "y": 3164,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore",
+            "time": 3
           }
         ]
       }

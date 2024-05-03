@@ -350,7 +350,39 @@ export const parsers3: TransportParser[] = [
 ]
 
 export function hardcoded_transports(): Transportation.Transportation[] {
-  return []
+  return [
+    {
+      type: "entity",
+      entity: {name: "Fallen palm tree", kind: "static"},
+      clickable_area: {"topleft": {"x": 3338.5, "y": 3242.5}, "botright": {"x": 3339.5, "y": 3241.5}, "level": 0},
+      actions: [
+        {
+          cursor: "agility",
+          name: "Run across",
+          movement: [
+            {offset: {x: 6, y: 0, level: 0}, orientation: "bymovement", time: 5}
+          ]
+        }
+      ]
+    }, {
+      type: "entity",
+      entity: {name: "Rope", kind: "static"},
+      clickable_area: {"topleft": {"x": 2446.5, "y": 3171.5}, "botright": {"x": 2447.5, "y": 3170.5}, "level": 0},
+      actions: [
+        {
+          name: "Climb",
+          cursor: "agility",
+          movement: [
+            {
+              fixed_target: {target: {"origin": {"x": 2443, "y": 3164, "level": 0}}},
+              orientation: "toentitybefore",
+              time: 3
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }
 
 export namespace Parsers3 {

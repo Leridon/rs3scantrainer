@@ -14,8 +14,6 @@ Compass solver:
 Must be done in April (transports):
 Not in dataset:
     Holgart/Jeb travel to the fishing platform
-    Observatory rope shortcut
-    Het's oasis agility course log
     Entrana monk ship
 
 - Solving Behaviour

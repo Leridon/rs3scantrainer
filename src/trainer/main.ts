@@ -3,10 +3,11 @@ import {Sliders} from "./ui/neosolving/puzzles/Sliders";
 import {NisModal} from "../lib/ui/NisModal";
 import Properties from "./ui/widgets/Properties";
 import {C} from "../lib/ui/constructors";
-import {AStarSlideSolver} from "./ui/neosolving/puzzles/AStarSlideSolver";
 import LightButton from "./ui/widgets/LightButton";
 import Widget from "../lib/ui/Widget";
 import ExportStringModal from "./ui/widgets/modals/ExportStringModal";
+import {LocParsingTableData} from "./ui/devutilitylayer/cachetools/ParsingTable";
+import {util} from "../lib/util/util";
 import SliderState = Sliders.SliderState;
 import MoveList = Sliders.MoveList;
 import hgrid = C.hgrid;
@@ -14,7 +15,7 @@ import span = C.span;
 import skillbertRandom = Sliders.SlideSolver.skillbertRandom;
 import spacer = C.spacer;
 import hbox = C.hbox;
-import {clue_trainer_test_set} from "../test/tests";
+import cleanedJSON = util.cleanedJSON;
 
 type DataEntry = {
   id: number,
@@ -374,6 +375,26 @@ class SliderAnalysisModal extends NisModal {
 }
 
 export async function makeshift_main(): Promise<void> {
+/*
+  let repo_data: LocParsingTableData = await (await fetch("map/parsing_associations.json")).json().catch(() => undefined)
+
+  function fix(name: string, value: any) {
+    if (typeof value == "object" && name == "movement" && value["offset"] && value["fixed"]) {
+      value["offset"] = undefined
+    }
+
+    if (Array.isArray(value)) {
+      value.forEach(e => fix(null, e))
+    } else if (typeof value == "object") {
+      Object.entries(value).forEach(([key, value]) => {
+        fix(key, value)
+      })
+    }
+  }
+
+  fix("associations", repo_data.associations)
+
+  new ExportStringModal(cleanedJSON(repo_data, 4)).show()*/
 
   //await clue_trainer_test_set.run()
 

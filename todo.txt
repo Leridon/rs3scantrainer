@@ -12,9 +12,6 @@ Compass solver:
     - Chatbox read service to look for sextant message
 
 Broken:
-    Mage training arena stairs
-    Range guild door
-    Lighthouse stairs
     Witchhaven dungeon stairs cant take you outside (they do work to inside)
     Sinclair mansion stairs take you to coordinates 6316|846|0 instead of 2736|3580|1
     Ardougne Lever
@@ -22,8 +19,10 @@ Broken:
     Similiar issue with East Ardougne west bar stairs
     Gnome agility course nets
     West ardougne northern manhole should arrive in the same square as the southern manhole
-
-
+    Taverley white wolf mountain underpass cave entrance
+    Lava Flow Mine doesnt have a transport from inside to keldagrim
+    Gutanoth last gap
+    Nature spirit bridge should only take to 1 tile both ways? (same for the gate shortcut?)
 
 Must be done in April (transports):
 Not in dataset:

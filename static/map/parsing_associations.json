@@ -1,5 +1,5 @@
 {
-  "version": 1267,
+  "version": 1268,
   "associations": [
     {
       "group_id": 0,
@@ -1953,7 +1953,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -1989,7 +1991,7 @@
       },
       "group_name": "Simple Jump to rock",
       "instance_groups": [],
-      "parser_id": "prototypecopyloclegacy"
+      "parser_id": "prototypecopyloc"
     },
     {
       "group_id": 581,
@@ -2351,7 +2353,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -2393,7 +2397,7 @@
       },
       "group_name": "Dorgesh Kaan Stair Up",
       "instance_groups": [],
-      "parser_id": "prototypecopyloclegacy"
+      "parser_id": "prototypecopyloc"
     },
     {
       "group_id": 660,
@@ -2446,7 +2450,7 @@
       },
       "group_name": "",
       "instance_groups": [],
-      "parser_id": "prototypecopyloclegacy"
+      "parser_id": "prototypecopyloc"
     },
     {
       "group_id": 663,
@@ -2499,7 +2503,7 @@
       },
       "group_name": "",
       "instance_groups": [],
-      "parser_id": "prototypecopyloclegacy"
+      "parser_id": "prototypecopyloc"
     },
     {
       "group_id": 664,
@@ -2509,9 +2513,7 @@
       "per_group_arg": {
         "actions": [
           {
-            "action": {
-              "id": 0
-            },
+            "action": { "loc": {"id": 0} },
             "area": {
               "origin": {
                 "x": 1,
@@ -2552,7 +2554,7 @@
       },
       "group_name": "",
       "instance_groups": [],
-      "parser_id": "prototypecopyloclegacy"
+      "parser_id": "prototypecopyloc"
     },
     {
       "group_id": 667,
@@ -2564,9 +2566,7 @@
       "per_group_arg": {
         "actions": [
           {
-            "action": {
-              "id": 0
-            },
+            "action": { "loc": {"id": 0} },
             "movements": [
               {
                 "valid_from": {
@@ -2632,7 +2632,7 @@
       },
       "group_name": "Stiles",
       "instance_groups": [],
-      "parser_id": "prototypecopyloclegacy"
+      "parser_id": "prototypecopyloc"
     },
     {
       "group_id": 668,

@@ -20,6 +20,7 @@ import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInterac
 import InteractionTopControl from "../../map/InteractionTopControl";
 import {DrawOffset} from "../../shortcut_editing/interactions/DrawOffset";
 import {Transportation} from "../../../../lib/runescape/transportation";
+import {TileTransform} from "../../../../lib/runescape/coordinates/TileTransform";
 import LocInstance = CacheTypes.LocInstance;
 
 export abstract class ParsingParameter<T = any> {
@@ -171,8 +172,8 @@ export namespace ParsingParameter {
       renderForm(depth: number, loc: CacheTypes.LocInstance, map: GameMapMiniWidget): Editor<TileArea> {
         const self = this
 
-        const transform = LocInstance.getTransform(loc)
-        const inverse_transform = LocInstance.getInverseTransform(loc)
+        const transform = relative_to_loc ? LocInstance.getTransform(loc) : TileTransform.identity()
+        const inverse_transform = relative_to_loc ? LocInstance.getInverseTransform(loc) : TileTransform.identity()
 
         return new class extends ParsingParameter.Editor<TileArea> {
           edited_tiles: TileCoordinates[]

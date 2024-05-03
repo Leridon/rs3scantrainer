@@ -1,5 +1,5 @@
 {
-  "version": 1268,
+  "version": 1270,
   "associations": [
     {
       "group_id": 0,
@@ -932,9 +932,7 @@
     },
     {
       "group_id": 411,
-      "loc_ids": [
-        34395
-      ],
+      "loc_ids": [],
       "per_group_arg": {
         "action": {
           "id": 0
@@ -1017,9 +1015,7 @@
     },
     {
       "group_id": 414,
-      "loc_ids": [
-        77053
-      ],
+      "loc_ids": [],
       "per_group_arg": {
         "action": {
           "id": 0
@@ -2408,7 +2404,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -2461,7 +2459,9 @@
         "actions": [
           {
             "action": {
-              "id": 0
+              "loc": {
+                "id": 0
+              }
             },
             "area": {
               "origin": {
@@ -2513,7 +2513,11 @@
       "per_group_arg": {
         "actions": [
           {
-            "action": { "loc": {"id": 0} },
+            "action": {
+              "loc": {
+                "id": 0
+              }
+            },
             "area": {
               "origin": {
                 "x": 1,
@@ -2566,7 +2570,11 @@
       "per_group_arg": {
         "actions": [
           {
-            "action": { "loc": {"id": 0} },
+            "action": {
+              "loc": {
+                "id": 0
+              }
+            },
             "movements": [
               {
                 "valid_from": {

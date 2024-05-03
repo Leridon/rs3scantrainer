@@ -188,7 +188,7 @@ export const parsers3: TransportParser[] = [
       }, fixed(per_instance.target))
 
       return [builder.finish()]
-    }).makeLegacy(),
+    }),
   parse("simpleremotetransportlegacy", "Remote (LEGACY)",
     PP.rec({
       action: PP.element("Action", PP.locAction()),

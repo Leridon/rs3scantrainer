@@ -24,6 +24,9 @@ Broken:
     Gutanoth last gap
     Nature spirit bridge should only take to 1 tile both ways? (same for the gate shortcut?)
 
+    34395
+    77053
+
 Must be done in April (transports):
 Not in dataset:
     Holgart/Jeb travel to the fishing platform

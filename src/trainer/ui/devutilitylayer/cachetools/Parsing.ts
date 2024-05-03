@@ -6,6 +6,7 @@ import {parsers3} from "./parsers3";
 import {TileCoordinates} from "../../../../lib/runescape/coordinates";
 import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
 import {Rectangle} from "../../../../lib/math";
+import {debug} from "@alt1/ocr";
 
 export namespace Parsing {
 
@@ -65,6 +66,7 @@ export namespace Parsing {
             } catch (e) {
               console.error(`Parser ${loc_group.parser_id} has thrown an exception!`)
               console.log(e)
+              debugger
             }
           }
         }

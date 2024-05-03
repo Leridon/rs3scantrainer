@@ -350,11 +350,13 @@ export namespace Transportation {
             time: 1,
             offset: {...off, level: 0},
             valid_from: {origin: shortcut.position},
+            orientation: "bymovement"
           },
           {
             time: 1,
             offset: {...direction.toVector(direction.invert(shortcut.direction)), level: 0},
-            valid_from: {origin: other}
+            valid_from: {origin: other},
+            orientation: "bymovement"
           },
         ]
       }]

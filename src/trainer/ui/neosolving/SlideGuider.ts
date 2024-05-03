@@ -30,6 +30,7 @@ class SliderGuideProcess extends Process {
 
   private puzzle: SliderPuzzle
 
+  private initial_state: SliderState
   private solver: {
     solver: SlideSolver,
     solving_from: number
@@ -410,6 +411,8 @@ class SliderGuideProcess extends Process {
         const frame_state = read_result.state
 
         if (!this.solver && !this.solution) {
+          this.initial_state = frame_state
+
           this.solver = {
             solver: SlideSolver.skillbertRandom(frame_state)
               //new AStarSlideSolver(frame_state)
@@ -467,14 +470,50 @@ class SliderGuideProcess extends Process {
                 .registerSolution(this.solution.slice(solving_start_index).map(m => m.move))
                 .withInterrupt(20, 10) // Cooperative interrupt behaviour
                 .onFound(better => {
-                  if (solving_start_index == this.solver?.solving_from) {
+                  if (solving_start_index == this.solver?.solving_from && this.current_mainline_index < solving_start_index) {
+                    const new_sequence = Sliders.MoveList.combine(
+                      this.solution.slice(0, solving_start_index).map(m => m.move),
+                      better,
+                      this.settings.mode != "keyboard"
+                    )
+
+                    this.solution = MoveList.annotate(this.initial_state, new_sequence, this.settings.mode != "keyboard")
+
+                    /*
                     const annotated = MoveList.annotate(solving_start_state, better, this.settings.mode != "keyboard")
+
+                    function fix(list: AnnotatedMoveList, index_of_first_new_move: number) {
+                      const attached_move = list[index_of_first_new_move]
+                      const existing_pre_move = list[index_of_first_new_move - 1]
+                      const pre_pre_move = list[index_of_first_new_move - 2]
+
+                      const needs_fixing =
+                        Sliders.Move.isVertical(attached_move.move) == Sliders.Move.isVertical(existing_pre_move.move)
+                      //existing_pre_move.pre_states.some(s => SliderState.equals(s, attached_move.post_state))
+
+                      if (needs_fixing) {
+                        attached_move.move = attached_move.clicked_tile - pre_pre_move.clicked_tile
+
+                        console.log(`Needs fixing! Fixed to ${attached_move.move}`)
+
+                        const removal = attached_move.move == 0 ? 2 : 1
+
+                        // Remove last move of the old part of the sequence
+                        list.splice(index_of_first_new_move - 1, removal)
+
+                        console.log(`removed ${removal}`)
+
+                        fix(list, index_of_first_new_move - 1)
+                      }
+                    }
 
                     this.solution.splice(
                       solving_start_index,
                       this.solution.length,
                       ...annotated
                     )
+
+                    fix(this.solution, solving_start_index)*/
                   }
                 }),
               solving_from: solving_start_index
@@ -550,8 +589,8 @@ class SliderGuideProcess extends Process {
         this.last_frame_state = frame_state
 
         this.updateMoveOverlay()
-      } catch (e) {
-        console.log(e.toString())
+      } catch (e: any) {
+        console.log(e)
       }
     }
 

@@ -1,8 +1,8 @@
 import {calcmap, optimisemoves, SlideMove, SliderMap, SlideSolverRandom} from "../../../../skillbertssolver/cluesolver/slidesolver";
 import {ewent} from "../../../../lib/reactive";
-import {delay} from "../../../../skillbertssolver/oldlib";
 import * as lodash from "lodash";
 import {Process} from "../../../../lib/Process";
+import {util} from "../../../../lib/util/util";
 
 export namespace Sliders {
   export type SliderPuzzle = { tiles: Tile[], theme?: string, match_score?: number }
@@ -180,6 +180,10 @@ export namespace Sliders {
     export function isValid(move: Move): boolean {
       return [1, 2, 3, 4, 5, 10, 15, 20].includes(Math.abs(move))
     }
+
+    export function isVertical(move: Move): boolean {
+      return move % 5 == 0
+    }
   }
 
   export type MoveList = Move[]
@@ -192,6 +196,43 @@ export namespace Sliders {
   }[]
 
   export namespace MoveList {
+
+    import index = util.index;
+
+    export function combine(first: MoveList, second: MoveList, multitile: boolean): MoveList {
+      const orig = {
+        first: [...first],
+        second: [...second]
+      }
+
+      while (second.length > 0 && first.length > 0) {
+        const needs_fixing =
+          multitile
+            ? Sliders.Move.isVertical(second[0]) == Sliders.Move.isVertical(index(first, -1))
+            : second[0] == -index(first, -1)
+
+        if (!needs_fixing) break
+
+        second[0] += index(first, -1)
+
+        first.splice(first.length - 1)
+
+        if (second[0] == 0) second.splice(0, 1)
+      }
+
+      const res = [...first, ...second]
+
+      if (!res.every(Move.isValid)) {
+        console.error("BUG DETECTED!")
+        console.error(orig.first.join(","))
+        console.error(orig.second.join(","))
+        console.error("RESULT")
+        console.error(res.join(","))
+        debugger
+      }
+
+      return res
+    }
 
     export function annotate(state: SliderState, moves: MoveList, prestates_multitile_allowed: boolean = true): AnnotatedMoveList {
       if (!moves) debugger
@@ -315,7 +356,7 @@ export namespace Sliders {
      * @param start_state
      */
     export function skillbertRandom(start_state: SliderState): SlideSolver {
-      if(start_state.includes(undefined)) debugger
+      if (start_state.includes(undefined)) debugger
 
       return new class extends Sliders.SlideSolver {
         firstrun = true;

@@ -27495,45 +27495,6 @@
   },
   {
     "type": "entity",
-    "source_loc": 66990,
-    "entity": {
-      "name": "Cave",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2878.5,
-        "y": 3459.5
-      },
-      "botright": {
-        "x": 2879.5,
-        "y": 3458.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "generic",
-        "name": "Enter",
-        "movement": [
-          {
-            "time": 1,
-            "fixed_target": {
-              "target": {
-                "origin": {
-                  "x": 2879,
-                  "y": 3459,
-                  "level": 0
-                }
-              }
-            }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
     "source_loc": 67568,
     "entity": {
       "name": "Sabbot's cave",
@@ -51090,8 +51051,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2501,
-                  "y": 9758,
+                  "x": 2514,
+                  "y": 9739,
                   "level": 0
                 }
               }
@@ -76685,8 +76646,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2403,
-                  "y": 3420,
+                  "x": 2409,
+                  "y": 9812,
                   "level": 0
                 }
               }
@@ -80747,17 +80708,11 @@
         "movement": [
           {
             "time": 5,
-            "fixed_target": {
-              "target": {
-                "origin": {
-                  "x": 3439,
-                  "y": 3331,
-                  "level": 0
-                }
-              },
-              "relative": true
-            },
-            "orientation": "bymovement"
+            "offset": {
+              "x": 0,
+              "y": 2,
+              "level": 0
+            }
           }
         ]
       }
@@ -80804,7 +80759,8 @@
                 }
               },
               "relative": true
-            }
+            },
+            "orientation": "bymovement"
           }
         ]
       }
@@ -80890,15 +80846,10 @@
         "movement": [
           {
             "time": 5,
-            "fixed_target": {
-              "target": {
-                "origin": {
-                  "x": 3442,
-                  "y": 3329,
-                  "level": 0
-                }
-              },
-              "relative": true
+            "offset": {
+              "x": 0,
+              "y": -2,
+              "level": 0
             }
           }
         ]
@@ -85563,45 +85514,6 @@
   },
   {
     "type": "entity",
-    "source_loc": 33246,
-    "entity": {
-      "name": "Exit",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2695.5,
-        "y": 9682.5
-      },
-      "botright": {
-        "x": 2696.5,
-        "y": 9681.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 1,
-            "fixed_target": {
-              "target": {
-                "origin": {
-                  "x": 2696,
-                  "y": 9682,
-                  "level": 0
-                }
-              }
-            }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
     "source_loc": 100850,
     "entity": {
       "name": "Workshop",
@@ -85854,17 +85766,17 @@
       },
       {
         "cursor": "generic",
-        "interactive_area": {
-          "origin": {
-            "x": 3444,
-            "y": 3458,
-            "level": 0
-          }
-        },
         "name": "Quick travel",
         "movement": [
           {
-            "time": 2,
+            "time": 5,
+            "valid_from": {
+              "origin": {
+                "x": 3444,
+                "y": 3458,
+                "level": 0
+              }
+            },
             "fixed_target": {
               "target": {
                 "origin": {
@@ -85945,32 +85857,6 @@
               "level": 0
             },
             "orientation": "bymovement"
-          }
-        ]
-      },
-      {
-        "cursor": "generic",
-        "interactive_area": {
-          "origin": {
-            "x": 3892,
-            "y": 7618,
-            "level": 0
-          }
-        },
-        "name": "Quick travel",
-        "movement": [
-          {
-            "time": 2,
-            "fixed_target": {
-              "target": {
-                "origin": {
-                  "x": 3879,
-                  "y": 7488,
-                  "level": 0
-                }
-              },
-              "relative": true
-            }
           }
         ]
       }
@@ -86056,11 +85942,11 @@
         "name": "Quick travel",
         "movement": [
           {
-            "time": 2,
+            "time": 5,
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3430,
+                  "x": 3431,
                   "y": 3328,
                   "level": 0
                 }
@@ -86137,32 +86023,6 @@
               "level": 0
             },
             "orientation": "bymovement"
-          }
-        ]
-      },
-      {
-        "cursor": "generic",
-        "interactive_area": {
-          "origin": {
-            "x": 3891,
-            "y": 7618,
-            "level": 0
-          }
-        },
-        "name": "Quick travel",
-        "movement": [
-          {
-            "time": 2,
-            "fixed_target": {
-              "target": {
-                "origin": {
-                  "x": 3878,
-                  "y": 7488,
-                  "level": 0
-                }
-              },
-              "relative": true
-            }
           }
         ]
       }
@@ -89864,6 +89724,318 @@
                 }
               },
               "relative": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 33246,
+    "entity": {
+      "name": "Exit",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2695.5,
+        "y": 9682.5
+      },
+      "botright": {
+        "x": 2696.5,
+        "y": 9681.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2697,
+                  "y": 3283,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 66990,
+    "entity": {
+      "name": "Cave",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2878.5,
+        "y": 3459.5
+      },
+      "botright": {
+        "x": 2879.5,
+        "y": 3458.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2875,
+                  "y": 9880,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 56,
+    "entity": {
+      "name": "Stairs",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2875.5,
+        "y": 9881.5
+      },
+      "botright": {
+        "x": 2878.5,
+        "y": 9879.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2880,
+                  "y": 3459,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 56989,
+    "entity": {
+      "name": "Exit",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2175.5,
+        "y": 5664.5
+      },
+      "botright": {
+        "x": 2176.5,
+        "y": 5662.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2939,
+                  "y": 10198,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 34395,
+    "entity": {
+      "name": "Cave entrance",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2795.5,
+        "y": 3617.5
+      },
+      "botright": {
+        "x": 2799.5,
+        "y": 3613.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2808,
+                  "y": 10002,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 34395,
+    "entity": {
+      "name": "Cave entrance",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2856.5,
+        "y": 3581.5
+      },
+      "botright": {
+        "x": 2860.5,
+        "y": 3577.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2269,
+                  "y": 4752,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 34395,
+    "entity": {
+      "name": "Cave entrance",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2846.5,
+        "y": 3691.5
+      },
+      "botright": {
+        "x": 2850.5,
+        "y": 3687.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2837,
+                  "y": 10090,
+                  "level": 2
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 77053,
+    "entity": {
+      "name": "Tunnel",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2808.5,
+        "y": 10004.5
+      },
+      "botright": {
+        "x": 2810.5,
+        "y": 10000.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2795,
+                  "y": 3615,
+                  "level": 0
+                }
+              }
             }
           }
         ]

@@ -16,9 +16,7 @@ import offset = MovementBuilder.offset;
 import fixed = MovementBuilder.fixed;
 import EntityActionMovement = Transportation.EntityActionMovement;
 
-const orientation: ParsingParameter<{
-
-}> = PP.either({
+const orientation: ParsingParameter<{}> = PP.either({
   simple: PP.choose<EntityActionMovement["orientation"]>({
     toHTML: (v) => c().text(v)
   }, ["bymovement", "toentitybefore", "toentityafter", "keep", "forced"]),
@@ -30,9 +28,9 @@ const orientation: ParsingParameter<{
 
 const actions_parameter = PP.list(PP.rec({
   action: PP.element("Action", PP.action()),
-  area: PP.element("Area", PP.tileArea(), true),
+  area: PP.element("Area", PP.tileArea(true), true),
   movements: PP.element("Movements", PP.list(PP.rec({
-    valid_from: PP.element("Valid", PP.tileArea(), true),
+    valid_from: PP.element("Valid", PP.tileArea(true), true),
     orientation: PP.element("Orientation", PP.either({
       simple: PP.choose<EntityActionMovement["orientation"]>({
         toHTML: (v) => c().text(v)
@@ -45,8 +43,7 @@ const actions_parameter = PP.list(PP.rec({
     movement: PP.element("Movement", PP.either({
       offset: PP.offset(),
       fixed: PP.rec({
-        area: PP.element("Area", PP.tileArea()),
-        relative: PP.element("Relative", PP.bool()),
+        area: PP.element("Area", PP.tileArea(true)),
         origin_only: PP.element("Origin only", PP.bool()),
       }),
     })),
@@ -181,18 +178,34 @@ export const parsers3: TransportParser[] = [
       time: PP.element("Time", PP.int([0, 100]).default(3)),
       area: PP.element("Area", PP.tileArea(true), true),
     }), PP.rec({
+      target: PP.element("Target", PP.tileArea(false)),
+    }), true, async (instance, {per_loc, per_instance}) => {
+      const builder = EntityTransportationBuilder.from(instance)
+
+      builder.action({
+        index: per_loc.action.id,
+        interactive_area: per_loc.area
+      }, fixed(per_instance.target))
+
+      return [builder.finish()]
+    }).makeLegacy(),
+  parse("simpleremotetransportlegacy", "Remote (LEGACY)",
+    PP.rec({
+      action: PP.element("Action", PP.locAction()),
+      time: PP.element("Time", PP.int([0, 100]).default(3)),
+      area: PP.element("Area", PP.tileArea(true), true),
+    }), PP.rec({
       target: PP.element("Target", PP.tileArea()),
     }), true, async (instance, {per_loc, per_instance}) => {
       const builder = EntityTransportationBuilder.from(instance)
 
       builder.action({
-          index: per_loc.action.id,
-          interactive_area: per_loc.area
-        }, fixed(TileArea.transform(per_instance.target, LocInstance.getTransform(instance)))
-      )
+        index: per_loc.action.id,
+        interactive_area: per_loc.area
+      }, fixed(TileArea.transform(per_instance.target, LocInstance.getTransform(instance))))
 
       return [builder.finish()]
-    }),
+    }).makeLegacy(),
   parse("prototypecopyloc", "Prototype",
     rec({
       actions: PP.element("Actions", actions_parameter)
@@ -222,19 +235,16 @@ export const parsers3: TransportParser[] = [
 
             if (m.movement.fixed) {
 
+              // Tile Area is in a local, untransformed coordinate system
+              let a = m.movement.fixed.area
+
               if (m.movement.fixed.origin_only) {
-                let a = m.movement.fixed.area
-
                 a = TileArea.transform(a, LocInstance.getTransform(instance))
-
                 a = TileArea.init(a.origin)
-
-                b = fixed(a, m.movement.fixed.relative)
-              } else {
-                let a = m.movement.fixed.area
-                a = TileArea.transform(a, LocInstance.getTransform(instance))
-                b = fixed(a, m.movement.fixed.relative)
+                a = TileArea.transform(a, LocInstance.getInverseTransform(instance))
               }
+
+              b = fixed(a, true)
 
             } else if (m.movement.offset) b = offset(m.movement.offset)
 
@@ -418,6 +428,10 @@ export const parsers3: TransportParser[] = [
   ).makeLegacy(),
 
 ]
+
+export function hardcoded_transports(): Transportation.Transportation[] {
+  return []
+}
 
 export namespace Parsers3 {
   export function getById(id: string): TransportParser {

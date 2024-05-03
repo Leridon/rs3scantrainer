@@ -1,5 +1,5 @@
 {
-  "version": 1264,
+  "version": 1267,
   "associations": [
     {
       "group_id": 0,
@@ -928,7 +928,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 411,
@@ -1013,7 +1013,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 414,
@@ -1052,7 +1052,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 418,
@@ -1095,7 +1095,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 420,
@@ -1134,7 +1134,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 423,
@@ -1978,7 +1978,6 @@
                         "level": 0
                       }
                     },
-                    "relative": true,
                     "origin_only": false
                   }
                 },
@@ -2383,7 +2382,6 @@
                         "y": 2
                       }
                     },
-                    "relative": true,
                     "origin_only": true
                   }
                 },
@@ -2437,7 +2435,6 @@
                         "y": 2
                       }
                     },
-                    "relative": true,
                     "origin_only": true
                   }
                 },
@@ -2496,7 +2493,6 @@
                         "y": 2
                       }
                     },
-                    "relative": true,
                     "origin_only": true
                   }
                 },
@@ -2555,7 +2551,6 @@
                         "y": 2
                       }
                     },
-                    "relative": true,
                     "origin_only": true
                   }
                 },
@@ -2610,7 +2605,6 @@
                         "level": 0
                       }
                     },
-                    "relative": true,
                     "origin_only": false
                   }
                 },
@@ -2647,7 +2641,6 @@
                         "y": 1
                       }
                     },
-                    "relative": true,
                     "origin_only": false
                   }
                 },
@@ -2745,7 +2738,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 673,
@@ -2784,7 +2777,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 702,
@@ -3680,9 +3673,7 @@
     },
     {
       "group_id": 783,
-      "loc_ids": [
-        34548
-      ],
+      "loc_ids": [],
       "per_group_arg": {
         "actions": [
           {
@@ -3718,7 +3709,6 @@
                         "level": 1
                       }
                     },
-                    "relative": true,
                     "origin_only": false
                   }
                 },
@@ -3768,7 +3758,6 @@
                         "level": -1
                       }
                     },
-                    "relative": true,
                     "origin_only": false
                   }
                 },
@@ -4469,7 +4458,6 @@
                         "level": 1
                       }
                     },
-                    "relative": true,
                     "origin_only": false
                   }
                 },
@@ -4681,7 +4669,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 829,
@@ -4968,7 +4956,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 841,
@@ -5007,7 +4995,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 842,
@@ -5046,7 +5034,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 843,
@@ -5085,7 +5073,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 844,
@@ -5281,7 +5269,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 853,
@@ -5331,7 +5319,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 854,
@@ -5505,7 +5493,6 @@
                         "level": 1
                       }
                     },
-                    "relative": true,
                     "origin_only": false
                   }
                 },
@@ -5555,7 +5542,6 @@
                         "level": -1
                       }
                     },
-                    "relative": true,
                     "origin_only": false
                   }
                 },
@@ -5610,7 +5596,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 871,
@@ -5649,7 +5635,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 876,
@@ -5688,7 +5674,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 877,
@@ -5727,7 +5713,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 885,
@@ -5887,7 +5873,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 893,
@@ -6002,7 +5988,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 897,
@@ -6129,7 +6115,6 @@
                         "level": 1
                       }
                     },
-                    "relative": true,
                     "origin_only": false
                   }
                 },
@@ -6161,7 +6146,6 @@
                         "level": 1
                       }
                     },
-                    "relative": true,
                     "origin_only": false
                   }
                 },
@@ -6287,7 +6271,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 908,
@@ -6523,7 +6507,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 945,
@@ -6562,7 +6546,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 949,
@@ -6588,7 +6572,6 @@
                         "level": 1
                       }
                     },
-                    "relative": true,
                     "origin_only": false
                   }
                 },
@@ -6613,7 +6596,6 @@
                         "level": 2
                       }
                     },
-                    "relative": true,
                     "origin_only": false
                   }
                 },
@@ -6770,7 +6752,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 962,
@@ -6833,7 +6815,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 964,
@@ -6946,7 +6928,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 967,
@@ -6985,7 +6967,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 975,
@@ -7084,7 +7066,6 @@
                         "level": 0
                       }
                     },
-                    "relative": true,
                     "origin_only": false
                   }
                 },
@@ -7139,7 +7120,6 @@
                         "level": 0
                       }
                     },
-                    "relative": true,
                     "origin_only": false
                   }
                 },
@@ -7197,7 +7177,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 983,
@@ -7279,7 +7259,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 986,
@@ -7400,7 +7380,6 @@
                         "level": 1
                       }
                     },
-                    "relative": true,
                     "origin_only": false
                   }
                 },
@@ -7667,7 +7646,6 @@
                         "level": 1
                       }
                     },
-                    "relative": true,
                     "origin_only": false
                   }
                 },
@@ -7717,7 +7695,6 @@
                         "level": -1
                       }
                     },
-                    "relative": true,
                     "origin_only": false
                   }
                 },
@@ -7783,7 +7760,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1021,
@@ -7826,7 +7803,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1022,
@@ -7865,7 +7842,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1023,
@@ -7981,7 +7958,6 @@
                         "level": 1
                       }
                     },
-                    "relative": true,
                     "origin_only": true
                   }
                 },
@@ -8035,7 +8011,6 @@
                         "level": 1
                       }
                     },
-                    "relative": true,
                     "origin_only": false
                   }
                 },
@@ -8076,7 +8051,6 @@
                         "level": -1
                       }
                     },
-                    "relative": true,
                     "origin_only": false
                   }
                 },
@@ -8473,7 +8447,6 @@
                         "level": 1
                       }
                     },
-                    "relative": true,
                     "origin_only": false
                   }
                 },
@@ -8527,7 +8500,6 @@
                         "level": 1
                       }
                     },
-                    "relative": true,
                     "origin_only": false
                   }
                 },
@@ -8581,7 +8553,6 @@
                         "level": -1
                       }
                     },
-                    "relative": true,
                     "origin_only": false
                   }
                 },
@@ -8635,7 +8606,6 @@
                         "level": -1
                       }
                     },
-                    "relative": true,
                     "origin_only": false
                   }
                 },
@@ -8686,7 +8656,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1052,
@@ -8889,7 +8859,6 @@
                         "level": 1
                       }
                     },
-                    "relative": true,
                     "origin_only": false
                   }
                 },
@@ -9296,7 +9265,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1088,
@@ -9733,7 +9702,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1101,
@@ -9772,7 +9741,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1102,
@@ -9811,7 +9780,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1103,
@@ -9850,7 +9819,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1104,
@@ -10421,7 +10390,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1119,
@@ -10471,7 +10440,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1120,
@@ -10649,7 +10618,22 @@
                 "y": 3474,
                 "level": 0
               }
-            },
+            }
+          ],
+          "per_instance_argument": {
+            "target": {
+              "origin": {
+                "x": 64,
+                "y": 450,
+                "level": 0
+              }
+            }
+          }
+        },
+        {
+          "id": 1264,
+          "name": "",
+          "instances": [
             {
               "loc": 1814,
               "origin": {
@@ -10662,15 +10646,15 @@
           "per_instance_argument": {
             "target": {
               "origin": {
-                "x": 64,
-                "y": 450,
+                "x": 593,
+                "y": 613,
                 "level": 0
               }
             }
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1129,
@@ -10716,7 +10700,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1130,
@@ -11111,7 +11095,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1153,
@@ -11150,7 +11134,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1154,
@@ -11189,7 +11173,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1156,
@@ -11312,7 +11296,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1164,
@@ -11351,7 +11335,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1167,
@@ -11390,7 +11374,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1168,
@@ -11429,7 +11413,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1176,
@@ -11543,7 +11527,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1188,
@@ -11586,7 +11570,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1189,
@@ -11632,7 +11616,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1190,
@@ -11671,7 +11655,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1198,
@@ -11733,7 +11717,6 @@
                         "level": 0
                       }
                     },
-                    "relative": true,
                     "origin_only": false
                   }
                 },
@@ -11773,7 +11756,6 @@
                         "level": 0
                       }
                     },
-                    "relative": true,
                     "origin_only": false
                   }
                 },
@@ -12191,7 +12173,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1213,
@@ -12242,7 +12224,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1216,
@@ -12281,7 +12263,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1217,
@@ -12320,7 +12302,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1228,
@@ -12359,7 +12341,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1229,
@@ -12398,7 +12380,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1233,
@@ -12437,7 +12419,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1234,
@@ -12515,7 +12497,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1236,
@@ -12565,7 +12547,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1237,
@@ -12673,7 +12655,7 @@
           }
         }
       ],
-      "parser_id": "simpleremotetransport"
+      "parser_id": "simpleremotetransportlegacy"
     },
     {
       "group_id": 1241,
@@ -13059,6 +13041,59 @@
           }
         }
       ],
+      "parser_id": "prototypecopyloc"
+    },
+    {
+      "group_id": 1266,
+      "loc_ids": [
+        34548
+      ],
+      "per_group_arg": {
+        "actions": [
+          {
+            "action": {
+              "loc": {
+                "id": 0
+              }
+            },
+            "area": {
+              "origin": {
+                "x": -1,
+                "y": 0,
+                "level": 0
+              },
+              "size": {
+                "x": 1,
+                "y": 2
+              }
+            },
+            "movements": [
+              {
+                "movement": {
+                  "offset": {
+                    "x": 0,
+                    "y": 0,
+                    "level": 0
+                  },
+                  "fixed": {
+                    "area": {
+                      "origin": {
+                        "x": 2,
+                        "y": 0,
+                        "level": 1
+                      }
+                    },
+                    "origin_only": false
+                  }
+                },
+                "time": 1
+              }
+            ]
+          }
+        ]
+      },
+      "group_name": "",
+      "instance_groups": [],
       "parser_id": "prototypecopyloc"
     }
   ]

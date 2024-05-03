@@ -20,6 +20,8 @@ Broken:
     Ardougne Lever
     Brimstail cave target isnt in his cave?
     Similiar issue with East Ardougne west bar stairs
+    Gnome agility course nets
+    West ardougne northern manhole should arrive in the same square as the southern manhole
 
 
 

@@ -8,7 +8,7 @@ import KeyValueStore from "../../../lib/util/KeyValueStore";
 import LightButton from "../widgets/LightButton";
 import ExportStringModal from "../widgets/modals/ExportStringModal";
 import {util} from "../../../lib/util/util";
-import {Parsers3, parsers3} from "./cachetools/parsers3";
+import {hardcoded_transports, Parsers3, parsers3} from "./cachetools/parsers3";
 import {Parsing} from "./cachetools/Parsing";
 import {CacheTypes} from "./cachetools/CacheTypes";
 import {ParserPairingModal} from "./cachetools/ParserPairingModal";
@@ -72,6 +72,8 @@ export class ParserManagementLayer extends GameLayer {
             new LightButton("Apply parsers")
               .onClick(async () => {
                 const results = await Parsing.applyParsing(parsers3, this.data_file, this.parsing_table)
+
+                results.push(...hardcoded_transports())
 
                 new ExportStringModal(cleanedJSON(results, 4), `Parsed ${results.length} transports.`).show()
               }),

@@ -57518,7 +57518,8 @@
                   "y": 3450,
                   "level": 1
                 }
-              }
+              },
+              "relative": true
             },
             "orientation": "forced",
             "forced_orientation": {
@@ -57569,7 +57570,8 @@
                   "y": 3446,
                   "level": 1
                 }
-              }
+              },
+              "relative": true
             },
             "orientation": "forced",
             "forced_orientation": {
@@ -57996,7 +57998,8 @@
                   "y": 3491,
                   "level": 1
                 }
-              }
+              },
+              "relative": true
             },
             "orientation": "forced",
             "forced_orientation": {
@@ -58047,7 +58050,8 @@
                   "y": 3472,
                   "level": 1
                 }
-              }
+              },
+              "relative": true
             },
             "orientation": "forced",
             "forced_orientation": {
@@ -58098,7 +58102,8 @@
                   "y": 3404,
                   "level": 1
                 }
-              }
+              },
+              "relative": true
             },
             "orientation": "forced",
             "forced_orientation": {
@@ -58337,7 +58342,8 @@
                   "y": 3408,
                   "level": 1
                 }
-              }
+              },
+              "relative": true
             },
             "orientation": "forced",
             "forced_orientation": {
@@ -58388,7 +58394,8 @@
                   "y": 3402,
                   "level": 1
                 }
-              }
+              },
+              "relative": true
             },
             "orientation": "forced",
             "forced_orientation": {
@@ -58439,7 +58446,8 @@
                   "y": 3408,
                   "level": 1
                 }
-              }
+              },
+              "relative": true
             },
             "orientation": "forced",
             "forced_orientation": {
@@ -61798,618 +61806,6 @@
   },
   {
     "type": "entity",
-    "source_loc": 34548,
-    "entity": {
-      "name": "Staircase",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2542.5,
-        "y": 3326.5
-      },
-      "botright": {
-        "x": 2544.5,
-        "y": 3324.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "interactive_area": {
-          "origin": {
-            "x": 2542,
-            "y": 3325,
-            "level": 0
-          },
-          "size": {
-            "x": 1,
-            "y": 2
-          }
-        },
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "fixed_target": {
-              "target": {
-                "origin": {
-                  "x": 5088,
-                  "y": 6650,
-                  "level": 1
-                }
-              },
-              "relative": true
-            }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "source_loc": 34548,
-    "entity": {
-      "name": "Staircase",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2564.5,
-        "y": 3323.5
-      },
-      "botright": {
-        "x": 2566.5,
-        "y": 3321.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "interactive_area": {
-          "origin": {
-            "x": 2565,
-            "y": 3324,
-            "level": 0
-          },
-          "size": {
-            "x": 2,
-            "y": 1
-          }
-        },
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "fixed_target": {
-              "target": {
-                "origin": {
-                  "x": 5886,
-                  "y": 758,
-                  "level": 1
-                }
-              },
-              "relative": true
-            }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "source_loc": 34548,
-    "entity": {
-      "name": "Staircase",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2572.5,
-        "y": 3326.5
-      },
-      "botright": {
-        "x": 2574.5,
-        "y": 3324.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "interactive_area": {
-          "origin": {
-            "x": 2575,
-            "y": 3325,
-            "level": 0
-          },
-          "size": {
-            "x": 1,
-            "y": 2
-          }
-        },
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "fixed_target": {
-              "target": {
-                "origin": {
-                  "x": 2,
-                  "y": 0,
-                  "level": 1
-                }
-              },
-              "relative": true
-            }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "source_loc": 34548,
-    "entity": {
-      "name": "Staircase",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2609.5,
-        "y": 3306.5
-      },
-      "botright": {
-        "x": 2611.5,
-        "y": 3304.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "interactive_area": {
-          "origin": {
-            "x": 2610,
-            "y": 3304,
-            "level": 0
-          },
-          "size": {
-            "x": 2,
-            "y": 1
-          }
-        },
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "fixed_target": {
-              "target": {
-                "origin": {
-                  "x": -696,
-                  "y": 5916,
-                  "level": 1
-                }
-              },
-              "relative": true
-            }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "source_loc": 34548,
-    "entity": {
-      "name": "Staircase",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2575.5,
-        "y": 3332.5
-      },
-      "botright": {
-        "x": 2577.5,
-        "y": 3330.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "interactive_area": {
-          "origin": {
-            "x": 2575,
-            "y": 3331,
-            "level": 0
-          },
-          "size": {
-            "x": 1,
-            "y": 2
-          }
-        },
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "fixed_target": {
-              "target": {
-                "origin": {
-                  "x": 5154,
-                  "y": 6662,
-                  "level": 1
-                }
-              },
-              "relative": true
-            }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "source_loc": 34548,
-    "entity": {
-      "name": "Staircase",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2647.5,
-        "y": 3311.5
-      },
-      "botright": {
-        "x": 2649.5,
-        "y": 3309.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "interactive_area": {
-          "origin": {
-            "x": 2650,
-            "y": 3310,
-            "level": 0
-          },
-          "size": {
-            "x": 1,
-            "y": 2
-          }
-        },
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "fixed_target": {
-              "target": {
-                "origin": {
-                  "x": 2,
-                  "y": 0,
-                  "level": 1
-                }
-              },
-              "relative": true
-            }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "source_loc": 34548,
-    "entity": {
-      "name": "Staircase",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2649.5,
-        "y": 3281.5
-      },
-      "botright": {
-        "x": 2651.5,
-        "y": 3279.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "interactive_area": {
-          "origin": {
-            "x": 2649,
-            "y": 3280,
-            "level": 0
-          },
-          "size": {
-            "x": 1,
-            "y": 2
-          }
-        },
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "fixed_target": {
-              "target": {
-                "origin": {
-                  "x": 5302,
-                  "y": 6560,
-                  "level": 1
-                }
-              },
-              "relative": true
-            }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "source_loc": 34548,
-    "entity": {
-      "name": "Staircase",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2649.5,
-        "y": 3287.5
-      },
-      "botright": {
-        "x": 2651.5,
-        "y": 3285.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "interactive_area": {
-          "origin": {
-            "x": 2649,
-            "y": 3286,
-            "level": 0
-          },
-          "size": {
-            "x": 1,
-            "y": 2
-          }
-        },
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "fixed_target": {
-              "target": {
-                "origin": {
-                  "x": 5302,
-                  "y": 6572,
-                  "level": 1
-                }
-              },
-              "relative": true
-            }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "source_loc": 34548,
-    "entity": {
-      "name": "Staircase",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2653.5,
-        "y": 3292.5
-      },
-      "botright": {
-        "x": 2655.5,
-        "y": 3290.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "interactive_area": {
-          "origin": {
-            "x": 2656,
-            "y": 3291,
-            "level": 0
-          },
-          "size": {
-            "x": 1,
-            "y": 2
-          }
-        },
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "fixed_target": {
-              "target": {
-                "origin": {
-                  "x": 2,
-                  "y": 0,
-                  "level": 1
-                }
-              },
-              "relative": true
-            }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "source_loc": 34548,
-    "entity": {
-      "name": "Staircase",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2664.5,
-        "y": 3292.5
-      },
-      "botright": {
-        "x": 2666.5,
-        "y": 3290.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "interactive_area": {
-          "origin": {
-            "x": 2665,
-            "y": 3290,
-            "level": 0
-          },
-          "size": {
-            "x": 2,
-            "y": 1
-          }
-        },
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "fixed_target": {
-              "target": {
-                "origin": {
-                  "x": -627,
-                  "y": 5957,
-                  "level": 1
-                }
-              },
-              "relative": true
-            }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "source_loc": 34548,
-    "entity": {
-      "name": "Staircase",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2672.5,
-        "y": 3310.5
-      },
-      "botright": {
-        "x": 2674.5,
-        "y": 3308.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "interactive_area": {
-          "origin": {
-            "x": 2675,
-            "y": 3309,
-            "level": 0
-          },
-          "size": {
-            "x": 1,
-            "y": 2
-          }
-        },
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "fixed_target": {
-              "target": {
-                "origin": {
-                  "x": 2,
-                  "y": 0,
-                  "level": 1
-                }
-              },
-              "relative": true
-            }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
-    "source_loc": 34548,
-    "entity": {
-      "name": "Staircase",
-      "kind": "static"
-    },
-    "clickable_area": {
-      "topleft": {
-        "x": 2673.5,
-        "y": 3300.5
-      },
-      "botright": {
-        "x": 2675.5,
-        "y": 3298.5
-      },
-      "level": 0
-    },
-    "actions": [
-      {
-        "cursor": "ladderup",
-        "interactive_area": {
-          "origin": {
-            "x": 2676,
-            "y": 3299,
-            "level": 0
-          },
-          "size": {
-            "x": 1,
-            "y": 2
-          }
-        },
-        "name": "Climb-up",
-        "movement": [
-          {
-            "time": 3,
-            "fixed_target": {
-              "target": {
-                "origin": {
-                  "x": 2,
-                  "y": 0,
-                  "level": 1
-                }
-              },
-              "relative": true
-            }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "entity",
     "source_loc": 34550,
     "entity": {
       "name": "Staircase",
@@ -62443,9 +61839,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 5085,
-                  "y": 6650,
-                  "level": 1
+                  "x": 2542,
+                  "y": 3325,
+                  "level": 0
                 }
               },
               "relative": true
@@ -62490,9 +61886,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 5889,
-                  "y": 758,
-                  "level": 1
+                  "x": 2565,
+                  "y": 3324,
+                  "level": 0
                 }
               },
               "relative": true
@@ -62537,9 +61933,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": -1,
-                  "y": 0,
-                  "level": 1
+                  "x": 2575,
+                  "y": 3326,
+                  "level": 0
                 }
               },
               "relative": true
@@ -62584,9 +61980,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": -693,
-                  "y": 5916,
-                  "level": 1
+                  "x": 2611,
+                  "y": 3304,
+                  "level": 0
                 }
               },
               "relative": true
@@ -62631,9 +62027,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 5151,
-                  "y": 6662,
-                  "level": 1
+                  "x": 2575,
+                  "y": 3331,
+                  "level": 0
                 }
               },
               "relative": true
@@ -62678,9 +62074,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": -1,
-                  "y": 0,
-                  "level": 1
+                  "x": 2650,
+                  "y": 3311,
+                  "level": 0
                 }
               },
               "relative": true
@@ -62725,9 +62121,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 5299,
-                  "y": 6560,
-                  "level": 1
+                  "x": 2649,
+                  "y": 3280,
+                  "level": 0
                 }
               },
               "relative": true
@@ -62772,9 +62168,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 5299,
-                  "y": 6572,
-                  "level": 1
+                  "x": 2649,
+                  "y": 3286,
+                  "level": 0
                 }
               },
               "relative": true
@@ -62819,9 +62215,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": -1,
-                  "y": 0,
-                  "level": 1
+                  "x": 2656,
+                  "y": 3292,
+                  "level": 0
                 }
               },
               "relative": true
@@ -62866,9 +62262,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": -624,
-                  "y": 5957,
-                  "level": 1
+                  "x": 2666,
+                  "y": 3290,
+                  "level": 0
                 }
               },
               "relative": true
@@ -62913,9 +62309,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": -1,
-                  "y": 0,
-                  "level": 1
+                  "x": 2675,
+                  "y": 3310,
+                  "level": 0
                 }
               },
               "relative": true
@@ -62960,9 +62356,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": -1,
-                  "y": 0,
-                  "level": 1
+                  "x": 2676,
+                  "y": 3300,
+                  "level": 0
                 }
               },
               "relative": true
@@ -67009,8 +66405,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2,
-                  "y": 0,
+                  "x": 2716,
+                  "y": 6337,
                   "level": 1
                 }
               },
@@ -67060,8 +66456,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2,
-                  "y": 0,
+                  "x": 2972,
+                  "y": 3385,
                   "level": 1
                 }
               },
@@ -71374,8 +70770,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 6049,
-                  "y": 6498,
+                  "x": 3026,
+                  "y": 3250,
                   "level": 1
                 }
               },
@@ -71421,9 +70817,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 6046,
-                  "y": 6496,
-                  "level": 1
+                  "x": 3023,
+                  "y": 3247,
+                  "level": 0
                 }
               },
               "relative": true
@@ -72757,8 +72153,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 6215,
-                  "y": 6728,
+                  "x": 3108,
+                  "y": 3366,
                   "level": 1
                 }
               },
@@ -72781,8 +72177,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 6216,
-                  "y": 6728,
+                  "x": 3109,
+                  "y": 3366,
                   "level": 1
                 }
               },
@@ -73718,8 +73114,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2,
-                  "y": 0,
+                  "x": 2441,
+                  "y": 4601,
                   "level": 1
                 }
               },
@@ -73737,8 +73133,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2,
-                  "y": 0,
+                  "x": 2441,
+                  "y": 4601,
                   "level": 2
                 }
               },
@@ -73777,8 +73173,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2,
-                  "y": 0,
+                  "x": 2505,
+                  "y": 3641,
                   "level": 1
                 }
               },
@@ -73796,8 +73192,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2,
-                  "y": 0,
+                  "x": 2505,
+                  "y": 3641,
                   "level": 2
                 }
               },
@@ -74655,8 +74051,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 5060,
-                  "y": 6055,
+                  "x": 2530,
+                  "y": 3029,
                   "level": 0
                 }
               },
@@ -74707,8 +74103,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 0,
-                  "y": 3,
+                  "x": 2531,
+                  "y": 3026,
                   "level": 0
                 }
               },
@@ -75153,8 +74549,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2496,
-                  "y": 13458,
+                  "x": 1249,
+                  "y": 6729,
                   "level": 1
                 }
               },
@@ -75204,8 +74600,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3828,
-                  "y": 11130,
+                  "x": 1915,
+                  "y": 5565,
                   "level": 1
                 }
               },
@@ -75255,8 +74651,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3790,
-                  "y": 11228,
+                  "x": 1896,
+                  "y": 5614,
                   "level": 1
                 }
               },
@@ -75306,8 +74702,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 6512,
-                  "y": 6842,
+                  "x": 3257,
+                  "y": 3421,
                   "level": 1
                 }
               },
@@ -75357,8 +74753,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 6438,
-                  "y": 6992,
+                  "x": 3220,
+                  "y": 3496,
                   "level": 1
                 }
               },
@@ -75408,8 +74804,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 7536,
-                  "y": 18106,
+                  "x": 3769,
+                  "y": 9053,
                   "level": 1
                 }
               },
@@ -75459,8 +74855,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2460,
-                  "y": 13518,
+                  "x": 1231,
+                  "y": 6759,
                   "level": 1
                 }
               },
@@ -75510,8 +74906,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 6476,
-                  "y": 6894,
+                  "x": 3239,
+                  "y": 3447,
                   "level": 1
                 }
               },
@@ -75561,8 +74957,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 7500,
-                  "y": 18158,
+                  "x": 3751,
+                  "y": 9079,
                   "level": 1
                 }
               },
@@ -75612,7 +75008,8 @@
                   "y": 6728,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -75658,7 +75055,8 @@
                   "y": 5564,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -75704,7 +75102,8 @@
                   "y": 5613,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -75750,7 +75149,8 @@
                   "y": 5614,
                   "level": 1
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -75796,7 +75196,8 @@
                   "y": 5589,
                   "level": 2
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -75842,7 +75243,8 @@
                   "y": 3420,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -75888,7 +75290,8 @@
                   "y": 3495,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -75934,7 +75337,8 @@
                   "y": 3496,
                   "level": 1
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -75980,7 +75384,8 @@
                   "y": 3471,
                   "level": 2
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -76026,7 +75431,8 @@
                   "y": 3487,
                   "level": 2
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -76072,7 +75478,8 @@
                   "y": 9052,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -76118,7 +75525,8 @@
                   "y": 9119,
                   "level": 2
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -76164,7 +75572,8 @@
                   "y": 6758,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -76210,7 +75619,8 @@
                   "y": 3446,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -76256,7 +75666,8 @@
                   "y": 9078,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -77332,8 +76743,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 6316,
-                  "y": 846,
+                  "x": 2736,
+                  "y": 3580,
                   "level": 1
                 }
               },
@@ -77379,9 +76790,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 6316,
-                  "y": 845,
-                  "level": 1
+                  "x": 2736,
+                  "y": 3580,
+                  "level": 0
                 }
               },
               "relative": true
@@ -77771,8 +77182,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3758,
-                  "y": 11230,
+                  "x": 1880,
+                  "y": 5615,
                   "level": 1
                 }
               },
@@ -77822,9 +77233,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3796,
-                  "y": 11180,
-                  "level": 5
+                  "x": 1899,
+                  "y": 5590,
+                  "level": 3
                 }
               },
               "relative": true
@@ -77873,8 +77284,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 6406,
-                  "y": 6994,
+                  "x": 3204,
+                  "y": 3497,
                   "level": 1
                 }
               },
@@ -77924,8 +77335,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 6744,
-                  "y": 230,
+                  "x": 3258,
+                  "y": 3486,
                   "level": 1
                 }
               },
@@ -77975,9 +77386,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 6444,
-                  "y": 6944,
-                  "level": 5
+                  "x": 3223,
+                  "y": 3472,
+                  "level": 3
                 }
               },
               "relative": true
@@ -78026,8 +77437,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 12888,
-                  "y": 5350,
+                  "x": 3770,
+                  "y": 9118,
                   "level": 1
                 }
               },
@@ -78077,9 +77488,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3758,
-                  "y": 11230,
-                  "level": 3
+                  "x": 1880,
+                  "y": 5615,
+                  "level": 2
                 }
               },
               "relative": true
@@ -78107,9 +77518,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 3757,
-                  "y": 11229,
-                  "level": 1
+                  "x": 1879,
+                  "y": 5614,
+                  "level": 0
                 }
               },
               "relative": true
@@ -78158,9 +77569,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 6406,
-                  "y": 6994,
-                  "level": 3
+                  "x": 3204,
+                  "y": 3497,
+                  "level": 2
                 }
               },
               "relative": true
@@ -78188,9 +77599,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 6405,
-                  "y": 6993,
-                  "level": 1
+                  "x": 3203,
+                  "y": 3496,
+                  "level": 0
                 }
               },
               "relative": true
@@ -78239,9 +77650,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 6744,
-                  "y": 230,
-                  "level": 3
+                  "x": 3258,
+                  "y": 3486,
+                  "level": 2
                 }
               },
               "relative": true
@@ -78269,9 +77680,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 6745,
-                  "y": 231,
-                  "level": 1
+                  "x": 3257,
+                  "y": 3487,
+                  "level": 0
                 }
               },
               "relative": true
@@ -78320,9 +77731,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 6744,
-                  "y": 230,
-                  "level": 5
+                  "x": 3258,
+                  "y": 3486,
+                  "level": 3
                 }
               },
               "relative": true
@@ -78350,9 +77761,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 6745,
-                  "y": 231,
-                  "level": 3
+                  "x": 3257,
+                  "y": 3487,
+                  "level": 1
                 }
               },
               "relative": true
@@ -78401,9 +77812,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 12888,
-                  "y": 5350,
-                  "level": 3
+                  "x": 3770,
+                  "y": 9118,
+                  "level": 2
                 }
               },
               "relative": true
@@ -78431,9 +77842,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 12889,
-                  "y": 5351,
-                  "level": 1
+                  "x": 3769,
+                  "y": 9119,
+                  "level": 0
                 }
               },
               "relative": true
@@ -78482,9 +77893,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 12888,
-                  "y": 5350,
-                  "level": 5
+                  "x": 3770,
+                  "y": 9118,
+                  "level": 3
                 }
               },
               "relative": true
@@ -78512,9 +77923,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 12889,
-                  "y": 5351,
-                  "level": 3
+                  "x": 3769,
+                  "y": 9119,
+                  "level": 1
                 }
               },
               "relative": true
@@ -79470,8 +78881,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 10184,
-                  "y": 5518,
+                  "x": 2333,
+                  "y": 7851,
                   "level": 1
                 }
               },
@@ -79522,8 +78933,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 6664,
-                  "y": -50,
+                  "x": 3357,
+                  "y": 3307,
                   "level": 1
                 }
               },
@@ -79573,8 +78984,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 10194,
-                  "y": 5506,
+                  "x": 2345,
+                  "y": 7851,
                   "level": 1
                 }
               },
@@ -79624,8 +79035,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 6674,
-                  "y": -62,
+                  "x": 3369,
+                  "y": 3307,
                   "level": 1
                 }
               },
@@ -79675,9 +79086,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 10193,
-                  "y": 5508,
-                  "level": 1
+                  "x": 2342,
+                  "y": 7850,
+                  "level": 0
                 }
               },
               "relative": true
@@ -79726,9 +79137,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 6673,
-                  "y": -60,
-                  "level": 1
+                  "x": 3366,
+                  "y": 3306,
+                  "level": 0
                 }
               },
               "relative": true
@@ -79777,9 +79188,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 10183,
-                  "y": 5514,
-                  "level": 1
+                  "x": 2336,
+                  "y": 7850,
+                  "level": 0
                 }
               },
               "relative": true
@@ -79828,9 +79239,9 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 6663,
-                  "y": -54,
-                  "level": 1
+                  "x": 3360,
+                  "y": 3306,
+                  "level": 0
                 }
               },
               "relative": true
@@ -80185,8 +79596,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 4942,
-                  "y": 6848,
+                  "x": 2471,
+                  "y": 3423,
                   "level": 1
                 }
               },
@@ -80237,8 +79648,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 4946,
-                  "y": 6848,
+                  "x": 2473,
+                  "y": 3423,
                   "level": 1
                 }
               },
@@ -80289,8 +79700,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 4950,
-                  "y": 6848,
+                  "x": 2475,
+                  "y": 3423,
                   "level": 1
                 }
               },
@@ -81113,7 +80524,8 @@
                   "y": 9573,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -81152,7 +80564,8 @@
                   "y": 9524,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -81450,7 +80863,8 @@
                   "y": 2998,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -81496,7 +80910,8 @@
                   "y": 3331,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             },
             "orientation": "bymovement"
           }
@@ -81543,7 +80958,8 @@
                   "y": 3329,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -81589,7 +81005,8 @@
                   "y": 3331,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             },
             "orientation": "bymovement"
           }
@@ -81636,7 +81053,8 @@
                   "y": 3329,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -81831,7 +81249,8 @@
                   "y": 6960,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -81849,7 +81268,8 @@
                   "y": 2715,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -81867,7 +81287,8 @@
                   "y": 2779,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -81885,7 +81306,8 @@
                   "y": 2640,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -81924,7 +81346,8 @@
                   "y": 6941,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -81942,7 +81365,8 @@
                   "y": 2715,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -81960,7 +81384,8 @@
                   "y": 2640,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -81978,7 +81403,8 @@
                   "y": 2786,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -82017,7 +81443,8 @@
                   "y": 6942,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -82035,7 +81462,8 @@
                   "y": 2779,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -82053,7 +81481,8 @@
                   "y": 2640,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -82071,7 +81500,8 @@
                   "y": 2786,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -82110,7 +81540,8 @@
                   "y": 6923,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -82128,7 +81559,8 @@
                   "y": 2715,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -82146,7 +81578,8 @@
                   "y": 2779,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -82164,7 +81597,8 @@
                   "y": 2786,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -83979,8 +83413,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 2625,
-                  "y": 3761,
+                  "x": 3154,
+                  "y": 3924,
                   "level": 0
                 }
               }
@@ -84737,7 +84171,8 @@
                   "y": 4712,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -84783,7 +84218,8 @@
                   "y": 3956,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -86457,8 +85893,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 5317,
-                  "y": 6875,
+                  "x": 2659,
+                  "y": 3437,
                   "level": 0
                 }
               },
@@ -86487,8 +85923,8 @@
             "fixed_target": {
               "target": {
                 "origin": {
-                  "x": 5315,
-                  "y": 6877,
+                  "x": 2657,
+                  "y": 3439,
                   "level": 0
                 }
               },
@@ -86592,7 +86028,8 @@
                   "y": 3328,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -86687,7 +86124,8 @@
                   "y": 7488,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -86782,7 +86220,8 @@
                   "y": 3328,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -86877,7 +86316,8 @@
                   "y": 7488,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -86923,7 +86363,8 @@
                   "y": 9969,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -86989,7 +86430,8 @@
                   "y": 9927,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -87095,7 +86537,8 @@
                   "y": 3569,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -87141,7 +86584,8 @@
                   "y": 3527,
                   "level": 0
                 }
-              }
+              },
+              "relative": true
             }
           }
         ]
@@ -89965,6 +89409,618 @@
               "level": 0
             },
             "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 34548,
+    "entity": {
+      "name": "Staircase",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2542.5,
+        "y": 3326.5
+      },
+      "botright": {
+        "x": 2544.5,
+        "y": 3324.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2542,
+            "y": 3325,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 2
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2545,
+                  "y": 3325,
+                  "level": 1
+                }
+              },
+              "relative": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 34548,
+    "entity": {
+      "name": "Staircase",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2564.5,
+        "y": 3323.5
+      },
+      "botright": {
+        "x": 2566.5,
+        "y": 3321.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2565,
+            "y": 3324,
+            "level": 0
+          },
+          "size": {
+            "x": 2,
+            "y": 1
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2565,
+                  "y": 3321,
+                  "level": 1
+                }
+              },
+              "relative": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 34548,
+    "entity": {
+      "name": "Staircase",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2572.5,
+        "y": 3326.5
+      },
+      "botright": {
+        "x": 2574.5,
+        "y": 3324.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2575,
+            "y": 3325,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 2
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2572,
+                  "y": 3326,
+                  "level": 1
+                }
+              },
+              "relative": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 34548,
+    "entity": {
+      "name": "Staircase",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2609.5,
+        "y": 3306.5
+      },
+      "botright": {
+        "x": 2611.5,
+        "y": 3304.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2610,
+            "y": 3304,
+            "level": 0
+          },
+          "size": {
+            "x": 2,
+            "y": 1
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2611,
+                  "y": 3307,
+                  "level": 1
+                }
+              },
+              "relative": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 34548,
+    "entity": {
+      "name": "Staircase",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2575.5,
+        "y": 3332.5
+      },
+      "botright": {
+        "x": 2577.5,
+        "y": 3330.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2575,
+            "y": 3331,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 2
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2578,
+                  "y": 3331,
+                  "level": 1
+                }
+              },
+              "relative": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 34548,
+    "entity": {
+      "name": "Staircase",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2647.5,
+        "y": 3311.5
+      },
+      "botright": {
+        "x": 2649.5,
+        "y": 3309.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2650,
+            "y": 3310,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 2
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2647,
+                  "y": 3311,
+                  "level": 1
+                }
+              },
+              "relative": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 34548,
+    "entity": {
+      "name": "Staircase",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2649.5,
+        "y": 3281.5
+      },
+      "botright": {
+        "x": 2651.5,
+        "y": 3279.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2649,
+            "y": 3280,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 2
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2652,
+                  "y": 3280,
+                  "level": 1
+                }
+              },
+              "relative": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 34548,
+    "entity": {
+      "name": "Staircase",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2649.5,
+        "y": 3287.5
+      },
+      "botright": {
+        "x": 2651.5,
+        "y": 3285.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2649,
+            "y": 3286,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 2
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2652,
+                  "y": 3286,
+                  "level": 1
+                }
+              },
+              "relative": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 34548,
+    "entity": {
+      "name": "Staircase",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2653.5,
+        "y": 3292.5
+      },
+      "botright": {
+        "x": 2655.5,
+        "y": 3290.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2656,
+            "y": 3291,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 2
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2653,
+                  "y": 3292,
+                  "level": 1
+                }
+              },
+              "relative": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 34548,
+    "entity": {
+      "name": "Staircase",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2664.5,
+        "y": 3292.5
+      },
+      "botright": {
+        "x": 2666.5,
+        "y": 3290.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2665,
+            "y": 3290,
+            "level": 0
+          },
+          "size": {
+            "x": 2,
+            "y": 1
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2666,
+                  "y": 3293,
+                  "level": 1
+                }
+              },
+              "relative": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 34548,
+    "entity": {
+      "name": "Staircase",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2672.5,
+        "y": 3310.5
+      },
+      "botright": {
+        "x": 2674.5,
+        "y": 3308.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2675,
+            "y": 3309,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 2
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2672,
+                  "y": 3310,
+                  "level": 1
+                }
+              },
+              "relative": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 34548,
+    "entity": {
+      "name": "Staircase",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2673.5,
+        "y": 3300.5
+      },
+      "botright": {
+        "x": 2675.5,
+        "y": 3298.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2676,
+            "y": 3299,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 2
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2673,
+                  "y": 3300,
+                  "level": 1
+                }
+              },
+              "relative": true
+            }
           }
         ]
       }

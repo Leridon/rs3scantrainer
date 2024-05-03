@@ -21,7 +21,7 @@ export namespace CTRIcon {
     {id: "item/fetch-casket" as const, name: "Fetch Casket", file_name: "fetch_casket.png", size_on_map: {x: 20, y: 20}},
     {id: "item/meerkats" as const, name: "Meerkats Pouch", file_name: "Meerkats_pouch.png", size_on_map: {x: 20, y: 20}},
     {id: "item/spade" as const, name: "Spade", file_name: "spade.webp", size_on_map: {x: 20, y: 20}},
-    {id: "item/powerburst-of-acceleration" as const, name: "Powerburst of Acceleration", file_name: "accel.png", size_on_map: {x: 20, y: 20}},
+    {id: "item/powerburst-of-acceleration" as const, name: "Powerburst of Acceleration", file_name: "accel.png", size_on_map: {x: 18, y: 24}},
     {id: "item/rotten-potato" as const, name: "Rotten Potato", file_name: "Rotten_potato.png", size_on_map: {x: 20, y: 20}},
   ]
 

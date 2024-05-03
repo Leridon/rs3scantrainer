@@ -39,14 +39,12 @@ class DrawRunInteractionInternal extends ValueInteraction<{
   constructor() {
     super({
       preview_render: (v) => {
-
         if (v) {
-
           let preview = new PathStepEntity({
               type: "run",
               waypoints: v.path,
             }
-          )
+          ).setInteractive(false)
 
           if (v.no_path_to) {
             arrow(index(v.path, -1), v.no_path_to).setStyle({

@@ -534,22 +534,27 @@ video {
     filter: brightness(0%) grayscale(100%) opacity(0.3);
 }
 
-.medium-image-button {
+.ctr-action-bar-button {
     cursor: pointer;
     width: 25px;
     height: 25px;
     margin: 2px;
+    background-color: #00000040;
 }
 
-.medium-image-button:not(.enabled) {
+.ctr-action-bar-button:not(.enabled) {
     cursor: default;
     filter: brightness(50%);
 }
 
-.medium-image-button > img {
-    width: 25px;
-    height: 25px;
-    object-fit: contain;
+.ctr-action-bar-button > img {
+    max-width: 25px;
+    max-height: 25px;
+    object-fit: cover;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
 }
 
 /* Step Edit Widget*/
@@ -665,7 +670,7 @@ video {
 
 .ctr-scantreeedit-node-path {
     color: #3b83ee;
-    text-wrap: none;
+    text-wrap: nowrap;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
@@ -682,7 +687,7 @@ video {
     border-radius: 3px;
     text-align: left;
     margin: 2px 3px;
-    text-wrap: normal;
+    text-wrap: nowrap;
     padding: 2px 3px 2px 5px;
 }
 

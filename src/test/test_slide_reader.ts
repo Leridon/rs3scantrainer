@@ -59,24 +59,22 @@ export async function test_slide_reader(): Promise<boolean> {
   for (let test_case of data) {
     const img = new ImgRefData(await ImageDetect.imageDataFromUrl(test_case.file))
 
-    const res = await time("reading", async () =>
-      await SlideReader.read(img,
-        {x: 0, y: 0},
-        //test_case.expected.theme
-      )
+    const res = await SlideReader.read(img,
+      {x: 0, y: 0},
+      //test_case.expected.theme
     )
 
     const tiles = SliderPuzzle.getState(res)
 
     if (res.theme == test_case.expected.theme && SliderState.equals(tiles, test_case.expected.state)) {
       correct++
-      console.log(`SUCCESS ${test_case.file}`)
+      //console.log(`SUCCESS ${test_case.file}`)
     } else {
-      console.log(`ERROR ${test_case.file}`)
-      console.log(`Expected ${test_case.expected.theme}:`)
-      console.log(SliderState.toString(test_case.expected.state))
-      console.log(`Got ${res.theme}:`)
-      console.log(SliderState.toString(tiles))
+      //console.log(`ERROR ${test_case.file}`)
+      //console.log(`Expected ${test_case.expected.theme}:`)
+      //console.log(SliderState.toString(test_case.expected.state))
+      //console.log(`Got ${res.theme}:`)
+      //console.log(SliderState.toString(tiles))
     }
   }
 

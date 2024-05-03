@@ -14,6 +14,7 @@ import span = C.span;
 import skillbertRandom = Sliders.SlideSolver.skillbertRandom;
 import spacer = C.spacer;
 import hbox = C.hbox;
+import {clue_trainer_test_set} from "../test/tests";
 
 type DataEntry = {
   id: number,
@@ -373,6 +374,8 @@ class SliderAnalysisModal extends NisModal {
 }
 
 export async function makeshift_main(): Promise<void> {
+
+  //await clue_trainer_test_set.run()
 
   // await test_slide_reader()
 

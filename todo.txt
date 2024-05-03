@@ -11,23 +11,9 @@ Compass solver:
     - Properly disable clue reader while compass reader is active (?)
     - Chatbox read service to look for sextant message
 
-Broken:
-    Mage training arena stairs
-    Range guild door
-    Lighthouse stairs
-    Witchhaven dungeon stairs cant take you outside (they do work to inside)
-    Sinclair mansion stairs take you to coordinates 6316|846|0 instead of 2736|3580|1
-    Ardougne Lever
-    Brimstail cave target isnt in his cave?
-    Similiar issue with East Ardougne west bar stairs
-
-
-
 Must be done in April (transports):
 Not in dataset:
     Holgart/Jeb travel to the fishing platform
-    Observatory rope shortcut
-    Het's oasis agility course log
     Entrana monk ship
 
 - Solving Behaviour

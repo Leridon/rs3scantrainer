@@ -740,6 +740,8 @@ export namespace Path {
         case "powerburst":
           return Rectangle.from(step.where)
         case "cheat":
+          if (!step.assumed_start) return Rectangle.from(step.target)
+
           if (prune_far_transports && Vector2.max_axis(Vector2.sub(step.target, step.assumed_start)) > 64) {
             return Rectangle.from(step.assumed_start)
           } else {
@@ -748,11 +750,12 @@ export namespace Path {
 
         case "transport":
           let bounds: Rectangle = step.internal.clickable_area
-          bounds = Rectangle.extendTo(bounds, step.assumed_start)
+
+          if (step.assumed_start) bounds = Rectangle.extendTo(bounds, step.assumed_start)
 
           const ends_up = Path.ends_up([step])
 
-          if (!prune_far_transports && Vector2.max_axis(Vector2.sub(ends_up, step.assumed_start)) <= 64) {
+          if (!prune_far_transports && (!step.assumed_start || Vector2.max_axis(Vector2.sub(ends_up, step.assumed_start)) <= 64)) {
             bounds = Rectangle.extendTo(bounds, ends_up)
           }
 

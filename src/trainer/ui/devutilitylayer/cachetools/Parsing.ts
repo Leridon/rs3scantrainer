@@ -4,6 +4,9 @@ import {LocParsingTable} from "./ParsingTable";
 import {Transportation} from "../../../../lib/runescape/transportation";
 import {parsers3} from "./parsers3";
 import {TileCoordinates} from "../../../../lib/runescape/coordinates";
+import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
+import {Rectangle} from "../../../../lib/math";
+import {debug} from "@alt1/ocr";
 
 export namespace Parsing {
 
@@ -40,10 +43,30 @@ export namespace Parsing {
             try {
               const res = await parser.apply(instance, {per_loc: loc_group.per_group_arg, per_instance: per_instance_arg})
 
+              for (const s of res) {
+                if (s.type == "entity") {
+
+                  for (const a of s.actions) {
+                    for (let m of a.movement) {
+                      if (m.fixed_target) {
+                        const n = TileArea.normalize(m.fixed_target.target)
+
+                        if (!Rectangle.contains(Rectangle.fromOriginAndSize({x: 0, y: 0}, {x: 100 * 64, y: 200 * 64}), n.origin)) {
+                          console.log(instance.locid)
+                          debugger
+                        }
+
+                      }
+                    }
+                  }
+                }
+              }
+
               results.push(...res)
             } catch (e) {
               console.error(`Parser ${loc_group.parser_id} has thrown an exception!`)
               console.log(e)
+              debugger
             }
           }
         }

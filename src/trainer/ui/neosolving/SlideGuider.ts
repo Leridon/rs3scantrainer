@@ -479,6 +479,9 @@ class SliderGuideProcess extends Process {
 
                     this.solution = MoveList.annotate(this.initial_state, new_sequence, this.settings.mode != "keyboard")
 
+                    // Stop the solver in case the combination
+                    this.solver.solver.stop()
+                    this.solver = null
                     /*
                     const annotated = MoveList.annotate(solving_start_state, better, this.settings.mode != "keyboard")
 

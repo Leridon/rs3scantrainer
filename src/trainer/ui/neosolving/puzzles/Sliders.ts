@@ -200,10 +200,6 @@ export namespace Sliders {
     import index = util.index;
 
     export function combine(first: MoveList, second: MoveList, multitile: boolean): MoveList {
-      const orig = {
-        first: [...first],
-        second: [...second]
-      }
 
       while (second.length > 0 && first.length > 0) {
         const needs_fixing =
@@ -221,15 +217,6 @@ export namespace Sliders {
       }
 
       const res = [...first, ...second]
-
-      if (!res.every(Move.isValid)) {
-        console.error("BUG DETECTED!")
-        console.error(orig.first.join(","))
-        console.error(orig.second.join(","))
-        console.error("RESULT")
-        console.error(res.join(","))
-        debugger
-      }
 
       return res
     }

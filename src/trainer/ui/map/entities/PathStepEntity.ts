@@ -230,7 +230,8 @@ export class PathStepEntity extends MapEntity {
               areaPolygon(step.area).setStyle({
                 color: step.area_color ?? Path.COSMETIC_DEFAULT_COLORS.area,
                 weight: weight,
-                opacity
+                opacity,
+                interactive: false
               }).addTo(this)
             }
 

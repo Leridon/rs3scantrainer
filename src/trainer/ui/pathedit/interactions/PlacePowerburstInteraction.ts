@@ -8,7 +8,7 @@ export default class PlacePowerburstInteraction extends ValueInteraction<Path.st
 
   constructor() {
     super({
-      preview_render: (s) => new PathStepEntity(s)
+      preview_render: (s) => new PathStepEntity(s).setInteractive(false)
     });
 
     new SelectTileInteraction()

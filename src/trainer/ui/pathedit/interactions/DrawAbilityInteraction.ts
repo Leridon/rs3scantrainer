@@ -105,7 +105,7 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
             ability: this.ability,
             from: from,
             to: to
-          })
+          }).setInteractive(false)
           : arrow(from, to).setStyle({
             weight: 3,
             color: "red"

@@ -58,7 +58,7 @@ export namespace ActionBar {
     private render() {
       this.empty()
 
-      this.addClass("medium-image-button")
+      this.addClass("ctr-action-bar-button")
         .append(jquery(`<img src='${this.icon}'>`))
         .css("position", "relative")
 

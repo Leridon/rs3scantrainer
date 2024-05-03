@@ -1,5 +1,5 @@
 import * as leaflet from "leaflet";
-import {FitBoundsOptions, MapOptions} from "leaflet";
+import {DomEvent, DomUtil, FitBoundsOptions, MapOptions, Util} from "leaflet";
 import {floor_t, TileCoordinates, TileRectangle} from "../runescape/coordinates";
 import Graticule from "./defaultlayers/Graticule";
 import Widget from "../ui/Widget";
@@ -158,6 +158,7 @@ export class GameMap extends leaflet.Map {
 
       this.on("mousedown", (e) => {
         e.originalEvent.preventDefault()
+        e.originalEvent.stopPropagation()
 
         this.event(new GameMapMouseEvent(this, e, this.eventCoordinate(e)), (l) => (e) => l.eventMouseDown(e))
       })
@@ -201,6 +202,95 @@ export class GameMap extends leaflet.Map {
 
     this.floor.subscribe(() => this.updateBaseLayers())
   }
+
+  /*
+  _handleDOMEvent(e) {
+    // Fix bug with leaflet  by overriding this function
+
+    const self = this as any
+
+    var el = (e.target || e.srcElement);
+    if (!self._loaded || el['_leaflet_disable_events'] || e.type === 'click' && self._isClickDisabled(el)) {
+      console.log("discarding")
+
+      return;
+    }
+
+    var type = e.type;
+
+    if (type == "click") console.log("Click still alive")
+
+    if (type === 'mousedown' && el) { // This is the fix because el is null in some cases
+      // prevents outline when clicking on keyboard-focusable element
+      try {
+        DomUtil.preventOutline(el);
+      } catch (e) {
+
+      }
+    }
+
+    self._fireDOMEvent(e, type);
+  }
+  _fireDOMEvent(e, type, canvasTargets) {
+
+    const self = this as any
+
+    if (e.type === 'click') {
+      // Fire a synthetic 'preclick' event which propagates up (mainly for closing popups).
+      // @event preclick: MouseEvent
+      // Fired before mouse click on the map (sometimes useful when you
+      // want something to happen on click before any existing click
+      // handlers start running).
+      var synth = Util.extend({}, e);
+      synth.type = 'preclick';
+      this._fireDOMEvent(synth, synth.type, canvasTargets);
+    }
+
+// Find the layer the event is propagating from and its parents.
+    var targets = self._findEventTargets(e, type);
+
+    if (canvasTargets) {
+      var filtered = []; // pick only targets with listeners
+      for (var i = 0; i < canvasTargets.length; i++) {
+        if (canvasTargets[i].listens(type, true)) {
+          filtered.push(canvasTargets[i]);
+        }
+      }
+      targets = filtered.concat(targets);
+    }
+
+    if (!targets.length) {
+      if (type == "click") console.log("Discard due to lack of targets")
+      return;
+    }
+
+    if (type === 'contextmenu') {
+      DomEvent.preventDefault(e);
+    }
+
+    var target = targets[0];
+    var data = {
+      originalEvent: e
+    } as any;
+
+
+    if (e.type !== 'keypress' && e.type !== 'keydown' && e.type !== 'keyup') {
+      var isMarker = target.getLatLng && (!target._radius || target._radius <= 10);
+      data.containerPoint = isMarker ?
+        this.latLngToContainerPoint(target.getLatLng()) : this.mouseEventToContainerPoint(e);
+      data.layerPoint = this.containerPointToLayerPoint(data.containerPoint);
+      data.latlng = isMarker ? target.getLatLng() : this.layerPointToLatLng(data.layerPoint);
+    }
+
+
+    for (i = 0; i < targets.length; i++) {
+      targets[i].fire(type, data, true);
+      if (data.originalEvent._stopped ||
+        (targets[i].options.bubblingMouseEvents === false && Util.indexOf(self._mouseEvents, type) !== -1)) { return; }
+    }
+  }
+
+   */
 
   private updateView(): this {
     const bounds = this.getBounds()

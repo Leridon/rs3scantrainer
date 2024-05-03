@@ -95,18 +95,7 @@ export namespace KnotReader {
       this.img_data = ui.image.toData()
 
       this.findOrigin()
-
-      this.grid = new Array(this.grid_size.y)
-
-      for (let y = 0; y < this.grid_size.y; y++) {
-        this.grid[y] = new Array(this.grid_size.x)
-
-        for (let x = 0; x < this.grid_size.x; x++) {
-          if (((x + y) % 2 == 1) != this.runes_on_odd_tiles) continue
-
-          this.grid[y][x] = this.readTile({x, y})
-        }
-      }
+      this.readGrid()
 
       overlay?.clear()
 
@@ -149,6 +138,8 @@ export namespace KnotReader {
 
       overlay.render()
     }
+
+
 
     private identifyRune(img: ImageFingerprint): number {
       const similarities = this.detected_rune_types.map((r, i) => {
@@ -226,6 +217,20 @@ export namespace KnotReader {
       return this.img_data.getPixel(coords.x, coords.y) as unknown as [number, number, number]
     }
 
+    private readGrid() {
+      this.grid = new Array(this.grid_size.y)
+
+      for (let y = 0; y < this.grid_size.y; y++) {
+        this.grid[y] = new Array(this.grid_size.x)
+
+        for (let x = 0; x < this.grid_size.x; x++) {
+          if (((x + y) % 2 == 1) != this.runes_on_odd_tiles) continue
+
+          this.grid[y][x] = this.readTile({x, y})
+        }
+      }
+    }
+
     private readTile(pos: Vector2): Tile {
       const tile_origin = this.tileOrigin(pos)
 
@@ -254,6 +259,10 @@ export namespace KnotReader {
       const track_color = getTrackColor(lane_color_sample_positions.map((pos, i) => this.sample(Vector2.add(tile_origin, background[i] ? pos[1] : pos[0]))))
 
       const rune_fingerprint = ImageFingerprint.get(this.img_data, Vector2.add(tile_origin, {x: 7, y: 7}), {x: 12, y: 12}, {x: 3, y: 3})
+
+      if (is_intersection) {
+        // TODO: Check if intersection matches
+      }
 
       return {
         pos: pos,

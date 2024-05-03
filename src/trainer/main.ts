@@ -375,7 +375,7 @@ class SliderAnalysisModal extends NisModal {
 }
 
 export async function makeshift_main(): Promise<void> {
-
+/*
   let repo_data: LocParsingTableData = await (await fetch("map/parsing_associations.json")).json().catch(() => undefined)
 
   function fix(name: string, value: any) {
@@ -394,7 +394,7 @@ export async function makeshift_main(): Promise<void> {
 
   fix("associations", repo_data.associations)
 
-  new ExportStringModal(cleanedJSON(repo_data, 4)).show()
+  new ExportStringModal(cleanedJSON(repo_data, 4)).show()*/
 
   //await clue_trainer_test_set.run()
 

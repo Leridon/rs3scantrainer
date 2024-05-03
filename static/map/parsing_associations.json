@@ -2476,11 +2476,6 @@
                   "simple": "toentityafter"
                 },
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -2534,11 +2529,6 @@
                   "simple": "toentityafter"
                 },
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -2592,11 +2582,6 @@
                   "data": "FQ=="
                 },
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -2624,11 +2609,6 @@
                   "data": "Kg=="
                 },
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -3281,11 +3261,6 @@
                       }
                     },
                     "movement": {
-                      "offset": {
-                        "x": -1,
-                        "y": -1,
-                        "level": -1
-                      },
                       "fixed": {
                         "area": {
                           "origin": {
@@ -3696,11 +3671,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -3745,11 +3715,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -4445,11 +4410,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -5480,11 +5440,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -5529,11 +5484,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -6102,11 +6052,6 @@
                   }
                 },
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -6133,11 +6078,6 @@
                   }
                 },
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -7053,11 +6993,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -7107,11 +7042,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -7367,11 +7297,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -7417,11 +7342,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -7633,11 +7553,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -7682,11 +7597,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -7945,11 +7855,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -7998,11 +7903,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -8038,11 +7938,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -8487,11 +8382,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -8540,11 +8430,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -8593,11 +8478,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -8846,11 +8726,6 @@
                   "simple": "bymovement"
                 },
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -9364,11 +9239,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -9407,11 +9277,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -9496,11 +9361,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -9572,11 +9432,6 @@
                       "simple": "bymovement"
                     },
                     "movement": {
-                      "offset": {
-                        "x": 2,
-                        "y": 1,
-                        "level": 0
-                      },
                       "fixed": {
                         "area": {
                           "origin": {
@@ -9635,11 +9490,6 @@
                 "movements": [
                   {
                     "movement": {
-                      "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 0
-                      },
                       "fixed": {
                         "area": {
                           "origin": {
@@ -9837,11 +9687,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -9867,11 +9712,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -9897,11 +9737,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -9927,11 +9762,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -9970,11 +9800,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -10000,11 +9825,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -10030,11 +9850,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -10060,11 +9875,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -10103,11 +9913,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -10133,11 +9938,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -10163,11 +9963,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -10193,11 +9988,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -10236,11 +10026,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -10266,11 +10051,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -10296,11 +10076,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -10326,11 +10101,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -10865,11 +10635,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -10915,11 +10680,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -11704,11 +11464,6 @@
                   }
                 },
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -11743,11 +11498,6 @@
                   }
                 },
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -11853,11 +11603,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -11918,11 +11663,6 @@
                 "movements": [
                   {
                     "movement": {
-                      "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 0
-                      },
                       "fixed": {
                         "area": {
                           "origin": {
@@ -11973,11 +11713,6 @@
                 "movements": [
                   {
                     "movement": {
-                      "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 0
-                      },
                       "fixed": {
                         "area": {
                           "origin": {
@@ -12041,11 +11776,6 @@
                 "movements": [
                   {
                     "movement": {
-                      "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 0
-                      },
                       "fixed": {
                         "area": {
                           "origin": {
@@ -12096,11 +11826,6 @@
                 "movements": [
                   {
                     "movement": {
-                      "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 0
-                      },
                       "fixed": {
                         "area": {
                           "origin": {
@@ -13070,11 +12795,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {

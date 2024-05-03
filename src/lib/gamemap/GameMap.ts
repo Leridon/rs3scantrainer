@@ -114,6 +114,8 @@ export class GameMap extends leaflet.Map {
     // Set up all the event handlers to translate into GameMapEvents
     {
       this.on("contextmenu", async (e) => {
+        e.originalEvent.preventDefault()
+
         let event = this.event(new GameMapContextMenuEvent(this, e, this.eventCoordinate(e)), (l) => (e) => l.eventContextMenu(e))
 
         if (event.active_entity) {
@@ -130,6 +132,8 @@ export class GameMap extends leaflet.Map {
       })
 
       this.on("click", (e) => {
+        e.originalEvent.preventDefault()
+
         this.event(new GameMapMouseEvent(this, e, this.eventCoordinate(e)), (l) => (e) => l.eventClick(e))
       })
 
@@ -147,10 +151,14 @@ export class GameMap extends leaflet.Map {
       })
 
       this.on("mouseup", (e) => {
+        e.originalEvent.preventDefault()
+
         this.event(new GameMapMouseEvent(this, e, this.eventCoordinate(e)), (l) => (e) => l.eventMouseUp(e))
       })
 
       this.on("mousedown", (e) => {
+        e.originalEvent.preventDefault()
+
         this.event(new GameMapMouseEvent(this, e, this.eventCoordinate(e)), (l) => (e) => l.eventMouseDown(e))
       })
 

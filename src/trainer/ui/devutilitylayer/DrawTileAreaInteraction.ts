@@ -132,6 +132,8 @@ export class DrawTileAreaInteraction extends ValueInteraction<TileCoordinates[]>
     event.onPost(() => {
 
       if (event.original.shiftKey || event.original.altKey) {
+        event.original.preventDefault()
+
         const additive = event.original.shiftKey
 
         this.getMap().dragging.disable()

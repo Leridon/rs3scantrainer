@@ -2955,6 +2955,16 @@ name: "Entrana",
         target: {"origin": {"x": 2177, "y": 5663, "level": 0}},
         name: "Lava Flow Mine",
       },
+      {
+        id: "livingrockcaverns",
+        target: {"origin": {"x": 3651, "y": 5122, "level": 0}},
+        name: "Living Rock Caverns",
+      },
+      {
+        id: "jadinkolair",
+        target: {"origin": {"x": 3034, "y": 9231, "level": 0}},
+        name: "Jadinko Lair",
+      },
     ],
     access: [{
       id: "gote",
@@ -3375,6 +3385,30 @@ name: "Entrana",
       img: {url: "sentinel.png"},
     }]
   },
+
+  {
+    type: "teleports",
+    id: "volcanictrapper",
+    name: "Volcanic trapper outfit",
+    animation_ticks: default_teleport_ticks,
+    spots: [
+      {
+        id: "nettingcharming",
+        target: {"origin": {"x": 3367, "y": 3742, "level": 0}},
+        code: "2,5",
+        name: "Butterfly Netting - Charming Moth",
+        menu_ticks: 2,
+      },
+    ],
+    access: [{
+      id: "outfit",
+      type: "item",
+      name: {name: "Volcanic trapper head", kind: "item"},
+      action_name: "Teleport",
+      img: {url: "Volcanic_trapper_head.webp"},
+    }]
+  },
+
   {
     type: "teleports",
     id: "archteleport",
@@ -3607,7 +3641,7 @@ name: "Entrana",
     spots: [{
       id: "center",
       name: "The Heart",
-      target: {"origin": {"x": 3197, "y": 6941, "level": 0}, "size": {"x": 5, "y": 5}},
+      target: {"origin": {"x": 3197, "y": 6941, "level": 1}, "size": {"x": 5, "y": 5}},
       menu_ticks: 0,
       animation_ticks: 4
     }],
@@ -4414,7 +4448,35 @@ name: "Entrana",
         area_restriction: {"origin": {"x": 2624, "y": 4672, "level": 0}, size: {x: 64, y: 64}}
       }
     ]
-  },
+  }, {
+    type: "teleports",
+    id: "warsbossportal",
+    name: "Boss portal",
+    menu_ticks: 0,
+    animation_ticks: 3,
+    spots: [
+      {id: "gregorovic", name: "Gregorovic", img: {url: "Gregorovic_(boss_portal)_texture.webp", width: 40}, target: {"origin": {"x": 3277, "y": 7053, "level": 1}}},
+      {id: "helwyr", name: "Helwyr", img: {url: "Helwyr_(boss_portal)_texture.webp", width: 40}, target: {"origin": {"x": 3270, "y": 6905, "level": 1}}},
+      {id: "twinfuries", name: "The Twin Furies", img: {url: "Twin_Furies_(boss_portal)_texture.png", width: 40}, target: {"origin": {"x": 3128, "y": 7047, "level": 1}}},
+      {id: "vindicta", name: "Vindicta & Gorvek", img: {url: "Vindicta_and_Gorvek_(boss_portal)_texture.png", width: 40,}, target: {"origin": {"x": 3119, "y": 6903, "level": 1}}},
+    ],
+    access: [
+      {
+        id: "left",
+        type: "entity",
+        name: {name: "Boss portal", kind: "static"},
+        action_name: "Teleport",
+        clickable_area: {"origin": {"x": 3289, "y": 10154, "level": 0}, "size": {"x": 3, "y": 1}}
+      },
+      {
+        id: "right",
+        type: "entity",
+        name: {name: "Boss portal", kind: "static"},
+        action_name: "Teleport",
+        clickable_area: {"origin": {"x": 3296, "y": 10154, "level": 0}, "size": {"x": 4, "y": 1}, "data": "Cw=="}
+      },
+    ]
+  }
 //TODO: Eagle transport system
 //TODO: Canoes
 //TODO: Orthen Teleport network
@@ -4422,11 +4484,7 @@ name: "Entrana",
 //TODO: Boss portals
 // TODO: Slayer masks
 // TODO: Ritual Site teleport incantation
-  // Disc of Returning to Dwarven mine
   // Spirit tree access points
-  /** TODO
-   *   - Boss Portal (As Transport instead of tele?)
-   */
 ]
 
 export default raw_data

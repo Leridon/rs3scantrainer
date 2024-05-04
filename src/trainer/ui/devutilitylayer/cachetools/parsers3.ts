@@ -47,7 +47,7 @@ const actions_parameter = PP.list(PP.rec({
         origin_only: PP.element("Origin only", PP.bool()),
       }),
     })),
-    time: PP.element("Time", PP.int([0, 30]).default(3))
+    time: PP.element("Time", PP.time())
   })))
 }))
 
@@ -175,7 +175,7 @@ export const parsers3: TransportParser[] = [
   parse("simpleremotetransport", "Remote",
     PP.rec({
       action: PP.element("Action", PP.locAction()),
-      time: PP.element("Time", PP.int([0, 100]).default(3)),
+      time: PP.element("Time", PP.time().default(2)),
       area: PP.element("Area", PP.tileArea(true), true),
     }), PP.rec({
       target: PP.element("Target", PP.tileArea(false)),
@@ -185,14 +185,14 @@ export const parsers3: TransportParser[] = [
       builder.action({
         index: per_loc.action.id,
         interactive_area: per_loc.area
-      }, fixed(per_instance.target))
+      }, fixed(per_instance.target).time(per_loc.time ?? 2))
 
       return [builder.finish()]
     }),
   parse("simpleremotetransportlegacy", "Remote (LEGACY)",
     PP.rec({
       action: PP.element("Action", PP.locAction()),
-      time: PP.element("Time", PP.int([0, 100]).default(3)),
+      time: PP.element("Time", PP.time()),
       area: PP.element("Area", PP.tileArea(true), true),
     }), PP.rec({
       target: PP.element("Target", PP.tileArea()),
@@ -291,7 +291,7 @@ export const parsers3: TransportParser[] = [
               origin_only: PP.element("Origin only", PP.bool()),
             }),
           })),
-          time: PP.element("Time", PP.int([0, 30]).default(3))
+          time: PP.element("Time", PP.time())
         })))
       })))
     }), true,
@@ -381,7 +381,46 @@ export function hardcoded_transports(): Transportation.Transportation[] {
           ]
         }
       ]
-    }
+    }, {
+      type: "entity",
+      entity: {name: "Mysterious entrance", kind: "static"},
+      clickable_area: {"topleft": {"x": 3810.5, "y": 3529.5}, "botright": {"x": 3812.5, "y": 3527.5}, "level": 0},
+      actions: [
+        {
+          name: "Enter",
+          cursor: "enter",
+          movement: [
+            {
+              fixed_target: {target: {"origin": {"x": 2292, "y": 5971, "level": 0}}},
+              orientation: "toentitybefore",
+              time: 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "entity",
+      "entity": {
+        "name": "Strange bloodied stones",
+        "kind": "static"
+      },
+      "clickable_area": {"topleft": {"x": 3559.5, "y": 9782.5}, "botright": {"x": 3562.5, "y": 9779.5}, "level": 0},
+      "actions": [
+        {
+          "cursor": "generic",
+          "name": "Enter",
+          "movement": [
+            {
+              "time": 1,
+              "fixed_target": {
+                "target": {"origin": {"x": 2467, "y": 4889, "level": 1}}
+              }
+            }
+          ]
+        }
+      ]
+    },
   ]
 }
 

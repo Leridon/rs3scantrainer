@@ -83,7 +83,7 @@ export class GeneralEntityTransportationBuilder extends EntityTransportationBuil
 
     const a = new EntityActionBuilder({
       name: override.name ?? action?.name ?? "Unnamed Action",
-      cursor: override.cursor ?? action.cursor ?? "generic",
+      cursor: override.cursor ?? action?.cursor ?? "generic",
       interactive_area: override.interactive_area ?? undefined,
       movement: [],
     })

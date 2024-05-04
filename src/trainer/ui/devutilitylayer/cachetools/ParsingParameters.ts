@@ -21,6 +21,7 @@ import InteractionTopControl from "../../map/InteractionTopControl";
 import {DrawOffset} from "../../shortcut_editing/interactions/DrawOffset";
 import {Transportation} from "../../../../lib/runescape/transportation";
 import {TileTransform} from "../../../../lib/runescape/coordinates/TileTransform";
+import NumberSlider from "../../../../lib/ui/controls/NumberSlider";
 import LocInstance = CacheTypes.LocInstance;
 
 export abstract class ParsingParameter<T = any> {
@@ -97,9 +98,15 @@ export namespace ParsingParameter {
           render_implementation(value: number) {
             const [min, max] = P.apply(bounds, loc)
 
-            this.control.append(new NumberInput(min, max)
-              .onCommit(v => this.commit(v))
-              .setValue(value))
+            if (max - min > 20) {
+              this.control.append(new NumberInput(min, max)
+                .onCommit(v => this.commit(v))
+                .setValue(value))
+            } else {
+              this.control.append(new NumberSlider(min, max)
+                .onCommit(v => this.commit(v))
+                .setValue(value))
+            }
           }
         }
       }
@@ -108,6 +115,10 @@ export namespace ParsingParameter {
 
   export function floor(): ParsingParameter<floor_t> {
     return int([0, 3]) as ParsingParameter<floor_t>
+  }
+
+  export function time(): ParsingParameter<number> {
+    return int([0, 20]).default(3)
   }
 
   export function string(): ParsingParameter<string> {
@@ -185,13 +196,50 @@ export namespace ParsingParameter {
             this.update_render()
           }
 
+          activate() {
+            const editor = this
+
+            if (this.interaction) {
+              this.interaction.cancel()
+            } else {
+              map.setInteraction(
+                this.interaction = (new class extends ValueInteraction<TileCoordinates[]> {
+                  constructor() {
+                    super();
+
+                    new DrawTileAreaInteraction(editor.edited_tiles.map(t => TileCoordinates.transform(t, transform)))
+                      .onPreview(v => this.preview(v))
+                      .attachTopControl(null)
+                      .addTo(this)
+
+                    this.attachTopControl(new InteractionTopControl({name: "Draw Tile Area"})
+                      .setContent(
+                        c("<div style='font-family: monospace; white-space:pre'></div>")
+                          .append(c().text(`[Shift + Mouse] add tiles, [Alt + Mouse] remove tiles`))
+                      ))
+                  }
+                })
+                  .onPreview(v => {
+                    this.edited_tiles = v.map(t => TileCoordinates.transform(t, inverse_transform))
+                    this.update_render()
+                  })
+                  .onEnd(() => {
+                    this.commitTiles()
+
+                    this.interaction = null
+                    this.update_render()
+                  })
+              )
+
+              this.update_render()
+            }
+          }
+
           private commitTiles() {
             this.commit(TileArea.fromTiles(this.edited_tiles))
           }
 
           private update_render(): void {
-
-            const editor = this
 
             this.control.empty().append(hboxl(
               this.edited_tiles.length > 0
@@ -199,41 +247,7 @@ export namespace ParsingParameter {
                 : c().text(`${this.edited_tiles.length} tiles`),
               new LightButton(this.interaction ? "Stop Editing" : "Edit")
                 .onClick(() => {
-
-                  if (this.interaction) {
-                    this.interaction.cancel()
-                  } else {
-                    map.setInteraction(
-                      this.interaction = (new class extends ValueInteraction<TileCoordinates[]> {
-                        constructor() {
-                          super();
-
-                          new DrawTileAreaInteraction(editor.edited_tiles.map(t => TileCoordinates.transform(t, transform)))
-                            .onPreview(v => this.preview(v))
-                            .attachTopControl(null)
-                            .addTo(this)
-
-                          this.attachTopControl(new InteractionTopControl({name: "Draw Tile Area"})
-                            .setContent(
-                              c("<div style='font-family: monospace; white-space:pre'></div>")
-                                .append(c().text(`[Shift + Mouse] add tiles, [Alt + Mouse] remove tiles`))
-                            ))
-                        }
-                      })
-                        .onPreview(v => {
-                          this.edited_tiles = v.map(t => TileCoordinates.transform(t, inverse_transform))
-                          this.update_render()
-                        })
-                        .onEnd(() => {
-                          this.commitTiles()
-
-                          this.interaction = null
-                          this.update_render()
-                        })
-                    )
-
-                    this.update_render()
-                  }
+                  this.activate()
                 }),
               new LightButton("Reset")
                 .onClick(() => {
@@ -315,6 +329,10 @@ export namespace ParsingParameter {
     value_changed = ewent<T>()
 
     constructor(protected type: ParT) {
+
+    }
+
+    activate(): void {
 
     }
 
@@ -442,6 +460,8 @@ export namespace ParsingParameter {
 
                 this.commit(value)
                 this.render()
+
+                if (v) this.sub.activate()
               }
             })
             .appendTo(name_column)

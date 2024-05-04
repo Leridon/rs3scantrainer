@@ -53,6 +53,10 @@ export class ParserPairingEdit extends Widget {
     }).addTo(this.map.main_layer)
 
     this.properties = new Properties()
+      .css2({
+        "margin-left": "25%",
+        "margin-right": "25%",
+      })
 
     this.renderProps()
   }
@@ -269,7 +273,8 @@ export class ParserPairingModal extends FormModal<{
   render() {
     super.render()
 
-    this.edit = new ParserPairingEdit(this.loc, this.parsing_table, this.existing_pairing).appendTo(this.body)
+    this.edit = new ParserPairingEdit(this.loc, this.parsing_table, this.existing_pairing)
+      .appendTo(this.body)
   }
 
   getButtons(): BigNisButton[] {

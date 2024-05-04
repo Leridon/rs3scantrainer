@@ -150,6 +150,7 @@ export namespace CursorType {
       52: "ladderup",
       53: "ladderdown",
       59: "chop",
+      63: "smith",
       181: "agility",
       208: "discover",
     }

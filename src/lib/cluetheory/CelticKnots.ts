@@ -1,7 +1,4 @@
 import * as lodash from "lodash"
-import {timeSync} from "../gamemap/GameLayer";
-import {stat} from "copy-webpack-plugin/types/utils";
-import {debug} from "@alt1/ocr";
 
 export namespace CelticKnots {
   export type Element = number | "unknown"
@@ -123,6 +120,16 @@ export namespace CelticKnots {
     moves: Move[]
   }
 
+  export namespace Solution {
+    export function equals(a: Solution, b: Solution): boolean {
+      return lodash.isEqual(a, b)
+    }
+
+    export function toString(a: Solution): string {
+      return a.moves.map(m => `${m.snake_index}:${m.offset}`).join(",")
+    }
+  }
+
   export function solve(state: PuzzleState): Solution {
 
     // Solve every lock individually.
@@ -174,7 +181,7 @@ export namespace CelticKnots {
       } else if (PuzzleState.lockMaybeSolved(state, lock)) {
         // If the lock is already solved, we can just continue with the next one without applying any move
         return backtracking(next_lock_index + 1, state, commited_moves)
-      } else  {
+      } else {
         // Both snakes are locked in but the lock is not solved. No possible solutions
         return []
       }
@@ -182,8 +189,10 @@ export namespace CelticKnots {
 
     const solutions = backtracking(0, state, state.snakes.map(() => null))
 
-    if (solutions.length == 1) return solutions[0]
-    else {
+    if (solutions.length == 1) {
+      console.log("Only one solution found")
+      return solutions[0]
+    } else {
       const real_solutions = solutions.filter(s => s.end_state.shape.locks.every(lock => s.end_state.snakes[lock.first.snake][lock.first.tile] != "unknown"))
 
       return lodash.minBy(real_solutions, s => s.moves.map(m => Math.abs(m.offset)))

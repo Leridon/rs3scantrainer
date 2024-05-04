@@ -20,6 +20,7 @@ import {timeSync} from "../lib/gamemap/GameLayer";
 import {Towers} from "../lib/cluetheory/Towers";
 import towers = Towers.towers;
 import {CelticKnots} from "../lib/cluetheory/CelticKnots";
+import {clue_trainer_test_set} from "../test/tests";
 
 type DataEntry = {
   id: number,
@@ -379,6 +380,8 @@ class SliderAnalysisModal extends NisModal {
 }
 
 export async function makeshift_main(): Promise<void> {
+  clue_trainer_test_set.run()
+
   /*
    const shape: CelticKnots.PuzzleShape = {
      snake_lengths: [16, 16, 16],

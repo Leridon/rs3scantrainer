@@ -7,6 +7,10 @@ import {ImageData, ImageDetect, mixColor} from "@alt1/base";
 import {ImageFingerprint} from "../../../../lib/util/ImageFingerprint";
 import * as lodash from "lodash";
 import {identity} from "lodash";
+import Widget from "../../../../lib/ui/Widget";
+import {NisModal} from "../../../../lib/ui/NisModal";
+import {C} from "../../../../lib/ui/constructors";
+import {ScuffedTesting} from "../../../../test/test_framework";
 
 
 export namespace KnotReader {
@@ -14,6 +18,10 @@ export namespace KnotReader {
   import rgbSimilarity = util.rgbSimilarity;
   import MatchedUI = ClueReader.MatchedUI;
   import count = util.count;
+  import vbox = C.vbox;
+  import hboxl = C.hboxl;
+  import img = C.img;
+  import run = ScuffedTesting.run;
   const TILE_SIZE = {x: 24, y: 24}
   const RUNE_SIZE = {x: 25, y: 25}
   const DIAGONAL_SPACING = {x: 24, y: 24}
@@ -50,8 +58,10 @@ export namespace KnotReader {
       const fingerprints: ImageFingerprint[] = []
 
       for (let i = 0; i < Math.floor(atlas.width / 12); i++) {
-        fingerprints.push(ImageFingerprint.get(atlas, {x: i * 12, y: 0}, RUNE_REFERENCE_SIZE, RUNE_KERNEL_SIZE))
+        fingerprints.push(ImageFingerprint.get(atlas, {x: i * 12, y: 0}, RUNE_REFERENCE_SIZE, RUNE_KERNEL_SIZE, ImageFingerprint.TypeRGB))
       }
+
+      console.log(fingerprints)
 
       rune_references = fingerprints
     }
@@ -150,7 +160,8 @@ export namespace KnotReader {
       if (best && best.certainty > 0.9) {
         return best.id
       } else {
-        console.log(`Rejecting ${best.certainty}`)
+        console.log(`Rejecting ${best?.certainty}`)
+        console.log(best)
         return null
       }
     }
@@ -217,22 +228,46 @@ export namespace KnotReader {
       return this.img_data.getPixel(coords.x, coords.y) as unknown as [number, number, number]
     }
 
+    private row: Widget[]
+
     private async readGrid() {
       if (this.grid) return
 
       this.findOrigin()
+
+      const elements: Widget[][] = []
 
       this.grid = new Array(this.grid_size.y)
 
       for (let y = 0; y < this.grid_size.y; y++) {
         this.grid[y] = new Array(this.grid_size.x)
 
+        this.row = []
+
+        elements.push(this.row)
+
         for (let x = 0; x < this.grid_size.x; x++) {
-          if (((x + y) % 2 == 1) != this.runes_on_odd_tiles) continue
+          if (((x + y) % 2 == 1) != this.runes_on_odd_tiles) {
+            this.row.push(c())
+            continue
+          }
 
           this.grid[y][x] = await this.readTile({x, y})
         }
       }
+
+      (new class extends NisModal {
+        render() {
+          super.render();
+
+          vbox(
+            ...elements.map(row => hboxl(...row.map(e => e.css2({
+              "width": "12px",
+              "height": "12px",
+            }))))
+          ).appendTo(this.body)
+        }
+      }).show()
     }
 
     private async readTile(pos: Vector2): Promise<Tile> {
@@ -242,13 +277,25 @@ export namespace KnotReader {
 
       const background_neighbours = count(background, identity)
 
-      if (background_neighbours > 2) return {pos: pos, rune: null}
+      const rune_fingerprint = ImageFingerprint.get(this.img_data, Vector2.add(tile_origin, {x: 7, y: 7}), RUNE_REFERENCE_SIZE, RUNE_KERNEL_SIZE, ImageFingerprint.TypeRGB)
+
+      if (background_neighbours > 2) {
+        this.row.push(c())
+        return {pos: pos, rune: null}
+      }
+
+      this.row.push(img(`data:image/png;base64,${this.img_data.clone({
+          x: tile_origin.x + 7,
+          y: tile_origin.y + 7,
+          width: 12, height: 12
+        }).toPngBase64()}`
+      ).css("image-rendering", "pixelated").addTippy(vbox(
+        c().text(rune_fingerprint.data.join(",")),
+        ...(await getRuneReferences()).map(r => c().text((100*ImageFingerprint.similarity(r, rune_fingerprint)).toFixed(1))))))
 
       const is_intersection = background_neighbours == 0
 
       const track_color = getTrackColor(track_color_sample_positions.map(pos => this.sample(Vector2.add(tile_origin, pos))))
-
-      const rune_fingerprint = ImageFingerprint.get(this.img_data, Vector2.add(tile_origin, {x: 7, y: 7}), RUNE_REFERENCE_SIZE, RUNE_KERNEL_SIZE)
 
       if (is_intersection) {
         // TODO: Check if intersection matches

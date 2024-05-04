@@ -11,10 +11,32 @@ Compass solver:
     - Properly disable clue reader while compass reader is active (?)
     - Chatbox read service to look for sextant message
 
-Must be done in April (transports):
-Not in dataset:
-    Holgart/Jeb travel to the fishing platform
-    Entrana monk ship
+Final missing transport:
+Mediums:
+    Training camp Ogre Pen
+    Gnome Stronghold Terrorbird gate (west-south-west corner)
+    Waterfall raft and tree transports
+
+Hards:
+    Lumbridge Castle Cellar Ladder
+    Corp Cave entrance/exit
+
+    Master:
+    Slayer Tower entrance
+    Port Phasmatys entrance gate
+    Dragontooth Island resource dungeon entrance
+    Polypore Dungeon vines
+    (City of Um teleport incantation; not sure if same as tome)
+    and boss portal teleports for Furies and Greg
+    War's retreat to Death's Office connection
+    Darkmeyer doors
+    Prif agility course steps (up to the roof)
+    Grace of the Elves teleports to Jadinko Lair and Living rock caverns
+    (((Runespan portal, runespan pads on high floor to east and then north)))
+    Death altar
+    Blood altar
+    Trapper outfit teleport to Charming Moths
+    [13:47]Ngis: (and the fishing platform and entrana connections as mentioned above)
 
 - Solving Behaviour
     - Path Panel

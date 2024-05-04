@@ -1,5 +1,5 @@
 {
-  "version": 1302,
+  "version": 1306,
   "associations": [
     {
       "group_id": 0,
@@ -248,7 +248,9 @@
         2429,
         2427,
         5170,
-        5052
+        5052,
+        22435,
+        22437
       ],
       "group_name": "Doors",
       "instance_groups": [],

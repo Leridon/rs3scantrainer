@@ -2332,112 +2332,158 @@ name: "Harmony Island",
       menu_ticks: 2,
       animation_ticks: 3,
     }]
-  },/*
-    {
-        type: "teleports",
-        id: "drakansmedallion",
-name: "Drakan's medallion",
-img: {url: "drakmed.gif"},
-        spots: [
-            {
-                id: "barrows",
-target: {origin: {x: 3565, y: 3316, level: 0}},
-code: "1",
-name: "Barrows",
-                menu_ticks: 1,
-                animation_ticks: 3
-            },
-            {
-                id: "burghderott",
-target: {origin: {x: 3491, y: 3202, level: 0}},
-code: "2",
-name: "Burgh de Rott",
-                menu_ticks: 1,
-                animation_ticks: 3
-            },
-            {
-                id: "meiyerditch",
-target: {origin: {x: 3639, y: 3250, level: 0}},
-code: "3",
-name: "Meiyerditch",
-                menu_ticks: 1,
-                animation_ticks: 3
-            },
-            {
-                id: "darkmeyer",
-target: {origin: {x: 3624, y: 3365, level: 0}},
-code: "4",
-name: "Darkmeyer",
-                menu_ticks: 1,
-                animation_ticks: 3
-            },
-            {
-                id: "laboratories",
-target: {origin: {x: 3642, y: 3307, level: 0}},
-code: "5",
-name: "Meiyerditch Laboratories",
-                menu_ticks: 1,
-                animation_ticks: 3
-            },
-        ]
-    },
-    {
-        type: "teleports",
-        id: "arcsailing",
-name: "",
-img: {url: "sail.png"},
-        spots: [
-            {
-                id: "tualeit",
-target: {origin: {x: 1762, y: 12009, level: 0}},
-name: "Tua Leit Docks",
-                menu_ticks: 1,
-                animation_ticks: 1
-            },
-            {
-                id: "whalesmaw",
-target: {origin: {x: 2012, y: 11783, level: 0}},
-name: "Whale's Maw Docks",
-                menu_ticks: 1,
-                animation_ticks: 1
-            },
-            {
-                id: "waiko",
-target: {origin: {x: 1810, y: 11652, level: 0}},
-name: "Waiko Docks",
-                menu_ticks: 1,
-                animation_ticks: 1
-            },
-            {
-                id: "turtleislands",
-target: {origin: {x: 2242, y: 11423, level: 0}},
-name: "Turtle Islands Docks",
-                menu_ticks: 1,
-                animation_ticks: 1
-            },
-            {
-                id: "aminishi",
-target: {origin: {x: 2063, y: 11271, level: 0}},
-name: "Aminishi Docks",
-                menu_ticks: 1,
-                animation_ticks: 1
-            },
-            {
-                id: "cyclosis",
-target: {origin: {x: 2257, y: 11180, level: 0}},
-name: "Cyclosis Docks",
-                menu_ticks: 1,
-                animation_ticks: 1
-            },
-            {
-                id: "goshima",
-target: {origin: {x: 2454, y: 11591, level: 0}},
-name: "Goshima Docks",
-                menu_ticks: 1,
-                animation_ticks: 1
-            },
-        ]
-    },*/
+  },
+  {
+    type: "teleports",
+    id: "drakansmedallion",
+    name: "Drakan's medallion",
+    img: {url: "drakmed.gif"},
+    menu_ticks: 1,
+    animation_ticks: 5,
+    spots: [
+      {
+        id: "barrows",
+        target: {"origin": {"x": 3561, "y": 3311, "level": 0}, "size": {"x": 9, "y": 9}, "data": "EXb8+fMfPnz48AE="},
+        code: "1",
+        name: "Barrows",
+      },
+      {
+        id: "burghderott",
+        target: {"origin": {"x": 3493, "y": 3197, "level": 0}, "size": {"x": 8, "y": 7}, "data": "Pz/////AwA=="},
+        code: "2",
+        name: "Burgh de Rott",
+      },
+      {
+        id: "meiyerditch",
+        target: {"origin": {"x": 3625, "y": 9617, "level": 0}, "size": {"x": 4, "y": 8}, "data": "/WZm/w=="},
+        code: "3",
+        name: "Meiyerditch",
+      },
+      {
+        id: "darkmeyer",
+        target: {"origin": {"x": 3624, "y": 3364, "level": 0}, "size": {"x": 8, "y": 2}},
+        code: "4",
+        name: "Darkmeyer",
+      },
+      {
+        id: "laboratories",
+        target: {"origin": {"x": 3629, "y": 9691, "level": 0}, "size": {"x": 9, "y": 8}, "data": "wtzx4+//zx8Q"},
+        code: "5",
+        name: "Meiyerditch Laboratories",
+      },
+    ],
+    access: [
+      {id: "medallion", type: "item", name: {kind: "item", name: "Drakan's medallion"}, action_name: "Teleport"}
+    ]
+  },
+  {
+    type: "teleports",
+    id: "arcsailing",
+    name: "",
+    img: {url: "sail.png"},
+    menu_ticks: 1,
+    animation_ticks: 1,
+    spots: [
+      {
+        id: "tualeit",
+        target: {"origin": {"x": 1761, "y": 12010, "level": 0}},
+        name: "Tua Leit Docks",
+      },
+      {
+        id: "whalesmaw",
+        target: {"origin": {"x": 2011, "y": 11782, "level": 0}},
+        name: "Whale's Maw Docks",
+      },
+      {
+        id: "waiko",
+        target: {"origin": {"x": 1810, "y": 11652, "level": 0}},
+        name: "Waiko Docks",
+      },
+      {
+        id: "turtleislands",
+        target: {"origin": {"x": 2242, "y": 11424, "level": 0}},
+        name: "Turtle Islands Docks",
+      },
+      {
+        id: "aminishi",
+        target: {"origin": {"x": 2062, "y": 11271, "level": 0}},
+        name: "Aminishi Docks",
+      },
+      {
+        id: "cyclosis",
+        target: {"origin": {"x": 2256, "y": 11180, "level": 0}},
+        name: "Cyclosis Docks",
+      },
+      {
+        id: "goshima",
+        target: {"origin": {"x": 2453, "y": 11591, "level": 0}},
+        name: "Goshima Docks",
+      },
+      {
+        id: "uncharted",
+        target: {"origin": {"x": 1203, "y": 7374, "level": 0}},
+        name: "Uncharted Isle",
+      },
+    ],
+    access: [
+      {
+        type: "entity",
+        id: "port sarim",
+        name: {kind: "npc", name: "Quartermaster Gully (Port Sarim)"},
+        action_name: "Travel",
+        clickable_area: {"origin": {"x": 3054, "y": 3247, "level": 0}}
+      },
+      {
+        type: "entity",
+        id: "tuaeileit",
+        name: {kind: "npc", name: "Quartermaster Gully (Tuaei Leit)"},
+        action_name: "Travel",
+        clickable_area: {"origin": {"x": 1760, "y": 12010, "level": 0}}
+      },
+      {
+        type: "entity",
+        id: "whalesmaw",
+        name: {kind: "npc", name: "Quartermaster Gully (Whale's Maw)"},
+        action_name: "Travel",
+        clickable_area: {"origin": {"x": 2012, "y": 11781, "level": 0}}
+      },
+      {
+        type: "entity",
+        id: "Waiko",
+        name: {kind: "npc", name: "Quartermaster Gully (Waiko)"},
+        action_name: "Travel",
+        clickable_area: {"origin": {"x": 1809, "y": 11652, "level": 0}}
+      },
+      {
+        type: "entity",
+        id: "Turtle Islands",
+        name: {kind: "npc", name: "Quartermaster Gully (Turtle Islands)"},
+        action_name: "Travel",
+        clickable_area: {"origin": {"x": 2245, "y": 11423, "level": 0}}
+      },
+      {
+        type: "entity",
+        id: "Aminishi",
+        name: {kind: "npc", name: "Quartermaster Gully (Aminishi)"},
+        action_name: "Travel",
+        clickable_area: {"origin": {"x": 2061, "y": 11270, "level": 0}}
+      },
+      {
+        type: "entity",
+        id: "Cyclosis",
+        name: {kind: "npc", name: "Quartermaster Gully (Cyclosis)"},
+        action_name: "Travel",
+        clickable_area: {"origin": {"x": 2251, "y": 11182, "level": 0}}
+      },
+      {
+        type: "entity",
+        id: "Goshima",
+        name: {kind: "npc", name: "Quartermaster Gully (Goshima)"},
+        action_name: "Travel",
+        clickable_area: {"origin": {"x": 2448, "y": 11593, "level": 0}}
+      },
+    ]
+  },
   {
     type: "teleports",
     id: "arctabs",
@@ -3552,21 +3598,23 @@ name: "Entrana",
       name: {name: "Karamja gloves 4", kind: "item"},
       action_name: "Teleport"
     }]
-  }
-  ,/*
-            {
-                type: "teleports",
-                id: "theheart",
-                name: "The Heart teleport",
-                img: {url: "theheart.gif"},
-                spots: [{
-                    id: "center",
-                    name: "The Heart",
-                    target: {origin: {x: 3199, y: 6942, level: 0}},
-                    menu_ticks: 0,
-                    animation_ticks: 4
-                }]
-            },
+  },
+  {
+    type: "teleports",
+    id: "theheart",
+    name: "The Heart teleport",
+    img: {url: "The_Heart_teleport.webp"},
+    spots: [{
+      id: "center",
+      name: "The Heart",
+      target: {"origin": {"x": 3197, "y": 6941, "level": 0}, "size": {"x": 5, "y": 5}},
+      menu_ticks: 0,
+      animation_ticks: 4
+    }],
+    access: [
+      {type: "item", id: "tablet", name: {name: "The Heart teleport", kind: "item"}, action_name: "Break"}
+    ]
+  }, /*
             {
                 type: "teleports",
                 id: "fremmenikboots",
@@ -4140,58 +4188,50 @@ name: "Entrana",
       name: {kind: "item", name: "Amulet of nature"},
       menu_ticks: 1,
     }]
-  }
-  ,/*
-    {
-        type: "teleports",
-        id: "tokkulzo",
-name: "TokKul-Zo",
-img: {url: "tokkulzo.png"},
-        spots: [
-            {
-                id: "plaza",
-target: {origin: {x: 4672, y: 5155, level: 0}},
-name: "Main Plaza",
-code: "1",
-                menu_ticks: 2,
-                animation_ticks: 5
-            },
-            {
-                id: "pit",
-target: {origin: {x: 4603, y: 5062, level: 0}},
-name: "Fight Pit",
-code: "2",
-                menu_ticks: 2,
-                animation_ticks: 5
-            },
-            {
-                id: "cave",
-target: {origin: {x: 4616, y: 5131, level: 0}},
-name: "Fight Cave",
-code: "3",
-                menu_ticks: 2,
-                animation_ticks: 5
-            },
-            {
-                id: "kiln",
-target: {origin: {x: 4744, y: 5171, level: 0}},
-name: "Fight Kiln",
-code: "4",
-                menu_ticks: 2,
-                animation_ticks: 5
-            },
-            {
-                id: "cauldron",
-target: {origin: {x: 4787, y: 5127, level: 0}},
-name: "Fight Cauldron",
-code: "5",
-                menu_ticks: 2,
-                animation_ticks: 5
-            },
-        ]
-
-
-    }*/
+  },
+  {
+    type: "teleports",
+    id: "tokkulzo",
+    name: "TokKul-Zo",
+    img: {url: "tokkulzo.png"},
+    menu_ticks: 2,
+    animation_ticks: 5,
+    spots: [
+      {
+        id: "plaza",
+        target: {origin: {x: 4672, y: 5155, level: 0}},
+        name: "Main Plaza",
+        code: "1",
+      },
+      {
+        id: "pit",
+        target: {origin: {x: 4603, y: 5062, level: 0}},
+        name: "Fight Pit",
+        code: "2",
+      },
+      {
+        id: "cave",
+        target: {origin: {x: 4616, y: 5131, level: 0}},
+        name: "Fight Cave",
+        code: "3",
+      },
+      {
+        id: "kiln",
+        target: {origin: {x: 4744, y: 5171, level: 0}},
+        name: "Fight Kiln",
+        code: "4",
+      },
+      {
+        id: "cauldron",
+        target: {origin: {x: 4787, y: 5127, level: 0}},
+        name: "Fight Cauldron",
+        code: "5",
+      },
+    ],
+    access: [
+      {id: "ring", type: "item", name: {kind: "item", name: "TokKul-Zo"}, action_name: "Teleport"}
+    ]
+  },
   {
     type: "teleports",
     id: "grandseedpod",
@@ -4323,7 +4363,7 @@ code: "5",
     spots: [
       /*{
         id: "bts",
-        target: {"origin": {"x": 1183, "y": 5396, "level": 0}},
+        target: {"origin": {"x": 1183, "y": 5396, "level": 1}},
         name: "Behind the scenes",
         code: "2",
         animation_ticks: 7,
@@ -4333,6 +4373,12 @@ code: "5",
         target: {"origin": {"x": 2982, "y": 9804, "level": 0}},
         name: "Return",
         animation_ticks: 2,
+      },
+      {
+        id: "lifealtar",
+        target: {"origin": {"x": 1065, "y": 5544, "level": 0}},
+        name: "Return",
+        animation_ticks: 7,
       },
     ],
     access: [
@@ -4379,8 +4425,6 @@ code: "5",
   // Disc of Returning to Dwarven mine
   // Spirit tree access points
   /** TODO
-   *   - Menaphos Tablets
-   *   - Charter Ships
    *   - Boss Portal (As Transport instead of tele?)
    */
 ]

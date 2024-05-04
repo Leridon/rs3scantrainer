@@ -574,7 +574,6 @@ const raw_data: Transportation.TeleportGroup[] = [
     type: "teleports",
     id: "houseteleports", // house teleport timings assume the spell, tablets are two ticks slower
     name: "House Teleports",
-    img: {url: "modhouse.png"},
     spots: [
       {
         id: "rimmington",
@@ -648,6 +647,7 @@ const raw_data: Transportation.TeleportGroup[] = [
         id: "spellbook",
         type: "spellbook",
         name: "Normal Spellbook",
+        img: {url: "tele-house.png"},
         menu_ticks: 0,
         animation_ticks: default_teleport_ticks
       },
@@ -658,6 +658,7 @@ const raw_data: Transportation.TeleportGroup[] = [
           kind: "item",
           name: "House Teleport Tablet",
         },
+        img: {url: "modhouse.png"},
         action_name: "Break",
         menu_ticks: 0,
         animation_ticks: default_teleport_ticks + 2

@@ -4,10 +4,7 @@ import {stat} from "copy-webpack-plugin/types/utils";
 import {debug} from "@alt1/ocr";
 
 export namespace CelticKnots {
-  export const elements =
-    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] as const
-
-  export type Element = (typeof elements)[number] | "unknown"
+  export type Element = number | "unknown"
 
   export namespace Element {
     export function maybeEqual(a: Element, b: Element): boolean {
@@ -64,7 +61,7 @@ export namespace CelticKnots {
     export function generate(shape: PuzzleShape): PuzzleState {
       const state: PuzzleState = {
         shape: shape,
-        snakes: shape.snake_lengths.map(s => new Array(s).fill(0).map(() => elements[lodash.random(elements.length - 1)]))
+        snakes: shape.snake_lengths.map(s => new Array(s).fill(0).map(() => lodash.random(20)))
       }
 
       shape.locks.forEach(({first, second}) => {

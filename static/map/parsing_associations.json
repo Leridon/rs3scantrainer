@@ -1,5 +1,5 @@
 {
-  "version": 1358,
+  "version": 1359,
   "associations": [
     {
       "group_id": 0,
@@ -14141,15 +14141,16 @@
                 "level": 0
               },
               "size": {
-                "x": 2,
+                "x": 3,
                 "y": 2
-              }
+              },
+              "data": "LQ=="
             },
             "movements": [
               {
                 "valid_from": {
                   "origin": {
-                    "x": 0,
+                    "x": 1,
                     "y": 0,
                     "level": 0
                   },
@@ -14163,12 +14164,12 @@
                 },
                 "movement": {
                   "offset": {
-                    "x": -1,
+                    "x": -2,
                     "y": 0,
                     "level": 0
                   }
                 },
-                "time": 2
+                "time": 3
               },
               {
                 "valid_from": {
@@ -14187,12 +14188,12 @@
                 },
                 "movement": {
                   "offset": {
-                    "x": 1,
+                    "x": 2,
                     "y": 0,
                     "level": 0
                   }
                 },
-                "time": 2
+                "time": 3
               }
             ]
           }

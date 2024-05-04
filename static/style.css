@@ -1966,6 +1966,8 @@ input[type=checkbox] + span {
 .nisl-abstract-dropdown {
     z-index: 9999999;
     overflow: auto;
+    border: 1px solid var(--nisl-input-border-color);
+    border-top: none;
 }
 
 .nisl-abstract-dropdown > * {

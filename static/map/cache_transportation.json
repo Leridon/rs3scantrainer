@@ -91706,22 +91706,23 @@
         "cursor": "generic",
         "interactive_area": {
           "origin": {
-            "x": 3652,
+            "x": 3651,
             "y": 3485,
             "level": 0
           },
           "size": {
-            "x": 2,
+            "x": 3,
             "y": 2
-          }
+          },
+          "data": "LQ=="
         },
         "name": "Pass",
         "movement": [
           {
-            "time": 2,
+            "time": 3,
             "valid_from": {
               "origin": {
-                "x": 3652,
+                "x": 3651,
                 "y": 3485,
                 "level": 0
               },
@@ -91731,14 +91732,14 @@
               }
             },
             "offset": {
-              "x": 1,
+              "x": 2,
               "y": 0,
               "level": 0
             },
             "orientation": "bymovement"
           },
           {
-            "time": 2,
+            "time": 3,
             "valid_from": {
               "origin": {
                 "x": 3653,
@@ -91751,7 +91752,7 @@
               }
             },
             "offset": {
-              "x": -1,
+              "x": -2,
               "y": 0,
               "level": 0
             },
@@ -91790,17 +91791,18 @@
           },
           "size": {
             "x": 2,
-            "y": 2
-          }
+            "y": 3
+          },
+          "data": "Mw=="
         },
         "name": "Pass",
         "movement": [
           {
-            "time": 2,
+            "time": 3,
             "valid_from": {
               "origin": {
                 "x": 3659,
-                "y": 3508,
+                "y": 3509,
                 "level": 0
               },
               "size": {
@@ -91810,13 +91812,13 @@
             },
             "offset": {
               "x": 0,
-              "y": -1,
+              "y": -2,
               "level": 0
             },
             "orientation": "bymovement"
           },
           {
-            "time": 2,
+            "time": 3,
             "valid_from": {
               "origin": {
                 "x": 3659,
@@ -91830,7 +91832,7 @@
             },
             "offset": {
               "x": 0,
-              "y": 1,
+              "y": 2,
               "level": 0
             },
             "orientation": "bymovement"

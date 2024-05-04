@@ -221,7 +221,7 @@ export class LocInstanceEntity extends MapEntity {
 const pre_filter: LocFilter = {
   actions: ["open", "use", "enter", "climb", "crawl", "scale", "pass", "jump", "leave", "teleport", "descend", "step", "walk", "cross", "exit", "squeeze",
     "stand", "ascend", "top", "bottom", "descend", "across", "swing", "slash", "pray", "operate", "pull", "dig", "push", "grapple",
-    "board"]
+    "board", "swim", "through", "past", "attune", "traverse", "vault", "slide", "merge"]
 }
 
 export class FilteredLocLayer extends GameLayer {

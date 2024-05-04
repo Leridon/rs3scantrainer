@@ -4439,7 +4439,7 @@ export namespace clue_data {
       "type": "emote",
       "tier": "master",
       "text": ["Dance on an Uncharted Isle. Beware of double agents! Equip a dark bow, some infinity boots and culinaromancer gloves 10."],
-      "area": {"origin": {"x": 3052, "y": 3245, "level": 0}, "size": {"x": 4, "y": 4}},
+      "area": {"origin": {"x": 1185, "y": 7372, "level": 0}, "size": {"x": 21, "y": 22}},
       "items": ["Dark bow", "Infinity boots", "Culinaromancer gloves 10"],
       "emotes": ["Dance"],
       "double_agent": true,
@@ -6592,7 +6592,7 @@ export namespace clue_data {
       "answer": "Cook a raw shark, raw rocktail or raw sailfish.",
       "cursor": "cook",
       "areas": [
-        {"origin":{"x":4310,"y":823,"level":0},"size":{"x":3,"y":3}}
+        {"origin": {"x": 4310, "y": 823, "level": 0}, "size": {"x": 3, "y": 3}}
       ]
     }, {
       "type": "skilling",
@@ -6660,7 +6660,7 @@ export namespace clue_data {
       "answer": "Mine a concentrated gold deposit in the Living Rock Caverns.",
       "cursor": "mine",
       "areas": [
-        {"origin":{"x":3646,"y":5141,"level":0},"size":{"x":3,"y":5}}
+        {"origin": {"x": 3646, "y": 5141, "level": 0}, "size": {"x": 3, "y": 5}}
       ]
     }, {
       "type": "skilling",

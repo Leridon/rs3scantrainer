@@ -1,27 +1,25 @@
 import {CelticKnots} from "../../../../lib/cluetheory/CelticKnots";
-import {Rectangle, Vector2} from "../../../../lib/math";
-import {ClueReader} from "./ClueReader";
+import {Vector2} from "../../../../lib/math";
 import {util} from "../../../../lib/util/util";
-import {OverlayGeometry} from "../../../../lib/util/OverlayGeometry";
-import {ImageData, ImageDetect, ImgRef, mixColor} from "@alt1/base";
+import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
+import {ImageData, ImageDetect, mixColor} from "@alt1/base";
 import {ImageFingerprint} from "../../../../lib/util/ImageFingerprint";
 import * as lodash from "lodash";
 import {identity} from "lodash";
 import Widget from "../../../../lib/ui/Widget";
 import {NisModal} from "../../../../lib/ui/NisModal";
 import {C} from "../../../../lib/ui/constructors";
-import {ScuffedTesting} from "../../../../test/test_framework";
+import {CapturedModal} from "../../../../lib/alt1/ImageCapture";
 
 
 export namespace KnotReader {
 
   import rgbSimilarity = util.rgbSimilarity;
-  import MatchedUI = ClueReader.MatchedUI;
   import count = util.count;
   import vbox = C.vbox;
   import hboxl = C.hboxl;
   import img = C.img;
-  import run = ScuffedTesting.run;
+
   const TILE_SIZE = {x: 24, y: 24}
   const RUNE_SIZE = {x: 25, y: 25}
   const DIAGONAL_SPACING = {x: 24, y: 24}
@@ -60,8 +58,6 @@ export namespace KnotReader {
       for (let i = 0; i < Math.floor(atlas.width / 12); i++) {
         fingerprints.push(ImageFingerprint.get(atlas, {x: i * 12, y: 0}, RUNE_REFERENCE_SIZE, RUNE_KERNEL_SIZE, ImageFingerprint.TypeRGB))
       }
-
-      console.log(fingerprints)
 
       rune_references = fingerprints
     }
@@ -146,12 +142,8 @@ export namespace KnotReader {
     private grid: Tile[][]
     private lanes: Lane[]
 
-    constructor(private image: ImgRef, private ui: MatchedUI.Modal) {
-      this.img_data = ui.image.toData()
-
-      image.read()
-
-      image.read()
+    constructor(private ui: CapturedModal) {
+      this.img_data = ui.body.getData()
     }
 
     private async identifyRune(img: ImageFingerprint): Promise<number> {
@@ -164,8 +156,6 @@ export namespace KnotReader {
       if (best && best.certainty > 0.9) {
         return best.id
       } else {
-        console.log(`Rejecting ${best?.certainty}`)
-        console.log(best)
         return null
       }
     }
@@ -177,7 +167,7 @@ export namespace KnotReader {
         let y = 5
 
         while (y < 200) {
-          const pixel = Vector2.add(Rectangle.screenOrigin(this.ui.rect), {x: SCANNING_X, y: y})
+          const pixel = {x: SCANNING_X, y: y}
 
           if (isLaneBorder(this.img_data.getPixel(pixel.x, pixel.y))) return pixel
 
@@ -205,9 +195,7 @@ export namespace KnotReader {
 
       const origin_of_a_tile = Vector2.add(this.border_anchor, FROM_ANCHOR_TO_TILE)
 
-      const DEAD = {x: 70, y: 0}
-
-      const DEADZONE = Vector2.add(Rectangle.screenOrigin(this.ui.rect), DEAD)
+      const DEADZONE = {x: 70, y: 0}
 
       const index_of_detected_rune = {
         x: Math.floor((origin_of_a_tile.x - DEADZONE.x) / TILE_SIZE.x),
@@ -219,8 +207,8 @@ export namespace KnotReader {
       this.runes_on_odd_tiles = (index_of_detected_rune.x + index_of_detected_rune.y) % 2 == 1
 
       this.grid_size = {
-        x: Math.floor((this.ui.rect.botright.x - this.anchor_grid_origin.x - DEAD.x - TILE_SIZE.x) / TILE_SIZE.x),
-        y: Math.floor((this.ui.rect.topleft.y - this.anchor_grid_origin.y - DEAD.y - TILE_SIZE.y) / TILE_SIZE.y)
+        x: Math.floor((this.ui.body.size.x - DEADZONE.x - TILE_SIZE.x) / TILE_SIZE.x),
+        y: Math.floor((this.ui.body.size.y - DEADZONE.y - TILE_SIZE.y) / TILE_SIZE.y)
       }
     }
 
@@ -308,7 +296,6 @@ export namespace KnotReader {
       const rune = await this.identifyRune(rune_fingerprint)
 
       if (rune == null) {
-        console.log(`No match for ${Vector2.toString(pos)}`)
         return {pos: pos, rune: null}
       }
 
@@ -334,8 +321,6 @@ export namespace KnotReader {
         const start_tile = this.grid.flat().find(t => t.rune && !t.rune.intersection && !this.lanes.some(l => l.color == t.rune.strip_color))
 
         if (!start_tile) break
-
-        console.log(`Start at ${Vector2.toString(start_tile.pos)}`)
 
         const lane: Lane = {
           color: start_tile.rune.strip_color,
@@ -425,7 +410,7 @@ export namespace KnotReader {
       for (let i = 0; i < this.lanes.length; i++) {
         const lane = this.lanes[i]
 
-        overlay.polyline(lane.tiles.map(t => Vector2.add(this.tileOrigin(t.pos), {x: 12, y: 12})),
+        overlay.polyline(lane.tiles.map(t => Vector2.add(this.ui.body.screenRectangle().origin, this.tileOrigin(t.pos), {x: 12, y: 12})),
           true,
           {
             color: colors[lane.color],
@@ -437,7 +422,7 @@ export namespace KnotReader {
       for (let x = 0; x < this.grid_size.x; x++) {
         for (let y = 0; y < this.grid_size.y; y++) {
 
-          const o = this.tileOrigin({x, y})
+          const o = Vector2.add(this.ui.body.screenRectangle().origin, this.tileOrigin({x, y}))
 
           const tile = this.grid[y][x]
 
@@ -470,7 +455,7 @@ export namespace KnotReader {
     }
   }
 
-  export async function read(modal: MatchedUI.Modal): Promise<KnotReader.Result> {
+  export async function read(modal: CapturedModal): Promise<KnotReader.Result> {
     const reader = new KnotReader(modal);
 
     console.log(await reader.getPuzzle())

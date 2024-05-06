@@ -18,7 +18,7 @@ import {Process} from "../../../../lib/Process";
 import * as a1lib from "@alt1/base";
 import {mixColor} from "@alt1/base";
 import {CompassReader} from "../cluereader/CompassReader";
-import {OverlayGeometry} from "../../../../lib/util/OverlayGeometry";
+import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
 import {Transportation} from "../../../../lib/runescape/transportation";
 import {TransportData} from "../../../../data/transports";
 import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";

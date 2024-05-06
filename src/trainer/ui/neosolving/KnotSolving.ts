@@ -14,9 +14,9 @@ import * as a1lib from "@alt1/base"
 
    implementation(): Promise<void> | void {
      while(!this.should_stop) {
-       a1lib.captureHold()
+       /*a1lib.captureHold()
 
-       KnotReader.read()
+       KnotReader.read()*/
 
        this.checkTime()
      }

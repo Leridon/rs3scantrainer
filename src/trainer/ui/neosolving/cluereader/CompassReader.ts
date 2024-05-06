@@ -3,7 +3,7 @@ import {ImgRef, mixColor} from "@alt1/base";
 import {circularMean, degreesToRadians, normalizeAngle, Rectangle, Vector2} from "../../../../lib/math";
 import {ClueReader} from "./ClueReader";
 import * as lodash from "lodash";
-import {OverlayGeometry} from "../../../../lib/util/OverlayGeometry";
+import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
 import {util} from "../../../../lib/util/util";
 import angleDifference = Compasses.angleDifference;
 import ANGLE_REFERENCE_VECTOR = Compasses.ANGLE_REFERENCE_VECTOR;

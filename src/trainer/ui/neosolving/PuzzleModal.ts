@@ -1,6 +1,8 @@
 import {NisModal} from "../../../lib/ui/NisModal";
 import {ClueReader} from "./cluereader/ClueReader";
 import {Sliders} from "./puzzles/Sliders";
+import {CapturedModal} from "../../../lib/alt1/ImageCapture";
+import {KnotReader} from "./cluereader/KnotReader";
 
 export abstract class PuzzleModal extends NisModal {
   protected is_aborted = false
@@ -43,7 +45,6 @@ export namespace PuzzleModal {
 
   type puzzle_base = {
     type: Type
-    ui: MatchedUI
   }
 
   export type Slider = puzzle_base & {
@@ -52,5 +53,11 @@ export namespace PuzzleModal {
     puzzle: SliderPuzzle
   }
 
-  export type Puzzle = Slider
+  export type Knot = puzzle_base & {
+    type: "knot",
+    modal: CapturedModal,
+    knot: KnotReader.Result
+  }
+
+  export type Puzzle = Slider | Knot
 }

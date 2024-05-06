@@ -2,7 +2,7 @@ import {Sliders} from "./puzzles/Sliders";
 import {Rectangle, Transform, Vector2} from "../../../lib/math";
 import * as a1lib from "@alt1/base";
 import {mixColor} from "@alt1/base";
-import {OverlayGeometry} from "../../../lib/util/OverlayGeometry";
+import {OverlayGeometry} from "../../../lib/alt1/OverlayGeometry";
 import {SlideReader} from "./cluereader/SliderReader";
 import {C} from "../../../lib/ui/constructors";
 import {PuzzleModal} from "./PuzzleModal";

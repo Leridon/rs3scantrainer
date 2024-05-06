@@ -39,6 +39,7 @@ Master:
 
 - Issues
     - [Bug, 1] SearchSelection: Very rarely the dropdown remains after the element is already gone
+    - Pathfinder prefers north over south, while ingame is the other way around
 
 - Data
     - [Dev Tool, 3] Utility Layer for shortcut parsing
@@ -57,7 +58,6 @@ Master:
     - Scale information gain down when zoomed out
 
 - Path Editor
-    - [Feature] Add cosmetic step that can have a range of icons, tooltips or areas
     - [Feature] Show number of tiles when drawing a run
     - [Feature, 3] Highlight step on hover
     - Teleports don't use tile areas correctly
@@ -91,25 +91,9 @@ Master:
         - Check modal for how to do it
     - Clean up cursor on map
     - Remove old Modals
-        - About
         - Patchnotes
     - Add short summary sentence to update notifications
     - Use the new ExpansionBehaviour wherever it's applicable
-
-- Shortcut editor/View
-    - Honestly, just remove the entire thing
-    - [Bug] Actually disable editing for builtins
-    - [Bug] Viewport filtering needs to include level
-    - [Potential Bug] Copying from a different floor is weird.
-    - (Right)clicking needs to be limited to actually visible shortcuts (maybe get via the view layer?)
-    - Scroll Search results
-    - Group context menu options into submenus, give icons
-    - [Bug] Move from context menu doesnt hide the old preview
-    - [Bug] Hovering resets opacity if hidden
-        - Solution: Separate opacity and visibility
-    - Jump to target/origin context menu
-
-
 
 - Data Model
     - Skilling Clue locations

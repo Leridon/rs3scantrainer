@@ -307,13 +307,35 @@ class ClueSolvingReadingBehaviour extends Behaviour {
   private async solve(is_autosolve: boolean = false): Promise<ClueReader.Result> {
     const res = await this.reader.readScreen()
 
-    if (res?.step) {
-      this.parent.setClueWithAutomaticMethod(res.step, res)
-    } else if (res?.puzzle) {
-      const is_new_one = this.parent.setPuzzle(res.puzzle)
+    if (res) {
+      switch (res.type) {
+        case "textclue":
+          this.parent.setClueWithAutomaticMethod(res.step, res)
+          break;
+        case "scan":
+          this.parent.setClueWithAutomaticMethod({step: res.step, text_index: 0}, res)
+          break;
+        case "compass":
+          this.parent.setClueWithAutomaticMethod({step: res.step, text_index: 0}, res)
+          break;
+        case "knot":
+          break;
+        case "slider":
+          break;
+        case "legacy":
 
-      if (is_autosolve && res.puzzle.type == "slider" && is_new_one) {
-        deps().app.crowdsourcing.pushSlider(res.puzzle.puzzle)
+          if (res?.step) {
+            this.parent.setClueWithAutomaticMethod(res.step, res)
+          }
+          if (res?.puzzle) {
+            const is_new_one = this.parent.setPuzzle(res.puzzle)
+
+            if (is_autosolve && res.puzzle.type == "slider" && is_new_one) {
+              deps().app.crowdsourcing.pushSlider(res.puzzle.puzzle)
+            }
+          }
+
+          break;
       }
     }
 
@@ -338,7 +360,7 @@ class ClueSolvingReadingBehaviour extends Behaviour {
   async solveManuallyTriggered() {
     const found = await this.solve()
 
-    if (!found?.step && !found?.puzzle) {
+    if (!found) {
       notification("No clue found on screen.", "error")
     }
   }
@@ -699,7 +721,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
         this.app.settings.update(set => set.teleport_customization.active_preset = bound_preset)
     }
 
-    if (clue.type == "compass") {
+    if (clue.type == "compass" && read_result.type == "legacy") {
       this.sub_behaviour.set(new CompassSolving(this, clue, read_result?.found_ui as MatchedUI.Compass))
     }
 

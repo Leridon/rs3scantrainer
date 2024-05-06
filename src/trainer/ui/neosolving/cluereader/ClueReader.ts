@@ -278,7 +278,11 @@ export class ClueReader {
                   }
                 }
               case "knot":
-                KnotReader.read(found_ui)
+
+                return {
+                  found_ui: found_ui,
+                  knot: await KnotReader.read(found_ui)
+                }
             }
           }
 
@@ -377,6 +381,11 @@ export namespace ClueReader {
   export type MatchedUI =
     MatchedUI.Slider | MatchedUI.Modal | MatchedUI.Scan | MatchedUI.Compass
 
+  export type ImageSection = {
+    image: ImgRef,
+    section: Rectangle
+  }
+
   export namespace MatchedUI {
     export type Type = "modal" | "scan" | "slider" | "compass"
 
@@ -403,7 +412,8 @@ export namespace ClueReader {
   export type Result = {
     found_ui: MatchedUI,
     step?: Clues.StepWithTextIndex,
-    puzzle?: PuzzleModal.Puzzle
+    puzzle?: PuzzleModal.Puzzle,
+    knot?: KnotReader.Result
   }
 
   /**

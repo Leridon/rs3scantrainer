@@ -3,7 +3,7 @@ import {Rectangle, Vector2} from "../../../../lib/math";
 import {ClueReader} from "./ClueReader";
 import {util} from "../../../../lib/util/util";
 import {OverlayGeometry} from "../../../../lib/util/OverlayGeometry";
-import {ImageData, ImageDetect, mixColor} from "@alt1/base";
+import {ImageData, ImageDetect, ImgRef, mixColor} from "@alt1/base";
 import {ImageFingerprint} from "../../../../lib/util/ImageFingerprint";
 import * as lodash from "lodash";
 import {identity} from "lodash";
@@ -146,8 +146,12 @@ export namespace KnotReader {
     private grid: Tile[][]
     private lanes: Lane[]
 
-    constructor(private ui: MatchedUI.Modal) {
+    constructor(private image: ImgRef, private ui: MatchedUI.Modal) {
       this.img_data = ui.image.toData()
+
+      image.read()
+
+      image.read()
     }
 
     private async identifyRune(img: ImageFingerprint): Promise<number> {
@@ -291,7 +295,7 @@ export namespace KnotReader {
         }).toPngBase64()}`
       ).css("image-rendering", "pixelated").addTippy(vbox(
         c().text(rune_fingerprint.data.join(",")),
-        ...(await getRuneReferences()).map(r => c().text((100*ImageFingerprint.similarity(r, rune_fingerprint)).toFixed(1))))))
+        ...(await getRuneReferences()).map(r => c().text((100 * ImageFingerprint.similarity(r, rune_fingerprint)).toFixed(1))))))
 
       const is_intersection = background_neighbours == 0
 
@@ -405,7 +409,7 @@ export namespace KnotReader {
       }
     }
 
-    public async print() {
+    public async showDebugOverlay() {
       await this.getPuzzle()
 
       const colors = [
@@ -467,20 +471,18 @@ export namespace KnotReader {
   }
 
   export async function read(modal: MatchedUI.Modal): Promise<KnotReader.Result> {
-    // Idea: Read grid into
-
     const reader = new KnotReader(modal);
 
     console.log(await reader.getPuzzle())
 
     console.log(CelticKnots.solve(await reader.getPuzzle()));
 
-    reader.print()
+    reader.showDebugOverlay()
 
-    return null
-    // TODO: Find origin of knot coordinate system
-
-
+    return {
+      state: await reader.getPuzzle(),
+      buttons: []
+    }
   }
 
 

@@ -3,7 +3,7 @@ import * as a1lib from "@alt1/base";
 import {captureHoldFullRs, ImgRef} from "@alt1/base";
 import {AnchorImages} from "./AnchorImages";
 import {Rectangle, Vector2} from "../../../../lib/math";
-import {ModalUI, ModalUIReader} from "../../../../skillbertssolver/cluesolver/modeluireader";
+import {ModalUI} from "../../../../skillbertssolver/cluesolver/modeluireader";
 import {util} from "../../../../lib/util/util";
 import {coldiff} from "../../../../skillbertssolver/oldlib";
 import * as OCR from "@alt1/ocr";
@@ -12,12 +12,12 @@ import * as oldlib from "../../../../skillbertssolver/cluesolver/oldlib";
 import {comparetiledata} from "../../../../skillbertssolver/cluesolver/oldlib";
 import {clue_data} from "../../../../data/clues";
 import {SlideReader} from "./SliderReader";
-import {PuzzleModal} from "../PuzzleModal";
 import {Notification} from "../../NotificationBar";
 import {CompassReader} from "./CompassReader";
 import {KnotReader} from "./KnotReader";
 import {CapturedImage, CapturedModal} from "../../../../lib/alt1/ImageCapture";
 import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
+import {Sliders} from "../puzzles/Sliders";
 import stringSimilarity = util.stringSimilarity;
 import ScanStep = Clues.ScanStep;
 import notification = Notification.notification;
@@ -31,6 +31,7 @@ let CLUEREADER_DEBUG_OVERLAY: OverlayGeometry = null
 export class ClueReader {
 
   private initialized: Promise<void>
+
   anchors: {
     slide: ImageData;
     slidelegacy: ImageData;
@@ -167,9 +168,12 @@ export class ClueReader {
             }
           case "knot":
             return {
-              type: "knot",
-              modal: modal,
-              knot: await KnotReader.read(modal)
+              type: "puzzle",
+              puzzle: {
+                type: "knot",
+                modal: modal,
+                knot: await KnotReader.read(modal)
+              },
             }
         }
       }
@@ -185,15 +189,6 @@ export class ClueReader {
         }[]
       }[] =
         [
-          /* {
-             type: "modal", anchors: [{
-               img: this.anchors.legacyx,
-               origin_offset: {x: 484, y: 21},
-             }, {
-               img: this.anchors.eocx,
-               origin_offset: {x: 483, y: 17}
-             }]
-           },*/
           {
             type: "scan", anchors: [{
               img: this.anchors.scanfartext,
@@ -229,15 +224,6 @@ export class ClueReader {
 
           if (locs.length > 0) {
             switch (ui_type.type) {
-              case "modal":
-                const modal = ModalUIReader.detectEoc(img, locs[0]);
-
-                return {
-                  type: "modal",
-                  image: img,
-                  rect: Rectangle.fromRectLike(modal.rect),
-                  modal: modal,
-                }
               case "scan":
                 return {
                   type: "scan",
@@ -538,7 +524,30 @@ export namespace ClueReader {
   export type ModalType = "towers" | "lockbox" | "textclue" | "knot"
 
   export namespace Result {
-    export type Kind = "textclue" | "legacy" | "scan" | "compass" | "knot" | "slider"
+    export type Kind = "textclue" | "legacy" | "scan" | "compass" | "puzzle"
+
+    export namespace Puzzle {
+      export type Type = "slider" | "knot" | "tower" | "lockbox"
+
+      import SliderPuzzle = Sliders.SliderPuzzle;
+      type puzzle_base = {
+        type: Type
+      }
+
+      export type Slider = puzzle_base & {
+        type: "slider",
+        ui: MatchedUI.Slider
+        puzzle: SliderPuzzle
+      }
+
+      export type Knot = puzzle_base & {
+        type: "knot",
+        modal: CapturedModal,
+        knot: KnotReader.Result
+      }
+
+      export type Puzzle = Slider | Knot
+    }
 
     type base = { type: Kind }
 
@@ -558,27 +567,21 @@ export namespace ClueReader {
       step: Clues.Compass,
     }
 
-    export type Knot = base & {
-      type: "knot",
-      modal: CapturedModal,
-      knot: KnotReader.Result
-    }
-
-    export type Slider = base & {
-      type: "slider",
-      puzzle?: PuzzleModal.Puzzle,
+    export type Puzzle = base & {
+      type: "puzzle",
+      puzzle: Puzzle.Puzzle,
     }
 
     export type Legacy = base & {
       type: "legacy",
       found_ui: MatchedUI,
-      puzzle?: PuzzleModal.Puzzle,
+      puzzle?: Puzzle.Puzzle,
       knot?: KnotReader.Result,
       step?: Clues.StepWithTextIndex,
     }
   }
 
-  export type Result = Result.TextClue | Result.Legacy | Result.ScanClue | Result.CompassClue | Result.Knot | Result.Slider
+  export type Result = Result.TextClue | Result.Legacy | Result.ScanClue | Result.CompassClue | Result.Puzzle
 
 
   /**

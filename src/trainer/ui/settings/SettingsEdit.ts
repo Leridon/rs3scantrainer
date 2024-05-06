@@ -21,7 +21,7 @@ import {NeoSolving} from "../neosolving/NeoSolvingBehaviour";
 import NumberSlider from "../../../lib/ui/controls/NumberSlider";
 import {ColorPicker} from "../../../lib/ui/controls/ColorPicker";
 import {util} from "../../../lib/util/util";
-import {SlideGuider} from "../neosolving/SlideGuider";
+import {SlideGuider} from "../neosolving/puzzles/SlideGuider";
 import {CrowdSourcing} from "../../CrowdSourcing";
 import {CompassSolving} from "../neosolving/compass/CompassSolving";
 import {clue_data} from "../../../data/clues";

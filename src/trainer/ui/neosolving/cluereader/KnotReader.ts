@@ -7,7 +7,6 @@ import {ImageFingerprint} from "../../../../lib/util/ImageFingerprint";
 import * as lodash from "lodash";
 import {identity} from "lodash";
 import Widget from "../../../../lib/ui/Widget";
-import {NisModal} from "../../../../lib/ui/NisModal";
 import {C} from "../../../../lib/ui/constructors";
 import {CapturedModal} from "../../../../lib/alt1/ImageCapture";
 
@@ -17,7 +16,6 @@ export namespace KnotReader {
   import rgbSimilarity = util.rgbSimilarity;
   import count = util.count;
   import vbox = C.vbox;
-  import hboxl = C.hboxl;
   import img = C.img;
 
   const TILE_SIZE = {x: 24, y: 24}
@@ -131,7 +129,7 @@ export namespace KnotReader {
     {x: 11, y: 28},
   ]
 
-  class KnotReader {
+  export class KnotReader {
     private img_data: ImageData
     private border_anchor: Vector2
     private anchor_grid_origin: Vector2
@@ -195,6 +193,9 @@ export namespace KnotReader {
 
       const origin_of_a_tile = Vector2.add(this.border_anchor, FROM_ANCHOR_TO_TILE)
 
+      console.log("Origin of a tile")
+      console.log(origin_of_a_tile)
+
       const DEADZONE = {x: 70, y: 0}
 
       const index_of_detected_rune = {
@@ -210,6 +211,8 @@ export namespace KnotReader {
         x: Math.floor((this.ui.body.size.x - DEADZONE.x - TILE_SIZE.x) / TILE_SIZE.x),
         y: Math.floor((this.ui.body.size.y - DEADZONE.y - TILE_SIZE.y) / TILE_SIZE.y)
       }
+
+      console.log(Vector2.toString(this.grid_size))
     }
 
     private tileOrigin(tile: Vector2): Vector2 {
@@ -222,21 +225,21 @@ export namespace KnotReader {
 
     private row: Widget[]
 
+    public elements: Widget[][] = []
+
     private async readGrid() {
       if (this.grid) return
 
       this.findOrigin()
 
-      const elements: Widget[][] = []
-
       this.grid = new Array(this.grid_size.y)
 
       for (let y = 0; y < this.grid_size.y; y++) {
+        console.log(y)
         this.grid[y] = new Array(this.grid_size.x)
 
         this.row = []
-
-        elements.push(this.row)
+        this.elements.push(this.row)
 
         for (let x = 0; x < this.grid_size.x; x++) {
           if (((x + y) % 2 == 1) != this.runes_on_odd_tiles) {
@@ -247,19 +250,6 @@ export namespace KnotReader {
           this.grid[y][x] = await this.readTile({x, y})
         }
       }
-
-      (new class extends NisModal {
-        render() {
-          super.render();
-
-          vbox(
-            ...elements.map(row => hboxl(...row.map(e => e.css2({
-              "width": "12px",
-              "height": "12px",
-            }))))
-          ).appendTo(this.body)
-        }
-      }).show()
     }
 
     private async readTile(pos: Vector2): Promise<Tile> {
@@ -313,7 +303,7 @@ export namespace KnotReader {
     private async findLanes() {
       if (this.lanes) return
 
-      await this.readGrid()
+      await (this.readGrid())
 
       this.lanes = []
 
@@ -353,7 +343,7 @@ export namespace KnotReader {
     public async getPuzzle(): Promise<CelticKnots.PuzzleState> {
       if (this.puzzle) return this.puzzle
 
-      await this.findLanes()
+      await (this.findLanes())
 
       const locks: CelticKnots.Lock[] = []
 
@@ -395,7 +385,7 @@ export namespace KnotReader {
     }
 
     public async showDebugOverlay() {
-      await this.getPuzzle()
+      await (this.getPuzzle())
 
       const colors = [
         mixColor(0, 0, 255), // blue
@@ -419,12 +409,17 @@ export namespace KnotReader {
         )
       }
 
+      console.log(this.grid)
+
       for (let x = 0; x < this.grid_size.x; x++) {
         for (let y = 0; y < this.grid_size.y; y++) {
 
           const o = Vector2.add(this.ui.body.screenRectangle().origin, this.tileOrigin({x, y}))
 
-          const tile = this.grid[y][x]
+          const t1 = this.grid[y]
+          if (!t1) debugger
+
+          const tile = t1[x]
 
           if (!tile) continue
 

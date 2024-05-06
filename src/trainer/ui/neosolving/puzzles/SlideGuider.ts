@@ -1,20 +1,23 @@
-import {Sliders} from "./puzzles/Sliders";
-import {Rectangle, Transform, Vector2} from "../../../lib/math";
+import {Sliders} from "./Sliders";
+import {Rectangle, Transform, Vector2} from "../../../../lib/math";
 import * as a1lib from "@alt1/base";
 import {mixColor} from "@alt1/base";
-import {OverlayGeometry} from "../../../lib/alt1/OverlayGeometry";
-import {SlideReader} from "./cluereader/SliderReader";
-import {C} from "../../../lib/ui/constructors";
-import {PuzzleModal} from "./PuzzleModal";
-import ButtonRow from "../../../lib/ui/ButtonRow";
-import {BigNisButton} from "../widgets/BigNisButton";
-import {deps} from "../../dependencies";
+import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
+import {SlideReader} from "../cluereader/SliderReader";
+import {C} from "../../../../lib/ui/constructors";
+import {PuzzleModal} from "../PuzzleModal";
+import ButtonRow from "../../../../lib/ui/ButtonRow";
+import {BigNisButton} from "../../widgets/BigNisButton";
+import {deps} from "../../../dependencies";
 import * as lodash from "lodash";
 import {findLastIndex} from "lodash";
-import {ewent} from "../../../lib/reactive";
-import {util} from "../../../lib/util/util";
-import {AnchorImages} from "./cluereader/AnchorImages";
-import {Process} from "../../../lib/Process";
+import {ewent} from "../../../../lib/reactive";
+import {util} from "../../../../lib/util/util";
+import {AnchorImages} from "../cluereader/AnchorImages";
+import {Process} from "../../../../lib/Process";
+import {ClueReader} from "../cluereader/ClueReader";
+import {NeoSolvingSubBehaviour} from "../NeoSolvingSubBehaviour";
+import NeoSolvingBehaviour from "../NeoSolvingBehaviour";
 import over = OverlayGeometry.over;
 import SliderState = Sliders.SliderState;
 import SliderPuzzle = Sliders.SliderPuzzle;
@@ -57,7 +60,7 @@ class SliderGuideProcess extends Process {
 
   private arrow_keys_inverted: boolean = false
 
-  constructor(private parent: SliderModal, private settings: SlideGuider.Settings) {
+  constructor(private parent: SliderSubBehaviour, private settings: SlideGuider.Settings) {
     super()
 
     this.asInterval(1000 / 50) // Goal of 50 fps
@@ -482,41 +485,6 @@ class SliderGuideProcess extends Process {
                     // Stop the solver in case the combination
                     this.solver.solver.stop()
                     this.solver = null
-                    /*
-                    const annotated = MoveList.annotate(solving_start_state, better, this.settings.mode != "keyboard")
-
-                    function fix(list: AnnotatedMoveList, index_of_first_new_move: number) {
-                      const attached_move = list[index_of_first_new_move]
-                      const existing_pre_move = list[index_of_first_new_move - 1]
-                      const pre_pre_move = list[index_of_first_new_move - 2]
-
-                      const needs_fixing =
-                        Sliders.Move.isVertical(attached_move.move) == Sliders.Move.isVertical(existing_pre_move.move)
-                      //existing_pre_move.pre_states.some(s => SliderState.equals(s, attached_move.post_state))
-
-                      if (needs_fixing) {
-                        attached_move.move = attached_move.clicked_tile - pre_pre_move.clicked_tile
-
-                        console.log(`Needs fixing! Fixed to ${attached_move.move}`)
-
-                        const removal = attached_move.move == 0 ? 2 : 1
-
-                        // Remove last move of the old part of the sequence
-                        list.splice(index_of_first_new_move - 1, removal)
-
-                        console.log(`removed ${removal}`)
-
-                        fix(list, index_of_first_new_move - 1)
-                      }
-                    }
-
-                    this.solution.splice(
-                      solving_start_index,
-                      this.solution.length,
-                      ...annotated
-                    )
-
-                    fix(this.solution, solving_start_index)*/
                   }
                 }),
               solving_from: solving_start_index
@@ -613,45 +581,20 @@ class SliderGuideProcess extends Process {
 }
 
 export class SliderModal extends PuzzleModal {
-  private process: SliderGuideProcess = null
-
-  constructor(public readonly puzzle: PuzzleModal.Slider) {
-    super(puzzle);
+  constructor(
+    public parent: SliderSubBehaviour,
+    public readonly puzzle: ClueReader.Result.Puzzle.Slider) {
+    super(parent);
 
     this.title.set("Slider")
+
+    parent.onStop(() => this.remove())
   }
 
-  private resetProcess(start: boolean) {
-    if (this.process) {
-      this.process.stop()
-      this.process = null
-    }
-
-    if (start) {
-      this.process = new SliderGuideProcess(this, deps().app.settings.settings.solving.puzzles.sliders)
-        .onInterfaceClosed(() => {
-          this.abort()
-        })
-
-      this.process.run()
-    }
-
-    this.updateButtonsState()
-  }
-
-  private updateButtonsState() {
-    this.reset_button.setVisible(!!this.process)
-    this.start_button.setVisible(!this.process)
-    this.stop_button.setEnabled(!!this.process)
-  }
-
-  protected begin(): void {
-    const autostart = deps().app.settings.settings.solving.puzzles.sliders.autostart
-    if (autostart) this.resetProcess(true)
-  }
-
-  protected end(): void {
-    this.resetProcess(false)
+  updateButtonsState() {
+    this.reset_button.setVisible(!!this.parent.process)
+    this.start_button.setVisible(!this.parent.process)
+    this.stop_button.setEnabled(!!this.parent.process)
   }
 
   start_button: BigNisButton
@@ -667,16 +610,55 @@ export class SliderModal extends PuzzleModal {
     this.body.append(new ButtonRow()
       .buttons(
         this.start_button = new BigNisButton("Start", "confirm")
-          .onClick(() => this.resetProcess(true)),
+          .onClick(() => this.parent.resetProcess(true)),
         this.reset_button = new BigNisButton("Reset", "neutral")
-          .onClick(() => this.resetProcess(true)),
+          .onClick(() => this.parent.resetProcess(true)),
         this.stop_button = new BigNisButton("Stop", "cancel")
-          .onClick(() => this.resetProcess(false)),
+          .onClick(() => this.parent.resetProcess(false)),
       )
     )
 
     this.updateButtonsState()
   }
+}
+
+export class SliderSubBehaviour extends NeoSolvingSubBehaviour {
+  process: SliderGuideProcess = null
+  modal: SliderModal
+
+  constructor(parent: NeoSolvingBehaviour, public readonly puzzle: ClueReader.Result.Puzzle.Slider) {
+    super(parent, true)
+  }
+
+  resetProcess(start: boolean) {
+    if (this.process) {
+      this.process.stop()
+      this.process = null
+    }
+
+    if (start) {
+      this.process = new SliderGuideProcess(this, deps().app.settings.settings.solving.puzzles.sliders)
+        .onInterfaceClosed(() => this.stop())
+
+      this.process.run()
+    }
+
+    this.modal.updateButtonsState()
+  }
+
+  protected begin(): void {
+    this.modal = new SliderModal(this, this.puzzle)
+
+    this.modal.show()
+
+    const autostart = deps().app.settings.settings.solving.puzzles.sliders.autostart
+    if (autostart) this.resetProcess(true)
+  }
+
+  protected end(): void {
+    this.resetProcess(false)
+  }
+
 }
 
 export namespace SlideGuider {

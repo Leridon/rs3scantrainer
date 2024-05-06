@@ -4,8 +4,6 @@ import {Vector2} from "../math";
 import {LazyAsync} from "../properties/Lazy";
 import * as OCR from "@alt1/ocr";
 import {ScreenRectangle} from "./ScreenRectangle";
-import {util} from "../util/util";
-import todo = util.todo;
 
 export function imageSize(image: ImageData): Vector2 {
   return {x: image.width, y: image.height}
@@ -127,14 +125,15 @@ export class CapturedModal {
   }
 
   static assumeBody(image: CapturedImage): CapturedModal {
-    todo()
+    return new CapturedModal(image, false)
   }
 
   static async findIn(img: CapturedImage): Promise<CapturedModal> {
+    // TODO: Support legacy interface mode
+
     const anchors = await CapturedModal.anchors.get()
 
     const eoc_x = img.find(anchors.eoc.close_x)[0]
-
 
     if (!eoc_x) return null
 

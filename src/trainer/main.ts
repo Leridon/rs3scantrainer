@@ -380,7 +380,7 @@ class SliderAnalysisModal extends NisModal {
 }
 
 export async function makeshift_main(): Promise<void> {
-  clue_trainer_test_set.run()
+  //clue_trainer_test_set.run()
 
   /*
    const shape: CelticKnots.PuzzleShape = {

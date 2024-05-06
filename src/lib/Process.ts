@@ -101,7 +101,7 @@ export abstract class Process<Result = void> {
     })
   }
 
-  protected async checkTime() {
+  protected async checkTime(): Promise<void> {
     const t = Date.now()
 
     if (this.interrupt_settings.interval) {

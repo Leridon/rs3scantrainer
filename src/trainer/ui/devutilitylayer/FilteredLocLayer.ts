@@ -284,19 +284,13 @@ export class FilteredLocLayer extends GameLayer {
     timeSync("Initializing loc_entities", () => {
       this.loc_entities = this.data
         .getAll()
-        .filter(loc => {
-          if(loc.id == 105109) {
-            console.log(loc)
-            debugger
-          }
-          return LocFilter.apply(pre_filter, loc, this.parsing_table)
-        })
+        .filter(loc => LocFilter.apply(pre_filter, loc, this.parsing_table))
         .map((loc) => {
-        return {
-          loc: loc,
-          instances: getInstances(loc).map(i => new LocInstanceEntity(i, this.parsing_table))
-        }
-      })
+          return {
+            loc: loc,
+            instances: getInstances(loc).map(i => new LocInstanceEntity(i, this.parsing_table))
+          }
+        })
     })
 
     this.applyFilter()

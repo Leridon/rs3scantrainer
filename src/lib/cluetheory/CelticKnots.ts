@@ -1,11 +1,14 @@
 import * as lodash from "lodash"
 
 export namespace CelticKnots {
-  export type Element = number | "unknown"
+  export type Element = { value: number, type: "is" | "isnot" }
 
   export namespace Element {
     export function maybeEqual(a: Element, b: Element): boolean {
-      return a == b || a == "unknown" || b == "unknown"
+      if (a.type == "is" && b.type == "is") return a.value == b.value
+      if (a.type == "is" && b.type == "isnot") return a.value != b.value
+      if (a.type == "isnot" && b.type == "is") return a.value != b.value
+      if (a.type == "isnot" && b.type == "isnot") return true
     }
   }
 
@@ -58,7 +61,7 @@ export namespace CelticKnots {
     export function generate(shape: PuzzleShape): PuzzleState {
       const state: PuzzleState = {
         shape: shape,
-        snakes: shape.snake_lengths.map(s => new Array(s).fill(0).map(() => lodash.random(20)))
+        snakes: shape.snake_lengths.map(s => new Array(s).fill(0).map(() => ({value: lodash.random(20), type: "is"})))
       }
 
       shape.locks.forEach(({first, second}) => {
@@ -118,6 +121,13 @@ export namespace CelticKnots {
   export type Solution = {
     end_state: PuzzleState,
     moves: Move[]
+  }
+
+  export function construct(shape: PuzzleShape, snakes: number[][]): PuzzleState {
+    return {
+      shape: shape,
+      snakes: snakes.map(s => s.map(t => ({type: "is", value: t})))
+    }
   }
 
   export namespace Solution {
@@ -189,11 +199,15 @@ export namespace CelticKnots {
 
     const solutions = backtracking(0, state, state.snakes.map(() => null))
 
+    console.log(`${solutions.length} solutions: ${solutions.map(Solution.toString).join(", and ")}`)
+
     if (solutions.length == 1) {
-      console.log("Only one solution found")
       return solutions[0]
     } else {
-      const real_solutions = solutions.filter(s => s.end_state.shape.locks.every(lock => s.end_state.snakes[lock.first.snake][lock.first.tile] != "unknown"))
+      const real_solutions = solutions.filter(s => s.end_state.shape.locks.every(lock =>
+        s.end_state.snakes[lock.first.snake][lock.first.tile].type != "isnot" &&
+        s.end_state.snakes[lock.second.snake][lock.second.tile].type != "isnot"
+      ))
 
       return lodash.minBy(real_solutions, s => s.moves.map(m => Math.abs(m.offset)))
     }

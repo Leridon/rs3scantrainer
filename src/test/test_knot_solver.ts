@@ -1,5 +1,3 @@
-import * as lodash from "lodash";
-import {Sliders} from "../trainer/ui/neosolving/puzzles/Sliders";
 import {CelticKnots} from "../lib/cluetheory/CelticKnots";
 
 export async function test_knot_solver(): Promise<boolean> {
@@ -17,9 +15,9 @@ export async function test_knot_solver(): Promise<boolean> {
     expected_solution: CelticKnots.Solution
   }[] = [
     {
-      puzzle: {shape: simple_pair, snakes: [[0, 1, 2, 3, 4, 5, 6, 7], [0, 3, 2, 1, 4, 5, 6, 7]]},
+      puzzle: CelticKnots.construct(simple_pair, [[0, 1, 2, 3, 4, 5, 6, 7], [0, 3, 2, 1, 4, 5, 6, 7]]),
       expected_solution: {
-        end_state: {shape: simple_pair, snakes: [[0, 1, 2, 3, 4, 5, 6, 7], [4, 5, 6, 7, 0, 3, 2, 1,]]},
+        end_state: CelticKnots.construct(simple_pair, [[0, 1, 2, 3, 4, 5, 6, 7], [4, 5, 6, 7, 0, 3, 2, 1,]]),
         moves: [{snake_index: 0, offset: 0}, {snake_index: 1, offset: 4}]
       }
     },

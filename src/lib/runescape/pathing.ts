@@ -535,6 +535,22 @@ export namespace Path {
           if (step.spot) state.position.tile = step.spot
           else state.position.tile = teleport.centerOfTarget()
 
+          if (teleport.access?.type == "entity") {
+            switch (teleport.access.orientation ?? "toentitybefore") {
+              case "bymovement":
+                if (augmented.pre_state.position.tile) state.position.direction = direction.fromVector(Vector2.sub(state.position.tile, augmented.pre_state.position.tile))
+                break;
+              case "toentitybefore":
+                if (augmented.pre_state.position.tile) state.position.direction = direction.fromVector(Vector2.sub(teleport.access.clickable_area.origin, augmented.pre_state.position.tile))
+                break;
+              case "toentityafter":
+                state.position.direction = direction.fromVector(Vector2.sub(teleport.access.clickable_area.origin, state.position.tile))
+                break;
+              case "keep":
+                break;
+            }
+          }
+
           if (teleport.spot.facing != null) {
             state.position.direction = teleport.spot.facing
           }

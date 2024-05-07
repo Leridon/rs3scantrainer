@@ -5049,7 +5049,7 @@ export namespace clue_data {
       "solution": {
         "type": "talkto",
         "npc": "Cap'n Izzy No-Beard",
-        "spots": [{"range": {"origin": {"x": 2806, "y": 3190, "level": 0}, "size": {"x": 3, "y": 3}}, "description": "at the Agility Arena"}]
+        "spots": [{"range": {"origin":{"x":2806,"y":3190,"level":0},"size":{"x":4,"y":3},"data":"7g8="}, "description": "at the Agility Arena"}]
       },
       "anagram": ["O Birdz A Zany En Pc"]
     }, {

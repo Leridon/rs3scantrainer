@@ -14,11 +14,13 @@ export namespace Transportation {
 
   export type ImageUrl = { url: string, width?: number, height?: number }
 
+  export type OrientationBehaviour = "bymovement" | "toentitybefore" | "toentityafter" | "keep"
+
   export type EntityActionMovement = {
     valid_from?: TileArea, // Default: Entire interactive area
     offset?: EntityActionMovement.Offset,
     fixed_target?: { target: TileArea | TileCoordinates, relative?: boolean }
-    orientation?: "bymovement" | "toentitybefore" | "toentityafter" | "keep" | "forced", // Default: "bymovement"
+    orientation?: OrientationBehaviour | "forced", // Default: "bymovement"
     forced_orientation?: { dir: direction, relative?: boolean },
     time: number,
   }
@@ -89,6 +91,7 @@ export namespace Transportation {
     interactive_area?: TileArea,
     action_name: string,
     cursor?: CursorType,
+    orientation?: OrientationBehaviour
   } | {
     type: "spellbook",
     name: string

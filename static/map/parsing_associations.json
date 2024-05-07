@@ -1,5 +1,5 @@
 {
-  "version": 1359,
+  "version": 1381,
   "associations": [
     {
       "group_id": 0,
@@ -10385,7 +10385,7 @@
         "action": {
           "id": 0
         },
-        "time": 8,
+        "time": 6,
         "area": {
           "origin": {
             "x": 0,
@@ -10454,7 +10454,7 @@
         "action": {
           "id": 0
         },
-        "time": 8,
+        "time": 6,
         "area": {
           "origin": {
             "x": 0,
@@ -14606,6 +14606,566 @@
                   }
                 },
                 "time": 11
+              }
+            ]
+          }
+        ]
+      },
+      "group_name": "",
+      "instance_groups": [],
+      "parser_id": "prototypecopyloc"
+    },
+    {
+      "group_id": 1362,
+      "loc_ids": [
+        19024
+      ],
+      "per_group_arg": {
+        "actions": [
+          {
+            "action": {
+              "loc": {
+                "id": 0
+              }
+            },
+            "area": {
+              "origin": {
+                "x": 0,
+                "y": -1,
+                "level": 0
+              },
+              "size": {
+                "x": 1,
+                "y": 3
+              },
+              "data": "BQ=="
+            },
+            "movements": [
+              {
+                "valid_from": {
+                  "origin": {
+                    "x": 0,
+                    "y": -1,
+                    "level": 0
+                  }
+                },
+                "orientation": {
+                  "simple": "bymovement"
+                },
+                "movement": {
+                  "offset": {
+                    "x": 0,
+                    "y": 2,
+                    "level": 0
+                  }
+                },
+                "time": 8
+              },
+              {
+                "valid_from": {
+                  "origin": {
+                    "x": 0,
+                    "y": 1,
+                    "level": 0
+                  }
+                },
+                "orientation": {
+                  "simple": "bymovement"
+                },
+                "movement": {
+                  "offset": {
+                    "x": 0,
+                    "y": -2,
+                    "level": 0
+                  }
+                },
+                "time": 7
+              }
+            ]
+          }
+        ]
+      },
+      "group_name": "",
+      "instance_groups": [],
+      "parser_id": "prototypecopyloc"
+    },
+    {
+      "group_id": 1363,
+      "loc_ids": [
+        105109
+      ],
+      "per_group_arg": {
+        "actions": [
+          {
+            "action": {
+              "loc": {
+                "id": 0
+              },
+              "custom": {
+                "name": "Activate",
+                "cursor": "generic"
+              }
+            },
+            "movements": [
+              {
+                "movement": {
+                  "offset": {
+                    "x": 0,
+                    "y": 0,
+                    "level": 0
+                  },
+                  "fixed": {
+                    "area": {
+                      "origin": {
+                        "x": -35,
+                        "y": 50,
+                        "level": 0
+                      }
+                    },
+                    "origin_only": false
+                  }
+                },
+                "time": 6
+              }
+            ]
+          }
+        ]
+      },
+      "group_name": "",
+      "instance_groups": [],
+      "parser_id": "prototypecopyloc"
+    },
+    {
+      "group_id": 1364,
+      "loc_ids": [
+        105110
+      ],
+      "per_group_arg": {
+        "actions": [
+          {
+            "action": {
+              "loc": {
+                "id": 0
+              },
+              "custom": {
+                "name": "Activate",
+                "cursor": "generic"
+              }
+            },
+            "movements": [
+              {
+                "movement": {
+                  "offset": {
+                    "x": 0,
+                    "y": 0,
+                    "level": 0
+                  },
+                  "fixed": {
+                    "area": {
+                      "origin": {
+                        "x": 51,
+                        "y": 34,
+                        "level": 0
+                      }
+                    },
+                    "origin_only": false
+                  }
+                },
+                "time": 6
+              }
+            ]
+          }
+        ]
+      },
+      "group_name": "",
+      "instance_groups": [],
+      "parser_id": "prototypecopyloc"
+    },
+    {
+      "group_id": 1366,
+      "loc_ids": [
+        105111
+      ],
+      "per_group_arg": {
+        "actions": [
+          {
+            "action": {
+              "loc": {
+                "id": 0
+              },
+              "custom": {
+                "name": "Activate",
+                "cursor": "generic"
+              }
+            },
+            "movements": [
+              {
+                "movement": {
+                  "offset": {
+                    "x": 0,
+                    "y": 0,
+                    "level": 0
+                  },
+                  "fixed": {
+                    "area": {
+                      "origin": {
+                        "x": -31,
+                        "y": 85,
+                        "level": 0
+                      }
+                    },
+                    "origin_only": false
+                  }
+                },
+                "time": 6
+              }
+            ]
+          }
+        ]
+      },
+      "group_name": "",
+      "instance_groups": [],
+      "parser_id": "prototypecopyloc"
+    },
+    {
+      "group_id": 1367,
+      "loc_ids": [
+        105112
+      ],
+      "per_group_arg": {
+        "actions": [
+          {
+            "action": {
+              "loc": {
+                "id": 0
+              },
+              "custom": {
+                "name": "Activate",
+                "cursor": "generic"
+              }
+            },
+            "movements": [
+              {
+                "movement": {
+                  "offset": {
+                    "x": 0,
+                    "y": 0,
+                    "level": 0
+                  },
+                  "fixed": {
+                    "area": {
+                      "origin": {
+                        "x": -31,
+                        "y": 85,
+                        "level": 0
+                      }
+                    },
+                    "origin_only": false
+                  }
+                },
+                "time": 6
+              }
+            ]
+          }
+        ]
+      },
+      "group_name": "",
+      "instance_groups": [],
+      "parser_id": "prototypecopyloc"
+    },
+    {
+      "group_id": 1368,
+      "loc_ids": [
+        105113
+      ],
+      "per_group_arg": {
+        "actions": [
+          {
+            "action": {
+              "loc": {
+                "id": 0
+              },
+              "custom": {
+                "name": "Activate",
+                "cursor": "generic"
+              }
+            },
+            "movements": [
+              {
+                "movement": {
+                  "offset": {
+                    "x": 0,
+                    "y": 0,
+                    "level": 0
+                  },
+                  "fixed": {
+                    "area": {
+                      "origin": {
+                        "x": 162,
+                        "y": 269,
+                        "level": 0
+                      }
+                    },
+                    "origin_only": false
+                  }
+                },
+                "time": 6
+              }
+            ]
+          }
+        ]
+      },
+      "group_name": "",
+      "instance_groups": [],
+      "parser_id": "prototypecopyloc"
+    },
+    {
+      "group_id": 1369,
+      "loc_ids": [],
+      "per_group_arg": {
+        "actions": []
+      },
+      "group_name": "ED Chests",
+      "instance_groups": [
+        {
+          "id": 1369,
+          "name": "Entrance Chests",
+          "instances": [
+            {
+              "loc": 5992,
+              "origin": {
+                "x": 3506,
+                "y": 3691,
+                "level": 0
+              }
+            },
+            {
+              "loc": 111765,
+              "origin": {
+                "x": 3365,
+                "y": 3889,
+                "level": 0
+              }
+            },
+            {
+              "loc": 111709,
+              "origin": {
+                "x": 2091,
+                "y": 11354,
+                "level": 0
+              }
+            },
+            {
+              "loc": 124307,
+              "origin": {
+                "x": 1764,
+                "y": 1337,
+                "level": 0
+              }
+            }
+          ],
+          "per_instance_argument": {
+            "actions": [
+              {
+                "action": {
+                  "custom": {
+                    "name": "Teleport to Temple of Aminishi",
+                    "cursor": "generic"
+                  }
+                },
+                "movements": [
+                  {
+                    "movement": {
+                      "offset": {
+                        "x": 0,
+                        "y": 0,
+                        "level": 0
+                      },
+                      "fixed": {
+                        "area": {
+                          "origin": {
+                            "x": -7664,
+                            "y": -1412,
+                            "level": 0
+                          }
+                        },
+                        "origin_only": false
+                      }
+                    },
+                    "time": 5
+                  }
+                ]
+              },
+              {
+                "action": {
+                  "loc": {
+                    "id": 0
+                  },
+                  "custom": {
+                    "name": "Teleport to Dragonkin Laboratory",
+                    "cursor": "generic"
+                  }
+                },
+                "movements": [
+                  {
+                    "movement": {
+                      "offset": {
+                        "x": 0,
+                        "y": 0,
+                        "level": 0
+                      },
+                      "fixed": {
+                        "area": {
+                          "origin": {
+                            "x": -198,
+                            "y": -137,
+                            "level": 0
+                          }
+                        },
+                        "origin_only": false
+                      }
+                    },
+                    "time": 5
+                  }
+                ]
+              },
+              {
+                "action": {
+                  "loc": {
+                    "id": 0
+                  },
+                  "custom": {
+                    "name": "Teleport to Shadow Reef",
+                    "cursor": "generic"
+                  }
+                },
+                "movements": [
+                  {
+                    "movement": {
+                      "offset": {
+                        "x": 0,
+                        "y": 0,
+                        "level": 0
+                      },
+                      "fixed": {
+                        "area": {
+                          "origin": {
+                            "x": -1,
+                            "y": 5,
+                            "level": 0
+                          }
+                        },
+                        "origin_only": false
+                      }
+                    },
+                    "time": 5
+                  }
+                ]
+              },
+              {
+                "action": {
+                  "loc": {
+                    "id": 0
+                  },
+                  "custom": {
+                    "name": "Teleport to Zamorakian Undercity",
+                    "cursor": "generic"
+                  }
+                },
+                "movements": [
+                  {
+                    "movement": {
+                      "offset": {
+                        "x": 0,
+                        "y": 0,
+                        "level": 0
+                      },
+                      "fixed": {
+                        "area": {
+                          "origin": {
+                            "x": 2350,
+                            "y": -1747,
+                            "level": 0
+                          }
+                        },
+                        "origin_only": false
+                      }
+                    },
+                    "time": 5
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "parser_id": "prototypecopyloc"
+    },
+    {
+      "group_id": 1380,
+      "loc_ids": [
+        56805
+      ],
+      "per_group_arg": {
+        "actions": [
+          {
+            "action": {
+              "loc": {
+                "id": 0
+              }
+            },
+            "area": {
+              "origin": {
+                "x": 1,
+                "y": -1,
+                "level": 0
+              },
+              "size": {
+                "x": 1,
+                "y": 3
+              },
+              "data": "BQ=="
+            },
+            "movements": [
+              {
+                "valid_from": {
+                  "origin": {
+                    "x": 1,
+                    "y": 1,
+                    "level": 0
+                  }
+                },
+                "orientation": {
+                  "simple": "bymovement"
+                },
+                "movement": {
+                  "offset": {
+                    "x": 0,
+                    "y": -2,
+                    "level": 0
+                  }
+                },
+                "time": 3
+              },
+              {
+                "valid_from": {
+                  "origin": {
+                    "x": 1,
+                    "y": -1,
+                    "level": 0
+                  }
+                },
+                "orientation": {
+                  "simple": "bymovement"
+                },
+                "movement": {
+                  "offset": {
+                    "x": 0,
+                    "y": 2,
+                    "level": 0
+                  }
+                },
+                "time": 3
               }
             ]
           }

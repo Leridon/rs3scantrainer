@@ -3,7 +3,6 @@ import {ChunkedData} from "../util/ChunkedData";
 import * as lodash from "lodash"
 import {Rectangle, Transform, Vector2} from "../math";
 import * as pako from "pako"
-import {Browser} from "leaflet";
 import {TileArea} from "./coordinates/TileArea";
 
 type TileMovementData = number
@@ -298,6 +297,13 @@ export namespace PathFinder {
     return state
   }
 
+  const movement_direction_priority: direction[] = [
+    direction.west, direction.east,
+    direction.south, direction.north,
+    direction.southwest, direction.southeast,
+    direction.northwest, direction.northeast,
+  ]
+
   async function djikstra2(state: state, target: (tile: TileCoordinates) => boolean, step_limit: number): Promise<TileCoordinates | null> {
     // This is a typical djikstra algorithm
     // To improve it to A*, it still needs to prefer ortogonal pathing before diagonal pathing like ingame, but I'm not sure how to do that yet.
@@ -322,9 +328,7 @@ export namespace PathFinder {
     while (state.queue.length < step_limit && state.next < state.queue.length) {
       let e = state.queue[state.next++]
 
-      const directions: direction[] = [1, 2, 3, 4, 5, 6, 7, 8]
-
-      for (let i of directions) {
+      for (let i of movement_direction_priority) {
         if (await canMove(state.data, e.coords, i)) push(move(e.coords, direction.toVector(i)), e)
       }
 

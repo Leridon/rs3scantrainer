@@ -202,7 +202,7 @@ export const parsers3: TransportParser[] = [
       builder.action({
         index: per_loc.action.id,
         interactive_area: per_loc.area
-      }, fixed(TileArea.transform(per_instance.target, LocInstance.getTransform(instance))))
+      }, fixed(TileArea.transform(per_instance.target, LocInstance.getTransform(instance))).time(per_loc.time ?? 1))
 
       return [builder.finish()]
     }).makeLegacy(),

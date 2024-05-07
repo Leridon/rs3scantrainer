@@ -221,7 +221,7 @@ export class LocInstanceEntity extends MapEntity {
 const pre_filter: LocFilter = {
   actions: ["open", "use", "enter", "climb", "crawl", "scale", "pass", "jump", "leave", "teleport", "descend", "step", "walk", "cross", "exit", "squeeze",
     "stand", "ascend", "top", "bottom", "descend", "across", "swing", "slash", "pray", "operate", "pull", "dig", "push", "grapple",
-    "board", "swim", "through", "past", "attune", "traverse", "vault", "slide", "merge"]
+    "board", "swim", "through", "past", "attune", "traverse", "vault", "slide", "merge", "activate", "charge"]
 }
 
 export class FilteredLocLayer extends GameLayer {
@@ -255,8 +255,7 @@ export class FilteredLocLayer extends GameLayer {
     this.filter_control.go_to_first.on(() => {
 
       const a = lodash.maxBy(this.loc_entities, loc => {
-        const v = LocFilter.apply(pre_filter, loc.loc, this.parsing_table)
-          && LocFilter.apply(this.filter_control.filter.value(), loc.loc, this.parsing_table)
+        const v = LocFilter.apply(this.filter_control.filter.value(), loc.loc, this.parsing_table)
 
         return v ? loc.instances.length : -1
       })
@@ -271,8 +270,7 @@ export class FilteredLocLayer extends GameLayer {
     let count = 0
 
     this.loc_entities.forEach(loc => {
-      const visible = LocFilter.apply(pre_filter, loc.loc, this.parsing_table)
-        && LocFilter.apply(this.filter_control.filter.value(), loc.loc, this.parsing_table)
+      const visible = LocFilter.apply(this.filter_control.filter.value(), loc.loc, this.parsing_table)
 
       if (visible) count += loc.instances.length
 
@@ -284,7 +282,16 @@ export class FilteredLocLayer extends GameLayer {
 
   init() {
     timeSync("Initializing loc_entities", () => {
-      this.loc_entities = this.data.getAll().map((loc) => {
+      this.loc_entities = this.data
+        .getAll()
+        .filter(loc => {
+          if(loc.id == 105109) {
+            console.log(loc)
+            debugger
+          }
+          return LocFilter.apply(pre_filter, loc, this.parsing_table)
+        })
+        .map((loc) => {
         return {
           loc: loc,
           instances: getInstances(loc).map(i => new LocInstanceEntity(i, this.parsing_table))

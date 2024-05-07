@@ -28077,7 +28077,7 @@
         "name": "Exit",
         "movement": [
           {
-            "time": 1,
+            "time": 3,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -51685,7 +51685,7 @@
         "name": "Climb",
         "movement": [
           {
-            "time": 1,
+            "time": 3,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -68186,7 +68186,7 @@
         "name": "Enter",
         "movement": [
           {
-            "time": 1,
+            "time": 3,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -70037,7 +70037,7 @@
         "name": "Enter",
         "movement": [
           {
-            "time": 1,
+            "time": 2,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -70076,7 +70076,7 @@
         "name": "Enter",
         "movement": [
           {
-            "time": 1,
+            "time": 2,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -70115,7 +70115,7 @@
         "name": "Enter",
         "movement": [
           {
-            "time": 1,
+            "time": 2,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -70446,7 +70446,7 @@
         "name": "Walk-up",
         "movement": [
           {
-            "time": 1,
+            "time": 2,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -70496,7 +70496,7 @@
         "name": "Climb-down",
         "movement": [
           {
-            "time": 1,
+            "time": 2,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -71218,7 +71218,7 @@
         "name": "Open",
         "movement": [
           {
-            "time": 1,
+            "time": 2,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -71257,7 +71257,7 @@
         "name": "Climb-up",
         "movement": [
           {
-            "time": 1,
+            "time": 2,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -71296,7 +71296,7 @@
         "name": "Climb-down",
         "movement": [
           {
-            "time": 1,
+            "time": 3,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -71335,7 +71335,7 @@
         "name": "Climb-up",
         "movement": [
           {
-            "time": 1,
+            "time": 3,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -72198,7 +72198,7 @@
         "name": "Climb-down",
         "movement": [
           {
-            "time": 1,
+            "time": 3,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -72244,7 +72244,7 @@
         "name": "Climb-down",
         "movement": [
           {
-            "time": 1,
+            "time": 3,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -72290,7 +72290,7 @@
         "name": "Climb-down",
         "movement": [
           {
-            "time": 1,
+            "time": 3,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -72336,7 +72336,7 @@
         "name": "Climb-down",
         "movement": [
           {
-            "time": 1,
+            "time": 3,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -72382,7 +72382,7 @@
         "name": "Climb-down",
         "movement": [
           {
-            "time": 1,
+            "time": 3,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -73397,7 +73397,7 @@
         "name": "Climb-down",
         "movement": [
           {
-            "time": 1,
+            "time": 3,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -74511,7 +74511,7 @@
         "name": "Climb-down",
         "movement": [
           {
-            "time": 1,
+            "time": 3,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -74776,7 +74776,7 @@
         "name": "Enter",
         "movement": [
           {
-            "time": 1,
+            "time": 2,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -80629,7 +80629,7 @@
         "name": "Climb-down",
         "movement": [
           {
-            "time": 1,
+            "time": 2,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -81312,7 +81312,7 @@
         "name": "Exit",
         "movement": [
           {
-            "time": 1,
+            "time": 2,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -81351,7 +81351,7 @@
         "name": "Exit",
         "movement": [
           {
-            "time": 1,
+            "time": 2,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -81390,7 +81390,7 @@
         "name": "Exit",
         "movement": [
           {
-            "time": 1,
+            "time": 2,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -81429,7 +81429,7 @@
         "name": "Exit",
         "movement": [
           {
-            "time": 1,
+            "time": 2,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -81856,7 +81856,7 @@
         "name": "Leave",
         "movement": [
           {
-            "time": 1,
+            "time": 2,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -81906,7 +81906,7 @@
         "name": "Enter",
         "movement": [
           {
-            "time": 1,
+            "time": 2,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -83636,7 +83636,7 @@
         "name": "Pull",
         "movement": [
           {
-            "time": 1,
+            "time": 6,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -83682,7 +83682,7 @@
         "name": "Pull",
         "movement": [
           {
-            "time": 1,
+            "time": 6,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -83728,7 +83728,7 @@
         "name": "Pull",
         "movement": [
           {
-            "time": 1,
+            "time": 6,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -84591,7 +84591,7 @@
         "name": "Climb-down",
         "movement": [
           {
-            "time": 1,
+            "time": 3,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -84630,7 +84630,7 @@
         "name": "Climb-up",
         "movement": [
           {
-            "time": 1,
+            "time": 3,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -85670,7 +85670,7 @@
         "name": "Climb",
         "movement": [
           {
-            "time": 1,
+            "time": 3,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -85975,7 +85975,7 @@
         "name": "Enter",
         "movement": [
           {
-            "time": 1,
+            "time": 2,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -86014,7 +86014,7 @@
         "name": "Leave",
         "movement": [
           {
-            "time": 1,
+            "time": 2,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -86764,7 +86764,7 @@
         "name": "Open",
         "movement": [
           {
-            "time": 1,
+            "time": 2,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -86803,7 +86803,7 @@
         "name": "Board",
         "movement": [
           {
-            "time": 1,
+            "time": 6,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -86842,7 +86842,7 @@
         "name": "Board",
         "movement": [
           {
-            "time": 1,
+            "time": 5,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -86881,7 +86881,7 @@
         "name": "Operate",
         "movement": [
           {
-            "time": 1,
+            "time": 3,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -86920,7 +86920,7 @@
         "name": "Operate",
         "movement": [
           {
-            "time": 1,
+            "time": 3,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -86959,7 +86959,7 @@
         "name": "Enter",
         "movement": [
           {
-            "time": 1,
+            "time": 2,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -87082,7 +87082,7 @@
         "name": "Enter",
         "movement": [
           {
-            "time": 1,
+            "time": 2,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -87132,7 +87132,7 @@
         "name": "Climb-up",
         "movement": [
           {
-            "time": 1,
+            "time": 3,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -87171,7 +87171,7 @@
         "name": "Enter",
         "movement": [
           {
-            "time": 1,
+            "time": 5,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -87210,7 +87210,7 @@
         "name": "Enter",
         "movement": [
           {
-            "time": 1,
+            "time": 5,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -87249,7 +87249,7 @@
         "name": "Enter",
         "movement": [
           {
-            "time": 1,
+            "time": 5,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -87288,7 +87288,7 @@
         "name": "Enter",
         "movement": [
           {
-            "time": 1,
+            "time": 5,
             "fixed_target": {
               "target": {
                 "origin": {
@@ -92778,6 +92778,490 @@
               },
               "relative": true
             }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 19024,
+    "entity": {
+      "name": "Crumbling wall",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2282.5,
+        "y": 11455.5
+      },
+      "botright": {
+        "x": 2283.5,
+        "y": 11454.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 2282,
+            "y": 11455,
+            "level": 0
+          },
+          "size": {
+            "x": 3,
+            "y": 1
+          },
+          "data": "BQ=="
+        },
+        "name": "Climb-over",
+        "movement": [
+          {
+            "time": 8,
+            "valid_from": {
+              "origin": {
+                "x": 2282,
+                "y": 11455,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 2,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 7,
+            "valid_from": {
+              "origin": {
+                "x": 2284,
+                "y": 11455,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -2,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 105109,
+    "entity": {
+      "name": "Tortle portal",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2250.5,
+        "y": 11432.5
+      },
+      "botright": {
+        "x": 2251.5,
+        "y": 11431.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Activate",
+        "movement": [
+          {
+            "time": 6,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2216,
+                  "y": 11482,
+                  "level": 0
+                }
+              },
+              "relative": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 105110,
+    "entity": {
+      "name": "Tortle portal",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2216.5,
+        "y": 11482.5
+      },
+      "botright": {
+        "x": 2217.5,
+        "y": 11481.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Activate",
+        "movement": [
+          {
+            "time": 6,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2251,
+                  "y": 11431,
+                  "level": 0
+                }
+              },
+              "relative": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 105111,
+    "entity": {
+      "name": "Tortle portal",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2189.5,
+        "y": 11475.5
+      },
+      "botright": {
+        "x": 2190.5,
+        "y": 11474.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Activate",
+        "movement": [
+          {
+            "time": 6,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2105,
+                  "y": 11444,
+                  "level": 0
+                }
+              },
+              "relative": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 105112,
+    "entity": {
+      "name": "Tortle portal",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2105.5,
+        "y": 11444.5
+      },
+      "botright": {
+        "x": 2106.5,
+        "y": 11443.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Activate",
+        "movement": [
+          {
+            "time": 6,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2191,
+                  "y": 11475,
+                  "level": 0
+                }
+              },
+              "relative": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 105113,
+    "entity": {
+      "name": "Tortle portal",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2090.5,
+        "y": 11453.5
+      },
+      "botright": {
+        "x": 2091.5,
+        "y": 11452.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Activate",
+        "movement": [
+          {
+            "time": 6,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 1822,
+                  "y": 11615,
+                  "level": 0
+                }
+              },
+              "relative": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 56805,
+    "entity": {
+      "name": "Climbable vine",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2948.5,
+        "y": 2916.5
+      },
+      "botright": {
+        "x": 2951.5,
+        "y": 2915.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 2950,
+            "y": 2915,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 3
+          },
+          "data": "BQ=="
+        },
+        "name": "Climb",
+        "movement": [
+          {
+            "time": 3,
+            "valid_from": {
+              "origin": {
+                "x": 2950,
+                "y": 2917,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -2,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 3,
+            "valid_from": {
+              "origin": {
+                "x": 2950,
+                "y": 2915,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 2,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 56805,
+    "entity": {
+      "name": "Climbable vine",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2951.5,
+        "y": 2901.5
+      },
+      "botright": {
+        "x": 2954.5,
+        "y": 2900.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 2953,
+            "y": 2900,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 3
+          },
+          "data": "BQ=="
+        },
+        "name": "Climb",
+        "movement": [
+          {
+            "time": 3,
+            "valid_from": {
+              "origin": {
+                "x": 2953,
+                "y": 2902,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -2,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 3,
+            "valid_from": {
+              "origin": {
+                "x": 2953,
+                "y": 2900,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 2,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 56805,
+    "entity": {
+      "name": "Climbable vine",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2953.5,
+        "y": 2941.5
+      },
+      "botright": {
+        "x": 2956.5,
+        "y": 2940.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 2955,
+            "y": 2940,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 3
+          },
+          "data": "BQ=="
+        },
+        "name": "Climb",
+        "movement": [
+          {
+            "time": 3,
+            "valid_from": {
+              "origin": {
+                "x": 2955,
+                "y": 2942,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -2,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 3,
+            "valid_from": {
+              "origin": {
+                "x": 2955,
+                "y": 2940,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 2,
+              "level": 0
+            },
+            "orientation": "bymovement"
           }
         ]
       }

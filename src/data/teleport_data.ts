@@ -583,7 +583,7 @@ const raw_data: Transportation.TeleportGroup[] = [
       },
       {
         id: "taverley",
-        target: {"origin": {"x": 2882, "y": 3450, "level": 0}, "size": {"x": 4, "y": 5}},
+        target: {"origin": {"x": 2882, "y": 3450, "level": 0}, "size": {"x": 5, "y": 5}},
         name: "Taverley",
         code: "2",
       },
@@ -1995,7 +1995,7 @@ name: "Harmony Island",
       },
       {
         id: "castlewars",
-        target: {"origin": {"x": 2442, "y": 3088, "level": 0}, "size": {"x": 4, "y": 5}},
+        target: {"origin": {"x": 2442, "y": 3088, "level": 0}, "size": {"x": 5, "y": 5}, "data": "7/33AA=="},
         code: "2",
         name: "Castle wars",
       },
@@ -2386,6 +2386,11 @@ name: "Harmony Island",
     animation_ticks: 1,
     spots: [
       {
+        id: "portsarim",
+        target: {"origin": {"x": 3052, "y": 3246, "level": 0}},
+        name: "Port Sarim",
+      },
+      {
         id: "tualeit",
         target: {"origin": {"x": 1761, "y": 12010, "level": 0}},
         name: "Tua Leit Docks",
@@ -2433,6 +2438,13 @@ name: "Harmony Island",
         name: {kind: "npc", name: "Quartermaster Gully (Port Sarim)"},
         action_name: "Travel",
         clickable_area: {"origin": {"x": 3054, "y": 3247, "level": 0}}
+      },
+      {
+        type: "entity",
+        id: "menaphos",
+        name: {kind: "npc", name: "Quartermaster Gully (Menaphos)"},
+        action_name: "Travel",
+        clickable_area: {"origin": {"x": 3231, "y": 2664, "level": 0}}
       },
       {
         type: "entity",
@@ -3562,21 +3574,23 @@ name: "Entrana",
       name: {name: "Ring of kinship", kind: "item"},
       action_name: "Teleport to Daemonheim"
     }]
-  }
-  ,/*
-            {
-                type: "teleports",
-                id: "witchdoctormask",
-                name: "Witchdoctor mask",
-                img: {url: "witchdoctormask.png"},
-                spots: [{
-                    id: "herblorehabitat",
-                    target: {origin: {x: 2950, y: 2933, level: 0}},
-                    name: "Herblore Habitat",
-                    menu_ticks: 1,
-                    animation_ticks: default_teleport_ticks
-                }]
-            },*/
+  },
+  {
+    type: "teleports",
+    id: "witchdoctormask",
+    name: "Witchdoctor mask",
+    img: {url: "witchdoctormask.png"},
+    spots: [{
+      id: "herblorehabitat",
+      target: {"origin": {"x": 2953, "y": 2933, "level": 0}},
+      name: "Herblore Habitat",
+      menu_ticks: 1,
+      animation_ticks: 5
+    }],
+    access: [
+      {id: "mask", type: "item", name: {name: "Witchdoctor mask", kind: "item"}, action_name: "Teleport"}
+    ]
+  },
   {
     type: "teleports",
     id: "ecctophial",
@@ -4407,13 +4421,13 @@ name: "Entrana",
         id: "return",
         target: {"origin": {"x": 2982, "y": 9804, "level": 0}},
         name: "Return",
-        animation_ticks: 2,
+        animation_ticks: 1,
       },
       {
         id: "lifealtar",
         target: {"origin": {"x": 1065, "y": 5544, "level": 0}},
         name: "Return",
-        animation_ticks: 7,
+        animation_ticks: 4,
       },
     ],
     access: [
@@ -4460,6 +4474,21 @@ name: "Entrana",
       {id: "helwyr", name: "Helwyr", img: {url: "Helwyr_(boss_portal)_texture.webp", width: 40}, target: {"origin": {"x": 3270, "y": 6905, "level": 1}}},
       {id: "twinfuries", name: "The Twin Furies", img: {url: "Twin_Furies_(boss_portal)_texture.png", width: 40}, target: {"origin": {"x": 3128, "y": 7047, "level": 1}}},
       {id: "vindicta", name: "Vindicta & Gorvek", img: {url: "Vindicta_and_Gorvek_(boss_portal)_texture.png", width: 40,}, target: {"origin": {"x": 3119, "y": 6903, "level": 1}}},
+
+      {
+        id: "ed1",
+        name: "Temple of Aminishi",
+        img: {url: "Seiryu_the_Azure_Serpent_(boss_portal)_texture.png", width: 40,},
+        target: {"origin": {"x": 2094, "y": 11352, "level": 0}}
+      },
+      //{id: "ed2", name: "Dragonkin Laboratory", img: {url: "Black_stone_dragon_(boss_portal)_texture.png", width: 40,}, target: {"origin": {"x": 3119, "y": 6903, "level": 1}}},
+      {id: "ed3", name: "Shadow Reef", img: {url: "180px-The_Ambassador_(boss_portal)_texture.webp", width: 40,}, target: {"origin": {"x": 3511, "y": 3692, "level": 0}}},
+      {
+        id: "ed4",
+        name: "Zamorakian Undercity",
+        img: {url: "The_Zamorakian_Undercity_(boss_portal)_texture.png", width: 40,},
+        target: {"origin": {"x": 1759, "y": 1341, "level": 0}}
+      },
     ],
     access: [
       {

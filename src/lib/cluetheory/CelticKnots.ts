@@ -62,6 +62,16 @@ export namespace CelticKnots {
     export function isEqual(a: PuzzleShape, b: PuzzleShape) {
       return lodash.isEqual(a.snake_lengths, b.snake_lengths) && a.locks.length == b.locks.length
     }
+
+    export function hash(shape: PuzzleShape): number[] {
+      return [...shape.snake_lengths, ...shape.locks.map(lock => {
+        const [min, max] = lock.first.snake < lock.second.snake
+          ? [lock.first, lock.second]
+          : [lock.second, lock.first];
+
+        return 10000 * (min.snake * 100 + min.tile) + (max.snake * 100 + max.tile)
+      })]
+    }
   }
 
   export namespace PuzzleState {

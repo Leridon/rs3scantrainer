@@ -24,41 +24,28 @@ export namespace KnotReader {
   const SCANNING_X = 107
 
   const button_positions: {
-    snake_profile: number[],
-    lock_count: number,
+    hash: number[],
     buttons: ButtonPositions
-  }[] = [
-    {
-      snake_profile: [28, 14, 14],
-      lock_count: 8,
-      buttons: [
-        {clockwise: {x: 10, y: 0}, counterclockwise: {x: 2, y: 0}},
-        {clockwise: {x: 0, y: 4}, counterclockwise: {x: 0, y: 6}},
-        {clockwise: {x: 12, y: 6}, counterclockwise: {x: 12, y: 4}},
-      ]
-    },
-    {
-      snake_profile: [16, 16, 16],
-      lock_count: 8,
-      buttons: [
-        {clockwise: {x: 12, y: 7}, counterclockwise: {x: 12, y: 5}},
-        {clockwise: {x: 9, y: 0}, counterclockwise: {x: 11, y: 2}},
-        {clockwise: {x: 0, y: 3}, counterclockwise: {x: 0, y: 5}},
-      ]
-    },
-    {
-      snake_profile: [16, 16, 16],
-      lock_count: 8,
-      buttons: [
-        {clockwise: {x: 12, y: 7}, counterclockwise: {x: 12, y: 5}},
-        {clockwise: {x: 9, y: 0}, counterclockwise: {x: 11, y: 2}},
-        {clockwise: {x: 0, y: 3}, counterclockwise: {x: 0, y: 5}},
-      ]
-    },
+  }[] = [{
+    hash: [16, 16, 16, 30113, 60110, 1050203, 1090209, 1110213, 1070207, 70211, 40214],
+    buttons: [
+      {clockwise: {x: 0, y: 1}, counterclockwise: {x: 0, y: 3}},
+      {clockwise: {x: 12, y: 5}, counterclockwise: {x: 12, y: 3}},
+      {clockwise: {x: 4, y: 9}, counterclockwise: {x: 6, y: 9}},
+    ]
+  }, {
+    hash: [16, 16, 16, 20214, 70109, 1070209, 10115, 60210, 1010215],
+    buttons: [
+      {clockwise: {x: -1, y: 3}, counterclockwise: {x: -1, y: 5}},
+      {clockwise: {x: 5, y: 9}, counterclockwise: {x: 7, y: 9}},
+      {clockwise: {x: 13, y: 5}, counterclockwise: {x: 13, y: 3}},
+    ]
+  },
   ]
 
   export function getButtons(shape: CelticKnots.PuzzleShape): ButtonPositions {
-    return button_positions.find(entry => entry.lock_count == shape.locks.length && lodash.isEqual(shape.snake_lengths, entry.snake_profile))?.buttons
+    const hash = CelticKnots.PuzzleShape.hash(shape)
+    return button_positions.find(entry => lodash.isEqual(entry.hash, hash))?.buttons
   }
 
   type ButtonPositions = {
@@ -201,6 +188,7 @@ export namespace KnotReader {
     private grid: Tile[][]
     private lanes: Lane[]
     public isBroken = false
+    public brokenReason: string = ""
 
     public relevant_body: CapturedImage
 
@@ -246,6 +234,12 @@ export namespace KnotReader {
 
         return null
       })()
+
+      if (!intercepted) {
+        this.isBroken = true
+        this.brokenReason = "Not intercepted"
+        return
+      }
 
       // Move intersection up as far as possible
       while (intercepted.y > 0) {
@@ -297,6 +291,8 @@ export namespace KnotReader {
 
       this.findOrigin()
 
+      if (this.isBroken) return
+
       this.grid = new Array(this.grid_size.y)
 
       for (let y = 0; y < this.grid_size.y; y++) {
@@ -311,8 +307,10 @@ export namespace KnotReader {
 
       const valid_tiles = count(this.grid.flat(), t => !!t.rune)
 
-      if (valid_tiles < 20) this.isBroken = true
-
+      if (valid_tiles < 20) {
+        this.brokenReason = "Not enough valid tiles"
+        this.isBroken = true
+      }
     }
 
     private async readTile(pos: Vector2): Promise<Tile> {
@@ -367,7 +365,12 @@ export namespace KnotReader {
       while (true) {
         const start_tile = this.grid.flat().find(t => t.rune && !t.rune.intersection && !this.lanes.some(l => l.color == t.rune.strip_color))
 
-        if (!start_tile) break
+        if (!start_tile) {
+          console.log("No start tile")
+          break
+        }
+
+        console.log(`Start tile ${Vector2.toString(start_tile.pos)}`)
 
         const lane: Lane = {
           color: start_tile.rune.strip_color,
@@ -394,13 +397,17 @@ export namespace KnotReader {
 
         this.lanes.push(lane)
 
-        if (lane.tiles.length < 14) {
+        if (lane.tiles.length < 10) {
+          this.brokenReason = "Lane too short"
           this.isBroken = true
           break;
         }
       }
 
-      if (this.lanes.length < 3) this.isBroken = true
+      if (this.lanes.length < 3) {
+        this.brokenReason = `Not enough lanes: ${this.lanes.length}`
+        this.isBroken = true
+      }
     }
 
     public async getPuzzle(): Promise<CelticKnots.PuzzleState> {
@@ -453,7 +460,8 @@ export namespace KnotReader {
     }
 
     public async showDebugOverlay(
-      show_grid: boolean = false
+      show_grid: boolean = false,
+      text_mode: "runeid" | "neighbour_count" | "neighbour_array" = "runeid"
     ) {
       await (this.getPuzzle())
 
@@ -500,16 +508,21 @@ export namespace KnotReader {
             }
 
             if (tile.rune) {
-              const n = count(tile.rune.neighbours_exist, identity)
+              const text = (() => {
+                switch(text_mode) {
+                  case "neighbour_array":
+                    return `${tile.rune.neighbours_exist[0] ? "t" : " "}   ${tile.rune.neighbours_exist[1] ? "t" : " "}\n${tile.rune.neighbours_exist[3] ? "t" : " "}   ${tile.rune.neighbours_exist[2] ? "t" : " "}`
+                  case "neighbour_count":
+                    return count(tile.rune.neighbours_exist, identity).toString()
+                  case "runeid":
+                    return tile.rune.id.toString()
+                }
+              })()
 
-              const t = `${tile.rune.neighbours_exist[0] ? "t" : " "}   ${tile.rune.neighbours_exist[1] ? "t" : " "}\n${tile.rune.neighbours_exist[3] ? "t" : " "}   ${tile.rune.neighbours_exist[2] ? "t" : " "}`
-
-              //overlay.text(n.toString(), Vector2.add(o, Vector2.scale(0.5, TILE_SIZE)), {
-              overlay.text(tile.rune.id.toString(), Vector2.add(o, Vector2.scale(0.5, TILE_SIZE)), {
-                  //overlay.text(t, Vector2.add(o, Vector2.scale(0.5, TILE_SIZE)), {
+              overlay.text(text, Vector2.add(o, Vector2.scale(0.5, TILE_SIZE)), {
                   width: 12,
                   shadow: true,
-                  color: colors[tile.rune.strip_color], //mixColor(255, 255, 255),
+                  color: text_mode == "runeid" ? colors[tile.rune.strip_color] : mixColor(255, 255, 255),
                   centered: true
                 }
               )

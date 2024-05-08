@@ -49,7 +49,15 @@ class KnotSolvingProcess extends Process {
         this.puzzle = CelticKnots.unify(puzzle, this.puzzle) ?? this.puzzle
         this.isSolved = CelticKnots.PuzzleState.isSolved(this.puzzle)
 
-        const buttons = KnotReader.getButtons(puzzle.shape)
+        const buttons = KnotReader.getButtons(this.puzzle.shape)
+
+        if (!buttons) {
+          console.log("Button positions unknown")
+          console.log(this.puzzle.shape)
+          console.log("Hash")
+          console.log(CelticKnots.PuzzleShape.hash(this.puzzle.shape))
+          await reader.showDebugOverlay(true)
+        }
 
         const solution = CelticKnots.solve(this.puzzle)
 
@@ -144,6 +152,7 @@ class KnotSolvingProcess extends Process {
       )*/
 
     } catch (e) {
+      throw e
       console.error(e.toString())
     }
   }

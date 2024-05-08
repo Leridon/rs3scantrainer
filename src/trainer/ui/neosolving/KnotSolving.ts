@@ -13,9 +13,16 @@ import {mixColor} from "@alt1/base";
 
 class KnotSolvingProcess extends Process {
   solution_overlay = new OverlayGeometry()
+  last_successfull_read: number
+
+  private puzzle: CelticKnots.PuzzleState
 
   constructor(private parent: KnotSolving) {
     super();
+
+    this.puzzle = this.parent.knot.knot.state
+
+    this.last_successfull_read = Date.now()
 
     this.asInterval(1000 / 10)
   }
@@ -28,11 +35,16 @@ class KnotSolvingProcess extends Process {
         const reader = new KnotReader.KnotReader(capture)
 
         const puzzle = await reader.getPuzzle()
+        const now = Date.now()
 
         if (puzzle) {
+          this.last_successfull_read = now
+
+          this.puzzle = CelticKnots.unify(puzzle, this.puzzle) ?? puzzle
+
           const buttons = KnotReader.getButtons(puzzle.shape)
 
-          const solution = CelticKnots.solve(puzzle)
+          const solution = CelticKnots.solve(this.puzzle)
 
           this.solution_overlay.clear()
 
@@ -48,7 +60,7 @@ class KnotSolvingProcess extends Process {
                     color: mixColor(255, 255, 255),
                     centered: true,
                     shadow: true,
-                    width: 10
+                    width: 13
                   }
                 )
               })
@@ -67,11 +79,19 @@ class KnotSolvingProcess extends Process {
 
           this.solution_overlay.render()
 
-          //await (reader.showDebugOverlay())
+          await (reader.showDebugOverlay())
+        } else {
+          if (CelticKnots.PuzzleState.isSolved(this.puzzle)) {
+            this.stop()
+          }
         }
 
         if (reader.isBroken) console.log("Broken")
 
+        if (this.last_successfull_read + 3000 < now) {
+          // Or immediately if state is solved
+          this.stop()
+        }
 
         /*this.parent.modal.body.empty().append(
           vbox(
@@ -89,6 +109,8 @@ class KnotSolvingProcess extends Process {
 
       await (this.checkTime())
     }
+
+    this.solution_overlay?.clear()?.render()
   }
 }
 

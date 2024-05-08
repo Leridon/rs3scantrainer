@@ -140,6 +140,57 @@ export namespace CelticKnots {
     }
   }
 
+  export function unify(a: PuzzleState, b: PuzzleState): PuzzleState {
+    if (!a || !b) return null
+
+    if (!lodash.isEqual(a.shape, b.shape)) return null
+
+    function unifyElement(a: Element, b: Element): Element {
+      if (a.type == "is" && b.type == "is" && a.value == b.value) return a
+      else if (a.type == "is" && b.type == "isnot" && a.value != b.value) return a
+      else if (a.type == "isnot" && b.type == "is" && a.value != b.value) return b
+      else if (a.type == "isnot" && b.type == "isnot") return a
+      else return null
+    }
+
+    function unifyLane(a: Element[], b: Element[]): Element[] | null {
+      const res: Element[] = []
+      for (let i = 0; i < a.length; i++) {
+        const el = unifyElement(a[i], b[i])
+
+        if (!el) return null
+
+        res.push(el)
+      }
+
+      return res
+    }
+
+    function findLaneUnification(a: Element[], b: Element[]): Element[] | null {
+      for (let i = 0; i < a.length; i++) {
+        const res = unifyLane(a, Snake.rotate(b, i))
+
+        if (res) return res
+      }
+
+      return null
+    }
+
+    const lanes: Snake[] = []
+
+    for (let i = 0; i < a.snakes.length; i++) {
+      const unified_lane = findLaneUnification(a.snakes[i], b.snakes[i])
+      if (!unified_lane) return null
+
+      lanes.push(unified_lane)
+    }
+
+    return {
+      shape: a.shape,
+      snakes: lanes
+    }
+  }
+
   export function solve(state: PuzzleState): Solution {
 
     // Solve every lock individually.

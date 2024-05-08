@@ -469,39 +469,42 @@ export namespace KnotReader {
         )
       }
 
-      for (let x = 0; x < this.grid_size.x; x++) {
-        for (let y = 0; y < this.grid_size.y; y++) {
+      if (this.grid_size) {
 
-          const o = Vector2.add(this.relevant_body.screenRectangle().origin, this.tileOrigin({x, y}))
+        for (let x = 0; x < this.grid_size.x; x++) {
+          for (let y = 0; y < this.grid_size.y; y++) {
 
-          const t1 = this.grid[y]
-          if (!t1) debugger
+            const o = Vector2.add(this.relevant_body.screenRectangle().origin, this.tileOrigin({x, y}))
 
-          const tile = t1[x]
+            const t1 = this.grid[y]
+            if (!t1) debugger
 
-          if (!tile) continue
+            const tile = t1[x]
 
-          if (show_grid) {
-            overlay.rect(Rectangle.fromOriginAndSize(o, TILE_SIZE),
-              {color: mixColor(255, 0, 0), width: 1}
-            )
-          }
+            if (!tile) continue
 
-          if (tile.rune) {
-            const n = count(tile.rune.neighbours_exist, identity)
+            if (show_grid) {
+              overlay.rect(Rectangle.fromOriginAndSize(o, TILE_SIZE),
+                {color: mixColor(255, 0, 0), width: 1}
+              )
+            }
 
-            const t = `${tile.rune.neighbours_exist[0] ? "t" : " "}   ${tile.rune.neighbours_exist[1] ? "t" : " "}\n${tile.rune.neighbours_exist[3] ? "t" : " "}   ${tile.rune.neighbours_exist[2] ? "t" : " "}`
+            if (tile.rune) {
+              const n = count(tile.rune.neighbours_exist, identity)
 
-            //overlay.text(n.toString(), Vector2.add(o, Vector2.scale(0.5, TILE_SIZE)), {
-            overlay.text(tile.rune.id.toString(), Vector2.add(o, Vector2.scale(0.5, TILE_SIZE)), {
-                //overlay.text(t, Vector2.add(o, Vector2.scale(0.5, TILE_SIZE)), {
-                width: 12,
-                shadow: true,
-                color: colors[tile.rune.strip_color], //mixColor(255, 255, 255),
-                centered: true
-              }
-            )
+              const t = `${tile.rune.neighbours_exist[0] ? "t" : " "}   ${tile.rune.neighbours_exist[1] ? "t" : " "}\n${tile.rune.neighbours_exist[3] ? "t" : " "}   ${tile.rune.neighbours_exist[2] ? "t" : " "}`
 
+              //overlay.text(n.toString(), Vector2.add(o, Vector2.scale(0.5, TILE_SIZE)), {
+              overlay.text(tile.rune.id.toString(), Vector2.add(o, Vector2.scale(0.5, TILE_SIZE)), {
+                  //overlay.text(t, Vector2.add(o, Vector2.scale(0.5, TILE_SIZE)), {
+                  width: 12,
+                  shadow: true,
+                  color: colors[tile.rune.strip_color], //mixColor(255, 255, 255),
+                  centered: true
+                }
+              )
+
+            }
           }
         }
       }

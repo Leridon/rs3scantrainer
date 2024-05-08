@@ -71,6 +71,8 @@ export class CapturedImage {
 
   getData(): ImageData {
     if (!this._data) {
+      console.log(this.screen_rectangle.size)
+
       this._data = this.img.toData(
         this.screen_rectangle.origin.x,
         this.screen_rectangle.origin.y,

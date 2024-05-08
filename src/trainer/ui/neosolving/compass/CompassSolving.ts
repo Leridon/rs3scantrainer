@@ -302,7 +302,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
   private readonly debug_solution: TileCoordinates
 
   constructor(parent: NeoSolvingBehaviour, public clue: Clues.Compass, public ui: MatchedUI.Compass | null) {
-    super(parent, true)
+    super(parent)
 
     this.settings = deps().app.settings.settings.solving.compass
 
@@ -339,6 +339,10 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
         }
       })
     }
+  }
+
+  pausesClueReader(): boolean {
+    return true
   }
 
   renderWidget() {

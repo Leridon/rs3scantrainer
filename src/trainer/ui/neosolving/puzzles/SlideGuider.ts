@@ -627,7 +627,7 @@ export class SliderSubBehaviour extends NeoSolvingSubBehaviour {
   modal: SliderModal
 
   constructor(parent: NeoSolvingBehaviour, public readonly puzzle: ClueReader.Result.Puzzle.Slider) {
-    super(parent, true)
+    super(parent)
   }
 
   resetProcess(start: boolean) {
@@ -657,6 +657,10 @@ export class SliderSubBehaviour extends NeoSolvingSubBehaviour {
 
   protected end(): void {
     this.resetProcess(false)
+  }
+
+  pausesClueReader(): boolean {
+    return true
   }
 
 }

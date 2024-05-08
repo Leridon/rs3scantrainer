@@ -36,7 +36,25 @@ export namespace KnotReader {
         {clockwise: {x: 0, y: 4}, counterclockwise: {x: 0, y: 6}},
         {clockwise: {x: 12, y: 6}, counterclockwise: {x: 12, y: 4}},
       ]
-    }
+    },
+    {
+      snake_profile: [16, 16, 16],
+      lock_count: 8,
+      buttons: [
+        {clockwise: {x: 12, y: 7}, counterclockwise: {x: 12, y: 5}},
+        {clockwise: {x: 9, y: 0}, counterclockwise: {x: 11, y: 2}},
+        {clockwise: {x: 0, y: 3}, counterclockwise: {x: 0, y: 5}},
+      ]
+    },
+    {
+      snake_profile: [16, 16, 16],
+      lock_count: 8,
+      buttons: [
+        {clockwise: {x: 12, y: 7}, counterclockwise: {x: 12, y: 5}},
+        {clockwise: {x: 9, y: 0}, counterclockwise: {x: 11, y: 2}},
+        {clockwise: {x: 0, y: 3}, counterclockwise: {x: 0, y: 5}},
+      ]
+    },
   ]
 
   export function getButtons(shape: CelticKnots.PuzzleShape): ButtonPositions {
@@ -184,7 +202,7 @@ export namespace KnotReader {
     private lanes: Lane[]
     public isBroken = false
 
-    private relevant_body: CapturedImage
+    public relevant_body: CapturedImage
 
     constructor(public ui: CapturedModal) {
       this.relevant_body = ui.body.getSubSection({
@@ -293,10 +311,8 @@ export namespace KnotReader {
 
       const valid_tiles = count(this.grid.flat(), t => !!t.rune)
 
-      if (valid_tiles < 20) {
-        console.log("Not enough valid tiles")
-        this.isBroken = true
-      }
+      if (valid_tiles < 20) this.isBroken = true
+
     }
 
     private async readTile(pos: Vector2): Promise<Tile> {
@@ -379,16 +395,12 @@ export namespace KnotReader {
         this.lanes.push(lane)
 
         if (lane.tiles.length < 14) {
-          console.log("Broken lane")
           this.isBroken = true
           break;
         }
       }
 
-      if (this.lanes.length < 3) {
-        console.log(`Not enough lanes ${this.lanes.length}`)
-        this.isBroken = true
-      }
+      if (this.lanes.length < 3) this.isBroken = true
     }
 
     public async getPuzzle(): Promise<CelticKnots.PuzzleState> {
@@ -427,8 +439,6 @@ export namespace KnotReader {
           }
         }
       }
-
-      if (locks.length != 8) debugger
 
       return this.puzzle = {
         shape: {
@@ -512,21 +522,4 @@ export namespace KnotReader {
       overlay.render()
     }
   }
-
-  export async function read(modal: CapturedModal): Promise<KnotReader.Result> {
-    const reader = new KnotReader(modal);
-
-    console.log(await reader.getPuzzle())
-
-    console.log(CelticKnots.solve(await reader.getPuzzle()));
-
-    reader.showDebugOverlay()
-
-    return {
-      state: await reader.getPuzzle(),
-      buttons: []
-    }
-  }
-
-
 }

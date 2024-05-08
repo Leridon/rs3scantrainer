@@ -114,6 +114,11 @@ export abstract class Process<Result = void> {
       }
     }
   }
+
+  onFinished(f: (_: this) => void) : this {
+    this.finished_event.on(f)
+    return this
+  }
 }
 
 export namespace Process {

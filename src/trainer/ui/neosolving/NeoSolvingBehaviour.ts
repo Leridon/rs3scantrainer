@@ -349,7 +349,8 @@ class ClueSolvingReadingBehaviour extends Behaviour {
       // TODO: Adaptive timing to avoid running all the time?
 
       this.activeInterval = window.setInterval(() => {
-        this.solve(true)
+        if (!this.parent.active_behaviour.get()?.pausesClueReader())
+          this.solve(true)
       }, 300)
     }
   }

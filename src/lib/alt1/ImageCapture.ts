@@ -71,8 +71,6 @@ export class CapturedImage {
 
   getData(): ImageData {
     if (!this._data) {
-      console.log(this.screen_rectangle.size)
-
       this._data = this.img.toData(
         this.screen_rectangle.origin.x,
         this.screen_rectangle.origin.y,
@@ -162,10 +160,7 @@ export class CapturedModal {
     const body_height = (bot_left.relativeRectangle().origin.y + BODY_BL_OFFSET_FROM_BL.y) - (top_left.relativeRectangle().origin.y + BODY_TL_OFFSET_FROM_TL.y) + 1
     const BODY_SIZE: Vector2 = {x: 496, y: body_height}
 
-
-    console.log(eoc_x.relativeRectangle())
     const body = img.getSubSection(ScreenRectangle.move(top_left.relativeRectangle(), BODY_TL_OFFSET_FROM_TL, BODY_SIZE))
-    console.log(body.relativeRectangle())
 
     return new CapturedModal(body, false)
   }

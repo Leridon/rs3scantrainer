@@ -26,10 +26,7 @@ export namespace CelticKnots {
 
   export namespace Snake {
     export function rotate(snake: Snake, move: number): Snake {
-      const res = snake.map((_, i) => snake[(i - move + snake.length) % snake.length])
-
-
-      return res
+      return snake.map((_, i) => snake[(i - move + snake.length) % snake.length])
     }
 
     export function index(snake: Snake, index: number): Element {
@@ -44,6 +41,10 @@ export namespace CelticKnots {
       if (positive > half) return positive - snake.length
       else return positive
     }
+
+    export function toString(snake: Snake): string {
+      return snake.map(e => (e.type == "isnot") ? -e.value : e.value).join(" ")
+    }
   }
 
   export type PuzzleShape = {
@@ -56,6 +57,12 @@ export namespace CelticKnots {
     snakes: Element[][],
   }
 
+
+  export namespace PuzzleShape {
+    export function isEqual(a: PuzzleShape, b: PuzzleShape) {
+      return lodash.isEqual(a.snake_lengths, b.snake_lengths) && a.locks.length == b.locks.length
+    }
+  }
 
   export namespace PuzzleState {
     export function generate(shape: PuzzleShape): PuzzleState {
@@ -143,7 +150,9 @@ export namespace CelticKnots {
   export function unify(a: PuzzleState, b: PuzzleState): PuzzleState {
     if (!a || !b) return null
 
-    if (!lodash.isEqual(a.shape, b.shape)) return null
+    if (!PuzzleShape.isEqual(a.shape, b.shape)) {
+      return null
+    }
 
     function unifyElement(a: Element, b: Element): Element {
       if (a.type == "is" && b.type == "is" && a.value == b.value) return a
@@ -155,6 +164,7 @@ export namespace CelticKnots {
 
     function unifyLane(a: Element[], b: Element[]): Element[] | null {
       const res: Element[] = []
+
       for (let i = 0; i < a.length; i++) {
         const el = unifyElement(a[i], b[i])
 
@@ -168,7 +178,9 @@ export namespace CelticKnots {
 
     function findLaneUnification(a: Element[], b: Element[]): Element[] | null {
       for (let i = 0; i < a.length; i++) {
-        const res = unifyLane(a, Snake.rotate(b, i))
+        const b_rotated = Snake.rotate(b, i)
+
+        const res = unifyLane(a, b_rotated)
 
         if (res) return res
       }
@@ -250,7 +262,7 @@ export namespace CelticKnots {
 
     const solutions = backtracking(0, state, state.snakes.map(() => null))
 
-    console.log(`${solutions.length} solutions: ${solutions.map(Solution.toString).join(", and ")}`)
+    //console.log(`${solutions.length} solutions: ${solutions.map(Solution.toString).join(", and ")}`)
 
     if (solutions.length == 1) {
       return solutions[0]

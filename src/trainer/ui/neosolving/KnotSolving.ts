@@ -9,113 +9,166 @@ import {OverlayGeometry} from "../../../lib/alt1/OverlayGeometry";
 import {CelticKnots} from "../../../lib/cluetheory/CelticKnots";
 import {Vector2} from "../../../lib/math";
 import {mixColor} from "@alt1/base";
+import {ScreenRectangle} from "../../../lib/alt1/ScreenRectangle";
+
+const CENTER_TEXT_SIZE = 20
+const MOVE_FONT_SIZE = 24
+const CENTRAL_TEXT_OFFSET = {x: 0, y: -150}
 
 
 class KnotSolvingProcess extends Process {
   solution_overlay = new OverlayGeometry()
-  last_successfull_read: number
+  last_successful_read: number
 
-  private puzzle: CelticKnots.PuzzleState
+  puzzle: CelticKnots.PuzzleState
+  isSolved: boolean = false
 
   constructor(private parent: KnotSolving) {
     super();
 
-    this.puzzle = this.parent.knot.knot.state
+    this.last_successful_read = Date.now()
 
-    this.last_successfull_read = Date.now()
-
-    this.asInterval(1000 / 10)
+    this.asInterval(1000 / 50)
   }
 
-  async implementation(): Promise<void> {
-    while (!this.should_stop) {
-      try {
-        //const reader = await time("Tick", async () => {
-        const capture = CapturedModal.assumeBody(CapturedImage.capture(this.parent.knot.modal.body.screenRectangle()))
-        const reader = new KnotReader.KnotReader(capture)
+  async tick() {
+    try {
+      const capt = CapturedImage.capture(this.parent.knot.reader.ui.body.screenRectangle())
 
-        const puzzle = await reader.getPuzzle()
-        const now = Date.now()
+      if (!capt) return
 
-        if (puzzle) {
-          this.last_successfull_read = now
+      const capture = CapturedModal.assumeBody(capt)
+      const reader = new KnotReader.KnotReader(capture)
 
-          this.puzzle = CelticKnots.unify(puzzle, this.puzzle) ?? puzzle
+      const puzzle = await reader.getPuzzle()
+      const now = Date.now()
 
-          const buttons = KnotReader.getButtons(puzzle.shape)
+      if (puzzle) {
+        this.last_successful_read = now
 
-          const solution = CelticKnots.solve(this.puzzle)
+        this.puzzle = CelticKnots.unify(puzzle, this.puzzle) ?? this.puzzle
+        this.isSolved = CelticKnots.PuzzleState.isSolved(this.puzzle)
 
-          this.solution_overlay.clear()
+        const buttons = KnotReader.getButtons(puzzle.shape)
 
-          if (solution) {
-            if (buttons) {
-              solution.moves.forEach(move => {
-                const button = buttons[move.snake_index]
+        const solution = CelticKnots.solve(this.puzzle)
 
-                const pos = move.offset < 0 ? button.counterclockwise : button.clockwise
+        this.solution_overlay.clear()
 
-                this.solution_overlay.text(Math.abs(move.offset).toString(),
-                  Vector2.add(reader.tileOrigin(pos, true), {x: 12, y: 12}), {
-                    color: mixColor(255, 255, 255),
-                    centered: true,
-                    shadow: true,
-                    width: 13
-                  }
-                )
-              })
-            } else {
-              this.solution_overlay.text(solution.moves.map((m) => `${m.snake_index}:${m.offset}`).join("  "),
-                Vector2.add(reader.ui.body.screenRectangle().origin, Vector2.scale(0.5, reader.ui.body.screenRectangle().size))
+        if (solution) {
+          if (buttons) {
+            solution.moves.forEach(move => {
+              if (move.offset == 0) return // Don't render 0 moves
+
+              const button = buttons[move.snake_index]
+
+              const pos = move.offset < 0 ? button.counterclockwise : button.clockwise
+
+              this.solution_overlay.text(Math.abs(move.offset).toString(),
+                Vector2.add(reader.tileOrigin(pos, true), {x: 12, y: 12}), {
+                  color: mixColor(255, 255, 255),
+                  centered: true,
+                  shadow: true,
+                  width: MOVE_FONT_SIZE
+                }
               )
-            }
-
-
+            })
           } else {
-            this.solution_overlay.text("No solution found",
-              Vector2.add(reader.ui.body.screenRectangle().origin, Vector2.scale(0.5, reader.ui.body.screenRectangle().size))
+            this.solution_overlay.text(solution.moves.map((m) => `${m.snake_index}:${m.offset}`).join("  "),
+              Vector2.add(reader.ui.body.screenRectangle().origin, Vector2.scale(0.5, reader.ui.body.screenRectangle().size)),
+              {
+                color: mixColor(255, 255, 255),
+                width: CENTER_TEXT_SIZE,
+              }
             )
           }
 
-          this.solution_overlay.render()
 
-          await (reader.showDebugOverlay())
         } else {
-          if (CelticKnots.PuzzleState.isSolved(this.puzzle)) {
-            this.stop()
-          }
+          this.solution_overlay.text("Not enough information",
+            Vector2.add(reader.ui.body.screenRectangle().origin, CENTRAL_TEXT_OFFSET, Vector2.scale(0.5, reader.ui.body.screenRectangle().size)),
+            {
+              color: mixColor(255, 255, 255),
+              width: CENTER_TEXT_SIZE,
+            }
+          )
+
+          this.solution_overlay.rect2(
+            ScreenRectangle.move(reader.ui.body.screenRectangle(), {x: 4, y: 282}, {x: 121, y: 26}),
+            {
+              color: mixColor(255, 255, 255),
+              width: 2,
+            }
+          )
         }
 
-        if (reader.isBroken) console.log("Broken")
+        if (this.isSolved) {
+          this.solution_overlay.text("Solved",
+            Vector2.add(reader.ui.body.screenRectangle().origin, CENTRAL_TEXT_OFFSET, Vector2.scale(0.5, reader.ui.body.screenRectangle().size)),
+            {
+              color: mixColor(0, 255, 0),
+              width: CENTER_TEXT_SIZE,
+            }
+          )
 
-        if (this.last_successfull_read + 3000 < now) {
-          // Or immediately if state is solved
+          this.solution_overlay.rect2(
+            ScreenRectangle.move(reader.ui.body.screenRectangle(), {x: 372, y: 282}, {x: 121, y: 26}),
+            {
+              color: mixColor(0, 255, 0),
+              width: 2,
+            }
+          )
+        }
+
+        this.solution_overlay.render()
+
+        //await (reader.showDebugOverlay(true))
+      } else {
+        if (this.isSolved && this.last_successful_read + 500 < now) {
           this.stop()
         }
-
-        /*this.parent.modal.body.empty().append(
-          vbox(
-            ...reader.elements.map(row => hboxl(...row.map(e => e.css2({
-              "width": "12px",
-              "height": "12px",
-            }))))
-          )
-        )*/
-
-      } catch (e) {
-        console.error(e.toString())
       }
 
+      if (this.last_successful_read + 3000 < now) {
+        // Or immediately if state is solved
+        this.stop()
+      }
+
+      /*this.parent.modal.body.empty().append(
+        vbox(
+          ...reader.elements.map(row => hboxl(...row.map(e => e.css2({
+            "width": "12px",
+            "height": "12px",
+          }))))
+        )
+      )*/
+
+    } catch (e) {
+      console.error(e.toString())
+    }
+  }
+
+  async implementation(): Promise<void> {
+
+    this.puzzle = await this.parent.knot.reader.getPuzzle() // This should already be cached
+
+    while (!this.should_stop) {
+      await this.tick()
 
       await (this.checkTime())
     }
 
     this.solution_overlay?.clear()?.render()
+    this.parent.stop()
   }
 }
 
 class KnotModal extends PuzzleModal {
-  constructor(public parent: KnotSolving) {super(parent);}
+  constructor(public parent: KnotSolving) {
+    super(parent);
+
+    this.title.set("Celtic Knot")
+  }
 
   render() {
     super.render()
@@ -123,24 +176,37 @@ class KnotModal extends PuzzleModal {
 }
 
 export class KnotSolving extends NeoSolvingSubBehaviour {
-  private process: KnotSolvingProcess
+  public process: KnotSolvingProcess
   public modal: KnotModal
 
   constructor(parent: NeoSolvingBehaviour,
               public knot: ClueReader.Result.Puzzle.Knot) {
-    super(parent, true);
+    super(parent);
   }
 
   protected begin() {
     this.process = new KnotSolvingProcess(this)
+      .onFinished(() => this.stop())
+
     this.modal = new KnotModal(this)
 
+    this.modal.hidden.on(() => this.stop())
+
     this.modal.show()
+
+    this.modal.body.empty().append(
+      this.knot.reader.relevant_body.getData().toImage()
+    )
 
     this.process.run()
   }
 
   protected end() {
     this.process.stop()
+    this.modal.remove()
+  }
+
+  pausesClueReader(): boolean {
+    return !this.process?.isSolved
   }
 }

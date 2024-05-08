@@ -167,14 +167,21 @@ export class ClueReader {
               }
             }
           case "knot":
-            return {
-              type: "puzzle",
-              puzzle: {
-                type: "knot",
-                modal: modal,
-                knot: await KnotReader.read(modal)
-              },
+            const reader = new KnotReader.KnotReader(modal)
+
+            if (await reader.getPuzzle()) {
+              return {
+                type: "puzzle",
+                puzzle: {
+                  type: "knot",
+                  reader: reader,
+                },
+              }
+            } else {
+              return null
             }
+
+
         }
       }
 
@@ -542,8 +549,7 @@ export namespace ClueReader {
 
       export type Knot = puzzle_base & {
         type: "knot",
-        modal: CapturedModal,
-        knot: KnotReader.Result
+        reader: KnotReader.KnotReader,
       }
 
       export type Puzzle = Slider | Knot

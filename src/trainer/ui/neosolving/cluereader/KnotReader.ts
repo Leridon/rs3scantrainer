@@ -40,6 +40,14 @@ export namespace KnotReader {
       {clockwise: {x: 5, y: 9}, counterclockwise: {x: 7, y: 9}},
       {clockwise: {x: 13, y: 5}, counterclockwise: {x: 13, y: 3}},
     ]
+  }, {
+    hash: [10, 16, 18, 10, 40103, 80101, 1020217, 1040203, 1070208, 1100303, 1120309, 30201, 1060205, 1090210, 1110214, 60216, 2150301, 2120304],
+    buttons: [
+      {clockwise: {x: 12, y: 3}, counterclockwise: {x: 12, y: 1}},
+      {clockwise: {x: 5, y: 0}, counterclockwise: {x: 2, y: 3}},
+      {clockwise: {x: 5, y: 10}, counterclockwise: {x: 7, y: 10}},
+      {clockwise: {x: 1, y: 6}, counterclockwise: {x: 1, y: 8}},
+    ]
   },
   ]
 
@@ -366,11 +374,8 @@ export namespace KnotReader {
         const start_tile = this.grid.flat().find(t => t.rune && !t.rune.intersection && !this.lanes.some(l => l.color == t.rune.strip_color))
 
         if (!start_tile) {
-          console.log("No start tile")
           break
         }
-
-        console.log(`Start tile ${Vector2.toString(start_tile.pos)}`)
 
         const lane: Lane = {
           color: start_tile.rune.strip_color,
@@ -398,7 +403,7 @@ export namespace KnotReader {
         this.lanes.push(lane)
 
         if (lane.tiles.length < 10) {
-          this.brokenReason = "Lane too short"
+          this.brokenReason = `Lane too short: ${lane.tiles.length}`
           this.isBroken = true
           break;
         }
@@ -509,7 +514,7 @@ export namespace KnotReader {
 
             if (tile.rune) {
               const text = (() => {
-                switch(text_mode) {
+                switch (text_mode) {
                   case "neighbour_array":
                     return `${tile.rune.neighbours_exist[0] ? "t" : " "}   ${tile.rune.neighbours_exist[1] ? "t" : " "}\n${tile.rune.neighbours_exist[3] ? "t" : " "}   ${tile.rune.neighbours_exist[2] ? "t" : " "}`
                   case "neighbour_count":

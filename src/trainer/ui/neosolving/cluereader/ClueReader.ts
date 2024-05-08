@@ -169,8 +169,6 @@ export class ClueReader {
           case "knot":
             const reader = new KnotReader.KnotReader(modal)
 
-            reader.showDebugOverlay(true, "neighbour_array")
-
             if (await reader.getPuzzle()) {
               return {
                 type: "puzzle",
@@ -180,8 +178,11 @@ export class ClueReader {
                 },
               }
             } else {
-              console.log("Knot found, but not found")
-              console.log(`Broken: ${reader.isBroken}, Reason: ${reader.brokenReason}`)
+
+              console.error("Knot found, but not parsed properly")
+              console.error(`Broken: ${reader.isBroken}, Reason: ${reader.brokenReason}`)
+
+              await (reader.showDebugOverlay())
 
               return null
             }

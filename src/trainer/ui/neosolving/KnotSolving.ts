@@ -152,7 +152,6 @@ class KnotSolvingProcess extends Process {
       )*/
 
     } catch (e) {
-      throw e
       console.error(e.toString())
     }
   }

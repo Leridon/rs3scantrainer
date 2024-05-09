@@ -27,21 +27,21 @@ export namespace KnotReader {
     hash: number[],
     buttons: ButtonPositions
   }[] = [{
-    hash: [16, 16, 16, 30113, 60110, 1050203, 1090209, 1110213, 1070207, 70211, 40214],
+    hash: [16, 16, 16, 30113, 40214, 60110, 70211, 1050203, 1070207, 1090209, 1110213],
     buttons: [
       {clockwise: {x: 0, y: 1}, counterclockwise: {x: 0, y: 3}},
       {clockwise: {x: 12, y: 5}, counterclockwise: {x: 12, y: 3}},
       {clockwise: {x: 4, y: 9}, counterclockwise: {x: 6, y: 9}},
     ]
   }, {
-    hash: [16, 16, 16, 20214, 70109, 1070209, 10115, 60210, 1010215],
+    hash: [16, 16, 16, 10115, 20214, 60210, 70109, 1010215, 1070209],
     buttons: [
       {clockwise: {x: -1, y: 3}, counterclockwise: {x: -1, y: 5}},
       {clockwise: {x: 5, y: 9}, counterclockwise: {x: 7, y: 9}},
       {clockwise: {x: 13, y: 5}, counterclockwise: {x: 13, y: 3}},
     ]
   }, {
-    hash: [10, 16, 18, 10, 40103, 80101, 1020217, 1040203, 1070208, 1100303, 1120309, 30201, 1060205, 1090210, 1110214, 60216, 2150301, 2120304],
+    hash: [10, 16, 18, 10, 30201, 40103, 60216, 80101, 1020217, 1040203, 1060205, 1070208, 1090210, 1100303, 1110214, 1120309, 2120304, 2150301],
     buttons: [
       {clockwise: {x: 12, y: 3}, counterclockwise: {x: 12, y: 1}},
       {clockwise: {x: 5, y: 0}, counterclockwise: {x: 2, y: 3}},
@@ -49,6 +49,47 @@ export namespace KnotReader {
       {clockwise: {x: 1, y: 6}, counterclockwise: {x: 1, y: 8}},
     ]
   },
+    {
+      hash: [28, 14, 14, 10113, 30101, 80201, 100203, 150206, 170208, 220108, 240110],
+      buttons: [
+        {clockwise: {x: 10, y: 0}, counterclockwise: {x: 2, y: 0}},
+        {clockwise: {x: 0, y: 4}, counterclockwise: {x: 0, y: 6}},
+        {clockwise: {x: 12, y: 6}, counterclockwise: {x: 12, y: 4}},
+      ]
+    },
+    {
+      hash: [16, 16, 16, 10115, 20214, 30103, 40204, 90207, 100106, 110211, 120112, 1010215, 1070209],
+      buttons: [
+        {clockwise: {x: 6, y: 9}, counterclockwise: {x: 8, y: 9}},
+        {clockwise: {x: 0, y: 5}, counterclockwise: {x: 0, y: 7}},
+        {clockwise: {x: 12, y: 3}, counterclockwise: {x: 12, y: 1}},
+      ]
+    },
+    {
+      hash: [16, 16, 16, 20115, 40103, 90104, 110114, 1060204, 1070211, 1110213, 1120202],
+      buttons: [
+        {clockwise: {x: 12, y: 7}, counterclockwise: {x: 12, y: 5}},
+        {clockwise: {x: 11, y: 2}, counterclockwise: {x: 9, y: 0}},
+        {clockwise: {x: 0, y: 3}, counterclockwise: {x: 0, y: 5}},
+      ]
+    },
+    {
+      hash: [12, 12, 12, 12, 10111, 30109, 50201, 70211, 1050301, 1070311, 2030309, 2050307],
+      buttons: [
+        {clockwise: {x: 3, y: 0}, counterclockwise: {x: 1, y: 2}},
+        {clockwise: {x: 11, y: 2}, counterclockwise: {x: 9, y: 0}},
+        {clockwise: {x: 1, y: 8}, counterclockwise: {x: 3, y: 10}},
+        {clockwise: {x: 9, y: 10}, counterclockwise: {x: 11, y: 8}},
+      ]
+    },
+    {
+      hash: [16, 24, 20, 20105, 50203, 110217, 140101, 1020219, 1040201, 1110204, 1140209, 1160211, 1190216],
+      buttons: [
+        {clockwise: {x: 8, y: 0}, counterclockwise: {x: 4, y: 0}},
+        {clockwise: {x: 12, y: 6}, counterclockwise: {x: 12, y: 2}},
+        {clockwise: {x: 0, y: 6}, counterclockwise: {x: 0, y: 8}},
+      ]
+    }
   ]
 
   export function getButtons(shape: CelticKnots.PuzzleShape): ButtonPositions {
@@ -60,10 +101,6 @@ export namespace KnotReader {
     clockwise: Vector2,
     counterclockwise: Vector2
   }[]
-
-  function isLaneBorder(color: [number, number, number, number]): boolean {
-    return color[0] < 60 && color[1] < 60 && color[2] < 40
-  }
 
   function isBackground(color: [number, number, number]): boolean {
     const samples: [number, number, number][] = [
@@ -104,7 +141,7 @@ export namespace KnotReader {
         {track_id: 0, colors: [[46, 46, 77], [45, 45, 75], [28, 28, 47], [28, 28, 47], [35, 25, 58], [50, 50, 85]]},// blue
         {track_id: 1, colors: [[137, 60, 43], [67, 29, 21], [97, 43, 30], [62, 27, 17]],}, // red
         {track_id: 2, colors: [[12, 12, 18], [11, 11, 16], [18, 18, 27]],}, //darkblue
-        {track_id: 3, colors: [[43, 30, 0], [159, 112, 0], [205, 146, 0]]}, // yellow
+        {track_id: 3, colors: [[43, 30, 0], [159, 112, 0], [205, 146, 0], [104, 74, 0], [137, 97, 0]]}, // yellow
         {track_id: 4, colors: [[95, 89, 76], [123, 116, 98], [30, 28, 24]]}, // gray
       ]
 
@@ -156,9 +193,13 @@ export namespace KnotReader {
 
   const track_color_sample_positions: Vector2[] = [
     {x: 11, y: -3},
+    {x: 12, y: -3},
     {x: -5, y: 12},
+    {x: -5, y: 13},
+    {x: 29, y: 12},
     {x: 29, y: 13},
     {x: 11, y: 28},
+    {x: 12, y: 28},
   ]
 
   const intersection_type_sample_positions: Vector2[] = [
@@ -193,6 +234,7 @@ export namespace KnotReader {
     private runes_on_odd_tiles: boolean
     private puzzle: CelticKnots.PuzzleState
 
+    private interception_point: Vector2
     private grid: Tile[][]
     private lanes: Lane[]
     public isBroken = false
@@ -232,10 +274,20 @@ export namespace KnotReader {
       const intercepted = ((): Vector2 => {
         let y = 5
 
+        let above_was_background = true
         while (y < 200) {
           const pixel = {x: SCANNING_X, y: y}
 
-          if (isLaneBorder(this.img_data.getPixel(pixel.x, pixel.y))) return pixel
+          this.sample(pixel)
+
+          const pixel_is_background = isBackground(this.sample(pixel))
+
+          if (
+            !pixel_is_background && above_was_background
+            && !isBackground(this.sample({x: pixel.x, y: pixel.y + 24})) // Skip arrows
+          ) return pixel
+
+          above_was_background = pixel_is_background
 
           y++
         }
@@ -251,17 +303,19 @@ export namespace KnotReader {
 
       // Move intersection up as far as possible
       while (intercepted.y > 0) {
-        if (isLaneBorder(this.img_data.getPixel(intercepted.x - 1, intercepted.y - 1))) {
+        if (!isBackground(this.sample(Vector2.add(intercepted, {x: -1, y: -1})))) {
           intercepted.x--
           intercepted.y--
-        } else if (isLaneBorder(this.img_data.getPixel(intercepted.x + 1, intercepted.y - 1))) {
+        } else if (!isBackground(this.sample(Vector2.add(intercepted, {x: 1, y: -1})))) {
           intercepted.x++
           intercepted.y--
         } else break
       }
 
-      // Maybe move a pixel left in to get the left pixel of the top
-      if (isLaneBorder(this.img_data.getPixel(intercepted.x - 1, intercepted.y))) intercepted.x--
+      this.interception_point = intercepted
+
+      // Maybe move a pixel left in to get the left pixel of two pixels on the tip of the corner
+      if (!isBackground(this.sample(Vector2.add(intercepted, {x: -1, y: 0})))) intercepted.x--
 
       this.border_anchor = intercepted
 
@@ -366,9 +420,9 @@ export namespace KnotReader {
 
       await (this.readGrid())
 
-      if (this.isBroken) return
-
       this.lanes = []
+
+      if (this.isBroken) return
 
       while (true) {
         const start_tile = this.grid.flat().find(t => t.rune && !t.rune.intersection && !this.lanes.some(l => l.color == t.rune.strip_color))
@@ -400,9 +454,9 @@ export namespace KnotReader {
           }
         }
 
-        this.lanes.push(lane)
-
-        if (lane.tiles.length < 10) {
+        if (lane.tiles.length >= 10) {
+          this.lanes.push(lane)
+        } else {
           this.brokenReason = `Lane too short: ${lane.tiles.length}`
           this.isBroken = true
           break;
@@ -434,9 +488,19 @@ export namespace KnotReader {
 
           if (tile.rune.intersection && tile.rune.strip_color != lane.color) {
             const intersecting_lane_i = this.lanes.findIndex(l => l.color == tile.rune.strip_color)
+            if (intersecting_lane_i < 0) {
+              this.isBroken = true
+              this.brokenReason = `Could not find intersecting lane for color ${tile.rune.strip_color}`
+              continue
+            }
             const intersecting_lane = this.lanes[intersecting_lane_i]
 
             const intersecting_tile_i = intersecting_lane.tiles.findIndex(t => t == tile)
+            if (intersecting_tile_i < 0) {
+              this.isBroken = true
+              this.brokenReason = `Could not find tile in intersecting lane for ${lane_i}:${tile_i} with other line ${intersecting_tile_i}`
+              continue
+            }
 
             locks.push({
               first: {
@@ -480,16 +544,38 @@ export namespace KnotReader {
 
       overlay?.clear()
 
-      for (let i = 0; i < this.lanes.length; i++) {
-        const lane = this.lanes[i]
-
-        overlay.polyline(lane.tiles.map(t => Vector2.add(this.relevant_body.screenRectangle().origin, this.tileOrigin(t.pos), {x: 12, y: 12})),
-          true,
+      if (this.interception_point) {
+        overlay.rect(
+          Rectangle.centeredOn(Vector2.add(this.relevant_body.screenRectangle().origin, this.interception_point), 5),
           {
-            color: colors[lane.color],
+            color: mixColor(255, 255, 255),
             width: 2
           }
         )
+      }
+
+      for (let i = 0; i < this.lanes.length; i++) {
+        const lane = this.lanes[i]
+
+        if (lane.tiles.length > 1) {
+          overlay.polyline(lane.tiles.map(t => Vector2.add(this.relevant_body.screenRectangle().origin, this.tileOrigin(t.pos), {x: 12, y: 12})),
+            true,
+            {
+              color: colors[lane.color],
+              width: 2
+            }
+          )
+        } else if (lane.tiles.length == 1) {
+          if (lane.tiles[0]?.pos) {
+            overlay.rect(
+              Rectangle.centeredOn(Vector2.add(this.relevant_body.screenRectangle().origin, this.tileOrigin(lane.tiles[0].pos), {x: 12, y: 12}), 5),
+              {
+                color: colors[lane.color],
+                width: 2
+              }
+            )
+          } else debugger
+        }
       }
 
       if (this.grid_size) {

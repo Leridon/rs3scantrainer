@@ -1,10 +1,13 @@
 import * as lodash from "lodash"
+import {util} from "../util/util";
 
 export namespace CelticKnots {
   export type Element = { value: number, type: "is" | "isnot" }
 
   export namespace Element {
     export function maybeEqual(a: Element, b: Element): boolean {
+      if(!a || !b) debugger
+
       if (a.type == "is" && b.type == "is") return a.value == b.value
       if (a.type == "is" && b.type == "isnot") return a.value != b.value
       if (a.type == "isnot" && b.type == "is") return a.value != b.value
@@ -59,6 +62,8 @@ export namespace CelticKnots {
 
 
   export namespace PuzzleShape {
+    import natural_order = util.Order.natural_order;
+
     export function isEqual(a: PuzzleShape, b: PuzzleShape) {
       return lodash.isEqual(a.snake_lengths, b.snake_lengths) && a.locks.length == b.locks.length
     }
@@ -70,7 +75,7 @@ export namespace CelticKnots {
           : [lock.second, lock.first];
 
         return 10000 * (min.snake * 100 + min.tile) + (max.snake * 100 + max.tile)
-      })]
+      }).sort(natural_order)]
     }
   }
 

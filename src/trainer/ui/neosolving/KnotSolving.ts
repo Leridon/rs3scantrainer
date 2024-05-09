@@ -82,8 +82,8 @@ class KnotSolvingProcess extends Process {
               )
             })
           } else {
-            this.solution_overlay.text(solution.moves.map((m) => `${m.snake_index}:${m.offset}`).join("  "),
-              Vector2.add(reader.ui.body.screenRectangle().origin, Vector2.scale(0.5, reader.ui.body.screenRectangle().size)),
+            this.solution_overlay.text(CelticKnots.PuzzleShape.hash(this.puzzle.shape).toString(),
+              Vector2.add(reader.ui.body.screenRectangle().origin, CENTRAL_TEXT_OFFSET, Vector2.scale(0.5, reader.ui.body.screenRectangle().size)),
               {
                 color: mixColor(255, 255, 255),
                 width: CENTER_TEXT_SIZE,
@@ -152,6 +152,7 @@ class KnotSolvingProcess extends Process {
       )*/
 
     } catch (e) {
+      throw e
       console.error(e.toString())
     }
   }

@@ -544,7 +544,7 @@ const raw_data: Transportation.TeleportGroup[] = [
         img: {url: "max.png"},
         name: "Max guild",
         menu_ticks: 0,
-        animation_ticks: default_teleport_ticks
+        animation_ticks: 7
       },
       {
         id: "maxguild-garden",
@@ -553,7 +553,7 @@ const raw_data: Transportation.TeleportGroup[] = [
         img: {url: "max.png"},
         name: "Max guild",
         menu_ticks: 0,
-        animation_ticks: default_teleport_ticks
+        animation_ticks: 7
       },
       {
         id: "skelettalhorror",
@@ -2088,7 +2088,7 @@ name: "Harmony Island",
       },
       {
         id: "slayerdungeon",
-        target: {"origin": {"x": 2788, "y": 3614, "level": 0}, "size": {"x": 5, "y": 3}, "data": "/2M="},
+        target: {"origin": {"x": 2788, "y": 3613, "level": 0}, "size": {"x": 5, "y": 5}},
         code: "3",
         name: "Fremennik Slayer Dungeon",
       },
@@ -3143,13 +3143,13 @@ name: "Entrana",
         name: "Yew Trees - Varrock Palace",
         menu_ticks: 2,
       },
-      {
+      /*{
         id: "yewcrwys",
         target: {"origin": {"x": 2261, "y": 3383, "level": 1}},
         code: "5,5",
         name: "Yew Trees - Crwys sector",
         menu_ticks: 2,
-      },
+      },*/ // Disabled because it conflicts with the attuned crystal seed
       {
         id: "magicranging",
         target: {"origin": {"x": 2694, "y": 3425, "level": 0}},

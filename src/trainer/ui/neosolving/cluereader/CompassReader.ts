@@ -1,6 +1,6 @@
 import {Compasses} from "../../../../lib/cluetheory/Compasses";
 import {ImgRef, mixColor} from "@alt1/base";
-import {circularMean, degreesToRadians, normalizeAngle, Rectangle, Vector2} from "../../../../lib/math";
+import {circularMean, degreesToRadians, normalizeAngle, radiansToDegrees, Rectangle, Vector2} from "../../../../lib/math";
 import {ClueReader} from "./ClueReader";
 import * as lodash from "lodash";
 import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
@@ -62,10 +62,11 @@ export namespace CompassReader {
   import angleDifference = Compasses.angleDifference;
   import MatchedUI = ClueReader.MatchedUI;
   import ANGLE_REFERENCE_VECTOR = Compasses.ANGLE_REFERENCE_VECTOR;
-  const DEBUG_COMPASS_READER = false
+  const DEBUG_COMPASS_READER = true
   const DISABLE_CALIBRATION = false
 
-  export const EPSILON = (0.4 / 360) * 2 * Math.PI
+  export const EPSILON = (0.5 / 360) * 2 * Math.PI
+  const CIRCLE_SAMPLE_CONCEALED_THRESHOLD = degreesToRadians(3)
 
   export type CompassState = {
     angle: number,
@@ -93,8 +94,8 @@ export namespace CompassReader {
   export type AngleResult = {
     type: "success",
     angle: number,
-  } | { type: "likely_closed" }
-    | { type: "likely_concealed" }
+  } | { type: "likely_closed", details: string }
+    | { type: "likely_concealed", details: string }
 
   export function readCompassState(ui: MatchedUI.Compass,
                                    calibration_mode: CompassReader.CalibrationMode = "off"
@@ -211,8 +212,8 @@ export namespace CompassReader {
       debug_overlay.render()
     }
 
-    if (circle_sampled_pixels.length == 0) return {type: "likely_closed"}
-    if (circle_sampled_pixels.length > 5) return {type: "likely_concealed"}
+    if (circle_sampled_pixels.length == 0) return {type: "likely_closed", details: "No pixels while sampling the circle"}
+    if (circle_sampled_pixels.length > 10) return {type: "likely_concealed", details: "Too many pixels while sampling the circle"}
 
     // Map all sample points to their respective angle
     // The angle is taken from the true center of the compass arrow, which is why we offset the samples by 0.5
@@ -222,6 +223,10 @@ export namespace CompassReader {
     )
 
     const angle_after_circle_sampling = normalizeAngle(circularMean(angles))
+
+    if (angles.some(a => angleDifference(a, angle_after_circle_sampling) > CIRCLE_SAMPLE_CONCEALED_THRESHOLD)) {
+      return {type: "likely_concealed", details: "Too much variance in the sampled pixels on the circumference"}
+    }
 
     const rectangle_samples: {
       angle: number,
@@ -268,7 +273,7 @@ export namespace CompassReader {
     const X_MIN = 34
     const X_MAX = 146
 
-    const THRESHOLD = 5
+    const PIXEL_REQUIRED_TO_BE_CONSIDERED_ARC_COMPASS = 5
 
     const text_color: [number, number, number] = [51, 25, 0]
 
@@ -281,7 +286,7 @@ export namespace CompassReader {
       }
     }
 
-    return n > THRESHOLD;
+    return n > PIXEL_REQUIRED_TO_BE_CONSIDERED_ARC_COMPASS;
   }
 
   export const calibration_tables = {

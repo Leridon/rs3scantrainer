@@ -159,7 +159,7 @@ class TeleportSettingsEdit extends Widget {
 
     this.layout.header("Owned Passages of the Abyss", "left")
 
-    this.layout.paragraph("Save your owned passages of the abyss.")
+    this.layout.paragraph("Save your owned passages of the abyss. You also need to select them in the loadout preset below for it to take effect.")
 
     for (let color of PotaColor.values) {
       const definition = this.value.potas.find(pota => pota.color == color)

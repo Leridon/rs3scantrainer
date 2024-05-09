@@ -76,7 +76,7 @@ export namespace CompassReader {
   import angleDifference = Compasses.angleDifference;
   import MatchedUI = ClueReader.MatchedUI;
   import ANGLE_REFERENCE_VECTOR = Compasses.ANGLE_REFERENCE_VECTOR;
-  const DEBUG_COMPASS_READER = false
+  const DEBUG_COMPASS_READER = true
   const DISABLE_CALIBRATION = false
 
   export const EPSILON = (0.5 / 360) * 2 * Math.PI

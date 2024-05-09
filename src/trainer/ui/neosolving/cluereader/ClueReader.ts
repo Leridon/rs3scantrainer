@@ -182,7 +182,7 @@ export class ClueReader {
               console.error("Knot found, but not parsed properly")
               console.error(`Broken: ${reader.isBroken}, Reason: ${reader.brokenReason}`)
 
-              await (reader.showDebugOverlay())
+              //await (reader.showDebugOverlay())
 
               return null
             }

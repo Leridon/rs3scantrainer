@@ -1,6 +1,6 @@
 import {Compasses} from "../../../../lib/cluetheory/Compasses";
 import {ImgRef, mixColor} from "@alt1/base";
-import {circularMean, degreesToRadians, normalizeAngle, radiansToDegrees, Rectangle, Vector2} from "../../../../lib/math";
+import {circularMean, degreesToRadians, normalizeAngle, Rectangle, Vector2} from "../../../../lib/math";
 import {ClueReader} from "./ClueReader";
 import * as lodash from "lodash";
 import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
@@ -11,10 +11,23 @@ import ANGLE_REFERENCE_VECTOR = Compasses.ANGLE_REFERENCE_VECTOR;
 
 class AngularKeyframeFunction {
   private constructor(private readonly keyframes: {
+    original?: Vector2,
     angle: number,
     value: number
   }[]) {
     this.keyframes = lodash.sortBy(keyframes, e => e.angle)
+  }
+
+  getSampleTable(): number[] {
+    const samples: number[] = []
+
+    const FRAMES = 5000
+
+    for (let i = 0; i <= FRAMES; i++) {
+      samples.push(this.sample(i * (2 * Math.PI / FRAMES)))
+    }
+
+    return samples
   }
 
   sample(angle: number): number {
@@ -47,6 +60,7 @@ class AngularKeyframeFunction {
         if (dif < -Math.PI) dif += 2 * Math.PI
 
         return {
+          original: position,
           angle: is_angle,
           value: dif
         }
@@ -62,7 +76,7 @@ export namespace CompassReader {
   import angleDifference = Compasses.angleDifference;
   import MatchedUI = ClueReader.MatchedUI;
   import ANGLE_REFERENCE_VECTOR = Compasses.ANGLE_REFERENCE_VECTOR;
-  const DEBUG_COMPASS_READER = true
+  const DEBUG_COMPASS_READER = false
   const DISABLE_CALIBRATION = false
 
   export const EPSILON = (0.5 / 360) * 2 * Math.PI
@@ -341,14 +355,14 @@ export namespace CompassReader {
       {position: {x: 1, y: 4}, is_angle_degrees: 257.930},
       {position: {x: 3, y: 4}, is_angle_degrees: 235.408},
 
-      {position: {x: 4, y: 3}, is_angle_degrees: 213.784},
+      {position: {x: 4, y: 3}, is_angle_degrees: 212.784},
       {position: {x: 4, y: 1}, is_angle_degrees: 190.278},
       {position: {x: 4, y: -1}, is_angle_degrees: 167.683},
       {position: {x: 4, y: -3}, is_angle_degrees: 145.202},
 
       {position: {x: 3, y: -4}, is_angle_degrees: 122.653},
       {position: {x: 1, y: -4}, is_angle_degrees: 100.243},
-      {position: {x: -1, y: -4}, is_angle_degrees: 73.932},
+      {position: {x: -1, y: -4}, is_angle_degrees: 77.754},
       {position: {x: -3, y: -4}, is_angle_degrees: 55.379},
 
       {position: {x: -4, y: -3}, is_angle_degrees: 32.906},

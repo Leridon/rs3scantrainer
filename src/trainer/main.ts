@@ -21,6 +21,8 @@ import {Towers} from "../lib/cluetheory/Towers";
 import towers = Towers.towers;
 import {CelticKnots} from "../lib/cluetheory/CelticKnots";
 import {clue_trainer_test_set} from "../test/tests";
+import {CompassReader} from "./ui/neosolving/cluereader/CompassReader";
+import {radiansToDegrees} from "../lib/math";
 
 type DataEntry = {
   id: number,
@@ -380,6 +382,10 @@ class SliderAnalysisModal extends NisModal {
 }
 
 export async function makeshift_main(): Promise<void> {
+
+
+  //new ExportStringModal(CompassReader.calibration_tables.off.getSampleTable().map(radiansToDegrees).join("\n")).show()
+
   //clue_trainer_test_set.run()
 
   /*

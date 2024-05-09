@@ -33,8 +33,6 @@ export default class Widget<T extends HTMLElement = HTMLElement> {
   appendTo(widget: Widget | JQuery): this {
     if (widget instanceof Widget) widget = widget.container
 
-    document.body.append()
-
     widget.append(this.container)
 
     return this

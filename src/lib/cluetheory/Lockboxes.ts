@@ -1,6 +1,8 @@
 import * as lodash from "lodash";
+import {util} from "../util/util";
 
 export namespace Lockboxes {
+
 
   export type Tile = 0 // Sword
     | 1 // Bow
@@ -21,6 +23,7 @@ export namespace Lockboxes {
   export type MoveMap = Tile[][]
 
   export namespace MoveMap {
+    import count = util.count;
     export const None: MoveMap = [
       [0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0],
@@ -53,7 +56,7 @@ export namespace Lockboxes {
       ]
     ]
 
-    export function repeat(moves: MoveMap, repetition: number) : MoveMap {
+    export function repeat(moves: MoveMap, repetition: number): MoveMap {
       return moves.map(row => row.map(m => (m * repetition) % 3)) as MoveMap
     }
 
@@ -70,9 +73,13 @@ export namespace Lockboxes {
       })
     }
 
-    export function cost(map: MoveMap): number {
-      return lodash.sum(map.flat())
+    export function score(profile: [number, number, number]): (_: MoveMap) => number {
+      return m => lodash.sum(m.flat().map(m => profile[m]))
     }
+
+    export const clickScore = score([0, 1, 2])
+    export const tileScore = score([0, 1, 1])
+    export const hybridScore = score([0, 1, 1.3])
 
     export function isQuiet(map: MoveMap): boolean {
       return State.equals(State.applyMoves(State.SOLVED, map), State.SOLVED)
@@ -81,7 +88,7 @@ export namespace Lockboxes {
     let all_quiet_patterns: MoveMap[] = null
 
     export function allQuietPatterns(): MoveMap[] {
-      if(!all_quiet_patterns) {
+      if (!all_quiet_patterns) {
         // This is taken from the JS implementation at https://www.jaapsch.net/puzzles/lights.htm#java2000
         // It doesn't really match the text description there, so it might not actually be optimal
 
@@ -99,8 +106,8 @@ export namespace Lockboxes {
       return all_quiet_patterns
     }
 
-    export function minimize(map: MoveMap): MoveMap {
-      return lodash.minBy(allQuietPatterns().map(quiet => chain(map, quiet)), cost)
+    export function minimize(map: MoveMap, by: (_: MoveMap) => number = MoveMap.clickScore): MoveMap {
+      return lodash.minBy(allQuietPatterns().map(quiet => chain(map, quiet)), by)
     }
   }
 
@@ -148,16 +155,20 @@ export namespace Lockboxes {
         )
       }
     }
+
+    export function toString(state: State): string {
+      return state.tile_rows.map(r => r.join("  ")).join("\n")
+    }
   }
 
-  export function solve(state: State): MoveMap {
+  function basicSolve(state: State): MoveMap {
 
     function chasing(s: State): [MoveMap, State] {
       let moves = MoveMap.None
 
       for (let chased_row = 0; chased_row < 4; chased_row++) {
         const partial = MoveMap.None.map((row, row_i) => {
-          if (row_i == chased_row + 1) return s.tile_rows[chased_row]
+          if (row_i == chased_row + 1) return s.tile_rows[chased_row].map(s => (3 - s) % 3 as Tile)
           else return row
         })
 
@@ -171,8 +182,8 @@ export namespace Lockboxes {
 
     const [first_chasing_moves, state_after_first_chasing] = chasing(state)
 
-    const B1 = [0, 2, 1][state_after_first_chasing[4][0]] as Tile// If the light at A5 is red then press B1 twice, if it is green press it once.
-    const A1B1 = [0, 2, 1][state_after_first_chasing[4][1]] as Tile// If the light at B5 is red then press A1 and B1 twice, if it is green press them once.
+    const B1 = [0, 2, 1][state_after_first_chasing.tile_rows[4][0]] as Tile// If the light at A5 is red then press B1 twice, if it is green press it once.
+    const A1B1 = [0, 2, 1][state_after_first_chasing.tile_rows[4][1]] as Tile// If the light at B5 is red then press A1 and B1 twice, if it is green press them once.
 
     const magic_solve: MoveMap = [
       [A1B1, (A1B1 + B1) % 3 as Tile, 0, 0, 0],
@@ -186,19 +197,22 @@ export namespace Lockboxes {
 
     const [second_chasing_moves, state_after_second_chasing] = chasing(state_after_magic_solve)
 
-    const total_solution = MoveMap.chain(first_chasing_moves, magic_solve, second_chasing_moves)
-
-    return MoveMap.minimize(total_solution)
+    return MoveMap.chain(first_chasing_moves, magic_solve, second_chasing_moves)
   }
 
-  export function solveAnyTarget(state: State): MoveMap {
-    const candidate_targets = [
-      state,
-      ...[1, 2].map(o => ({
-        tile_rows: state.tile_rows.map(row => row.map(t => (t + o) % 3 as Tile))
-      }))
-    ]
+  export function solve(state: State, anytarget: boolean = true, minimize: boolean = true, cost: (_: MoveMap) => number = MoveMap.clickScore): MoveMap {
+    const candidate_starts = [state]
 
-    return lodash.minBy(candidate_targets.map(solve), MoveMap.cost)
+    if (anytarget) {
+      candidate_starts.push(...[1, 2].map(o => ({
+        tile_rows: state.tile_rows.map(row => row.map(t => (t + o) % 3 as Tile))
+      })))
+    }
+
+    let solutions = candidate_starts.map(basicSolve)
+
+    if (minimize) solutions = solutions.map(s => MoveMap.minimize(s, cost))
+
+    return lodash.minBy(solutions, cost)
   }
 }

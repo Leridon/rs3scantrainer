@@ -179,7 +179,10 @@ export class ClueReader {
 
                 return null
               }
+            } else {
 
+              console.error("Knot found, but not parsed properly")
+              console.error(`Broken: ${reader.isBroken}, Reason: ${reader.brokenReason}`)
 
           }
         }
@@ -190,12 +193,18 @@ export class ClueReader {
           case "lockbox": {
             const reader = new LockBoxReader.LockBoxReader(modal)
 
-            return {
-              type: "puzzle",
-              puzzle: {
-                type: "lockbox",
-                reader: reader,
-              },
+            if (await reader.getPuzzle()) {
+              return {
+                type: "puzzle",
+                puzzle: {
+                  type: "lockbox",
+                  reader: reader,
+                },
+              }
+            } else {
+              console.error("Lockbox found, but not parsed properly. Maybe it's concealed by something.")
+
+              return null
             }
           }
     // Check for slider interface

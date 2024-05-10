@@ -37,6 +37,7 @@ import {TeleportSpotEntity} from "../map/entities/TeleportSpotEntity";
 import InteractionTopControl from "../map/InteractionTopControl";
 import TransportLayer from "../map/TransportLayer";
 import {KnotSolving} from "../neosolving/KnotSolving";
+import {LockboxSolving} from "../neosolving/LockboxSolving";
 import cls = C.cls;
 import PotaColor = Settings.PotaColor;
 import hbox = C.hbox;
@@ -50,7 +51,6 @@ import italic = C.italic;
 import spacer = C.spacer;
 import TeleportGroup = Transportation.TeleportGroup;
 import span = C.span;
-import {LockboxSolving} from "../neosolving/LockboxSolving";
 
 class SectionControl extends Widget {
   menu_bar: Widget
@@ -562,14 +562,32 @@ class LockboxSettingsEdit extends Widget {
   render() {
     this.layout.empty()
 
-    this.layout.header("Celtic Knot Puzzles")
+    this.layout.header("Lockbox Puzzles")
 
     this.layout.header(new Checkbox("Start solving and show overlay automatically")
         .onCommit(v => this.value.autostart = v)
         .setValue(this.value.autostart)
       , "left", 1)
 
-    this.layout.paragraph("Disable this if you are simultaneously using Alt1's builtin clue solver and the knot solutions are overlapping.")
+    this.layout.paragraph("Disable this if you are simultaneously using Alt1's builtin clue solver and the lockbox solutions are overlapping.")
+
+    this.layout.named("Overlay Color", new ColorPicker()
+      .setValue(A1Color.toHex(this.value.overlay_color))
+      .onCommit(v => this.value.overlay_color = A1Color.fromHex(v)))
+
+    this.layout.header("Optimization Mode")
+
+    this.layout.row(hgrid(
+      ...new Checkbox.Group([
+        {button: new Checkbox("Clicks"), value: "clicks" as const},
+        {button: new Checkbox("Tiles"), value: "tiles" as const},
+        {button: new Checkbox("Hybrid"), value: "hybrid" as const},
+      ]).onChange(v => this.value.optimize_by = v)
+        .setValue(this.value.optimize_by)
+        .checkboxes()
+    ))
+
+    this.layout.paragraph("Controls how to optimize the solution to lockboxes. 'Clicks' will result in the lowest total number of clicks. 'Tiles' will optimize for the lowest number of different tiles that need to be clicked to reduce mouse movement. 'Hybrid' will do a mixture of both, weighting 2-click moves 1.3 times as much as 1-click moves.")
   }
 }
 
@@ -1096,6 +1114,11 @@ export class SettingsEdit extends Widget {
           name: "Celtic Knot Solving",
           short_name: "Knots",
           renderer: () => new KnotSettingsEdit(this.value.solving.puzzles.knots)
+        }, {
+          id: "lockboxes",
+          name: "Lockbox Solving",
+          short_name: "Lockboxes",
+          renderer: () => new LockboxSettingsEdit(this.value.solving.puzzles.lockboxes)
         }, {
           id: "compass",
           name: "Compass Solving",

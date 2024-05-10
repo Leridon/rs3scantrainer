@@ -15,7 +15,14 @@ import span = C.span;
 import skillbertRandom = Sliders.SlideSolver.skillbertRandom;
 import spacer = C.spacer;
 import hbox = C.hbox;
-import cleanedJSON = util.cleanedJSON;
+import {test_slide_reader} from "../test/test_slide_reader";
+import {timeSync} from "../lib/gamemap/GameLayer";
+import {Towers} from "../lib/cluetheory/Towers";
+import towers = Towers.towers;
+import {CelticKnots} from "../lib/cluetheory/CelticKnots";
+import {clue_trainer_test_set} from "../test/tests";
+import {CompassReader} from "./ui/neosolving/cluereader/CompassReader";
+import {radiansToDegrees} from "../lib/math";
 
 type DataEntry = {
   id: number,
@@ -375,28 +382,52 @@ class SliderAnalysisModal extends NisModal {
 }
 
 export async function makeshift_main(): Promise<void> {
-/*
-  let repo_data: LocParsingTableData = await (await fetch("map/parsing_associations.json")).json().catch(() => undefined)
 
-  function fix(name: string, value: any) {
-    if (typeof value == "object" && name == "movement" && value["offset"] && value["fixed"]) {
-      value["offset"] = undefined
-    }
 
-    if (Array.isArray(value)) {
-      value.forEach(e => fix(null, e))
-    } else if (typeof value == "object") {
-      Object.entries(value).forEach(([key, value]) => {
-        fix(key, value)
-      })
-    }
-  }
+  //new ExportStringModal(CompassReader.calibration_tables.off.getSampleTable().map(radiansToDegrees).join("\n")).show()
 
-  fix("associations", repo_data.associations)
+  //clue_trainer_test_set.run()
 
-  new ExportStringModal(cleanedJSON(repo_data, 4)).show()*/
+  /*
+   const shape: CelticKnots.PuzzleShape = {
+     snake_lengths: [16, 16, 16],
+     locks: [
+       {first: {snake: 0, tile: 5}, second: {snake: 1, tile: 3}},
+       {first: {snake: 0, tile: 6}, second: {snake: 2, tile: 2}},
+       {first: {snake: 1, tile: 5}, second: {snake: 2, tile: 3}},
 
-  //await clue_trainer_test_set.run()
+       {first: {snake: 0, tile: 11}, second: {snake: 1, tile: 13}},
+       {first: {snake: 0, tile: 10}, second: {snake: 2, tile: 14}},
+       {first: {snake: 1, tile: 11}, second: {snake: 2, tile: 13}},
+     ]
+   }
+
+   const puzzles = new Array(10000).fill(0).map(() => CelticKnots.PuzzleState.shuffle(CelticKnots.PuzzleState.generashape)))
+
+   /*const solutions = timeSync("Solving", () =>
+     puzzles.map(p => CelticKnots.solve(p))
+   )
+
+   console.log(solutions.every(s => CelticKnots.PuzzleState.isSolved(s.end_state)))*/
+
+  /*
+  console.log(Towers.StreetLabel.candidateMap())
+
+  Towers.towers.forEach(left => towers.forEach(right => {
+    console.log(`${left}:${right} = ${Towers.StreetLabel.getCandidates([left, right]).length}`)
+  }))
+
+  const result = timeSync("solve", () => {
+    return Towers.Puzzle.solve({
+      rows: [[3, 2], [2, 3], [2, 1], [1, 3], [3, 2]],
+      columns: [[3, 2], [2, 2], [1, 4], [5, 1], [2, 3]],
+    })
+  })
+
+  console.log(result.rows.map(row => row.join("  ")).join("\n"));
+
+   */
+
 
   // await test_slide_reader()
 

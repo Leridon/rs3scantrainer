@@ -18,7 +18,7 @@ import {Process} from "../../../../lib/Process";
 import * as a1lib from "@alt1/base";
 import {mixColor} from "@alt1/base";
 import {CompassReader} from "../cluereader/CompassReader";
-import {OverlayGeometry} from "../../../../lib/util/OverlayGeometry";
+import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
 import {Transportation} from "../../../../lib/runescape/transportation";
 import {TransportData} from "../../../../data/transports";
 import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
@@ -41,6 +41,7 @@ import italic = C.italic;
 import activate = TileArea.activate;
 import notification = Notification.notification;
 
+const DEVELOPMENT_CALIBRATION_MODE = false
 
 class CompassHandlingLayer extends GameLayer {
   private lines: {
@@ -189,8 +190,6 @@ class CompassReadService extends Process<void> {
 
     while (!this.should_stop) {
       try {
-
-
         const capture_rect = this.matched_ui.rect
 
         const img = a1lib.captureHold(
@@ -205,7 +204,7 @@ class CompassReadService extends Process<void> {
 
         const read = CompassReader.readCompassState(
           CompassReader.find(img, Rectangle.screenOrigin(capture_rect)),
-          this.calibration_mode
+          DEVELOPMENT_CALIBRATION_MODE ? null : this.calibration_mode
         )
 
         switch (read.type) {
@@ -245,7 +244,7 @@ class CompassReadService extends Process<void> {
           if (state.spinning) {
             text = "Spinning"
           } else if (state.angle != null) {
-            text = `${radiansToDegrees(state.angle).toFixed(2)}°`
+            text = `${radiansToDegrees(state.angle).toFixed(DEVELOPMENT_CALIBRATION_MODE ? 3 : 2)}°`
           }
 
           if (text) {
@@ -302,7 +301,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
   private readonly debug_solution: TileCoordinates
 
   constructor(parent: NeoSolvingBehaviour, public clue: Clues.Compass, public ui: MatchedUI.Compass | null) {
-    super(parent, true)
+    super(parent)
 
     this.settings = deps().app.settings.settings.solving.compass
 
@@ -339,6 +338,10 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
         }
       })
     }
+  }
+
+  pausesClueReader(): boolean {
+    return true
   }
 
   renderWidget() {

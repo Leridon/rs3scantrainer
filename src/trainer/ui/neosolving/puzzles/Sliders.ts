@@ -3,6 +3,7 @@ import {ewent} from "../../../../lib/reactive";
 import * as lodash from "lodash";
 import {Process} from "../../../../lib/Process";
 import {util} from "../../../../lib/util/util";
+import {ImageFingerprint} from "../../../../lib/util/ImageFingerprint";
 
 export namespace Sliders {
   export type SliderPuzzle = { tiles: Tile[], theme?: string, match_score?: number }
@@ -13,7 +14,7 @@ export namespace Sliders {
     }
   }
 
-  export type Tile = { position: number, signature: number[], theme?: string }
+  export type Tile = { position: number, signature: ImageFingerprint, theme?: string }
 
   export type SliderState = number[]
 

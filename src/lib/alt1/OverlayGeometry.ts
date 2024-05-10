@@ -1,9 +1,10 @@
 import {Rectangle, Transform, Vector2} from "../math";
-import {util} from "./util";
+import {util} from "../util/util";
 import {mixColor} from "@alt1/base";
 import * as lodash from "lodash";
 import todo = util.todo;
 import uuid = util.uuid;
+import {ScreenRectangle} from "./ScreenRectangle";
 
 export class OverlayGeometry {
   private is_frozen = false
@@ -21,6 +22,11 @@ export class OverlayGeometry {
 
   rect(rect: Rectangle, options: OverlayGeometry.StrokeOptions = OverlayGeometry.StrokeOptions.DEFAULT): this {
     this.geometry.push({type: "rect", rect: rect, options: options})
+    return this
+  }
+  
+  rect2(rect: ScreenRectangle, options: OverlayGeometry.StrokeOptions = OverlayGeometry.StrokeOptions.DEFAULT): this {
+    this.geometry.push({type: "rect", rect: ScreenRectangle.toRectangle(rect), options: options})
     return this
   }
 
@@ -42,8 +48,8 @@ export class OverlayGeometry {
 
       const dir = Vector2.normalize(Vector2.sub(to, from))
 
-      from = Vector2.add(from, Vector2.scale(-stroke.width / 3, dir))
-      to = Vector2.add(to, Vector2.scale(stroke.width / 3, dir))
+      from = Vector2.add(from, Vector2.scale(-(stroke.width ?? 2) / 3, dir))
+      to = Vector2.add(to, Vector2.scale((stroke.width ?? 2) / 3, dir))
 
       this.line(from, to, stroke)
     }
@@ -103,7 +109,7 @@ export class OverlayGeometry {
             Math.round(origin.x), Math.round(origin.y),
             Math.round(Rectangle.width(element.rect)), Math.round(Rectangle.height(element.rect)),
             this.alive_time,
-            element.options.width
+            element.options.width ?? 3
           )
 
           break;
@@ -113,13 +119,13 @@ export class OverlayGeometry {
             element.options.width,
             Math.round(element.from.x), Math.round(element.from.y),
             Math.round(element.to.x), Math.round(element.to.y),
-            this.alive_time
+            this.alive_time ?? 2
           )
           break;
         case "text":
-          alt1.overLayTextEx(element.text, element.options.color, element.options.width,
+          alt1.overLayTextEx(element.text, element.options.color, element.options.width ?? 20,
             Math.round(element.position.x), Math.round(element.position.y),
-            this.alive_time, undefined, element.options.centered, element.options.shadow
+            this.alive_time, undefined, element.options.centered ?? true, element.options.shadow ?? true
           )
           break
       }
@@ -207,7 +213,7 @@ export namespace OverlayGeometry {
 
   export type StrokeOptions = {
     color: number,
-    width: number
+    width?: number
   }
 
   export namespace StrokeOptions {
@@ -218,8 +224,8 @@ export namespace OverlayGeometry {
   }
 
   export type TextOptions = StrokeOptions & {
-    centered: boolean,
-    shadow: boolean
+    centered?: boolean,
+    shadow?: boolean
   }
 
   export namespace TextOptions {

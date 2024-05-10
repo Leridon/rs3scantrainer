@@ -1,8 +1,17 @@
 import {Vector2} from "../math";
+import {util} from "./util";
 
-export type ImageFingerprint = number[]
+export type ImageFingerprint = {
+  type: ImageFingerprint.Type,
+  data: number[]
+}
 
 export namespace ImageFingerprint {
+  import rgbSimilarity = util.rgbSimilarity;
+  export const TypeHSL = 0 as const
+  export const TypeRGB = 1 as const
+
+  export type Type = typeof TypeHSL | typeof TypeRGB
 
   export function averageColor(buf: ImageData, x: number, y: number, w: number, h: number): [number, number, number] {
     let r = 0;
@@ -91,49 +100,92 @@ export namespace ImageFingerprint {
    * @param origin
    * @param size
    * @param kernel_size
+   * @param type
    */
-  export function get(buf: ImageData, origin: Vector2, size: Vector2, kernel_size: Vector2): ImageFingerprint {
-    const tiles_x = Math.floor(size.x / kernel_size.x)
-    const tiles_y = Math.floor(size.y / kernel_size.y)
+  export function get(buf: ImageData, origin: Vector2, size: Vector2, kernel_size: Vector2, type: Type = TypeHSL): ImageFingerprint {
+    switch (type) {
+      case TypeHSL: {
+        const tiles_x = Math.floor(size.x / kernel_size.x)
+        const tiles_y = Math.floor(size.y / kernel_size.y)
 
-    const r = new Array(tiles_x * tiles_y * 3)
+        const r = new Array(tiles_x * tiles_y * 3)
 
-    for (let xi = 0; xi < tiles_x; xi++) {
-      const x = origin.x + xi * kernel_size.x;
+        for (let xi = 0; xi < tiles_x; xi++) {
+          const x = origin.x + xi * kernel_size.x;
 
-      for (let yi = 0; yi < tiles_y; yi++) {
-        const y = origin.y + yi * kernel_size.y;
+          for (let yi = 0; yi < tiles_y; yi++) {
+            const y = origin.y + yi * kernel_size.y;
 
-        const i = 3 * (xi + yi * tiles_x)
+            const i = 3 * (xi + yi * tiles_x)
 
-        let [hue, sat, lightness] = rgbToHsl(...averageColor(buf, x, y, kernel_size.x, kernel_size.y))
+            let [hue, sat, lightness] = rgbToHsl(...averageColor(buf, x, y, kernel_size.x, kernel_size.y))
 
-        r[i + OFFSETS.hue] = hue
-        r[i + OFFSETS.sat] = sat
-        r[i + OFFSETS.roughness] = lightness // averageColorDifference(buf, x, y, kernel_size.x, kernel_size.y)
+            r[i + OFFSETS.hue] = hue
+            r[i + OFFSETS.sat] = sat
+            r[i + OFFSETS.roughness] = lightness // averageColorDifference(buf, x, y, kernel_size.x, kernel_size.y)
+          }
+        }
+        return {type: type, data: r};
       }
+      case TypeRGB:
+        const tiles_x = Math.floor(size.x / kernel_size.x)
+        const tiles_y = Math.floor(size.y / kernel_size.y)
+
+        const res = new Array(tiles_x * tiles_y * 3)
+
+        for (let xi = 0; xi < tiles_x; xi++) {
+          const x = origin.x + xi * kernel_size.x;
+
+          for (let yi = 0; yi < tiles_y; yi++) {
+            const y = origin.y + yi * kernel_size.y;
+
+            const i = 3 * (xi + yi * tiles_x)
+
+            let [r, g, b] = averageColor(buf, x, y, kernel_size.x, kernel_size.y)
+
+            res[i + OFFSETS.hue] = r
+            res[i + OFFSETS.sat] = g
+            res[i + OFFSETS.roughness] = b
+          }
+        }
+        return {type: type, data: res};
     }
-    return r;
   }
 
   export function similarity(data1: ImageFingerprint, data2: ImageFingerprint): number {
-    function hue_delta(a: number, b: number) {
-      let c = Math.abs(a - b);
+    if (data1.type != data2.type || data1.data.length != data2.data.length) return 0
 
-      if (c > 128) c = 255 - c
+    switch (data1.type) {
+      case TypeHSL: {
 
-      return c / 128
+        function hue_delta(a: number, b: number) {
+          let c = Math.abs(a - b);
+
+          if (c > 128) c = 255 - c
+
+          return c / 128
+        }
+
+        let similarity = 0;
+
+        for (let i = 0; i < data1.data.length; i += 3) {
+          // All components are normalized to the interval [0, 1]
+          similarity += (1 - (hue_delta(data1.data[i + OFFSETS.hue], data2.data[i + OFFSETS.hue]))
+            * (1 - (Math.abs(data1.data[i + OFFSETS.sat] - data2.data[i + OFFSETS.sat]) / 255))
+            * (1 - (Math.abs(data1.data[i + OFFSETS.roughness] - data2.data[i + OFFSETS.roughness]) / 255)))
+        }
+
+        return Math.pow(similarity / (data1.data.length / 3), 3);
+      }
+      case TypeRGB: {
+        let similarity = 0;
+
+        for (let i = 0; i < data1.data.length; i += 3) {
+          similarity += rgbSimilarity(data1.data.slice(i, i + 3) as [number, number, number], data2.data.slice(i, i + 3) as [number, number, number])
+        }
+
+        return similarity / (data1.data.length / 3);
+      }
     }
-
-    let similarity = 0;
-
-    for (let i = 0; i < data1.length; i += 3) {
-      // All components are normalized to the interval [0, 1]
-      similarity += (1 - (hue_delta(data1[i + OFFSETS.hue], data2[i + OFFSETS.hue]))
-        * (1 - (Math.abs(data1[i + OFFSETS.sat] - data2[i + OFFSETS.sat]) / 255))
-        * (1 - (Math.abs(data1[i + OFFSETS.roughness] - data2[i + OFFSETS.roughness]) / 255)))
-    }
-
-    return Math.pow(similarity / (data1.length / 3), 3);
   }
 }

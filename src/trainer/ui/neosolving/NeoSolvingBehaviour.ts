@@ -11,7 +11,6 @@ import {AbstractDropdownSelection} from "../widgets/AbstractDropdownSelection";
 import {Clues} from "../../../lib/runescape/clues";
 import {clue_data} from "../../../data/clues";
 import PreparedSearchIndex from "../../../lib/util/PreparedSearchIndex";
-import {Observable, observe} from "../../../lib/reactive";
 import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 import * as lodash from "lodash";
 import {Path} from "../../../lib/runescape/pathing";
@@ -31,13 +30,13 @@ import {SettingsModal} from "../settings/SettingsEdit";
 import {ClueEntities} from "./ClueEntities";
 import {NislIcon} from "../nisl";
 import {ClueProperties} from "../theorycrafting/ClueProperties";
-import {SlideGuider, SliderModal} from "./SlideGuider";
-import {PuzzleModal} from "./PuzzleModal";
+import {SlideGuider, SliderSubBehaviour} from "./puzzles/SlideGuider";
 import {Notification} from "../NotificationBar";
 import TransportLayer from "../map/TransportLayer";
 import {NeoSolvingSubBehaviour} from "./NeoSolvingSubBehaviour";
 import {CompassSolving} from "./compass/CompassSolving";
 import {ScanTreeSolvingControl} from "./scans/ScanTreeSolving";
+import {KnotSolving} from "./KnotSolving";
 import span = C.span;
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import interactionMarker = RenderingUtility.interactionMarker;
@@ -228,19 +227,26 @@ namespace NeoSolvingLayer {
             }
           }),
         this.rest = hbox(
-          new MainControlButton({icon: "assets/icons/activeclue.png", text: "Solve", centered: true})
-            .onClick(() => this.parent.screen_reading.solveManuallyTriggered())
-            .tooltip("Read a clue from screen")
-            .setEnabled(deps().app.in_alt1),
-          new MainControlButton({icon: "assets/icons/lock.png", text: "Auto-Solve", centered: true})
-            .setToggleable(true)
-            .tooltip("Continuously read clues from screen")
-            .setEnabled(deps().app.in_alt1)
-            .onToggle(v => {
-              this.parent.screen_reading.setAutoSolve(v)
-              this.autosolve_preference.set(v)
-            })
-            .setToggled(this.autosolve_preference.get())
+          deps().app.in_alt1
+            ? undefined
+            : new MainControlButton({icon: "assets/icons/Alt1.png", text: "Solving available in Alt1", centered: true})
+              .tooltip("Solving available in Alt1")
+              .setEnabled(deps().app.in_alt1),
+          !deps().app.in_alt1 ? undefined :
+            new MainControlButton({icon: "assets/icons/activeclue.png", text: "Solve", centered: true})
+              .onClick(() => this.parent.screen_reading.solveManuallyTriggered())
+              .tooltip("Read a clue from screen")
+              .setEnabled(deps().app.in_alt1),
+          !deps().app.in_alt1 ? undefined :
+            new MainControlButton({icon: "assets/icons/lock.png", text: "Auto-Solve", centered: true})
+              .setToggleable(true)
+              .tooltip("Continuously read clues from screen")
+              .setEnabled(deps().app.in_alt1)
+              .onToggle(v => {
+                this.parent.screen_reading.setAutoSolve(v)
+                this.autosolve_preference.set(v)
+              })
+              .setToggled(this.autosolve_preference.get())
           ,
           new MainControlButton({icon: "assets/icons/fullscreen.png", centered: true})
             .tooltip("Hide the menu bar")
@@ -307,13 +313,33 @@ class ClueSolvingReadingBehaviour extends Behaviour {
   private async solve(is_autosolve: boolean = false): Promise<ClueReader.Result> {
     const res = await this.reader.readScreen()
 
-    if (res?.step) {
-      this.parent.setClueWithAutomaticMethod(res.step, res)
-    } else if (res?.puzzle) {
-      const is_new_one = this.parent.setPuzzle(res.puzzle)
+    if (res) {
+      switch (res.type) {
+        case "textclue":
+          this.parent.setClueWithAutomaticMethod(res.step, res)
+          break;
+        case "scan":
+        case "compass":
+          this.parent.setClueWithAutomaticMethod({step: res.step, text_index: 0}, res)
+          break;
+        case "puzzle":
+          this.parent.setPuzzle(res.puzzle)
 
-      if (is_autosolve && res.puzzle.type == "slider" && is_new_one) {
-        deps().app.crowdsourcing.pushSlider(res.puzzle.puzzle)
+          break;
+        case "legacy":
+
+          if (res?.step) {
+            this.parent.setClueWithAutomaticMethod(res.step, res)
+          }
+          if (res?.puzzle) {
+            const is_new_one = this.parent.setPuzzle(res.puzzle)
+
+            if (is_autosolve && res.puzzle.type == "slider" && is_new_one) {
+              deps().app.crowdsourcing.pushSlider(res.puzzle.puzzle)
+            }
+          }
+
+          break;
       }
     }
 
@@ -330,7 +356,8 @@ class ClueSolvingReadingBehaviour extends Behaviour {
       // TODO: Adaptive timing to avoid running all the time?
 
       this.activeInterval = window.setInterval(() => {
-        this.solve(true)
+        if (!this.parent.active_behaviour.get()?.pausesClueReader())
+          this.solve(true)
       }, 300)
     }
   }
@@ -338,8 +365,8 @@ class ClueSolvingReadingBehaviour extends Behaviour {
   async solveManuallyTriggered() {
     const found = await this.solve()
 
-    if (!found?.step && !found?.puzzle) {
-      notification("No clue found on screen.", "error")
+    if (!found) {
+      notification("No clue found on screen.", "error").show()
     }
   }
 }
@@ -347,15 +374,11 @@ class ClueSolvingReadingBehaviour extends Behaviour {
 export default class NeoSolvingBehaviour extends Behaviour {
   layer: NeoSolvingLayer
 
-  active_puzzle_modal: PuzzleModal = null
-  active_clue: { step: Clues.Step, text_index: number } = null
+  active_clue: NeoSolving.ActiveState = null
   active_method: AugmentedMethod = null
-
-  sub_behaviour: SingleBehaviour<NeoSolvingSubBehaviour> = this.withSub(new SingleBehaviour<NeoSolvingSubBehaviour>())
+  active_behaviour: SingleBehaviour<NeoSolvingSubBehaviour> = this.withSub(new SingleBehaviour<NeoSolvingSubBehaviour>())
 
   screen_reading: ClueSolvingReadingBehaviour = this.withSub(new ClueSolvingReadingBehaviour(this))
-
-  auto_solving: Observable<boolean> = observe(false)
 
   public path_control = this.withSub(new PathControl(this))
   private default_method_selector: MethodSelector = null
@@ -368,34 +391,23 @@ export default class NeoSolvingBehaviour extends Behaviour {
     })
   }
 
-  setPuzzle(puzzle: PuzzleModal.Puzzle | null): boolean {
-    if (this.active_puzzle_modal?.puzzle?.type == puzzle?.type) return false // Don't do anything if a puzzle of that type is already active
+  setPuzzle(puzzle: ClueReader.Result.Puzzle.Puzzle | null): boolean {
+    if (this.active_clue?.type == "puzzle" && this.active_clue.puzzle.type == puzzle?.type) return false // Don't do anything if a puzzle of that type is already active
 
     this.reset()
 
-    if (this.active_puzzle_modal) {
-
-      this.active_puzzle_modal.abort()
-      this.active_puzzle_modal = null
-    }
-
     if (puzzle) {
-
-      this.active_puzzle_modal = (() => {
-        switch (puzzle.type) {
-          case "slider":
-            return new SliderModal(puzzle)
-        }
-      })()
-
-      this.active_puzzle_modal.hidden.on(modal => {
-        if (modal == this.active_puzzle_modal) {
-          this.active_puzzle_modal = null
-        }
-      })
-
-      this.active_puzzle_modal.start()
+      switch (puzzle.type) {
+        case "slider":
+          this.active_behaviour.set(new SliderSubBehaviour(this, puzzle))
+          break;
+        case "knot":
+          this.active_behaviour.set(new KnotSolving(this, this.app.settings.settings.solving.puzzles.knots, puzzle))
+          break;
+      }
     }
+
+    this.active_clue = {type: "puzzle", puzzle: puzzle}
 
     return true
   }
@@ -408,13 +420,13 @@ export default class NeoSolvingBehaviour extends Behaviour {
    * @param read_result
    */
   setClue(step: { step: Clues.Step, text_index: number }, fit_target: boolean = true, read_result: ClueReader.Result): void {
-    this.reset()
-
-    if (this.active_clue && this.active_clue.step.id == step.step.id && this.active_clue.text_index == step.text_index) {
+    if (this.active_clue?.type == "clue" && this.active_clue.clue.step.id == step.step.id && this.active_clue.clue.text_index == step.text_index) {
       return
     }
 
-    this.active_clue = step
+    this.reset()
+
+    this.active_clue = {type: "clue", clue: step}
 
     const settings = this.app.settings.settings.solving
 
@@ -699,8 +711,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
         this.app.settings.update(set => set.teleport_customization.active_preset = bound_preset)
     }
 
-    if (clue.type == "compass") {
-      this.sub_behaviour.set(new CompassSolving(this, clue, read_result?.found_ui as MatchedUI.Compass))
+    if (clue.type == "compass" && read_result.type == "legacy") {
+      this.active_behaviour.set(new CompassSolving(this, clue, read_result?.found_ui as MatchedUI.Compass))
     }
 
     this.setMethod(null)
@@ -714,7 +726,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
    * @param method
    */
   setMethod(method: AugmentedMethod): void {
-    if (method && method.clue.id != this.active_clue?.step?.id) return;
+    if (this.active_clue.type != "clue" || (method && (method.clue.id != this.active_clue?.clue?.step?.id))) return;
     if (method && method == this.active_method) return;
 
     this.path_control.reset()
@@ -723,12 +735,10 @@ export default class NeoSolvingBehaviour extends Behaviour {
     this.active_method = null
 
     if (method) {
-      if (method.clue.id != this.active_clue?.step?.id) return
-
       this.active_method = method
 
       if (method.method.type == "scantree") {
-        this.sub_behaviour.set(
+        this.active_behaviour.set(
           new ScanTreeSolvingControl(this, method as AugmentedMethod<ScanTreeMethod, Clues.Scan>)
         )
 
@@ -737,15 +747,15 @@ export default class NeoSolvingBehaviour extends Behaviour {
       } else if (method.method.type == "general_path") {
         this.path_control.reset().setMethod(method as AugmentedMethod<GenericPathMethod>)
       }
-    } else if (this.active_clue.step.type != "compass") {
-      this.default_method_selector = new MethodSelector(this, {clue: this.active_clue.step.id})
+    } else if (this.active_clue.clue.step.type != "compass") {
+      this.default_method_selector = new MethodSelector(this, {clue: this.active_clue.clue.step.id})
         .addClass("ctr-neosolving-solution-row")
         .appendTo(this.layer.method_selection_container)
     }
   }
 
-  async setClueWithAutomaticMethod(step: { step: Clues.Step, text_index: number }, read_result: ClueReader.Result) {
-    if (this.active_clue && this.active_clue.step.id == step.step.id && this.active_clue.text_index == step.text_index) {
+  async setClueWithAutomaticMethod(step: Clues.StepWithTextIndex, read_result: ClueReader.Result) {
+    if (this.active_clue?.type == "clue" && this.active_clue.clue.step.id == step.step.id && this.active_clue.clue.text_index == step.text_index) {
       return
     }
 
@@ -768,21 +778,16 @@ export default class NeoSolvingBehaviour extends Behaviour {
     this.layer.reset()
 
     this.path_control.reset()
-    this.sub_behaviour.set(null)
+    this.active_behaviour.set(null)
     this.default_method_selector?.remove()
     this.active_clue = null
     this.active_method = null
-
-    if (this.active_puzzle_modal) {
-      this.active_puzzle_modal.abort()
-      this.active_puzzle_modal = null
-    }
   }
 
   protected begin() {
     this.app.map.addGameLayer(this.layer = new NeoSolvingLayer(this))
 
-    this.sub_behaviour.content_stopped.on(() => {
+    this.active_behaviour.content_stopped.on(() => {
       this.reset()
     })
   }
@@ -793,6 +798,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
 }
 
 export namespace NeoSolving {
+  export type ActiveState = { type: "puzzle", puzzle: ClueReader.Result.Puzzle.Puzzle } | { type: "clue", clue: Clues.StepWithTextIndex }
+
   export type Settings = {
     info_panel: Settings.InfoPanel,
     puzzles: Settings.Puzzles,
@@ -801,18 +808,21 @@ export namespace NeoSolving {
 
   export namespace Settings {
     export type Puzzles = {
-      sliders: SlideGuider.Settings
+      sliders: SlideGuider.Settings,
+      knots: KnotSolving.Settings
     }
 
     export namespace Puzzles {
       export const DEFAULT: Puzzles = {
-        sliders: SlideGuider.Settings.DEFAULT
+        sliders: SlideGuider.Settings.DEFAULT,
+        knots: KnotSolving.Settings.DEFAULT
       }
 
       export function normalize(settings: Puzzles): Puzzles {
         if (!settings) return lodash.cloneDeep(DEFAULT)
 
         settings.sliders = SlideGuider.Settings.normalize(settings.sliders)
+        settings.knots = KnotSolving.Settings.normalize(settings.knots)
 
         return settings
       }

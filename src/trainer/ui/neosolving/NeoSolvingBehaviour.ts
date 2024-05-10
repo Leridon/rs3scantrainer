@@ -227,19 +227,26 @@ namespace NeoSolvingLayer {
             }
           }),
         this.rest = hbox(
-          new MainControlButton({icon: "assets/icons/activeclue.png", text: "Solve", centered: true})
-            .onClick(() => this.parent.screen_reading.solveManuallyTriggered())
-            .tooltip("Read a clue from screen")
-            .setEnabled(deps().app.in_alt1),
-          new MainControlButton({icon: "assets/icons/lock.png", text: "Auto-Solve", centered: true})
-            .setToggleable(true)
-            .tooltip("Continuously read clues from screen")
-            .setEnabled(deps().app.in_alt1)
-            .onToggle(v => {
-              this.parent.screen_reading.setAutoSolve(v)
-              this.autosolve_preference.set(v)
-            })
-            .setToggled(this.autosolve_preference.get())
+          deps().app.in_alt1
+            ? undefined
+            : new MainControlButton({icon: "assets/icons/Alt1.png", text: "Solving available in Alt1", centered: true})
+              .tooltip("Solving available in Alt1")
+              .setEnabled(deps().app.in_alt1),
+          !deps().app.in_alt1 ? undefined :
+            new MainControlButton({icon: "assets/icons/activeclue.png", text: "Solve", centered: true})
+              .onClick(() => this.parent.screen_reading.solveManuallyTriggered())
+              .tooltip("Read a clue from screen")
+              .setEnabled(deps().app.in_alt1),
+          !deps().app.in_alt1 ? undefined :
+            new MainControlButton({icon: "assets/icons/lock.png", text: "Auto-Solve", centered: true})
+              .setToggleable(true)
+              .tooltip("Continuously read clues from screen")
+              .setEnabled(deps().app.in_alt1)
+              .onToggle(v => {
+                this.parent.screen_reading.setAutoSolve(v)
+                this.autosolve_preference.set(v)
+              })
+              .setToggled(this.autosolve_preference.get())
           ,
           new MainControlButton({icon: "assets/icons/fullscreen.png", centered: true})
             .tooltip("Hide the menu bar")

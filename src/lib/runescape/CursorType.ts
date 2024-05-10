@@ -77,7 +77,7 @@ export namespace CursorType {
       {type: "runecraft", icon_url: "assets/icons/cursor_runecraft.png", description: "Runecraft", short_icon: "cursor_runecraft"},
       {type: "thieve", icon_url: "assets/icons/cursor_thieve.png", description: "Thieve", short_icon: "cursor_thieve"},
       {type: "disassemble", icon_url: "assets/icons/cursor_invention.png", description: "Disassemble", short_icon: "cursor_invention"},
-      {type: "farm", icon_url: "assets/icons/cursor_farm.png", description: "Forage", short_icon: "farm"},
+      {type: "farm", icon_url: "assets/icons/cursor_farm.png", description: "Forage", short_icon: "cursor_farm"},
     ]
   }
 

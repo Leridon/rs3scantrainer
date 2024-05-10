@@ -93,7 +93,7 @@ export namespace KnotReader {
     {
       hash: [16, 16, 16, 10115, 20214, 40204, 50105, 90107, 100206, 120212, 130113, 1010215, 1030203, 1090207, 1110211],
       buttons: [
-        {clockwise: {x: 11, y: 7}, counterclockwise: {x: 1, y: 5}},
+        {clockwise: {x: 11, y: 7}, counterclockwise: {x: 11, y: 5}},
         {clockwise: {x: 5, y: 9}, counterclockwise: {x: 7, y: 9}},
         {clockwise: {x: 1, y: 5}, counterclockwise: {x: 1, y: 7}},
       ]

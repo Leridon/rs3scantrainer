@@ -146,24 +146,14 @@ export class ClueReader {
                 step: best.value
               }
             } else {
-              const tiled_img = ClueReader.getImageClueImage(modal)
+              const fingerprint = oldlib.computeImageFingerprint(modal.body.getData(), 20, 20, 90, 25, 300, 240);
 
-              let best: Clues.Step = null
-              let best_score = Number.MAX_VALUE
-
-              for (let clue of clue_data.map) {
-                const score = comparetiledata(clue.ocr_data, tiled_img)
-
-                if (score < best_score) {
-                  best_score = score
-                  best = clue
-                }
-              }
+              const best = findBestMatch(clue_data.map, c =>  comparetiledata(c.ocr_data, fingerprint), undefined, true)
 
               return {
                 type: "textclue",
                 modal: modal,
-                step: {step: best, text_index: 0}
+                step: {step: best.value, text_index: 0}
               }
             }
           case "knot":
@@ -602,9 +592,6 @@ export namespace ClueReader {
    * @param modal The read modal
    */
   export function readTextClueModalText(modal: CapturedModal): string {
-
-    modal.body.getData()
-
     let buf = modal.body.getData()
     let lines: string[] = [];
     let linestart = 0;

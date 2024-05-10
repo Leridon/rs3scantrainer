@@ -101,7 +101,7 @@ export abstract class Process<Result = void> {
     })
   }
 
-  protected async checkTime() {
+  protected async checkTime(): Promise<void> {
     const t = Date.now()
 
     if (this.interrupt_settings.interval) {
@@ -113,6 +113,11 @@ export abstract class Process<Result = void> {
         await this.interrupt(this.interrupt_settings.interrupt.length)
       }
     }
+  }
+
+  onFinished(f: (_: this) => void) : this {
+    this.finished_event.on(f)
+    return this
   }
 }
 

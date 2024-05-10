@@ -36,7 +36,7 @@ export class ScanTreeSolvingControl extends NeoSolvingSubBehaviour {
   tree_widget: Widget
 
   constructor(parent: NeoSolvingBehaviour, public method: AugmentedMethod<ScanTreeMethod, Clues.Scan>) {
-    super(parent, false)
+    super(parent)
 
     this.augmented = ScanTree.Augmentation.basic_augmentation(method.method.tree, method.clue)
   }

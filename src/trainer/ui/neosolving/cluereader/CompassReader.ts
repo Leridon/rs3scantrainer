@@ -3,7 +3,7 @@ import {ImgRef, mixColor} from "@alt1/base";
 import {circularMean, degreesToRadians, normalizeAngle, Rectangle, Vector2} from "../../../../lib/math";
 import {ClueReader} from "./ClueReader";
 import * as lodash from "lodash";
-import {OverlayGeometry} from "../../../../lib/util/OverlayGeometry";
+import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
 import {util} from "../../../../lib/util/util";
 import angleDifference = Compasses.angleDifference;
 import ANGLE_REFERENCE_VECTOR = Compasses.ANGLE_REFERENCE_VECTOR;
@@ -11,10 +11,23 @@ import ANGLE_REFERENCE_VECTOR = Compasses.ANGLE_REFERENCE_VECTOR;
 
 class AngularKeyframeFunction {
   private constructor(private readonly keyframes: {
+    original?: Vector2,
     angle: number,
     value: number
   }[]) {
     this.keyframes = lodash.sortBy(keyframes, e => e.angle)
+  }
+
+  getSampleTable(): number[] {
+    const samples: number[] = []
+
+    const FRAMES = 5000
+
+    for (let i = 0; i <= FRAMES; i++) {
+      samples.push(this.sample(i * (2 * Math.PI / FRAMES)))
+    }
+
+    return samples
   }
 
   sample(angle: number): number {
@@ -47,6 +60,7 @@ class AngularKeyframeFunction {
         if (dif < -Math.PI) dif += 2 * Math.PI
 
         return {
+          original: position,
           angle: is_angle,
           value: dif
         }
@@ -62,10 +76,11 @@ export namespace CompassReader {
   import angleDifference = Compasses.angleDifference;
   import MatchedUI = ClueReader.MatchedUI;
   import ANGLE_REFERENCE_VECTOR = Compasses.ANGLE_REFERENCE_VECTOR;
-  const DEBUG_COMPASS_READER = false
+  const DEBUG_COMPASS_READER = true
   const DISABLE_CALIBRATION = false
 
-  export const EPSILON = (0.4 / 360) * 2 * Math.PI
+  export const EPSILON = (0.5 / 360) * 2 * Math.PI
+  const CIRCLE_SAMPLE_CONCEALED_THRESHOLD = degreesToRadians(3)
 
   export type CompassState = {
     angle: number,
@@ -93,8 +108,8 @@ export namespace CompassReader {
   export type AngleResult = {
     type: "success",
     angle: number,
-  } | { type: "likely_closed" }
-    | { type: "likely_concealed" }
+  } | { type: "likely_closed", details: string }
+    | { type: "likely_concealed", details: string }
 
   export function readCompassState(ui: MatchedUI.Compass,
                                    calibration_mode: CompassReader.CalibrationMode = "off"
@@ -211,8 +226,8 @@ export namespace CompassReader {
       debug_overlay.render()
     }
 
-    if (circle_sampled_pixels.length == 0) return {type: "likely_closed"}
-    if (circle_sampled_pixels.length > 5) return {type: "likely_concealed"}
+    if (circle_sampled_pixels.length == 0) return {type: "likely_closed", details: "No pixels while sampling the circle"}
+    if (circle_sampled_pixels.length > 10) return {type: "likely_concealed", details: "Too many pixels while sampling the circle"}
 
     // Map all sample points to their respective angle
     // The angle is taken from the true center of the compass arrow, which is why we offset the samples by 0.5
@@ -222,6 +237,10 @@ export namespace CompassReader {
     )
 
     const angle_after_circle_sampling = normalizeAngle(circularMean(angles))
+
+    if (angles.some(a => angleDifference(a, angle_after_circle_sampling) > CIRCLE_SAMPLE_CONCEALED_THRESHOLD)) {
+      return {type: "likely_concealed", details: "Too much variance in the sampled pixels on the circumference"}
+    }
 
     const rectangle_samples: {
       angle: number,
@@ -268,7 +287,7 @@ export namespace CompassReader {
     const X_MIN = 34
     const X_MAX = 146
 
-    const THRESHOLD = 5
+    const PIXEL_REQUIRED_TO_BE_CONSIDERED_ARC_COMPASS = 5
 
     const text_color: [number, number, number] = [51, 25, 0]
 
@@ -281,7 +300,7 @@ export namespace CompassReader {
       }
     }
 
-    return n > THRESHOLD;
+    return n > PIXEL_REQUIRED_TO_BE_CONSIDERED_ARC_COMPASS;
   }
 
   export const calibration_tables = {
@@ -336,14 +355,14 @@ export namespace CompassReader {
       {position: {x: 1, y: 4}, is_angle_degrees: 257.930},
       {position: {x: 3, y: 4}, is_angle_degrees: 235.408},
 
-      {position: {x: 4, y: 3}, is_angle_degrees: 213.784},
+      {position: {x: 4, y: 3}, is_angle_degrees: 212.784},
       {position: {x: 4, y: 1}, is_angle_degrees: 190.278},
       {position: {x: 4, y: -1}, is_angle_degrees: 167.683},
       {position: {x: 4, y: -3}, is_angle_degrees: 145.202},
 
       {position: {x: 3, y: -4}, is_angle_degrees: 122.653},
       {position: {x: 1, y: -4}, is_angle_degrees: 100.243},
-      {position: {x: -1, y: -4}, is_angle_degrees: 73.932},
+      {position: {x: -1, y: -4}, is_angle_degrees: 77.754},
       {position: {x: -3, y: -4}, is_angle_degrees: 55.379},
 
       {position: {x: -4, y: -3}, is_angle_degrees: 32.906},

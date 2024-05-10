@@ -12,6 +12,7 @@ import NeoSolvingBehaviour from "./neosolving/NeoSolvingBehaviour";
 import Properties from "./widgets/Properties";
 import {SettingsModal} from "./settings/SettingsEdit";
 import {AboutModal} from "../AboutModal";
+import {Alt1Modal} from "../Alt1Modal";
 import spacer = C.spacer;
 import span = C.span;
 
@@ -128,6 +129,21 @@ export default class MainTabControl extends Widget {
         : undefined
       ,
       spacer(),
+      this.app.in_alt1 ? undefined :
+
+        new MenuButton("Alt1", "assets/icons/ribbon_alt1.png")
+          .onClick(() => {
+            new Alt1Modal().show()
+          })
+          .setActive(true)
+          .addTippy(
+            new Properties().header("Alt 1")
+              .row(c().text("Shows instructions how to add Clue Trainer to Alt1.").css("font-style", "italic"))
+            , {
+              placement: "right",
+              hideOnClick: false
+            })
+      ,
       this.settings_button = new MenuButton("Settings", "assets/icons/ribbon_options.webp").onClick(() => {
           new SettingsModal().show()
         })

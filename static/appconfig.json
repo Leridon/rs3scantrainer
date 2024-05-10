@@ -1,6 +1,6 @@
 {
   "appName": "Clue Trainer",
-  "description": "Explore scan routes and get help along the way.",
+  "description": "New generation clue solver featuring detailed instructions and improved puzzle solvers.",
   "appUrl": "index.html",
   "configUrl": "appconfig.json",
   "iconUrl": "assets/icons/glass.png",
@@ -12,5 +12,5 @@
   "maxHeight": 1000,
   "requestHandlers": [],
   "activators": [],
-  "permissions": "pixel,overlay,gamestate"
+  "permissions": "pixel, gamestate, overlay"
 }

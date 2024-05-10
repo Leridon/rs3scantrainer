@@ -40,6 +40,7 @@ import npc = C.npc;
 import staticentity = C.staticentity;
 import entity = C.entity;
 import notification = Notification.notification;
+import {Alt1Modal} from "./Alt1Modal";
 
 export class SimpleLayerBehaviour extends Behaviour {
   constructor(private map: GameMap, private layer: GameLayer) {
@@ -325,7 +326,7 @@ export class Application extends Behaviour {
     if (!this.in_alt1 && !this.startup_settings.value().dont_recommend_alt1) {
       notification("Clue Trainer is an Alt1 plugin and has clue-solving features when installed.")
         .setDuration(null)
-        .addButton(c(`<a href='${this.addToAlt1Link()}' class="ctr-notification-link">Click here to install.</a>`))
+        .addButton(C.text_link("Click here to install", () => new Alt1Modal().show()))
         .addButton("Don't show again", (not) => {
           this.startup_settings.update(s => s.dont_recommend_alt1 = true)
           not.dismiss()

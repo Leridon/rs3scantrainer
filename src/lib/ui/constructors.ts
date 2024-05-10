@@ -78,7 +78,11 @@ export namespace C {
   }
 
   export function text_link(content: string, handler: () => any): Widget {
-    return c("<div class='link'>")
+    return c("<span class='nisl-textlink'>").text(content).on("click", (e) => {
+      e.preventDefault()
+      e.stopPropagation()
+      handler()
+    })
   }
 
   export function npc(name: string, clickable: boolean = false): Widget {

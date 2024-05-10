@@ -37,6 +37,7 @@ import {NeoSolvingSubBehaviour} from "./NeoSolvingSubBehaviour";
 import {CompassSolving} from "./compass/CompassSolving";
 import {ScanTreeSolvingControl} from "./scans/ScanTreeSolving";
 import {KnotSolving} from "./KnotSolving";
+import {Alt1Modal} from "../../Alt1Modal";
 import span = C.span;
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import interactionMarker = RenderingUtility.interactionMarker;
@@ -230,8 +231,8 @@ namespace NeoSolvingLayer {
           deps().app.in_alt1
             ? undefined
             : new MainControlButton({icon: "assets/icons/Alt1.png", text: "Solving available in Alt1", centered: true})
-              .tooltip("Solving available in Alt1")
-              .setEnabled(deps().app.in_alt1),
+              .tooltip("More available in Alt1")
+              .onClick(() => new Alt1Modal().show()),
           !deps().app.in_alt1 ? undefined :
             new MainControlButton({icon: "assets/icons/activeclue.png", text: "Solve", centered: true})
               .onClick(() => this.parent.screen_reading.solveManuallyTriggered())

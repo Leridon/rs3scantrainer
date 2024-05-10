@@ -4228,6 +4228,11 @@ name: "Entrana",
         target: {"origin": {"x": 3795, "y": 2833, "level": 0}, "size": {"x": 1, "y": 6}},
         name: "Harmony Island Allotment Patch",
       },
+      {
+        id: "grandtreetreepatch",
+        target: {"origin": {"x": 2434, "y": 3413, "level": 0}, "size": {"x": 5, "y": 5}, "data": "LsboAA=="},
+        name: "Tree Gnome Stronghold Tree Patch",
+      },
     ],
     access: [{
       id: "cape",

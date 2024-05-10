@@ -219,3 +219,23 @@ export class KnotSolving extends NeoSolvingSubBehaviour {
     return !this.process?.isSolved
   }
 }
+
+export namespace KnotSolving {
+  export type Settings = {
+    enabled: boolean,
+  }
+
+  export namespace Settings {
+    export const DEFAULT: Settings = {
+      enabled: true
+    }
+
+    export function normalize(settings: Settings): Settings {
+      if (!settings) return DEFAULT
+
+      if (![true, false].includes(settings.enabled)) settings.enabled = DEFAULT.enabled
+
+      return settings
+    }
+  }
+}

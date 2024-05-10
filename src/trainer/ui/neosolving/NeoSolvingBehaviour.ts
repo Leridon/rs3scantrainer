@@ -801,18 +801,21 @@ export namespace NeoSolving {
 
   export namespace Settings {
     export type Puzzles = {
-      sliders: SlideGuider.Settings
+      sliders: SlideGuider.Settings,
+      knots: KnotSolving.Settings
     }
 
     export namespace Puzzles {
       export const DEFAULT: Puzzles = {
-        sliders: SlideGuider.Settings.DEFAULT
+        sliders: SlideGuider.Settings.DEFAULT,
+        knots: KnotSolving.Settings.DEFAULT
       }
 
       export function normalize(settings: Puzzles): Puzzles {
         if (!settings) return lodash.cloneDeep(DEFAULT)
 
         settings.sliders = SlideGuider.Settings.normalize(settings.sliders)
+        settings.knots = KnotSolving.Settings.normalize(settings.knots)
 
         return settings
       }

@@ -2,7 +2,9 @@ import * as lodash from "lodash";
 
 export namespace Lockboxes {
 
-  export type Tile = 0 | 1 | 2
+  export type Tile = 0 // Sword
+    | 1 // Bow
+    | 2 // Mage
 
   export const SIZE = 5
 

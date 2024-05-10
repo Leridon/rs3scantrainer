@@ -18,8 +18,7 @@ import {KnotReader} from "./KnotReader";
 import {CapturedImage} from "../../../../lib/alt1/ImageCapture";
 import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
 import {Sliders} from "../puzzles/Sliders";
-import {CapturedSliderInterface} from "./capture/CapturedSlider";
-import {CapturedModal} from "./capture/CapturedModal";
+import {LockBoxReader} from "./LockBoxReader";
 import stringSimilarity = util.stringSimilarity;
 import ScanStep = Clues.ScanStep;
 import notification = Notification.notification;
@@ -185,10 +184,20 @@ export class ClueReader {
           }
         }
 
-        return null
-      }
-    }
+              return null
+            }
+          }
+          case "lockbox": {
+            const reader = new LockBoxReader.LockBoxReader(modal)
 
+            return {
+              type: "puzzle",
+              puzzle: {
+                type: "lockbox",
+                reader: reader,
+              },
+            }
+          }
     // Check for slider interface
     {
       const slider = await CapturedSliderInterface.findIn(img, false)
@@ -411,7 +420,12 @@ export namespace ClueReader {
         reader: KnotReader.KnotReader,
       }
 
-      export type Puzzle = Slider | Knot
+      export type Lockbox = puzzle_base & {
+        type: "lockbox",
+        reader: LockBoxReader.LockBoxReader,
+      }
+
+      export type Puzzle = Slider | Knot | Lockbox
     }
 
     type base = { type: Kind }

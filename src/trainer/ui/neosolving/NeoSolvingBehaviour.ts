@@ -38,6 +38,7 @@ import {CompassSolving} from "./compass/CompassSolving";
 import {ScanTreeSolvingControl} from "./scans/ScanTreeSolving";
 import {KnotSolving} from "./KnotSolving";
 import {Alt1Modal} from "../../Alt1Modal";
+import {LockboxSolving} from "./LockboxSolving";
 import span = C.span;
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import interactionMarker = RenderingUtility.interactionMarker;
@@ -404,6 +405,9 @@ export default class NeoSolvingBehaviour extends Behaviour {
           break;
         case "knot":
           this.active_behaviour.set(new KnotSolving(this, this.app.settings.settings.solving.puzzles.knots, puzzle))
+          break;
+        case "lockbox":
+          this.active_behaviour.set(new LockboxSolving(this, this.app.settings.settings.solving.puzzles.lockboxes, puzzle))
           break;
       }
     }
@@ -810,13 +814,15 @@ export namespace NeoSolving {
   export namespace Settings {
     export type Puzzles = {
       sliders: SlideGuider.Settings,
-      knots: KnotSolving.Settings
+      knots: KnotSolving.Settings,
+      lockboxes: LockboxSolving.Settings,
     }
 
     export namespace Puzzles {
       export const DEFAULT: Puzzles = {
         sliders: SlideGuider.Settings.DEFAULT,
-        knots: KnotSolving.Settings.DEFAULT
+        knots: KnotSolving.Settings.DEFAULT,
+        lockboxes: LockboxSolving.Settings.DEFAULT
       }
 
       export function normalize(settings: Puzzles): Puzzles {
@@ -824,6 +830,7 @@ export namespace NeoSolving {
 
         settings.sliders = SlideGuider.Settings.normalize(settings.sliders)
         settings.knots = KnotSolving.Settings.normalize(settings.knots)
+        settings.lockboxes = LockboxSolving.Settings.normalize(settings.lockboxes)
 
         return settings
       }

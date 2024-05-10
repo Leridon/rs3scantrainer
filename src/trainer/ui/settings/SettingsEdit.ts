@@ -50,6 +50,7 @@ import italic = C.italic;
 import spacer = C.spacer;
 import TeleportGroup = Transportation.TeleportGroup;
 import span = C.span;
+import {LockboxSolving} from "../neosolving/LockboxSolving";
 
 class SectionControl extends Widget {
   menu_bar: Widget
@@ -526,6 +527,31 @@ class KnotSettingsEdit extends Widget {
   private layout: Properties
 
   constructor(private value: KnotSolving.Settings) {
+    super()
+
+    this.layout = new Properties().appendTo(this)
+
+    this.render()
+  }
+
+  render() {
+    this.layout.empty()
+
+    this.layout.header("Celtic Knot Puzzles")
+
+    this.layout.header(new Checkbox("Start solving and show overlay automatically")
+        .onCommit(v => this.value.autostart = v)
+        .setValue(this.value.autostart)
+      , "left", 1)
+
+    this.layout.paragraph("Disable this if you are simultaneously using Alt1's builtin clue solver and the knot solutions are overlapping.")
+  }
+}
+
+class LockboxSettingsEdit extends Widget {
+  private layout: Properties
+
+  constructor(private value: LockboxSolving.Settings) {
     super()
 
     this.layout = new Properties().appendTo(this)

@@ -395,7 +395,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
           this.active_behaviour.set(new SliderSubBehaviour(this, puzzle))
           break;
         case "knot":
-          this.active_behaviour.set(new KnotSolving(this, puzzle))
+          this.active_behaviour.set(new KnotSolving(this, this.app.settings.settings.solving.puzzles.knots, puzzle))
           break;
       }
     }

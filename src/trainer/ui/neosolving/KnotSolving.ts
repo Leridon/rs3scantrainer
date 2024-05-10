@@ -10,6 +10,9 @@ import {CelticKnots} from "../../../lib/cluetheory/CelticKnots";
 import {Vector2} from "../../../lib/math";
 import {mixColor} from "@alt1/base";
 import {ScreenRectangle} from "../../../lib/alt1/ScreenRectangle";
+import Widget from "../../../lib/ui/Widget";
+import {BigNisButton} from "../widgets/BigNisButton";
+import {ewent} from "../../../lib/reactive";
 
 const CENTER_TEXT_SIZE = 20
 const MOVE_FONT_SIZE = 24
@@ -17,6 +20,8 @@ const CENTRAL_TEXT_OFFSET = {x: 0, y: -150}
 
 
 class KnotSolvingProcess extends Process {
+  puzzle_closed = ewent<this>()
+
   solution_overlay = new OverlayGeometry()
   last_successful_read: number
 
@@ -133,13 +138,13 @@ class KnotSolvingProcess extends Process {
         //await (reader.showDebugOverlay(true))
       } else {
         if (this.isSolved && this.last_successful_read + 500 < now) {
-          this.stop()
+          this.puzzleClosed()
         }
       }
 
       if (this.last_successful_read + 3000 < now) {
         // Or immediately if state is solved
-        this.stop()
+        this.puzzleClosed()
       }
 
       /*this.parent.modal.body.empty().append(
@@ -157,8 +162,12 @@ class KnotSolvingProcess extends Process {
     }
   }
 
-  async implementation(): Promise<void> {
+  private puzzleClosed() {
+    this.stop()
+    this.puzzle_closed.trigger(this)
+  }
 
+  async implementation(): Promise<void> {
     this.puzzle = await this.parent.knot.reader.getPuzzle() // This should already be cached
 
     while (!this.should_stop) {
@@ -168,7 +177,6 @@ class KnotSolvingProcess extends Process {
     }
 
     this.solution_overlay?.clear()?.render()
-    this.parent.stop()
   }
 }
 
@@ -179,8 +187,34 @@ class KnotModal extends PuzzleModal {
     this.title.set("Celtic Knot")
   }
 
+  update() {
+    this.body.empty().append(
+      c()
+        .css2({
+          "max-width": "100%",
+          "text-align": "center"
+        })
+        .append(
+          Widget.wrap(
+            this.parent.knot.reader.relevant_body.getData().toImage()
+          ).css("max-width", "100%")
+        ),
+      this.parent.process
+        ? new BigNisButton("Reset", "neutral")
+          .onClick(() => {
+            this.parent.resetProcess(true)
+          })
+        : new BigNisButton("Show Solution", "confirm")
+          .onClick(() => {
+            this.parent.resetProcess(true)
+          })
+    )
+  }
+
   render() {
     super.render()
+
+    this.update()
   }
 }
 
@@ -189,29 +223,38 @@ export class KnotSolving extends NeoSolvingSubBehaviour {
   public modal: KnotModal
 
   constructor(parent: NeoSolvingBehaviour,
+              public settings: KnotSolving.Settings,
               public knot: ClueReader.Result.Puzzle.Knot) {
     super(parent);
   }
 
-  protected begin() {
-    this.process = new KnotSolvingProcess(this)
-      .onFinished(() => this.stop())
+  async resetProcess(start: boolean) {
+    if (this.process) {
+      this.process.stop()
+      this.process = null
+    }
 
+    if (start) {
+      this.process = new KnotSolvingProcess(this)
+      this.process.puzzle_closed.on(() => this.stop())
+      this.process.run()
+    }
+
+    this.modal.update()
+  }
+
+  protected begin() {
     this.modal = new KnotModal(this)
 
     this.modal.hidden.on(() => this.stop())
 
     this.modal.show()
 
-    this.modal.body.empty().append(
-      this.knot.reader.relevant_body.getData().toImage()
-    )
-
-    this.process.run()
+    if (this.settings.autostart) this.resetProcess(true)
   }
 
   protected end() {
-    this.process.stop()
+    this.resetProcess(false)
     this.modal.remove()
   }
 
@@ -222,18 +265,18 @@ export class KnotSolving extends NeoSolvingSubBehaviour {
 
 export namespace KnotSolving {
   export type Settings = {
-    enabled: boolean,
+    autostart: boolean,
   }
 
   export namespace Settings {
     export const DEFAULT: Settings = {
-      enabled: true
+      autostart: true
     }
 
     export function normalize(settings: Settings): Settings {
       if (!settings) return DEFAULT
 
-      if (![true, false].includes(settings.enabled)) settings.enabled = DEFAULT.enabled
+      if (![true, false].includes(settings.autostart)) settings.autostart = DEFAULT.autostart
 
       return settings
     }

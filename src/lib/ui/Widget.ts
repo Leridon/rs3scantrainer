@@ -1,6 +1,7 @@
 import * as jquery from 'jquery';
 import * as tippy from 'tippy.js';
 import {C} from "./constructors";
+import type * as CSS from 'csstype';
 import Appendable = C.Appendable;
 
 export default class Widget<T extends HTMLElement = HTMLElement> {
@@ -65,25 +66,27 @@ export default class Widget<T extends HTMLElement = HTMLElement> {
     return this
   }
 
-  css(key: string, value: string | number): this {
+  css<prop extends keyof CSS.PropertiesHyphen>(key: prop, value: CSS.PropertiesHyphen[prop]): this {
     this.container.css(key, value)
 
     return this
   }
 
-  css2(properties: JQuery.PlainObject<string | number>): this {
-    this.container.css(properties)
+  css2(properties: CSS.PropertiesHyphen): this {
+    Object.assign(this._raw.style, properties)
 
     return this
   }
 
   tooltip(title: string): this {
-    this.container.attr("title", title)
+    this._raw.setAttribute("title", title)
+
     return this
   }
 
   remove(): this {
-    this.container.remove()
+    this._raw.remove()
+
     return this
   }
 
@@ -93,12 +96,13 @@ export default class Widget<T extends HTMLElement = HTMLElement> {
   }
 
   addClass(cls: string): this {
-    if (cls) this.container.addClass(cls)
+    if (cls) this._raw.classList.add(cls)
     return this
   }
 
-  static wrap(jq: JQuery | string): Widget {
+  static wrap(jq: JQuery | string | HTMLElement): Widget {
     if (typeof jq == "string") jq = jquery(jq)
+    if (jq instanceof HTMLElement) jq = jquery(jq)
 
     return new Widget(jq)
   }
@@ -117,10 +121,7 @@ export default class Widget<T extends HTMLElement = HTMLElement> {
   }
 
   toggleClass(cls: string, value: boolean = null): this {
-    if (value == null) value = !this.container.hasClass(cls)
-
-    if (value) this.container.addClass(cls)
-    else this.container.removeClass(cls)
+    this._raw.classList.toggle(cls, value)
 
     return this
   }

@@ -36,6 +36,7 @@ import {GameMapMouseEvent} from "../../../lib/gamemap/MapEvents";
 import {TeleportSpotEntity} from "../map/entities/TeleportSpotEntity";
 import InteractionTopControl from "../map/InteractionTopControl";
 import TransportLayer from "../map/TransportLayer";
+import {KnotSolving} from "../neosolving/KnotSolving";
 import cls = C.cls;
 import PotaColor = Settings.PotaColor;
 import hbox = C.hbox;
@@ -417,13 +418,12 @@ class TeleportSettingsEdit extends Widget {
         })
     )
   }
-
 }
 
 class PuzzleSettingsEdit extends Widget {
   private layout: Properties
 
-  constructor(private value: NeoSolving.Settings.Puzzles) {
+  constructor(private value: SlideGuider.Settings) {
     super()
 
     this.layout = new Properties().appendTo(this)
@@ -441,46 +441,46 @@ class PuzzleSettingsEdit extends Widget {
         {button: new Checkbox("Mouse"), value: "mouse" as const},
         {button: new Checkbox("Keyboard"), value: "keyboard" as const},
         {button: new Checkbox("Hybrid"), value: "hybrid" as const},
-      ]).onChange(v => this.value.sliders.mode = v)
-        .setValue(this.value.sliders.mode)
+      ]).onChange(v => this.value.mode = v)
+        .setValue(this.value.mode)
         .checkboxes()
     ))
 
     this.layout.header(new Checkbox("Start solving automatically")
-        .onCommit(v => this.value.sliders.autostart = v)
-        .setValue(this.value.sliders.autostart)
+        .onCommit(v => this.value.autostart = v)
+        .setValue(this.value.autostart)
       , "left", 1)
 
     this.layout.header("Lookahead", "left", 1)
     this.layout.paragraph("Determines how many moves are shown in advance.")
     this.layout.row(new NumberSlider(2, 10, 1)
-      .setValue(this.value.sliders.max_lookahead)
-      .onCommit(v => this.value.sliders.max_lookahead = v)
+      .setValue(this.value.max_lookahead)
+      .onCommit(v => this.value.max_lookahead = v)
     )
 
     this.layout.header(new Checkbox("Prevent Overlap")
-      .onCommit(v => this.value.sliders.prevent_overlap = v)
-      .setValue(this.value.sliders.prevent_overlap), "left", 1)
+      .onCommit(v => this.value.prevent_overlap = v)
+      .setValue(this.value.prevent_overlap), "left", 1)
     this.layout.paragraph("When enabled, prevents moves that overlap with other moves from being displayed.")
 
     this.layout.header(new Checkbox("Show Recovery Moves")
-      .onCommit(v => this.value.sliders.display_recovery = v)
-      .setValue(this.value.sliders.display_recovery), "left", 1)
+      .onCommit(v => this.value.display_recovery = v)
+      .setValue(this.value.display_recovery), "left", 1)
     this.layout.paragraph("When enabled, mistakes are automatically detected and recovery moves are displayed.")
 
 
     const color_mainline_move = new ColorPicker()
-      .setValue(A1Color.toHex(this.value.sliders.color_mainline_move))
-      .onCommit(v => this.value.sliders.color_mainline_move = A1Color.fromHex(v))
+      .setValue(A1Color.toHex(this.value.color_mainline_move))
+      .onCommit(v => this.value.color_mainline_move = A1Color.fromHex(v))
     const color_recovery_move = new ColorPicker()
-      .setValue(A1Color.toHex(this.value.sliders.color_recovery_move))
-      .onCommit(v => this.value.sliders.color_recovery_move = A1Color.fromHex(v))
+      .setValue(A1Color.toHex(this.value.color_recovery_move))
+      .onCommit(v => this.value.color_recovery_move = A1Color.fromHex(v))
     const color_mainline_line = new ColorPicker()
-      .setValue(A1Color.toHex(this.value.sliders.color_mainline_line))
-      .onCommit(v => this.value.sliders.color_mainline_line = A1Color.fromHex(v))
+      .setValue(A1Color.toHex(this.value.color_mainline_line))
+      .onCommit(v => this.value.color_mainline_line = A1Color.fromHex(v))
     const color_recovery_line = new ColorPicker()
-      .setValue(A1Color.toHex(this.value.sliders.color_recovery_line))
-      .onCommit(v => this.value.sliders.color_recovery_line = A1Color.fromHex(v))
+      .setValue(A1Color.toHex(this.value.color_recovery_line))
+      .onCommit(v => this.value.color_recovery_line = A1Color.fromHex(v))
 
     this.layout.named("Colors", hgrid(centered("Main Line"), centered("Recovery")))
     this.layout.named("Moves", hgrid(color_mainline_move, color_recovery_move))
@@ -488,10 +488,10 @@ class PuzzleSettingsEdit extends Widget {
 
     this.layout.named("", new LightButton("Reset to default")
       .onClick(() => {
-        this.value.sliders.color_mainline_move = SlideGuider.Settings.DEFAULT.color_mainline_move
-        this.value.sliders.color_mainline_line = SlideGuider.Settings.DEFAULT.color_mainline_line
-        this.value.sliders.color_recovery_move = SlideGuider.Settings.DEFAULT.color_recovery_move
-        this.value.sliders.color_recovery_line = SlideGuider.Settings.DEFAULT.color_recovery_line
+        this.value.color_mainline_move = SlideGuider.Settings.DEFAULT.color_mainline_move
+        this.value.color_mainline_line = SlideGuider.Settings.DEFAULT.color_mainline_line
+        this.value.color_recovery_move = SlideGuider.Settings.DEFAULT.color_recovery_move
+        this.value.color_recovery_line = SlideGuider.Settings.DEFAULT.color_recovery_line
 
         this.render()
       })
@@ -501,24 +501,49 @@ class PuzzleSettingsEdit extends Widget {
     this.layout.paragraph("How much time the solver should spend finding an optimal solution before the guide starts.")
     this.layout.row(new NumberSlider(0.5, 5, 0.1)
       .withPreviewFunction(v => `${v.toFixed(1)}s`)
-      .setValue(this.value.sliders.solve_time_ms / 1000)
-      .onCommit(v => this.value.sliders.solve_time_ms = v * 1000)
+      .setValue(this.value.solve_time_ms / 1000)
+      .onCommit(v => this.value.solve_time_ms = v * 1000)
     )
 
     this.layout.header(new Checkbox("Estimate Slider Speed")
-      .onCommit(v => this.value.sliders.estimate_slider_speed = v)
-      .setValue(this.value.sliders.estimate_slider_speed), "left", 1)
+      .onCommit(v => this.value.estimate_slider_speed = v)
+      .setValue(this.value.estimate_slider_speed), "left", 1)
     this.layout.paragraph("Show an estimate for your equivalent slider speed in Alt1's builtin clue solver after finishing a slider. Takes the faster animation of multi-tile moves in the builtin solver into account.")
 
     this.layout.header(new Checkbox("Improve screen reader with backtracking (Experimental)")
-      .onCommit(v => this.value.sliders.estimate_slider_speed = v)
-      .setValue(this.value.sliders.estimate_slider_speed), "left", 1)
+      .onCommit(v => this.value.estimate_slider_speed = v)
+      .setValue(this.value.estimate_slider_speed), "left", 1)
     this.layout.paragraph("Currently experimental. When activated, tries to improve the match read from screen by doing a second search with a bounded backtracking algorithm.")
 
     this.layout.header(new Checkbox("Continuous solving (Experimental)")
-      .onCommit(v => this.value.sliders.continue_solving_after_initial_solve = v)
-      .setValue(this.value.sliders.continue_solving_after_initial_solve), "left", 1)
+      .onCommit(v => this.value.continue_solving_after_initial_solve = v)
+      .setValue(this.value.continue_solving_after_initial_solve), "left", 1)
     this.layout.paragraph("When active, the puzzle solver will continue to look for shorter solutions while completing a puzzle to reduce the number of required moves. Currently experimental, disable if you notice issues.")
+  }
+}
+
+class KnotSettingsEdit extends Widget {
+  private layout: Properties
+
+  constructor(private value: KnotSolving.Settings) {
+    super()
+
+    this.layout = new Properties().appendTo(this)
+
+    this.render()
+  }
+
+  render() {
+    this.layout.empty()
+
+    this.layout.header("Celtic Knot Puzzles")
+
+    this.layout.header(new Checkbox("Start solving and show overlay automatically")
+        .onCommit(v => this.value.autostart = v)
+        .setValue(this.value.autostart)
+      , "left", 1)
+
+    this.layout.paragraph("Disable this if you are simultaneously using Alt1's builtin clue solver and the knot solutions are overlapping.")
   }
 }
 
@@ -1036,10 +1061,15 @@ export class SettingsEdit extends Widget {
           short_name: "Clue Info",
           renderer: () => new SolvingSettingsEdit(this.value.solving.info_panel)
         }, {
-          id: "puzzles",
-          name: "Puzzle Solving",
-          short_name: "Puzzles",
-          renderer: () => new PuzzleSettingsEdit(this.value.solving.puzzles)
+          id: "sliders",
+          name: "Slider Puzzle Solving",
+          short_name: "Sliders",
+          renderer: () => new PuzzleSettingsEdit(this.value.solving.puzzles.sliders)
+        }, {
+          id: "knots",
+          name: "Celtic Knot Solving",
+          short_name: "Knots",
+          renderer: () => new KnotSettingsEdit(this.value.solving.puzzles.knots)
         }, {
           id: "compass",
           name: "Compass Solving",

@@ -777,9 +777,9 @@ export namespace CompassSolving {
     export const master_turtle_island_dock: TriangulationPreset = {
       compass_id: clue_data.arc_compass.id,
       id: -5,
-      name: "{{teleport arctabs sarim}} Ship to Turtle Island",
+      name: "{{teleport arcsailing turtleislands}} Ship to Turtle Island",
       sequence: [
-        {tile: {x: 2242, y: 11424, level: 0}},
+        {teleport: {group: "arcsailing", spot: "turtleislands"}},
       ]
     }
 

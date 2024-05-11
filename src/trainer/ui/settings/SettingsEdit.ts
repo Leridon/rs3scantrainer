@@ -51,6 +51,7 @@ import italic = C.italic;
 import spacer = C.spacer;
 import TeleportGroup = Transportation.TeleportGroup;
 import span = C.span;
+import greatestCommonDivisor = util.greatestCommonDivisor;
 
 class SectionControl extends Widget {
   menu_bar: Widget
@@ -577,17 +578,41 @@ class LockboxSettingsEdit extends Widget {
 
     this.layout.header("Optimization Mode")
 
-    this.layout.row(hgrid(
-      ...new Checkbox.Group([
-        {button: new Checkbox("Clicks"), value: "clicks" as const},
-        {button: new Checkbox("Tiles"), value: "tiles" as const},
-        {button: new Checkbox("Hybrid"), value: "hybrid" as const},
-      ]).onChange(v => this.value.optimize_by = v)
-        .setValue(this.value.optimize_by)
-        .checkboxes()
-    ))
+    this.layout.paragraph("Control how to optimize the solution. The configured value determines how much a 2-click tile is weighted compared to a 1-click tile. A value of '2' will optimize for the lowest total amount of clicks. A value of '1' will optimize for the lowest number of unique tiles that need to be clicked. Setting this to 1.3 is a good compromise for most people.")
 
-    this.layout.paragraph("Controls how to optimize the solution to lockboxes. 'Clicks' will result in the lowest total number of clicks. 'Tiles' will optimize for the lowest number of different tiles that need to be clicked to reduce mouse movement. 'Hybrid' will do a mixture of both, weighting 2-click moves 1.3 times as much as 1-click moves.")
+    this.layout.row(new NumberSlider(1, 2, 0.1)
+      .setValue(this.value.two_click_factor)
+      .onCommit(v => {
+        this.value.two_click_factor = v
+        update_settings_description()
+      })
+    )
+
+
+    const setting_description = c()
+
+    const update_settings_description = () => {
+      if (this.value.two_click_factor == 2) {
+        setting_description.text(`A value of ${this.value.two_click_factor.toFixed(1)} will optimize for the lowest number of total clicks.`)
+
+      } else if (this.value.two_click_factor == 1) {
+        setting_description.text(`A value of ${this.value.two_click_factor.toFixed(1)} will optimize for the lowest number of unique clicked tiles.`)
+      } else {
+        let two_clicks = 10
+        let one_clicks = Math.ceil(two_clicks * this.value.two_click_factor)
+
+        const gcd = greatestCommonDivisor(two_clicks, one_clicks)
+
+        two_clicks /= gcd
+        one_clicks /= gcd
+
+        setting_description.text(`A value of ${this.value.two_click_factor.toFixed(1)} will treat ${two_clicks} two-click tiles the same as ${one_clicks} one-click tiles.`)
+      }
+    }
+
+    update_settings_description()
+
+    this.layout.paragraph(setting_description)
   }
 }
 

@@ -12,6 +12,7 @@ import {CapturedImage, CapturedModal} from "../../../lib/alt1/ImageCapture";
 import {LockBoxReader} from "./cluereader/LockBoxReader";
 import {Vector2} from "../../../lib/math";
 import {mixColor} from "@alt1/base";
+import * as lodash from "lodash";
 
 class LockboxSolvingProcess extends Process {
   puzzle_closed = ewent<this>()
@@ -144,16 +145,7 @@ export class LockboxSolving extends NeoSolvingSubBehaviour {
               public lockbox: ClueReader.Result.Puzzle.Lockbox) {
     super(parent);
 
-    this.cost_function = (() => {
-      switch (this.settings.optimize_by) {
-        case "clicks":
-          return Lockboxes.MoveMap.clickScore
-        case "tiles":
-          return Lockboxes.MoveMap.tileScore
-        case "hybrid":
-          return Lockboxes.MoveMap.hybridScore
-      }
-    })()
+    this.cost_function = Lockboxes.MoveMap.score([0, 1, this.settings.two_click_factor])
   }
 
   async resetProcess(start: boolean) {
@@ -194,14 +186,14 @@ export class LockboxSolving extends NeoSolvingSubBehaviour {
 export namespace LockboxSolving {
   export type Settings = {
     autostart: boolean,
-    optimize_by: "clicks" | "tiles" | "hybrid",
+    two_click_factor: number,
     overlay_color: number
   }
 
   export namespace Settings {
     export const DEFAULT: Settings = {
       autostart: true,
-      optimize_by: "hybrid",
+      two_click_factor: 1.3,
       overlay_color: mixColor(255, 255, 255)
     }
 
@@ -209,8 +201,10 @@ export namespace LockboxSolving {
       if (!settings) return DEFAULT
 
       if (![true, false].includes(settings.autostart)) settings.autostart = DEFAULT.autostart
-      if (!["clicks", "tiles", "hybrid"].includes(settings.optimize_by)) settings.optimize_by = DEFAULT.optimize_by
       if (typeof settings.overlay_color != "number") settings.overlay_color = DEFAULT.overlay_color
+      if (typeof settings.two_click_factor != "number") settings.two_click_factor = DEFAULT.two_click_factor
+
+      settings.two_click_factor = lodash.clamp(settings.two_click_factor, 1, 2)
 
       return settings
     }

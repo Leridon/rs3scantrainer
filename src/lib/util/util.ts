@@ -298,4 +298,10 @@ export namespace util {
       + channelSimilarity(a[1], b[1])
       + channelSimilarity(a[2], b[2])) / 3
   }
+
+
+  export function greatestCommonDivisor(a: number, b: number): number {
+    if (b == 0) return Math.abs(a)
+    else return greatestCommonDivisor(b, a % b)
+  }
 }

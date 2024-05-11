@@ -24,6 +24,7 @@ class KnotSolvingProcess extends Process {
 
   solution_overlay = new OverlayGeometry()
   last_successful_read: number
+  last_read_successful: boolean = true
 
   puzzle: CelticKnots.PuzzleState
   isSolved: boolean = false
@@ -47,6 +48,8 @@ class KnotSolvingProcess extends Process {
 
       const puzzle = await reader.getPuzzle()
       const now = Date.now()
+
+      this.last_read_successful = !!puzzle
 
       if (puzzle) {
         this.last_successful_read = now
@@ -258,7 +261,7 @@ export class KnotSolving extends NeoSolvingSubBehaviour {
   }
 
   pausesClueReader(): boolean {
-    return this.process && !this.process.isSolved
+    return this.process && !this.process.isSolved && this.process.last_read_successful
   }
 }
 

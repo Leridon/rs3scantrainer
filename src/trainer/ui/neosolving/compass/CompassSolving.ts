@@ -468,7 +468,9 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     if (maybe_fit) {
       if (possible.length > 0 && (information.length > 0 || possible.length < 100)) {
-        this.layer.getMap().fitView(TileRectangle.from(...possible.map(s => s.spot)))
+        this.layer.getMap().fitView(TileRectangle.from(...possible.map(s => s.spot)),
+          {maxZoom: 2}
+        )
       }
     }
 

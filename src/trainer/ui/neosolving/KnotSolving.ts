@@ -258,7 +258,7 @@ export class KnotSolving extends NeoSolvingSubBehaviour {
   }
 
   pausesClueReader(): boolean {
-    return !this.process?.isSolved
+    return this.process && !this.process.isSolved
   }
 }
 

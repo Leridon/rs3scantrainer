@@ -84,6 +84,13 @@ export namespace Towers {
     }
   }
 
+  export type Hints2 = {
+    top: number[],
+    bottom: number[],
+    left: number[],
+    right: number[],
+  }
+
   export type Hints = {
     rows: [StreetLabel, StreetLabel, StreetLabel, StreetLabel, StreetLabel],
     columns: [StreetLabel, StreetLabel, StreetLabel, StreetLabel, StreetLabel],

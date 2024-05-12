@@ -1,4 +1,4 @@
-import {CapturedImage, CapturedModal} from "../../../../lib/alt1/ImageCapture";
+import {CapturedImage} from "../../../../lib/alt1/ImageCapture";
 import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
 import {Lockboxes} from "../../../../lib/cluetheory/Lockboxes";
 import {ImageFingerprint} from "../../../../lib/util/ImageFingerprint";
@@ -6,6 +6,7 @@ import {ImageDetect} from "@alt1/base";
 import {LazyAsync} from "../../../../lib/properties/Lazy";
 import {Vector2} from "../../../../lib/math";
 import {util} from "../../../../lib/util/util";
+import {CapturedModal} from "./capture/CapturedModal";
 
 export namespace LockBoxReader {
 

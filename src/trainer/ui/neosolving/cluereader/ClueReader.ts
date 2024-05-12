@@ -1,6 +1,6 @@
 import {Clues} from "../../../../lib/runescape/clues";
 import * as a1lib from "@alt1/base";
-import {captureHoldFullRs, ImgRef} from "@alt1/base";
+import {ImgRef} from "@alt1/base";
 import {AnchorImages} from "./AnchorImages";
 import {Rectangle, Vector2} from "../../../../lib/math";
 import {ModalUI} from "../../../../skillbertssolver/cluesolver/modeluireader";
@@ -19,10 +19,12 @@ import {CapturedImage} from "../../../../lib/alt1/ImageCapture";
 import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
 import {Sliders} from "../puzzles/Sliders";
 import {LockBoxReader} from "./LockBoxReader";
+import {CapturedModal} from "./capture/CapturedModal";
 import stringSimilarity = util.stringSimilarity;
 import ScanStep = Clues.ScanStep;
 import notification = Notification.notification;
 import findBestMatch = util.findBestMatch;
+import {CapturedSliderInterface} from "./capture/CapturedSlider";
 
 const CLUEREADERDEBUG = false
 const CLUEREADERDEBUG_READ_SCREEN_INSTEAD_OF_RS = false // This is broken
@@ -159,7 +161,7 @@ export class ClueReader {
                   step: {step: best.value, text_index: 0}
                 }
               }
-            case "knot":
+            case "knot": {
               const reader = new KnotReader.KnotReader(modal)
 
               if (await reader.getPuzzle()) {
@@ -179,34 +181,31 @@ export class ClueReader {
 
                 return null
               }
-            } else {
+            }
+            case "lockbox": {
+              const reader = new LockBoxReader.LockBoxReader(modal)
 
-              console.error("Knot found, but not parsed properly")
-              console.error(`Broken: ${reader.isBroken}, Reason: ${reader.brokenReason}`)
+              if (await reader.getPuzzle()) {
+                return {
+                  type: "puzzle",
+                  puzzle: {
+                    type: "lockbox",
+                    reader: reader,
+                  },
+                }
+              } else {
+                console.error("Lockbox found, but not parsed properly. Maybe it's concealed by something.")
 
+                return null
+              }
+            }
           }
         }
 
-              return null
-            }
-          }
-          case "lockbox": {
-            const reader = new LockBoxReader.LockBoxReader(modal)
+        return null
+      }
+    }
 
-            if (await reader.getPuzzle()) {
-              return {
-                type: "puzzle",
-                puzzle: {
-                  type: "lockbox",
-                  reader: reader,
-                },
-              }
-            } else {
-              console.error("Lockbox found, but not parsed properly. Maybe it's concealed by something.")
-
-              return null
-            }
-          }
     // Check for slider interface
     {
       const slider = await CapturedSliderInterface.findIn(img, false)
@@ -373,7 +372,11 @@ export class ClueReader {
     }
   }
 
-  async readScreen(): Promise<ClueReader.Result> {
+  async
+
+  readScreen()
+    :
+    Promise<ClueReader.Result> {
     return this.read(CapturedImage.capture())
   }
 }

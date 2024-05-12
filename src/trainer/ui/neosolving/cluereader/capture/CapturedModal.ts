@@ -35,56 +35,77 @@ export class CapturedModal {
   static async findIn(img: CapturedImage): Promise<CapturedModal> {
     // TODO: Support legacy interface mode
 
-    const anchors = await CapturedModal.anchors.get()
+    for (let skin of await CapturedModal.anchors.get()) {
+      const x = img.find(skin.close_x)[0]
 
-    const eoc_x = img.find(anchors.eoc.close_x)[0]
+      if (!x) continue
 
-    if (!eoc_x) return null
+      const top_left = img.getSubSection(
+        ScreenRectangle.move(x.relativeRectangle(), skin.TL_OFFSET_FROM_X, imageSize(skin.top_left))
+      ).find(skin.top_left)[0]
 
-    const TL_OFFSET_FROM_X: Vector2 = {x: -479, y: -5}
+      if (!top_left) return null;
 
-    let top_left = img.getSubSection(
-      ScreenRectangle.move(eoc_x.relativeRectangle(), TL_OFFSET_FROM_X, imageSize(anchors.eoc.top_left))
-    ).find(anchors.eoc.top_left)[0]
+      const bot_left = img.getSubSection(
+        ScreenRectangle.move(x.relativeRectangle(), skin.BL_OFFSET_FROM_X, imageSize(skin.bot_left))
+      ).find(skin.bot_left)[0]
 
-    if (!top_left) return null;
+      if (!bot_left) return null;
 
-    const BL_OFFSET_FROM_X: Vector2 = {x: -479, y: 328}
+      const body_tl = Vector2.add(top_left.relativeRectangle().origin, skin.BODY_TL_OFFSET_FROM_TL)
+      const body_bl = Vector2.add(bot_left.relativeRectangle().origin, skin.BODY_BL_OFFSET_FROM_BL)
+      const body_tr = Vector2.add(x.relativeRectangle().origin, skin.BODY_TR_OFFSET_FROM_X)
 
-    let bot_left = img.getSubSection(
-      ScreenRectangle.move(eoc_x.relativeRectangle(), BL_OFFSET_FROM_X, imageSize(anchors.eoc.bot_left))
-    ).find(anchors.eoc.bot_left)[0]
+      const body_height = (bot_left.relativeRectangle().origin.y + skin.BODY_BL_OFFSET_FROM_BL.y) - (top_left.relativeRectangle().origin.y + skin.BODY_TL_OFFSET_FROM_TL.y) + 1
+      const body_width = body_tr.x - body_tl.x + 1
 
-    if (!bot_left) return null;
+      const BODY_SIZE: Vector2 = {x: body_width, y: body_height}
 
-    const BODY_TL_OFFSET_FROM_TL: Vector2 = {x: 4, y: 29}
-    const BODY_BL_OFFSET_FROM_BL: Vector2 = {x: 4, y: 7}
+      const body = img.getSubSection(
+        ScreenRectangle.move(top_left.relativeRectangle(),
+          skin.BODY_TL_OFFSET_FROM_TL,
+          BODY_SIZE))
 
-    const BODY_OFFSET_FROM_X: Vector2 = {x: -475, y: 24}
-    const body_height = (bot_left.relativeRectangle().origin.y + BODY_BL_OFFSET_FROM_BL.y) - (top_left.relativeRectangle().origin.y + BODY_TL_OFFSET_FROM_TL.y) + 1
-    const BODY_SIZE: Vector2 = {x: 496, y: body_height}
+      return new CapturedModal(body, skin.isLegacy)
+    }
 
-    const body = img.getSubSection(ScreenRectangle.move(top_left.relativeRectangle(), BODY_TL_OFFSET_FROM_TL, BODY_SIZE))
-
-    return new CapturedModal(body, false)
+    return null
   }
 }
 
 export namespace CapturedModal {
   export const title_font = require("@alt1/ocr/fonts/aa_9px_mono_allcaps.js");
 
-  export const anchors = new LazyAsync(async () => {
-    return {
-      eoc: {
-        close_x: await ImageDetect.imageDataFromUrl("alt1anchors/eocx.png"),
-        top_left: await ImageDetect.imageDataFromUrl("alt1anchors/eoctopleft.png"),
-        bot_left: await ImageDetect.imageDataFromUrl("alt1anchors/eocbotleft.png")
-      },
-      legacy: {
-        close_x: await ImageDetect.imageDataFromUrl("alt1anchors/legacyx.png"),
-        top_left: await ImageDetect.imageDataFromUrl("alt1anchors/legacytopleft.png"),
-        bot_left: await ImageDetect.imageDataFromUrl("alt1anchors/legacybotleft.png")
-      },
-    }
+  type SkinAnchors = {
+    isLegacy: boolean
+    close_x: ImageData
+    top_left: ImageData
+    bot_left: ImageData,
+    BODY_TL_OFFSET_FROM_TL: Vector2
+    BODY_BL_OFFSET_FROM_BL: Vector2,
+    BODY_TR_OFFSET_FROM_X: Vector2,
+    TL_OFFSET_FROM_X: Vector2,
+    BL_OFFSET_FROM_X: Vector2
+  }
+
+  export const anchors = new LazyAsync<SkinAnchors[]>(async () => {
+    return [{
+      isLegacy: false,
+      close_x: await ImageDetect.imageDataFromUrl("alt1anchors/eocx.png"),
+      top_left: await ImageDetect.imageDataFromUrl("alt1anchors/eoctopleft.png"),
+      bot_left: await ImageDetect.imageDataFromUrl("alt1anchors/eocbotleft.png"),
+
+      BODY_TL_OFFSET_FROM_TL: {x: 4, y: 29},
+      BODY_BL_OFFSET_FROM_BL: {x: 4, y: 7},
+      BODY_TR_OFFSET_FROM_X: {x: -20, y: -24},
+      TL_OFFSET_FROM_X: {x: -479, y: -5},
+      BL_OFFSET_FROM_X: {x: -479, y: 328},
+    },/* {
+      isLegacy: true,
+      close_x: await ImageDetect.imageDataFromUrl("alt1anchors/legacyx.png"),
+      top_left: await ImageDetect.imageDataFromUrl("alt1anchors/legacytopleft.png"),
+      bot_left: await ImageDetect.imageDataFromUrl("alt1anchors/legacybotleft.png")
+    },*/
+    ]
   })
 }

@@ -30,15 +30,15 @@ import {SettingsModal} from "../settings/SettingsEdit";
 import {ClueEntities} from "./ClueEntities";
 import {NislIcon} from "../nisl";
 import {ClueProperties} from "../theorycrafting/ClueProperties";
-import {SlideGuider, SliderSubBehaviour} from "./puzzles/SlideGuider";
+import {SlideGuider, SliderSolving} from "./subbehaviours/SliderSolving";
 import {Notification} from "../NotificationBar";
 import TransportLayer from "../map/TransportLayer";
 import {NeoSolvingSubBehaviour} from "./NeoSolvingSubBehaviour";
-import {CompassSolving} from "./compass/CompassSolving";
-import {ScanTreeSolvingControl} from "./scans/ScanTreeSolving";
-import {KnotSolving} from "./KnotSolving";
+import {CompassSolving} from "./subbehaviours/CompassSolving";
+import {ScanTreeSolvingControl} from "./subbehaviours/ScanTreeSolving";
+import {KnotSolving} from "./subbehaviours/KnotSolving";
 import {Alt1Modal} from "../../Alt1Modal";
-import {LockboxSolving} from "./LockboxSolving";
+import {LockboxSolving} from "./subbehaviours/LockboxSolving";
 import span = C.span;
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import interactionMarker = RenderingUtility.interactionMarker;
@@ -54,6 +54,7 @@ import hboxl = C.hboxl;
 import notification = Notification.notification;
 import MatchedUI = ClueReader.MatchedUI;
 import activate = TileArea.activate;
+import {TowersSolving} from "./subbehaviours/TowersSolving";
 
 class NeoSolvingLayer extends GameLayer {
   public control_bar: NeoSolvingLayer.MainControlBar
@@ -401,13 +402,16 @@ export default class NeoSolvingBehaviour extends Behaviour {
     if (puzzle) {
       switch (puzzle.type) {
         case "slider":
-          this.active_behaviour.set(new SliderSubBehaviour(this, puzzle))
+          this.active_behaviour.set(new SliderSolving(this, puzzle))
           break;
         case "knot":
           this.active_behaviour.set(new KnotSolving(this, this.app.settings.settings.solving.puzzles.knots, puzzle))
           break;
         case "lockbox":
           this.active_behaviour.set(new LockboxSolving(this, this.app.settings.settings.solving.puzzles.lockboxes, puzzle))
+          break;
+        case "tower":
+          this.active_behaviour.set(new TowersSolving(this, this.app.settings.settings.solving.puzzles.towers, puzzle))
           break;
       }
     }
@@ -816,13 +820,15 @@ export namespace NeoSolving {
       sliders: SlideGuider.Settings,
       knots: KnotSolving.Settings,
       lockboxes: LockboxSolving.Settings,
+      towers: TowersSolving.Settings,
     }
 
     export namespace Puzzles {
       export const DEFAULT: Puzzles = {
         sliders: SlideGuider.Settings.DEFAULT,
         knots: KnotSolving.Settings.DEFAULT,
-        lockboxes: LockboxSolving.Settings.DEFAULT
+        lockboxes: LockboxSolving.Settings.DEFAULT,
+        towers: TowersSolving.Settings.DEFAULT,
       }
 
       export function normalize(settings: Puzzles): Puzzles {
@@ -831,6 +837,7 @@ export namespace NeoSolving {
         settings.sliders = SlideGuider.Settings.normalize(settings.sliders)
         settings.knots = KnotSolving.Settings.normalize(settings.knots)
         settings.lockboxes = LockboxSolving.Settings.normalize(settings.lockboxes)
+        settings.towers = TowersSolving.Settings.normalize(settings.towers)
 
         return settings
       }

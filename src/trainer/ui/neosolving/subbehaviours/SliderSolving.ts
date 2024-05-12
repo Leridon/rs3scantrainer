@@ -1,4 +1,4 @@
-import {Sliders} from "./Sliders";
+import {Sliders} from "../../../../lib/cluetheory/Sliders";
 import {Rectangle, Transform, Vector2} from "../../../../lib/math";
 import {mixColor} from "@alt1/base";
 import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
@@ -58,7 +58,7 @@ class SliderGuideProcess extends Process {
 
   private arrow_keys_inverted: boolean = false
 
-  constructor(private parent: SliderSubBehaviour, private settings: SlideGuider.Settings) {
+  constructor(private parent: SliderSolving, private settings: SlideGuider.Settings) {
     super()
 
     this.asInterval(1000 / 50) // Goal of 50 fps
@@ -572,7 +572,7 @@ class SliderGuideProcess extends Process {
 
 export class SliderModal extends PuzzleModal {
   constructor(
-    public parent: SliderSubBehaviour,
+    public parent: SliderSolving,
     public readonly puzzle: ClueReader.Result.Puzzle.Slider) {
     super(parent);
 
@@ -630,7 +630,7 @@ export class SliderModal extends PuzzleModal {
   }
 }
 
-export class SliderSubBehaviour extends NeoSolvingSubBehaviour {
+export class SliderSolving extends NeoSolvingSubBehaviour {
   process: SliderGuideProcess = null
   modal: SliderModal
 

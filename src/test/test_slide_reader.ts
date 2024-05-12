@@ -1,4 +1,4 @@
-import {Sliders} from "../trainer/ui/neosolving/puzzles/Sliders";
+import {Sliders} from "../lib/cluetheory/Sliders";
 import {SlideReader} from "../trainer/ui/neosolving/cluereader/SliderReader";
 import {ImageDetect, ImgRefData} from "@alt1/base";
 import {time} from "../lib/gamemap/GameLayer";

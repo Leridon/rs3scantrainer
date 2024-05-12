@@ -1,19 +1,19 @@
-import {NeoSolvingSubBehaviour} from "./NeoSolvingSubBehaviour";
-import NeoSolvingBehaviour from "./NeoSolvingBehaviour";
-import {Process} from "../../../lib/Process";
-import {ClueReader} from "./cluereader/ClueReader";
-import {PuzzleModal} from "./PuzzleModal";
-import {OverlayGeometry} from "../../../lib/alt1/OverlayGeometry";
-import Widget from "../../../lib/ui/Widget";
-import {BigNisButton} from "../widgets/BigNisButton";
-import {ewent} from "../../../lib/reactive";
-import {Lockboxes} from "../../../lib/cluetheory/Lockboxes";
-import {CapturedImage} from "../../../lib/alt1/ImageCapture";
-import {LockBoxReader} from "./cluereader/LockBoxReader";
-import {Vector2} from "../../../lib/math";
+import {NeoSolvingSubBehaviour} from "../NeoSolvingSubBehaviour";
+import NeoSolvingBehaviour from "../NeoSolvingBehaviour";
+import {Process} from "../../../../lib/Process";
+import {ClueReader} from "../cluereader/ClueReader";
+import {PuzzleModal} from "../PuzzleModal";
+import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
+import Widget from "../../../../lib/ui/Widget";
+import {BigNisButton} from "../../widgets/BigNisButton";
+import {ewent} from "../../../../lib/reactive";
+import {Lockboxes} from "../../../../lib/cluetheory/Lockboxes";
+import {CapturedImage} from "../../../../lib/alt1/ImageCapture";
+import {LockBoxReader} from "../cluereader/LockBoxReader";
+import {Vector2} from "../../../../lib/math";
 import {mixColor} from "@alt1/base";
 import * as lodash from "lodash";
-import {CapturedModal} from "./cluereader/capture/CapturedModal";
+import {CapturedModal} from "../cluereader/capture/CapturedModal";
 
 class LockboxSolvingProcess extends Process {
   puzzle_closed = ewent<this>()

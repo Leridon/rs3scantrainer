@@ -84,7 +84,6 @@ export namespace Towers {
     }
   }
 
-
   export type Hints = {
     rows: [StreetLabel, StreetLabel, StreetLabel, StreetLabel, StreetLabel],
     columns: [StreetLabel, StreetLabel, StreetLabel, StreetLabel, StreetLabel],
@@ -92,6 +91,11 @@ export namespace Towers {
 
   export type Blocks = {
     rows: [Street, Street, Street, Street, Street]
+  }
+
+  export type PuzzleState = {
+    hints: Hints,
+    blocks: Blocks
   }
 
   export namespace Puzzle {

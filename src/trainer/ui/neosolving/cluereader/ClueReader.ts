@@ -17,14 +17,15 @@ import {CompassReader} from "./CompassReader";
 import {KnotReader} from "./KnotReader";
 import {CapturedImage} from "../../../../lib/alt1/ImageCapture";
 import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
-import {Sliders} from "../puzzles/Sliders";
+import {Sliders} from "../../../../lib/cluetheory/Sliders";
 import {LockBoxReader} from "./LockBoxReader";
 import {CapturedModal} from "./capture/CapturedModal";
+import {CapturedSliderInterface} from "./capture/CapturedSlider";
+import {TowersReader} from "./TowersReader";
 import stringSimilarity = util.stringSimilarity;
 import ScanStep = Clues.ScanStep;
 import notification = Notification.notification;
 import findBestMatch = util.findBestMatch;
-import {CapturedSliderInterface} from "./capture/CapturedSlider";
 
 const CLUEREADERDEBUG = false
 const CLUEREADERDEBUG_READ_SCREEN_INSTEAD_OF_RS = false // This is broken
@@ -195,6 +196,23 @@ export class ClueReader {
                 }
               } else {
                 console.error("Lockbox found, but not parsed properly. Maybe it's concealed by something.")
+
+                return null
+              }
+            }
+            case "towers": {
+              const reader = new TowersReader.TowersReader(modal)
+
+              if (true || await reader.getPuzzle()) {
+                return {
+                  type: "puzzle",
+                  puzzle: {
+                    type: "tower",
+                    reader: reader,
+                  },
+                }
+              } else {
+                console.error("Towers puzzle found, but not parsed properly. Maybe it's concealed by something.")
 
                 return null
               }
@@ -437,7 +455,12 @@ export namespace ClueReader {
         reader: LockBoxReader.LockBoxReader,
       }
 
-      export type Puzzle = Slider | Knot | Lockbox
+      export type Towers = puzzle_base & {
+        type: "tower",
+        reader: TowersReader.TowersReader,
+      }
+
+      export type Puzzle = Slider | Knot | Lockbox | Towers
     }
 
     type base = { type: Kind }

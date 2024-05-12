@@ -21,9 +21,9 @@ import {NeoSolving} from "../neosolving/NeoSolvingBehaviour";
 import NumberSlider from "../../../lib/ui/controls/NumberSlider";
 import {ColorPicker} from "../../../lib/ui/controls/ColorPicker";
 import {util} from "../../../lib/util/util";
-import {SlideGuider} from "../neosolving/puzzles/SlideGuider";
+import {SlideGuider} from "../neosolving/subbehaviours/SliderSolving";
 import {CrowdSourcing} from "../../CrowdSourcing";
-import {CompassSolving} from "../neosolving/compass/CompassSolving";
+import {CompassSolving} from "../neosolving/subbehaviours/CompassSolving";
 import {clue_data} from "../../../data/clues";
 import {NislIcon} from "../nisl";
 import {TransportData} from "../../../data/transports";
@@ -36,8 +36,9 @@ import {GameMapMouseEvent} from "../../../lib/gamemap/MapEvents";
 import {TeleportSpotEntity} from "../map/entities/TeleportSpotEntity";
 import InteractionTopControl from "../map/InteractionTopControl";
 import TransportLayer from "../map/TransportLayer";
-import {KnotSolving} from "../neosolving/KnotSolving";
-import {LockboxSolving} from "../neosolving/LockboxSolving";
+import {KnotSolving} from "../neosolving/subbehaviours/KnotSolving";
+import {LockboxSolving} from "../neosolving/subbehaviours/LockboxSolving";
+import {TowersSolving} from "../neosolving/subbehaviours/TowersSolving";
 import cls = C.cls;
 import PotaColor = Settings.PotaColor;
 import hbox = C.hbox;
@@ -616,6 +617,31 @@ class LockboxSettingsEdit extends Widget {
   }
 }
 
+class TowersSettingsEdit extends Widget {
+  private layout: Properties
+
+  constructor(private value: TowersSolving.Settings) {
+    super()
+
+    this.layout = new Properties().appendTo(this)
+
+    this.render()
+  }
+
+  render() {
+    this.layout.empty()
+
+    this.layout.header("Towers Puzzles")
+
+    this.layout.header(new Checkbox("Start solving and show overlay automatically")
+        .onCommit(v => this.value.autostart = v)
+        .setValue(this.value.autostart)
+      , "left", 1)
+
+    this.layout.paragraph("Disable this if you are simultaneously using Alt1's builtin clue solver and the toweers solutions are overlapping.")
+  }
+}
+
 class SolvingSettingsEdit extends Widget {
 
   private layout: Properties
@@ -1144,6 +1170,11 @@ export class SettingsEdit extends Widget {
           name: "Lockbox Solving",
           short_name: "Lockboxes",
           renderer: () => new LockboxSettingsEdit(this.value.solving.puzzles.lockboxes)
+        }, {
+          id: "towers",
+          name: "Towers Solving",
+          short_name: "Towers",
+          renderer: () => new TowersSettingsEdit(this.value.solving.puzzles.towers)
         }, {
           id: "compass",
           name: "Compass Solving",

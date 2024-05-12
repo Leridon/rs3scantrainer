@@ -1,5 +1,5 @@
 import * as lodash from "lodash";
-import {Sliders} from "./ui/neosolving/puzzles/Sliders";
+import {Sliders} from "../lib/cluetheory/Sliders";
 import {NisModal} from "../lib/ui/NisModal";
 import Properties from "./ui/widgets/Properties";
 import {C} from "../lib/ui/constructors";

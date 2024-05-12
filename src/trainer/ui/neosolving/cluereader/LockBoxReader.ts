@@ -129,6 +129,8 @@ export namespace LockBoxReader {
 
       const broken_count = count(grid.flat(), t => t.value == null)
 
+      console.log(`Broken ${broken_count}`)
+
       if (broken_count > 15) return "likelyclosed"
       else if (broken_count > 0) return "likelyconcealed"
       else return "okay"

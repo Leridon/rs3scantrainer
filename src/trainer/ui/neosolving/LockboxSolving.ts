@@ -101,7 +101,7 @@ class LockboxModal extends PuzzleModal {
   constructor(public parent: LockboxSolving) {
     super(parent);
 
-    this.title.set("Celtic Knot")
+    this.title.set("Lockbox")
   }
 
   update() {

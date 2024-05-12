@@ -4,7 +4,6 @@ import {Vector2} from "../../../../../lib/math";
 import {LazyAsync} from "../../../../../lib/properties/Lazy";
 import {ImageDetect} from "@alt1/base";
 import {CapturedImage} from "../../../../../lib/alt1/ImageCapture";
-import {OverlayGeometry} from "../../../../../lib/alt1/OverlayGeometry";
 
 export class CapturedModal {
   private _title: string = null

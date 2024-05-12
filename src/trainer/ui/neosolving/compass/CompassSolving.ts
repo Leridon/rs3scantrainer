@@ -40,6 +40,7 @@ import angleDifference = Compasses.angleDifference;
 import italic = C.italic;
 import activate = TileArea.activate;
 import notification = Notification.notification;
+import CompassReadResult = CompassReader.CompassReadResult;
 
 const DEVELOPMENT_CALIBRATION_MODE = false
 
@@ -170,9 +171,12 @@ class CompassReadService extends Process<void> {
     angle: number,
     spinning: boolean
   }>(null).equality((a, b) => a?.angle == b?.angle && a?.spinning == b?.spinning)
+
   closed = ewent<this>()
 
-  last_read_angle: number = null
+  last_read: CompassReadResult = null
+  last_successful_angle: number = null
+
   ticks_since_stationary: number = 0
 
   constructor(private matched_ui: MatchedUI.Compass,
@@ -202,7 +206,7 @@ class CompassReadService extends Process<void> {
         this.overlay.clear()
         //this.overlay.rect(capture_rect)
 
-        const read = CompassReader.readCompassState(
+        const read = this.last_read = CompassReader.readCompassState(
           CompassReader.find(img, Rectangle.screenOrigin(capture_rect)),
           DEVELOPMENT_CALIBRATION_MODE ? null : this.calibration_mode
         )
@@ -214,7 +218,7 @@ class CompassReadService extends Process<void> {
           case "likely_concealed":
             break;
           case "success":
-            if (this.last_read_angle == read.state.angle) {
+            if (this.last_successful_angle == read.state.angle) {
               this.state.set({
                 angle: read.state.angle,
                 spinning: false
@@ -231,7 +235,7 @@ class CompassReadService extends Process<void> {
               }
             }
 
-            this.last_read_angle = read.state.angle
+            this.last_successful_angle = read.state.angle
 
             break;
         }
@@ -341,7 +345,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
   }
 
   pausesClueReader(): boolean {
-    return true
+    return this.process && this.process.last_read?.type == "success"
   }
 
   renderWidget() {

@@ -249,15 +249,6 @@ export class ClueReader {
               origin_offset: {x: 20, y: -7 + 12 * 6}
             }]
           },
-          /*{
-            type: "slider", anchors: [{
-              img: this.anchors.slide,
-              origin_offset: {x: 297, y: -15},
-            }, {
-              img: this.anchors.slidelegacy,
-              origin_offset: {x: 297, y: -15}
-            }]
-          },*/
           {
             type: "compass", anchors: [{
               img: this.anchors.compassnorth,
@@ -281,15 +272,6 @@ export class ClueReader {
                     {x: 180, y: 190}
                   )
                 }
-             /* case "slider":
-                return {
-                  type: "slider",
-                  image: img.underlying,
-                  rect: Rectangle.fromOriginAndSize(
-                    Vector2.sub(locs[0].screenRectangle().origin, anchor.origin_offset),
-                    {x: 273, y: 273}
-                  )
-                }*/
               case "compass":
                 return {
                   type: "compass",
@@ -324,133 +306,6 @@ export class ClueReader {
       }
 
       switch (found_ui.type) {
-        /*case "modal":
-          const modal_type = ((): ClueReader.ModalType => {
-            const modal_type_map: {
-              type: ClueReader.ModalType,
-              possible_titles: string[]
-            }[] =
-              [
-                {
-                  type: "textclue", possible_titles: [
-                    "mysterious clue scroll", "treasure map",
-                    "pergaminho de dicas mister", "mapa do tesouro",
-                    "..:se hinweis-schriftp", ""
-                  ]
-                }, {
-                type: "towers", possible_titles: [
-                  "towers",
-                  "torres",
-                  ", ( rme"//t"urme
-                ]
-              }, {
-                type: "lockbox", possible_titles: [
-                  "lockbox",
-                  "gica",//Caixa M`agica,
-                  "schlie. .;fach"//schliessfach
-                ]
-              },
-                {
-                  type: "knot", possible_titles: [
-                    "celtic knot",
-                    "..: celta",//N~o celta
-                    "keltischer knoten"
-                  ]
-                }
-              ]
-
-            let best: ClueReader.ModalType = null
-            let best_score: number = 0
-
-            for (let type of modal_type_map) {
-              for (let title of type.possible_titles) {
-                const score = stringSimilarity(found_ui.modal.title, title)
-
-                if (score > best_score) {
-                  best_score = score
-                  best = type.type
-                }
-              }
-            }
-
-            // Minimum score to avoid unrelated modals to be matched as something
-            if (best_score < 0.7) return null
-
-            return best
-          })()
-
-          if (CLUEREADERDEBUG) {
-            if (modal_type) {
-              notification(`Modal type ${modal_type}`).show()
-            } else {
-              notification(`No modal type identified'`).show()
-            }
-          }
-
-          if (modal_type) {
-            switch (modal_type) {
-              case "textclue":
-                const text = ClueReader.readTextClueModalText(found_ui.modal)
-
-                if (text.length >= 10) {
-                  let best: Clues.StepWithTextIndex = null
-                  let best_score = 0
-
-                  for (let clue of clue_data.all) {
-
-                    for (let text_index = 0; text_index < clue.text.length; text_index++) {
-
-                      let reference_text = clue.text[text_index]
-
-                      if (clue.type == "skilling") {
-                        reference_text = `Complete the action to solve the clue: ${reference_text}`
-                      }
-
-                      const score = stringSimilarity(text, reference_text)
-
-                      if (score > best_score) {
-                        best_score = score
-                        best = {step: clue, text_index: text_index}
-                      }
-                    }
-                  }
-
-                  if (best_score < 0.7) return null
-
-                  return {
-                    found_ui: found_ui,
-                    step: best
-                  }
-                } else {
-                  const tiled_img = ClueReader.getImageClueImage(found_ui.modal)
-
-                  let best: Clues.Step = null
-                  let best_score = Number.MAX_VALUE
-
-                  for (let clue of clue_data.map) {
-                    const score = comparetiledata(clue.ocr_data, tiled_img)
-
-                    if (score < best_score) {
-                      best_score = score
-                      best = clue
-                    }
-                  }
-
-                  return {
-                    found_ui: found_ui,
-                    step: {step: best, text_index: 0}
-                  }
-                }
-              case "knot":
-
-                return {
-                  found_ui: found_ui,
-                  knot: await KnotReader.read(found_ui)
-                }
-            }
-          }
-
-          break*/
         case "scan": {
           const scan_text_full = ClueReader.readScanPanelText(
             img.underlying,
@@ -478,44 +333,7 @@ export class ClueReader {
 
           return {type: "scan", step: best}
         }
-        /*case "slider":
-          const res = await SlideReader.read(
-            img,
-            Rectangle.bottomLeft(found_ui.rect),
-          )
 
-          if (CLUEREADERDEBUG) {
-            res.tiles.forEach((tile, i) => {
-              const pos = Vector2.add(
-                Rectangle.screenOrigin(found_ui.rect),
-                {x: Math.floor(i % 5) * 56, y: Math.floor(i / 5) * 56}
-              )
-
-              alt1.overLayText(`${res.theme}\n${tile.position}`,
-                a1lib.mixColor(0, 255, 0),
-                10,
-                pos.x,
-                pos.y,
-                5000
-              )
-            })
-
-            notification(`Found theme ${res.theme}`).show()
-          }
-
-          if (res.match_score >= SlideReader.DETECTION_THRESHOLD_SCORE) {
-            return {
-              type: "legacy",
-              found_ui: found_ui,
-              puzzle: {type: "slider", ui: found_ui, puzzle: res},
-            }
-          } else {
-            return {
-              type: "legacy",
-              found_ui: found_ui,
-              puzzle: null,
-            }
-          }*/
         case "compass": {
           const compass_state = CompassReader.readCompassState(found_ui)
 

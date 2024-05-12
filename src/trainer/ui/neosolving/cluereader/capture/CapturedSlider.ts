@@ -5,6 +5,7 @@ import {Vector2} from "../../../../../lib/math";
 import {ScreenRectangle} from "../../../../../lib/alt1/ScreenRectangle";
 import {util} from "../../../../../lib/util/util";
 import rgbSimilarity = util.rgbSimilarity;
+import * as lodash from "lodash";
 
 export class CapturedSliderInterface {
   public readonly body: CapturedImage
@@ -15,13 +16,10 @@ export class CapturedSliderInterface {
     public readonly isLegacy: boolean) {
 
     if (image_includes_checkbox) {
-      console.log("Adjusting for inclusion")
       this.body = image.getSubSection({
         origin: {x: -CapturedSliderInterface.INVERTED_CHECKBOX_OFFSET_FROM_TL.x, y: 0},
         size: {...CapturedSliderInterface.PUZZLE_SIZE}
       })
-
-      debugger
     } else {
       this.body = image
     }
@@ -48,7 +46,7 @@ export class CapturedSliderInterface {
         this.isLegacy
       )
     } else if (include_checkbox) {
-      const body_rect: ScreenRectangle = this.body.screenRectangle()
+      const body_rect: ScreenRectangle = lodash.cloneDeep(this.body.screenRectangle())
 
       body_rect.origin.x += CapturedSliderInterface.INVERTED_CHECKBOX_OFFSET_FROM_TL.x
       body_rect.size.x += -CapturedSliderInterface.INVERTED_CHECKBOX_OFFSET_FROM_TL.x
@@ -90,7 +88,11 @@ export class CapturedSliderInterface {
           body_rect.size.x += -CapturedSliderInterface.INVERTED_CHECKBOX_OFFSET_FROM_TL.x
         }
 
-        return new CapturedSliderInterface(positions[0].parent.getSubSection(body_rect), include_inverted_arrow_checkmark, anchor.isLegacy)
+        return new CapturedSliderInterface(
+          positions[0].parent.getSubSection(body_rect),
+          include_inverted_arrow_checkmark,
+          anchor.isLegacy
+        )
       }
     }
 

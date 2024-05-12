@@ -351,6 +351,8 @@ class SliderGuideProcess extends Process {
   }
 
   private updateSolvingOverlay() {
+    console.log(this.parent.puzzle.reader.ui.body.screenRectangle().origin.x)
+
     const TEXT_POSITION = {x: 143, y: 133}
     const BAR_POSITION = {x: 143, y: 153}
 
@@ -390,167 +392,167 @@ class SliderGuideProcess extends Process {
 
   override async implementation(): Promise<void> {
     while (!this.should_stop) {
-      //try {
-      const read_result = await this.read()
+      try {
+        const read_result = await this.read()
 
-      if (read_result.result.match_score < SlideReader.DETECTION_THRESHOLD_SCORE) {
-        this.interface_closed_event.trigger(this)
-        this.stop()
-        break
-      }
-
-      const frame_state = read_result.state
-
-      if (!this.solver && !this.solution) {
-        this.initial_state = frame_state
-
-        this.solver = {
-          solver: SlideSolver.skillbertRandom(frame_state)
-            //new AStarSlideSolver(frame_state)
-            .setCombineStraights(this.settings.mode == "mouse" || this.settings.mode == "hybrid")
-            .onUpdate(solver => {
-              this.updateSolvingOverlay()
-              this.updateProgressOverlay()
-            })
-            .withTimeout(this.settings.solve_time_ms),
-          solving_from: 0
-        }
-
-        const initial_solution = await this.solver.solver.run()
-
-        this.solver = null
-        this.current_mainline_index = 0
-        this.error_recovery_solution = {sequence: [], recovering_to_mainline_index: 0}
-
-        this.guiding_start_time = Date.now()
-
-        this.updateSolvingOverlay()
-
-        if (initial_solution) {
-          this.solution = Sliders.MoveList.annotate(frame_state, initial_solution, this.settings.mode != "keyboard")
-        } else {
+        if (read_result.result.match_score < SlideReader.DETECTION_THRESHOLD_SCORE) {
+          this.interface_closed_event.trigger(this)
           this.stop()
+          break
         }
 
-        this.updateSolvingOverlay()
+        const frame_state = read_result.state
 
-        continue
-      }
-
-      await this.checkTime()
-
-      if (!this.solution) continue
-
-      const LASOLVING = this.settings.max_lookahead + 7
-      if (this.settings.continue_solving_after_initial_solve) {
-        if (this.solver && this.current_mainline_index + this.settings.max_lookahead + 2 >= this.solver.solving_from) {
-          // Getting close to the current start of the solving, stop the solving process
-          this.solver.solver.stop()
-          this.solver = null
-        }
-
-        if (!this.solver && (this.current_mainline_index + LASOLVING < this.solution.length)) {
-          const solving_start_index = this.current_mainline_index + LASOLVING
-
-          const solving_start_state = this.solution[solving_start_index - 1].post_state
+        if (!this.solver && !this.solution) {
+          this.initial_state = frame_state
 
           this.solver = {
-            solver: SlideSolver.skillbertRandom(solving_start_state)
+            solver: SlideSolver.skillbertRandom(frame_state)
               //new AStarSlideSolver(frame_state)
               .setCombineStraights(this.settings.mode == "mouse" || this.settings.mode == "hybrid")
-              .registerSolution(this.solution.slice(solving_start_index).map(m => m.move))
-              .withInterrupt(20, 10) // Cooperative interrupt behaviour
-              .onFound(better => {
-                if (solving_start_index == this.solver?.solving_from && this.current_mainline_index < solving_start_index) {
-                  const new_sequence = Sliders.MoveList.combine(
-                    this.solution.slice(0, solving_start_index).map(m => m.move),
-                    better,
-                    this.settings.mode != "keyboard"
-                  )
-
-                  this.solution = MoveList.annotate(this.initial_state, new_sequence, this.settings.mode != "keyboard")
-
-                  // Stop the solver in case the combination
-                  this.solver.solver.stop()
-                  this.solver = null
-                }
-              }),
-            solving_from: solving_start_index
+              .onUpdate(solver => {
+                this.updateSolvingOverlay()
+                this.updateProgressOverlay()
+              })
+              .withTimeout(this.settings.solve_time_ms),
+            solving_from: 0
           }
 
-          this.solver.solver.run()
+          const initial_solution = await this.solver.solver.run()
+
+          this.solver = null
+          this.current_mainline_index = 0
+          this.error_recovery_solution = {sequence: [], recovering_to_mainline_index: 0}
+
+          this.guiding_start_time = Date.now()
+
+          this.updateSolvingOverlay()
+
+          if (initial_solution) {
+            this.solution = Sliders.MoveList.annotate(frame_state, initial_solution, this.settings.mode != "keyboard")
+          } else {
+            this.stop()
+          }
+
+          this.updateSolvingOverlay()
+
+          continue
         }
-      }
 
-      const inversion_changed = read_result.inverted_checkmark != this.arrow_keys_inverted
-      this.arrow_keys_inverted = read_result.inverted_checkmark
+        await this.checkTime()
 
-      // Rerender move overlay at least every 10 seconds, so it does not expire
-      if (inversion_changed || Date.now() - this.last_overlay_render > 10000) this.updateMoveOverlay()
+        if (!this.solution) continue
 
-      // Early exit if state has not changed
-      if (this.last_frame_state && SliderState.equals(this.last_frame_state, frame_state)) {
-        this.updateProgressOverlay()
-        continue
-      }
-
-      let mainline_index = findLastIndex(this.solution, a => a.pre_states.some(s => SliderState.equals(s, frame_state)))
-
-      if (mainline_index == this.solution.length - 2 && SliderState.equals(frame_state, SliderState.SOLVED)) {
-        mainline_index = this.solution.length
-
-        this.solved_time = Date.now()
-      }
-
-      if (mainline_index >= 0) {
-
-        // pre_states also includes all states that can be reached from the target state.
-        // This causes a bug where a wrong mainline index is inferred
-        // This case is fixed with the following hack
-        /*if (mainline_index < this.solution.length - 1 && SliderState.equals(frame_state, this.solution[mainline_index + 1].post_state)) {
-          mainline_index += 2
-        }*/
-
-        this.current_mainline_index = mainline_index
-        this.error_recovery_solution = {sequence: [], recovering_to_mainline_index: mainline_index}
-      } else {
-        let recovery_index = this.error_recovery_solution.sequence.findIndex(a => a.pre_states.some(s => SliderState.equals(s, frame_state)))
-
-        if (recovery_index >= 0) {
-          // Prune the recovery sequence to just contain the remaining steps
-          this.error_recovery_solution.sequence = this.error_recovery_solution.sequence.slice(recovery_index)
-
-          this.current_mainline_index = this.error_recovery_solution.recovering_to_mainline_index
-        } else {
-          // The current state was not found in the recovery sequence
-
-          let recovery_move: Move | null = null
-
-          for (let target of (this.getLastKnownMove()?.pre_states ?? [])) {
-            recovery_move = SliderState.findMove(frame_state, target)
-            if (recovery_move) break
+        const LASOLVING = this.settings.max_lookahead + 7
+        if (this.settings.continue_solving_after_initial_solve) {
+          if (this.solver && this.current_mainline_index + this.settings.max_lookahead + 2 >= this.solver.solving_from) {
+            // Getting close to the current start of the solving, stop the solving process
+            this.solver.solver.stop()
+            this.solver = null
           }
 
-          if (recovery_move != null) {
-            // Add recovery move to sequence
-            this.error_recovery_solution.sequence.splice(0, 0,
-              ...MoveList.annotate(frame_state, [recovery_move], this.settings.mode != "keyboard"))
+          if (!this.solver && (this.current_mainline_index + LASOLVING < this.solution.length)) {
+            const solving_start_index = this.current_mainline_index + LASOLVING
+
+            const solving_start_state = this.solution[solving_start_index - 1].post_state
+
+            this.solver = {
+              solver: SlideSolver.skillbertRandom(solving_start_state)
+                //new AStarSlideSolver(frame_state)
+                .setCombineStraights(this.settings.mode == "mouse" || this.settings.mode == "hybrid")
+                .registerSolution(this.solution.slice(solving_start_index).map(m => m.move))
+                .withInterrupt(20, 10) // Cooperative interrupt behaviour
+                .onFound(better => {
+                  if (solving_start_index == this.solver?.solving_from && this.current_mainline_index < solving_start_index) {
+                    const new_sequence = Sliders.MoveList.combine(
+                      this.solution.slice(0, solving_start_index).map(m => m.move),
+                      better,
+                      this.settings.mode != "keyboard"
+                    )
+
+                    this.solution = MoveList.annotate(this.initial_state, new_sequence, this.settings.mode != "keyboard")
+
+                    // Stop the solver in case the combination
+                    this.solver.solver.stop()
+                    this.solver = null
+                  }
+                }),
+              solving_from: solving_start_index
+            }
+
+            this.solver.solver.run()
+          }
+        }
+
+        const inversion_changed = read_result.inverted_checkmark != this.arrow_keys_inverted
+        this.arrow_keys_inverted = read_result.inverted_checkmark
+
+        // Rerender move overlay at least every 10 seconds, so it does not expire
+        if (inversion_changed || Date.now() - this.last_overlay_render > 10000) this.updateMoveOverlay()
+
+        // Early exit if state has not changed
+        if (this.last_frame_state && SliderState.equals(this.last_frame_state, frame_state)) {
+          this.updateProgressOverlay()
+          continue
+        }
+
+        let mainline_index = findLastIndex(this.solution, a => a.pre_states.some(s => SliderState.equals(s, frame_state)))
+
+        if (mainline_index == this.solution.length - 2 && SliderState.equals(frame_state, SliderState.SOLVED)) {
+          mainline_index = this.solution.length
+
+          this.solved_time = Date.now()
+        }
+
+        if (mainline_index >= 0) {
+
+          // pre_states also includes all states that can be reached from the target state.
+          // This causes a bug where a wrong mainline index is inferred
+          // This case is fixed with the following hack
+          /*if (mainline_index < this.solution.length - 1 && SliderState.equals(frame_state, this.solution[mainline_index + 1].post_state)) {
+            mainline_index += 2
+          }*/
+
+          this.current_mainline_index = mainline_index
+          this.error_recovery_solution = {sequence: [], recovering_to_mainline_index: mainline_index}
+        } else {
+          let recovery_index = this.error_recovery_solution.sequence.findIndex(a => a.pre_states.some(s => SliderState.equals(s, frame_state)))
+
+          if (recovery_index >= 0) {
+            // Prune the recovery sequence to just contain the remaining steps
+            this.error_recovery_solution.sequence = this.error_recovery_solution.sequence.slice(recovery_index)
 
             this.current_mainline_index = this.error_recovery_solution.recovering_to_mainline_index
           } else {
-            // Lost track. Start reset countdown or something
+            // The current state was not found in the recovery sequence
 
-            this.current_mainline_index = null
+            let recovery_move: Move | null = null
+
+            for (let target of (this.getLastKnownMove()?.pre_states ?? [])) {
+              recovery_move = SliderState.findMove(frame_state, target)
+              if (recovery_move) break
+            }
+
+            if (recovery_move != null) {
+              // Add recovery move to sequence
+              this.error_recovery_solution.sequence.splice(0, 0,
+                ...MoveList.annotate(frame_state, [recovery_move], this.settings.mode != "keyboard"))
+
+              this.current_mainline_index = this.error_recovery_solution.recovering_to_mainline_index
+            } else {
+              // Lost track. Start reset countdown or something
+
+              this.current_mainline_index = null
+            }
           }
         }
-      }
 
-      this.last_frame_state = frame_state
+        this.last_frame_state = frame_state
 
-      this.updateMoveOverlay()
-      /*} catch (e: any) {
+        this.updateMoveOverlay()
+      } catch (e: any) {
         console.log(e)
-      }*/
+      }
     }
 
     this.move_overlay?.hide()

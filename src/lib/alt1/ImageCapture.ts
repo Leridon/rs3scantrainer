@@ -74,8 +74,8 @@ export class CapturedImage {
       this._data = this.underlying.toData(
         this.screen_rectangle.origin.x,
         this.screen_rectangle.origin.y,
-        this.screenRectangle().size.x,
-        this.screenRectangle().size.y,
+        this.screen_rectangle.size.x,
+        this.screen_rectangle.size.y,
       )
     }
 

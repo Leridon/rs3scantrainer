@@ -575,8 +575,8 @@ class SliderGuideProcess extends Process {
     return this.error_recovery_solution?.sequence?.[0] ?? this.solution[this.current_mainline_index]
   }
 
-  stop() {
-    this.should_stop = true
+  isDone(): boolean {
+    return this.solution && this.current_mainline_index && this.current_mainline_index >= this.solution.length
   }
 }
 
@@ -660,9 +660,8 @@ export class SliderSubBehaviour extends NeoSolvingSubBehaviour {
   }
 
   pausesClueReader(): boolean {
-    return true
+    return this.process && !this.process.isDone()
   }
-
 }
 
 export namespace SlideGuider {

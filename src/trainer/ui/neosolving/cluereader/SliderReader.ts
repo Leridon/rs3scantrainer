@@ -1,9 +1,9 @@
-import {ImageDetect, ImgRef} from "@alt1/base";
-import {Vector2} from "../../../../lib/math";
+import {ImageDetect} from "@alt1/base";
 import * as lodash from "lodash";
 import {Sliders} from "../puzzles/Sliders";
 import {ImageFingerprint} from "../../../../lib/util/ImageFingerprint";
 import {deps} from "../../../dependencies";
+import {CapturedSliderInterface} from "./capture/CapturedSlider";
 
 export namespace SlideReader {
   export const DETECTION_THRESHOLD_SCORE = 0.9
@@ -74,11 +74,26 @@ export namespace SlideReader {
     return `alt1anchors/sliders/${theme}.png`
   }
 
-  export type ReadResult = SliderPuzzle
+  export class SlideReader {
+    private _puzzle: SliderPuzzle = null
 
-  export async function read(image: ImgRef, origin: Vector2, known_theme: string = undefined): Promise<ReadResult> {
+    constructor(public ui: CapturedSliderInterface) {
+
+    }
+
+    public async getPuzzle(known_theme: string = undefined): Promise<SliderPuzzle> {
+
+      if(!this._puzzle) {
+        this._puzzle = await identify(this.ui.body.getData(), known_theme)
+      }
+
+      return this._puzzle
+    }
+  }
+
+  export async function identify(image: ImageData, known_theme: string = undefined): Promise<SliderPuzzle> {
     // Parse the slider image from screen
-    const tiles = parseSliderImage(image.toData(origin.x, origin.y, 280, 280), 7)
+    const tiles = parseSliderImage(image, 7)
 
     let tile_scores: {
       tile: Tile,
@@ -213,12 +228,12 @@ export namespace SlideReader {
         }
       }
 
-      if(DEBUG_SLIDE_READER) console.log(`Potential ${max_improvements[0]} vs. ${best_score}`)
+      if (DEBUG_SLIDE_READER) console.log(`Potential ${max_improvements[0]} vs. ${best_score}`)
 
       const better_match_max_exist = max_improvements[0] > best_score
       if (better_match_max_exist) backtracking(0, 0)
 
-      if(DEBUG_SLIDE_READER) console.log(`Before BT: ${greedy_best.preliminary_best_matching.score}, After BT: ${best_score / 25}`)
+      if (DEBUG_SLIDE_READER) console.log(`Before BT: ${greedy_best.preliminary_best_matching.score}, After BT: ${best_score / 25}`)
 
       return {
         tiles: best.map(m => m.reference_tile),

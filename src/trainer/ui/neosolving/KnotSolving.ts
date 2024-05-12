@@ -2,7 +2,7 @@ import {NeoSolvingSubBehaviour} from "./NeoSolvingSubBehaviour";
 import NeoSolvingBehaviour from "./NeoSolvingBehaviour";
 import {Process} from "../../../lib/Process";
 import {ClueReader} from "./cluereader/ClueReader";
-import {CapturedImage, CapturedModal} from "../../../lib/alt1/ImageCapture";
+import {CapturedImage} from "../../../lib/alt1/ImageCapture";
 import {KnotReader} from "./cluereader/KnotReader";
 import {PuzzleModal} from "./PuzzleModal";
 import {OverlayGeometry} from "../../../lib/alt1/OverlayGeometry";
@@ -13,6 +13,7 @@ import {ScreenRectangle} from "../../../lib/alt1/ScreenRectangle";
 import Widget from "../../../lib/ui/Widget";
 import {BigNisButton} from "../widgets/BigNisButton";
 import {ewent} from "../../../lib/reactive";
+import {CapturedModal} from "./cluereader/capture/CapturedModal";
 
 const CENTER_TEXT_SIZE = 20
 const MOVE_FONT_SIZE = 24

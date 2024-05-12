@@ -6,7 +6,8 @@ import {ImageData, ImageDetect, mixColor} from "@alt1/base";
 import {ImageFingerprint} from "../../../../lib/util/ImageFingerprint";
 import * as lodash from "lodash";
 import {identity} from "lodash";
-import {CapturedImage, CapturedModal} from "../../../../lib/alt1/ImageCapture";
+import {CapturedImage} from "../../../../lib/alt1/ImageCapture";
+import {CapturedModal} from "./capture/CapturedModal";
 
 
 export namespace KnotReader {

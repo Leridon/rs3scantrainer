@@ -29,6 +29,41 @@ class TowersSolvingProcess extends Process {
     this.asInterval(1000 / 50)
   }
 
+  private debugOverlay(reader: TowersReader.TowersReader) {
+
+    this.solution_overlay.clear()
+
+    const hints = reader.readHints()
+
+   hints.top.forEach((h, i) => {
+      this.solution_overlay.text(
+        h?.toString() ?? "N",
+        reader.tileOrigin({x: i, y: -1}, true),
+      )
+    })
+    hints.bottom.forEach((h, i) => {
+      this.solution_overlay.text(
+        h?.toString() ?? "N",
+        reader.tileOrigin({x: i, y: 5}, true),
+      )
+    })
+    hints.left.forEach((h, i) => {
+      this.solution_overlay.text(
+        h?.toString() ?? "N",
+        reader.tileOrigin({x: -1, y: i}, true),
+      )
+    })
+
+    hints.right.forEach((h, i) => {
+      this.solution_overlay.text(
+        h?.toString() ?? "N",
+        reader.tileOrigin({x: 5, y: i}, true),
+      )
+    })
+
+    this.solution_overlay.render()
+  }
+
   async tick() {
     try {
       const capt = CapturedImage.capture(this.parent.lockbox.reader.modal.body.screenRectangle())
@@ -37,6 +72,8 @@ class TowersSolvingProcess extends Process {
 
       const capture = CapturedModal.assumeBody(capt)
       const reader = new TowersReader.TowersReader(capture)
+
+      this.debugOverlay(reader)
 
       const puzzle = await reader.getPuzzle()
 

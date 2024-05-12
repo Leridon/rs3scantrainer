@@ -60,35 +60,46 @@ export namespace TowersReader {
       }
     }
 
-    private readHints(): Towers.Hints2 {
-      const COLOR: OCR.ColortTriplet = [255, 205, 10];
+    private readCharacter(pos: Vector2, in_grid: boolean = true): number | null {
+      const COLOR: OCR.ColortTriplet[] = in_grid
+        ? [[255, 255, 255]]
+        : [[255, 205, 10], [102, 102, 102]];
 
-      const start = {
-        top: {x: 61, y: 26},
-        bottom: {x: 61, y: 276},
-        left: {x: 24, y: 63},
-        right: {x: 274, y: 63},
+      const wiggle_candidates = [-3, -2, -1, -4, 0]
+
+      for (let col of COLOR) {
+        for (const wiggle_x of wiggle_candidates) {
+          const res = OCR.readChar(this.modal.body.getData(),
+            font_with_just_digits,
+            col,
+            pos.x + wiggle_x,
+            pos.y,
+            false,
+            true);
+
+          if (res) {
+            console.log(`${wiggle_x} | 0`)
+            return Number(res.chr);
+          }
+        }
       }
 
-      const readCharacter = (pos: Vector2): number | null => {
+      return null
+    }
 
-        let str: OCR.ReadCharInfo = null;
-
-        for (let wiggle = -2; wiggle < 2; wiggle++) {
-          str = str || OCR.readChar(this.modal.body.getData(), font_with_just_digits, COLOR, pos.x + wiggle, pos.y, false, true);
-        }
-
-        if (!str) return null
-
-        return Number(str.chr);
-
+    public readHints(): Towers.Hints2 {
+      const start = {
+        top: {x: 60, y: 25},
+        bottom: {x: 60, y: 275},
+        left: {x: 23, y: 62},
+        right: {x: 274, y: 62},
       }
 
       for (let i = 0; i < SIZE; i++) {
-        this._hint_cache.top[i] = readCharacter(Vector2.add(start.top, Vector2.mul({x: i, y: 0}, TILE_OFFSET)))
-        this._hint_cache.bottom[i] = readCharacter(Vector2.add(start.bottom, Vector2.mul({x: i, y: 0}, TILE_OFFSET)))
-        this._hint_cache.left[i] = readCharacter(Vector2.add(start.left, Vector2.mul({x: 0, y: 1}, TILE_OFFSET)))
-        this._hint_cache.right[i] = readCharacter(Vector2.add(start.right, Vector2.mul({x: 0, y: 1}, TILE_OFFSET)))
+        this._hint_cache.top[i] = this.readCharacter(Vector2.add(start.top, Vector2.mul({x: i, y: 0}, TILE_OFFSET)), false)
+        this._hint_cache.bottom[i] = this.readCharacter(Vector2.add(start.bottom, Vector2.mul({x: i, y: 0}, TILE_OFFSET)), false)
+        this._hint_cache.left[i] = this.readCharacter(Vector2.add(start.left, Vector2.mul({x: 0, y: i}, TILE_OFFSET)), false)
+        this._hint_cache.right[i] = this.readCharacter(Vector2.add(start.right, Vector2.mul({x: 0, y: i}, TILE_OFFSET)), false)
       }
 
       return this._hint_cache

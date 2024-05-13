@@ -638,7 +638,26 @@ class TowersSettingsEdit extends Widget {
         .setValue(this.value.autostart)
       , "left", 1)
 
-    this.layout.paragraph("Disable this if you are simultaneously using Alt1's builtin clue solver and the toweers solutions are overlapping.")
+    this.layout.paragraph("Disable this if you are simultaneously using Alt1's builtin clue solver and the towers solutions are overlapping.")
+
+    this.layout.header("Overlay Mode", "left", 1)
+
+    this.layout.row(hgrid(
+      ...new Checkbox.Group([
+        {button: new Checkbox("Target"), value: "target" as const},
+        {button: new Checkbox("Delta"), value: "delta" as const},
+        {button: new Checkbox("Both"), value: "both" as const},
+      ]).onChange(v => this.value.solution_mode = v)
+        .setValue(this.value.solution_mode)
+        .checkboxes()
+    ))
+
+    this.layout.paragraph("'Target' will show the correct number on the overlay. 'Delta' will show the number of clicks required from the current value. 'Both' will display both.")
+
+    this.layout.header(new Checkbox("Show checkmark for correct tiles")
+        .onCommit(v => this.value.show_checkmark = v)
+        .setValue(this.value.show_checkmark)
+      , "left", 1)
   }
 }
 

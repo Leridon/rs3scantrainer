@@ -1,17 +1,22 @@
+import * as lodash from "lodash";
+
 export namespace Towers {
   export type Tower = typeof towers[number]
   export const towers = [1, 2, 3, 4, 5] as const
 
   export type Street = [Tower, Tower, Tower, Tower, Tower]
-  export type StreetLabel = [number, number]
+  export type StreetLabel = number
+  export type LabelPair = [StreetLabel, StreetLabel]
 
   export type LabelledStreet = {
     street: Street,
-    label: StreetLabel
+    label: LabelPair
   }
 
   export namespace Street {
     let _all: Street[] = null
+
+    export function empty(): Street {return [null, null, null, null, null]}
 
     export function all(): Towers.Street[] {
       if (!_all) {
@@ -49,7 +54,7 @@ export namespace Towers {
       return street.slice().reverse() as Street
     }
 
-    export function label(street: Street): StreetLabel {
+    export function label(street: Street): LabelPair {
       return [line_of_sight(street), line_of_sight(reverse(street))]
     }
   }
@@ -64,18 +69,18 @@ export namespace Towers {
     }
   }
 
-  export namespace StreetLabel {
-    export function equals(a: StreetLabel, b: StreetLabel): boolean {
+  export namespace LabelPair {
+    export function equals(a: LabelPair, b: LabelPair): boolean {
       return a[0] == b[0] && a[1] == b[1]
     }
 
     let _candidates: Street[][][] = null
 
     export function candidateMap(): Street[][][] {
-      return towers.map(a => towers.map(b => LabelledStreet.all().filter(l => StreetLabel.equals([a, b], l.label)).map(i => i.street)))
+      return towers.map(a => towers.map(b => LabelledStreet.all().filter(l => LabelPair.equals([a, b], l.label)).map(i => i.street)))
     }
 
-    export function getCandidates(label: StreetLabel): Street[] {
+    export function getCandidates(label: LabelPair): Street[] {
       if (!_candidates) {
         _candidates = candidateMap()
       }
@@ -84,20 +89,45 @@ export namespace Towers {
     }
   }
 
-  export type Hints2 = {
+  export type Hints = {
     top: number[],
     bottom: number[],
     left: number[],
     right: number[],
   }
 
-  export type Hints = {
-    rows: [StreetLabel, StreetLabel, StreetLabel, StreetLabel, StreetLabel],
-    columns: [StreetLabel, StreetLabel, StreetLabel, StreetLabel, StreetLabel],
+  export namespace Hints {
+    export function empty(): Hints {
+      return {
+        top: [null, null, null, null, null],
+        bottom: [null, null, null, null, null],
+        left: [null, null, null, null, null],
+        right: [null, null, null, null, null],
+      }
+    }
+  }
+
+  export type HintPairs = {
+    rows: [LabelPair, LabelPair, LabelPair, LabelPair, LabelPair],
+    columns: [LabelPair, LabelPair, LabelPair, LabelPair, LabelPair],
   }
 
   export type Blocks = {
     rows: [Street, Street, Street, Street, Street]
+  }
+
+  export namespace Blocks {
+    export function empty(): Blocks {
+      return {
+        rows: [Street.empty(), Street.empty(), Street.empty(), Street.empty(), Street.empty()]
+      }
+    }
+
+    export function combine(a: Blocks, b: Blocks): Blocks {
+      return {
+        rows: a.rows.map((row, y) => row.map((tile, x) => tile ?? b.rows[y][x])) as [Street, Street, Street, Street, Street]
+      }
+    }
   }
 
   export type PuzzleState = {
@@ -110,8 +140,8 @@ export namespace Towers {
       return matrix.map(row => row[i])
     }
 
-    export function solve(puzzle: Hints): Blocks {
-      function valid(rows: Street[], column_hints: Hints["columns"]): boolean {
+    export function solve(puzzle: HintPairs): Blocks {
+      function valid(rows: Street[], column_hints: HintPairs["columns"]): boolean {
         const row_count = rows.length
 
         // Check for duplicates.
@@ -124,19 +154,19 @@ export namespace Towers {
 
         if (rows.length == 5) {
           if (![0, 1, 2, 3, 4].every(i =>
-            StreetLabel.equals(Street.label(col(rows, i) as Street), column_hints[i])
+            LabelPair.equals(Street.label(col(rows, i) as Street), column_hints[i])
           )) return false
         }
 
         return true
       }
 
-      function backtrack(hints: StreetLabel[], streets_so_far: Street[]): Blocks {
+      function backtrack(hints: LabelPair[], streets_so_far: Street[]): Blocks {
         if (!valid(streets_so_far, puzzle.columns)) return null
 
         if (hints.length == 0) return {rows: streets_so_far as Blocks["rows"]}
 
-        for (const candidate of StreetLabel.getCandidates(hints[0])) {
+        for (const candidate of LabelPair.getCandidates(hints[0])) {
           const res = backtrack(hints.slice(1), [...streets_so_far, candidate])
 
           if (res) return res
@@ -147,5 +177,27 @@ export namespace Towers {
 
       return backtrack(puzzle.rows, [])
     }
+  }
+
+  export function solve(hints: Hints): PuzzleState {
+    const pairs: HintPairs = {
+      columns: lodash.zip(
+        hints.top,
+        hints.bottom,
+      ).map(([top, bottom]) => [top, bottom] as Towers.LabelPair) as Towers.HintPairs["columns"],
+      rows: lodash.zip(
+        hints.left,
+        hints.right,
+      ).map(([top, bottom]) => [top, bottom] as Towers.LabelPair) as Towers.HintPairs["rows"]
+    }
+
+    const res = Puzzle.solve(pairs)
+
+    if (res) return {
+      hints: hints,
+      blocks: Puzzle.solve(pairs)
+    }
+    else return null
+
   }
 }

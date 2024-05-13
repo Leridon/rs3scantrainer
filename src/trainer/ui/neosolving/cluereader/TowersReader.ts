@@ -1,13 +1,19 @@
 import {CapturedImage} from "../../../../lib/alt1/ImageCapture";
-import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
 import {Vector2} from "../../../../lib/math";
 import {CapturedModal} from "./capture/CapturedModal";
 import {Towers} from "../../../../lib/cluetheory/Towers";
-import * as lodash from "lodash";
 import * as OCR from "@alt1/ocr";
+import {util} from "../../../../lib/util/util";
+import {Lazy} from "../../../../lib/properties/Lazy";
+import {ImageDetect} from "@alt1/base";
+import {ScreenRectangle} from "../../../../lib/alt1/ScreenRectangle";
+import {deps} from "../../../dependencies";
 
 export namespace TowersReader {
 
+  const context_menu_anchor = new Lazy(() => ImageDetect.imageDataFromUrl("alt1anchors/contextborder.png"))
+
+  import count = util.count;
   const font: OCR.FontDefinition = require("@alt1/ocr/fonts/aa_10px_mono.js");
   const font_with_just_digits = {...font, chars: font.chars.filter(c => !isNaN(+c.chr))};
 
@@ -20,25 +26,16 @@ export namespace TowersReader {
 
   export class TowersReader {
 
-    private debug_overlay: OverlayGeometry
-
     tile_area: CapturedImage
+    puzzle_area: CapturedImage
 
     private puzzle_computed = false
     private puzzle: Towers.PuzzleState = null
 
-    public isBroken = false
-    public brokenReason: string = ""
+    private broken_hint_count: number = 0
 
-    private _hint_cache: Towers.Hints2 = {
-      top: new Array<Towers.Tower>(5),
-      bottom: new Array<Towers.Tower>(5),
-      left: new Array<Towers.Tower>(5),
-      right: new Array<Towers.Tower>(5),
-    }
-    private _tile_cache: Towers.Tower[][] = new Array(5).fill(null).map(() => new Array<Towers.Tower>(5).fill(null))
-
-    private _hints: Towers.Hints = null
+    private _hint_cache: Towers.Hints = null
+    private _tile_cache: Towers.Blocks = null
 
     constructor(public modal: CapturedModal) {
 
@@ -49,7 +46,12 @@ export namespace TowersReader {
         },
       )
 
-      this._tile_cache = new Array(SIZE).fill(null).map(() => new Array(SIZE).fill(null))
+      this.puzzle_area = modal.body.getSubSection(
+        {
+          origin: {x: 10, y: 5},
+          size: {x: 284, y: 284}
+        },
+      )
     }
 
     public tileOrigin(tile: Vector2, on_screen: boolean = false): Vector2 {
@@ -60,7 +62,7 @@ export namespace TowersReader {
       }
     }
 
-    private readCharacter(pos: Vector2, in_grid: boolean = true): number | null {
+    private readCharacter(pos: Vector2, in_grid: boolean = true): Towers.Tower | null {
       const COLOR: OCR.ColortTriplet[] = in_grid
         ? [[255, 255, 255]]
         : [[255, 205, 10], [102, 102, 102]];
@@ -78,8 +80,11 @@ export namespace TowersReader {
             true);
 
           if (res) {
-            console.log(`${wiggle_x} | 0`)
-            return Number(res.chr);
+            //console.log(`${wiggle_x} | 0`)
+            const num = Number(res.chr);
+
+            if (Number.isNaN(num) || num < 1 || num > 5) return null
+            else return num as Towers.Tower
           }
         }
       }
@@ -87,66 +92,102 @@ export namespace TowersReader {
       return null
     }
 
-    public readHints(): Towers.Hints2 {
-      const start = {
-        top: {x: 60, y: 25},
-        bottom: {x: 60, y: 275},
-        left: {x: 23, y: 62},
-        right: {x: 274, y: 62},
-      }
+    getHints(): Towers.Hints {
+      if (!this._hint_cache) {
+        const hints = Towers.Hints.empty()
 
-      for (let i = 0; i < SIZE; i++) {
-        this._hint_cache.top[i] = this.readCharacter(Vector2.add(start.top, Vector2.mul({x: i, y: 0}, TILE_OFFSET)), false)
-        this._hint_cache.bottom[i] = this.readCharacter(Vector2.add(start.bottom, Vector2.mul({x: i, y: 0}, TILE_OFFSET)), false)
-        this._hint_cache.left[i] = this.readCharacter(Vector2.add(start.left, Vector2.mul({x: 0, y: i}, TILE_OFFSET)), false)
-        this._hint_cache.right[i] = this.readCharacter(Vector2.add(start.right, Vector2.mul({x: 0, y: i}, TILE_OFFSET)), false)
+        const start = {
+          top: {x: 60, y: 25},
+          bottom: {x: 60, y: 275},
+          left: {x: 23, y: 62},
+          right: {x: 274, y: 62},
+        }
+
+        for (let i = 0; i < SIZE; i++) {
+          hints.top[i] = this.readCharacter(Vector2.add(start.top, Vector2.mul({x: i, y: 0}, TILE_OFFSET)), false)
+          hints.bottom[i] = this.readCharacter(Vector2.add(start.bottom, Vector2.mul({x: i, y: 0}, TILE_OFFSET)), false)
+          hints.left[i] = this.readCharacter(Vector2.add(start.left, Vector2.mul({x: 0, y: i}, TILE_OFFSET)), false)
+          hints.right[i] = this.readCharacter(Vector2.add(start.right, Vector2.mul({x: 0, y: i}, TILE_OFFSET)), false)
+        }
+
+        this.broken_hint_count = count([
+          ...hints.top,
+          ...hints.bottom,
+          ...hints.left,
+          ...hints.right,
+        ], h => h == null)
+
+        this._hint_cache = hints
       }
 
       return this._hint_cache
     }
 
-    getHints(): Towers.Hints {
+    getBlocks(): Towers.Blocks {
+      const TL_START = {x: 60, y: 62}
 
-      if (!this._hints) {
-        this.readHints()
 
-        this._hints = {
-          columns: lodash.zip(
-            this._hint_cache.top,
-            this._hint_cache.bottom,
-          ).map(([top, bottom]) => [top, bottom] as Towers.StreetLabel) as Towers.Hints["columns"],
-          rows: lodash.zip(
-            this._hint_cache.left,
-            this._hint_cache.right,
-          ).map(([top, bottom]) => [top, bottom] as Towers.StreetLabel) as Towers.Hints["rows"]
+      if (!this._tile_cache) {
+        const blocks = Towers.Blocks.empty()
+
+        for (let y = 0; y < SIZE; y++) {
+          for (let x = 0; x < SIZE; x++) {
+            blocks.rows[y][x] = this.readCharacter(Vector2.add(TL_START, Vector2.mul({x, y}, TILE_OFFSET)), true) as Towers.Tower
+          }
         }
+
+        this._tile_cache = blocks
       }
 
-      return this._hints
+      return this._tile_cache
+    }
+
+    async findContextMenu(): Promise<ScreenRectangle> {
+
+      const res =  deps().app.context_menu.check(this.modal.body)
+
+      console.log(res)
+
+      return res
+
+      const context_menu = this.modal.body.root().find(await context_menu_anchor.get())
+
+      if (context_menu.length > 0) {
+
+        return ScreenRectangle.move(context_menu[0].screenRectangle(),
+          {x: -4, y: -2},
+          {x: 113, y: 149}
+        )
+      }
+
+      return null
     }
 
     async getState(): Promise<"okay" | "likelyconcealed" | "likelyclosed"> {
-      return "okay"
+      this.getHints()
+
+      if (this.broken_hint_count == 20) return "likelyclosed"
+      else if (this.broken_hint_count > 0) return "likelyconcealed"
+      else return "okay"
     }
 
     async getPuzzle(): Promise<Towers.PuzzleState> {
       if (!this.puzzle_computed) {
-
         const hints = this.getHints()
+        const blocks = this.getBlocks()
 
+        if (this.broken_hint_count > 0) this.puzzle = null
+        else {
+          this.puzzle = {
+            hints: hints,
+            blocks: blocks
+          }
+        }
+
+        this.puzzle_computed = true
       }
 
       return this.puzzle
-    }
-
-    showDebugOverlay() {
-      if (!this.debug_overlay) {
-        this.debug_overlay = new OverlayGeometry()
-      }
-
-      this.debug_overlay.clear()
-
-      this.debug_overlay.render()
     }
   }
 }

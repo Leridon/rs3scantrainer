@@ -50,7 +50,7 @@ export class Alt1Modal extends NisModal {
     layout.paragraph("Clue trainer is a fully featured clue solver for the Alt1 Toolkit. It can automatically read clues and puzzles and show their solutions. Click below to install Clue Trainer into Alt1.")
 
     layout.row(
-      c(`<a href='${deps().app.addToAlt1Link()}' class="ctr-notification-link"></a>`)
+      c(`<a href='${deps().app.addToAlt1Link()}'></a>`)
         .append(new BigNisButton("", "confirm")
           .setContent(hbox(
             inlineimg("assets/icons/Alt1.png"),

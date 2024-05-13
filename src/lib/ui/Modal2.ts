@@ -50,11 +50,22 @@ export abstract class Modal2 {
       this._modal.raw().addEventListener("shown.bs.modal", () => {
         this.visible.set(true)
         this.shown.trigger(this)
+
+        Modal2.open_count++
       })
 
       this._modal.raw().addEventListener("hidden.bs.modal", () => {
         this.visible.set(false)
         this.hidden.trigger(this)
+
+        Modal2.open_count--
+
+        if (Modal2.open_count == 0) {
+          const backdrops = document.getElementsByClassName("modal-backdrop")
+          for (let i = 0; i < backdrops.length; i++) {
+            backdrops[i].remove()
+          }
+        }
       })
 
       this.bs_modal = new bootstrap.Modal(this._modal.raw(), {
@@ -98,6 +109,8 @@ export abstract class Modal2 {
 }
 
 export namespace Modal2 {
+  export let open_count: number = 0
+
   export type Options = {
     no_fade?: boolean,
     size?: "small" | "medium" | "large" | "fullscreen",

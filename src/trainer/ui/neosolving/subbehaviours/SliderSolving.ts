@@ -9,6 +9,8 @@ import {findLastIndex} from "lodash";
 import {util} from "../../../../lib/util/util";
 import {ClueReader} from "../cluereader/ClueReader";
 import NeoSolvingBehaviour from "../NeoSolvingBehaviour";
+import {AbstractPuzzleSolving} from "./AbstractPuzzleSolving";
+import {AbstractPuzzleProcess} from "./AbstractPuzzleProcess";
 import over = OverlayGeometry.over;
 import SliderState = Sliders.SliderState;
 import SliderPuzzle = Sliders.SliderPuzzle;
@@ -16,8 +18,6 @@ import SlideSolver = Sliders.SlideSolver;
 import AnnotatedMoveList = Sliders.AnnotatedMoveList;
 import MoveList = Sliders.MoveList;
 import Move = Sliders.Move;
-import {AbstractPuzzleSolving} from "./AbstractPuzzleSolving";
-import {AbstractPuzzleProcess} from "./AbstractPuzzleProcess";
 
 class SliderGuideProcess extends AbstractPuzzleProcess {
   settings = deps().app.settings.settings.solving.puzzles.sliders
@@ -72,10 +72,9 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
   }> {
     const capt = this.parent.puzzle.reader.ui.recapture(true)
 
-
     const read = await new SlideReader.SlideReader(capt).getPuzzle(this.puzzle.theme)
 
-    if(read) {
+    if (read.match_score >= SlideReader.DETECTION_THRESHOLD_SCORE) {
       this.parent.modal.setImage(capt.body.getData())
     }
 

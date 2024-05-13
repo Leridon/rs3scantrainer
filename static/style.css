@@ -1561,7 +1561,7 @@ input[type=checkbox] + span {
     color: #00000A;
     line-height: 24px;
     text-align: center;
-    position: absolute;
+    position: relative;
     z-index: 100;
     left: 0;
     top: 0;

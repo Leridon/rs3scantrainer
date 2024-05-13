@@ -1,9 +1,9 @@
-import {calcmap, optimisemoves, SlideMove, SliderMap, SlideSolverRandom} from "../../../../skillbertssolver/cluesolver/slidesolver";
-import {ewent} from "../../../../lib/reactive";
+import {calcmap, optimisemoves, SlideMove, SliderMap, SlideSolverRandom} from "../../skillbertssolver/cluesolver/slidesolver";
+import {ewent} from "../reactive";
 import * as lodash from "lodash";
-import {Process} from "../../../../lib/Process";
-import {util} from "../../../../lib/util/util";
-import {ImageFingerprint} from "../../../../lib/util/ImageFingerprint";
+import {Process} from "../Process";
+import {util} from "../util/util";
+import {ImageFingerprint} from "../util/ImageFingerprint";
 
 export namespace Sliders {
   export type SliderPuzzle = { tiles: Tile[], theme?: string, match_score?: number }

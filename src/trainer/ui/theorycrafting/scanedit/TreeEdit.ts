@@ -40,7 +40,7 @@ import hboxl = C.hboxl;
 import collect_issues = Path.collect_issues;
 import scan_tree_template_resolvers = ScanTreeSolvingControl.scan_tree_template_resolvers;
 import cls = C.cls;
-import {ScanTreeSolvingControl} from "../../neosolving/scans/ScanTreeSolving";
+import {ScanTreeSolvingControl} from "../../neosolving/subbehaviours/ScanTreeSolving";
 
 export class DrawRegionAction extends ValueInteraction<ScanRegion> {
   constructor(name: string) {

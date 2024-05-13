@@ -2,7 +2,6 @@ Compass solver:
     - Improve entry styling
         - Entry options: Delete, Commit/Refresh
 
-
     - Add method selectors for candidate spots
         - Show paths for all candidates? Or just the selected one?
     - Update ???° to currently predicted angle
@@ -12,11 +11,15 @@ Compass solver:
     - Chatbox read service to look for sextant message
 
 Final missing transport:
+    Master:
+        (City of Um teleport incantation; not sure if same as tome)
+        (((Runespan portal, runespan pads on high floor to east and then north)))
+        (and the fishing platform and entrana connections as mentioned above)
 
-Master:
-    (City of Um teleport incantation; not sure if same as tome)
-    (((Runespan portal, runespan pads on high floor to east and then north)))
-    (and the fishing platform and entrana connections as mentioned above)
+    Menaphos Gate
+    Kag Ship transports
+    Lighthouse after update
+
 
 - Solving Behaviour
     - Path Panel
@@ -26,7 +29,6 @@ Master:
             - Combine surges/dives following a powerburst into one "fake" step
             - Duplicate shortcut step to exist in both sections
             - Combine run followed by shortcut into one
-    - Compass Panel
     - Preferences
         - Preferred npc spot
     - Scan Tree Behaviour
@@ -39,13 +41,6 @@ Master:
 
 - Issues
     - [Bug, 1] SearchSelection: Very rarely the dropdown remains after the element is already gone
-    - Pathfinder prefers north over south, while ingame is the other way around
-
-- Data
-    - [Dev Tool, 3] Utility Layer for shortcut parsing
-        - Option to overlay parsed transports
-            - Dialog "Parsed <x> methods of transportation. [Export] [Show on Map]"
-        - "Go to next entity"
 
 - Scan Editor
     - [QOL, 2] Include uncertainty from non-static teleports into path analysis
@@ -82,9 +77,6 @@ Master:
         - Show metadata before import
         - Confirm/Cancel
     - [Feature] Undo/Redo
-
-- Menu Bar
-    - Add to Alt 1 entry when not in Alt1
 
 - General
     - [Styling] ControlHeader title and X are not properly aligned

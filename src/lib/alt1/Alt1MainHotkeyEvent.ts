@@ -1,8 +1,8 @@
 import * as a1lib from "@alt1/base";
 import {Alt1EventType} from "@alt1/base";
 import * as lodash from "lodash";
-import {Vector2} from "../lib/math";
-import {EwentHandler} from "../lib/reactive";
+import {Vector2} from "../math";
+import {EwentHandler} from "../reactive";
 
 export class Alt1MainHotkeyEvent {
   private handlers: Alt1MainHotkeyEvent.Handler[] = []

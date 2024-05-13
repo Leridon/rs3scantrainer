@@ -1,9 +1,9 @@
-import {Sliders} from "./Sliders";
-import {ewent} from "../../../../lib/reactive";
-import {delay} from "../../../../skillbertssolver/oldlib";
+import {Sliders} from "../Sliders";
+import {ewent} from "../../reactive";
+import {delay} from "../../../skillbertssolver/oldlib";
 import SliderState = Sliders.SliderState;
 import Move = Sliders.Move;
-import {Process} from "../../../../lib/Process";
+import {Process} from "../../Process";
 
 export class IterativeDeepeningAStar<UnderlyingState, Move> extends Process<IterativeDeepeningAStar.State<UnderlyingState, Move>> {
 

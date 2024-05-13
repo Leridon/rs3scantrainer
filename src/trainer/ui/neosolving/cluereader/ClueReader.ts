@@ -1,6 +1,6 @@
 import {Clues} from "../../../../lib/runescape/clues";
 import * as a1lib from "@alt1/base";
-import {captureHoldFullRs, ImgRef} from "@alt1/base";
+import {ImgRef} from "@alt1/base";
 import {AnchorImages} from "./AnchorImages";
 import {Rectangle, Vector2} from "../../../../lib/math";
 import {ModalUI} from "../../../../skillbertssolver/cluesolver/modeluireader";
@@ -15,9 +15,13 @@ import {SlideReader} from "./SliderReader";
 import {Notification} from "../../NotificationBar";
 import {CompassReader} from "./CompassReader";
 import {KnotReader} from "./KnotReader";
-import {CapturedImage, CapturedModal} from "../../../../lib/alt1/ImageCapture";
+import {CapturedImage} from "../../../../lib/alt1/ImageCapture";
 import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
-import {Sliders} from "../puzzles/Sliders";
+import {Sliders} from "../../../../lib/cluetheory/Sliders";
+import {LockBoxReader} from "./LockBoxReader";
+import {CapturedModal} from "./capture/CapturedModal";
+import {CapturedSliderInterface} from "./capture/CapturedSlider";
+import {TowersReader} from "./TowersReader";
 import stringSimilarity = util.stringSimilarity;
 import ScanStep = Clues.ScanStep;
 import notification = Notification.notification;
@@ -52,7 +56,7 @@ export class ClueReader {
     console.log("Initialized anchors")
   }
 
-  async read(img: ImgRef): Promise<ClueReader.Result> {
+  async read(img: CapturedImage): Promise<ClueReader.Result> {
     await this.initialized
 
     if (CLUEREADERDEBUG) {
@@ -61,127 +65,203 @@ export class ClueReader {
       CLUEREADER_DEBUG_OVERLAY.clear()
     }
 
-    const modal = await CapturedModal.findIn(new CapturedImage(img))
+    // Check for modal interface
+    {
+      const modal = await CapturedModal.findIn(img)
 
-    if (modal) {
-      if (CLUEREADERDEBUG) {
-        CLUEREADER_DEBUG_OVERLAY.rect(Rectangle.fromOriginAndSize(modal.body.screenRectangle().origin, modal.body.screenRectangle().size), {
-          width: 1,
-          color: a1lib.mixColor(255, 0, 0, 255)
-        }).render()
-      }
+      if (modal) {
+        if (CLUEREADERDEBUG) {
+          CLUEREADER_DEBUG_OVERLAY.rect(Rectangle.fromOriginAndSize(modal.body.screenRectangle().origin, modal.body.screenRectangle().size), {
+            width: 1,
+            color: a1lib.mixColor(255, 0, 0, 255)
+          }).render()
+        }
 
-      const modal_type = (() => {
-        const modal_type_map: {
-          type: ClueReader.ModalType,
-          possible_titles: string[]
-        }[] =
-          [
-            {
-              type: "textclue", possible_titles: [
-                "mysterious clue scroll", "treasure map",
-                "pergaminho de dicas mister", "mapa do tesouro",
-                "..:se hinweis-schriftp", ""
+        const modal_type = (() => {
+          const modal_type_map: {
+            type: ClueReader.ModalType,
+            possible_titles: string[]
+          }[] =
+            [
+              {
+                type: "textclue", possible_titles: [
+                  "mysterious clue scroll", "treasure map",
+                  "pergaminho de dicas mister", "mapa do tesouro",
+                  "..:se hinweis-schriftp", ""
+                ]
+              }, {
+              type: "towers", possible_titles: [
+                "towers",
+                "torres",
+                ", ( rme"//t"urme
               ]
             }, {
-            type: "towers", possible_titles: [
-              "towers",
-              "torres",
-              ", ( rme"//t"urme
-            ]
-          }, {
-            type: "lockbox", possible_titles: [
-              "lockbox",
-              "gica",//Caixa M`agica,
-              "schlie. .;fach"//schliessfach
-            ]
-          },
-            {
-              type: "knot", possible_titles: [
-                "celtic knot",
-                "..: celta",//N~o celta
-                "keltischer knoten"
+              type: "lockbox", possible_titles: [
+                "lockbox",
+                "gica",//Caixa M`agica,
+                "schlie. .;fach"//schliessfach
               ]
-            }
-          ]
+            },
+              {
+                type: "knot", possible_titles: [
+                  "celtic knot",
+                  "..: celta",//N~o celta
+                  "keltischer knoten"
+                ]
+              }
+            ]
 
-        const title = modal.title().toLowerCase()
+          const title = modal.title().toLowerCase()
 
-        const best = findBestMatch(modal_type_map.map(
-          m => ({value: m, score: findBestMatch(m.possible_titles, possible_title => stringSimilarity(title, possible_title)).score})
-        ), m => m.score).value
+          const best = findBestMatch(modal_type_map.map(
+            m => ({value: m, score: findBestMatch(m.possible_titles, possible_title => stringSimilarity(title, possible_title)).score})
+          ), m => m.score).value
 
-        // Minimum score to avoid unrelated modals to be matched as something
-        if (best.score < 0.7) return null
+          // Minimum score to avoid unrelated modals to be matched as something
+          if (best.score < 0.7) return null
 
-        return best.value.type
-      })()
+          return best.value.type
+        })()
 
-      if (modal_type) {
-        switch (modal_type) {
-          case "textclue":
-            const text = ClueReader.readTextClueModalText(modal)
+        if (modal_type) {
+          switch (modal_type) {
+            case "textclue":
+              const text = ClueReader.readTextClueModalText(modal)
 
-            if (text.length >= 10) {
-              const best = findBestMatch(
-                clue_data.all.flatMap<Clues.StepWithTextIndex>(c => c.text.map((text, text_index) => {
-                  return {step: c, text_index: text_index}
-                })),
-                ({step, text_index}) => {
-                  let reference_text = step.text[text_index]
+              if (text.length >= 10) {
+                const best = findBestMatch(
+                  clue_data.all.flatMap<Clues.StepWithTextIndex>(c => c.text.map((text, text_index) => {
+                    return {step: c, text_index: text_index}
+                  })),
+                  ({step, text_index}) => {
+                    let reference_text = step.text[text_index]
 
-                  if (step.type == "skilling") {
-                    reference_text = `Complete the action to solve the clue: ${reference_text}`
+                    if (step.type == "skilling") {
+                      reference_text = `Complete the action to solve the clue: ${reference_text}`
+                    }
+
+                    return stringSimilarity(text, reference_text)
                   }
+                )
 
-                  return stringSimilarity(text, reference_text)
+                if (best.score < 0.7) return null
+
+                return {
+                  type: "textclue",
+                  modal: modal,
+                  step: best.value
                 }
-              )
+              } else {
+                const fingerprint = oldlib.computeImageFingerprint(modal.body.getData(), 20, 20, 90, 25, 300, 240);
 
-              if (best.score < 0.7) return null
+                const best = findBestMatch(clue_data.map, c => comparetiledata(c.ocr_data, fingerprint), undefined, true)
 
-              return {
-                type: "textclue",
-                modal: modal,
-                step: best.value
+                return {
+                  type: "textclue",
+                  modal: modal,
+                  step: {step: best.value, text_index: 0}
+                }
               }
-            } else {
-              const fingerprint = oldlib.computeImageFingerprint(modal.body.getData(), 20, 20, 90, 25, 300, 240);
+            case "knot": {
+              const reader = new KnotReader.KnotReader(modal)
 
-              const best = findBestMatch(clue_data.map, c =>  comparetiledata(c.ocr_data, fingerprint), undefined, true)
+              if (await reader.getPuzzle()) {
+                return {
+                  type: "puzzle",
+                  puzzle: {
+                    type: "knot",
+                    reader: reader,
+                  },
+                }
+              } else {
 
-              return {
-                type: "textclue",
-                modal: modal,
-                step: {step: best.value, text_index: 0}
+                console.error("Knot found, but not parsed properly")
+                console.error(`Broken: ${reader.isBroken}, Reason: ${reader.brokenReason}`)
+
+                //await (reader.showDebugOverlay())
+
+                return null
               }
             }
-          case "knot":
-            const reader = new KnotReader.KnotReader(modal)
+            case "lockbox": {
+              const reader = new LockBoxReader.LockBoxReader(modal)
 
-            if (await reader.getPuzzle()) {
-              return {
-                type: "puzzle",
-                puzzle: {
-                  type: "knot",
-                  reader: reader,
-                },
+              if (await reader.getPuzzle()) {
+                return {
+                  type: "puzzle",
+                  puzzle: {
+                    type: "lockbox",
+                    reader: reader,
+                  },
+                }
+              } else {
+                console.error("Lockbox found, but not parsed properly. Maybe it's concealed by something.")
+
+                return null
               }
-            } else {
-
-              console.error("Knot found, but not parsed properly")
-              console.error(`Broken: ${reader.isBroken}, Reason: ${reader.brokenReason}`)
-
-              //await (reader.showDebugOverlay())
-
-              return null
             }
+            case "towers": {
+              const reader = new TowersReader.TowersReader(modal)
 
+              if (true || await reader.getPuzzle()) {
+                return {
+                  type: "puzzle",
+                  puzzle: {
+                    type: "tower",
+                    reader: reader,
+                  },
+                }
+              } else {
+                console.error("Towers puzzle found, but not parsed properly. Maybe it's concealed by something.")
 
+                return null
+              }
+            }
+          }
         }
-      }
 
+        return null
+      }
     }
+
+    // Check for slider interface
+    {
+      const slider = await CapturedSliderInterface.findIn(img, false)
+
+      if (slider) {
+        const reader = new SlideReader.SlideReader(slider)
+        const res = await reader.getPuzzle()
+
+        if (CLUEREADERDEBUG) {
+          res.tiles.forEach((tile, i) => {
+            const pos = Vector2.add(
+              Rectangle.screenOrigin(found_ui.rect),
+              {x: Math.floor(i % 5) * 56, y: Math.floor(i / 5) * 56}
+            )
+
+            alt1.overLayText(`${res.theme}\n${tile.position}`,
+              a1lib.mixColor(0, 255, 0),
+              10,
+              pos.x,
+              pos.y,
+              5000
+            )
+          })
+
+          notification(`Found theme ${res.theme}`).show()
+        }
+
+        if (res.match_score >= SlideReader.DETECTION_THRESHOLD_SCORE) {
+          return {
+            type: "puzzle",
+            puzzle: {type: "slider", reader: reader, puzzle: res},
+          }
+        }
+
+        return null
+      }
+    }
+
 
     const found_ui = await (async (): Promise<ClueReader.MatchedUI> => {
       const ui_type_map: {
@@ -205,15 +285,6 @@ export class ClueReader {
             }]
           },
           {
-            type: "slider", anchors: [{
-              img: this.anchors.slide,
-              origin_offset: {x: 297, y: -15},
-            }, {
-              img: this.anchors.slidelegacy,
-              origin_offset: {x: 297, y: -15}
-            }]
-          },
-          {
             type: "compass", anchors: [{
               img: this.anchors.compassnorth,
               origin_offset: {x: 78, y: 20},
@@ -223,30 +294,24 @@ export class ClueReader {
 
       for (let ui_type of ui_type_map) {
         for (let anchor of ui_type.anchors) {
-          let locs = img.findSubimage(anchor.img)
+          let locs = img.find(anchor.img)
 
           if (locs.length > 0) {
             switch (ui_type.type) {
               case "scan":
                 return {
                   type: "scan",
-                  image: img,
-                  rect: Rectangle.fromOriginAndSize(Vector2.sub(locs[0], anchor.origin_offset), {x: 180, y: 190})
-                }
-              case "slider":
-                return {
-                  type: "slider",
-                  image: img,
+                  image: img.underlying,
                   rect: Rectangle.fromOriginAndSize(
-                    Vector2.sub(locs[0], anchor.origin_offset),
-                    {x: 273, y: 273}
+                    Vector2.sub(locs[0].screenRectangle().origin, anchor.origin_offset),
+                    {x: 180, y: 190}
                   )
                 }
               case "compass":
                 return {
                   type: "compass",
-                  image: img,
-                  rect: Rectangle.fromOriginAndSize(Vector2.sub(locs[0], anchor.origin_offset), CompassReader.UI_SIZE)
+                  image: img.underlying,
+                  rect: Rectangle.fromOriginAndSize(Vector2.sub(locs[0].screenRectangle().origin, anchor.origin_offset), CompassReader.UI_SIZE)
                 }
             }
           }
@@ -276,136 +341,10 @@ export class ClueReader {
       }
 
       switch (found_ui.type) {
-        /*case "modal":
-          const modal_type = ((): ClueReader.ModalType => {
-            const modal_type_map: {
-              type: ClueReader.ModalType,
-              possible_titles: string[]
-            }[] =
-              [
-                {
-                  type: "textclue", possible_titles: [
-                    "mysterious clue scroll", "treasure map",
-                    "pergaminho de dicas mister", "mapa do tesouro",
-                    "..:se hinweis-schriftp", ""
-                  ]
-                }, {
-                type: "towers", possible_titles: [
-                  "towers",
-                  "torres",
-                  ", ( rme"//t"urme
-                ]
-              }, {
-                type: "lockbox", possible_titles: [
-                  "lockbox",
-                  "gica",//Caixa M`agica,
-                  "schlie. .;fach"//schliessfach
-                ]
-              },
-                {
-                  type: "knot", possible_titles: [
-                    "celtic knot",
-                    "..: celta",//N~o celta
-                    "keltischer knoten"
-                  ]
-                }
-              ]
-
-            let best: ClueReader.ModalType = null
-            let best_score: number = 0
-
-            for (let type of modal_type_map) {
-              for (let title of type.possible_titles) {
-                const score = stringSimilarity(found_ui.modal.title, title)
-
-                if (score > best_score) {
-                  best_score = score
-                  best = type.type
-                }
-              }
-            }
-
-            // Minimum score to avoid unrelated modals to be matched as something
-            if (best_score < 0.7) return null
-
-            return best
-          })()
-
-          if (CLUEREADERDEBUG) {
-            if (modal_type) {
-              notification(`Modal type ${modal_type}`).show()
-            } else {
-              notification(`No modal type identified'`).show()
-            }
-          }
-
-          if (modal_type) {
-            switch (modal_type) {
-              case "textclue":
-                const text = ClueReader.readTextClueModalText(found_ui.modal)
-
-                if (text.length >= 10) {
-                  let best: Clues.StepWithTextIndex = null
-                  let best_score = 0
-
-                  for (let clue of clue_data.all) {
-
-                    for (let text_index = 0; text_index < clue.text.length; text_index++) {
-
-                      let reference_text = clue.text[text_index]
-
-                      if (clue.type == "skilling") {
-                        reference_text = `Complete the action to solve the clue: ${reference_text}`
-                      }
-
-                      const score = stringSimilarity(text, reference_text)
-
-                      if (score > best_score) {
-                        best_score = score
-                        best = {step: clue, text_index: text_index}
-                      }
-                    }
-                  }
-
-                  if (best_score < 0.7) return null
-
-                  return {
-                    found_ui: found_ui,
-                    step: best
-                  }
-                } else {
-                  const tiled_img = ClueReader.getImageClueImage(found_ui.modal)
-
-                  let best: Clues.Step = null
-                  let best_score = Number.MAX_VALUE
-
-                  for (let clue of clue_data.map) {
-                    const score = comparetiledata(clue.ocr_data, tiled_img)
-
-                    if (score < best_score) {
-                      best_score = score
-                      best = clue
-                    }
-                  }
-
-                  return {
-                    found_ui: found_ui,
-                    step: {step: best, text_index: 0}
-                  }
-                }
-              case "knot":
-
-                return {
-                  found_ui: found_ui,
-                  knot: await KnotReader.read(found_ui)
-                }
-            }
-          }
-
-          break*/
         case "scan": {
           const scan_text_full = ClueReader.readScanPanelText(
-            img, Rectangle.screenOrigin(found_ui.rect)
+            img.underlying,
+            Rectangle.screenOrigin(found_ui.rect)
           )
 
           if (CLUEREADERDEBUG) notification(`Scan ${scan_text_full}`).show()
@@ -429,44 +368,7 @@ export class ClueReader {
 
           return {type: "scan", step: best}
         }
-        case "slider":
-          const res = await SlideReader.read(
-            img,
-            Rectangle.bottomLeft(found_ui.rect),
-          )
 
-          if (CLUEREADERDEBUG) {
-            res.tiles.forEach((tile, i) => {
-              const pos = Vector2.add(
-                Rectangle.screenOrigin(found_ui.rect),
-                {x: Math.floor(i % 5) * 56, y: Math.floor(i / 5) * 56}
-              )
-
-              alt1.overLayText(`${res.theme}\n${tile.position}`,
-                a1lib.mixColor(0, 255, 0),
-                10,
-                pos.x,
-                pos.y,
-                5000
-              )
-            })
-
-            notification(`Found theme ${res.theme}`).show()
-          }
-
-          if (res.match_score >= SlideReader.DETECTION_THRESHOLD_SCORE) {
-            return {
-              type: "legacy",
-              found_ui: found_ui,
-              puzzle: {type: "slider", ui: found_ui, puzzle: res},
-            }
-          } else {
-            return {
-              type: "legacy",
-              found_ui: found_ui,
-              puzzle: null,
-            }
-          }
         case "compass": {
           const compass_state = CompassReader.readCompassState(found_ui)
 
@@ -488,12 +390,12 @@ export class ClueReader {
     }
   }
 
-  async readScreen(): Promise<ClueReader.Result> {
-    const img = CLUEREADERDEBUG_READ_SCREEN_INSTEAD_OF_RS
-      ? a1lib.captureHoldScreen(alt1.rsX, alt1.rsY, alt1.rsWidth, alt1.rsHeight) as ImgRef
-      : captureHoldFullRs()
+  async
 
-    return this.read(img)
+  readScreen()
+    :
+    Promise<ClueReader.Result> {
+    return this.read(CapturedImage.capture())
   }
 }
 
@@ -539,7 +441,7 @@ export namespace ClueReader {
 
       export type Slider = puzzle_base & {
         type: "slider",
-        ui: MatchedUI.Slider
+        reader: SlideReader.SlideReader,
         puzzle: SliderPuzzle
       }
 
@@ -548,7 +450,17 @@ export namespace ClueReader {
         reader: KnotReader.KnotReader,
       }
 
-      export type Puzzle = Slider | Knot
+      export type Lockbox = puzzle_base & {
+        type: "lockbox",
+        reader: LockBoxReader.LockBoxReader,
+      }
+
+      export type Towers = puzzle_base & {
+        type: "tower",
+        reader: TowersReader.TowersReader,
+      }
+
+      export type Puzzle = Slider | Knot | Lockbox | Towers
     }
 
     type base = { type: Kind }

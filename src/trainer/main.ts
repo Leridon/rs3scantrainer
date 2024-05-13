@@ -1,13 +1,11 @@
 import * as lodash from "lodash";
-import {Sliders} from "./ui/neosolving/puzzles/Sliders";
+import {Sliders} from "../lib/cluetheory/Sliders";
 import {NisModal} from "../lib/ui/NisModal";
 import Properties from "./ui/widgets/Properties";
 import {C} from "../lib/ui/constructors";
 import LightButton from "./ui/widgets/LightButton";
 import Widget from "../lib/ui/Widget";
-import ExportStringModal from "./ui/widgets/modals/ExportStringModal";
-import {LocParsingTableData} from "./ui/devutilitylayer/cachetools/ParsingTable";
-import {util} from "../lib/util/util";
+import {Lockboxes} from "../lib/cluetheory/Lockboxes";
 import SliderState = Sliders.SliderState;
 import MoveList = Sliders.MoveList;
 import hgrid = C.hgrid;
@@ -15,14 +13,6 @@ import span = C.span;
 import skillbertRandom = Sliders.SlideSolver.skillbertRandom;
 import spacer = C.spacer;
 import hbox = C.hbox;
-import {test_slide_reader} from "../test/test_slide_reader";
-import {timeSync} from "../lib/gamemap/GameLayer";
-import {Towers} from "../lib/cluetheory/Towers";
-import towers = Towers.towers;
-import {CelticKnots} from "../lib/cluetheory/CelticKnots";
-import {clue_trainer_test_set} from "../test/tests";
-import {CompassReader} from "./ui/neosolving/cluereader/CompassReader";
-import {radiansToDegrees} from "../lib/math";
 
 type DataEntry = {
   id: number,
@@ -382,8 +372,6 @@ class SliderAnalysisModal extends NisModal {
 }
 
 export async function makeshift_main(): Promise<void> {
-
-
   //new ExportStringModal(CompassReader.calibration_tables.off.getSampleTable().map(radiansToDegrees).join("\n")).show()
 
   //clue_trainer_test_set.run()

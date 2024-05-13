@@ -142,10 +142,9 @@ export default class MainTabControl extends Widget {
             , {
               placement: "right",
               hideOnClick: false
-            })
-      ,
+            }),
       this.settings_button = new MenuButton("Settings", "assets/icons/ribbon_options.webp").onClick(() => {
-          new SettingsModal().show()
+          new SettingsModal().do()
         })
         .setActive(true)
         .addTippy(

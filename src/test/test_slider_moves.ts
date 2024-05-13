@@ -1,5 +1,5 @@
 import * as lodash from "lodash";
-import {Sliders} from "../trainer/ui/neosolving/puzzles/Sliders";
+import {Sliders} from "../lib/cluetheory/Sliders";
 
 export async function test_slider_move_attachment(): Promise<boolean> {
   const test_cases: {

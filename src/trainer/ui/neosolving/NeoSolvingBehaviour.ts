@@ -30,14 +30,16 @@ import {SettingsModal} from "../settings/SettingsEdit";
 import {ClueEntities} from "./ClueEntities";
 import {NislIcon} from "../nisl";
 import {ClueProperties} from "../theorycrafting/ClueProperties";
-import {SlideGuider, SliderSubBehaviour} from "./puzzles/SlideGuider";
+import {SlideGuider, SliderSolving} from "./subbehaviours/SliderSolving";
 import {Notification} from "../NotificationBar";
 import TransportLayer from "../map/TransportLayer";
 import {NeoSolvingSubBehaviour} from "./NeoSolvingSubBehaviour";
-import {CompassSolving} from "./compass/CompassSolving";
-import {ScanTreeSolvingControl} from "./scans/ScanTreeSolving";
-import {KnotSolving} from "./KnotSolving";
+import {CompassSolving} from "./subbehaviours/CompassSolving";
+import {ScanTreeSolvingControl} from "./subbehaviours/ScanTreeSolving";
+import {KnotSolving} from "./subbehaviours/KnotSolving";
 import {Alt1Modal} from "../../Alt1Modal";
+import {LockboxSolving} from "./subbehaviours/LockboxSolving";
+import {TowersSolving} from "./subbehaviours/TowersSolving";
 import span = C.span;
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import interactionMarker = RenderingUtility.interactionMarker;
@@ -127,7 +129,7 @@ class NeoSolvingLayer extends GameLayer {
     }*/
 
     this.map.fitView(copy, {
-      //maxZoom: lodash.clamp(this.getMap().getZoom(), 3, 7),
+      maxZoom: lodash.clamp(this.getMap().getZoom(), 2, 4),
       paddingTopLeft: padding
     })
 
@@ -259,7 +261,7 @@ namespace NeoSolvingLayer {
             .setToggled(this.fullscreen_preference.get()),
           new MainControlButton({icon: "assets/icons/settings.png", centered: true})
             .tooltip("Open settings")
-            .onClick(() => new SettingsModal("info_panels").show())
+            .onClick(() => new SettingsModal("info_panels").do())
         ).css("flex-grow", "1"),
       )
 
@@ -400,10 +402,16 @@ export default class NeoSolvingBehaviour extends Behaviour {
     if (puzzle) {
       switch (puzzle.type) {
         case "slider":
-          this.active_behaviour.set(new SliderSubBehaviour(this, puzzle))
+          this.active_behaviour.set(new SliderSolving(this, puzzle))
           break;
         case "knot":
-          this.active_behaviour.set(new KnotSolving(this, this.app.settings.settings.solving.puzzles.knots, puzzle))
+          this.active_behaviour.set(new KnotSolving(this, puzzle))
+          break;
+        case "lockbox":
+          this.active_behaviour.set(new LockboxSolving(this, puzzle))
+          break;
+        case "tower":
+          this.active_behaviour.set(new TowersSolving(this, puzzle))
           break;
       }
     }
@@ -810,13 +818,17 @@ export namespace NeoSolving {
   export namespace Settings {
     export type Puzzles = {
       sliders: SlideGuider.Settings,
-      knots: KnotSolving.Settings
+      knots: KnotSolving.Settings,
+      lockboxes: LockboxSolving.Settings,
+      towers: TowersSolving.Settings,
     }
 
     export namespace Puzzles {
       export const DEFAULT: Puzzles = {
         sliders: SlideGuider.Settings.DEFAULT,
-        knots: KnotSolving.Settings.DEFAULT
+        knots: KnotSolving.Settings.DEFAULT,
+        lockboxes: LockboxSolving.Settings.DEFAULT,
+        towers: TowersSolving.Settings.DEFAULT,
       }
 
       export function normalize(settings: Puzzles): Puzzles {
@@ -824,6 +836,8 @@ export namespace NeoSolving {
 
         settings.sliders = SlideGuider.Settings.normalize(settings.sliders)
         settings.knots = KnotSolving.Settings.normalize(settings.knots)
+        settings.lockboxes = LockboxSolving.Settings.normalize(settings.lockboxes)
+        settings.towers = TowersSolving.Settings.normalize(settings.towers)
 
         return settings
       }

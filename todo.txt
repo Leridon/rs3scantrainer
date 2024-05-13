@@ -152,7 +152,6 @@ Unscheduled (Far future):
 - Integrate a solving method for compasses. (This is important because having both solvers open takes up too much screen.)
 - Better algorithm to combine equivalence classes.
 - Better algorithm to construct polygon for equivalence class (with hole support).
-- Add puzzle solvers
 - Warn when not using meerkats
 - Track Jacket/Backpack Charges via Chat, display them
 - Figure out z-Ordering of layers (need to use custom panes maybe)

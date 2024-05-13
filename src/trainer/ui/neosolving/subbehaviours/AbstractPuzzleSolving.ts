@@ -3,7 +3,8 @@ import NeoSolvingBehaviour from "../NeoSolvingBehaviour";
 import {ClueReader} from "../cluereader/ClueReader";
 import {PuzzleModal} from "../PuzzleModal";
 import {AbstractPuzzleProcess} from "./AbstractPuzzleProcess";
-
+import {SettingsEdit} from "../../settings/SettingsEdit";
+import section_id = SettingsEdit.section_id;
 
 export abstract class AbstractPuzzleSolving<
   PuzzleT extends ClueReader.Result.Puzzle.Puzzle,
@@ -15,7 +16,8 @@ export abstract class AbstractPuzzleSolving<
   protected constructor(parent: NeoSolvingBehaviour,
                         public puzzle: PuzzleT,
                         private autostart: boolean,
-                        private modal_title: string
+                        private modal_title: string,
+                        public settings_id: section_id
   ) {
     super(parent);
   }

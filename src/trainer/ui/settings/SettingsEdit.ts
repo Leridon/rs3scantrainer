@@ -1,6 +1,5 @@
 import Widget from "../../../lib/ui/Widget";
 import {Application} from "../../application";
-import {NisModal} from "../../../lib/ui/NisModal";
 import {deps} from "../../dependencies";
 import {C} from "../../../lib/ui/constructors";
 import {Observable, observe} from "../../../lib/reactive";
@@ -54,7 +53,7 @@ import TeleportGroup = Transportation.TeleportGroup;
 import span = C.span;
 import greatestCommonDivisor = util.greatestCommonDivisor;
 
-class SectionControl extends Widget {
+class SectionControl<id_type extends string = string> extends Widget {
   menu_bar: Widget
   content: Widget
 
@@ -68,7 +67,7 @@ class SectionControl extends Widget {
 
   private active_entry: Observable<string> = observe(null)
 
-  constructor(private sections: SectionControl.Section[]) {
+  constructor(private sections: SectionControl.Section<id_type>[]) {
     super(cls("ctr-section-control"));
 
     this.active_entry.subscribe(active => {
@@ -134,14 +133,14 @@ class SectionControl extends Widget {
 
 namespace SectionControl {
 
-  export type Entry = {
-    id: string,
+  export type Entry<id_type extends string = string> = {
+    id: id_type,
     name: string,
     short_name?: string,
     renderer: () => Widget
   }
 
-  export type Section = {
+  export type Section<id_type extends string = string> = {
     name: string,
     entries: Entry[]
   }
@@ -1172,7 +1171,7 @@ export class SettingsEdit extends Widget {
 
     this.value = lodash.cloneDeep(app.settings.settings)
 
-    new SectionControl([
+    new SectionControl<SettingsEdit.section_id>([
       {
         name: "Solving", entries: [{
           id: "info_panels",
@@ -1229,17 +1228,31 @@ export class SettingsEdit extends Widget {
   }
 }
 
-export class SettingsModal extends NisModal {
+export namespace SettingsEdit {
+  export type section_id = "info_panels" | "sliders" | "knots" | "lockboxes" | "towers" | "compass" | "teleports" | "crowdsourcing"
+}
+
+export class SettingsModal extends FormModal<{
+  saved: boolean,
+  value: Settings.Settings
+}> {
   edit: SettingsEdit
 
-  constructor(private start_section: string = undefined) {
+  private last_saved_value: Settings.Settings = null
+
+  constructor(private start_section: SettingsEdit.section_id = undefined) {
     super();
 
     this.title.set("Settings")
+  }
 
-    this.hidden.on(() => {
-      deps().app.settings.set(this.edit.value)
-    })
+  protected getValueForCancel(): { saved: boolean; value: Settings.Settings } {
+    return {saved: !!this.last_saved_value, value: this.last_saved_value}
+  }
+
+  private save() {
+    this.last_saved_value = lodash.cloneDeep(this.edit.value)
+    deps().app.settings.set(this.last_saved_value)
   }
 
   render() {
@@ -1252,9 +1265,15 @@ export class SettingsModal extends NisModal {
 
   getButtons(): BigNisButton[] {
     return [
-      new BigNisButton("Save and Exit", "confirm")
-        .onClick(() => this.remove())
-        .css("min-width", "150px")
+      new BigNisButton("Cancel", "cancel")
+        .onClick(() => this.cancel()),
+      new BigNisButton("Save", "confirm")
+        .onClick(() => this.save()),
+      new BigNisButton("Save and Close", "confirm")
+        .onClick(() => {
+          this.save()
+          this.cancel()
+        }),
     ]
   }
 }

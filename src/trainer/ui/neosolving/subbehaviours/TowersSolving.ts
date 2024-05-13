@@ -227,7 +227,7 @@ export class TowersSolving extends AbstractPuzzleSolving<ClueReader.Result.Puzzl
 
   constructor(parent: NeoSolvingBehaviour,
               public lockbox: ClueReader.Result.Puzzle.Towers) {
-    super(parent, lockbox, deps().app.settings.settings.solving.puzzles.towers.autostart, "Towers Puzzle");
+    super(parent, lockbox, deps().app.settings.settings.solving.puzzles.towers.autostart, "Towers Puzzle", "towers");
   }
 
   protected begin() {

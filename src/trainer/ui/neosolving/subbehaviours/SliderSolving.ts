@@ -560,7 +560,8 @@ export class SliderSolving extends AbstractPuzzleSolving<
     super(parent,
       puzzle,
       deps().app.settings.settings.solving.puzzles.sliders.autostart,
-      "Slider Puzzle"
+      "Slider Puzzle",
+      "sliders"
     )
   }
 

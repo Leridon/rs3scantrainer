@@ -101,6 +101,7 @@ export namespace Modal2 {
   export type Options = {
     no_fade?: boolean,
     size?: "small" | "medium" | "large" | "fullscreen",
-    fixed?: boolean
+    fixed?: boolean,
+    disable_close_button?: boolean
   }
 }

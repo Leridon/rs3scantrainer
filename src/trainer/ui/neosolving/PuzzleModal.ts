@@ -4,15 +4,16 @@ import {BigNisButton} from "../widgets/BigNisButton";
 import {AbstractPuzzleSolving} from "./subbehaviours/AbstractPuzzleSolving";
 import {C} from "../../../lib/ui/constructors";
 import ButtonRow from "../../../lib/ui/ButtonRow";
-import LightButton from "../widgets/LightButton";
+import {SettingsModal} from "../settings/SettingsEdit";
 import hbox = C.hbox;
+import inlineimg = C.inlineimg;
 
 export class PuzzleModal extends NisModal {
   private image_container: Widget
   private button_row: ButtonRow
 
   constructor(public readonly parent: AbstractPuzzleSolving<any, any>) {
-    super({size: "fullscreen"});
+    super({size: "medium", fixed: true});
 
     this.hidden.on(() => {
       this.parent.stop()
@@ -30,9 +31,19 @@ export class PuzzleModal extends NisModal {
         }),
 
       hbox(
-        this.button_row = new ButtonRow(),
-        new LightButton("Settings")
+        this.button_row = new ButtonRow({align: "center"}).css("flex-grow", 1),
+        inlineimg("assets/icons/settings.png").addClass("ctr-clickable")
+          .on("click", async () => {
+            const result = await new SettingsModal(this.parent.settings_id).do()
+
+            if (result.saved && this.parent.process) this.parent.resetProcess(true)
+          })
       )
+        .css2({
+          "max-width": "250px",
+          "margin-left": "auto",
+          "margin-right": "auto",
+        })
     )
 
     this.update()

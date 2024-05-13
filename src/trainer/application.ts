@@ -29,7 +29,7 @@ import {TransportData} from "../data/transports";
 import {PathGraphics} from "./ui/path_graphics";
 import {CrowdSourcing} from "./CrowdSourcing";
 import {Notification, NotificationBar} from "./ui/NotificationBar";
-import {Alt1MainHotkeyEvent} from "./Alt1MainHotkeyEvent";
+import {Alt1MainHotkeyEvent} from "../lib/alt1/Alt1MainHotkeyEvent";
 import ActiveTeleportCustomization = Transportation.TeleportGroup.ActiveTeleportCustomization;
 import TeleportSettings = Settings.TeleportSettings;
 import inlineimg = C.inlineimg;
@@ -41,6 +41,7 @@ import staticentity = C.staticentity;
 import entity = C.entity;
 import notification = Notification.notification;
 import {Alt1Modal} from "./Alt1Modal";
+import {Alt1ContextMenuDetection} from "../lib/alt1/Alt1ContextMenuDetection";
 
 export class SimpleLayerBehaviour extends Behaviour {
   constructor(private map: GameMap, private layer: GameLayer) {
@@ -219,6 +220,7 @@ export class Application extends Behaviour {
   main_behaviour = this.withSub(new SingleBehaviour())
 
   main_hotkey = new Alt1MainHotkeyEvent()
+  context_menu = new Alt1ContextMenuDetection()
 
   template_resolver = new TemplateResolver(
     {name: "surge", apply: () => [{type: "domelement", value: inlineimg('assets/icons/surge.png')}]},

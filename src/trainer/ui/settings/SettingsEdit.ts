@@ -1,6 +1,5 @@
 import Widget from "../../../lib/ui/Widget";
 import {Application} from "../../application";
-import {NisModal} from "../../../lib/ui/NisModal";
 import {deps} from "../../dependencies";
 import {C} from "../../../lib/ui/constructors";
 import {Observable, observe} from "../../../lib/reactive";
@@ -21,9 +20,9 @@ import {NeoSolving} from "../neosolving/NeoSolvingBehaviour";
 import NumberSlider from "../../../lib/ui/controls/NumberSlider";
 import {ColorPicker} from "../../../lib/ui/controls/ColorPicker";
 import {util} from "../../../lib/util/util";
-import {SlideGuider} from "../neosolving/puzzles/SlideGuider";
+import {SlideGuider} from "../neosolving/subbehaviours/SliderSolving";
 import {CrowdSourcing} from "../../CrowdSourcing";
-import {CompassSolving} from "../neosolving/compass/CompassSolving";
+import {CompassSolving} from "../neosolving/subbehaviours/CompassSolving";
 import {clue_data} from "../../../data/clues";
 import {NislIcon} from "../nisl";
 import {TransportData} from "../../../data/transports";
@@ -36,7 +35,9 @@ import {GameMapMouseEvent} from "../../../lib/gamemap/MapEvents";
 import {TeleportSpotEntity} from "../map/entities/TeleportSpotEntity";
 import InteractionTopControl from "../map/InteractionTopControl";
 import TransportLayer from "../map/TransportLayer";
-import {KnotSolving} from "../neosolving/KnotSolving";
+import {KnotSolving} from "../neosolving/subbehaviours/KnotSolving";
+import {LockboxSolving} from "../neosolving/subbehaviours/LockboxSolving";
+import {TowersSolving} from "../neosolving/subbehaviours/TowersSolving";
 import cls = C.cls;
 import PotaColor = Settings.PotaColor;
 import hbox = C.hbox;
@@ -50,8 +51,9 @@ import italic = C.italic;
 import spacer = C.spacer;
 import TeleportGroup = Transportation.TeleportGroup;
 import span = C.span;
+import greatestCommonDivisor = util.greatestCommonDivisor;
 
-class SectionControl extends Widget {
+class SectionControl<id_type extends string = string> extends Widget {
   menu_bar: Widget
   content: Widget
 
@@ -65,7 +67,7 @@ class SectionControl extends Widget {
 
   private active_entry: Observable<string> = observe(null)
 
-  constructor(private sections: SectionControl.Section[]) {
+  constructor(private sections: SectionControl.Section<id_type>[]) {
     super(cls("ctr-section-control"));
 
     this.active_entry.subscribe(active => {
@@ -131,14 +133,14 @@ class SectionControl extends Widget {
 
 namespace SectionControl {
 
-  export type Entry = {
-    id: string,
+  export type Entry<id_type extends string = string> = {
+    id: id_type,
     name: string,
     short_name?: string,
     renderer: () => Widget
   }
 
-  export type Section = {
+  export type Section<id_type extends string = string> = {
     name: string,
     entries: Entry[]
   }
@@ -436,6 +438,11 @@ class PuzzleSettingsEdit extends Widget {
 
     this.layout.header("Slider Puzzles")
 
+    this.layout.header(new Checkbox("Start solving automatically")
+        .onCommit(v => this.value.autostart = v)
+        .setValue(this.value.autostart)
+      , "left", 1)
+
     this.layout.named("Mode", hgrid(
       ...new Checkbox.Group([
         {button: new Checkbox("Mouse"), value: "mouse" as const},
@@ -445,11 +452,6 @@ class PuzzleSettingsEdit extends Widget {
         .setValue(this.value.mode)
         .checkboxes()
     ))
-
-    this.layout.header(new Checkbox("Start solving automatically")
-        .onCommit(v => this.value.autostart = v)
-        .setValue(this.value.autostart)
-      , "left", 1)
 
     this.layout.header("Lookahead", "left", 1)
     this.layout.paragraph("Determines how many moves are shown in advance.")
@@ -547,6 +549,122 @@ class KnotSettingsEdit extends Widget {
   }
 }
 
+class LockboxSettingsEdit extends Widget {
+  private layout: Properties
+
+  constructor(private value: LockboxSolving.Settings) {
+    super()
+
+    this.layout = new Properties().appendTo(this)
+
+    this.render()
+  }
+
+  render() {
+    this.layout.empty()
+
+    this.layout.header("Lockbox Puzzles")
+
+    this.layout.header(new Checkbox("Start solving and show overlay automatically")
+        .onCommit(v => this.value.autostart = v)
+        .setValue(this.value.autostart)
+      , "left", 1)
+
+    this.layout.paragraph("Disable this if you are simultaneously using Alt1's builtin clue solver and the lockbox solutions are overlapping.")
+
+    this.layout.named("Overlay Color", new ColorPicker()
+      .setValue(A1Color.toHex(this.value.overlay_color))
+      .onCommit(v => this.value.overlay_color = A1Color.fromHex(v)))
+
+    this.layout.header("Optimization Mode")
+
+    this.layout.paragraph("Control how to optimize the solution. The configured value determines how much a 2-click tile is weighted compared to a 1-click tile. A value of '2' will optimize for the lowest total amount of clicks. A value of '1' will optimize for the lowest number of unique tiles that need to be clicked. Setting this to 1.3 is a good compromise for most people.")
+
+    this.layout.row(new NumberSlider(1, 2, 0.1)
+      .setValue(this.value.two_click_factor)
+      .onCommit(v => {
+        this.value.two_click_factor = v
+        update_settings_description()
+      })
+    )
+
+
+    const setting_description = c()
+
+    const update_settings_description = () => {
+      if (this.value.two_click_factor == 2) {
+        setting_description.text(`A value of ${this.value.two_click_factor.toFixed(1)} will optimize for the lowest number of total clicks.`)
+
+      } else if (this.value.two_click_factor == 1) {
+        setting_description.text(`A value of ${this.value.two_click_factor.toFixed(1)} will optimize for the lowest number of unique clicked tiles.`)
+      } else {
+        let two_clicks = 10
+        let one_clicks = Math.ceil(two_clicks * this.value.two_click_factor)
+
+        const gcd = greatestCommonDivisor(two_clicks, one_clicks)
+
+        two_clicks /= gcd
+        one_clicks /= gcd
+
+        setting_description.text(`A value of ${this.value.two_click_factor.toFixed(1)} will treat ${two_clicks} two-click tiles the same as ${one_clicks} one-click tiles.`)
+      }
+    }
+
+    update_settings_description()
+
+    this.layout.paragraph(setting_description)
+  }
+}
+
+class TowersSettingsEdit extends Widget {
+  private layout: Properties
+
+  constructor(private value: TowersSolving.Settings) {
+    super()
+
+    this.layout = new Properties().appendTo(this)
+
+    this.render()
+  }
+
+  render() {
+    this.layout.empty()
+
+    this.layout.header("Towers Puzzles")
+
+    this.layout.header(new Checkbox("Start solving and show overlay automatically")
+        .onCommit(v => this.value.autostart = v)
+        .setValue(this.value.autostart)
+      , "left", 1)
+
+    this.layout.paragraph("Disable this if you are simultaneously using Alt1's builtin clue solver and the towers solutions are overlapping.")
+
+    this.layout.header("Overlay Mode", "left", 1)
+
+    this.layout.row(hgrid(
+      ...new Checkbox.Group([
+        {button: new Checkbox("Target"), value: "target" as const},
+        {button: new Checkbox("Delta"), value: "delta" as const},
+        {button: new Checkbox("Both"), value: "both" as const},
+      ]).onChange(v => this.value.solution_mode = v)
+        .setValue(this.value.solution_mode)
+        .checkboxes()
+    ))
+
+    this.layout.paragraph("'Target' will show the correct number on the overlay. 'Delta' will show the number of clicks required from the current value. 'Both' will display both.")
+
+    this.layout.header(new Checkbox("Show green border for correct tiles")
+        .onCommit(v => this.value.show_correct = v)
+        .setValue(this.value.show_correct)
+      , "left", 1)
+
+    this.layout.header(new Checkbox("Show red border for overshot tiles")
+        .onCommit(v => this.value.show_overshot = v)
+        .setValue(this.value.show_overshot)
+      , "left", 1)
+  }
+}
+
 class SolvingSettingsEdit extends Widget {
 
   private layout: Properties
@@ -562,9 +680,7 @@ class SolvingSettingsEdit extends Widget {
   render() {
     this.layout.empty()
 
-    this.layout.header("Clue Information in UI")
-
-    this.layout.paragraph("Choose what data about a clue step and its solution is displayed on the UI while solving.")
+    this.layout.paragraph("Choose what data about a clue step and its solution is displayed on the interface while solving.")
 
     this.layout.named("Clue Text", hgrid(
       ...new Checkbox.Group([
@@ -761,8 +877,6 @@ class CompassSettingsEdit extends Widget {
 
   render() {
     this.layout.empty()
-
-    this.layout.paragraph("Configure the behaviour of the compass solver.")
 
     this.layout.header(new Checkbox("Automatically commit angle on teleport")
       .onCommit(v => this.value.auto_commit_on_angle_change = v)
@@ -1053,12 +1167,12 @@ export class SettingsEdit extends Widget {
 
     this.value = lodash.cloneDeep(app.settings.settings)
 
-    new SectionControl([
+    new SectionControl<SettingsEdit.section_id>([
       {
         name: "Solving", entries: [{
           id: "info_panels",
-          name: "Clue Info Customization",
-          short_name: "Clue Info",
+          name: "Interface Customization",
+          short_name: "Interface",
           renderer: () => new SolvingSettingsEdit(this.value.solving.info_panel)
         }, {
           id: "sliders",
@@ -1070,6 +1184,16 @@ export class SettingsEdit extends Widget {
           name: "Celtic Knot Solving",
           short_name: "Knots",
           renderer: () => new KnotSettingsEdit(this.value.solving.puzzles.knots)
+        }, {
+          id: "lockboxes",
+          name: "Lockbox Solving",
+          short_name: "Lockboxes",
+          renderer: () => new LockboxSettingsEdit(this.value.solving.puzzles.lockboxes)
+        }, {
+          id: "towers",
+          name: "Towers Solving",
+          short_name: "Towers",
+          renderer: () => new TowersSettingsEdit(this.value.solving.puzzles.towers)
         }, {
           id: "compass",
           name: "Compass Solving",
@@ -1100,17 +1224,31 @@ export class SettingsEdit extends Widget {
   }
 }
 
-export class SettingsModal extends NisModal {
+export namespace SettingsEdit {
+  export type section_id = "info_panels" | "sliders" | "knots" | "lockboxes" | "towers" | "compass" | "teleports" | "crowdsourcing"
+}
+
+export class SettingsModal extends FormModal<{
+  saved: boolean,
+  value: Settings.Settings
+}> {
   edit: SettingsEdit
 
-  constructor(private start_section: string = undefined) {
+  private last_saved_value: Settings.Settings = null
+
+  constructor(private start_section: SettingsEdit.section_id = undefined) {
     super();
 
     this.title.set("Settings")
+  }
 
-    this.hidden.on(() => {
-      deps().app.settings.set(this.edit.value)
-    })
+  protected getValueForCancel(): { saved: boolean; value: Settings.Settings } {
+    return {saved: !!this.last_saved_value, value: this.last_saved_value}
+  }
+
+  private save() {
+    this.last_saved_value = lodash.cloneDeep(this.edit.value)
+    deps().app.settings.set(this.last_saved_value)
   }
 
   render() {
@@ -1123,9 +1261,15 @@ export class SettingsModal extends NisModal {
 
   getButtons(): BigNisButton[] {
     return [
-      new BigNisButton("Save and Exit", "confirm")
-        .onClick(() => this.remove())
-        .css("min-width", "150px")
+      new BigNisButton("Cancel", "cancel")
+        .onClick(() => this.cancel()),
+      new BigNisButton("Save", "confirm")
+        .onClick(() => this.save()),
+      new BigNisButton("Save and Close", "confirm")
+        .onClick(() => {
+          this.save()
+          this.cancel()
+        }),
     ]
   }
 }

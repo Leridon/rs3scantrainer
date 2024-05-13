@@ -16,9 +16,9 @@ export abstract class FormModal<T> extends NisModal {
     if (this.resolver && !this.resolver.resolved) {
       this.resolver.resolved = true
       this.resolver.handler(value)
-
-      this.remove()
     }
+
+    this.remove()
   }
 
   protected getValueForCancel(): T {

@@ -4,6 +4,7 @@ import {v4 as uuidv4} from 'uuid';
 import * as lodash from "lodash";
 import {levenshteinEditDistance} from "levenshtein-edit-distance";
 import {mixColor, unmixColor} from "@alt1/base";
+import {Vector2} from "../math";
 
 export namespace util {
 
@@ -297,5 +298,15 @@ export namespace util {
     return (channelSimilarity(a[0], b[0])
       + channelSimilarity(a[1], b[1])
       + channelSimilarity(a[2], b[2])) / 3
+  }
+
+
+  export function greatestCommonDivisor(a: number, b: number): number {
+    if (b == 0) return Math.abs(a)
+    else return greatestCommonDivisor(b, a % b)
+  }
+
+  export function sampleImage(img: ImageData, pos: Vector2): [number, number, number] {
+    return img.getPixel(pos.x, pos.y) as any
   }
 }

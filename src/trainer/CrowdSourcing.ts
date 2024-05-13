@@ -1,4 +1,4 @@
-import {Sliders} from "./ui/neosolving/puzzles/Sliders";
+import {Sliders} from "../lib/cluetheory/Sliders";
 import {Application} from "./application";
 import * as lodash from "lodash";
 import {storage} from "../lib/util/storage";

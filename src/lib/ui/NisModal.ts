@@ -41,11 +41,15 @@ export abstract class NisModal extends Modal2 {
 
     this.title_widget = c("<h1 class='nisl-modal-title'></h1>").text(this.title.value()).appendTo(this.header)
 
-    if (!this.options.fixed) {
+    if (!this.options.disable_close_button) {
       cls('nisl-modal-exit')
-        .on("click", () => this.remove())
+        .on("click", () => this.onClose())
         .appendTo(this.header)
     }
+  }
+
+  protected onClose() {
+    this.remove()
   }
 
   setTitle(title: string): this {
@@ -59,5 +63,7 @@ export abstract class NisModal extends Modal2 {
 }
 
 export namespace NisModal {
+  let active_modals = 0
+
   export type Options = Modal2.Options & { force_footer?: boolean }
 }

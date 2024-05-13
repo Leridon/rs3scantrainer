@@ -6,7 +6,8 @@ import {ImageData, ImageDetect, mixColor} from "@alt1/base";
 import {ImageFingerprint} from "../../../../lib/util/ImageFingerprint";
 import * as lodash from "lodash";
 import {identity} from "lodash";
-import {CapturedImage, CapturedModal} from "../../../../lib/alt1/ImageCapture";
+import {CapturedImage} from "../../../../lib/alt1/ImageCapture";
+import {CapturedModal} from "./capture/CapturedModal";
 
 
 export namespace KnotReader {
@@ -390,8 +391,6 @@ export namespace KnotReader {
 
       const background_neighbours = count(background, identity)
 
-      const rune_fingerprint = ImageFingerprint.get(this.img_data, Vector2.add(tile_origin, {x: 7, y: 7}), RUNE_REFERENCE_SIZE, RUNE_KERNEL_SIZE, ImageFingerprint.TypeRGB)
-
       if (background_neighbours > 2) return {pos: pos, rune: null}
 
       const is_intersection = background_neighbours == 0
@@ -405,6 +404,8 @@ export namespace KnotReader {
           intersection_type_sample_positions.map(pos => this.sample(Vector2.add(tile_origin, pos)))
         )
       }
+
+      const rune_fingerprint = ImageFingerprint.get(this.img_data, Vector2.add(tile_origin, {x: 7, y: 7}), RUNE_REFERENCE_SIZE, RUNE_KERNEL_SIZE, ImageFingerprint.TypeRGB)
 
       const rune = await this.identifyRune(rune_fingerprint)
 

@@ -1,4 +1,4 @@
-import {Sliders} from "../trainer/ui/neosolving/puzzles/Sliders";
+import {Sliders} from "../lib/cluetheory/Sliders";
 import {SlideReader} from "../trainer/ui/neosolving/cluereader/SliderReader";
 import {ImageDetect, ImgRefData} from "@alt1/base";
 import {time} from "../lib/gamemap/GameLayer";
@@ -57,10 +57,9 @@ export async function test_slide_reader(): Promise<boolean> {
   let correct = 0
 
   for (let test_case of data) {
-    const img = new ImgRefData(await ImageDetect.imageDataFromUrl(test_case.file))
+    const img = await ImageDetect.imageDataFromUrl(test_case.file)
 
-    const res = await SlideReader.read(img,
-      {x: 0, y: 0},
+    const res = await SlideReader.identify(img,
       //test_case.expected.theme
     )
 

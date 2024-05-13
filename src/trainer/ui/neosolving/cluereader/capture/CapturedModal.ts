@@ -56,8 +56,6 @@ export class CapturedModal {
 
       if (!x) continue
 
-      console.log("X found")
-
       const top_left = img.find(skin.top_left)[0]
       if (!top_left) {
         console.log("Couldnt find top left")

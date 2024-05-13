@@ -1,12 +1,5 @@
-import {NeoSolvingSubBehaviour} from "../NeoSolvingSubBehaviour";
 import NeoSolvingBehaviour from "../NeoSolvingBehaviour";
-import {Process} from "../../../../lib/Process";
 import {ClueReader} from "../cluereader/ClueReader";
-import {PuzzleModal} from "../PuzzleModal";
-import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
-import Widget from "../../../../lib/ui/Widget";
-import {BigNisButton} from "../../widgets/BigNisButton";
-import {ewent} from "../../../../lib/reactive";
 import {CapturedImage} from "../../../../lib/alt1/ImageCapture";
 import {CapturedModal} from "../cluereader/capture/CapturedModal";
 import {TowersReader} from "../cluereader/TowersReader";
@@ -14,25 +7,24 @@ import {Towers} from "../../../../lib/cluetheory/Towers";
 import {mixColor} from "@alt1/base";
 import {Vector2} from "../../../../lib/math";
 import {ScreenRectangle} from "../../../../lib/alt1/ScreenRectangle";
-import {util} from "../../../../lib/util/util";
-import A1Color = util.A1Color;
+import {AbstractPuzzleSolving} from "./AbstractPuzzleSolving";
+import {AbstractPuzzleProcess} from "./AbstractPuzzleProcess";
+import {deps} from "../../../dependencies";
 
+class TowersSolvingProcess extends AbstractPuzzleProcess {
+  settings = deps().app.settings.settings.solving.puzzles.towers
 
-class TowersSolvingProcess extends Process {
-  puzzle_closed = ewent<this>()
-
-  solution_overlay = new OverlayGeometry()
   last_successful_read: number
 
   puzzle: Towers.PuzzleState
   isSolved: boolean = false
 
+  private was_solved_data: boolean[][] = Towers.Blocks.empty().rows.map(r => r.map(() => false))
+
   constructor(private parent: TowersSolving) {
     super();
 
     this.last_successful_read = Date.now()
-
-    this.asInterval(1000 / 20)
   }
 
   private debugOverlay(reader: TowersReader.TowersReader) {
@@ -91,8 +83,10 @@ class TowersSolvingProcess extends Process {
         const should = solution.blocks.rows[y][x]
         const is = currentState.blocks.rows[y][x] ?? 0
 
-        const TR = Vector2.add(reader.tileOrigin({x, y}, true), TR_OVERLAY_OFFSET)
-        const TL = Vector2.add(reader.tileOrigin({x, y}, true), TL_OVERLAY_OFFSET)
+        const origin = reader.tileOrigin({x, y}, true)
+
+        const TR = Vector2.add(origin, TR_OVERLAY_OFFSET)
+        const TL = Vector2.add(origin, TL_OVERLAY_OFFSET)
 
         const difference = (6 + should - is) % 6
 
@@ -101,22 +95,31 @@ class TowersSolvingProcess extends Process {
         isSolved &&= correct
 
         if (correct) {
+          this.was_solved_data[y][x] = true
 
-          if (this.parent.settings.show_checkmark) {
+          if (this.settings.show_correct) {
             if (!blocked(TR)) {
+
+              /*
               this.solution_overlay.text(
                 "✓",
                 TR, {
                   color: A1Color.fromHex("#41740e"),
                   width: 8
                 }
+              )*/
+
+              this.solution_overlay.rect2(
+                {origin: Vector2.add(origin, {x: -1, y: -1}), size: Vector2.add(TowersReader.TILE_SIZE, {x: 3, y: 3})}, {
+                  color: mixColor(0, 255, 0),
+                  width: 2
+                }
               )
             }
           }
         } else {
-
-          if (!blocked(TR)) {
-            if (this.parent.settings.solution_mode == "target" || this.parent.settings.solution_mode == "both") {
+          if (this.settings.solution_mode == "target" || this.settings.solution_mode == "both") {
+            if (!blocked(TR)) {
               this.solution_overlay.text(
                 should.toString(),
                 TR, {
@@ -127,8 +130,8 @@ class TowersSolvingProcess extends Process {
             }
           }
 
-          if (this.parent.settings.solution_mode == "delta" || this.parent.settings.solution_mode == "both") {
-            const tr_taken = this.parent.settings.solution_mode == "both"
+          if (this.settings.solution_mode == "delta" || this.settings.solution_mode == "both") {
+            const tr_taken = this.settings.solution_mode == "both"
 
             const pos = tr_taken ? TL : TR
 
@@ -141,6 +144,15 @@ class TowersSolvingProcess extends Process {
                 }
               )
             }
+          }
+
+          if (this.was_solved_data[y][x] && this.settings.show_overshot) {
+            this.solution_overlay.rect2(
+              {origin: Vector2.add(origin, {x: -1, y: -1}), size: Vector2.add(TowersReader.TILE_SIZE, {x: 3, y: 3})}, {
+                color: mixColor(255, 0, 0),
+                width: 2
+              }
+            )
           }
         }
       }
@@ -204,100 +216,28 @@ class TowersSolvingProcess extends Process {
     }
   }
 
-  private puzzleClosed() {
-    this.stop()
-    this.puzzle_closed.trigger(this)
-  }
-
   async implementation(): Promise<void> {
     this.puzzle = await this.parent.lockbox.reader.getPuzzle() // This should already be cached
 
-    while (!this.should_stop) {
-      await this.tick()
-
-      await (this.checkTime())
-    }
-
-    this.solution_overlay?.clear()?.render()
+    await super.implementation()
   }
 }
 
-class TowersModal extends PuzzleModal {
-  constructor(public parent: TowersSolving) {
-    super(parent);
-
-    this.title.set("Lockbox")
-  }
-
-  update() {
-    this.body.empty().append(
-      c()
-        .css2({
-          "max-width": "100%",
-          "text-align": "center"
-        })
-        .append(
-          Widget.wrap(
-            this.parent.lockbox.reader.puzzle_area.getData().toImage()
-          ).css("max-width", "100%")
-        ),
-      this.parent.process
-        ? new BigNisButton("Reset", "neutral")
-          .onClick(() => {
-            this.parent.resetProcess(true)
-          })
-        : new BigNisButton("Show Solution", "confirm")
-          .onClick(() => {
-            this.parent.resetProcess(true)
-          })
-    )
-  }
-
-  render() {
-    super.render()
-
-    this.update()
-  }
-}
-
-export class TowersSolving extends NeoSolvingSubBehaviour {
-  public process: TowersSolvingProcess
-  public modal: TowersModal
+export class TowersSolving extends AbstractPuzzleSolving<ClueReader.Result.Puzzle.Towers, TowersSolvingProcess> {
 
   constructor(parent: NeoSolvingBehaviour,
-              public settings: TowersSolving.Settings,
               public lockbox: ClueReader.Result.Puzzle.Towers) {
-    super(parent);
-  }
-
-  async resetProcess(start: boolean) {
-    if (this.process) {
-      this.process.stop()
-      this.process = null
-    }
-
-    if (start) {
-      this.process = new TowersSolvingProcess(this)
-      this.process.puzzle_closed.on(() => this.stop())
-      this.process.run()
-    }
-
-    this.modal.update()
+    super(parent, lockbox, deps().app.settings.settings.solving.puzzles.towers.autostart, "Towers Puzzle");
   }
 
   protected begin() {
-    this.modal = new TowersModal(this)
+    super.begin();
 
-    this.modal.hidden.on(() => this.stop())
-
-    this.modal.show()
-
-    if (this.settings.autostart) this.resetProcess(true)
+    this.modal.setImage(this.lockbox.reader.puzzle_area.getData())
   }
 
-  protected end() {
-    this.resetProcess(false)
-    this.modal.remove()
+  protected constructProcess(): TowersSolvingProcess {
+    return new TowersSolvingProcess(this)
   }
 
   pausesClueReader(): boolean {
@@ -309,14 +249,16 @@ export namespace TowersSolving {
   export type Settings = {
     autostart: boolean,
     solution_mode: "target" | "delta" | "both",
-    show_checkmark: boolean,
+    show_correct: boolean,
+    show_overshot: boolean,
   }
 
   export namespace Settings {
     export const DEFAULT: Settings = {
       autostart: true,
       solution_mode: "delta",
-      show_checkmark: true,
+      show_correct: true,
+      show_overshot: true,
     }
 
     export function normalize(settings: Settings): Settings {
@@ -324,7 +266,8 @@ export namespace TowersSolving {
 
       if (![true, false].includes(settings.autostart)) settings.autostart = DEFAULT.autostart
       if (!["target", "delta", "both"].includes(settings.solution_mode)) settings.solution_mode = DEFAULT.solution_mode
-      if (![true, false].includes(settings.show_checkmark)) settings.show_checkmark = DEFAULT.show_checkmark
+      if (![true, false].includes(settings.show_correct)) settings.show_correct = DEFAULT.show_correct
+      if (![true, false].includes(settings.show_overshot)) settings.show_overshot = DEFAULT.show_overshot
 
       return settings
     }

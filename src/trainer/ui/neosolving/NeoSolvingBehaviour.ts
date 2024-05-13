@@ -39,6 +39,7 @@ import {ScanTreeSolvingControl} from "./subbehaviours/ScanTreeSolving";
 import {KnotSolving} from "./subbehaviours/KnotSolving";
 import {Alt1Modal} from "../../Alt1Modal";
 import {LockboxSolving} from "./subbehaviours/LockboxSolving";
+import {TowersSolving} from "./subbehaviours/TowersSolving";
 import span = C.span;
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import interactionMarker = RenderingUtility.interactionMarker;
@@ -54,7 +55,6 @@ import hboxl = C.hboxl;
 import notification = Notification.notification;
 import MatchedUI = ClueReader.MatchedUI;
 import activate = TileArea.activate;
-import {TowersSolving} from "./subbehaviours/TowersSolving";
 
 class NeoSolvingLayer extends GameLayer {
   public control_bar: NeoSolvingLayer.MainControlBar
@@ -405,13 +405,13 @@ export default class NeoSolvingBehaviour extends Behaviour {
           this.active_behaviour.set(new SliderSolving(this, puzzle))
           break;
         case "knot":
-          this.active_behaviour.set(new KnotSolving(this, this.app.settings.settings.solving.puzzles.knots, puzzle))
+          this.active_behaviour.set(new KnotSolving(this, puzzle))
           break;
         case "lockbox":
-          this.active_behaviour.set(new LockboxSolving(this, this.app.settings.settings.solving.puzzles.lockboxes, puzzle))
+          this.active_behaviour.set(new LockboxSolving(this, puzzle))
           break;
         case "tower":
-          this.active_behaviour.set(new TowersSolving(this, this.app.settings.settings.solving.puzzles.towers, puzzle))
+          this.active_behaviour.set(new TowersSolving(this, puzzle))
           break;
       }
     }

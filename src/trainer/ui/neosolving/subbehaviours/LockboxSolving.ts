@@ -1,12 +1,5 @@
-import {NeoSolvingSubBehaviour} from "../NeoSolvingSubBehaviour";
 import NeoSolvingBehaviour from "../NeoSolvingBehaviour";
-import {Process} from "../../../../lib/Process";
 import {ClueReader} from "../cluereader/ClueReader";
-import {PuzzleModal} from "../PuzzleModal";
-import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
-import Widget from "../../../../lib/ui/Widget";
-import {BigNisButton} from "../../widgets/BigNisButton";
-import {ewent} from "../../../../lib/reactive";
 import {Lockboxes} from "../../../../lib/cluetheory/Lockboxes";
 import {CapturedImage} from "../../../../lib/alt1/ImageCapture";
 import {LockBoxReader} from "../cluereader/LockBoxReader";
@@ -14,11 +7,16 @@ import {Vector2} from "../../../../lib/math";
 import {mixColor} from "@alt1/base";
 import * as lodash from "lodash";
 import {CapturedModal} from "../cluereader/capture/CapturedModal";
+import {AbstractPuzzleProcess} from "./AbstractPuzzleProcess";
+import {AbstractPuzzleSolving} from "./AbstractPuzzleSolving";
+import {deps} from "../../../dependencies";
 
-class LockboxSolvingProcess extends Process {
-  puzzle_closed = ewent<this>()
+class LockboxSolvingProcess extends AbstractPuzzleProcess {
 
-  solution_overlay = new OverlayGeometry()
+  settings = deps().app.settings.settings.solving.puzzles.lockboxes
+
+  public cost_function: (_: Lockboxes.MoveMap) => number = Lockboxes.MoveMap.score([0, 1, this.settings.two_click_factor])
+
   last_successful_read: number
 
   puzzle: Lockboxes.State
@@ -28,11 +26,11 @@ class LockboxSolvingProcess extends Process {
     super();
 
     this.last_successful_read = Date.now()
-
-    this.asInterval(1000 / 50)
   }
 
   private overlay(solution: Lockboxes.MoveMap, reader: LockBoxReader.LockBoxReader) {
+    this.solution_overlay.clear()
+
     for (let y = 0; y < solution.length; y++) {
       const row = solution[y]
 
@@ -45,108 +43,51 @@ class LockboxSolvingProcess extends Process {
           Vector2.add(Vector2.scale(0.5, LockBoxReader.TILE_SIZE), reader.tileOrigin({x, y}, true), {x: 3, y: 0}),
           {
             width: 24,
-            color: this.parent.settings.overlay_color
+            color: this.settings.overlay_color
           }
         )
       }
     }
+
+    this.solution_overlay.render()
   }
 
   async tick() {
-    try {
-      const capt = CapturedImage.capture(this.parent.lockbox.reader.modal.body.screenRectangle())
+    const capt = CapturedImage.capture(this.parent.lockbox.reader.modal.body.screenRectangle())
 
-      if (!capt) return
+    if (!capt) return
 
-      const capture = CapturedModal.assumeBody(capt)
-      const reader = new LockBoxReader.LockBoxReader(capture)
+    const capture = CapturedModal.assumeBody(capt)
+    const reader = new LockBoxReader.LockBoxReader(capture)
 
-      const puzzle = await reader.getPuzzle()
+    const puzzle = await reader.getPuzzle()
 
-      if (await reader.getState() == "likelyclosed") this.puzzleClosed()
+    if (await reader.getState() == "likelyclosed") this.puzzleClosed()
 
-      if (puzzle) {
-        let solution = Lockboxes.solve(puzzle, true, true, this.parent.cost_function)
+    if (puzzle) {
+      let solution = Lockboxes.solve(puzzle, true, true, this.cost_function)
 
-        this.solution_overlay.clear()
-
-        this.overlay(solution, reader)
-
-        this.solution_overlay.render()
-      }
-    } catch (e) {
-      console.error(e.toString())
+      this.overlay(solution, reader)
     }
-  }
-
-  private puzzleClosed() {
-    this.stop()
-    this.puzzle_closed.trigger(this)
   }
 
   async implementation(): Promise<void> {
     this.puzzle = await this.parent.lockbox.reader.getPuzzle() // This should already be cached
 
-    while (!this.should_stop) {
-      await this.tick()
-
-      await (this.checkTime())
-    }
-
-    this.solution_overlay?.clear()?.render()
+    await super.implementation()
   }
 }
 
-class LockboxModal extends PuzzleModal {
-  constructor(public parent: LockboxSolving) {
-    super(parent);
+export class LockboxSolving extends AbstractPuzzleSolving<ClueReader.Result.Puzzle.Lockbox, LockboxSolvingProcess> {
 
-    this.title.set("Lockbox")
-  }
-
-  update() {
-    this.body.empty().append(
-      c()
-        .css2({
-          "max-width": "100%",
-          "text-align": "center"
-        })
-        .append(
-          Widget.wrap(
-            this.parent.lockbox.reader.tile_area.getData().toImage()
-          ).css("max-width", "100%")
-        ),
-      this.parent.process
-        ? new BigNisButton("Reset", "neutral")
-          .onClick(() => {
-            this.parent.resetProcess(true)
-          })
-        : new BigNisButton("Show Solution", "confirm")
-          .onClick(() => {
-            this.parent.resetProcess(true)
-          })
-    )
-  }
-
-  render() {
-    super.render()
-
-    this.update()
-  }
-}
-
-export class LockboxSolving extends NeoSolvingSubBehaviour {
-  public process: LockboxSolvingProcess
-  public modal: LockboxModal
-
-  public cost_function: (_: Lockboxes.MoveMap) => number = null
 
   constructor(parent: NeoSolvingBehaviour,
-              public settings: LockboxSolving.Settings,
               public lockbox: ClueReader.Result.Puzzle.Lockbox) {
-    super(parent);
+    super(parent, lockbox, deps().app.settings.settings.solving.puzzles.lockboxes.autostart, "Lockbox Puzzle");
+  }
 
-    this.cost_function = Lockboxes.MoveMap.score([0, 1, this.settings.two_click_factor])
+  protected constructProcess(): LockboxSolvingProcess {
+    return new LockboxSolvingProcess(this)
   }
 
   async resetProcess(start: boolean) {
@@ -165,22 +106,13 @@ export class LockboxSolving extends NeoSolvingSubBehaviour {
   }
 
   protected begin() {
-    this.modal = new LockboxModal(this)
+    super.begin();
 
-    this.modal.hidden.on(() => this.stop())
-
-    this.modal.show()
-
-    if (this.settings.autostart) this.resetProcess(true)
-  }
-
-  protected end() {
-    this.resetProcess(false)
-    this.modal.remove()
+    this.modal.setImage(this.lockbox.reader.tile_area.getData())
   }
 
   pausesClueReader(): boolean {
-    return !this.process?.isSolved
+    return this.process && !this.process?.isSolved
   }
 }
 

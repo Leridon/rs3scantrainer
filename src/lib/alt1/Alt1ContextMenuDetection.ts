@@ -22,8 +22,6 @@ export class Alt1ContextMenuDetection {
         size: {x: e.rectangle.width, y: e.rectangle.height},
       }
 
-      console.log(this.last_rect)
-
       this.ewent.trigger(this.last_rect)
     })
   }

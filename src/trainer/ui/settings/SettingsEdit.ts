@@ -654,9 +654,14 @@ class TowersSettingsEdit extends Widget {
 
     this.layout.paragraph("'Target' will show the correct number on the overlay. 'Delta' will show the number of clicks required from the current value. 'Both' will display both.")
 
-    this.layout.header(new Checkbox("Show checkmark for correct tiles")
-        .onCommit(v => this.value.show_checkmark = v)
-        .setValue(this.value.show_checkmark)
+    this.layout.header(new Checkbox("Show green border for correct tiles")
+        .onCommit(v => this.value.show_correct = v)
+        .setValue(this.value.show_correct)
+      , "left", 1)
+
+    this.layout.header(new Checkbox("Show red border for overshot tiles")
+        .onCommit(v => this.value.show_overshot = v)
+        .setValue(this.value.show_overshot)
       , "left", 1)
   }
 }

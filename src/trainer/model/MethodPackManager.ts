@@ -92,7 +92,9 @@ export class MethodPackManager {
       this.local_packs = (await this.local_pack_store.get()) ?? []
 
       this.default_packs = [
-        await (await fetch("data/method_packs/scans_zyklop.json")).json()
+        await (await fetch("data/method_packs/scans_zyklop.json")).json(),
+        await (await fetch("data/method_packs/easy_ngis.json")).json(),
+        await (await fetch("data/method_packs/medium_ngis.json")).json(),
       ]
     })()
 

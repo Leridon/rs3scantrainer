@@ -72,9 +72,12 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
   }> {
     const capt = this.parent.puzzle.reader.ui.recapture(true)
 
-    this.parent.modal.setImage(capt.body.getData())
 
     const read = await new SlideReader.SlideReader(capt).getPuzzle(this.puzzle.theme)
+
+    if(read) {
+      this.parent.modal.setImage(capt.body.getData())
+    }
 
     const checkmark_found = capt.isInvertedArrowKeyCheckboxEnabled()
 

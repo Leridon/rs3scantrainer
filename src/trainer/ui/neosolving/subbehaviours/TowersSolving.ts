@@ -146,7 +146,10 @@ class TowersSolvingProcess extends Process {
       }
     }
 
+    this.isSolved = isSolved
+
     if (isSolved) {
+
       this.solution_overlay.text(
         "Solved",
         Vector2.add(reader.tileOrigin({x: 2, y: 2}, true), {x: 21, y: 21}), {
@@ -298,7 +301,7 @@ export class TowersSolving extends NeoSolvingSubBehaviour {
   }
 
   pausesClueReader(): boolean {
-    return !this.process?.isSolved
+    return this.process && !this.process.isSolved
   }
 }
 

@@ -438,6 +438,11 @@ class PuzzleSettingsEdit extends Widget {
 
     this.layout.header("Slider Puzzles")
 
+    this.layout.header(new Checkbox("Start solving automatically")
+        .onCommit(v => this.value.autostart = v)
+        .setValue(this.value.autostart)
+      , "left", 1)
+
     this.layout.named("Mode", hgrid(
       ...new Checkbox.Group([
         {button: new Checkbox("Mouse"), value: "mouse" as const},
@@ -447,11 +452,6 @@ class PuzzleSettingsEdit extends Widget {
         .setValue(this.value.mode)
         .checkboxes()
     ))
-
-    this.layout.header(new Checkbox("Start solving automatically")
-        .onCommit(v => this.value.autostart = v)
-        .setValue(this.value.autostart)
-      , "left", 1)
 
     this.layout.header("Lookahead", "left", 1)
     this.layout.paragraph("Determines how many moves are shown in advance.")
@@ -680,9 +680,7 @@ class SolvingSettingsEdit extends Widget {
   render() {
     this.layout.empty()
 
-    this.layout.header("Clue Information in UI")
-
-    this.layout.paragraph("Choose what data about a clue step and its solution is displayed on the UI while solving.")
+    this.layout.paragraph("Choose what data about a clue step and its solution is displayed on the interface while solving.")
 
     this.layout.named("Clue Text", hgrid(
       ...new Checkbox.Group([
@@ -879,8 +877,6 @@ class CompassSettingsEdit extends Widget {
 
   render() {
     this.layout.empty()
-
-    this.layout.paragraph("Configure the behaviour of the compass solver.")
 
     this.layout.header(new Checkbox("Automatically commit angle on teleport")
       .onCommit(v => this.value.auto_commit_on_angle_change = v)
@@ -1175,8 +1171,8 @@ export class SettingsEdit extends Widget {
       {
         name: "Solving", entries: [{
           id: "info_panels",
-          name: "Clue Info Customization",
-          short_name: "Clue Info",
+          name: "Interface Customization",
+          short_name: "Interface",
           renderer: () => new SolvingSettingsEdit(this.value.solving.info_panel)
         }, {
           id: "sliders",

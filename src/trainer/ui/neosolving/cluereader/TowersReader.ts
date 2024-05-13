@@ -143,13 +143,6 @@ export namespace TowersReader {
     }
 
     async findContextMenu(): Promise<ScreenRectangle> {
-
-      const res =  deps().app.context_menu.check(this.modal.body)
-
-      console.log(res)
-
-      return res
-
       const context_menu = this.modal.body.root().find(await context_menu_anchor.get())
 
       if (context_menu.length > 0) {

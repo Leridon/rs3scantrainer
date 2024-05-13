@@ -32,7 +32,7 @@ class TowersSolvingProcess extends Process {
 
     this.last_successful_read = Date.now()
 
-    this.asInterval(1000 / 50)
+    this.asInterval(1000 / 20)
   }
 
   private debugOverlay(reader: TowersReader.TowersReader) {

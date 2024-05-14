@@ -42,9 +42,9 @@
     <br />
     <a href="https://leridon.github.io/rs3scantrainer/">Web Version and Installation</a>
     ·
-    <a href="#support">Report Bug</a>
+    <a href="#support-and-feedback">Report Bug</a>
     ·
-    <a href="#support">Request Feature</a>
+    <a href="#support-and-feedback">Request Feature</a>
   </p>
 </div>
 
@@ -60,7 +60,7 @@
     <li><a href="#getting-started">Getting Started</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#support">Support</a></li>
+    <li><a href="#support-and-feedback">Support</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
@@ -135,7 +135,7 @@ Clue Trainer is in active development and will continue to receive additional fe
 - [ ] Improvements to the workflow of solving scan clues, including reading the current pulse color directly from the screen.
 - [ ] Recommendations for using charges of globetrotter backpack and jacket charges.
 
-Learn how to suggest features [here](#support).
+Learn how to suggest features [here](#support-and-feedback).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -145,14 +145,15 @@ Learn how to suggest features [here](#support).
 ## Contributing
 
 Contributions to Clue Trainer in the form of either code or content are highly welcome. Check out [Getting Started](#getting-started) to see how to set up the project locally, so you can start coding.
-If you are serious about contributing a feature to Clue Trainer, please get into touch as described [here](#support) to discuss the details before spending a large amount of effort.
+If you are serious about contributing a feature to Clue Trainer, please get into touch as described [here](#support-and-feedback) to discuss the details before spending a large amount of effort.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-## Support
+## Support and Feedback
 
-You can get support, report issues or request features by either creating an [issue][issues-url], or by joining the [Clue Chasers Discord](https://discord.gg/cluechasers) and entering the [#clue-trainer](https://discord.com/channels/332595657363685377/1103737270114209825) channel.
+You can get support, report issues, request features, or leave praise or criticism by  by joining the [Clue Chasers Discord](https://discord.gg/cluechasers) and entering the [#clue-trainer](https://discord.com/channels/332595657363685377/1103737270114209825) channel.
+For support, issues and feature requests you can also create an [issue][issues-url].
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -175,7 +176,10 @@ Project Link: [https://github.com/leridon/rs3scantrainer](https://github.com/ler
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-* [Skillbert](https://runeapps.org/) for developing the Alt1 Toolkit and kindly allowing me to use some of his clue solving code to get started with this project.
+I owe thanks to the following persons for making Clue Trainer possible.
+
+* [Skillbert](https://runeapps.org/) for creating Alt1 in the first place and especially for allowing me to use code and data from the official clue solver, as well as for providing high quality map data for the world map.
+* Contributors from the Clue Chasers discord for providing knowledge about clues, and specifically Ngis for contributing content to Clue Trainer.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

@@ -40,9 +40,7 @@
     <a href="https://github.com/leridon/rs3scantrainer"><strong>Explore the docs »</strong></a>
     <br />-->
     <br />
-    <a href="https://leridon.github.io/rs3scantrainer/">Web Version</a>
-    ·
-    <a href="alt1://addapp/https://leridon.github.io/rs3scantrainer/appconfig.json">Install</a>
+    <a href="https://leridon.github.io/rs3scantrainer/">Web Version and Installation</a>
     ·
     <a href="#support">Report Bug</a>
     ·
@@ -63,6 +61,7 @@
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#support">Support</a></li>
+    <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
@@ -93,8 +92,8 @@ Some Highlights:
 ### Installation
 
 1. Make sure you have the Alt1 toolkit installed. Alt1 can only be downloaded legitimately from [runeapps.org](https://runeapps.org/).
-2. You can install Clue Trainer by clicking [this link](alt1://addapp/https://leridon.github.io/rs3scantrainer/appconfig.json) and allowing your browser to open `alt1://` links if you are prompted to do so.
-3. Alternatively, you can visit the [Web Version](https://leridon.github.io/rs3scantrainer/) to access some of Clue Trainer's features or install it using the links provided there.
+2. Visit the [Web Version](https://leridon.github.io/rs3scantrainer/) to access some of Clue Trainer's features or install it using the links provided there.
+3. Alternatively, open `alt1://addapp/https://leridon.github.io/rs3scantrainer/appconfig.json` in your browser or visit `https://leridon.github.io/rs3scantrainer/` in Alt1's included browser.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -155,15 +154,14 @@ If you are serious about contributing a feature to Clue Trainer, please get into
 
 You can get support, report issues or request features by either creating an [issue][issues-url], or by joining the [Clue Chasers Discord](https://discord.gg/cluechasers) and entering the [#clue-trainer](https://discord.com/channels/332595657363685377/1103737270114209825) channel.
 
-<!--
-<!-- LICENSE --
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Contents of this project are partially distributed under the MIT License. See [LICENSE.md](license.md) to see details and which files this applies to.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
--->
-
 
 <!-- CONTACT -->
 ## Contact

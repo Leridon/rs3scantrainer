@@ -3607,7 +3607,7 @@ export namespace clue_data {
       "type": "cryptic",
       "tier": "hard",
       "text": ["Probably filled with books on magic."],
-      "solution": {"type": "search", "spot": {"level": 0, "topleft": {"x": 3094, "y": 3153}, "botright": {"x": 3094, "y": 3153}}, "entity": "Bookcase"}
+      "solution": {"type": "search", "spot": {"level": 0, "topleft": {"x": 3094, "y": 3153}, "botright": {"x": 3095, "y": 3152}}, "entity": "Bookcase"}
     }, {
       "id": 150,
       "type": "cryptic",

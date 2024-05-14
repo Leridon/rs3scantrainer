@@ -716,7 +716,7 @@ export namespace CompassSolving {
       {expected: "Teleport City of Um Lodestone", teleport_id: {group: "home", spot: "cityofum"}},
     ]
 
-  export const ANGLE_CHANGE_COMMIT_THRESHOLD = degreesToRadians(10)
+  export const ANGLE_CHANGE_COMMIT_THRESHOLD = degreesToRadians(4)
 
   export type Settings = {
     auto_commit_on_angle_change: boolean,

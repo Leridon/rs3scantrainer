@@ -71,22 +71,24 @@ export namespace AssumptionProperty {
   export function icons(assumptions: ClueAssumptions): Widget[] {
     let icons: Widget[] = []
 
-    if (assumptions.double_escape) icons.push(C.inlineimg("assets/icons/doubleescape.png")
+    const icon = (src: string): Widget => C.img(src).addClass("ctr-assumption-icon")
+
+    if (assumptions.double_escape) icons.push(icon("assets/icons/doubleescape.png")
       .tooltip("Assumes Double Escape")
     )
-    if (assumptions.double_surge) icons.push(C.inlineimg("assets/icons/doublesurge.png")
+    if (assumptions.double_surge) icons.push(icon("assets/icons/doublesurge.png")
       .tooltip("Assumes Double Surge")
     )
-    if (assumptions.mobile_perk) icons.push(C.inlineimg("assets/icons/mobile.png")
+    if (assumptions.mobile_perk) icons.push(icon("assets/icons/mobile.png")
       .tooltip("Assumes Mobile Perk")
     )
-    if (assumptions.full_globetrotter) icons.push(C.inlineimg("assets/icons/Globetrotter_jacket.png")
+    if (assumptions.full_globetrotter) icons.push(icon("assets/icons/Globetrotter_jacket.png")
       .tooltip("Assumes Full Globetrotter")
     )
-    if (assumptions.meerkats_active) icons.push(C.inlineimg("assets/icons/Meerkats_pouch.png")
+    if (assumptions.meerkats_active) icons.push(icon("assets/icons/Meerkats_pouch.png")
       .tooltip("Assumes using Meerkats")
     )
-    if (assumptions.way_of_the_footshaped_key) icons.push(C.inlineimg("assets/icons/Key_(Treasure_Trails).png")
+    if (assumptions.way_of_the_footshaped_key) icons.push(icon("assets/icons/Key_(Treasure_Trails).png")
       .tooltip("Assumes 'Way of the footshaped key' is unlocked")
     )
 

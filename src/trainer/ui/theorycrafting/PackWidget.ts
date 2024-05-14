@@ -13,6 +13,7 @@ import {Notification} from "../NotificationBar";
 import exp = ExportImport.exp;
 import cleanedJSON = util.cleanedJSON;
 import notification = Notification.notification;
+import hboxl = C.hboxl;
 
 export default class PackWidget extends Widget {
   constructor(public pack: Pack,
@@ -32,12 +33,13 @@ export default class PackWidget extends Widget {
     let header = C.div()
       .append(
         `${pack.name} (${pack.methods.length})`,
-        ...AssumptionProperty.icons(pack.default_assumptions)
       )
       .addClass("ctr-pack-widget-header")
       .tooltip(pack.local_id)
 
     this.append(header, body)
+
+    body.named("Assumptions", hboxl(...AssumptionProperty.icons(pack.default_assumptions)))
 
     body.named("Author(s)", c().text(pack.author))
 

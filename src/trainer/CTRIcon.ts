@@ -25,6 +25,13 @@ export namespace CTRIcon {
     {id: "item/spade" as const, name: "Spade", file_name: "spade.webp", size_on_map: {x: 20, y: 20}},
     {id: "item/powerburst-of-acceleration" as const, name: "Powerburst of Acceleration", file_name: "accel.png", size_on_map: {x: 18, y: 24}},
     {id: "item/rotten-potato" as const, name: "Rotten Potato", file_name: "Rotten_potato.png", size_on_map: {x: 20, y: 20}},
+    {id: "item/decorated_fire_urn" as const, name: "Decorated Fire Urn", file_name: "decorated_fire_urn.png", size_on_map: {x: 20, y: 19}},
+    {id: "item/sara_brew" as const, name: "Saradomin brew (3)", file_name: "sara_brew.png", size_on_map: {x: 14, y: 20}},
+    {id: "item/zammy_brew" as const, name: "Zamorak brew (3)", file_name: "zammy_brew.png", size_on_map: {x: 14, y: 20}},
+    {id: "item/magic_logs" as const, name: "Magic Logs", file_name: "magic_logs.png", size_on_map: {x: 22, y: 18}},
+    {id: "item/elder_logs" as const, name: "Elder Logs", file_name: "elder_logs.png", size_on_map: {x: 22, y: 18}},
+    {id: "spell/bake_pie" as const, name: "Bake Pie", file_name: "bake_pie.webp", size_on_map: {x: 20, y: 20}},
+    {id: "item/black_dhide_body" as const, name: "Black dragonhide body", file_name: "black_dhide_body.webp", size_on_map: {x: 20, y: 19}},
     ...CursorType.all().map(c => ({id: `cursor/${c.type}`, name: c.description, file_name: `${c.short_icon}.png`, size_on_map: {x: 28, y: 31}}))
   ]
 

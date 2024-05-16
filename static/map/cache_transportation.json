@@ -46136,7 +46136,7 @@
     },
     "actions": [
       {
-        "cursor": "generic",
+        "cursor": "jump",
         "interactive_area": {
           "origin": {
             "x": 2207,
@@ -46205,7 +46205,7 @@
     },
     "actions": [
       {
-        "cursor": "generic",
+        "cursor": "jump",
         "interactive_area": {
           "origin": {
             "x": 2274,
@@ -46274,7 +46274,7 @@
     },
     "actions": [
       {
-        "cursor": "generic",
+        "cursor": "jump",
         "interactive_area": {
           "origin": {
             "x": 2267,
@@ -46343,7 +46343,7 @@
     },
     "actions": [
       {
-        "cursor": "generic",
+        "cursor": "jump",
         "interactive_area": {
           "origin": {
             "x": 2275,
@@ -76751,7 +76751,7 @@
     },
     "actions": [
       {
-        "cursor": "generic",
+        "cursor": "jump",
         "interactive_area": {
           "origin": {
             "x": 3484,
@@ -76821,7 +76821,7 @@
     },
     "actions": [
       {
-        "cursor": "generic",
+        "cursor": "jump",
         "interactive_area": {
           "origin": {
             "x": 3485,
@@ -80776,7 +80776,7 @@
     },
     "actions": [
       {
-        "cursor": "generic",
+        "cursor": "jump",
         "interactive_area": {
           "origin": {
             "x": 3440,
@@ -80818,7 +80818,7 @@
     },
     "actions": [
       {
-        "cursor": "generic",
+        "cursor": "jump",
         "interactive_area": {
           "origin": {
             "x": 3440,
@@ -80866,7 +80866,7 @@
     },
     "actions": [
       {
-        "cursor": "generic",
+        "cursor": "jump",
         "interactive_area": {
           "origin": {
             "x": 3441,
@@ -80914,7 +80914,7 @@
     },
     "actions": [
       {
-        "cursor": "generic",
+        "cursor": "jump",
         "interactive_area": {
           "origin": {
             "x": 3441,
@@ -93407,6 +93407,1599 @@
   },
   {
     "type": "entity",
+    "source_loc": 100267,
+    "entity": {
+      "name": "Stepping Stone",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3358.5,
+        "y": 2756.5
+      },
+      "botright": {
+        "x": 3359.5,
+        "y": 2753.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 3359,
+            "y": 2753,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 5
+          },
+          "data": "EQ=="
+        },
+        "name": "Cross",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 3359,
+                "y": 2757,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -4,
+              "level": 0
+            }
+          },
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 3359,
+                "y": 2753,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 4,
+              "level": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 100268,
+    "entity": {
+      "name": "Stepping Stone",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3358.5,
+        "y": 2751.5
+      },
+      "botright": {
+        "x": 3359.5,
+        "y": 2748.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 3359,
+            "y": 2748,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 5
+          },
+          "data": "EQ=="
+        },
+        "name": "Cross",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 3359,
+                "y": 2748,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 4,
+              "level": 0
+            }
+          },
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 3359,
+                "y": 2752,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -4,
+              "level": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 109364,
+    "entity": {
+      "name": "Menaphos gate",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3204.5,
+        "y": 2817.5
+      },
+      "botright": {
+        "x": 3209.5,
+        "y": 2816.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 3205,
+            "y": 2812,
+            "level": 0
+          },
+          "size": {
+            "x": 5,
+            "y": 9
+          },
+          "data": "HwAAAAAf"
+        },
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 3205,
+                "y": 2812,
+                "level": 0
+              },
+              "size": {
+                "x": 5,
+                "y": 1
+              }
+            },
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3207,
+                  "y": 2821,
+                  "level": 0
+                }
+              },
+              "relative": true
+            }
+          },
+          {
+            "time": 6,
+            "valid_from": {
+              "origin": {
+                "x": 3205,
+                "y": 2820,
+                "level": 0
+              },
+              "size": {
+                "x": 5,
+                "y": 1
+              }
+            },
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3206,
+                  "y": 2810,
+                  "level": 0
+                }
+              },
+              "relative": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 107775,
+    "entity": {
+      "name": "Pyramid entrance",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3231.5,
+        "y": 2899.5
+      },
+      "botright": {
+        "x": 3232.5,
+        "y": 2898.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "open",
+        "interactive_area": {
+          "origin": {
+            "x": 3232,
+            "y": 2898,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 3
+          },
+          "data": "BQ=="
+        },
+        "name": "Open",
+        "movement": [
+          {
+            "time": 5,
+            "valid_from": {
+              "origin": {
+                "x": 3232,
+                "y": 2898,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 2,
+              "level": 0
+            }
+          },
+          {
+            "time": 5,
+            "valid_from": {
+              "origin": {
+                "x": 3232,
+                "y": 2900,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -2,
+              "level": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 107774,
+    "entity": {
+      "name": "Pyramid entrance",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3232.5,
+        "y": 2899.5
+      },
+      "botright": {
+        "x": 3233.5,
+        "y": 2898.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "open",
+        "interactive_area": {
+          "origin": {
+            "x": 3233,
+            "y": 2898,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 3
+          },
+          "data": "BQ=="
+        },
+        "name": "Open",
+        "movement": [
+          {
+            "time": 5,
+            "valid_from": {
+              "origin": {
+                "x": 3233,
+                "y": 2898,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 2,
+              "level": 0
+            }
+          },
+          {
+            "time": 5,
+            "valid_from": {
+              "origin": {
+                "x": 3233,
+                "y": 2900,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -2,
+              "level": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 44339,
+    "entity": {
+      "name": "Chasm",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2768.5,
+        "y": 10002.5
+      },
+      "botright": {
+        "x": 2774.5,
+        "y": 10001.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2768,
+            "y": 10002,
+            "level": 0
+          },
+          "size": {
+            "x": 8,
+            "y": 1
+          },
+          "data": "gQ=="
+        },
+        "name": "Jump-across",
+        "movement": [
+          {
+            "time": 5,
+            "valid_from": {
+              "origin": {
+                "x": 2775,
+                "y": 10002,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -7,
+              "y": 0,
+              "level": 0
+            }
+          },
+          {
+            "time": 5,
+            "valid_from": {
+              "origin": {
+                "x": 2768,
+                "y": 10002,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 7,
+              "y": 0,
+              "level": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 77052,
+    "entity": {
+      "name": "Crevice",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2730.5,
+        "y": 10008.5
+      },
+      "botright": {
+        "x": 2731.5,
+        "y": 10007.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 2730,
+            "y": 10008,
+            "level": 0
+          }
+        },
+        "name": "Squeeze-through",
+        "movement": [
+          {
+            "time": 9,
+            "offset": {
+              "x": 5,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 77052,
+    "entity": {
+      "name": "Crevice",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2733.5,
+        "y": 10008.5
+      },
+      "botright": {
+        "x": 2734.5,
+        "y": 10007.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 2735,
+            "y": 10008,
+            "level": 0
+          }
+        },
+        "name": "Squeeze-through",
+        "movement": [
+          {
+            "time": 9,
+            "offset": {
+              "x": -5,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 5083,
+    "entity": {
+      "name": "Dungeon entrance",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2742.5,
+        "y": 3156.5
+      },
+      "botright": {
+        "x": 2746.5,
+        "y": 3152.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2743,
+            "y": 3152,
+            "level": 0
+          },
+          "size": {
+            "x": 4,
+            "y": 1
+          }
+        },
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 2,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2710,
+                  "y": 9564,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 77421,
+    "entity": {
+      "name": "Exit",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2710.5,
+        "y": 9565.5
+      },
+      "botright": {
+        "x": 2711.5,
+        "y": 9562.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2710,
+            "y": 9563,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 3
+          }
+        },
+        "name": "Leave",
+        "movement": [
+          {
+            "time": 2,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2745,
+                  "y": 3152,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 77371,
+    "entity": {
+      "name": "Vines",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2689.5,
+        "y": 9564.5
+      },
+      "botright": {
+        "x": 2690.5,
+        "y": 9563.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "chop",
+        "interactive_area": {
+          "origin": {
+            "x": 2689,
+            "y": 9564,
+            "level": 0
+          },
+          "size": {
+            "x": 3,
+            "y": 1
+          },
+          "data": "BQ=="
+        },
+        "name": "Chop-down",
+        "movement": [
+          {
+            "time": 5,
+            "valid_from": {
+              "origin": {
+                "x": 2691,
+                "y": 9564,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -2,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 5,
+            "valid_from": {
+              "origin": {
+                "x": 2689,
+                "y": 9564,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 2,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 77373,
+    "entity": {
+      "name": "Vines",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2682.5,
+        "y": 9569.5
+      },
+      "botright": {
+        "x": 2683.5,
+        "y": 9568.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "chop",
+        "interactive_area": {
+          "origin": {
+            "x": 2683,
+            "y": 9568,
+            "level": 0
+          },
+          "size": {
+            "x": 1,
+            "y": 3
+          },
+          "data": "BQ=="
+        },
+        "name": "Chop-down",
+        "movement": [
+          {
+            "time": 5,
+            "valid_from": {
+              "origin": {
+                "x": 2683,
+                "y": 9568,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 2,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 5,
+            "valid_from": {
+              "origin": {
+                "x": 2683,
+                "y": 9570,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -2,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 77375,
+    "entity": {
+      "name": "Vines",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2672.5,
+        "y": 9499.5
+      },
+      "botright": {
+        "x": 2673.5,
+        "y": 9498.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "chop",
+        "interactive_area": {
+          "origin": {
+            "x": 2672,
+            "y": 9499,
+            "level": 0
+          },
+          "size": {
+            "x": 3,
+            "y": 1
+          },
+          "data": "BQ=="
+        },
+        "name": "Chop-down",
+        "movement": [
+          {
+            "time": 5,
+            "valid_from": {
+              "origin": {
+                "x": 2674,
+                "y": 9499,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -2,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 5,
+            "valid_from": {
+              "origin": {
+                "x": 2672,
+                "y": 9499,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 2,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 77377,
+    "entity": {
+      "name": "Vines",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2674.5,
+        "y": 9479.5
+      },
+      "botright": {
+        "x": 2675.5,
+        "y": 9478.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "chop",
+        "interactive_area": {
+          "origin": {
+            "x": 2674,
+            "y": 9479,
+            "level": 0
+          },
+          "size": {
+            "x": 3,
+            "y": 1
+          },
+          "data": "BQ=="
+        },
+        "name": "Chop-down",
+        "movement": [
+          {
+            "time": 5,
+            "valid_from": {
+              "origin": {
+                "x": 2676,
+                "y": 9479,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -2,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 5,
+            "valid_from": {
+              "origin": {
+                "x": 2674,
+                "y": 9479,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 2,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 77379,
+    "entity": {
+      "name": "Vines",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2693.5,
+        "y": 9482.5
+      },
+      "botright": {
+        "x": 2694.5,
+        "y": 9481.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "chop",
+        "interactive_area": {
+          "origin": {
+            "x": 2693,
+            "y": 9482,
+            "level": 0
+          },
+          "size": {
+            "x": 3,
+            "y": 1
+          },
+          "data": "BQ=="
+        },
+        "name": "Chop-down",
+        "movement": [
+          {
+            "time": 5,
+            "valid_from": {
+              "origin": {
+                "x": 2695,
+                "y": 9482,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -2,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 5,
+            "valid_from": {
+              "origin": {
+                "x": 2693,
+                "y": 9482,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 2,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 77423,
+    "entity": {
+      "name": "Pipe",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2654.5,
+        "y": 9567.5
+      },
+      "botright": {
+        "x": 2655.5,
+        "y": 9566.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 2655,
+            "y": 9566,
+            "level": 0
+          }
+        },
+        "name": "Squeeze-through",
+        "movement": [
+          {
+            "time": 14,
+            "offset": {
+              "x": 0,
+              "y": 7,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 77423,
+    "entity": {
+      "name": "Pipe",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2654.5,
+        "y": 9572.5
+      },
+      "botright": {
+        "x": 2655.5,
+        "y": 9571.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 2655,
+            "y": 9573,
+            "level": 0
+          }
+        },
+        "name": "Squeeze-through",
+        "movement": [
+          {
+            "time": 14,
+            "offset": {
+              "x": 0,
+              "y": -7,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 77572,
+    "entity": {
+      "name": "Stepping stone",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2646.5,
+        "y": 9558.5
+      },
+      "botright": {
+        "x": 2647.5,
+        "y": 9557.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2647,
+            "y": 9557,
+            "level": 0
+          }
+        },
+        "name": "Jump-from",
+        "movement": [
+          {
+            "time": 13,
+            "offset": {
+              "x": 2,
+              "y": 5,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 77572,
+    "entity": {
+      "name": "Stepping stone",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2647.5,
+        "y": 9560.5
+      },
+      "botright": {
+        "x": 2648.5,
+        "y": 9559.5
+      },
+      "level": 0
+    },
+    "actions": []
+  },
+  {
+    "type": "entity",
+    "source_loc": 77570,
+    "entity": {
+      "name": "Stepping stone",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2646.5,
+        "y": 9560.5
+      },
+      "botright": {
+        "x": 2647.5,
+        "y": 9559.5
+      },
+      "level": 0
+    },
+    "actions": []
+  },
+  {
+    "type": "entity",
+    "source_loc": 77570,
+    "entity": {
+      "name": "Stepping stone",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2648.5,
+        "y": 9561.5
+      },
+      "botright": {
+        "x": 2649.5,
+        "y": 9560.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2649,
+            "y": 9562,
+            "level": 0
+          }
+        },
+        "name": "Jump-from",
+        "movement": [
+          {
+            "time": 14,
+            "offset": {
+              "x": -2,
+              "y": -5,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 77506,
+    "entity": {
+      "name": "Stairs",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2634.5,
+        "y": 9517.5
+      },
+      "botright": {
+        "x": 2638.5,
+        "y": 9511.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "interactive_area": {
+          "origin": {
+            "x": 2636,
+            "y": 9518,
+            "level": 0
+          },
+          "size": {
+            "x": 2,
+            "y": 1
+          }
+        },
+        "name": "Walk-up",
+        "movement": [
+          {
+            "time": 2,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2636,
+                  "y": 9510,
+                  "level": 2
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 77507,
+    "entity": {
+      "name": "Stairs",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2634.5,
+        "y": 9512.5
+      },
+      "botright": {
+        "x": 2638.5,
+        "y": 9509.5
+      },
+      "level": 2
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "name": "Walk-down",
+        "movement": [
+          {
+            "time": 2,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2636,
+                  "y": 9518,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 77509,
+    "entity": {
+      "name": "Stairs",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2643.5,
+        "y": 9596.5
+      },
+      "botright": {
+        "x": 2646.5,
+        "y": 9592.5
+      },
+      "level": 2
+    },
+    "actions": [
+      {
+        "cursor": "ladderdown",
+        "name": "Walk-down",
+        "movement": [
+          {
+            "time": 2,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2649,
+                  "y": 9591,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 77508,
+    "entity": {
+      "name": "Stairs",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2647.5,
+        "y": 9594.5
+      },
+      "botright": {
+        "x": 2651.5,
+        "y": 9591.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Walk-up",
+        "movement": [
+          {
+            "time": 2,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2643,
+                  "y": 9595,
+                  "level": 2
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 77573,
+    "entity": {
+      "name": "Block balance",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2682.5,
+        "y": 9506.5
+      },
+      "botright": {
+        "x": 2684.5,
+        "y": 9505.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 2682,
+            "y": 9506,
+            "level": 0
+          }
+        },
+        "name": "Walk-across",
+        "movement": [
+          {
+            "time": 6,
+            "offset": {
+              "x": 5,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 77574,
+    "entity": {
+      "name": "Block balance",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2684.5,
+        "y": 9506.5
+      },
+      "botright": {
+        "x": 2686.5,
+        "y": 9505.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 2687,
+            "y": 9506,
+            "level": 0
+          }
+        },
+        "name": "Walk-across",
+        "movement": [
+          {
+            "time": 6,
+            "offset": {
+              "x": -5,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 77424,
+    "entity": {
+      "name": "Pipe",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2697.5,
+        "y": 9493.5
+      },
+      "botright": {
+        "x": 2698.5,
+        "y": 9492.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 2698,
+            "y": 9492,
+            "level": 0
+          }
+        },
+        "name": "Squeeze-through",
+        "movement": [
+          {
+            "time": 8,
+            "offset": {
+              "x": 0,
+              "y": 7,
+              "level": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 77424,
+    "entity": {
+      "name": "Pipe",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2697.5,
+        "y": 9498.5
+      },
+      "botright": {
+        "x": 2698.5,
+        "y": 9497.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 2698,
+            "y": 9499,
+            "level": 0
+          }
+        },
+        "name": "Squeeze-through",
+        "movement": [
+          {
+            "time": 8,
+            "offset": {
+              "x": 0,
+              "y": -7,
+              "level": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": 112526,
+    "entity": {
+      "name": "Stepping stone",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3712.5,
+        "y": 2970.5
+      },
+      "botright": {
+        "x": 3713.5,
+        "y": 2969.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "interactive_area": {
+          "origin": {
+            "x": 3711,
+            "y": 2970,
+            "level": 0
+          },
+          "size": {
+            "x": 5,
+            "y": 1
+          },
+          "data": "EQ=="
+        },
+        "name": "Cross",
+        "movement": [
+          {
+            "time": 4,
+            "valid_from": {
+              "origin": {
+                "x": 3711,
+                "y": 2970,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": 4,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          },
+          {
+            "time": 4,
+            "valid_from": {
+              "origin": {
+                "x": 3715,
+                "y": 2970,
+                "level": 0
+              }
+            },
+            "offset": {
+              "x": -4,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
     "entity": {
       "name": "Fallen palm tree",
       "kind": "static"
@@ -93551,6 +95144,176 @@
                 }
               }
             }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Tunnel",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2467.5,
+        "y": 4209.5
+      },
+      "botright": {
+        "x": 2469.5,
+        "y": 4208.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Climb-into",
+        "movement": [
+          {
+            "time": 3,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2472,
+                  "y": 3027,
+                  "level": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Bridge",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3751.5,
+        "y": 2927.5
+      },
+      "botright": {
+        "x": 3753.5,
+        "y": 2925.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "name": "Walk-across",
+        "movement": [
+          {
+            "valid_from": {
+              "origin": {
+                "x": 3754,
+                "y": 2926,
+                "level": 0
+              },
+              "size": {
+                "x": 1,
+                "y": 2
+              }
+            },
+            "offset": {
+              "x": -3,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement",
+            "time": 4
+          },
+          {
+            "valid_from": {
+              "origin": {
+                "x": 3751,
+                "y": 2926,
+                "level": 0
+              },
+              "size": {
+                "x": 1,
+                "y": 2
+              }
+            },
+            "offset": {
+              "x": 3,
+              "y": 0,
+              "level": 0
+            },
+            "orientation": "bymovement",
+            "time": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Bridge",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3738.5,
+        "y": 2939.5
+      },
+      "botright": {
+        "x": 3740.5,
+        "y": 2937.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "agility",
+        "name": "Walk-across",
+        "movement": [
+          {
+            "valid_from": {
+              "origin": {
+                "x": 3739,
+                "y": 2940,
+                "level": 0
+              },
+              "size": {
+                "x": 2,
+                "y": 1
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": -3,
+              "level": 0
+            },
+            "orientation": "bymovement",
+            "time": 4
+          },
+          {
+            "valid_from": {
+              "origin": {
+                "x": 3739,
+                "y": 2937,
+                "level": 0
+              },
+              "size": {
+                "x": 2,
+                "y": 1
+              }
+            },
+            "offset": {
+              "x": 0,
+              "y": 3,
+              "level": 0
+            },
+            "orientation": "bymovement",
+            "time": 4
           }
         ]
       }

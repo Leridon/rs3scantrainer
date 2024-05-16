@@ -1,75 +1,217 @@
-## NOTE: Clue Trainer is currently in public beta and not feature complete yet. Expect incomplete/missing guides, errors and bugs.
+<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
+<a name="readme-top"></a>
+<!--
+*** Thanks for checking out the Best-README-Template. If you have a suggestion
+*** that would make this better, please fork the repo and create a pull request
+*** or simply open an issue with the tag "enhancement".
+*** Don't forget to give the project a star!
+*** Thanks again! Now go create something AMAZING! :D
+-->
 
-# Clue Trainer
-
-Clue Trainer is a plugin for the [Alt1 toolkit](https://runeapps.org/) by Skillbert.
-Its main function is guiding players through efficiently solving scan steps in elite and master clues.
-![](.github/readmeassets/screenshot.png)
-
-## How to use
-
-Use the search bar to select a scan clue, or use the screen reader with the buttons to the right to automatically read your active clue from screen.
-
-![](.github/readmeassets/searchbar.png)
-
-After selecting a clue, a method panel on the left will open.
-![](.github/readmeassets/scantree.png)
-
-Follow the directions in the method panel and click the button corresponding to what information you receive at that spot.
-The search tree will advance, ruled out spots will gray out in the map, and it will zoom into the next relevant area. 
-
-![img.png](.github/readmeassets/advancedtree.png)
-
-Also note how the section of the search tree you are in is displayed above the current instructions.
-Use the links there to navigate back up the search tree if you need to.
-
-Continue to follow the directions until you receive a triple ping and have found the spot, or the plugin tells you to dig at a specific spot because only one candidate remains.
-When there are no more instructions, but multiple spots left, you need to manually check them.
-This is usually the case for scan spots in close proximity to each other or for spots you should use a globetrotter charge for.
-
-**The included methods only work when you have summoned a Meerkats familiar to boost your scan range by 5 tiles. This is NOT optional.**
+<!-- PROJECT SHIELDS -->
+<!--
+*** I'm using markdown "reference style" links for readability.
+*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
+*** See the bottom of this document for the declaration of the reference variables
+*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
+*** https://www.markdownguide.org/basic-syntax/#reference-style-links
+-->
+<!--[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
+-->
 
 
-### How does this work?
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <!--<a href="https://github.com/leridon/rs3scantrainer">
+    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  </a>-->
 
-All possible spots for scan clues are publically known.
-This allows us to find scan routes that can narrow down the spots that need to be considered quickly without having to search the entire area. 
-At any given point, you can see if the spot you are looking for is within 1x the scan range (triple ping), within 2x the scan range (double ping) or beyond 2x the scan range (single ping). 
-By chaining together standing spots strategically, a [ternary search tree](https://en.wikipedia.org/wiki/Ternary_search_tree) can be created for each scan area.
-Smart people like Fiery have done so and kindly provided optimal strategies to the public.
+<h3 align="center">Clue Trainer</h3>
 
-The plugin visualizes these trees by highlighting where to stand, telling you how to efficiently get there, and visually removing the dig spots that no longer need to be considered. It is intended to be used as a tool to help memorize the paths to solve elite clues faster than ever before.
+  <p align="center">
+    An interactive guide and assistant for clue scrolls in RuneScape 3.
+   <!-- <br />
+    <a href="https://github.com/leridon/rs3scantrainer"><strong>Explore the docs »</strong></a>
+    <br />-->
+    <br />
+    <a href="https://leridon.github.io/rs3scantrainer/">Web Version and Installation</a>
+    ·
+    <a href="#support-and-feedback">Report Bug</a>
+    ·
+    <a href="#support-and-feedback">Request Feature</a>
+  </p>
+</div>
 
+
+
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+    </li>
+    <li><a href="#getting-started">Getting Started</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#support-and-feedback">Support</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+  </ol>
+</details>
+
+
+
+<!-- ABOUT THE PROJECT -->
+## About The Project
+
+[![Product Name Screen Shot][product-screenshot]](https://example.com)
+
+Clue Trainer is a new clue solver for RuneScape 3 using the Alt1 Toolkit. 
+Some Highlights:
+- A more relaxed puzzle solver updating the move overlay in real time according to your actual solving speed and producing solutions with fewer steps.
+- Real time overlay updating for celtic knots, lockboxes and tower puzzles as well.
+- Movement instructions shown on the map, so you can learn the most efficient paths along the way.
+- Advanced strategies for scan clues displayed in an interactive, easy to memorize fashion.
+- A compass solver more accurate than ever with the ability to select preset triangulation strategies.
+- A path and method editor so you can create, save, and share your own ways of solving clues.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+<!-- GETTING STARTED -->
 ## Getting Started
 
-The live version can be viewed at https://leridon.github.io/cluetrainer-live/.
+### Installation
 
-To install Scan Trainer into Alt1, open this (full) link in your browser:
+1. Make sure you have the Alt1 toolkit installed. Alt1 can only be downloaded legitimately from [runeapps.org](https://runeapps.org/).
+2. Visit the [Web Version](https://leridon.github.io/rs3scantrainer/) to access some of Clue Trainer's features or install it using the links provided there.
+3. Alternatively, open `alt1://addapp/https://leridon.github.io/rs3scantrainer/appconfig.json` in your browser or visit `https://leridon.github.io/rs3scantrainer/` in Alt1's included browser.
 
-```alt1://addapp/https://leridon.github.io/cluetrainer-live/appconfig.json```
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-or open https://leridon.github.io/cluetrainer-live/ inside of the Alt1 browser.
+### Development
 
-## The Scan Editor
+This section is about getting started with developing Clue Trainer. See [here](#getting-started) for instructions for getting started with using Clue Trainer.
 
-Version b0.3 introduced an editor for scan routes, that is available when the app is opened in a regular browser (outside Alt1). It has a lot of tooling to create scan routes and understand scans even better.
-There is no guide on how to use the editor yet, but feel free to reach out if you have any questions about it.
-It can be accessed by selecting any scan and clicking the button in the top right corner of the map.
+Clue Trainer is a static website built using npm and TypeScript. 
 
-## Feedback and Contributions
+1. Install dependencies using npm.
+   ```sh
+   npm install
+   ```
+2. Build the project into the `dist` folder
+   ```sh
+   npm run build
+   ```
+3. Serve the static content using a local webserver so it can be accessed in a browser or installed in Alt1. This is also available as a convenience in the script file `serve_for_alt1.sh`.
+   ````sh
+   cd dist
+   python3 -m http.server 8000 --bind 127.0.0.1
+   ````
+4. Visit `127.0.0.1` in your browser to use your local version and install it in your local Alt1 
 
-To provide feedback, get support with issues or provide contributions, you can reach out to me at [Clue Chasers Discord/#scan-trainer](https://discord.com/channels/332595657363685377/1103737270114209825).
+Please do not enable any crowdsourcing options while using your local development version.
 
-You can also use the issue system directly here at GitHub.
+<!-- USAGE EXAMPLES -->
 
-## Credits
 
-A huge thanks to [Skillbert](https://github.com/skillbert) for creating Alt1 in the first place and especially for allowing me to use code and data from the official clue solver, as well as for providing high quality map data for the world map.
+<!-- ROADMAP -->
 
-Also thanks to the guide writers and theorycrafters over at the [Clue Chasers Discord](https://discord.gg/cluechasers) for providing the clue knowledge, especially Fiery whose scan routes are visualized in this plugin.
+## Roadmap
 
-## Future Plans
+Clue Trainer is in active development and will continue to receive additional features and improvements to existing features, including but not limited to:
 
-Plans for the immediate future are to finish mapping the remaining scan routes and improve how the instructions are conveyed. Other planned features are the ability to configure teleports like the official Alt1 map does and 
+- [ ] A full set of recommended paths for all clue tiers.
+- [ ] Display answers to challenge scrolls directly in the dialogue box.
+- [ ] Improvements to the UI and general workflow for compass clues.
+- [ ] Improvements to the workflow of solving scan clues, including reading the current pulse color directly from the screen.
+- [ ] Recommendations for using charges of globetrotter backpack and jacket charges.
 
-Longer term plans (no guarantees) are inclusion of solving methods for other clue types than just scans.
+Learn how to suggest features [here](#support-and-feedback).
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- CONTRIBUTING -->
+## Contributing
+
+Contributions to Clue Trainer in the form of either code or content are highly welcome. Check out [Getting Started](#getting-started) to see how to set up the project locally, so you can start coding.
+If you are serious about contributing a feature to Clue Trainer, please get into touch as described [here](#support-and-feedback) to discuss the details before spending a large amount of effort.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+## Support and Feedback
+
+You can get support, report issues, request features, or leave praise or criticism by  by joining the [Clue Chasers Discord](https://discord.gg/cluechasers) and entering the [#clue-trainer](https://discord.com/channels/332595657363685377/1103737270114209825) channel.
+For support, issues and feature requests you can also create an [issue][issues-url].
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- LICENSE -->
+## License
+
+Contents of this project are partially distributed under the MIT License. See [LICENSE.md](license.md) to see details and which files this applies to.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- CONTACT -->
+## Contact
+
+Zyklop Marco - [@zyklopmarco](https://twitter.com/zyklopmarco)
+
+Project Link: [https://github.com/leridon/rs3scantrainer](https://github.com/leridon/rs3scantrainer)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- ACKNOWLEDGMENTS -->
+## Acknowledgments
+
+I owe thanks to the following persons for making Clue Trainer possible.
+
+* [Skillbert](https://runeapps.org/) for creating Alt1 in the first place and especially for allowing me to use code and data from the official clue solver, as well as for providing high quality map data for the world map.
+* Contributors from the Clue Chasers discord for providing knowledge about clues, and specifically Ngis for contributing content to Clue Trainer.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[contributors-shield]: https://img.shields.io/github/contributors/leridon/rs3scantrainer.svg?style=for-the-badge
+[contributors-url]: https://github.com/leridon/rs3scantrainer/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/leridon/rs3scantrainer.svg?style=for-the-badge
+[forks-url]: https://github.com/leridon/rs3scantrainer/network/members
+[stars-shield]: https://img.shields.io/github/stars/leridon/rs3scantrainer.svg?style=for-the-badge
+[stars-url]: https://github.com/leridon/rs3scantrainer/stargazers
+[issues-shield]: https://img.shields.io/github/issues/leridon/rs3scantrainer.svg?style=for-the-badge
+[issues-url]: https://github.com/leridon/rs3scantrainer/issues
+[license-shield]: https://img.shields.io/github/license/leridon/rs3scantrainer.svg?style=for-the-badge
+[license-url]: https://github.com/leridon/rs3scantrainer/blob/master/LICENSE.txt
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://linkedin.com/in/linkedin_username
+[product-screenshot]: .github/readmeassets/intro_screenshot.png
+[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
+[Next-url]: https://nextjs.org/
+[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[React-url]: https://reactjs.org/
+[Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
+[Vue-url]: https://vuejs.org/
+[Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
+[Angular-url]: https://angular.io/
+[Svelte.dev]: https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00
+[Svelte-url]: https://svelte.dev/
+[Laravel.com]: https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white
+[Laravel-url]: https://laravel.com
+[Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
+[Bootstrap-url]: https://getbootstrap.com
+[JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
+[JQuery-url]: https://jquery.com 

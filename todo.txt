@@ -16,12 +16,17 @@ Final missing transport:
         (((Runespan portal, runespan pads on high floor to east and then north)))
         (and the fishing platform and entrana connections as mentioned above)
 
-    Menaphos Gate
     Kag Ship transports
-    Lighthouse after update
+    Wildy volcano stepping stone and cliff climb
+
+    ED Chests
+      Dorgesh Khaan: Grapple hooks
+                     Stairs up to the agility arena
+                     Stairs down to both the north east and south west buildings
 
 
 - Solving Behaviour
+    -
     - Path Panel
         - [Feature] Disable default teleport render when contained in step
             - Render step instead
@@ -41,6 +46,12 @@ Final missing transport:
 
 - Issues
     - [Bug, 1] SearchSelection: Very rarely the dropdown remains after the element is already gone
+    - [Bug, 3] The highlight-syncing for the path list while solving does not work
+
+- Performance
+    - [4] Teleport icons use 4 DOM nodes, while skillbert's map just needs 1
+    - [3] Graticule should probably be changed to not use one svg element per line. Either render to canvas or combine lines into one svg.
+    - [3] Share a quad tree for all game layers. Cull empty branches.
 
 - Scan Editor
     - [QOL, 2] Include uncertainty from non-static teleports into path analysis
@@ -64,7 +75,6 @@ Final missing transport:
     - Creating context menus currently is a little annoying
 
 - Map Entities
-    - [Performance, 3] Share a quad tree for all game layers?
     - [Feature, 2] Find a way to separate entities on the same tile
 
 - Theorycrafter

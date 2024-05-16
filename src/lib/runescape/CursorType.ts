@@ -36,6 +36,7 @@ export type CursorType =
   | "thieve"
   | "disassemble"
   | "farm"
+  | "jump"
 
 // TODO: Archaelogy
 
@@ -78,6 +79,7 @@ export namespace CursorType {
       {type: "thieve", icon_url: "assets/icons/cursor_thieve.png", description: "Thieve", short_icon: "cursor_thieve"},
       {type: "disassemble", icon_url: "assets/icons/cursor_invention.png", description: "Disassemble", short_icon: "cursor_invention"},
       {type: "farm", icon_url: "assets/icons/cursor_farm.png", description: "Forage", short_icon: "cursor_farm"},
+      {type: "jump", icon_url: "assets/icons/cursor_jump.png", description: "Jump", short_icon: "cursor_jump"},
     ]
   }
 
@@ -153,6 +155,7 @@ export namespace CursorType {
       49: "open",
       52: "ladderup",
       53: "ladderdown",
+      55: "jump",
       59: "chop",
       63: "smith",
       181: "agility",

@@ -261,7 +261,7 @@ export namespace Settings {
 
       if (!Array.isArray(settings.presets) || settings.presets.length == 0) settings.presets = empty().presets
 
-      if (settings.presets.some(p => p.id == settings.active_preset)) settings.active_preset = settings.presets[0].id
+      if (!settings.presets.some(p => p.id == settings.active_preset)) settings.active_preset = settings.presets[0].id
 
       settings.preset_bindings = {
         easy: null,

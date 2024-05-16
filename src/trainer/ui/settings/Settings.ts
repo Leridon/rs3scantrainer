@@ -259,7 +259,9 @@ export namespace Settings {
 
       if (!settings.potas) settings.potas = []
 
-      if (settings.active_preset == null) settings.active_preset = 0
+      if (!Array.isArray(settings.presets) || settings.presets.length == 0) settings.presets = empty().presets
+
+      if (settings.presets.some(p => p.id == settings.active_preset)) settings.active_preset = settings.presets[0].id
 
       settings.preset_bindings = {
         easy: null,
@@ -279,8 +281,8 @@ export namespace Settings {
       const active_preset = settings.presets.find(p => p.id == settings.active_preset)
 
       return {
-        fairy_ring_favourites: active_preset.fairy_ring_favourites,
-        pota_slots: active_preset.active_potas.flatMap(color => {
+        fairy_ring_favourites: active_preset?.fairy_ring_favourites ?? [],
+        pota_slots: active_preset?.active_potas?.flatMap(color => {
           const pota = settings.potas.find(p => p.color == color)
 
           if (!pota) return []
@@ -294,7 +296,7 @@ export namespace Settings {
               }
             }
           }).filter(p => p.jewellry)
-        })
+        }) ?? []
       }
     }
   }

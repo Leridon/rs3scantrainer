@@ -25,6 +25,16 @@ Final missing transport:
     [15:42]Ngis: Fremennik slayer dungeon shortcuts
     ALP cave exit
     Desert Treasure Pyramid Exit
+    Camel Island Stepping stones
+    Icons:  decorated fire urn Sara brew
+                              Zammy brew
+                              Magic Logs
+                              Elder Logs
+                              Bake Pie
+    ED Chests
+      Dorgesh Khaan: Grapple hooks
+                     Stairs up to the agility arena
+                     Stairs down to both the north east and south west buildings
 
 
 - Solving Behaviour

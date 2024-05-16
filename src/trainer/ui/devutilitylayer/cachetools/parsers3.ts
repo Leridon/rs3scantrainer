@@ -421,6 +421,63 @@ export function hardcoded_transports(): Transportation.Transportation[] {
         }
       ]
     },
+    {
+      "type": "entity",
+      "entity": {
+        "name": "Tunnel",
+        "kind": "static"
+      },
+      "clickable_area": {"topleft": {"x": 2467.5, "y": 4209.5}, "botright": {"x": 2469.5, "y": 4208.5}, "level": 0},
+      "actions": [
+        {
+          "cursor": "generic",
+          "name": "Climb-into",
+          "movement": [
+            {
+              "time": 3,
+              "fixed_target": {
+                "target": {"origin": {"x": 2472, "y": 3027, "level": 0}}
+              }
+            }
+          ]
+        }
+      ]
+    },
+
+
+    {
+      type: "entity",
+      entity: {name: "Bridge", kind: "static"},
+      clickable_area: {"topleft": {"x": 3751.5, "y": 2927.5}, "botright": {"x": 3753.5, "y": 2925.5}, "level": 0},
+      actions: [
+        {
+          cursor: "agility",
+          name: "Walk-across",
+          movement: [
+            {valid_from: {"origin": {"x": 3754, "y": 2926, "level": 0}, "size": {"x": 1, "y": 2}}, offset: {x: -3, y: 0, level: 0}, orientation: "bymovement", time: 4},
+            {valid_from: {"origin": {"x": 3751, "y": 2926, "level": 0}, "size": {"x": 1, "y": 2}}, offset: {x: 3, y: 0, level: 0}, orientation: "bymovement", time: 4}
+          ]
+        }
+      ]
+    },
+
+
+    {
+      type: "entity",
+      entity: {name: "Bridge", kind: "static"},
+      clickable_area: {"topleft": {"x": 3738.5, "y": 2939.5}, "botright": {"x": 3740.5, "y": 2937.5}, "level": 0},
+      actions: [
+        {
+          cursor: "agility",
+          name: "Walk-across",
+          movement: [
+            {valid_from: {"origin": {"x": 3739, "y": 2940, "level": 0}, "size": {"x": 2, "y": 1}}, offset: {x: 0, y: -3, level: 0}, orientation: "bymovement", time: 4},
+            {valid_from: {"origin": {"x": 3739, "y": 2937, "level": 0}, "size": {"x": 2, "y": 1}}, offset: {x: 0, y: 3, level: 0}, orientation: "bymovement", time: 4}
+          ]
+        }
+      ]
+    },
+
   ]
 }
 

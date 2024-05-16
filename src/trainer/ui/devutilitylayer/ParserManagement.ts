@@ -75,7 +75,7 @@ export class ParserManagementLayer extends GameLayer {
 
                 results.push(...hardcoded_transports())
 
-                new ExportStringModal(cleanedJSON(results, 4), `Parsed ${results.length} transports.`).show()
+                new ExportStringModal(cleanedJSON(results), `Parsed ${results.length} transports.`).show()
               }),
           )
       ).addTo(this)

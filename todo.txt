@@ -16,21 +16,9 @@ Final missing transport:
         (((Runespan portal, runespan pads on high floor to east and then north)))
         (and the fishing platform and entrana connections as mentioned above)
 
-    Tokkul Zo isnt static
-    Menaphos Gate
     Kag Ship transports
     Wildy volcano stepping stone and cliff climb
-    [15:39]Ngis: Mos'le Harmless fairy ring bridges
-    [15:40]Ngis: Brimhaven dungeon entrance, shortcuts, stairs, woodcuts
-    [15:42]Ngis: Fremennik slayer dungeon shortcuts
-    ALP cave exit
-    Desert Treasure Pyramid Exit
-    Camel Island Stepping stones
-    Icons:  decorated fire urn Sara brew
-                              Zammy brew
-                              Magic Logs
-                              Elder Logs
-                              Bake Pie
+
     ED Chests
       Dorgesh Khaan: Grapple hooks
                      Stairs up to the agility arena

@@ -770,7 +770,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
     let m = await this.app.favourites.getMethod({clue: step.step.id})
 
-    if (!m) {
+    if (m === undefined) {
       let ms = await MethodPackManager.instance().getForClue({clue: step.step.id})
       if (ms.length > 0) m = ms[0]
     }

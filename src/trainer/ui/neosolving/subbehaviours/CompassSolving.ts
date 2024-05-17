@@ -279,6 +279,7 @@ class CompassReadService extends Process<void> {
 
 class CompassEntryWidget extends Widget {
   selection_requested = ewent<this>()
+  delete_requested = ewent<this>()
   discard_requested = ewent<this>()
   commit_requested = ewent<this>()
 
@@ -320,6 +321,16 @@ class CompassEntryWidget extends Widget {
     const row = this
 
     {
+      const discard_button = cls("ctr-neosolving-compass-entry-button")
+        .setInnerHtml("&times;")
+        .tooltip("Discard")
+        .appendTo(row)
+        .on("click", () => {
+          this.delete_requested.trigger(this)
+        })
+    }
+
+    {
       const position = cls("ctr-neosolving-compass-entry-position").appendTo(row)
 
       if (this.entry.position) {
@@ -342,9 +353,7 @@ class CompassEntryWidget extends Widget {
           e.stopPropagation()
 
           if (this.entry.angle != null) {
-            this.entry.angle = null
-            angle.toggleClass("committed", false)
-              .tooltip("Click to discard")
+            this.discard_requested.trigger(this)
           } else {
             this.commit_requested.trigger(this)
           }
@@ -360,16 +369,6 @@ class CompassEntryWidget extends Widget {
           .tooltip("Click to commit (Alt + 1)")
           .text(`???°`)
       }
-    }
-
-    {
-      const discard_button = cls("ctr-neosolving-compass-entry-button")
-        .setInnerHtml("&times;")
-        .tooltip("Discard")
-        .appendTo(row)
-        .on("click", () => {
-          this.discard_requested.trigger(this)
-        })
     }
   }
 }
@@ -471,7 +470,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     })
   }
 
-  async discard(entry: CompassSolving.Entry) {
+  async delete(entry: CompassSolving.Entry) {
     const i = this.entries.indexOf(entry)
 
     if (i < 0) return
@@ -628,12 +627,18 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       .appendTo(this.entry_container)
 
 
-    entry.widget.discard_requested.on(e => {
-      this.discard(e.entry)
+    entry.widget.delete_requested.on(e => {
+      this.delete(e.entry)
     })
 
     entry.widget.commit_requested.on(e => {
       this.commit(e.entry, true)
+    })
+
+    entry.widget.discard_requested.on(e => {
+      e.entry.angle = null
+      e.render()
+      this.updatePossibilities(false)
     })
 
     entry.widget.selection_requested.on(e => {

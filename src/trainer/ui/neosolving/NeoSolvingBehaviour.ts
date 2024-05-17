@@ -35,7 +35,7 @@ import {Notification} from "../NotificationBar";
 import TransportLayer from "../map/TransportLayer";
 import {NeoSolvingSubBehaviour} from "./NeoSolvingSubBehaviour";
 import {CompassSolving} from "./subbehaviours/CompassSolving";
-import {ScanTreeSolvingControl} from "./subbehaviours/ScanTreeSolving";
+import {ScanTreeSolving} from "./subbehaviours/ScanTreeSolving";
 import {KnotSolving} from "./subbehaviours/KnotSolving";
 import {Alt1Modal} from "../../Alt1Modal";
 import {LockboxSolving} from "./subbehaviours/LockboxSolving";
@@ -721,7 +721,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
       const behaviour = new CompassSolving(this, clue, read_result?.found_ui as MatchedUI.Compass)
 
       behaviour.selected_spot.subscribe(async spot => {
-        const method = await this.getAutomaticMethod({clue: clue.id, spot: spot})
+        const method = await this.getAutomaticMethod({clue: clue.id, spot: spot.spot})
 
         this.setMethod(method)
       })
@@ -755,7 +755,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
       if (method.method.type == "scantree") {
         this.active_behaviour.set(
-          new ScanTreeSolvingControl(this, method as AugmentedMethod<ScanTreeMethod, Clues.Scan>)
+          new ScanTreeSolving(this, method as AugmentedMethod<ScanTreeMethod, Clues.Scan>)
         )
 
         this.layer.scan_layer.setSpotOrder(method.method.tree.ordered_spots)
@@ -766,7 +766,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
     } else if (!(active_behaviour instanceof CompassSolving) || active_behaviour.selected_spot.value()) {
 
       const clue: ClueSpot.Id = active_behaviour instanceof CompassSolving
-        ? {clue: this.active_clue.clue.step.id, spot: active_behaviour.selected_spot.value()}
+        ? {clue: this.active_clue.clue.step.id, spot: active_behaviour.selected_spot.value().spot}
         : {clue: this.active_clue.clue.step.id}
 
       this.default_method_selector = new MethodSelector(this, clue)

@@ -52,8 +52,8 @@ class CompassHandlingLayer extends GameLayer {
   constructor(private solving: CompassSolving) {
     super()
 
-    this.solving.spots.forEach((e, i) =>
-      e.marker = new KnownCompassSpot(this.solving.clue, i)
+    this.solving.spots.forEach((e) =>
+      e.marker = new KnownCompassSpot(e)
         .setInteractive(true)
         .addTo(this)
     )
@@ -122,17 +122,13 @@ class CompassHandlingLayer extends GameLayer {
 }
 
 class KnownCompassSpot extends MapEntity {
-  public readonly spot: TileCoordinates
-
-  constructor(public readonly clue: Clues.Compass, public readonly spot_id: number) {
+  constructor(public readonly spot: CompassSolving.SpotData) {
     super()
-
-    this.spot = clue.spots[spot_id]
 
     this.setTooltip(() => {
       const layout = new Properties()
 
-      layout.header(`Compass spot ${this.spot_id + 1}`)
+      layout.header(`Compass spot ${this.spot.spot_id + 1}`)
 
       return layout
     })
@@ -153,13 +149,13 @@ class KnownCompassSpot extends MapEntity {
   }
 
   bounds(): Rectangle {
-    return Rectangle.from(this.spot)
+    return Rectangle.from(this.spot.spot)
   }
 
   protected async render_implementation(props: MapEntity.RenderProps): Promise<Element> {
     const opacity = this.possible ? 1 : 0.5
 
-    const marker = new TileMarker(this.spot)
+    const marker = new TileMarker(this.spot.spot)
       .withMarker(null, 0.5 * (props.highlight ? 1.5 : 1))
 
     if (this.number != null)
@@ -170,18 +166,6 @@ class KnownCompassSpot extends MapEntity {
       .addTo(this)
 
     return marker.marker.getElement()
-  }
-
-  setNumber(n: number): this {
-
-    if (n != this.number) {
-      this.number = n
-
-      this.requestRendering()
-    }
-
-    return this
-
   }
 }
 
@@ -397,11 +381,7 @@ class CompassEntryWidget extends Widget {
 export class CompassSolving extends NeoSolvingSubBehaviour {
   readonly settings: CompassSolving.Settings
 
-  spots: {
-    spot: TileCoordinates,
-    isPossible: boolean,
-    marker?: KnownCompassSpot
-  }[]
+  spots: CompassSolving.SpotData[]
 
   layer: CompassHandlingLayer
   process: CompassReadService
@@ -411,7 +391,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
   // Variables defining the state machine
   entry_selection_index: number = 0
   entries: CompassSolving.Entry[] = []
-  selected_spot = observe<TileCoordinates>(null).equality(TileCoordinates.equals)
+  selected_spot = observe<CompassSolving.SpotData>(null)
 
   private readonly debug_solution: TileCoordinates
 
@@ -429,7 +409,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       ].find(p => p.id == preconfigured_id)
     }
 
-    this.spots = clue.spots.map(s => ({spot: s, isPossible: true}))
+    this.spots = clue.spots.map((s, i) => ({spot: s, isPossible: true, spot_id: i}))
 
     this.debug_solution = clue.spots[lodash.random(0, clue.spots.length)]
 
@@ -573,8 +553,8 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       const old_selection = this.selected_spot.value()
 
       // Reference comparison is fine because only the instances from the original array in the clue are handled
-      if (!possible.some(e => TileCoordinates.equals(old_selection, e.spot))) {
-        this.selected_spot.set(possible[0].spot)
+      if (!possible.some(e => TileCoordinates.equals(old_selection?.spot, e.spot))) {
+        this.selected_spot.set(possible[0])
       }
     } else {
       this.selected_spot.set(null)
@@ -718,6 +698,13 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 }
 
 export namespace CompassSolving {
+  export type SpotData = {
+    spot: TileCoordinates,
+    spot_id: number,
+    isPossible: boolean,
+    marker?: KnownCompassSpot,
+    path?: GameLayer
+  }
 
   export type Entry = {
     position: TileArea.ActiveTileArea | TeleportGroup.Spot | null,

@@ -28,7 +28,7 @@ import Order = util.Order;
 import span = C.span;
 import spotNumber = ScanTree.spotNumber;
 
-export class ScanTreeSolvingControl extends NeoSolvingSubBehaviour {
+export class ScanTreeSolving extends NeoSolvingSubBehaviour {
   node: ScanTree.Augmentation.AugmentedScanTreeNode = null
   augmented: ScanTree.Augmentation.AugmentedScanTree = null
   layer: leaflet.FeatureGroup = null
@@ -150,7 +150,7 @@ export class ScanTreeSolvingControl extends NeoSolvingSubBehaviour {
     content.append(cls('ctr-neosolving-nextscanstep')
       .append(
         "Next: ",
-        ...this.parent.app.template_resolver.with(...ScanTreeSolvingControl.scan_tree_template_resolvers(node))
+        ...this.parent.app.template_resolver.with(...ScanTreeSolving.scan_tree_template_resolvers(node))
           .resolve(ScanTree.getInstruction(node)))
     )
 
@@ -162,7 +162,7 @@ export class ScanTreeSolvingControl extends NeoSolvingSubBehaviour {
         .filter((e) => triples.length <= 1 || e.key.pulse != 3)
         .sort(Order.comap(Scans.Pulse.compare, (a) => a.key))
         .forEach((child) => {
-          const resolvers = this.parent.app.template_resolver.with(...ScanTreeSolvingControl.scan_tree_template_resolvers(child.value))
+          const resolvers = this.parent.app.template_resolver.with(...ScanTreeSolving.scan_tree_template_resolvers(child.value))
 
           cls("ctr-neosolving-scantreeline")
             .append(
@@ -213,7 +213,7 @@ export class ScanTreeSolvingControl extends NeoSolvingSubBehaviour {
   }
 }
 
-export namespace ScanTreeSolvingControl {
+export namespace ScanTreeSolving {
   import AugmentedScanTreeNode = ScanTree.Augmentation.AugmentedScanTreeNode;
   import shorten_integer_list = util.shorten_integer_list;
   import render_digspot = TextRendering.render_digspot;

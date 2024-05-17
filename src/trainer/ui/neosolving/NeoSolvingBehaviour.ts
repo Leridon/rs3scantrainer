@@ -55,6 +55,7 @@ import hboxl = C.hboxl;
 import notification = Notification.notification;
 import MatchedUI = ClueReader.MatchedUI;
 import activate = TileArea.activate;
+import ClueSpot = Clues.ClueSpot;
 
 class NeoSolvingLayer extends GameLayer {
   public control_bar: NeoSolvingLayer.MainControlBar
@@ -85,10 +86,10 @@ class NeoSolvingLayer extends GameLayer {
       new NeoSolvingLayer.MainControlBar(behaviour),
       this.clue_container = c(),
       this.solution_container = c(),
-      this.method_selection_container = c(),
       this.scantree_container = c(),
       this.compass_container = c(),
       this.path_container = c(),
+      this.method_selection_container = c(),
     )
 
     this.scan_layer = new ScanEditLayer([]).addTo(this)
@@ -717,7 +718,15 @@ export default class NeoSolvingBehaviour extends Behaviour {
     }
 
     if (clue.type == "compass" && read_result.type == "legacy") {
-      this.active_behaviour.set(new CompassSolving(this, clue, read_result?.found_ui as MatchedUI.Compass))
+      const behaviour = new CompassSolving(this, clue, read_result?.found_ui as MatchedUI.Compass)
+
+      behaviour.selected_spot.subscribe(async spot => {
+        const method = await this.getAutomaticMethod({clue: clue.id, spot: spot})
+
+        this.setMethod(method)
+      })
+
+      this.active_behaviour.set(behaviour)
     }
 
     this.setMethod(null)
@@ -739,6 +748,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
     this.active_method = null
 
+    const active_behaviour = this.active_behaviour.get()
+
     if (method) {
       this.active_method = method
 
@@ -750,13 +761,29 @@ export default class NeoSolvingBehaviour extends Behaviour {
         this.layer.scan_layer.setSpotOrder(method.method.tree.ordered_spots)
         this.layer.scan_layer.marker.setRadius(method.method.tree.assumed_range, method.method.assumptions.meerkats_active)
       } else if (method.method.type == "general_path") {
-        this.path_control.reset().setMethod(method as AugmentedMethod<GenericPathMethod>)
+        this.path_control.setMethod(method as AugmentedMethod<GenericPathMethod>)
       }
-    } else if (this.active_clue.clue.step.type != "compass") {
-      this.default_method_selector = new MethodSelector(this, {clue: this.active_clue.clue.step.id})
+    } else if (!(active_behaviour instanceof CompassSolving) || active_behaviour.selected_spot.value()) {
+
+      const clue: ClueSpot.Id = active_behaviour instanceof CompassSolving
+        ? {clue: this.active_clue.clue.step.id, spot: active_behaviour.selected_spot.value()}
+        : {clue: this.active_clue.clue.step.id}
+
+      this.default_method_selector = new MethodSelector(this, clue)
         .addClass("ctr-neosolving-solution-row")
         .appendTo(this.layer.method_selection_container)
     }
+  }
+
+  async getAutomaticMethod(step: ClueSpot.Id): Promise<AugmentedMethod> {
+    let m = await this.app.favourites.getMethod(step)
+
+    if (m === undefined) {
+      let ms = await MethodPackManager.instance().getForClue(step)
+      if (ms.length > 0) m = ms[0]
+    }
+
+    return m
   }
 
   async setClueWithAutomaticMethod(step: Clues.StepWithTextIndex, read_result: ClueReader.Result) {
@@ -764,16 +791,10 @@ export default class NeoSolvingBehaviour extends Behaviour {
       return
     }
 
-    let m = await this.app.favourites.getMethod({clue: step.step.id})
-
-    if (m === undefined) {
-      let ms = await MethodPackManager.instance().getForClue({clue: step.step.id})
-      if (ms.length > 0) m = ms[0]
-    }
+    let m = await this.getAutomaticMethod({clue: step.step.id})
 
     this.setClue(step, !m, read_result)
-
-    if (m) this.setMethod(m)
+    this.setMethod(m)
   }
 
   /**

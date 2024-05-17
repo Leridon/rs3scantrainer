@@ -7,7 +7,6 @@ Compass solver:
     - Update ???° to currently predicted angle
     - Tweak "likely_concealed" and "likely_closed" to actually work properly
     - Explanation Modal
-    - Properly disable clue reader while compass reader is active (?)
     - Chatbox read service to look for sextant message
 
 Final missing transport:

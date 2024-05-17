@@ -106,6 +106,8 @@ class CompassHandlingLayer extends GameLayer {
 
       if (event.active_entity instanceof TeleportSpotEntity) {
         this.solving.registerSpot(event.active_entity.teleport)
+      } else if (event.active_entity instanceof KnownCompassSpot && this.solving.selected_spot.value()) {
+        this.solving.selected_spot.set(event.active_entity.spot)
       } else {
         this.solving.registerSpot(
           activate(TileArea.fromRect(TileRectangle.lift(
@@ -115,16 +117,12 @@ class CompassHandlingLayer extends GameLayer {
           )
         )
       }
-
-      //this.solving.pending[0].position = event.tile()
-      //this.solving.renderWidget()
     })
   }
 }
 
 class KnownCompassSpot extends MapEntity {
   public readonly spot: TileCoordinates
-
 
   constructor(public readonly clue: Clues.Compass, public readonly spot_id: number) {
     super()
@@ -392,6 +390,10 @@ class CompassEntryWidget extends Widget {
   }
 }
 
+/**
+ * The {@link NeoSolvingSubBehaviour} for compass clues.
+ * It controls the compass UI and uses an internal process to continuously read the compass state.
+ */
 export class CompassSolving extends NeoSolvingSubBehaviour {
   readonly settings: CompassSolving.Settings
 
@@ -402,18 +404,14 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
   }[]
 
   layer: CompassHandlingLayer
-
   process: CompassReadService
-
-  entries: CompassSolving.Entry[] = []
 
   private preconfigured_sequence: CompassSolving.TriangulationPreset = null
 
-  selection_index: number = 0
-
-  lines: {
-    line: leaflet.Layer
-  }[] = []
+  // Variables defining the state machine
+  entry_selection_index: number = 0
+  entries: CompassSolving.Entry[] = []
+  selected_spot = observe<TileCoordinates>(null).equality(TileCoordinates.equals)
 
   private readonly debug_solution: TileCoordinates
 
@@ -486,10 +484,10 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
   private setSelection(i: number) {
     i = lodash.clamp(i, 0, this.entries.length)
 
-    this.selection_index = i
+    this.entry_selection_index = i
 
     this.entries.forEach((e, i) => {
-      e.widget.setSelected(this.selection_index == i)
+      e.widget.setSelected(this.entry_selection_index == i)
     })
   }
 
@@ -502,13 +500,13 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     this.entries.splice(i, 1)
 
-    if (this.selection_index >= i) this.setSelection(this.selection_index - 1)
+    if (this.entry_selection_index >= i) this.setSelection(this.entry_selection_index - 1)
 
-    await this.update(false)
+    await this.updatePossibilities(false)
   }
 
   async commit(entry: CompassSolving.Entry = undefined, is_manual: boolean = false) {
-    entry = entry ?? this.entries[this.selection_index]
+    entry = entry ?? this.entries[this.entry_selection_index]
 
     if (!entry || !this.entries.some(e => e == entry)) return
 
@@ -529,10 +527,14 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     entry.widget.render()
 
-    await this.update(true)
+    await this.updatePossibilities(true)
   }
 
-  async update(maybe_fit: boolean) {
+  /**
+   * Update possible spots, potentially add a new triangulation entry, activate method for specific spot...
+   * @param maybe_fit
+   */
+  async updatePossibilities(maybe_fit: boolean) {
     this.layer.rendering.lock()
 
     const information = this.entries.filter(e => e.information).map(e => e.information)
@@ -555,13 +557,28 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       )
     )
 
+    const method = await this.parent.getAutomaticMethod({clue: this.clue.id, spot: possible[0].spot})
 
+    if (method) {
+      this.parent.setMethod(method)
+    }
 
     const add_numbers = possible.length <= 5
 
     possible.forEach((m, i) => {
       m.marker?.setPossible(true, add_numbers ? i + 1 : null)
     })
+
+    if (add_numbers) {
+      const old_selection = this.selected_spot.value()
+
+      // Reference comparison is fine because only the instances from the original array in the clue are handled
+      if (!possible.some(e => TileCoordinates.equals(old_selection, e.spot))) {
+        this.selected_spot.set(possible[0].spot)
+      }
+    } else {
+      this.selected_spot.set(null)
+    }
 
     if (maybe_fit) {
       if (possible.length > 0 && (information.length > 0 || possible.length < 100)) {
@@ -604,9 +621,9 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       this.setSelection(this.entries.length - 1)
     }
 
-    this.selection_index = this.entries.findIndex(e => e.information == null)
+    this.entry_selection_index = this.entries.findIndex(e => e.information == null)
 
-    if (this.selection_index < 0) this.selection_index = this.entries.length - 1
+    if (this.entry_selection_index < 0) this.entry_selection_index = this.entries.length - 1
 
     /*
     if (possible.length == 1) {
@@ -649,7 +666,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
   }
 
   async registerSpot(coords: TileArea.ActiveTileArea | TeleportGroup.Spot): Promise<void> {
-    const i = this.selection_index
+    const i = this.entry_selection_index
 
     const entry = this.entries[i]
 
@@ -665,7 +682,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     const state = this.process.state.value()
     entry.widget.setPreviewAngle(!state || state.spinning ? null : state.angle)
 
-    await this.update(false)
+    await this.updatePossibilities(false)
   }
 
   protected begin() {
@@ -690,7 +707,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     this.renderWidget()
 
-    this.update(true)
+    this.updatePossibilities(true)
   }
 
   protected end() {

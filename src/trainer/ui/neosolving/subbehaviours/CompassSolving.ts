@@ -29,7 +29,7 @@ import {deps} from "../../../dependencies";
 import {clue_data} from "../../../../data/clues";
 import Properties from "../../widgets/Properties";
 import {Notification} from "../../NotificationBar";
-import hbox = C.hbox;
+import Widget from "../../../../lib/ui/Widget";
 import span = C.span;
 import cls = C.cls;
 import MatchedUI = ClueReader.MatchedUI;
@@ -41,7 +41,6 @@ import italic = C.italic;
 import activate = TileArea.activate;
 import notification = Notification.notification;
 import CompassReadResult = CompassReader.CompassReadResult;
-import Widget from "../../../../lib/ui/Widget";
 
 const DEVELOPMENT_CALIBRATION_MODE = false
 
@@ -78,8 +77,8 @@ class CompassHandlingLayer extends GameLayer {
 
       const right = Vector2.transform(info.direction, Transform.rotationRadians(Math.PI / 2))
 
-      const corner_near_left = Vector2.add(from, Vector2.scale(info.uncertainty, right))
-      const corner_near_right = Vector2.add(from, Vector2.scale(-info.uncertainty, right))
+      const corner_near_left = Vector2.add(from, Vector2.scale(info.origin_uncertainty, right))
+      const corner_near_right = Vector2.add(from, Vector2.scale(-info.origin_uncertainty, right))
       const corner_far_left = Vector2.add(from, Vector2.transform(off, Transform.rotationRadians(-CompassReader.EPSILON)))
       const corner_far_right = Vector2.add(from, Vector2.transform(off, Transform.rotationRadians(CompassReader.EPSILON)))
 
@@ -126,16 +125,11 @@ class CompassHandlingLayer extends GameLayer {
 class KnownCompassSpot extends MapEntity {
   public readonly spot: TileCoordinates
 
-  private possible = observe(true)
 
   constructor(public readonly clue: Clues.Compass, public readonly spot_id: number) {
     super()
 
     this.spot = clue.spots[spot_id]
-
-    this.possible.subscribe(v => {
-      this.setOpacity(v ? 1 : 0.5)
-    })
 
     this.setTooltip(() => {
       const layout = new Properties()
@@ -146,13 +140,18 @@ class KnownCompassSpot extends MapEntity {
     })
   }
 
-  setPossible(v: boolean): this {
-    this.possible.set(v)
-    return this
-  }
+  private possible: boolean = true
+  private number: number | null = null
 
-  isPossible(): boolean {
-    return this.possible.value()
+  setPossible(v: boolean, number: number): this {
+    if (this.number != number || v != this.possible) {
+      this.number = number
+      this.possible = v
+
+      this.requestRendering()
+    }
+
+    return this
   }
 
   bounds(): Rectangle {
@@ -160,11 +159,31 @@ class KnownCompassSpot extends MapEntity {
   }
 
   protected async render_implementation(props: MapEntity.RenderProps): Promise<Element> {
-    const marker = new TileMarker(this.spot).withMarker(null, 0.5 * (props.highlight ? 1.5 : 1)).addTo(this)
-      .withLabel(this.spot_id.toString(), "spot-number-on-map", [0, 10])
-      .setOpacity(props.opacity)
+    const opacity = this.possible ? 1 : 0.5
+
+    const marker = new TileMarker(this.spot)
+      .withMarker(null, 0.5 * (props.highlight ? 1.5 : 1))
+
+    if (this.number != null)
+      marker.withLabel(this.number.toString(), "spot-number-on-map", [0, 10])
+
+    marker
+      .setOpacity(opacity)
+      .addTo(this)
 
     return marker.marker.getElement()
+  }
+
+  setNumber(n: number): this {
+
+    if (n != this.number) {
+      this.number = n
+
+      this.requestRendering()
+    }
+
+    return this
+
   }
 }
 
@@ -514,16 +533,35 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
   }
 
   async update(maybe_fit: boolean) {
+    this.layer.rendering.lock()
+
     const information = this.entries.filter(e => e.information).map(e => e.information)
 
     this.spots.forEach(m => {
       const p = Compasses.isPossible(information, m.spot)
 
       m.isPossible = p
-      m.marker?.setPossible(p)
+
+      if (!p) m.marker?.setPossible(false, null)
     })
 
-    const possible = this.spots.filter(s => s.isPossible)
+    const possible = lodash.sortBy(this.spots.filter(s => s.isPossible), p =>
+      Math.max(...information.map(info =>
+          angleDifference(Compasses.getExpectedAngle(
+            info.modified_origin,
+            p.spot
+          ), info.angle_radians)
+        )
+      )
+    )
+
+
+
+    const add_numbers = possible.length <= 5
+
+    possible.forEach((m, i) => {
+      m.marker?.setPossible(true, add_numbers ? i + 1 : null)
+    })
 
     if (maybe_fit) {
       if (possible.length > 0 && (information.length > 0 || possible.length < 100)) {
@@ -581,6 +619,8 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     }*/
 
     await this.layer.updateOverlay()
+
+    this.layer.rendering.unlock()
   }
 
   private createEntry(entry: CompassSolving.Entry) {
@@ -621,6 +661,9 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     entry.preconfigured = null
 
     entry.widget.render()
+
+    const state = this.process.state.value()
+    entry.widget.setPreviewAngle(!state || state.spinning ? null : state.angle)
 
     await this.update(false)
   }

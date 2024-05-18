@@ -83,6 +83,8 @@ export default class Graticule extends leaflet.FeatureGroup {
 
     this.clearLayers()
 
+    if (!interval) return
+
     let counts = {
       x: Math.ceil((bounds.getEast() - bounds.getWest()) / interval),
       y: Math.ceil((bounds.getNorth() - bounds.getSouth()) / interval)

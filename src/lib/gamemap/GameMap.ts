@@ -183,7 +183,7 @@ export class GameMap extends leaflet.Map {
     // Add subtle gridlines
     new Graticule({
       intervals: [
-        {min_zoom: -Infinity, interval: 64},
+        {min_zoom: -3, interval: 64},
         {min_zoom: 0.5, interval: 8},
         {min_zoom: 1, interval: 4},
         {min_zoom: 2, interval: 1},

@@ -46,7 +46,6 @@ Final missing transport:
 
 - Performance
     - [4] Teleport icons use 4 DOM nodes, while skillbert's map just needs 1
-    - [3] Graticule should probably be changed to not use one svg element per line. Either render to canvas or combine lines into one svg.
     - [3] Share a quad tree for all game layers. Cull empty branches.
 
 - Scan Editor

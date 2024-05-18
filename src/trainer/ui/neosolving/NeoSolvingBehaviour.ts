@@ -721,9 +721,14 @@ export default class NeoSolvingBehaviour extends Behaviour {
       const behaviour = new CompassSolving(this, clue, read_result?.found_ui as MatchedUI.Compass)
 
       behaviour.selected_spot.subscribe(async spot => {
-        const method = await this.getAutomaticMethod({clue: clue.id, spot: spot.spot})
 
-        this.setMethod(method)
+        if(spot) {
+          const method = await this.getAutomaticMethod({clue: clue.id, spot: spot.spot})
+
+          this.setMethod(method)
+        } else {
+          this.setMethod(null)
+        }
       })
 
       this.active_behaviour.set(behaviour)

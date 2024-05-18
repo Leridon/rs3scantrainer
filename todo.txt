@@ -43,6 +43,7 @@ Final missing transport:
 - Issues
     - [Bug, 1] SearchSelection: Very rarely the dropdown remains after the element is already gone
     - [Bug, 3] The highlight-syncing for the path list while solving does not work
+    - [Bug] MethodSelector can open the dropdown more than once.
 
 - Performance
     - [4] Teleport icons use 4 DOM nodes, while skillbert's map just needs 1

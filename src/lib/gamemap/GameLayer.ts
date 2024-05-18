@@ -114,7 +114,7 @@ export class GameLayer extends leaflet.FeatureGroup {
     this.eachEntity(e => {
       e.setFloorAndZoom(this.map.floor.value(), this.map.getZoom())
 
-      e.requestRendering()
+      e.requestRendering(true)
     })
 
     return super.onAdd(map)

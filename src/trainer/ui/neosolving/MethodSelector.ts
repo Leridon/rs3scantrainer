@@ -10,7 +10,6 @@ import spacer = C.spacer;
 import span = C.span;
 import hbox = C.hbox;
 import ClueSpot = Clues.ClueSpot;
-import hboxl = C.hboxl;
 
 export default class MethodSelector extends Widget {
   public method: Observable<AugmentedMethod>
@@ -25,10 +24,27 @@ export default class MethodSelector extends Widget {
     this.method.subscribe(m => this.render(m), true)
   }
 
+  private renderName(method: AugmentedMethod): Widget {
+    const div = c()
+
+    if (method.method.name && method.method.name.length > 0) {
+      div.append(C.span(method.method.name))
+    } else {
+      div.append(C.italic("Unnamed Method"))
+    }
+
+    div.append(
+      ` (${method.method.expected_time.toFixed(method.method.type == "scantree" ? 1 : 0) ?? "?"} ticks)`
+    )
+
+    return div
+  }
+
   private render(method: AugmentedMethod) {
+
     this.row = hbox(
       method
-        ? span(`${method.method.name} (${method.method.expected_time.toFixed(2) ?? "?"} ticks)`)
+        ? this.renderName(method)
         : c("<span style='font-style: italic; color: gray'> No method selected</span>"),
       spacer(),
       NislIcon.dropdown(),
@@ -55,7 +71,7 @@ export default class MethodSelector extends Widget {
 
           return hbox(
             new FavouriteIcon().set(m == this.parent.active_method),
-            span(`${m.method.name} (${m.method.expected_time.toFixed(2) ?? "?"} ticks)`),
+            this.renderName(m),
             spacer()
           ).tooltip(m.method.description)
         }

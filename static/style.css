@@ -2210,34 +2210,15 @@ input[type=checkbox] + span {
     margin-right: 3px;
     white-space: nowrap;
     text-overflow: ellipsis;
-    text-align: center;
+    text-align: right;
     overflow: hidden;
     position: relative;
-border-left: 1px dashed gray;
-}
-
-.ctr-compass-solving-angle:hover {
-    filter: brightness(0.5) opacity(0.5);
+    border-left: 1px dotted gray;
 }
 
 .ctr-compass-solving-angle:not(.committed) {
     font-style: italic;
     color: gray;
-}
-
-.ctr-compass-solving-angle:hover:after {
-    color: white;
-    position: absolute;
-    /*background-color: #00000050;*/
-    left: 0;
-    right: 0;
-    content: "×";
-    text-align: center;
-    filter: unset;
-}
-
-.ctr-compass-solving-angle:not(.committed):hover:after {
-    content: "✓";
 }
 
 /*
@@ -2268,10 +2249,8 @@ border-left: 1px dashed gray;
     width: 20px;
     min-width: 20px;
     height: 20px;
-    border-radius: 4px;
     text-align: center;
-    font-size: 20px;
-    margin-top: -5px;
+    font-size: 15px;
 }
 
 .ctr-neosolving-compass-entry-button:hover {

@@ -152,6 +152,10 @@ class KnownCompassSpot extends MapEntity {
     return Rectangle.from(this.spot.spot)
   }
 
+  render(force: boolean = false) {
+    super.render(force);
+  }
+
   protected async render_implementation(props: MapEntity.RenderProps): Promise<Element> {
     const opacity = this.possible ? 1 : 0.5
 
@@ -279,7 +283,7 @@ class CompassReadService extends Process<void> {
 
 class CompassEntryWidget extends Widget {
   selection_requested = ewent<this>()
-  delete_requested = ewent<this>()
+  position_discard_requested = ewent<this>()
   discard_requested = ewent<this>()
   commit_requested = ewent<this>()
 
@@ -300,8 +304,6 @@ class CompassEntryWidget extends Widget {
   }
 
   setPreviewAngle(angle: number | null): this {
-    console.log(`Setting ${angle}`)
-
     if (this.entry.angle == null) {
       if (angle != null) {
         this.angle_container.text(`${radiansToDegrees(angle).toFixed(0)}°`)
@@ -326,7 +328,7 @@ class CompassEntryWidget extends Widget {
         .tooltip("Discard")
         .appendTo(row)
         .on("click", () => {
-          this.delete_requested.trigger(this)
+          this.position_discard_requested.trigger(this)
         })
     }
 
@@ -340,7 +342,7 @@ class CompassEntryWidget extends Widget {
             span(this.entry.position.spot.name)
           )
         } else {
-          position.append(span(TileCoordinates.toString(this.entry.position.center())))
+          position.append(span(Vector2.toString(this.entry.position.center())))
         }
       } else {
         position.append(italic("No location selected"))
@@ -348,27 +350,30 @@ class CompassEntryWidget extends Widget {
     }
 
     {
-      const angle = this.angle_container = cls("ctr-compass-solving-angle").appendTo(row)
+
+      const isCommited = this.entry.angle != null
+
+      const angle = this.angle_container = cls("ctr-compass-solving-angle")
+        .toggleClass("committed", isCommited)
+        .text(isCommited
+          ? `${radiansToDegrees(this.entry.angle).toFixed(0)}°`
+          : "???°"
+        )
+        .appendTo(row)
+
+      const angle_button = cls("ctr-neosolving-compass-entry-button")
+        .appendTo(row)
+        .text(isCommited ? "×" : "✓")
+        .tooltip(isCommited ? "Click to discard" : "Click to commit (Alt + 1)")
         .on("click", (e) => {
           e.stopPropagation()
 
-          if (this.entry.angle != null) {
+          if (isCommited) {
             this.discard_requested.trigger(this)
           } else {
             this.commit_requested.trigger(this)
           }
         })
-
-      if (this.entry.angle != null) {
-        angle
-          .tooltip("Click to discard")
-          .addClass("committed")
-          .text(`${radiansToDegrees(this.entry.angle).toFixed(0)}°`)
-      } else {
-        angle
-          .tooltip("Click to commit (Alt + 1)")
-          .text(`???°`)
-      }
     }
   }
 }
@@ -471,17 +476,16 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
   }
 
   async delete(entry: CompassSolving.Entry) {
-    const i = this.entries.indexOf(entry)
-
-    if (i < 0) return
-
-    entry.widget.remove()
-
-    this.entries.splice(i, 1)
-
-    if (this.entry_selection_index >= i) this.setSelection(this.entry_selection_index - 1)
+    entry.angle = null
+    entry.information = null
+    entry.position = null
+    entry.preconfigured = null
 
     await this.updatePossibilities(false)
+
+    entry?.widget?.render()
+
+    return
   }
 
   async commit(entry: CompassSolving.Entry = undefined, is_manual: boolean = false) {
@@ -514,8 +518,8 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
    * @param maybe_fit
    */
   async updatePossibilities(maybe_fit: boolean) {
-    this.layer.rendering.lock()
 
+    this.layer.rendering.lock()
     const information = this.entries.filter(e => e.information).map(e => e.information)
 
     this.spots.forEach(m => {
@@ -567,52 +571,68 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       }
     }
 
-    if (this.entries.every(e => e.information) && possible.length > 1) {
-      let added = false
+    const needs_more_info = possible.length > 1
 
-      const unused_preconfigured = this.preconfigured_sequence?.sequence?.find(step => !this.entries.some(e => e.preconfigured == step))
+    {
+      const preserve_index = needs_more_info ? lodash.findLastIndex(this.entries, e => !e.information) : null
 
-      if (unused_preconfigured) {
-        const spot = unused_preconfigured.teleport
-          ? TransportData.resolveTeleport(unused_preconfigured.teleport)
-          : activate(TileArea.init(unused_preconfigured.tile))
+      let selection_after = this.entry_selection_index
 
-        if (spot) {
+      while (true) {
+        const i = this.entries.findIndex(e => !e.information)
+
+        if (i < 0 || i == preserve_index) break
+
+        const entry = this.entries[i]
+
+        entry.widget.remove()
+        entry.widget = null
+
+        this.entries.splice(i, 1)
+
+        if (this.entry_selection_index >= i) selection_after--
+      }
+
+      this.setSelection(selection_after)
+    }
+
+    if (needs_more_info && lodash.every(this.entries, e => e.information)) {
+
+        let added = false
+
+        const unused_preconfigured = this.preconfigured_sequence?.sequence?.find(step => !this.entries.some(e => e.preconfigured == step))
+
+        if (unused_preconfigured) {
+          const spot = unused_preconfigured.teleport
+            ? TransportData.resolveTeleport(unused_preconfigured.teleport)
+            : activate(TileArea.init(unused_preconfigured.tile))
+
+          if (spot) {
+            this.createEntry({
+              position: spot,
+              angle: null,
+              information: null,
+              preconfigured: unused_preconfigured,
+            })
+            added = true
+          }
+        }
+
+        if (!added) {
           this.createEntry({
-            position: spot,
+            position: null,
             angle: null,
             information: null,
             preconfigured: unused_preconfigured,
           })
-          added = true
         }
-      }
 
-      if (!added) {
-        this.createEntry({
-          position: null,
-          angle: null,
-          information: null,
-          preconfigured: unused_preconfigured,
-        })
-      }
-
-      this.setSelection(this.entries.length - 1)
+        this.setSelection(this.entries.length - 1)
     }
 
     this.entry_selection_index = this.entries.findIndex(e => e.information == null)
 
     if (this.entry_selection_index < 0) this.entry_selection_index = this.entries.length - 1
-
-    /*
-    if (possible.length == 1) {
-      const m = await deps().app.favourites.getMethod({
-        clue: this.solving.clue.id, spot:
-        this.known_spot_markers.find(s => s.isPossible()).spot
-      })
-
-      if (m) this.solving.parent.path_control.setMethod(m as AugmentedMethod<GenericPathMethod>)
-    }*/
 
     await this.layer.updateOverlay()
 
@@ -627,7 +647,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       .appendTo(this.entry_container)
 
 
-    entry.widget.delete_requested.on(e => {
+    entry.widget.position_discard_requested.on(e => {
       this.delete(e.entry)
     })
 
@@ -637,6 +657,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     entry.widget.discard_requested.on(e => {
       e.entry.angle = null
+      e.entry.information = null
       e.render()
       this.updatePossibilities(false)
     })

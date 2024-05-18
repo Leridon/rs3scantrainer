@@ -1,12 +1,14 @@
 Compass solver:
-    - Improve entry styling
-        - Entry options: Delete, Commit/Refresh
-
     - Show paths for all candidates
     - Tweak "likely_concealed" and "likely_closed" to actually work properly
     - Explanation Modal
-    - Chatbox read service to look for sextant message
+    - Direct link to settings
+    - Indicate selected spot in the marker.
+    - Add spot selection to UI?
+    - Fix fight for zoom-authority between compass and path.
+    - Add markers for triangulation spots?
     - Predicted start spot from last compass/scan position
+    - Chatbox read service to look for sextant message
 
 Final missing transport:
     Master:

@@ -37,13 +37,12 @@ Final missing transport:
         - Better render of in-route teleports
         - Spacing in the tree view is bad
 
-- [5] Settings Modal
-    - Method Pack Management
-
 - Issues
     - [Bug, 1] SearchSelection: Very rarely the dropdown remains after the element is already gone
     - [Bug, 3] The highlight-syncing for the path list while solving does not work
     - [Bug] MethodSelector can open the dropdown more than once.
+    - [Bug] MethodSelector shouldn't wrap lines.
+    - [Bug] Knot reader fails: https://discord.com/channels/332595657363685377/1103737270114209825/1241500553805172898
 
 - Performance
     - [4] Teleport icons use 4 DOM nodes, while skillbert's map just needs 1

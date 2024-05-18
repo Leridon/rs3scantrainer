@@ -598,36 +598,36 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     if (needs_more_info && lodash.every(this.entries, e => e.information)) {
 
-        let added = false
+      let added = false
 
-        const unused_preconfigured = this.preconfigured_sequence?.sequence?.find(step => !this.entries.some(e => e.preconfigured == step))
+      const unused_preconfigured = this.preconfigured_sequence?.sequence?.find(step => !this.entries.some(e => e.preconfigured == step))
 
-        if (unused_preconfigured) {
-          const spot = unused_preconfigured.teleport
-            ? TransportData.resolveTeleport(unused_preconfigured.teleport)
-            : activate(TileArea.init(unused_preconfigured.tile))
+      if (unused_preconfigured) {
+        const spot = unused_preconfigured.teleport
+          ? TransportData.resolveTeleport(unused_preconfigured.teleport)
+          : activate(TileArea.init(unused_preconfigured.tile))
 
-          if (spot) {
-            this.createEntry({
-              position: spot,
-              angle: null,
-              information: null,
-              preconfigured: unused_preconfigured,
-            })
-            added = true
-          }
-        }
-
-        if (!added) {
+        if (spot) {
           this.createEntry({
-            position: null,
+            position: spot,
             angle: null,
             information: null,
             preconfigured: unused_preconfigured,
           })
+          added = true
         }
+      }
 
-        this.setSelection(this.entries.length - 1)
+      if (!added) {
+        this.createEntry({
+          position: null,
+          angle: null,
+          information: null,
+          preconfigured: unused_preconfigured,
+        })
+      }
+
+      this.setSelection(this.entries.length - 1)
     }
 
     this.entry_selection_index = this.entries.findIndex(e => e.information == null)
@@ -678,6 +678,8 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     if (!entry) return
 
+    const hadInfo = entry.information != null
+
     entry.position = coords
     entry.angle = null
     entry.information = null
@@ -688,7 +690,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     const state = this.process.state.value()
     entry.widget.setPreviewAngle(!state || state.spinning ? null : state.angle)
 
-    await this.updatePossibilities(false)
+    if (hadInfo) await this.updatePossibilities(false)
   }
 
   protected begin() {

@@ -15,6 +15,8 @@ export default class Graticule extends leaflet.FeatureGroup {
     interval: number
   } = null
 
+  private _style: PolylineOptions
+
   constructor(public _options: {
     intervals: {
       min_zoom: number,
@@ -24,6 +26,8 @@ export default class Graticule extends leaflet.FeatureGroup {
     lineStyle?: PolylineOptions
   }) {
     super()
+
+    this._style = _options.lineStyle
 
     if (!this._options.offset) this._options.offset = {x: 0.5, y: 0.5}
 
@@ -89,26 +93,29 @@ export default class Graticule extends leaflet.FeatureGroup {
       y: Math.floor(bounds.getSouth() / interval) * interval
     };
 
+    const lines: leaflet.LatLng[][] = []
+
     //for horizontal lines
     for (let i = 0; i <= counts.x; i++) {
       let x = mins.x + i * interval + this._options.offset.x - 1;
 
-      new leaflet.Polyline([
+      lines.push([
         new leaflet.LatLng(bounds.getSouth(), x),
         new leaflet.LatLng(bounds.getNorth(), x)
-      ], this._options.lineStyle)
-        .addTo(this)
+      ])
     }
 
     //for vertical lines
     for (let j = 0; j <= counts.y; j++) {
       let y = mins.y + j * interval + this._options.offset.y - 1;
 
-      new leaflet.Polyline([
+      lines.push([
         new leaflet.LatLng(y, bounds.getWest()),
         new leaflet.LatLng(y, bounds.getEast())
-      ], this._options.lineStyle)
-        .addTo(this)
+      ])
     }
+
+    new leaflet.Polyline(lines, this._style)
+      .addTo(this)
   }
 }

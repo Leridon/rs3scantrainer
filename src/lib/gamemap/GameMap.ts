@@ -352,7 +352,7 @@ export class GameMap extends leaflet.Map {
     function geturls(filename: string) {
       return [
         `https://runeapps.org/s3/map${MAP_ID}/live/${filename}`,
-        `https://runeapps.org/node/map/getnamed?mapid=${MAP_ID}&version=${Constants.map_version}&file=${filename}`
+        //`https://runeapps.org/node/map/getnamed?mapid=${MAP_ID}&version=${Constants.map_version}&file=${filename}`
       ];
     }
 

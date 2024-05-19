@@ -41,6 +41,8 @@ import italic = C.italic;
 import activate = TileArea.activate;
 import notification = Notification.notification;
 import CompassReadResult = CompassReader.CompassReadResult;
+import digSpotArea = Clues.digSpotArea;
+import digSpotRect = Clues.digSpotRect;
 
 const DEVELOPMENT_CALIBRATION_MODE = false
 
@@ -574,6 +576,10 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
           {maxZoom: 2}
         )
       }
+    }
+
+    if(possible.length == 1) {
+      this.parent.setSolutionArea(digSpotRect(possible[0].spot))
     }
 
     const needs_more_info = possible.length > 1

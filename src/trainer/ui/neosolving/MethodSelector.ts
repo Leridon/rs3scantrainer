@@ -25,16 +25,30 @@ export default class MethodSelector extends Widget {
   }
 
   private renderName(method: AugmentedMethod): Widget {
-    const div = c()
+    const div = hbox()
+      .css2({
+        overflow: "hidden",
+        "white-space": "nowrap"
+      })
 
     if (method.method.name && method.method.name.length > 0) {
-      div.append(C.span(method.method.name))
+      div.append(C.span(method.method.name)
+        .css2({
+          overflow: "hidden",
+          "text-overflow": "ellipsis",
+        })
+      )
     } else {
-      div.append(C.italic("Unnamed Method"))
+      div.append(C.italic("Unnamed Method")
+        .css2({
+          overflow: "hidden",
+          "text-overflow": "ellipsis",
+        }))
     }
 
     div.append(
-      ` (${method.method.expected_time.toFixed(method.method.type == "scantree" ? 1 : 0) ?? "?"} ticks)`
+      C.space(),
+      span(` (${method.method.expected_time.toFixed(method.method.type == "scantree" ? 1 : 0) ?? "?"} ticks)`)
     )
 
     return div
@@ -47,7 +61,9 @@ export default class MethodSelector extends Widget {
         ? this.renderName(method)
         : c("<span style='font-style: italic; color: gray'> No method selected</span>"),
       spacer(),
-      NislIcon.dropdown(),
+      NislIcon.dropdown()
+        .css("margin-right", "3px")
+        .css("margin-left", "3px"),
     )
       .addClass("ctr-clickable")
       .setAttribute("tabindex", "-1")
@@ -56,32 +72,39 @@ export default class MethodSelector extends Widget {
       .appendTo(this)
   }
 
-  private async openMethodSelection() {
-    new AbstractDropdownSelection.DropDown<AugmentedMethod>({
-      dropdownClass: "ctr-neosolving-favourite-dropdown",
-      renderItem: m => {
-        if (!m) {
-          return hbox(
-            new FavouriteIcon().set(m == this.parent.active_method),
-            span("None"),
-            spacer()
-          )
-        } else {
-          // TODO: Add tippy tooltip with more details for the method
+  private dropdown: AbstractDropdownSelection.DropDown<AugmentedMethod> = null
 
-          return hbox(
-            new FavouriteIcon().set(m == this.parent.active_method),
-            this.renderName(m),
-            spacer()
-          ).tooltip(m.method.description)
+  private async openMethodSelection() {
+    if (!this.dropdown) {
+      this.dropdown = new AbstractDropdownSelection.DropDown<AugmentedMethod>({
+        dropdownClass: "ctr-neosolving-favourite-dropdown",
+        renderItem: m => {
+          if (!m) {
+            return hbox(
+              new FavouriteIcon().set(m == this.parent.active_method),
+              span("None"),
+              spacer()
+            )
+          } else {
+            // TODO: Add tippy tooltip with more details for the method
+
+            return hbox(
+              new FavouriteIcon().set(m == this.parent.active_method),
+              this.renderName(m),
+              spacer()
+            ).tooltip(m.method.description)
+          }
         }
-      }
-    })
-      .setItems((await MethodPackManager.instance().getForClue(this.clue)).concat([null]))
-      .onSelected(m => {
-        this.parent.app.favourites.setMethod(this.clue, m)
-        this.parent.setMethod(m)
       })
-      .open(this, this.row)
+        .setItems((await MethodPackManager.instance().getForClue(this.clue)).concat([null]))
+        .onSelected(m => {
+          this.parent.app.favourites.setMethod(this.clue, m)
+          this.parent.setMethod(m)
+        })
+        .onClosed(() => {
+          this.dropdown = null
+        })
+        .open(this, this.row)
+    }
   }
 }

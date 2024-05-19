@@ -10,6 +10,11 @@ Compass solver:
     - Predicted start spot from last compass/scan position
     - Chatbox read service to look for sextant message
     - Tooltips for compass spots are all over the place
+    - Refactor compass reader to be similar to the puzzle readers
+
+Custom Modal Solution:
+    - It's no coincidence that bs is short for both bootstrap and bullshit.
+    - Implement a custom solution to show/hide modals, that doesn't have all of the timing bugs bootstrap has
 
 Final missing transport:
     Master:

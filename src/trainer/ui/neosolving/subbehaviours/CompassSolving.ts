@@ -187,7 +187,6 @@ class CompassReadService extends Process<void> {
   ticks_since_stationary: number = 0
 
   constructor(private matched_ui: MatchedUI.Compass,
-              private calibration_mode: CompassReader.CalibrationMode,
               private show_overlay: boolean
   ) {
     super();
@@ -214,7 +213,7 @@ class CompassReadService extends Process<void> {
 
         const read = this.last_read = CompassReader.readCompassState(
           CompassReader.find(img, Rectangle.screenOrigin(capture_rect)),
-          DEVELOPMENT_CALIBRATION_MODE ? null : this.calibration_mode
+          DEVELOPMENT_CALIBRATION_MODE
         )
 
         switch (read.type) {
@@ -426,7 +425,6 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     if (ui) {
       this.process = new CompassReadService(this.ui,
-        this.settings.calibration_mode,
         this.settings.enable_status_overlay
       )
 
@@ -895,7 +893,6 @@ export namespace CompassSolving {
   export type Settings = {
     auto_commit_on_angle_change: boolean,
     enable_status_overlay: boolean,
-    calibration_mode: CompassReader.CalibrationMode,
     active_triangulation_presets: {
       compass_id: number,
       preset_id: number | null
@@ -986,7 +983,6 @@ export namespace CompassSolving {
     export const DEFAULT: Settings = {
       auto_commit_on_angle_change: true,
       enable_status_overlay: true,
-      calibration_mode: "off",
       custom_triangulation_presets: [],
       active_triangulation_presets: [],
       manual_tile_inaccuracy: 3,
@@ -1002,8 +998,6 @@ export namespace CompassSolving {
       if (![true, false].includes(settings.enable_status_overlay)) settings.enable_status_overlay = DEFAULT.enable_status_overlay
       if (typeof settings.manual_tile_inaccuracy != "number") settings.manual_tile_inaccuracy = DEFAULT.manual_tile_inaccuracy
       if (![true, false].includes(settings.use_previous_solution_as_start)) settings.use_previous_solution_as_start = DEFAULT.use_previous_solution_as_start
-
-      if (!Object.keys(CompassReader.calibration_tables).includes(settings.calibration_mode)) settings.calibration_mode = DEFAULT.calibration_mode
 
       return settings
     }

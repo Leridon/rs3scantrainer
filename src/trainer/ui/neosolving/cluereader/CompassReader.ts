@@ -101,17 +101,19 @@ export namespace CompassReader {
   export type CompassReadResult = {
     type: "success",
     state: CompassState,
+    antialiasing: boolean,
   } | { type: "likely_closed" }
     | { type: "likely_concealed" }
 
   export type AngleResult = {
     type: "success",
     angle: number,
+    antialiasing: boolean,
   } | { type: "likely_closed", details: string }
     | { type: "likely_concealed", details: string }
 
   export function readCompassState(ui: MatchedUI.Compass,
-                                   calibration_mode: CompassReader.CalibrationMode = "off"
+                                   disable_calibration: boolean = false
   ): CompassReadResult {
     let data = ui.image.toData(
       Rectangle.screenOrigin(ui.rect).x,
@@ -119,18 +121,18 @@ export namespace CompassReader {
       UI_SIZE.x - 1,
       UI_SIZE.y - 1);
 
-    let dir = getCompassAngle(data, Rectangle.screenOrigin(ui.rect), calibration_mode);
+    let dir = getCompassAngle(data, Rectangle.screenOrigin(ui.rect), disable_calibration);
 
     if (dir.type != "success") return {type: dir.type}
 
     let isArc = CompassReader.isArcCompass(data);
-    return {type: "success", state: {angle: dir.angle, isArc: isArc}};
+    return {type: "success", state: {angle: dir.angle, isArc: isArc}, antialiasing: dir.antialiasing};
   }
 
   const debug_overlay = new OverlayGeometry()
 
   function getCompassAngle(buf: ImageData, origin: Vector2,
-                           calibration_mode: CompassReader.CalibrationMode = "off"
+                           disable_calibration: boolean = false
   ): AngleResult {
     const CENTER_OFFSET = {x: 88, y: 137}
     const CENTER_SIZE = 2
@@ -138,10 +140,14 @@ export namespace CompassReader {
     const INITIAL_SAMPLING_RADIUS: number = 75
     const TOTAL_SAMPLING_RADIUS: number = 80
 
-    function isArrow(x: number, y: number) {
+    function getRed(x: number, y: number) {
       const i = 4 * ((CENTER_OFFSET.y + y) * buf.width + x + CENTER_OFFSET.x)
 
-      return buf.data[i] < 5
+      return buf.data[i]
+    }
+
+    function isArrow(x: number, y: number) {
+      return getRed(x, y) < 5
     }
 
     if (DEBUG_COMPASS_READER) {
@@ -244,6 +250,10 @@ export namespace CompassReader {
       weight: number
     }[] = []
 
+    let antialiasing_detected = false
+
+    const ANTIALIASING_SEARCH_RADIUS = 40
+
     for (let y = -TOTAL_SAMPLING_RADIUS; y <= TOTAL_SAMPLING_RADIUS; y++) {
       for (let x = -TOTAL_SAMPLING_RADIUS; x <= TOTAL_SAMPLING_RADIUS; x++) {
         if (isArrow(x, y)) {
@@ -260,26 +270,40 @@ export namespace CompassReader {
             angle: angle,
             weight: weight
           })
+        } else if (!antialiasing_detected && Math.abs(y) <= ANTIALIASING_SEARCH_RADIUS && Math.abs(x) <= ANTIALIASING_SEARCH_RADIUS) {
+          const red = getRed(x, y)
+
+          if (red < 30) antialiasing_detected = true
         }
       }
     }
 
-    if (rectangle_samples.length < 200) return {type: "likely_closed", details: "Not enough pixels sampled for the rectangle sample"}
-    if (rectangle_samples.length < 1950) return {type: "likely_concealed", details: "Not enough pixels sampled for the rectangle sample"}
-    if (rectangle_samples.length > 2150) return {type: "likely_concealed", details: "Too many pixels sampled for the rectangle sample"}
+    if (antialiasing_detected) {
+      if (rectangle_samples.length < 200) return {type: "likely_closed", details: "Not enough pixels sampled for the rectangle sample"}
+      if (rectangle_samples.length < 1750) return {type: "likely_concealed", details: "Not enough pixels sampled for the rectangle sample"}
+      if (rectangle_samples.length > 1950) return {type: "likely_concealed", details: "Too many pixels sampled for the rectangle sample"}
+    } else {
+      if (rectangle_samples.length < 200) return {type: "likely_closed", details: "Not enough pixels sampled for the rectangle sample"}
+      if (rectangle_samples.length < 1950) return {type: "likely_concealed", details: "Not enough pixels sampled for the rectangle sample"}
+      if (rectangle_samples.length > 2150) return {type: "likely_concealed", details: "Too many pixels sampled for the rectangle sample"}
+    }
 
     const angle_after_rectangle_sample = normalizeAngle(Math.atan2(
       lodash.sum(rectangle_samples.map(a => a.weight * Math.sin(a.angle))),
       lodash.sum(rectangle_samples.map(a => a.weight * Math.cos(a.angle))),
     ))
 
-    const final_angle = calibration_mode && !DISABLE_CALIBRATION
+    const calibration_mode = (disable_calibration || DISABLE_CALIBRATION) ? null
+      : (antialiasing_detected ? "off" : "off")
+
+    const final_angle = calibration_mode
       ? normalizeAngle(angle_after_rectangle_sample + CompassReader.calibration_tables[calibration_mode].sample(angle_after_rectangle_sample))
       : angle_after_rectangle_sample
 
     return {
       type: "success",
-      angle: final_angle
+      angle: final_angle,
+      antialiasing: antialiasing_detected
     }
   }
 

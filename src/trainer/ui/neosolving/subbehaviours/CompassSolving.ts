@@ -30,6 +30,7 @@ import Properties from "../../widgets/Properties";
 import {Notification} from "../../NotificationBar";
 import Widget from "../../../../lib/ui/Widget";
 import {levelIcon} from "../../../../lib/gamemap/GameMap";
+import {ClueEntities} from "../ClueEntities";
 import span = C.span;
 import cls = C.cls;
 import MatchedUI = ClueReader.MatchedUI;
@@ -42,6 +43,7 @@ import activate = TileArea.activate;
 import notification = Notification.notification;
 import CompassReadResult = CompassReader.CompassReadResult;
 import digSpotRect = Clues.digSpotRect;
+import DigSolutionEntity = ClueEntities.DigSolutionEntity;
 
 const DEVELOPMENT_CALIBRATION_MODE = false
 
@@ -137,12 +139,22 @@ class KnownCompassSpot extends MapEntity {
 
   private possible: boolean = true
   private number: number | null = null
+  private active: boolean = false
 
   setPossible(v: boolean, number: number): this {
     if (this.number != number || v != this.possible) {
       this.number = number
       this.possible = v
 
+      this.requestRendering()
+    }
+
+    return this
+  }
+
+  setActive(v: boolean): this {
+    if (v != this.active) {
+      this.active = v
       this.requestRendering()
     }
 
@@ -160,7 +172,7 @@ class KnownCompassSpot extends MapEntity {
   protected async render_implementation(props: MapEntity.RenderProps): Promise<Element> {
     const opacity = this.possible ? 1 : 0.5
 
-    const scale = 0.5 * (props.highlight ? 1.5 : 1)
+    const scale = (this.active ? 1 : 0.5) * (props.highlight ? 1.5 : 1)
 
     const marker = leaflet.marker(Vector2.toLatLong(this.spot.spot), {
       icon: levelIcon(this.spot.spot.level, scale),
@@ -169,7 +181,7 @@ class KnownCompassSpot extends MapEntity {
       bubblingMouseEvents: true,
     }).addTo(this)
 
-    if (this.number != null)
+    if (this.number != null) {
       marker.bindTooltip(leaflet.tooltip({
         content: this.number.toString(),
         className: "spot-number-on-map",
@@ -178,6 +190,11 @@ class KnownCompassSpot extends MapEntity {
         direction: "center",
         opacity: opacity
       }))
+    }
+
+    if (this.active) {
+      DigSolutionEntity.areaGraphics(this.spot.spot).addTo(this)
+    }
 
     return marker.getElement()
   }
@@ -432,6 +449,11 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     this.spots = clue.spots.map((s, i) => ({spot: s, isPossible: true, spot_id: i}))
 
     this.debug_solution = clue.spots[lodash.random(0, clue.spots.length)]
+
+    this.selected_spot.subscribe((spot, old_spot) => {
+      spot.marker?.setActive(true)
+      old_spot?.marker?.setActive(false)
+    })
 
     if (ui) {
       this.process = new CompassReadService(this.ui,

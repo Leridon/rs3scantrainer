@@ -164,13 +164,7 @@ export namespace ClueEntities {
     protected async render_implementation(props: MapEntity.RenderProps): Promise<Element> {
       const floor_group = this.floor_sensitivity_layers.get(props.floor_group_index)
 
-      const range = boxPolygon(digSpotRect(this.sol.spot))
-        .setStyle({
-          color: "gray",
-          interactive: false,
-          opacity: 0.5,
-          fillOpacity: 0.1
-        }).addTo(this)
+      const range = DigSolutionEntity.areaGraphics(this.sol.spot).addTo(this)
 
       const marker = interactionMarker(this.sol.spot, "shovel", props.highlight ? 1.5 : 1, true,
         floor_group.value.correct_level ? undefined : "ctr-entity-wrong-level"
@@ -178,6 +172,18 @@ export namespace ClueEntities {
         .addTo(this)
 
       return marker.getElement()
+    }
+  }
+
+  export namespace DigSolutionEntity {
+    export function areaGraphics(spot: TileCoordinates) {
+      return boxPolygon(digSpotRect(spot))
+        .setStyle({
+          color: "gray",
+          interactive: false,
+          opacity: 0.5,
+          fillOpacity: 0.1
+        })
     }
   }
 

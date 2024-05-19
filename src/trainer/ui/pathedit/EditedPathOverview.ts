@@ -15,6 +15,7 @@ import ContextMenu, {Menu, MenuEntry} from "../widgets/ContextMenu";
 import vbox = C.vbox;
 import spacer = C.spacer;
 import * as jquery from "jquery";
+import {PathStepHeader} from "../pathing/PathStepHeader";
 
 export class IssueWidget extends Widget {
   constructor(issue: Path.issue) {
@@ -230,7 +231,7 @@ export namespace EditedPathOverview {
 
       this.setAttribute("draggable", "true")
 
-      const {icon, content} = PathSectionControl.StepRow.renderStep(value.step.raw)
+      const {icon, content} = PathStepHeader.renderTextAndIconSeparately(value.step.raw)
 
       this.addClass("ctr-path-edit-overview-step").append(
         hboxl(c("<div>&#x2630;</div>")

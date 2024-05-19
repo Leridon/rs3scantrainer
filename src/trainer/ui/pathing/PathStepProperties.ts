@@ -9,6 +9,7 @@ import staticentity = C.staticentity;
 import inlineimg = C.inlineimg;
 import bold = C.bold;
 import cls = C.cls;
+import {PathStepHeader} from "./PathStepHeader";
 
 export class PathStepProperties extends Properties {
 
@@ -32,28 +33,16 @@ export class PathStepProperties extends Properties {
   }
 
   private render(): void {
+    this.header(new PathStepHeader(this.step))
+
     switch (this.step.type) {
       case "orientation":
-        this.header(
-          c().append(
-            "Manually face ",
-            bold(direction.toString(this.step.direction))
-          )
-        )
-
         this.info(
           "Manual orientation is useful when you want to surge directly after teleporting."
         )
 
         break;
-
       case "redclick":
-        this.header(c().append(
-          inlineimg(CursorType.meta(this.step.how).icon_url),
-          " Target ",
-          staticentity("Entity")
-        ))
-
         this.info(
           "Targeting an entity (sometimes referred to as 'redclicking') and then clicking a tile to run somewhere causes your character to turn towards that entity when arriving at that tile. "
           + "This is useful to line up surges that would otherwise not be possible or require additional walking."
@@ -61,80 +50,17 @@ export class PathStepProperties extends Properties {
 
         break;
       case "powerburst":
-        this.header(c().append(
-          `Drink `,
-          entity({kind: "item", name: "Powerburst of Acceleration"}),
-        ))
-        break;
       case "transport":
-        let shortcut = this.step.internal
-        let action = shortcut.actions[0]
-
-        this.header(c().append(
-          inlineimg(CursorType.meta(this.step.internal.actions[0].cursor).icon_url),
-          " ",
-          action.name,
-          " ",
-          entity(shortcut.entity)
-        ))
-
-        break;
       case "run":
-
-        this.header(c().append(
-          "Run ",
-          this.step.to_text
-            ? this.step.to_text
-            : `${PathFinder.pathLength(this.step.waypoints)} tiles`)
-        )
-
-        break;
-
       case "cosmetic":
       case "ability":
       case "teleport":
       case "cheat":
       default:
-        this.header(PathStepProperties.header_text(this.step))
     }
 
     if (this.step.description) {
       this.paragraph(...this.template_resolver.resolve(this.step.description))
-    }
-  }
-}
-
-export namespace PathStepProperties {
-  export function header_text(step: Path.Step) {
-    switch (step.type) {
-      case "orientation":
-        return "Manual Orientation"
-      case "ability":
-        switch (step.ability) {
-          case "surge":
-            return "Surge"
-          case "dive":
-            return "Dive"
-          case "escape":
-            return "Escape"
-          case "barge":
-            return "Barge"
-        }
-        return ""
-      case "run":
-        return "Run"
-      case "teleport":
-        return "Teleport"
-      case "redclick":
-        return "Target Entity"
-      case "powerburst":
-        return "Powerburst"
-      case "transport":
-        return "Use entity"
-      case "cheat":
-        return "Cheat"
-      case "cosmetic":
-        return "Note"
     }
   }
 }

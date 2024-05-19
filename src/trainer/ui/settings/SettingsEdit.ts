@@ -774,15 +774,6 @@ class SolvingSettingsEdit extends Widget {
         .checkboxes()
     ))
 
-    this.layout.named("Pathing", hgrid(
-      ...new Checkbox.Group([
-        {button: new Checkbox("Show"), value: "show" as const},
-        {button: new Checkbox("Hide"), value: "hide" as const},
-      ]).onChange(v => this.value.path_components = v)
-        .setValue(this.value.path_components)
-        .checkboxes()
-    ))
-
     this.layout.named("Puzzles", hgrid(
       ...new Checkbox.Group([
         {button: new Checkbox("Show"), value: "show" as const},

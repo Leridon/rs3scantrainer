@@ -876,7 +876,6 @@ export namespace NeoSolving {
       emote_items: "show" | "hide",
       emotes: "show" | "hide",
       double_agent: "show" | "hide",
-      path_components: "show" | "hide",
       puzzle: "show" | "hide",
       challenge: "full" | "answer_only" | "hide"
     }
@@ -893,7 +892,6 @@ export namespace NeoSolving {
         emote_items: "show",
         emotes: "show",
         double_agent: "show",
-        path_components: "show",
         challenge: "full",
         puzzle: "show"
       }
@@ -909,7 +907,6 @@ export namespace NeoSolving {
         emote_items: "hide",
         emotes: "hide",
         double_agent: "hide",
-        path_components: "hide",
         challenge: "hide",
         puzzle: "hide"
       }
@@ -925,7 +922,6 @@ export namespace NeoSolving {
         emote_items: "hide",
         emotes: "hide",
         double_agent: "hide",
-        path_components: "show",
         challenge: "answer_only",
         puzzle: "hide"
       }
@@ -944,7 +940,6 @@ export namespace NeoSolving {
         if (!["show", "hide"].includes(settings.emote_items)) settings.emote_items = "show"
         if (!["show", "hide"].includes(settings.emotes)) settings.emotes = "show"
         if (!["show", "hide"].includes(settings.double_agent)) settings.double_agent = "show"
-        if (!["show", "hide"].includes(settings.path_components)) settings.path_components = "show"
 
         if (!["show", "hide"].includes(settings.puzzle)) settings.puzzle = "show"
         if (!["full", "answer_only", "hide"].includes(settings.challenge)) settings.challenge = "full"

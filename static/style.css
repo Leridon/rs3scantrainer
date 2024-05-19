@@ -319,6 +319,7 @@ h2 {
     font-size: 12px;
     background-repeat: no-repeat;
     background-position: center;
+    background-size: contain;
 }
 
 .fuzzyhighlight {

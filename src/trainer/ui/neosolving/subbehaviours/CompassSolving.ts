@@ -106,7 +106,7 @@ class CompassHandlingLayer extends GameLayer {
 
       if (event.active_entity instanceof TeleportSpotEntity) {
         this.solving.registerSpot(event.active_entity.teleport)
-      } else if (event.active_entity instanceof KnownCompassSpot && this.solving.selected_spot.value()) {
+      } else if (event.active_entity instanceof KnownCompassSpot) {
         this.solving.selected_spot.set(event.active_entity.spot)
       } else {
         this.solving.registerSpot(

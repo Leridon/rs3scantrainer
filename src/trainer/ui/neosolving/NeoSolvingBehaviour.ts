@@ -383,6 +383,28 @@ export default class NeoSolvingBehaviour extends Behaviour {
   public path_control = this.withSub(new PathControl(this))
   private default_method_selector: MethodSelector = null
 
+  private last_solution_area: {
+    time: number,
+    area: TileRectangle
+  } = null
+
+  setSolutionArea(area: TileRectangle) {
+    this.last_solution_area = {
+      time: Date.now(),
+      area: area
+    }
+  }
+
+  getAssumedPlayerPosition(): TileRectangle | null {
+    if (!this.last_solution_area) return null
+
+    const now = Date.now()
+
+    if (this.last_solution_area.time + 5000 < now) return null
+
+    return this.last_solution_area.area
+  }
+
   constructor(public app: Application) {
     super();
 
@@ -722,7 +744,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
       behaviour.selected_spot.subscribe(async spot => {
 
-        if(spot) {
+        if (spot) {
           const method = await this.getAutomaticMethod({clue: clue.id, spot: spot.spot})
 
           this.setMethod(method)

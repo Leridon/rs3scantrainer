@@ -142,8 +142,6 @@ export namespace CompassReader {
       const i = 4 * ((CENTER_OFFSET.y + y) * buf.width + x + CENTER_OFFSET.x)
 
       return buf.data[i] < 5
-      //&& buf.data[i + 1] < 5
-      //&& buf.data[i + 2] < 5
     }
 
     if (DEBUG_COMPASS_READER) {
@@ -246,8 +244,8 @@ export namespace CompassReader {
       weight: number
     }[] = []
 
-    for (let x = -TOTAL_SAMPLING_RADIUS; x <= TOTAL_SAMPLING_RADIUS; x++) {
-      for (let y = -TOTAL_SAMPLING_RADIUS; y <= TOTAL_SAMPLING_RADIUS; y++) {
+    for (let y = -TOTAL_SAMPLING_RADIUS; y <= TOTAL_SAMPLING_RADIUS; y++) {
+      for (let x = -TOTAL_SAMPLING_RADIUS; x <= TOTAL_SAMPLING_RADIUS; x++) {
         if (isArrow(x, y)) {
           let angle = Vector2.angle(ANGLE_REFERENCE_VECTOR, Vector2.normalize({x, y: -y}))
 
@@ -265,6 +263,10 @@ export namespace CompassReader {
         }
       }
     }
+
+    if (rectangle_samples.length < 200) return {type: "likely_closed", details: "Not enough pixels sampled for the rectangle sample"}
+    if (rectangle_samples.length < 1950) return {type: "likely_concealed", details: "Not enough pixels sampled for the rectangle sample"}
+    if (rectangle_samples.length > 2150) return {type: "likely_concealed", details: "Too many pixels sampled for the rectangle sample"}
 
     const angle_after_rectangle_sample = normalizeAngle(Math.atan2(
       lodash.sum(rectangle_samples.map(a => a.weight * Math.sin(a.angle))),

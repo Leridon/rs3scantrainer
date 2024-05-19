@@ -211,7 +211,6 @@ class CompassReadService extends Process<void> {
         )
 
         this.overlay.clear()
-        //this.overlay.rect(capture_rect)
 
         const read = this.last_read = CompassReader.readCompassState(
           CompassReader.find(img, Rectangle.screenOrigin(capture_rect)),
@@ -223,6 +222,14 @@ class CompassReadService extends Process<void> {
             this.closed.trigger(this)
             break;
           case "likely_concealed":
+            this.overlay.text("Concealed",
+              Vector2.add(Rectangle.center(capture_rect), {x: 5, y: 100}), {
+                shadow: true,
+                centered: true,
+                width: 12,
+                color: mixColor(128, 128, 128)
+              })
+
             break;
           case "success":
             if (this.last_successful_angle == read.state.angle) {
@@ -894,7 +901,8 @@ export namespace CompassSolving {
       preset_id: number | null
     }[],
     custom_triangulation_presets: TriangulationPreset[],
-    manual_tile_inaccuracy: number
+    manual_tile_inaccuracy: number,
+    use_previous_solution_as_start: boolean,
   }
 
   export type TriangulationPreset = {
@@ -981,7 +989,8 @@ export namespace CompassSolving {
       calibration_mode: "off",
       custom_triangulation_presets: [],
       active_triangulation_presets: [],
-      manual_tile_inaccuracy: 3
+      manual_tile_inaccuracy: 3,
+      use_previous_solution_as_start: false
     }
 
     export function normalize(settings: Settings): Settings {
@@ -992,6 +1001,7 @@ export namespace CompassSolving {
       if (![true, false].includes(settings.auto_commit_on_angle_change)) settings.auto_commit_on_angle_change = DEFAULT.auto_commit_on_angle_change
       if (![true, false].includes(settings.enable_status_overlay)) settings.enable_status_overlay = DEFAULT.enable_status_overlay
       if (typeof settings.manual_tile_inaccuracy != "number") settings.manual_tile_inaccuracy = DEFAULT.manual_tile_inaccuracy
+      if (![true, false].includes(settings.use_previous_solution_as_start)) settings.use_previous_solution_as_start = DEFAULT.use_previous_solution_as_start
 
       if (!Object.keys(CompassReader.calibration_tables).includes(settings.calibration_mode)) settings.calibration_mode = DEFAULT.calibration_mode
 

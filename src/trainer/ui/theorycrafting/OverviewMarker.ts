@@ -47,8 +47,6 @@ export class ClueOverviewMarker extends MapEntity {
 
     const highlight = options.highlight
 
-    leaflet.icon().createIcon()
-
     let marker = leaflet.marker([pos.y, pos.x], {
       icon: leaflet.icon({
         iconUrl: level_markers[pos.level],

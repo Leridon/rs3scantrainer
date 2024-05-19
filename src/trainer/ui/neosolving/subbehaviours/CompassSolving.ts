@@ -2,7 +2,6 @@ import {NeoSolvingSubBehaviour} from "../NeoSolvingSubBehaviour";
 import NeoSolvingBehaviour from "../NeoSolvingBehaviour";
 import {GameLayer} from "../../../../lib/gamemap/GameLayer";
 import {Clues} from "../../../../lib/runescape/clues";
-import {TileMarker} from "../../../../lib/gamemap/TileMarker";
 import {TileCoordinates, TileRectangle} from "../../../../lib/runescape/coordinates";
 import {GameMapMouseEvent} from "../../../../lib/gamemap/MapEvents";
 import {C} from "../../../../lib/ui/constructors";
@@ -30,6 +29,7 @@ import {clue_data} from "../../../../data/clues";
 import Properties from "../../widgets/Properties";
 import {Notification} from "../../NotificationBar";
 import Widget from "../../../../lib/ui/Widget";
+import {levelIcon} from "../../../../lib/gamemap/GameMap";
 import span = C.span;
 import cls = C.cls;
 import MatchedUI = ClueReader.MatchedUI;
@@ -41,7 +41,6 @@ import italic = C.italic;
 import activate = TileArea.activate;
 import notification = Notification.notification;
 import CompassReadResult = CompassReader.CompassReadResult;
-import digSpotArea = Clues.digSpotArea;
 import digSpotRect = Clues.digSpotRect;
 
 const DEVELOPMENT_CALIBRATION_MODE = false
@@ -161,17 +160,26 @@ class KnownCompassSpot extends MapEntity {
   protected async render_implementation(props: MapEntity.RenderProps): Promise<Element> {
     const opacity = this.possible ? 1 : 0.5
 
-    const marker = new TileMarker(this.spot.spot)
-      .withMarker(null, 0.5 * (props.highlight ? 1.5 : 1))
+    const scale = 0.5 * (props.highlight ? 1.5 : 1)
+
+    const marker = leaflet.marker(Vector2.toLatLong(this.spot.spot), {
+      icon: levelIcon(this.spot.spot.level, scale),
+      opacity: opacity,
+      interactive: true,
+      bubblingMouseEvents: true,
+    }).addTo(this)
 
     if (this.number != null)
-      marker.withLabel(this.number.toString(), "spot-number-on-map", [0, 10])
+      marker.bindTooltip(leaflet.tooltip({
+        content: this.number.toString(),
+        className: "spot-number-on-map",
+        offset: [0, 10],
+        permanent: true,
+        direction: "center",
+        opacity: opacity
+      }))
 
-    marker
-      .setOpacity(opacity)
-      .addTo(this)
-
-    return marker.marker.getElement()
+    return marker.getElement()
   }
 }
 
@@ -578,7 +586,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       }
     }
 
-    if(possible.length == 1) {
+    if (possible.length == 1) {
       this.parent.setSolutionArea(digSpotRect(possible[0].spot))
     }
 

@@ -9,7 +9,6 @@ Compass solver:
     - Add markers for triangulation spots?
     - Predicted start spot from last compass/scan position
     - Chatbox read service to look for sextant message
-    - Tooltips for compass spots are all over the place
     - Refactor compass reader to be similar to the puzzle readers
 
 Custom Modal Solution:

@@ -7,6 +7,8 @@ import observe_combined = Observable.observe_combined;
 export abstract class Modal2 {
   private bs_modal: bootstrap.Modal
 
+  state = observe<"unmounted" | "showing" | "shown" | "hiding" | "hidden">("unmounted")
+
   shown = ewent<this>()
   hidden = ewent<this>()
   removed = ewent<this>()
@@ -17,6 +19,7 @@ export abstract class Modal2 {
 
   private visible = observe(false)
   private should_dismount = observe(false)
+  private should_hide = false
 
   protected constructor(protected options: Modal2.Options = {}) {
     this._modal = c("<div class='modal ctr-modal' tabindex='-1'></div>")
@@ -51,14 +54,22 @@ export abstract class Modal2 {
         this.visible.set(true)
         this.shown.trigger(this)
 
+        this.state.set("shown")
+
         Modal2.open_count++
+
+        if (this.should_hide) this.hide()
       })
 
       this._modal.raw().addEventListener("hidden.bs.modal", () => {
         this.visible.set(false)
         this.hidden.trigger(this)
 
+        this.state.set("hidden")
+
         Modal2.open_count--
+
+        console.log(`Open Modals ${Modal2.open_count}`)
 
         if (Modal2.open_count == 0) {
           const backdrops = document.getElementsByClassName("modal-backdrop")
@@ -76,7 +87,8 @@ export abstract class Modal2 {
   }
 
   private dismount() {
-    this._modal.detach()
+    this._modal.remove()
+    this.state.set("hidden")
     this.removed.trigger(this)
   }
 
@@ -89,13 +101,20 @@ export abstract class Modal2 {
 
     await this.render()
 
+    this.state.set("showing")
     this.bs_modal.show()
 
     return promise
   }
 
   hide() {
-    this.bs_modal.hide()
+    if (this.state.value() == "showing") {
+      this.should_hide = true
+      console.log("Request hiding")
+    } else if (this.state.value() == "shown") {
+      this.bs_modal.hide()
+      this.state.set("hiding")
+    }
   }
 
   remove() {

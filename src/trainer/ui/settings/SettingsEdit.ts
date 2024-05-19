@@ -879,6 +879,16 @@ class CompassSettingsEdit extends Widget {
       .setValue(this.value.enable_status_overlay), "left", 1)
     this.layout.paragraph("Shows detected angle on top of the compass.")
 
+    this.layout.header(new Checkbox("Show method previews")
+      .onCommit(v => this.value.show_method_preview_of_secondary_solutions = v)
+      .setValue(this.value.show_method_preview_of_secondary_solutions), "left", 1)
+    this.layout.paragraph("Shows method previews for all remaining candidates if only a few candidates remain.")
+
+    this.layout.header(new Checkbox("Use previous solution as first triangulation spot")
+      .onCommit(v => this.value.use_previous_solution_as_start = v)
+      .setValue(this.value.use_previous_solution_as_start), "left", 1)
+    this.layout.paragraph("Uses the solution of the previous clue as the first triangulation spot.")
+
     this.layout.header("Preconfigured Triangulation Strategy")
 
     this.layout.paragraph("Preconfigured strategies are used to automatically load trinagulation spots whenever you receive a compass clue.")

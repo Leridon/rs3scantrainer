@@ -1,9 +1,6 @@
 Compass solver:
-    - Show paths for all candidates
-    - Tweak "likely_concealed" and "likely_closed" to actually work properly
     - Explanation Modal
     - Direct link to settings
-    - Indicate selected spot in the marker.
     - Add spot selection to UI?
     - Fix fight for zoom-authority between compass and path.
     - Add markers for triangulation spots?

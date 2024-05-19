@@ -31,6 +31,7 @@ import {Notification} from "../../NotificationBar";
 import Widget from "../../../../lib/ui/Widget";
 import {levelIcon} from "../../../../lib/gamemap/GameMap";
 import {ClueEntities} from "../ClueEntities";
+import {PathStepEntity} from "../../map/entities/PathStepEntity";
 import span = C.span;
 import cls = C.cls;
 import MatchedUI = ClueReader.MatchedUI;
@@ -44,6 +45,9 @@ import notification = Notification.notification;
 import CompassReadResult = CompassReader.CompassReadResult;
 import digSpotRect = Clues.digSpotRect;
 import DigSolutionEntity = ClueEntities.DigSolutionEntity;
+import hbox = C.hbox;
+import {SettingsModal} from "../../settings/SettingsEdit";
+import inlineimg = C.inlineimg;
 
 const DEVELOPMENT_CALIBRATION_MODE = false
 
@@ -416,7 +420,7 @@ class CompassEntryWidget extends Widget {
  * It controls the compass UI and uses an internal process to continuously read the compass state.
  */
 export class CompassSolving extends NeoSolvingSubBehaviour {
-  readonly settings: CompassSolving.Settings
+  settings: CompassSolving.Settings
 
   spots: CompassSolving.SpotData[]
 
@@ -453,6 +457,8 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     this.selected_spot.subscribe((spot, old_spot) => {
       spot?.marker?.setActive(true)
       old_spot?.marker?.setActive(false)
+
+      this.updateMethodPreviews()
     })
 
     if (ui) {
@@ -494,8 +500,19 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     const container = this.parent.layer.compass_container
 
     cls("ctr-neosolving-solution-row")
+      .append(
+        hbox(
+          span("Compass Solver [WIP]"),
+          C.spacer(),
+          inlineimg("assets/icons/settings.png").addClass("ctr-clickable")
+            .on("click", async () => {
+              const result = await new SettingsModal("compass").do()
+
+              if (result.saved) this.settings = result.value.solving.compass
+            })
+        )
+      )
       .addClass("ctr-neosolving-compass-entries-header")
-      .text("Compass Solver [WIP]")
       .appendTo(container)
 
     this.entry_container = c().appendTo(container)
@@ -550,6 +567,26 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     await this.updatePossibilities(true)
   }
 
+  private async updateMethodPreviews() {
+    // Render previews of methods for all candidate spots that aren't the currently selected one
+    if (this.settings.show_method_preview_of_secondary_solutions) {
+      const selected = this.selected_spot.value()
+
+      for (let spot of this.spots) {
+        if (selected && spot.isPossible && !spot.path && spot != selected) {
+          const m = await this.parent.getAutomaticMethod({clue: this.clue.id, spot: spot.spot})
+
+          if (m?.method?.type != "general_path") continue
+
+          spot.path = PathStepEntity.renderPath(m.method.main_path).eachEntity(e => e.setOpacity(0.5)).addTo(this.layer)
+        } else if ((!selected || !spot.isPossible || spot == selected) && spot.path) {
+          spot.path.remove()
+          spot.path = null
+        }
+      }
+    }
+  }
+
   /**
    * Update possible spots, potentially add a new triangulation entry, activate method for specific spot...
    * @param maybe_fit
@@ -599,6 +636,8 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     } else {
       this.selected_spot.set(null)
     }
+
+    await this.updateMethodPreviews()
 
     if (maybe_fit) {
       if (possible.length > 0 && (information.length > 0 || possible.length < 100)) {
@@ -936,6 +975,7 @@ export namespace CompassSolving {
     custom_triangulation_presets: TriangulationPreset[],
     manual_tile_inaccuracy: number,
     use_previous_solution_as_start: boolean,
+    show_method_preview_of_secondary_solutions: boolean
   }
 
   export type TriangulationPreset = {
@@ -1022,7 +1062,8 @@ export namespace CompassSolving {
       custom_triangulation_presets: [],
       active_triangulation_presets: [],
       manual_tile_inaccuracy: 3,
-      use_previous_solution_as_start: false
+      use_previous_solution_as_start: false,
+      show_method_preview_of_secondary_solutions: true,
     }
 
     export function normalize(settings: Settings): Settings {
@@ -1034,6 +1075,7 @@ export namespace CompassSolving {
       if (![true, false].includes(settings.enable_status_overlay)) settings.enable_status_overlay = DEFAULT.enable_status_overlay
       if (typeof settings.manual_tile_inaccuracy != "number") settings.manual_tile_inaccuracy = DEFAULT.manual_tile_inaccuracy
       if (![true, false].includes(settings.use_previous_solution_as_start)) settings.use_previous_solution_as_start = DEFAULT.use_previous_solution_as_start
+      if (![true, false].includes(settings.show_method_preview_of_secondary_solutions)) settings.show_method_preview_of_secondary_solutions = DEFAULT.show_method_preview_of_secondary_solutions
 
       return settings
     }

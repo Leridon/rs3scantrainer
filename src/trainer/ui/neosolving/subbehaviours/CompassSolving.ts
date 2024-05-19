@@ -451,7 +451,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     this.debug_solution = clue.spots[lodash.random(0, clue.spots.length)]
 
     this.selected_spot.subscribe((spot, old_spot) => {
-      spot.marker?.setActive(true)
+      spot?.marker?.setActive(true)
       old_spot?.marker?.setActive(false)
     })
 

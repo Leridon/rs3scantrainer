@@ -42890,7 +42890,7 @@
                             ],
                             "region": {
                               "area": null,
-                              "name": "B"
+                              "name": "Worker"
                             }
                           }
                         },
@@ -43143,7 +43143,7 @@
                       ],
                       "region": {
                         "area": null,
-                        "name": "D"
+                        "name": "Port"
                       }
                     }
                   },
@@ -43778,7 +43778,7 @@
                       ],
                       "region": {
                         "area": null,
-                        "name": "D"
+                        "name": "Port"
                       }
                     }
                   },
@@ -44006,7 +44006,7 @@
                 ],
                 "region": {
                   "area": null,
-                  "name": "C"
+                  "name": "Imperial"
                 }
               }
             },
@@ -44482,7 +44482,7 @@
                 ],
                 "region": {
                   "area": null,
-                  "name": "B"
+                  "name": "Worker"
                 }
               }
             },
@@ -44976,7 +44976,7 @@
           ],
           "region": {
             "area": null,
-            "name": "A"
+            "name": "Merchant"
           }
         }
       },

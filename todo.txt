@@ -1,6 +1,5 @@
 Compass solver:
     - Explanation Modal
-    - Direct link to settings
     - Add spot selection to UI?
     - Fix fight for zoom-authority between compass and path.
     - Add markers for triangulation spots?

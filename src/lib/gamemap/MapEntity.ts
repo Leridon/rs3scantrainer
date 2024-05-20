@@ -102,7 +102,7 @@ export abstract class MapEntity extends leaflet.FeatureGroup implements QuadTree
   isStillHovered(): boolean {
     return this.getLayers().some(e => {
       if (e instanceof leaflet.Marker || e instanceof leaflet.Path) {
-        return e.getElement().matches(":hover")
+        return e.getElement()?.matches(":hover")
       }
 
       return false

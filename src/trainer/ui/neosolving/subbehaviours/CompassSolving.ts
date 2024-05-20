@@ -32,6 +32,7 @@ import Widget from "../../../../lib/ui/Widget";
 import {levelIcon} from "../../../../lib/gamemap/GameMap";
 import {ClueEntities} from "../ClueEntities";
 import {PathStepEntity} from "../../map/entities/PathStepEntity";
+import {SettingsModal} from "../../settings/SettingsEdit";
 import span = C.span;
 import cls = C.cls;
 import MatchedUI = ClueReader.MatchedUI;
@@ -46,7 +47,6 @@ import CompassReadResult = CompassReader.CompassReadResult;
 import digSpotRect = Clues.digSpotRect;
 import DigSolutionEntity = ClueEntities.DigSolutionEntity;
 import hbox = C.hbox;
-import {SettingsModal} from "../../settings/SettingsEdit";
 import inlineimg = C.inlineimg;
 
 const DEVELOPMENT_CALIBRATION_MODE = false
@@ -530,10 +530,14 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
   }
 
   async delete(entry: CompassSolving.Entry) {
-    entry.angle = null
-    entry.information = null
-    entry.position = null
-    entry.preconfigured = null
+    if (entry.is_solution_of_previous_clue) {
+
+    } else {
+      entry.angle = null
+      entry.information = null
+      entry.position = null
+      entry.preconfigured = null
+    }
 
     await this.updatePossibilities(false)
 
@@ -593,9 +597,13 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
    */
   async updatePossibilities(maybe_fit: boolean) {
 
+    const FEW_CANDIDATES_THRESHOLD = 5
+
     this.layer.rendering.lock()
+
     const information = this.entries.filter(e => e.information).map(e => e.information)
 
+    // Update all spots to see if they are still a possible candidate
     this.spots.forEach(m => {
       const p = Compasses.isPossible(information, m.spot)
 
@@ -604,6 +612,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       if (!p) m.marker?.setPossible(false, null)
     })
 
+    // Get a list of possible spots, sorted ascendingly by how far they are away from the angle lines. possible[0] is the closest.
     const possible = lodash.sortBy(this.spots.filter(s => s.isPossible), p =>
       Math.max(...information.map(info =>
           angleDifference(Compasses.getExpectedAngle(
@@ -614,19 +623,15 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       )
     )
 
-    const method = await this.parent.getAutomaticMethod({clue: this.clue.id, spot: possible[0].spot})
+    const only_few_candidates_remain = possible.length <= FEW_CANDIDATES_THRESHOLD
 
-    if (method) {
-      this.parent.setMethod(method)
-    }
-
-    const add_numbers = possible.length <= 5
-
+    // Actually update rendering of the markers to reflect whether they are still possible and potentially add numbers
     possible.forEach((m, i) => {
-      m.marker?.setPossible(true, add_numbers ? i + 1 : null)
+      m.marker?.setPossible(true, only_few_candidates_remain ? i + 1 : null)
     })
 
-    if (add_numbers) {
+    // Update the selected solution spot if necessary
+    if (only_few_candidates_remain) {
       const old_selection = this.selected_spot.value()
 
       // Reference comparison is fine because only the instances from the original array in the clue are handled
@@ -637,8 +642,10 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       this.selected_spot.set(null)
     }
 
+    // Selected spot and possibilities have been updated, update the preview rendering of methods for spots that are possible but not the most likely.
     await this.updateMethodPreviews()
 
+    // Fit camera view to only the remaining possible spots. (TODO: This conflicts with the camera zoom that happens when setting the method for the most likely spot)
     if (maybe_fit) {
       if (possible.length > 0 && (information.length > 0 || possible.length < 100)) {
         this.layer.getMap().fitView(TileRectangle.from(...possible.map(s => s.spot)),
@@ -647,14 +654,12 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       }
     }
 
-    if (possible.length == 1) {
-      this.parent.setSolutionArea(digSpotRect(possible[0].spot))
-    }
-
     const needs_more_info = possible.length > 1
 
+    // Remove redundant triangulation entries that have no commited angle
+    // Only the last uncommitted entry is preserved, and only if there is more than one candidate spot left
     {
-      const preserve_index = needs_more_info ? lodash.findLastIndex(this.entries, e => !e.information) : null
+      let preserve_index = needs_more_info ? lodash.findLastIndex(this.entries, e => !e.information) : null
 
       let selection_after = this.entry_selection_index
 
@@ -670,44 +675,47 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
         this.entries.splice(i, 1)
 
-        if (this.entry_selection_index >= i) selection_after--
+        preserve_index--
+        if (selection_after >= i) selection_after--
       }
 
       this.setSelection(selection_after)
     }
 
+
+    // Check if we need to add another triangulation spot
     if (needs_more_info && lodash.every(this.entries, e => e.information)) {
+      (() => {
 
-      let added = false
+        if(!this.entries.some(e => e.is_solution_of_previous_clue)) {
+          // Check if there's an element of the preconfigured sequence we can still use
+          const unused_preconfigured = this.preconfigured_sequence?.sequence?.find(step => !this.entries.some(e => e.preconfigured == step))
 
-      const unused_preconfigured = this.preconfigured_sequence?.sequence?.find(step => !this.entries.some(e => e.preconfigured == step))
+          if (unused_preconfigured) {
+            const spot = unused_preconfigured.teleport
+              ? TransportData.resolveTeleport(unused_preconfigured.teleport)
+              : activate(TileArea.init(unused_preconfigured.tile))
 
-      if (unused_preconfigured) {
-        const spot = unused_preconfigured.teleport
-          ? TransportData.resolveTeleport(unused_preconfigured.teleport)
-          : activate(TileArea.init(unused_preconfigured.tile))
-
-        if (spot) {
-          this.createEntry({
-            position: spot,
-            angle: null,
-            information: null,
-            preconfigured: unused_preconfigured,
-          })
-          added = true
+            if (spot) {
+              this.createEntry({
+                position: spot,
+                angle: null,
+                information: null,
+                preconfigured: unused_preconfigured,
+              })
+              return
+            }
+          }
         }
-      }
 
-      if (!added) {
+        // If we get to this point, add empty entry without position
         this.createEntry({
           position: null,
           angle: null,
           information: null,
-          preconfigured: unused_preconfigured,
+          preconfigured: null,
         })
-      }
-
-      this.setSelection(this.entries.length - 1)
+      })()
     }
 
     this.entry_selection_index = this.entries.findIndex(e => e.information == null)
@@ -749,6 +757,8 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     })
 
     this.entries.push(entry)
+
+    this.setSelection(this.entries.length - 1)
   }
 
   async registerSpot(coords: TileArea.ActiveTileArea | TeleportGroup.Spot): Promise<void> {
@@ -795,6 +805,19 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     this.renderWidget()
 
+    const assumed_position_from_previous_clue = this.parent.getAssumedPlayerPosition()
+
+    // TODO: Check if the assumed position is useable for this compass area
+    if (assumed_position_from_previous_clue) {
+
+      this.createEntry({
+        position: TileArea.activate(TileArea.fromRect(assumed_position_from_previous_clue)),
+        angle: null,
+        information: null,
+        is_solution_of_previous_clue: true,
+      })
+    }
+
     this.updatePossibilities(true)
   }
 
@@ -819,6 +842,7 @@ export namespace CompassSolving {
     angle: number | null,
     information: Compasses.TriangulationPoint | null,
     preconfigured?: CompassSolving.TriangulationPreset["sequence"][number],
+    is_solution_of_previous_clue?: boolean,
     widget?: CompassEntryWidget
   }
 

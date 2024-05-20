@@ -56,6 +56,7 @@ import notification = Notification.notification;
 import MatchedUI = ClueReader.MatchedUI;
 import activate = TileArea.activate;
 import ClueSpot = Clues.ClueSpot;
+import digSpotRect = Clues.digSpotRect;
 
 class NeoSolvingLayer extends GameLayer {
   public control_bar: NeoSolvingLayer.MainControlBar
@@ -400,7 +401,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
     const now = Date.now()
 
-    if (this.last_solution_area.time + 5000 < now) return null
+    if (this.last_solution_area.time + 60000 < now) return null
 
     return this.last_solution_area.area
   }
@@ -743,8 +744,11 @@ export default class NeoSolvingBehaviour extends Behaviour {
       const behaviour = new CompassSolving(this, clue, read_result?.found_ui as MatchedUI.Compass)
 
       behaviour.selected_spot.subscribe(async spot => {
-
         if (spot) {
+          if (spot.isPossible) {
+            this.setSolutionArea(digSpotRect(spot.spot))
+          }
+
           const method = await this.getAutomaticMethod({clue: clue.id, spot: spot.spot})
 
           this.setMethod(method)

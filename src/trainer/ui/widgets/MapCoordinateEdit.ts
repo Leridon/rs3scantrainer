@@ -6,7 +6,6 @@ import {SelectTileInteraction} from "lib/gamemap/interaction/SelectTileInteracti
 import AbstractEditWidget from "./AbstractEditWidget";
 import {TileCoordinates} from "../../../lib/runescape/coordinates";
 import {SmallImageButton} from "./SmallImageButton";
-import NumberInput from "../../../lib/ui/controls/NumberInput";
 
 export default class MapCoordinateEdit extends AbstractEditWidget<TileCoordinates> {
   x: Widget
@@ -28,14 +27,14 @@ export default class MapCoordinateEdit extends AbstractEditWidget<TileCoordinate
     c("<div> | </div>").appendTo(this)
     this.y = c("<input type='text' inputmode='numeric' class='nisinput' min='0'>").appendTo(this)
     this.y.container.on("change", () => {
-      this.commit(tap(lodash.clone(this.get()), v => v.y = Number(this.x.container.val())))
+      this.commit(tap(lodash.clone(this.get()), v => v.y = Number(this.y.container.val())))
 
     })
 
     c("<div> | </div>").appendTo(this)
     this.floor = c("<input type='number' class='nisinput' min='0' max='3' style='min-width: 45px; max-width: 45px;'>").appendTo(this)
     this.floor.container.on("change", () => {
-      this.commit(tap(lodash.clone(this.get()), v => v.level = Number(this.x.container.val()) as floor_t))
+      this.commit(tap(lodash.clone(this.get()), v => v.level = Number(this.floor.container.val()) as floor_t))
     })
 
     if (initial) {

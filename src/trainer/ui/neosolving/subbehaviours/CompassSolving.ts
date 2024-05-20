@@ -44,7 +44,6 @@ import italic = C.italic;
 import activate = TileArea.activate;
 import notification = Notification.notification;
 import CompassReadResult = CompassReader.CompassReadResult;
-import digSpotRect = Clues.digSpotRect;
 import DigSolutionEntity = ClueEntities.DigSolutionEntity;
 import hbox = C.hbox;
 import inlineimg = C.inlineimg;
@@ -687,7 +686,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     if (needs_more_info && lodash.every(this.entries, e => e.information)) {
       (() => {
 
-        if(!this.entries.some(e => e.is_solution_of_previous_clue)) {
+        if (!this.entries.some(e => e.is_solution_of_previous_clue)) {
           // Check if there's an element of the preconfigured sequence we can still use
           const unused_preconfigured = this.preconfigured_sequence?.sequence?.find(step => !this.entries.some(e => e.preconfigured == step))
 
@@ -809,6 +808,8 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     // TODO: Check if the assumed position is useable for this compass area
     if (assumed_position_from_previous_clue) {
+
+      // TODO: Commit this entry immediately
 
       this.createEntry({
         position: TileArea.activate(TileArea.fromRect(assumed_position_from_previous_clue)),

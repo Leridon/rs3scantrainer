@@ -1,9 +1,8 @@
 import * as leaflet from "leaflet";
-import {DomEvent, DomUtil, FitBoundsOptions, MapOptions, Util} from "leaflet";
+import {FitBoundsOptions, MapOptions} from "leaflet";
 import {floor_t, TileCoordinates, TileRectangle} from "../runescape/coordinates";
 import Graticule from "./defaultlayers/Graticule";
 import Widget from "../ui/Widget";
-import {Constants} from "../../trainer/constants";
 import ContextMenu from "../../trainer/ui/widgets/ContextMenu";
 import TileHighlightLayer from "./defaultlayers/TileHighlightLayer";
 import {GameMapContextMenuEvent, GameMapEvent, GameMapKeyboardEvent, GameMapMouseEvent, GameMapViewChangedEvent} from "./MapEvents";
@@ -307,7 +306,9 @@ export class GameMap extends leaflet.Map {
     options.maxZoom ??= Math.max(this.getZoom(), 4)
 
     this.invalidateSize()
+
     this.fitBounds(util.convert_bounds(Rectangle.toBounds(view)).pad(0.1), options)
+
     this.floor.set(view.level)
     return this
   }

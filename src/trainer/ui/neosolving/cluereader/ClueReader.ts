@@ -301,7 +301,7 @@ export class ClueReader {
               case "scan":
                 return {
                   type: "scan",
-                  image: img.underlying,
+                  image: img.raw(),
                   rect: Rectangle.fromOriginAndSize(
                     Vector2.sub(locs[0].screenRectangle().origin, anchor.origin_offset),
                     {x: 180, y: 190}
@@ -310,7 +310,7 @@ export class ClueReader {
               case "compass":
                 return {
                   type: "compass",
-                  image: img.underlying,
+                  image: img.raw(),
                   rect: Rectangle.fromOriginAndSize(Vector2.sub(locs[0].screenRectangle().origin, anchor.origin_offset), CompassReader.UI_SIZE)
                 }
             }
@@ -343,7 +343,7 @@ export class ClueReader {
       switch (found_ui.type) {
         case "scan": {
           const scan_text_full = ClueReader.readScanPanelText(
-            img.underlying,
+            img.raw(),
             Rectangle.screenOrigin(found_ui.rect)
           )
 

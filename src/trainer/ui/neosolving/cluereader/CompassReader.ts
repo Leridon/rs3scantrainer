@@ -92,7 +92,7 @@ export namespace CompassReader {
     return {
       type: "compass",
       image: img,
-      rect: Rectangle.fromOriginAndSize(origin, {x: 172, y: 259})
+      rect: Rectangle.fromOriginAndSize(origin, UI_SIZE)
     }
   }
 
@@ -307,7 +307,7 @@ export namespace CompassReader {
     }
   }
 
-  export function isArcCompass(buf: ImageData) {
+  export function isArcCompass(buf: ImageData): boolean {
     const Y = 235
     const X_MIN = 34
     const X_MAX = 146

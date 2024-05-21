@@ -5,10 +5,6 @@ import {LazyAsync} from "../properties/Lazy";
 import * as OCR from "@alt1/ocr";
 import {ScreenRectangle} from "./ScreenRectangle";
 
-export function imageSize(image: ImageData): Vector2 {
-  return {x: image.width, y: image.height}
-}
-
 export class CapturedImage {
   private _data: ImageData = undefined
   private readonly _fullCapturedRectangle: ScreenRectangle
@@ -16,13 +12,13 @@ export class CapturedImage {
 
   public readonly size: Vector2
 
-  constructor(public readonly underlying: ImgRef,
+  constructor(private readonly capture: { timestamp: number, img_ref: ImgRef },
               private readonly screen_rectangle: ScreenRectangle = null,
               public readonly parent: CapturedImage = null
   ) {
     this._fullCapturedRectangle = {
-      origin: {x: underlying.x, y: underlying.y},
-      size: {x: underlying.width, y: underlying.height}
+      origin: {x: capture.img_ref.x, y: capture.img_ref.y},
+      size: {x: capture.img_ref.width, y: capture.img_ref.height}
     }
 
     if (!this.screen_rectangle) {
@@ -39,6 +35,10 @@ export class CapturedImage {
     this.size = this.screen_rectangle.size
   }
 
+  raw(): ImgRef {
+    return this.capture.img_ref
+  }
+
   screenRectangle(): ScreenRectangle {
     return this.screen_rectangle
   }
@@ -48,7 +48,7 @@ export class CapturedImage {
   }
 
   find(needle: ImageData): CapturedImage[] {
-    return this.underlying.findSubimage(needle).map(position =>
+    return this.capture.img_ref.findSubimage(needle).map(position =>
       this.getSubSection({origin: position, size: {x: needle.width, y: needle.height}})
     )
   }
@@ -58,12 +58,12 @@ export class CapturedImage {
     else return this
   }
 
-  getSubSection(rectangle: ScreenRectangle): CapturedImage {
+  getSubSection(relative_rectangle: ScreenRectangle): CapturedImage {
     return new CapturedImage(
-      this.underlying,
+      this.capture,
       {
-        origin: Vector2.add(this.screen_rectangle.origin, rectangle.origin),
-        size: rectangle.size
+        origin: Vector2.add(this.screen_rectangle.origin, relative_rectangle.origin),
+        size: relative_rectangle.size
       },
       this
     )
@@ -71,7 +71,7 @@ export class CapturedImage {
 
   getData(): ImageData {
     if (!this._data) {
-      this._data = this.underlying.toData(
+      this._data = this.capture.img_ref.toData(
         this.screen_rectangle.origin.x,
         this.screen_rectangle.origin.y,
         this.screen_rectangle.size.x,
@@ -82,14 +82,20 @@ export class CapturedImage {
     return this._data
   }
 
+  recapture(): CapturedImage {
+    return CapturedImage.capture(this.screenRectangle())
+  }
+
   static capture(section: ScreenRectangle = null): CapturedImage | null {
     try {
       // TODO: This should respect a1.captureInterval in some way
+      const timestamp = Date.now()
+
       const img = section
         ? a1lib.captureHold(section.origin.x, section.origin.y, section.size.x, section.size.y)
         : a1lib.captureHoldFullRs()
 
-      return new CapturedImage(img)
+      return new CapturedImage({img_ref: img, timestamp: timestamp})
     } catch (e: any) {
       console.error(`Capture failed: ${e.message}`)
       console.error(e.stack)

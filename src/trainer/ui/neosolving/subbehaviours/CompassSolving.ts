@@ -47,6 +47,7 @@ import CompassReadResult = CompassReader.CompassReadResult;
 import DigSolutionEntity = ClueEntities.DigSolutionEntity;
 import hbox = C.hbox;
 import inlineimg = C.inlineimg;
+import vbox = C.vbox;
 
 const DEVELOPMENT_CALIBRATION_MODE = false
 
@@ -496,26 +497,23 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
   renderWidget() {
     this.parent.layer.compass_container.empty()
 
-    const container = this.parent.layer.compass_container
+    const container = hbox().appendTo(this.parent.layer.compass_container)
 
-    cls("ctr-neosolving-solution-row")
+    cls("ctr-neosolving-compass-solving-header")
       .append(
-        hbox(
-          span("Compass Solver [WIP]"),
-          C.spacer(),
-          inlineimg("assets/icons/settings.png").addClass("ctr-clickable")
-            .on("click", async () => {
-              const result = await new SettingsModal("compass").do()
+        inlineimg("assets/icons/arrow.png").tooltip("Compass Solver"),
+        C.spacer(),
+        inlineimg("assets/icons/settings.png").addClass("ctr-clickable")
+          .on("click", async () => {
+            const result = await new SettingsModal("compass").do()
 
-              if (result.saved) this.settings = result.value.solving.compass
-            })
-        )
+            if (result.saved) this.settings = result.value.solving.compass
+          })
       )
-      .addClass("ctr-neosolving-compass-entries-header")
       .appendTo(container)
 
-    this.entry_container = c().appendTo(container)
-    this.spot_selection_container = c().appendTo(container)
+    this.entry_container = c().css("flex-basis", "100%").appendTo(container)
+    //this.spot_selection_container = c().appendTo(container)
   }
 
   private setSelection(i: number) {
@@ -655,9 +653,31 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     const needs_more_info = possible.length > 1
 
+    // If the candidates have already been removed to 1, remove all uncommited entries.
+    if (!needs_more_info) {
+      let selection_after = this.entry_selection_index
+
+      while (true) {
+        const i = this.entries.findIndex(e => !e.information)
+
+        if (i < 0) break
+
+        const entry = this.entries[i]
+
+        entry.widget.remove()
+        entry.widget = null
+
+        this.entries.splice(i, 1)
+
+        if (selection_after >= i) selection_after--
+      }
+
+      this.setSelection(selection_after)
+    }
+
     // Remove redundant triangulation entries that have no commited angle
     // Only the last uncommitted entry is preserved, and only if there is more than one candidate spot left
-    {
+    /*{
       let preserve_index = needs_more_info ? lodash.findLastIndex(this.entries, e => !e.information) : null
 
       let selection_after = this.entry_selection_index
@@ -679,11 +699,11 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       }
 
       this.setSelection(selection_after)
-    }
+    }*/
 
 
     // Check if we need to add another triangulation spot
-    if (needs_more_info && lodash.every(this.entries, e => e.information)) {
+    /*if (needs_more_info && lodash.every(this.entries, e => e.information)) {
       (() => {
 
         if (!this.entries.some(e => e.is_solution_of_previous_clue)) {
@@ -715,7 +735,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
           preconfigured: null,
         })
       })()
-    }
+    }*/
 
     this.entry_selection_index = this.entries.findIndex(e => e.information == null)
 
@@ -818,6 +838,31 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
         is_solution_of_previous_clue: true,
       })
     }
+
+    const preconfigured_id = this.settings.active_triangulation_presets.find(p => p.compass_id == this.clue.id)?.preset_id
+
+    const preconfigured_sequence = [
+      ...CompassSolving.TriangulationPreset.builtin,
+      ...this.settings.custom_triangulation_presets
+    ].find(p => p.id == preconfigured_id)
+
+    if (preconfigured_sequence) {
+      preconfigured_sequence.sequence.forEach(e => {
+        const spot = e.teleport
+          ? TransportData.resolveTeleport(e.teleport)
+          : activate(TileArea.init(e.tile))
+
+
+        this.createEntry({
+          position: spot,
+          angle: null,
+          information: null,
+          preconfigured: e,
+        })
+      })
+    }
+
+    this.setSelection(this.entries.findIndex(e => !e.information))
 
     this.updatePossibilities(true)
   }

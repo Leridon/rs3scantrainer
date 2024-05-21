@@ -2205,9 +2205,9 @@ input[type=checkbox] + span {
 }
 
 .ctr-compass-solving-angle {
-    width: 30px;
-    min-width: 30px;
-    margin-left: 3px;
+    width: 33px;
+    min-width: 33px;
+    padding-left: 3px;
     margin-right: 3px;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -2234,8 +2234,18 @@ input[type=checkbox] + span {
 
 }*/
 
-.ctr-neosolving-compass-entries-header {
+.ctr-neosolving-compass-solving-header > img {
+    display: block;
+    margin: auto;
+}
+
+.ctr-neosolving-compass-solving-header {
+    border-right: 1px dashed gray;
     font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 1px;
 }
 
 .ctr-neosolving-compass-entry-position {

@@ -20,9 +20,9 @@ export namespace Compasses {
 
       const direction_vector = Vector2.transform(Compasses.ANGLE_REFERENCE_VECTOR, Transform.rotationRadians(angle))
 
-      const uncertainty = Vector2.length(position.size) / 2
+      const location_uncertainty = Vector2.length(Vector2.sub(position.size, {x: 1, y: 1})) / 2
 
-      const l = uncertainty / Math.tan(CompassReader.EPSILON)
+      const l = location_uncertainty / Math.tan(CompassReader.EPSILON)
 
       const center = position.center()
 
@@ -34,7 +34,7 @@ export namespace Compasses {
         direction: direction_vector,
         area_center: center,
         modified_origin: uncertainty_origin,
-        origin_uncertainty: uncertainty
+        origin_uncertainty: location_uncertainty
       }
     }
   }

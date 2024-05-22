@@ -12,9 +12,7 @@ import {Compasses} from "../../../../lib/cluetheory/Compasses";
 import {TeleportSpotEntity} from "../../map/entities/TeleportSpotEntity";
 import * as lodash from "lodash";
 import {isArray} from "lodash";
-import {ClueReader} from "../cluereader/ClueReader";
 import {Process} from "../../../../lib/Process";
-import * as a1lib from "@alt1/base";
 import {mixColor} from "@alt1/base";
 import {CompassReader} from "../cluereader/CompassReader";
 import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
@@ -33,6 +31,9 @@ import {levelIcon} from "../../../../lib/gamemap/GameMap";
 import {ClueEntities} from "../ClueEntities";
 import {PathStepEntity} from "../../map/entities/PathStepEntity";
 import {SettingsModal} from "../../settings/SettingsEdit";
+import {CapturedCompass} from "../cluereader/capture/CapturedCompass";
+import {ScreenRectangle} from "../../../../lib/alt1/ScreenRectangle";
+import * as assert from "assert";
 import span = C.span;
 import cls = C.cls;
 import TeleportGroup = Transportation.TeleportGroup;
@@ -45,8 +46,6 @@ import notification = Notification.notification;
 import DigSolutionEntity = ClueEntities.DigSolutionEntity;
 import hbox = C.hbox;
 import inlineimg = C.inlineimg;
-import {CapturedCompass} from "../cluereader/capture/CapturedCompass";
-import {ScreenRectangle} from "../../../../lib/alt1/ScreenRectangle";
 
 const DEVELOPMENT_CALIBRATION_MODE = false
 
@@ -515,7 +514,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     })
   }
 
-  async delete(entry: CompassSolving.Entry) {
+  async discardPosition(entry: CompassSolving.Entry) {
     if (entry.is_solution_of_previous_clue) {
 
     } else {
@@ -532,6 +531,16 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     return
   }
 
+  async discardAngle(entry: CompassSolving.Entry) {
+    entry.angle = null
+    entry.information = null
+    entry.widget.render()
+    entry.widget.setPreviewAngle(this.process.last_successful_angle)
+    await this.updatePossibilities(false)
+
+    // Discarding an angle should never cause entries to be added or removed.
+  }
+
   async commit(entry: CompassSolving.Entry = undefined, is_manual: boolean = false) {
     entry = entry ?? this.entries[this.entry_selection_index]
 
@@ -540,7 +549,16 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     if (!entry?.position) return
     if (entry.angle != null) return
 
-    const angle = this.process.state.value().angle
+    let angle: number
+
+    if (entry.is_solution_of_previous_clue) {
+      const res = this.reader.getAngle()
+      assert(res.type == "success")
+
+      angle = res.angle
+    } else {
+      angle = this.process.state.value().angle
+    }
 
     const info = Compasses.TriangulationPoint.construct(CompassSolving.Spot.coords(entry.position), angle)
 
@@ -555,6 +573,13 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     entry.widget.render()
 
     await this.updatePossibilities(true)
+
+    // Advance selection index to next uncommitted entry
+    let index = this.entries.indexOf(entry) + 1
+    while (index + 1 < this.entries.length && this.entries[index].information) index++ // TODO: Only select if no colinear with existing lines?
+    this.setSelection(index)
+
+    // TODO: Advance sequence if needed
   }
 
   private async updateMethodPreviews() {
@@ -726,16 +751,12 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       })()
     }*/
 
-    this.entry_selection_index = this.entries.findIndex(e => e.information == null)
-
-    if (this.entry_selection_index < 0) this.entry_selection_index = this.entries.length - 1
-
     await this.layer.updateOverlay()
 
     this.layer.rendering.unlock()
   }
 
-  private createEntry(entry: CompassSolving.Entry) {
+  private createEntry(entry: CompassSolving.Entry): CompassSolving.Entry {
     const state = this.process.state.value()
 
     entry.widget = new CompassEntryWidget(entry)
@@ -744,7 +765,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
 
     entry.widget.position_discard_requested.on(e => {
-      this.delete(e.entry)
+      this.discardPosition(e.entry)
     })
 
     entry.widget.commit_requested.on(e => {
@@ -752,10 +773,8 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     })
 
     entry.widget.discard_requested.on(e => {
-      e.entry.angle = null
-      e.entry.information = null
-      e.render()
-      this.updatePossibilities(false)
+      this.discardAngle(e.entry)
+
     })
 
     entry.widget.selection_requested.on(e => {
@@ -767,6 +786,8 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     this.entries.push(entry)
 
     this.setSelection(this.entries.length - 1)
+
+    return entry
   }
 
   async registerSpot(coords: TileArea.ActiveTileArea | TeleportGroup.Spot): Promise<void> {
@@ -791,7 +812,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     if (hadInfo) await this.updatePossibilities(false)
   }
 
-  protected begin() {
+  protected async begin() {
     this.layer = new CompassHandlingLayer(this)
     this.parent.layer.add(this.layer)
 
@@ -851,8 +872,10 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       })
     }
 
-    this.setSelection(this.entries.findIndex(e => !e.information))
-
+    if (assumed_position_from_previous_clue) {
+      await this.commit(this.entries[0])
+    }
+    
     this.updatePossibilities(true)
   }
 

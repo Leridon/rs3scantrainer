@@ -1,13 +1,10 @@
 Compass solver:
     - Explanation Modal
-    - Add spot selection to UI?
     - Fix fight for zoom-authority between compass and path.
     - Add markers for triangulation spots?
     - Predicted start spot from last compass/scan position
     - Chatbox read service to look for sextant message
-    - Refactor compass reader to be similar to the puzzle readers
     - compass reader is leaning too much towards concealed instead of closed, which messes up b2b compasses (with a wizard inbetween)
-    - Show all triangulation entries simultaneously
 
 Issues
     - [Bug, 1] SearchSelection: Very rarely the dropdown remains after the element is already gone

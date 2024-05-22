@@ -338,8 +338,6 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
   }
 
   private updateSolvingOverlay() {
-    console.log(this.parent.puzzle.reader.ui.body.screenRectangle().origin.x)
-
     const TEXT_POSITION = {x: 143, y: 133}
     const BAR_POSITION = {x: 143, y: 153}
 

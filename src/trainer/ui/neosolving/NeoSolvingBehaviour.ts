@@ -326,20 +326,16 @@ class ClueSolvingReadingBehaviour extends Behaviour {
           this.parent.setClueWithAutomaticMethod({step: res.step, text_index: 0}, res)
           break;
         case "puzzle":
-          this.parent.setPuzzle(res.puzzle)
+          const is_new_one = this.parent.setPuzzle(res.puzzle)
+
+          if (is_autosolve && res.puzzle.type == "slider" && is_new_one) {
+            deps().app.crowdsourcing.pushSlider(res.puzzle.puzzle)
+          }
 
           break;
         case "legacy":
-
           if (res?.step) {
             this.parent.setClueWithAutomaticMethod(res.step, res)
-          }
-          if (res?.puzzle) {
-            const is_new_one = this.parent.setPuzzle(res.puzzle)
-
-            if (is_autosolve && res.puzzle.type == "slider" && is_new_one) {
-              deps().app.crowdsourcing.pushSlider(res.puzzle.puzzle)
-            }
           }
 
           break;

@@ -488,7 +488,9 @@ export namespace GameMap {
       doubleClickZoom: false,
       boxZoom: false,
       attributionControl: false,
-      preferCanvas: false
+      preferCanvas: false,
+      maxBounds: bounds(),
+      maxBoundsViscosity: 0.5
     }
   }
 

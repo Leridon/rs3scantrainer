@@ -7,7 +7,8 @@ import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
 import {util} from "../../../../lib/util/util";
 import angleDifference = Compasses.angleDifference;
 import ANGLE_REFERENCE_VECTOR = Compasses.ANGLE_REFERENCE_VECTOR;
-
+import {CapturedCompass} from "./capture/CapturedCompass";
+import {lazy, Lazy} from "../../../../lib/properties/Lazy";
 
 class AngularKeyframeFunction {
   private constructor(private readonly keyframes: {
@@ -69,76 +70,18 @@ class AngularKeyframeFunction {
   }
 }
 
-export namespace CompassReader {
+export class CompassReader {
+  constructor(public readonly capture: CapturedCompass, private disable_calibration: boolean = false) {
 
-  import rgbSimilarity = util.rgbSimilarity;
-  import angleDifference = Compasses.angleDifference;
-  import MatchedUI = ClueReader.MatchedUI;
-  import ANGLE_REFERENCE_VECTOR = Compasses.ANGLE_REFERENCE_VECTOR;
-  const DEBUG_COMPASS_READER = false
-  const DISABLE_CALIBRATION = false
-
-  export const EPSILON = (0.5 / 360) * 2 * Math.PI
-  const CIRCLE_SAMPLE_CONCEALED_THRESHOLD = degreesToRadians(3)
-
-  export type CompassState = {
-    angle: number,
-    isArc: boolean
   }
 
-  export function find(img: ImgRef,
-                       origin: Vector2
-  ): MatchedUI.Compass {
-    return {
-      type: "compass",
-      image: img,
-      rect: Rectangle.fromOriginAndSize(origin, UI_SIZE)
-    }
-  }
 
-  export const UI_SIZE = {x: 172, y: 259}
-
-  export type CompassReadResult = {
-    type: "success",
-    state: CompassState,
-    antialiasing: boolean,
-  } | { type: "likely_closed" }
-    | { type: "likely_concealed" }
-
-  export type AngleResult = {
-    type: "success",
-    angle: number,
-    antialiasing: boolean,
-  } | { type: "likely_closed", details: string }
-    | { type: "likely_concealed", details: string }
-
-  export function readCompassState(ui: MatchedUI.Compass,
-                                   disable_calibration: boolean = false
-  ): CompassReadResult {
-    let data = ui.image.toData(
-      Rectangle.screenOrigin(ui.rect).x,
-      Rectangle.screenOrigin(ui.rect).y,
-      UI_SIZE.x - 1,
-      UI_SIZE.y - 1);
-
-    let dir = getCompassAngle(data, Rectangle.screenOrigin(ui.rect), disable_calibration);
-
-    if (dir.type != "success") return {type: dir.type}
-
-    let isArc = CompassReader.isArcCompass(data);
-    return {type: "success", state: {angle: dir.angle, isArc: isArc}, antialiasing: dir.antialiasing};
-  }
-
-  const debug_overlay = new OverlayGeometry()
-
-  function getCompassAngle(buf: ImageData, origin: Vector2,
-                           disable_calibration: boolean = false
-  ): AngleResult {
-    const CENTER_OFFSET = {x: 88, y: 137}
+  private _angle: Lazy<CompassReader.AngleResult> = lazy(() => {
     const CENTER_SIZE = 2
     const OFFSET = CENTER_SIZE - 1
-    const INITIAL_SAMPLING_RADIUS: number = 75
-    const TOTAL_SAMPLING_RADIUS: number = 80
+    const CENTER_OFFSET = {x: CapturedCompass.TOTAL_COMPASS_RADIUS, y: CapturedCompass.TOTAL_COMPASS_RADIUS}
+
+    const buf = this.capture.compass_area.getData()
 
     function getRed(x: number, y: number) {
       const i = 4 * ((CENTER_OFFSET.y + y) * buf.width + x + CENTER_OFFSET.x)
@@ -150,34 +93,30 @@ export namespace CompassReader {
       return getRed(x, y) < 5
     }
 
-    if (DEBUG_COMPASS_READER) {
-      debug_overlay.clear()
+    if (CompassReader.DEBUG_COMPASS_READER) {
+      CompassReader.debug_overlay.clear()
     }
 
     const circle_sampled_pixels: Vector2[] = (() => {
       const sampled: Vector2[] = []
-      const r = INITIAL_SAMPLING_RADIUS
+      const r = CapturedCompass.INNER_COMPASS_RADIUS
+
+      const self = this
 
       function sample(x: number, y: number): void {
         if (isArrow(x, y)) {
           sampled.push({x, y})
         }
 
-        if (DEBUG_COMPASS_READER) {
-          /*debug_overlay.line(
-            Vector2.add(origin, CENTER_OFFSET, {x, y}),
-            Vector2.add(origin, CENTER_OFFSET, {x, y}),
-            {color: isArrow(x, y) ? mixColor(255, 0, 0) : mixColor(0, 255, 0), width: 0}
-          )*/
-
-          debug_overlay.rect(
-            Rectangle.centeredOn(Vector2.add(origin, CENTER_OFFSET, {x, y}), 0),
+        if (CompassReader.DEBUG_COMPASS_READER) {
+          CompassReader.debug_overlay.rect(
+            Rectangle.centeredOn(Vector2.add(self.capture.compass_area.screenRectangle().origin, CENTER_OFFSET, {x, y}), 0),
             {color: isArrow(x, y) ? mixColor(255, 0, 0) : mixColor(0, 255, 0), width: 1})
         }
 
       }
 
-      let x = CENTER_SIZE + INITIAL_SAMPLING_RADIUS
+      let x = CENTER_SIZE + CapturedCompass.INNER_COMPASS_RADIUS
       let y = 0;
 
       // Initialising the value of P
@@ -217,16 +156,16 @@ export namespace CompassReader {
       return sampled
     })()
 
-    if (DEBUG_COMPASS_READER) {
+    if (CompassReader.DEBUG_COMPASS_READER) {
       for (let p of circle_sampled_pixels) {
-        debug_overlay.line(
-          Vector2.add(origin, CENTER_OFFSET),
-          Vector2.add(origin, CENTER_OFFSET, p),
+        CompassReader.debug_overlay.line(
+          Vector2.add(this.capture.compass_area.screenRectangle().origin, CENTER_OFFSET),
+          Vector2.add(this.capture.compass_area.screenRectangle().origin, CENTER_OFFSET, p),
           {width: 1, color: mixColor(255, 0, 0)}
         )
       }
 
-      debug_overlay.render()
+      CompassReader.debug_overlay.render()
     }
 
     if (circle_sampled_pixels.length == 0) return {type: "likely_closed", details: "No pixels while sampling the circle"}
@@ -241,7 +180,7 @@ export namespace CompassReader {
 
     const angle_after_circle_sampling = normalizeAngle(circularMean(angles))
 
-    if (angles.some(a => angleDifference(a, angle_after_circle_sampling) > CIRCLE_SAMPLE_CONCEALED_THRESHOLD)) {
+    if (angles.some(a => angleDifference(a, angle_after_circle_sampling) > CompassReader.CIRCLE_SAMPLE_CONCEALED_THRESHOLD)) {
       return {type: "likely_concealed", details: "Too much variance in the sampled pixels on the circumference"}
     }
 
@@ -254,8 +193,8 @@ export namespace CompassReader {
 
     const ANTIALIASING_SEARCH_RADIUS = 40
 
-    for (let y = -TOTAL_SAMPLING_RADIUS; y <= TOTAL_SAMPLING_RADIUS; y++) {
-      for (let x = -TOTAL_SAMPLING_RADIUS; x <= TOTAL_SAMPLING_RADIUS; x++) {
+    for (let y = -CapturedCompass.TOTAL_COMPASS_RADIUS; y <= CapturedCompass.TOTAL_COMPASS_RADIUS; y++) {
+      for (let x = -CapturedCompass.TOTAL_COMPASS_RADIUS; x <= CapturedCompass.TOTAL_COMPASS_RADIUS; x++) {
         if (isArrow(x, y)) {
           let angle = Vector2.angle(ANGLE_REFERENCE_VECTOR, Vector2.normalize({x, y: -y}))
 
@@ -293,7 +232,7 @@ export namespace CompassReader {
       lodash.sum(rectangle_samples.map(a => a.weight * Math.cos(a.angle))),
     ))
 
-    const calibration_mode = (disable_calibration || DISABLE_CALIBRATION) ? null
+    const calibration_mode = (this.disable_calibration || CompassReader.DISABLE_CALIBRATION) ? null
       : (antialiasing_detected ? "off" : "off")
 
     const final_angle = calibration_mode
@@ -305,28 +244,40 @@ export namespace CompassReader {
       angle: final_angle,
       antialiasing: antialiasing_detected
     }
+  })
+
+  getAngle(): CompassReader.AngleResult {
+    return this._angle.get()
+  }
+}
+
+export namespace CompassReader {
+
+  import rgbSimilarity = util.rgbSimilarity;
+  import angleDifference = Compasses.angleDifference;
+  import MatchedUI = ClueReader.MatchedUI;
+  import ANGLE_REFERENCE_VECTOR = Compasses.ANGLE_REFERENCE_VECTOR;
+  export const DEBUG_COMPASS_READER = false
+  export const DISABLE_CALIBRATION = false
+
+  export const EPSILON = (0.5 / 360) * 2 * Math.PI
+  export const CIRCLE_SAMPLE_CONCEALED_THRESHOLD = degreesToRadians(3)
+
+  export type CompassState = {
+    angle: number,
+    isArc: boolean
   }
 
-  export function isArcCompass(buf: ImageData): boolean {
-    const Y = 235
-    const X_MIN = 34
-    const X_MAX = 146
+  export const UI_SIZE = {x: 172, y: 259}
 
-    const PIXEL_REQUIRED_TO_BE_CONSIDERED_ARC_COMPASS = 5
+  export type AngleResult = {
+    type: "success",
+    angle: number,
+    antialiasing: boolean,
+  } | { type: "likely_closed", details: string }
+    | { type: "likely_concealed", details: string }
 
-    const text_color: [number, number, number] = [51, 25, 0]
-
-    let n = 0;
-    for (let x = X_MIN; x < X_MAX; x++) {
-      const i = x * 4 + Y * buf.width * 4;
-
-      if (rgbSimilarity(text_color, [buf.data[i], buf.data[i + 1], buf.data[i + 2]]) > 0.9) {
-        n++;
-      }
-    }
-
-    return n > PIXEL_REQUIRED_TO_BE_CONSIDERED_ARC_COMPASS;
-  }
+  export const debug_overlay = new OverlayGeometry()
 
   export const calibration_tables = {
     "off": AngularKeyframeFunction.fromCalibrationSamples([

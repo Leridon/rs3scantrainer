@@ -35,7 +35,6 @@ import {PathStepEntity} from "../../map/entities/PathStepEntity";
 import {SettingsModal} from "../../settings/SettingsEdit";
 import span = C.span;
 import cls = C.cls;
-import MatchedUI = ClueReader.MatchedUI;
 import TeleportGroup = Transportation.TeleportGroup;
 import findBestMatch = util.findBestMatch;
 import stringSimilarity = util.stringSimilarity;
@@ -43,11 +42,11 @@ import angleDifference = Compasses.angleDifference;
 import italic = C.italic;
 import activate = TileArea.activate;
 import notification = Notification.notification;
-import CompassReadResult = CompassReader.CompassReadResult;
 import DigSolutionEntity = ClueEntities.DigSolutionEntity;
 import hbox = C.hbox;
 import inlineimg = C.inlineimg;
-import vbox = C.vbox;
+import {CapturedCompass} from "../cluereader/capture/CapturedCompass";
+import {ScreenRectangle} from "../../../../lib/alt1/ScreenRectangle";
 
 const DEVELOPMENT_CALIBRATION_MODE = false
 
@@ -212,12 +211,12 @@ class CompassReadService extends Process<void> {
 
   closed = ewent<this>()
 
-  last_read: CompassReadResult = null
+  last_read: CompassReader.AngleResult = null
   last_successful_angle: number = null
 
   ticks_since_stationary: number = 0
 
-  constructor(private matched_ui: MatchedUI.Compass,
+  constructor(private matched_ui: CapturedCompass,
               private show_overlay: boolean
   ) {
     super();
@@ -231,21 +230,11 @@ class CompassReadService extends Process<void> {
 
     while (!this.should_stop) {
       try {
-        const capture_rect = this.matched_ui.rect
-
-        const img = a1lib.captureHold(
-          Rectangle.screenOrigin(capture_rect).x,
-          Rectangle.screenOrigin(capture_rect).y,
-          Rectangle.width(capture_rect) + 5,
-          Rectangle.height(capture_rect) + 5,
-        )
+        const reader = new CompassReader(this.matched_ui.recapture(), DEVELOPMENT_CALIBRATION_MODE)
 
         this.overlay.clear()
 
-        const read = this.last_read = CompassReader.readCompassState(
-          CompassReader.find(img, Rectangle.screenOrigin(capture_rect)),
-          DEVELOPMENT_CALIBRATION_MODE
-        )
+        const read = this.last_read = reader.getAngle()
 
         switch (read.type) {
           case "likely_closed":
@@ -253,7 +242,7 @@ class CompassReadService extends Process<void> {
             break;
           case "likely_concealed":
             this.overlay.text("Concealed",
-              Vector2.add(Rectangle.center(capture_rect), {x: 5, y: 100}), {
+              Vector2.add(ScreenRectangle.center(reader.capture.body.screenRectangle()), {x: 5, y: 100}), {
                 shadow: true,
                 centered: true,
                 width: 12,
@@ -262,9 +251,9 @@ class CompassReadService extends Process<void> {
 
             break;
           case "success":
-            if (this.last_successful_angle == read.state.angle) {
+            if (this.last_successful_angle == read.angle) {
               this.state.set({
-                angle: read.state.angle,
+                angle: read.angle,
                 spinning: false
               })
               this.ticks_since_stationary = 0
@@ -279,7 +268,7 @@ class CompassReadService extends Process<void> {
               }
             }
 
-            this.last_successful_angle = read.state.angle
+            this.last_successful_angle = read.angle
 
             break;
         }
@@ -297,7 +286,7 @@ class CompassReadService extends Process<void> {
 
           if (text) {
             this.overlay.text(text,
-              Vector2.add(Rectangle.center(capture_rect), {x: 5, y: 8}), {
+              Vector2.add(ScreenRectangle.center(reader.capture.body.screenRectangle()), {x: 5, y: 8}), {
                 shadow: true,
                 centered: true,
                 width: 15,
@@ -436,7 +425,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
   private readonly debug_solution: TileCoordinates
 
-  constructor(parent: NeoSolvingBehaviour, public clue: Clues.Compass, public ui: MatchedUI.Compass | null) {
+  constructor(parent: NeoSolvingBehaviour, public clue: Clues.Compass, public reader: CompassReader) {
     super(parent)
 
     this.settings = deps().app.settings.settings.solving.compass
@@ -461,8 +450,8 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       this.updateMethodPreviews()
     })
 
-    if (ui) {
-      this.process = new CompassReadService(this.ui,
+    if (reader) {
+      this.process = new CompassReadService(this.reader.capture,
         this.settings.enable_status_overlay
       )
 

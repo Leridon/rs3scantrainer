@@ -1,11 +1,15 @@
 import * as a1lib from "@alt1/base";
-import {ImageDetect, ImgRef} from "@alt1/base";
+import {ImageDetect, ImgRef, mixColor} from "@alt1/base";
 import {Vector2} from "../math";
 import {LazyAsync} from "../properties/Lazy";
 import * as OCR from "@alt1/ocr";
 import {ScreenRectangle} from "./ScreenRectangle";
+import {OverlayGeometry} from "./OverlayGeometry";
+import {util} from "../util/util";
+import A1Color = util.A1Color;
 
 export class CapturedImage {
+  private _name: string = undefined
   private _data: ImageData = undefined
   private readonly _fullCapturedRectangle: ScreenRectangle
   private readonly _relativeRectangle: ScreenRectangle
@@ -33,6 +37,15 @@ export class CapturedImage {
     }
 
     this.size = this.screen_rectangle.size
+  }
+
+  setName(name: string): this {
+    this._name = name
+    return this
+  }
+
+  name(): string {
+    return this._name
   }
 
   raw(): ImgRef {
@@ -102,6 +115,17 @@ export class CapturedImage {
 
       return null
     }
+  }
 
+  debugOverlay(overlay: OverlayGeometry = new OverlayGeometry()): OverlayGeometry {
+    overlay.rect2(this.screenRectangle())
+
+    if (this._name) {
+      overlay.text(this._name, this.screen_rectangle.origin,
+        {width: 10, centered: false, color: A1Color.fromHex("#FFFFFF")}
+      )
+    }
+
+    return overlay
   }
 }

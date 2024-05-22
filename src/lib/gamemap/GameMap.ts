@@ -365,7 +365,8 @@ export class GameMap extends leaflet.Map {
         attribution: SKILLBERT_ATTRIBUTION,
         tileSize: 512,
         maxNativeZoom: 5,
-        minZoom: -5
+        minZoom: -5,
+        bounds: GameMap.bounds()
       }),
       // Walls SVG Layer
       new BaseTileLayer([
@@ -375,7 +376,8 @@ export class GameMap extends leaflet.Map {
         attribution: SKILLBERT_ATTRIBUTION,
         tileSize: 512,
         maxNativeZoom: 3,
-        minZoom: -5
+        minZoom: -5,
+        bounds: GameMap.bounds()
       }),
       // Filtered Collision Layer
       new BaseTileLayer([
@@ -385,7 +387,8 @@ export class GameMap extends leaflet.Map {
         tileSize: 512,
         maxNativeZoom: 3,
         minZoom: -5,
-        className: "map-collisionlayer"
+        className: "map-collisionlayer",
+        bounds: GameMap.bounds()
       })
     ]
 
@@ -439,6 +442,15 @@ export class GameMap extends leaflet.Map {
 }
 
 export namespace GameMap {
+  export const size = {
+    chunks: {x: 100, y: 200},
+    chunk_size: {x: 64, y: 64},
+  }
+
+  export function bounds(): leaflet.LatLngBounds {
+    return new leaflet.LatLngBounds([0, 0], [size.chunks.y * size.chunk_size.y, size.chunks.x * size.chunk_size.x])
+  }
+
   export function gameMapOptions(): MapOptions {
 
     function getCRS(): leaflet.CRS {

@@ -12,10 +12,7 @@ import {Compasses} from "../../../../lib/cluetheory/Compasses";
 import {TeleportSpotEntity} from "../../map/entities/TeleportSpotEntity";
 import * as lodash from "lodash";
 import {isArray} from "lodash";
-import {Process} from "../../../../lib/Process";
-import {mixColor} from "@alt1/base";
 import {CompassReader} from "../cluereader/CompassReader";
-import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
 import {Transportation} from "../../../../lib/runescape/transportation";
 import {TransportData} from "../../../../data/transports";
 import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
@@ -31,8 +28,6 @@ import {levelIcon} from "../../../../lib/gamemap/GameMap";
 import {ClueEntities} from "../ClueEntities";
 import {PathStepEntity} from "../../map/entities/PathStepEntity";
 import {SettingsModal} from "../../settings/SettingsEdit";
-import {CapturedCompass} from "../cluereader/capture/CapturedCompass";
-import {ScreenRectangle} from "../../../../lib/alt1/ScreenRectangle";
 import * as assert from "assert";
 import span = C.span;
 import cls = C.cls;
@@ -46,8 +41,6 @@ import notification = Notification.notification;
 import DigSolutionEntity = ClueEntities.DigSolutionEntity;
 import hbox = C.hbox;
 import inlineimg = C.inlineimg;
-
-const DEVELOPMENT_CALIBRATION_MODE = false
 
 class CompassHandlingLayer extends GameLayer {
   private lines: {
@@ -167,10 +160,6 @@ class KnownCompassSpot extends MapEntity {
     return Rectangle.from(this.spot.spot)
   }
 
-  render(force: boolean = false) {
-    super.render(force);
-  }
-
   protected async render_implementation(props: MapEntity.RenderProps): Promise<Element> {
     const opacity = this.possible ? 1 : 0.5
 
@@ -199,110 +188,6 @@ class KnownCompassSpot extends MapEntity {
     }
 
     return marker.getElement()
-  }
-}
-
-class CompassReadService extends Process<void> {
-  state = observe<{
-    angle: number,
-    spinning: boolean
-  }>(null).equality((a, b) => a?.angle == b?.angle && a?.spinning == b?.spinning)
-
-  closed = ewent<this>()
-
-  last_read: CompassReader.AngleResult = null
-  last_successful_angle: number = null
-
-  ticks_since_stationary: number = 0
-
-  constructor(private matched_ui: CapturedCompass,
-              private show_overlay: boolean
-  ) {
-    super();
-
-    this.asInterval(100)
-  }
-
-  private overlay: OverlayGeometry = new OverlayGeometry()
-
-  async implementation(): Promise<void> {
-
-    while (!this.should_stop) {
-      try {
-        const reader = new CompassReader(this.matched_ui.recapture(), DEVELOPMENT_CALIBRATION_MODE)
-
-        this.overlay.clear()
-
-        const read = this.last_read = reader.getAngle()
-
-        switch (read.type) {
-          case "likely_closed":
-            this.closed.trigger(this)
-            break;
-          case "likely_concealed":
-            this.overlay.text("Concealed",
-              Vector2.add(ScreenRectangle.center(reader.capture.body.screenRectangle()), {x: 5, y: 100}), {
-                shadow: true,
-                centered: true,
-                width: 12,
-                color: mixColor(128, 128, 128)
-              })
-
-            break;
-          case "success":
-            if (this.last_successful_angle == read.angle) {
-              this.state.set({
-                angle: read.angle,
-                spinning: false
-              })
-              this.ticks_since_stationary = 0
-            } else {
-              this.ticks_since_stationary++
-
-              if (this.ticks_since_stationary > 2) {
-                this.state.set({
-                  angle: null,
-                  spinning: true
-                })
-              }
-            }
-
-            this.last_successful_angle = read.angle
-
-            break;
-        }
-
-        if (this.state.value()) {
-          let text: string = null
-
-          const state = this.state.value()
-
-          if (state.spinning) {
-            text = "Spinning"
-          } else if (state.angle != null) {
-            text = `${radiansToDegrees(state.angle).toFixed(DEVELOPMENT_CALIBRATION_MODE ? 3 : 2)}°`
-          }
-
-          if (text) {
-            this.overlay.text(text,
-              Vector2.add(ScreenRectangle.center(reader.capture.body.screenRectangle()), {x: 5, y: 8}), {
-                shadow: true,
-                centered: true,
-                width: 15,
-                color: mixColor(255, 255, 255)
-              })
-          }
-        }
-
-        if (this.show_overlay) this.overlay.render()
-      } catch (e) {
-        // Catch errors to avoid crashing on rare errors.
-      }
-      await this.checkTime()
-    }
-
-    this.overlay?.clear()
-    this.overlay?.render()
   }
 }
 
@@ -413,7 +298,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
   spots: CompassSolving.SpotData[]
 
   layer: CompassHandlingLayer
-  process: CompassReadService
+  process: CompassReader.Service
 
   private preconfigured_sequence: CompassSolving.TriangulationPreset = null
 
@@ -450,7 +335,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     })
 
     if (reader) {
-      this.process = new CompassReadService(this.reader.capture,
+      this.process = new CompassReader.Service(this.reader.capture,
         this.settings.enable_status_overlay
       )
 
@@ -819,6 +704,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     this.process.run()
 
     this.parent.app.main_hotkey.subscribe(0, e => {
+      console.log("Hotkey in Compass solving")
       if (e.text) {
         const matched_teleport = findBestMatch(CompassSolving.teleport_hovers, ref => stringSimilarity(e.text, ref.expected), 0.9)
 
@@ -862,7 +748,6 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
           ? TransportData.resolveTeleport(e.teleport)
           : activate(TileArea.init(e.tile))
 
-
         this.createEntry({
           position: spot,
           angle: null,
@@ -874,9 +759,11 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     if (assumed_position_from_previous_clue) {
       await this.commit(this.entries[0])
+    } else {
+      this.setSelection(this.entries.findIndex(e => !e.information))
+
+      this.updatePossibilities(true)
     }
-    
-    this.updatePossibilities(true)
   }
 
   protected end() {

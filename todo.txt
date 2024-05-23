@@ -2,7 +2,7 @@ Compass solver:
     - Explanation Modal
     - Fix fight for zoom-authority between compass and path.
     - Add markers for triangulation spots?
-    - Predicted start spot from last compass/scan position
+    - Predicted start spot from last scan position
     - Chatbox read service to look for sextant message
     - compass reader is leaning too much towards concealed instead of closed, which messes up b2b compasses (with a wizard inbetween)
 

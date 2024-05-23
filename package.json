@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "@alt1/base": "^1.0.0-alpha.2",
+    "@alt1/chatbox": "^1.0.0-alpha.7",
     "@alt1/font-loader": "^0.0.17",
     "@alt1/ocr": "^1.0.0-alpha.6",
     "@popperjs/core": "^2.11.8",

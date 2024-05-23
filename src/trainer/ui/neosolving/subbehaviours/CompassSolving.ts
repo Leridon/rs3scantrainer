@@ -41,6 +41,7 @@ import notification = Notification.notification;
 import DigSolutionEntity = ClueEntities.DigSolutionEntity;
 import hbox = C.hbox;
 import inlineimg = C.inlineimg;
+import count = util.count;
 
 class CompassHandlingLayer extends GameLayer {
   private lines: {
@@ -399,31 +400,65 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     })
   }
 
-  async discardPosition(entry: CompassSolving.Entry) {
-    if (entry.is_solution_of_previous_clue) {
+  private deleteEntry(entry: CompassSolving.Entry) {
+    const index = this.entries.indexOf(entry)
 
-    } else {
-      entry.angle = null
-      entry.information = null
-      entry.position = null
-      entry.preconfigured = null
+    if (index >= 0) {
+      this.entries.splice(index, 1)
+
+      if (this.entries.length > 0 && this.entry_selection_index > index) {
+        this.setSelection(this.entry_selection_index - 1)
+      }
+
+      entry.widget?.remove()
     }
+  }
 
-    await this.updatePossibilities(false)
+  async discardPosition(entry: CompassSolving.Entry) {
+    const index = this.entries.indexOf(entry)
 
-    entry?.widget?.render()
+    if (index >= 0) {
+      if (entry.is_solution_of_previous_clue) {
+        this.deleteEntry(entry)
+      } else {
+        entry.angle = null
+        entry.information = null
+        entry.position = null
+        entry.preconfigured = null
 
-    return
+        this.setSelection(index)
+
+        entry?.widget?.render()
+      }
+
+      await this.updatePossibilities(false)
+
+      if (!this.entries.some(e => !e.information) && count(this.spots, e => e.isPossible) > 1) {
+        this.createEntry({
+          position: null,
+          angle: null,
+          information: null,
+          preconfigured: null,
+        })
+      }
+
+    }
   }
 
   async discardAngle(entry: CompassSolving.Entry) {
-    entry.angle = null
-    entry.information = null
-    entry.widget.render()
-    entry.widget.setPreviewAngle(this.process.last_successful_angle)
-    await this.updatePossibilities(false)
+    const index = this.entries.indexOf(entry)
 
-    // Discarding an angle should never cause entries to be added or removed.
+    if (index >= 0) {
+      entry.angle = null
+      entry.information = null
+      entry.widget.render()
+      entry.widget.setPreviewAngle(this.process.last_successful_angle)
+
+      await this.updatePossibilities(false)
+
+      // Select this entry
+      this.setSelection(index)
+    }
   }
 
   async commit(entry: CompassSolving.Entry = undefined, is_manual: boolean = false) {
@@ -459,12 +494,19 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     await this.updatePossibilities(true)
 
-    // Advance selection index to next uncommitted entry
-    let index = this.entries.indexOf(entry) + 1
-    while (index + 1 < this.entries.length && this.entries[index].information) index++ // TODO: Only select if no colinear with existing lines?
-    this.setSelection(index)
-
-    // TODO: Advance sequence if needed
+    if (!this.entries.some(e => !e.information) && count(this.spots, e => e.isPossible) > 1) {
+      this.createEntry({
+        position: null,
+        angle: null,
+        information: null,
+        preconfigured: null,
+      })
+    } else {
+      // Advance selection index to next uncommitted entry
+      let index = this.entries.indexOf(entry) + 1
+      while (index + 1 < this.entries.length && this.entries[index].information) index++ // TODO: Only select if no colinear any with existing lines?
+      this.setSelection(index)
+    }
   }
 
   private async updateMethodPreviews() {
@@ -554,24 +596,13 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     // If the candidates have already been removed to 1, remove all uncommited entries.
     if (!needs_more_info) {
-      let selection_after = this.entry_selection_index
-
       while (true) {
-        const i = this.entries.findIndex(e => !e.information)
+        const i = this.entries.find(e => !e.information)
 
-        if (i < 0) break
+        if (!i) break
 
-        const entry = this.entries[i]
-
-        entry.widget.remove()
-        entry.widget = null
-
-        this.entries.splice(i, 1)
-
-        if (selection_after >= i) selection_after--
+        this.deleteEntry(i)
       }
-
-      this.setSelection(selection_after)
     }
 
     // Remove redundant triangulation entries that have no commited angle
@@ -863,7 +894,7 @@ export namespace CompassSolving {
     },
 
       {expected: "Cast Moonclan Teleport", teleport_id: {group: "lunarspellbook", spot: "moonclan"}},
-      {expected: "Cast Ourania Altar Teleport", teleport_id: {group: "lunarspellbook", spot: "ourania"}},
+      {expected: "Cast Ourania Teleport", teleport_id: {group: "lunarspellbook", spot: "ourania"}},
       {expected: "Cast South Falador Teleport", teleport_id: {group: "lunarspellbook", spot: "southfalador"}},
       {expected: "Cast Waterbirth Teleport", teleport_id: {group: "lunarspellbook", spot: "waterbirth"}},
       {expected: "Cast Barbarian Teleport", teleport_id: {group: "lunarspellbook", spot: "barbarian"}},

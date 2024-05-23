@@ -201,7 +201,7 @@ export class CompassReader {
     }
 
     if (circle_sampled_pixels.length == 0) return {type: "likely_closed", details: "No pixels while sampling the circle"}
-    if (circle_sampled_pixels.length > 10) return {type: "likely_concealed", details: "Too many pixels while sampling the circle"}
+    if (circle_sampled_pixels.length > 10) return {type: "likely_concealed", details: `Too many pixels while sampling the circle (${circle_sampled_pixels.length} > 10)`}
 
     // Map all sample points to their respective angle
     // The angle is taken from the true center of the compass arrow, which is why we offset the samples by 0.5

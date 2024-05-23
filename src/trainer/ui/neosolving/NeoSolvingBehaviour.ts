@@ -740,7 +740,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
         this.app.settings.update(set => set.teleport_customization.active_preset = bound_preset)
     }
 
-    if (read_result.type == "compass" && clue.type == "compass") {
+    if (read_result?.type == "compass" && clue.type == "compass") {
       const behaviour = new CompassSolving(this, clue, read_result.reader)
 
       behaviour.selected_spot.subscribe(async spot => {

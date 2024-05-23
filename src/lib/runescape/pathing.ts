@@ -45,12 +45,14 @@ export namespace Path {
     ability: movement_ability,
     target?: EntityName, // Only for barges
     target_text?: string,
+    target_area?: TileArea, // Only for dives
     from: TileCoordinates,
     to: TileCoordinates,
   }
 
   export type step_run = step_base & {
     type: "run",
+    target_area?: TileArea,
     to_text?: string,
     waypoints: TileCoordinates[]
   }

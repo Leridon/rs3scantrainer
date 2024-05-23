@@ -64,7 +64,7 @@ export class PathStepEntity extends MapEntity {
             surge: {color: "#0091f2", icon: "ability-surge"}
           }
 
-          arrow(step.from, step.to)
+          const arro = arrow(step.from, step.to)
             .setStyle({
               color: meta[step.ability].color,
               weight: weight,
@@ -73,14 +73,14 @@ export class PathStepEntity extends MapEntity {
               opacity: opacity
             }).addTo(this)
 
-          const marker = new MapIcon(Vector2.scale(1 / 2, Vector2.add(step.from, step.to)), {
+          /*const marker = new MapIcon(Vector2.scale(1 / 2, Vector2.add(step.from, step.to)), {
             icon: CTRIcon.get(meta[step.ability].icon),
             scale: scale,
             cls: cls,
             opacity
-          }).addTo(this)
+          }).addTo(this)*/
 
-          return marker.getElement()
+          return arro.getElement()
         }
         case "run": {
           let lines: [Vector2, Vector2][] = []

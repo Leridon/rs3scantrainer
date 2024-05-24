@@ -152,7 +152,7 @@ export class GameLayer extends leaflet.FeatureGroup {
           animation: false,
           zIndex: 10001,
           delay: 0,
-          followCursor: !interactive,
+          followCursor: interactive ? "initial" : true,
           plugins: [followCursor],
           interactive: interactive,
           onHide: () => {
@@ -337,7 +337,7 @@ export async function time<T>(name: string, f: () => T, start_message: boolean =
 
   let timeStart = new Date().getTime()
 
-  if(start_message) console.log(`Starting task ${name}: `)
+  if (start_message) console.log(`Starting task ${name}: `)
   let res = await f()
   const ms = (new Date().getTime() - timeStart)
   console.log(`Task ${name} took ${ms}ms\n`)

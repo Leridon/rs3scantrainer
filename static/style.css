@@ -701,6 +701,11 @@ video {
     padding: 2px 3px 2px 5px;
 }
 
+.ctr-step-issue[level="2"] {
+    background-color: #3f3f3b;
+    color: #8d8a81;
+}
+
 .ctr-step-issue[level="1"] {
     background-color: #42381f;
     color: #fce2a1;
@@ -711,20 +716,28 @@ video {
     color: #2f2324;
 }
 
-.ctr-step-issue[level="1"] > .ctr-step-issue-icon {
-    margin-right: 0;
+.ctr-step-issue-icon-2 {
     display: inline-block;
     width: 12px;
     height: 11px;
-    background-image: url("assets/icons/warning.png");
+    margin: auto 2px;
+    background-image: url("assets/icons/issue-weak-warning.png");
 }
 
-.ctr-step-issue[level="0"] > .ctr-step-issue-icon {
-    margin-right: 0;
+.ctr-step-issue-icon-1 {
+    display: inline-block;
+    width: 12px;
+    height: 11px;
+    margin: auto 2px;
+    background-image: url("assets/icons/issue-warning.png");
+}
+
+.ctr-step-issue-icon-0 {
     display: inline-block;
     width: 12px;
     height: 12px;
-    background-image: url("assets/icons/error.png");
+    margin: auto 2px;
+    background-image: url("assets/icons/issue-error.png");
 }
 
 .ctr-cooldown-overlay-shadow {

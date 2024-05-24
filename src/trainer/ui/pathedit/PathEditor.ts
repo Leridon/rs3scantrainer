@@ -433,14 +433,15 @@ export class PathEditor extends Behaviour {
     this.stop()
   }
 
-  editStep(value: PathBuilder.Step, interaction: InteractionLayer) {
+  editStep(value: PathBuilder.Step, interaction: InteractionLayer, hide_preview: boolean = true) {
     this.interaction_guard.set(interaction
       .onStart(() => {
-        value.associated_preview?.setVisible(false)
+        if(hide_preview) value.associated_preview?.setVisible(false)
         this.overlay_control.lens_layer.enabled2.set(false)
       })
       .onEnd(() => {
-        value.associated_preview?.setVisible(true)
+        if(hide_preview) value.associated_preview?.setVisible(true)
+        else value.associated_preview?.render(true)
         this.overlay_control.lens_layer.enabled2.set(true)
       })
     )
@@ -654,7 +655,8 @@ export class PathEditor extends Behaviour {
                   )))
               .onPreview(tiles => {
                 s.target_area = tiles.length > 0 ? TileArea.fromTiles(tiles) : undefined
-              })
+              }),
+            false
           )
         }
       })

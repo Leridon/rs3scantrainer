@@ -202,7 +202,13 @@ export namespace Path {
     issues: issue[]
   }
 
-  export type issue_level = 0 | 1 // 0 = error, 1 = warning
+  export type issue_level = 0 | 1 | 2 // 0 = error, 1 = warning, 2 = weak warning
+  export namespace issue_level {
+    export const error: issue_level = 0
+    export const warning: issue_level = 1
+    export const weak_warning: issue_level = 2
+  }
+
   export type issue = { level: issue_level, message: string }
 
   /**

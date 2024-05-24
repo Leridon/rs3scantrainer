@@ -1,8 +1,10 @@
 Compass solver:
+    - [Bug] Selecting a spot while all spots are possible causes all methods to be previewed
+    - MSAA Calibration
+    - Predicted start spot from last scan position
     - Explanation Modal
     - Fix fight for zoom-authority between compass and path.
     - Add markers for triangulation spots?
-    - Predicted start spot from last scan position
     - Chatbox read service to look for sextant message
     - compass reader is leaning too much towards concealed instead of closed, which messes up b2b compasses (with a wizard inbetween)
 
@@ -14,9 +16,8 @@ Issues
     - Zoom for long distance transports is still very bad
 
 Path Display:
-    - Remove icons for Abilities (or only starting from a certain zoom level)
-    - Add target area display to dives and runs
-    - Let arrowhead of dives signal whether it's a precise or a far dive.
+    Custom sized square (to help map distances), purely for theorycrafting
+    Some sort of parallel world method of displaying steps (with non static teleports), if implemented, preferably differentiatable between absolute and relative step instructions
 
 - Scan Tree Solver
     - Zoom to path is way too far out.

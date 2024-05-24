@@ -9,6 +9,7 @@ import {Observable, observe} from "../../../../lib/reactive";
 import {PathStepEntity} from "../../map/entities/PathStepEntity";
 import {AbilityLens} from "../PathEditOverlays";
 import {PathGraphics} from "../../path_graphics";
+import {Vector2} from "../../../../lib/math";
 import observe_combined = Observable.observe_combined;
 import arrow = PathGraphics.arrow;
 
@@ -103,6 +104,7 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
         okay ? new PathStepEntity({
             type: "ability",
             ability: this.ability,
+            is_far_dive: this.ability == "dive" && Vector2.max_axis(Vector2.sub(hover, start)) > 10,
             from: from,
             to: to
           }).setInteractive(false)
@@ -123,10 +125,13 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
       if (!this.start_position.value()) {
         this.start_position.set(tile)
       } else {
+        const is_far_dive = this.ability == "dive" && Vector2.max_axis(Vector2.sub(tile, this.start_position.value())) > 10
+
         if (event.original.shiftKey) {
           this.commit({
             type: "ability",
             ability: this.ability,
+            is_far_dive: is_far_dive ? true : undefined,
             from: this.start_position.value(),
             to: tile
           })
@@ -137,6 +142,7 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
             this.commit({
               type: "ability",
               ability: this.ability,
+              is_far_dive: is_far_dive ? true : undefined,
               from: this.start_position.value(),
               to: res.tile
             })

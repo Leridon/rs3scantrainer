@@ -1,15 +1,10 @@
 import Properties from "../widgets/Properties";
 import {Path} from "../../../lib/runescape/pathing";
 import {TemplateResolver} from "../../../lib/util/TemplateResolver";
-import {direction, PathFinder} from "../../../lib/runescape/movement";
 import {C} from "../../../lib/ui/constructors";
-import {CursorType} from "../../../lib/runescape/CursorType";
-import entity = C.entity;
-import staticentity = C.staticentity;
-import inlineimg = C.inlineimg;
-import bold = C.bold;
-import cls = C.cls;
 import {PathStepHeader} from "./PathStepHeader";
+import inlineimg = C.inlineimg;
+import cls = C.cls;
 
 export class PathStepProperties extends Properties {
 
@@ -49,13 +44,25 @@ export class PathStepProperties extends Properties {
         )
 
         break;
+      case "ability":
+
+        if (this.step.is_far_dive) {
+          this.info(
+            "This is a far dive, so you can just click anywhere more than 10 tiles away in that direction to execute it."
+          )
+
+        }
+        break;
+      case "cheat":
+        this.info(
+          "Cheat steps are used in place of transports like cave entrances or shortcuts that aren't available in the dataset of the path editor yet."
+        )
+        break
       case "powerburst":
       case "transport":
       case "run":
       case "cosmetic":
-      case "ability":
       case "teleport":
-      case "cheat":
       default:
     }
 

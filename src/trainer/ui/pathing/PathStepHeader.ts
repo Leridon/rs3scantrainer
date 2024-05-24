@@ -32,8 +32,6 @@ export namespace PathStepHeader {
   import ability_icon = PathGraphics.ability_icon;
   import entity = C.entity;
   import resolveTeleport = TransportData.resolveTeleport;
-  import staticentity = C.staticentity;
-  import span = C.span;
 
   export function renderTextAndIconSeparately(step: Path.Step): {
     icon?: Widget,
@@ -55,10 +53,21 @@ export namespace PathStepHeader {
       case "ability":
         icon.append(img(ability_icon(step.ability)))
 
-        content.append(
-          capitalize(step.ability),
-          " "
-        )
+
+        if (step.ability == "dive") {
+
+          if (step.is_far_dive) {
+            content.append("Far Dive ",)
+          } else {
+            content.append("Precise Dive ",)
+          }
+        } else {
+          content.append(
+            capitalize(step.ability),
+            " "
+          )
+        }
+
 
         if (step.target) {
           content.append("on ", entity(step.target))
@@ -134,7 +143,7 @@ export namespace PathStepHeader {
         break;
       case "cheat":
         icon.append(img("assets/icons/Rotten_potato.png"))
-        content.append("")
+        content.append("Cheat Step")
         break
 
       case "cosmetic":

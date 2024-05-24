@@ -20,6 +20,7 @@ import {CTRIcon} from "../../../CTRIcon";
 import {areaPolygon} from "../../polygon_helpers";
 import arrow = PathGraphics.arrow;
 import createX = PathGraphics.createX;
+import ArrowHeadOptions = PathGraphics.ArrowHeadOptions;
 
 export class PathStepEntity extends MapEntity {
 
@@ -69,7 +70,10 @@ export class PathStepEntity extends MapEntity {
             }).addTo(this)
           }
 
-          const arro = arrow(step.from, step.to)
+          //const head: ArrowHeadOptions = step.is_far_dive ? {type: "bar", arm_length: 0.5} : {type: "tip", arm_length: 0.5}
+          const head: ArrowHeadOptions = (step.is_far_dive || step.ability != "dive") ? {type: "tip", arm_length: 0.5} : {type: "x", arm_length: 0.25}
+
+          const arro = arrow(step.from, step.to, head)
             .setStyle({
               color: PathStepEntity.ability_rendering[step.ability].color,
               weight: weight,

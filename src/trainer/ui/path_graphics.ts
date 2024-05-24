@@ -95,30 +95,98 @@ export namespace PathGraphics {
     })
   }
 
-  const pi = 3.1415
+  export type ArrowHeadOptions =
+    { type: "none", arm_length?: number }
+    | { type: "tip", arm_length?: number }
+    | { type: "bar", arm_length?: number }
+    | { type: "x", arm_length?: number, ignore_rotation?: number }
+    | { type: "square", side_length?: number }
 
-  export function arrow(from: Vector2, to: Vector2): leaflet.Polyline {
+  export function arrow(from: Vector2, to: Vector2, arrow_head: ArrowHeadOptions = {type: "tip", arm_length: 0.5}): leaflet.Polyline {
+    let direction = Vector2.sub(from, to)
 
-    if (!to) debugger
+    if (Vector2.lengthSquared(direction) < 1) return leaflet.polyline([])
 
-    let off = Vector2.sub(from, to)
+    const segments: Vector2[][] = []
 
-    if (Vector2.lengthSquared(off) < 1) return leaflet.polyline([])
+    switch (arrow_head.type) {
+      case "tip": {
+        let arm1_offset = Vector2.scale(arrow_head.arm_length, Vector2.rotate(Vector2.normalize(direction), Math.PI / 4))
+        let arm2_offset = Vector2.scale(arrow_head.arm_length, Vector2.rotate(Vector2.normalize(direction), -Math.PI / 4))
 
-    let arm1_offset = Vector2.scale(0.7, Vector2.rotate(Vector2.normalize(off), pi / 4))
-    let arm2_offset = Vector2.scale(0.7, Vector2.rotate(Vector2.normalize(off), -pi / 4))
+        segments.push(
+          [from, to],
+          [Vector2.add(to, arm1_offset), to, Vector2.add(to, arm2_offset)]
+        )
+        break;
+      }
+      case "bar": {
+        let arm1_offset = Vector2.scale(arrow_head.arm_length, Vector2.rotate(Vector2.normalize(direction), Math.PI / 2))
+        let arm2_offset = Vector2.scale(arrow_head.arm_length, Vector2.rotate(Vector2.normalize(direction), -Math.PI / 2))
 
-    let tip = Vector2.toLatLong(to)
+        segments.push(
+          [from, to],
+          [Vector2.add(to, arm1_offset), Vector2.add(to, arm2_offset)]
+        )
 
-    return leaflet.polyline([
-          [Vector2.toLatLong(from), Vector2.toLatLong(to)],
-          [tip, Vector2.toLatLong(Vector2.add(to, arm1_offset))],
-          [tip, Vector2.toLatLong(Vector2.add(to, arm2_offset))],
+        break
+      }
+      case "x": {
+        let arms: Vector2[] = [
+          {x: -arrow_head.arm_length, y: -arrow_head.arm_length},
+          {x: -arrow_head.arm_length, y: arrow_head.arm_length},
+          {x: arrow_head.arm_length, y: arrow_head.arm_length},
+          {x: arrow_head.arm_length, y: -arrow_head.arm_length},
         ]
-      )
-      .setStyle({
-        interactive: true
-      })
+
+        if (!arrow_head.ignore_rotation) {
+          const angle = Vector2.angle(direction, {x: 0, y: 1})
+
+          arms = arms.map(c => Vector2.rotate(c, -angle))
+        }
+
+        segments.push(
+          [from, to],
+          [Vector2.add(to, arms[0]), Vector2.add(to, arms[2])],
+          [Vector2.add(to, arms[1]), Vector2.add(to, arms[3])],
+        )
+
+        break
+      }
+      case "none": {
+        segments.push([from, to])
+      }
+    }
+
+    return leaflet.polyline(segments.map(l => l.map(Vector2.toLatLong))).setStyle({
+      interactive: true
+    })
+
+    /*
+        return leaflet.polyline([
+              [Vector2.toLatLong(from), Vector2.toLatLong(to)],
+              [tip, Vector2.toLatLong(Vector2.add(to, arm1_offset))],
+              [tip, Vector2.toLatLong(Vector2.add(to, arm2_offset))],
+            ]
+          )
+          .setStyle({
+            interactive: true
+          })*/
+  }
+
+  export function arrowHead(type: "arrow" | "bar" | "x", position: Vector2, direction: Vector2) {
+    switch (type) {
+      case "arrow":
+
+        let arm1_offset = Vector2.scale(0.7, Vector2.rotate(direction, Math.PI / 4))
+        let arm2_offset = Vector2.scale(0.7, Vector2.rotate(direction, -Math.PI / 4))
+
+        return leaflet.polyline([
+            [Vector2.toLatLong(position), Vector2.toLatLong(Vector2.add(position, arm1_offset))],
+            [Vector2.toLatLong(position), Vector2.toLatLong(Vector2.add(position, arm2_offset))],
+          ]
+        )
+    }
   }
 }
 

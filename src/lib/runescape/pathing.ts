@@ -46,6 +46,7 @@ export namespace Path {
     target?: EntityName, // Only for barges
     target_text?: string,
     target_area?: TileArea, // Only for dives
+    is_far_dive?: boolean,
     from: TileCoordinates,
     to: TileCoordinates,
   }

@@ -88,17 +88,6 @@ export class PathStepEntity extends MapEntity {
           return arro.getElement()
         }
         case "run": {
-          let lines: [Vector2, Vector2][] = []
-
-          for (let i = 0; i < step.waypoints.length - 1; i++) {
-            const from = step.waypoints[i]
-            const to = step.waypoints[i + 1]
-
-            lines.push([from, to])
-          }
-
-          lines = lines.filter((l) => !Vector2.eq(l[0], l[1]))
-
           if (step.target_area) {
             areaPolygon(step.target_area).setStyle({
               color: PathStepEntity.run_rendering_area_color,

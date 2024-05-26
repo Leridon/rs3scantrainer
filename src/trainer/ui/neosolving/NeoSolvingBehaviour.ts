@@ -984,7 +984,7 @@ export namespace NeoSolving {
       }
 
       export function normalize(settings: InfoPanel): InfoPanel {
-        if (!settings) return lodash.cloneDeep(InfoPanel.EVERYTHING)
+        if (!settings) return lodash.cloneDeep(InfoPanel.REDUCED)
 
         if (!["full", "hide", "abridged"].includes(settings.clue_text)) settings.clue_text = "full"
         if (!["show", "hide"].includes(settings.map_image)) settings.map_image = "show"
@@ -1006,7 +1006,7 @@ export namespace NeoSolving {
     }
 
     export const DEFAULT: Settings = {
-      info_panel: InfoPanel.EVERYTHING,
+      info_panel: InfoPanel.REDUCED,
       puzzles: Puzzles.DEFAULT,
       compass: CompassSolving.Settings.DEFAULT
     }

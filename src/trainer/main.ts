@@ -13,6 +13,7 @@ import span = C.span;
 import skillbertRandom = Sliders.SlideSolver.skillbertRandom;
 import spacer = C.spacer;
 import hbox = C.hbox;
+import {CompassReader} from "./ui/neosolving/cluereader/CompassReader";
 
 type DataEntry = {
   id: number,
@@ -373,6 +374,8 @@ class SliderAnalysisModal extends NisModal {
 
 export async function makeshift_main(): Promise<void> {
   //new ExportStringModal(CompassReader.calibration_tables.off.getSampleTable().map(radiansToDegrees).join("\n")).show()
+
+  await new CompassReader.CalibrationTool().show()
 
   //clue_trainer_test_set.run()
 

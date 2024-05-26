@@ -57,6 +57,7 @@ import MatchedUI = ClueReader.MatchedUI;
 import activate = TileArea.activate;
 import ClueSpot = Clues.ClueSpot;
 import digSpotRect = Clues.digSpotRect;
+import digSpotArea = Clues.digSpotArea;
 
 class NeoSolvingLayer extends GameLayer {
   public control_bar: NeoSolvingLayer.MainControlBar
@@ -187,7 +188,7 @@ namespace NeoSolvingLayer {
     rest_collapsible: ExpansionBehaviour
 
     dropdown: AbstractDropdownSelection.DropDown<{ step: Clues.Step, text_index: number }> = null
-
+    a
     prepared_search_index: PreparedSearchIndex<{ step: Clues.Step, text_index: number }>
 
     constructor(private parent: NeoSolvingBehaviour) {
@@ -375,7 +376,9 @@ class ClueSolvingReadingBehaviour extends Behaviour {
 export default class NeoSolvingBehaviour extends Behaviour {
   layer: NeoSolvingLayer
 
-  active_clue: NeoSolving.ActiveState = null
+  state: NeoSolving.ActiveState = null
+  history: NeoSolving.ActiveState[] = []
+
   active_method: AugmentedMethod = null
   active_behaviour: SingleBehaviour<NeoSolvingSubBehaviour> = this.withSub(new SingleBehaviour<NeoSolvingSubBehaviour>())
 
@@ -384,26 +387,24 @@ export default class NeoSolvingBehaviour extends Behaviour {
   public path_control = this.withSub(new PathControl(this))
   private default_method_selector: MethodSelector = null
 
-  private last_solution_area: {
-    time: number,
-    area: TileRectangle
-  } = null
-
-  setSolutionArea(area: TileRectangle) {
-    this.last_solution_area = {
-      time: Date.now(),
-      area: area
-    }
-  }
-
-  getAssumedPlayerPosition(): TileRectangle | null {
-    if (!this.last_solution_area) return null
+  getAssumedPlayerPosition(): TileArea | null {
 
     const now = Date.now()
 
-    if (this.last_solution_area.time + 60000 < now) return null
+    const LOOKBACK = 5000
 
-    return this.last_solution_area.area
+    let OLDEST_CONSIDERED_STEP = now - LOOKBACK
+
+    for (let i = this.history.length - 2; i >= 0; i--) {
+      const state = this.history[i]
+
+      if (state.end_time < OLDEST_CONSIDERED_STEP) return null
+
+      if (state.step.type == "puzzle") OLDEST_CONSIDERED_STEP = state.start_time - LOOKBACK
+      else return state.solution_area
+    }
+
+    return null
   }
 
   constructor(public app: Application) {
@@ -414,8 +415,27 @@ export default class NeoSolvingBehaviour extends Behaviour {
     })
   }
 
+  private pushState(state: NeoSolving.ActiveState["step"]): NeoSolving.ActiveState {
+    const now = Date.now()
+
+    if (this.state && !this.state.end_time) {
+      this.state.end_time = now
+    }
+
+    this.state = {
+      step: state,
+      start_time: now,
+      end_time: undefined,
+      solution_area: undefined
+    }
+
+    this.history.push(this.state)
+
+    return this.state
+  }
+
   setPuzzle(puzzle: ClueReader.Result.Puzzle.Puzzle | null): boolean {
-    if (this.active_clue?.type == "puzzle" && this.active_clue.puzzle.type == puzzle?.type) return false // Don't do anything if a puzzle of that type is already active
+    if (this.state?.step?.type == "puzzle" && this.state.step.puzzle.type == puzzle?.type) return false // Don't do anything if a puzzle of that type is already active
 
     this.reset()
 
@@ -436,7 +456,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
       }
     }
 
-    this.active_clue = {type: "puzzle", puzzle: puzzle}
+    this.pushState({type: "puzzle", puzzle: puzzle})
 
     return true
   }
@@ -449,13 +469,13 @@ export default class NeoSolvingBehaviour extends Behaviour {
    * @param read_result
    */
   setClue(step: { step: Clues.Step, text_index: number }, fit_target: boolean = true, read_result: ClueReader.Result): void {
-    if (this.active_clue?.type == "clue" && this.active_clue.clue.step.id == step.step.id && this.active_clue.clue.text_index == step.text_index) {
+    if (this.state?.step?.type == "clue" && this.state.step.clue.step.id == step.step.id && this.state.step.clue.text_index == step.text_index) {
       return
     }
 
     this.reset()
 
-    this.active_clue = {type: "clue", clue: step}
+    const state = this.pushState({type: "clue", clue: step})
 
     const settings = this.app.settings.settings.solving
 
@@ -746,7 +766,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
       behaviour.selected_spot.subscribe(async spot => {
         if (spot) {
           if (spot.isPossible) {
-            this.setSolutionArea(digSpotRect(spot.spot))
+            state.solution_area = digSpotArea(spot.spot)
           }
 
           const method = await this.getAutomaticMethod({clue: clue.id, spot: spot.spot})
@@ -771,7 +791,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
    * @param method
    */
   setMethod(method: AugmentedMethod): void {
-    if (this.active_clue.type != "clue" || (method && (method.clue.id != this.active_clue?.clue?.step?.id))) return;
+    if (this.state?.step?.type != "clue" || (method && (method.clue.id != this.state?.step?.clue?.step?.id))) return;
     if (method && method == this.active_method) return;
 
     this.path_control.reset()
@@ -797,8 +817,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
     } else if (!(active_behaviour instanceof CompassSolving) || active_behaviour.selected_spot.value()) {
 
       const clue: ClueSpot.Id = active_behaviour instanceof CompassSolving
-        ? {clue: this.active_clue.clue.step.id, spot: active_behaviour.selected_spot.value().spot}
-        : {clue: this.active_clue.clue.step.id}
+        ? {clue: this.state.step.clue.step.id, spot: active_behaviour.selected_spot.value().spot}
+        : {clue: this.state.step.clue.step.id}
 
       this.default_method_selector = new MethodSelector(this, clue)
         .addClass("ctr-neosolving-solution-row")
@@ -818,7 +838,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
   }
 
   async setClueWithAutomaticMethod(step: Clues.StepWithTextIndex, read_result: ClueReader.Result) {
-    if (this.active_clue?.type == "clue" && this.active_clue.clue.step.id == step.step.id && this.active_clue.clue.text_index == step.text_index) {
+    if (this.state?.step?.type == "clue" && this.state.step.clue.step.id == step.step.id && this.state.step.clue.text_index == step.text_index) {
       return
     }
 
@@ -837,7 +857,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
     this.path_control.reset()
     this.active_behaviour.set(null)
     this.default_method_selector?.remove()
-    this.active_clue = null
+    this.state = null
     this.active_method = null
   }
 
@@ -855,7 +875,18 @@ export default class NeoSolvingBehaviour extends Behaviour {
 }
 
 export namespace NeoSolving {
-  export type ActiveState = { type: "puzzle", puzzle: ClueReader.Result.Puzzle.Puzzle } | { type: "clue", clue: Clues.StepWithTextIndex }
+  export type ActiveState = {
+    step: {
+      type: "puzzle",
+      puzzle: ClueReader.Result.Puzzle.Puzzle
+    } | {
+      type: "clue",
+      clue: Clues.StepWithTextIndex
+    },
+    start_time: number,
+    end_time: number,
+    solution_area: TileArea,
+  }
 
   export type Settings = {
     info_panel: Settings.InfoPanel,

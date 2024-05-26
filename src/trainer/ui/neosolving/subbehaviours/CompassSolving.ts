@@ -42,6 +42,7 @@ import DigSolutionEntity = ClueEntities.DigSolutionEntity;
 import hbox = C.hbox;
 import inlineimg = C.inlineimg;
 import count = util.count;
+import gielinor_compass = clue_data.gielinor_compass;
 
 class CompassHandlingLayer extends GameLayer {
   private lines: {
@@ -754,12 +755,10 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     const assumed_position_from_previous_clue = this.parent.getAssumedPlayerPosition()
 
     // TODO: Check if the assumed position is useable for this compass area
-    if (assumed_position_from_previous_clue) {
-
-      // TODO: Commit this entry immediately
+    if (assumed_position_from_previous_clue && this.clue.id == gielinor_compass.id) { // Only for elite compass for now
 
       this.createEntry({
-        position: TileArea.activate(TileArea.fromRect(assumed_position_from_previous_clue)),
+        position: TileArea.activate(assumed_position_from_previous_clue),
         angle: null,
         information: null,
         is_solution_of_previous_clue: true,

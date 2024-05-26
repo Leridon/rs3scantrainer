@@ -754,9 +754,9 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     const assumed_position_from_previous_clue = this.parent.getAssumedPlayerPosition()
 
-    // TODO: Check if the assumed position is useable for this compass area
-    if (assumed_position_from_previous_clue && this.clue.id == gielinor_compass.id) { // Only for elite compass for now
-
+    if (assumed_position_from_previous_clue && this.clue.id == gielinor_compass.id
+      && Rectangle.containsRect(this.clue.valid_area, TileArea.toRect(assumed_position_from_previous_clue))
+    ) { // Only for elite compass for now
       this.createEntry({
         position: TileArea.activate(assumed_position_from_previous_clue),
         angle: null,
@@ -787,7 +787,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       })
     }
 
-    if (assumed_position_from_previous_clue) {
+    if (this.entries[0]?.is_solution_of_previous_clue) {
       await this.commit(this.entries[0])
     } else {
       this.setSelection(this.entries.findIndex(e => !e.information))

@@ -20,6 +20,7 @@ Patch Notes for next release:
     - Fixed the "Export" function for method packs that's apparently been broken for ages. (The base64-version, not the JSON version)
     - Entity-Tooltips now behave much smoother when the entity is right-clicked
     - When drawing a run step in the path editor, the number of tiles this covers is now shown as part of the preview.
+    - Teleport customization now starts out as empty instead of the Clue Chasers recommendations.
 
 
 
@@ -111,7 +112,6 @@ Final missing transport:
     - Scale information gain down when zoomed out
 
 - Path Editor
-    - [Feature] Show number of tiles when drawing a run
     - [Feature, 3] Highlight step on hover
     - Teleports don't use tile areas correctly
     - [Feature] Check if teleport spot is actually in target area
@@ -203,12 +203,12 @@ RELEASE 1.0
       Format:  floor,chunkx,chunkz,subx,subz
 
 
-Unscheduled (Far future):
+Unscheduled (Post launch, if ever):
+- Track Jacket/Backpack Charges via Chat, display them as a permanent overlay
+- Totem reminder
+- Verified speedrunning
 - [What] Incorporate jacket/backpack recommmendations
 - Add some kind of discord integration with Fairy Nuff (Mike, if you stumble upon this: I have some ideas :) )
-- Integrate a solving method for compasses. (This is important because having both solvers open takes up too much screen.)
 - Better algorithm to combine equivalence classes.
 - Better algorithm to construct polygon for equivalence class (with hole support).
 - Warn when not using meerkats
-- Track Jacket/Backpack Charges via Chat, display them
-- Figure out z-Ordering of layers (need to use custom panes maybe)

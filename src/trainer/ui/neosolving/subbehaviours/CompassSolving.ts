@@ -515,14 +515,16 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     if (this.settings.show_method_preview_of_secondary_solutions) {
       const selected = this.selected_spot.value()
 
+      const show_previews = count(this.spots, s => s.isPossible) <= 5
+
       for (let spot of this.spots) {
-        if (selected && spot.isPossible && !spot.path && spot != selected) {
+        if (show_previews && spot.isPossible && !spot.path && spot != selected) {
           const m = await this.parent.getAutomaticMethod({clue: this.clue.id, spot: spot.spot})
 
           if (m?.method?.type != "general_path") continue
 
           spot.path = PathStepEntity.renderPath(m.method.main_path).eachEntity(e => e.setOpacity(0.5)).addTo(this.layer)
-        } else if ((!selected || !spot.isPossible || spot == selected) && spot.path) {
+        } else if ((!show_previews || !spot.isPossible || spot == selected) && spot.path) {
           spot.path.remove()
           spot.path = null
         }
@@ -570,7 +572,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     })
 
     // Update the selected solution spot if necessary
-    if (only_few_candidates_remain) {
+    if (possible.length == 1) {
       const old_selection = this.selected_spot.value()
 
       // Reference comparison is fine because only the instances from the original array in the clue are handled
@@ -784,6 +786,15 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
           information: null,
           preconfigured: e,
         })
+      })
+    }
+
+    if (this.entries.length == 0) {
+      this.createEntry({
+        position: null,
+        angle: null,
+        information: null,
+        preconfigured: null,
       })
     }
 

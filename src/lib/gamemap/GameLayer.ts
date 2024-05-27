@@ -264,7 +264,7 @@ export class GameLayer extends leaflet.FeatureGroup {
       if (this.quad_tree_debug_rendering) {
         timeSync("Culling", () => this.entity_quadtree.cull(event.new_view.rect, true))
       } else {
-        this.entity_quadtree.cull(event.new_view.rect, true)
+        this.entity_quadtree.cull(event.new_view.rect, false)
       }
 
       if (this.quad_tree_debug_rendering) {

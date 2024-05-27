@@ -5,7 +5,7 @@ import {AugmentedMethod} from "../../../model/MethodPackManager";
 import {Clues} from "../../../../lib/runescape/clues";
 import BoundsBuilder from "../../../../lib/gamemap/BoundsBuilder";
 import {Path} from "../../../../lib/runescape/pathing";
-import {floor_t} from "../../../../lib/runescape/coordinates";
+import {floor_t, TileRectangle} from "../../../../lib/runescape/coordinates";
 import {Rectangle} from "../../../../lib/math";
 import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
 import {ScanRegionPolygon} from "../ScanLayer";
@@ -120,6 +120,12 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
     this.fit()
     this.renderLayer()
 
+    this.registerSolution(
+      TileArea.fromRect(
+        TileRectangle.from(...node.remaining_candidates)
+      )
+    )
+
     {
       new MethodSelector(this.parent, this.method.method.for)
         .addClass("ctr-neosolving-solution-row")
@@ -155,7 +161,6 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
     )
 
     {
-
       let triples = node.children.filter(e => e.key.pulse == 3)
 
       node.children

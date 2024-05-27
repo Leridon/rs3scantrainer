@@ -53,11 +53,8 @@ import spacer = C.spacer;
 import space = C.space;
 import hboxl = C.hboxl;
 import notification = Notification.notification;
-import MatchedUI = ClueReader.MatchedUI;
 import activate = TileArea.activate;
 import ClueSpot = Clues.ClueSpot;
-import digSpotRect = Clues.digSpotRect;
-import digSpotArea = Clues.digSpotArea;
 
 class NeoSolvingLayer extends GameLayer {
   public control_bar: NeoSolvingLayer.MainControlBar
@@ -382,6 +379,12 @@ export default class NeoSolvingBehaviour extends Behaviour {
   active_method: AugmentedMethod = null
   active_behaviour: SingleBehaviour<NeoSolvingSubBehaviour> = this.withSub(new SingleBehaviour<NeoSolvingSubBehaviour>())
 
+  private activateSubBehaviour(behaviour: NeoSolvingSubBehaviour) {
+    if (behaviour) behaviour.setRelatedState(this.state)
+
+    this.active_behaviour.set(behaviour)
+  }
+
   screen_reading: ClueSolvingReadingBehaviour = this.withSub(new ClueSolvingReadingBehaviour(this))
 
   public path_control = this.withSub(new PathControl(this))
@@ -439,24 +442,22 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
     this.reset()
 
-    if (puzzle) {
-      switch (puzzle.type) {
-        case "slider":
-          this.active_behaviour.set(new SliderSolving(this, puzzle))
-          break;
-        case "knot":
-          this.active_behaviour.set(new KnotSolving(this, puzzle))
-          break;
-        case "lockbox":
-          this.active_behaviour.set(new LockboxSolving(this, puzzle))
-          break;
-        case "tower":
-          this.active_behaviour.set(new TowersSolving(this, puzzle))
-          break;
-      }
-    }
-
     this.pushState({type: "puzzle", puzzle: puzzle})
+
+    if (puzzle) {
+      this.activateSubBehaviour((() => {
+        switch (puzzle.type) {
+          case "slider":
+            return new SliderSolving(this, puzzle)
+          case "knot":
+            return new KnotSolving(this, puzzle)
+          case "lockbox":
+            return new LockboxSolving(this, puzzle)
+          case "tower":
+            return new TowersSolving(this, puzzle)
+        }
+      })())
+    }
 
     return true
   }
@@ -765,10 +766,6 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
       behaviour.selected_spot.subscribe(async spot => {
         if (spot) {
-          if (spot.isPossible) {
-            state.solution_area = digSpotArea(spot.spot)
-          }
-
           const method = await this.getAutomaticMethod({clue: clue.id, spot: spot.spot})
 
           this.setMethod(method)
@@ -777,7 +774,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
         }
       })
 
-      this.active_behaviour.set(behaviour)
+      this.activateSubBehaviour(behaviour)
     }
 
     this.setMethod(null)
@@ -805,7 +802,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
       this.active_method = method
 
       if (method.method.type == "scantree") {
-        this.active_behaviour.set(
+        this.activateSubBehaviour(
           new ScanTreeSolving(this, method as AugmentedMethod<ScanTreeMethod, Clues.Scan>)
         )
 
@@ -855,7 +852,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
     this.layer.reset()
 
     this.path_control.reset()
-    this.active_behaviour.set(null)
+    this.activateSubBehaviour(null)
     this.default_method_selector?.remove()
     this.state = null
     this.active_method = null

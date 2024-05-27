@@ -26,8 +26,8 @@ Patch Notes for next release:
 
 Compass solver:
     - [Bug] Selecting a spot while all spots are possible causes all methods to be previewed
-    - MSAA Calibration
     - Predicted start spot from last scan position
+    - MSAA Calibration
     - Explanation Modal
     - Fix fight for zoom-authority between compass and path.
     - Add markers for triangulation spots?

@@ -3732,7 +3732,7 @@ export namespace clue_data {
       "challenge": [{"type": "slider"}],
       "solution": {
         "type": "talkto",
-        "spots": [{"range": {"origin": {"x": 2849, "y": 3492, "level": 1}, "size": {"x": 3, "y": 3}}, "description": "in eastern Karamja"}],
+        "spots": [{"range": {"origin": {"x": 2849, "y": 3492, "level": 1}, "size": {"x": 3, "y": 3}}, "description": "at the top of White Wolf Mountain"}],
         "npc": "Captain Bleemadge"
       }
     }, {

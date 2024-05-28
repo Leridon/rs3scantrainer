@@ -215,10 +215,14 @@ class CompassEntryWidget extends Widget {
     return this
   }
 
+  private _preview_angle: number | null = null
+
   setPreviewAngle(angle: number | null): this {
+    this._preview_angle = angle
+
     if (this.entry.angle == null) {
       if (angle != null) {
-        this.angle_container.text(`${radiansToDegrees(angle).toFixed(0)}°`)
+        this.angle_container.text(`${radiansToDegrees(angle).toFixed(1)}°`)
       } else {
         this.angle_container.text(`???°`)
       }
@@ -268,8 +272,10 @@ class CompassEntryWidget extends Widget {
       const angle = this.angle_container = cls("ctr-compass-solving-angle")
         .toggleClass("committed", isCommited)
         .text(isCommited
-          ? `${radiansToDegrees(this.entry.angle).toFixed(0)}°`
-          : "???°"
+          ? `${radiansToDegrees(this.entry.angle).toFixed(1)}°`
+          : (
+            this._preview_angle != null ? `${radiansToDegrees(this._preview_angle).toFixed(1)}°` : "???°"
+          )
         )
         .appendTo(row)
 
@@ -392,9 +398,11 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
   }
 
   private setSelection(i: number) {
-    i = lodash.clamp(i, 0, this.entries.length)
+    i = lodash.clamp(i, 0, this.entries.length - 1)
 
     this.entry_selection_index = i
+
+    console.log(`Setting index to ${i} of ${this.entries.length}`)
 
     this.entries.forEach((e, i) => {
       e.widget.setSelected(this.entry_selection_index == i)
@@ -405,13 +413,19 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     const index = this.entries.indexOf(entry)
 
     if (index >= 0) {
+      console.log(`Deleting ${index}`)
+
       this.entries.splice(index, 1)
+
+      entry.widget?.remove()
 
       if (this.entries.length > 0 && this.entry_selection_index > index) {
         this.setSelection(this.entry_selection_index - 1)
+      } else if (index == this.entry_selection_index) {
+        this.setSelection(this.entry_selection_index) // Update selection index to the same value as before to force interface update
       }
 
-      entry.widget?.remove()
+      console.log(`Index after deletion: ${this.entry_selection_index}`)
     }
   }
 
@@ -421,6 +435,9 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     if (index >= 0) {
       if (entry.is_solution_of_previous_clue) {
         this.deleteEntry(entry)
+      } else if (!entry.position) {
+        if (count(this.entries, e => !e.information) > 1) this.deleteEntry(entry)
+        else this.setSelection(index)
       } else {
         entry.angle = null
         entry.information = null
@@ -430,6 +447,10 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
         this.setSelection(index)
 
         entry?.widget?.render()
+      }
+
+      if (count(this.entries, e => !e.position) > 1) {
+        this.deleteEntry(entry)
       }
 
       await this.updatePossibilities(false)
@@ -1086,6 +1107,8 @@ export namespace CompassSolving {
       if (typeof settings.manual_tile_inaccuracy != "number") settings.manual_tile_inaccuracy = DEFAULT.manual_tile_inaccuracy
       if (![true, false].includes(settings.use_previous_solution_as_start)) settings.use_previous_solution_as_start = DEFAULT.use_previous_solution_as_start
       if (![true, false].includes(settings.show_method_preview_of_secondary_solutions)) settings.show_method_preview_of_secondary_solutions = DEFAULT.show_method_preview_of_secondary_solutions
+
+      settings.use_previous_solution_as_start = false // Options disabled for now because it doesn't work reliably
 
       return settings
     }

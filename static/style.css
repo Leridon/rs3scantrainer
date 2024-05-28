@@ -2227,8 +2227,8 @@ input[type=checkbox] + span {
 }
 
 .ctr-compass-solving-angle {
-    width: 33px;
-    min-width: 33px;
+    width: 43px;
+    min-width: 43px;
     padding-left: 3px;
     margin-right: 3px;
     white-space: nowrap;

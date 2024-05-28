@@ -25,14 +25,15 @@ Patch Notes for next release:
 
 
 Compass solver:
-    - [Bug] Selecting a spot while all spots are possible causes all methods to be previewed
-    - Predicted start spot from last scan position
     - MSAA Calibration
-    - Explanation Modal
-    - Fix fight for zoom-authority between compass and path.
+    - Close compass after X seconds of concealed
+    - [Postponed] Predicted start spot from last scan position
+    - [Postponed] Chatbox read service to look for sextant message
+    - [Postponed] Fix fight for zoom-authority between compass and path.
     - Add markers for triangulation spots?
-    - Chatbox read service to look for sextant message
-    - compass reader is leaning too much towards concealed instead of closed, which messes up b2b compasses (with a wizard inbetween)
+
+In-App Wiki
+    - Compass Explanation
 
 Issues
     - [Bug, 1] SearchSelection: Very rarely the dropdown remains after the element is already gone

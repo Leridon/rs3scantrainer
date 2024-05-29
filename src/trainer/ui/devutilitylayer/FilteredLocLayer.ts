@@ -26,6 +26,7 @@ import LocInstance = CacheTypes.LocInstance;
 import getInstances = LocUtil.getInstances;
 import LocWithUsages = CacheTypes.LocWithUsages;
 import hbox = C.hbox;
+import NpcWithUsages = CacheTypes.NpcWithUsages;
 
 export type LocFilter = {
   names?: string[],
@@ -233,6 +234,16 @@ export class FilteredLocLayer extends GameLayer {
     instances: LocInstanceEntity[]
   }[]
 
+  custom_loc_entities: ({
+    type: "loc",
+    loc: LocWithUsages,
+    instances: LocInstanceEntity[]
+  } | {
+    type: "npc",
+    npc: NpcWithUsages,
+    instances: MapEntity[]
+  })[] = []
+
   constructor(private data: LocDataFile, private parsing_table: LocParsingTable) {
     super();
 
@@ -246,6 +257,8 @@ export class FilteredLocLayer extends GameLayer {
           e.checkParserRedraw()
         }
       })
+
+      this.updateCustomEntities()
 
       this.applyFilter()
     })
@@ -264,9 +277,19 @@ export class FilteredLocLayer extends GameLayer {
     })
   }
 
+  private updateCustomEntities() {
+    this.custom_loc_entities?.forEach(e => e.instances.forEach(i => i.remove()))
+
+    this.custom_loc_entities = this.parsing_table.data.custom_objects.locs.map(loc =>
+      ({
+        type: "loc" as const,
+        loc: loc,
+        instances: getInstances(loc).map(i => new LocInstanceEntity(i, this.parsing_table))
+      })
+    )
+  }
+
   private applyFilter() {
-
-
     let count = 0
 
     this.loc_entities.forEach(loc => {
@@ -296,5 +319,7 @@ export class FilteredLocLayer extends GameLayer {
     this.applyFilter()
 
     this.loc_entities.forEach(l => l.instances.forEach(i => i.addTo(this)))
+
+    this.updateCustomEntities()
   }
 }

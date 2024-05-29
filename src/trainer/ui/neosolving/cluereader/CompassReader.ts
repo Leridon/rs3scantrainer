@@ -688,7 +688,11 @@ export namespace CompassReader {
     closed = ewent<this>()
 
     last_read: CompassReader.AngleResult = null
-    last_successful_angle: number = null
+
+    last_successful_read: {
+      timestamp: number,
+      read: CompassReader.AngleResult & { type: "success" }
+    } = null
 
     ticks_since_stationary: number = 0
 
@@ -717,7 +721,6 @@ export namespace CompassReader {
 
       const read = this.last_read = reader.getAngle()
 
-      if (read.type != "success") console.log(read)
 
       switch (read.type) {
         case "likely_closed":
@@ -727,6 +730,15 @@ export namespace CompassReader {
 
           break;
         case "likely_concealed":
+
+          if (this.last_successful_read && this.last_successful_read.timestamp + 5000 < Date.now()) {
+            this.closed.trigger(this)
+
+            if (this.refind_after_close) this.matched_ui = null
+
+            break
+          }
+
           this.overlay.text("Concealed",
             Vector2.add(ScreenRectangle.center(reader.capture.body.screenRectangle()), {x: 5, y: 100}), {
               shadow: true,
@@ -736,7 +748,7 @@ export namespace CompassReader {
             })
           break;
         case "success":
-          if (this.last_successful_angle == read.angle) {
+          if (this.last_successful_read?.read?.angle == read.angle) {
             this.state.set({
               angle: read.angle,
               spinning: false
@@ -753,7 +765,10 @@ export namespace CompassReader {
             }
           }
 
-          this.last_successful_angle = read.angle
+          this.last_successful_read = {
+            timestamp: Date.now(),
+            read: read
+          }
 
           break;
       }
@@ -794,8 +809,7 @@ export namespace CompassReader {
         await this.checkTime()
       }
 
-      this.overlay?.clear()
-      this.overlay?.render()
+      this.overlay?.clear()?.render()
     }
   }
 

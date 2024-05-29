@@ -474,7 +474,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       entry.angle = null
       entry.information = null
       entry.widget.render()
-      entry.widget.setPreviewAngle(this.process.last_successful_angle)
+      entry.widget.setPreviewAngle(this.process.last_successful_read?.read?.angle)
 
       await this.updatePossibilities(false)
 

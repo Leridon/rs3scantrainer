@@ -84,7 +84,6 @@ Final missing transport:
 
 
 - Solving Behaviour
-    -
     - Path Panel
         - [Feature] Disable default teleport render when contained in step
             - Render step instead

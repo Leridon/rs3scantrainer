@@ -15,16 +15,54 @@ import rec = ParsingParameter.rec;
 import offset = MovementBuilder.offset;
 import fixed = MovementBuilder.fixed;
 import EntityActionMovement = Transportation.EntityActionMovement;
+import {C} from "../../../../lib/ui/constructors";
+import span = C.span;
 
-const orientation: ParsingParameter<{}> = PP.either({
-  simple: PP.choose<EntityActionMovement["orientation"]>({
-    toHTML: (v) => c().text(v)
-  }, ["bymovement", "toentitybefore", "toentityafter", "keep", "forced"]),
-  forced: PP.rec({
-    dir: PP.element("Direction", PP.dir()),
-    relative: PP.element("Relative", PP.bool())
-  })
-})
+const orientation_new: ParsingParameter<Pick<EntityActionMovement, "orientation" | "forced_orientation">> = PP.choose<Pick<EntityActionMovement, "orientation" | "forced_orientation">>(
+  {
+    toHTML: (v) => {
+      switch (v.orientation) {
+        case undefined:
+          return span("Default (Weird)")
+        case "bymovement":
+          return span("By Movement")
+        case "toentitybefore":
+          return span("To Entity Before Movement")
+        case "toentityafter":
+          return span("To Entity After Movement")
+        case "keep":
+          return span("Keep Previous Rotation")
+        case "forced":
+
+          if (v.forced_orientation.relative) {
+            return span(`Forced ${direction.toString(v.forced_orientation.dir)} [rel]`)
+          } else {
+            return span(`Forced ${direction.toString(v.forced_orientation.dir)}`)
+          }
+      }
+    }
+  }, [
+    {},
+    {orientation: "bymovement"},
+    {orientation: "toentitybefore"},
+    {orientation: "toentityafter"},
+    {orientation: "keep"},
+    ...direction.all.flatMap(d => [true, false].map(rel => ({
+      orientation: "forced" as const,
+      forced_orientation: {
+        relative: rel,
+        dir: d
+      }
+    })))
+  ]).default({})
+
+/*simple: PP.choose<EntityActionMovement["orientation"]>({
+  toHTML: (v) => c().text(v)
+}, ["bymovement", "toentitybefore", "toentityafter", "keep", "forced"]),
+forced: PP.rec({
+  dir: PP.element("Direction", PP.dir()),
+  relative: PP.element("Relative", PP.bool())
+})*/
 
 const actions_parameter = PP.list(PP.rec({
   action: PP.element("Action", PP.action()),
@@ -48,8 +86,19 @@ const actions_parameter = PP.list(PP.rec({
       }),
     })),
     time: PP.element("Time", PP.time())
-  })))
-}))
+  }), 1))
+}), 1)
+
+const actions_parameter_new = PP.list(PP.rec({
+  action: PP.element("Action", PP.action()),
+  area: PP.element("Area", PP.tileArea2(true, false), false),
+  movements: PP.element("Movements", PP.list(PP.rec({
+    valid_from: PP.element("Valid", PP.tileArea2(true, false), false),
+    orientation: PP.element("Orientation", orientation_new, false),
+    movement: PP.element("Movement", PP.movement()),
+    time: PP.element("Time", PP.time())
+  }), 1))
+}), 1)
 
 function parse<GroupT, InstanceT>(id: string,
                                   name: string,
@@ -206,6 +255,12 @@ export const parsers3: TransportParser[] = [
 
       return [builder.finish()]
     }).makeLegacy(),
+  parse("prototypecopylocnew", "Prototype NEW",
+    rec({
+      actions: PP.element("Actions", actions_parameter_new)
+    }), rec({
+      actions: PP.element("Actions", actions_parameter_new)
+    }), false, async () => []),
   parse("prototypecopyloc", "Prototype",
     rec({
       actions: PP.element("Actions", actions_parameter)

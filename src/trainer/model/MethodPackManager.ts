@@ -100,8 +100,6 @@ export class MethodPackManager {
       ]
     })()
 
-    alt1.clearBinds()
-
     this.invalidateIndex()
 
     this.pack_set_changed.on(() => this.invalidateIndex())

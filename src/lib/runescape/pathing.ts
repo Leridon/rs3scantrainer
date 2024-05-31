@@ -827,12 +827,6 @@ export namespace Path {
     }
   }
 
-  export type Section = {
-    name: string,
-    steps?: Step[],
-    subsections?: Section[]
-  }
-
   export type SectionedPath = TreeArray<Step, { name: string }>
 
   export namespace Section {
@@ -878,25 +872,5 @@ export namespace Path {
 
       return root
     }
-
-    /*
-
-    export function get_subsection_from_id_list(sections: Section[], indices: number[]): Section {
-        for (let index of indices) {
-            let sect = sections[index]
-
-            if (sect.subsections) sections = sect.subsections
-            else return sect
-        }
-        return null
-    }
-
-    export function index_of_first_real_section(sections: Section[]): number[] {
-        if (sections[0].subsections) return [0].concat(index_of_first_real_section(sections[0].subsections))
-        else return [0]
-    }
-
-
-     */
   }
 }

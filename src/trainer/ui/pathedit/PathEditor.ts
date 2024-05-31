@@ -19,7 +19,7 @@ import PlaceRedClickInteraction from "./interactions/PlaceRedClickInteraction";
 import {SelectTileInteraction} from "../../../lib/gamemap/interaction/SelectTileInteraction";
 import InteractionTopControl from "../map/InteractionTopControl";
 import DrawRunInteraction from "./interactions/DrawRunInteraction";
-import {direction, PathFinder} from "../../../lib/runescape/movement";
+import {direction, HostedMapData, MovementAbilities, PathFinder} from "../../../lib/runescape/movement";
 import {PathStepEntity} from "../map/entities/PathStepEntity";
 import TransportLayer from "../map/TransportLayer";
 import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
@@ -436,11 +436,11 @@ export class PathEditor extends Behaviour {
   editStep(value: PathBuilder.Step, interaction: InteractionLayer, hide_preview: boolean = true) {
     this.interaction_guard.set(interaction
       .onStart(() => {
-        if(hide_preview) value.associated_preview?.setVisible(false)
+        if (hide_preview) value.associated_preview?.setVisible(false)
         this.overlay_control.lens_layer.enabled2.set(false)
       })
       .onEnd(() => {
-        if(hide_preview) value.associated_preview?.setVisible(true)
+        if (hide_preview) value.associated_preview?.setVisible(true)
         else value.associated_preview?.render(true)
         this.overlay_control.lens_layer.enabled2.set(true)
       })
@@ -713,11 +713,27 @@ export class PathEditor extends Behaviour {
 
 export namespace PathEditor {
 
+  import dive_far_internal = MovementAbilities.dive_far_internal;
   export type options_t = {
     initial: Path.raw,
     commit_handler?: (p: Path.raw) => any,
     discard_handler?: () => any,
     target?: TileArea.ActiveTileArea,
     start_state?: movement_state
+  }
+
+  export async function normalizeFarDive(step: Path.Step): Promise<Path.Step> {
+    if (step.type != "ability") return step
+    if (step.ability != "dive") return step
+
+    const offset = Vector2.sub(step.to, step.from)
+    const dir = direction.fromVector(offset)
+
+    const far_target = (await dive_far_internal(HostedMapData.get(), step.from, dir, 10))?.tile
+
+    return {
+      ...step,
+      is_far_dive: TileCoordinates.equals(far_target, step.to)
+    }
   }
 }

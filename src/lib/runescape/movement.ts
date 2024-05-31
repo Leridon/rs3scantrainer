@@ -649,7 +649,7 @@ export namespace MovementAbilities {
     }
   }
 
-  async function dive_far_internal(data: MapData, start: TileCoordinates, dir: direction, max_distance: number): Promise<PlayerPosition | null> {
+  export async function dive_far_internal(data: MapData, start: TileCoordinates, dir: direction, max_distance: number): Promise<PlayerPosition | null> {
     let d = direction.toVector(dir)
 
     /*

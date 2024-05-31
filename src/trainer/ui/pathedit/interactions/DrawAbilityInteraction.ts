@@ -1,6 +1,6 @@
 import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
 import * as leaflet from "leaflet";
-import {direction, HostedMapData, MovementAbilities} from "lib/runescape/movement";
+import {HostedMapData, MovementAbilities} from "lib/runescape/movement";
 import {Path} from "lib/runescape/pathing";
 import {GameMapKeyboardEvent, GameMapMouseEvent} from "lib/gamemap/MapEvents";
 import InteractionTopControl from "../../map/InteractionTopControl";
@@ -9,7 +9,6 @@ import {Observable, observe} from "../../../../lib/reactive";
 import {PathStepEntity} from "../../map/entities/PathStepEntity";
 import {AbilityLens} from "../PathEditOverlays";
 import {PathGraphics} from "../../path_graphics";
-import {Vector2} from "../../../../lib/math";
 import observe_combined = Observable.observe_combined;
 import arrow = PathGraphics.arrow;
 import isFarDive = MovementAbilities.isFarDive;
@@ -127,9 +126,10 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
       if (!this.start_position.value()) {
         this.start_position.set(tile)
       } else {
-        const is_far_dive = this.ability == "dive" && await isFarDive(this.start_position.value(), tile)
 
         if (event.original.shiftKey) {
+          const is_far_dive = this.ability == "dive" && await isFarDive(this.start_position.value(), tile)
+
           this.commit({
             type: "ability",
             ability: this.ability,
@@ -139,6 +139,7 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
           })
         } else {
           let res = await MovementAbilities.generic(HostedMapData.get(), this.ability, this.start_position.value(), tile)
+          const is_far_dive = this.ability == "dive" && await isFarDive(this.start_position.value(), res.tile)
 
           if (res) {
             this.commit({

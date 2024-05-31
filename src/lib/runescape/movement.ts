@@ -721,4 +721,20 @@ export namespace MovementAbilities {
         return 34;
     }
   }
+
+  export async function isFarDive(from: TileCoordinates, to: TileCoordinates): Promise<boolean> {
+    const offset = Vector2.sub(to, from)
+
+    if (offset.y != 0 && offset.x != 0 && Math.abs(offset.x) != Math.abs(offset.y)) return false
+
+    const dist = Vector2.max_axis(offset)
+
+    if (dist == 10 && (offset.y == 0 || offset.x == 0 || Math.abs(offset.x) == Math.abs(offset.y))) return true
+
+    const dir = direction.fromVector(offset)
+
+    const far_target = (await dive_far_internal(HostedMapData.get(), from, dir, 10))?.tile
+
+    return TileCoordinates.equals(far_target, to)
+  }
 }

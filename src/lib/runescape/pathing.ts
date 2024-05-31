@@ -1,4 +1,4 @@
-import {direction, MovementAbilities, PathFinder, PlayerPosition} from "./movement";
+import {direction, HostedMapData, MovementAbilities, PathFinder, PlayerPosition} from "./movement";
 import {util} from "../util/util";
 import * as lodash from "lodash"
 import {Rectangle, Vector2} from "../math";
@@ -24,6 +24,7 @@ export namespace Path {
   import EntityTransportation = Transportation.GeneralEntityTransportation;
   import activate = TileArea.activate;
   import defaultInteractiveArea = Transportation.EntityTransportation.defaultInteractiveArea;
+  import dive_far_internal = MovementAbilities.dive_far_internal;
   export type PathAssumptions = {
     double_surge?: boolean,
     double_escape?: boolean,
@@ -873,4 +874,5 @@ export namespace Path {
       return root
     }
   }
+
 }

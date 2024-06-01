@@ -222,9 +222,9 @@ class CompassEntryWidget extends Widget {
 
     if (this.entry.angle == null) {
       if (angle != null) {
-        this.angle_container.text(`${radiansToDegrees(angle).toFixed(1)}°`)
+        this.angle_container?.text(`${radiansToDegrees(angle).toFixed(1)}°`)
       } else {
-        this.angle_container.text(`???°`)
+        this.angle_container?.text(`???°`)
       }
     }
 
@@ -265,8 +265,7 @@ class CompassEntryWidget extends Widget {
       }
     }
 
-    {
-
+    if (this.entry.position) {
       const isCommited = this.entry.angle != null
 
       const angle = this.angle_container = cls("ctr-compass-solving-angle")

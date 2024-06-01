@@ -7,10 +7,12 @@ import {TileCoordinates} from "../../../../lib/runescape/coordinates";
 import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
 import {Rectangle} from "../../../../lib/math";
 import {debug} from "@alt1/ocr";
+import {LocUtil} from "./util/LocUtil";
 
 export namespace Parsing {
 
   import LocDataFile = CacheTypes.LocDataFile;
+  import getInstances = LocUtil.getInstances;
 
   export async function applyParsing(parsers: TransportParser[], data: LocDataFile, parsing_table: LocParsingTable): Promise<Transportation.Transportation[]> {
     let results: Transportation.Transportation[] = []
@@ -25,7 +27,9 @@ export namespace Parsing {
       }
 
       for (const loc_id of loc_group.loc_ids) {
-        const instances = data.get(loc_id)
+        const instances =
+          [...data.get(loc_id),
+            ...getInstances(parsing_table.data.custom_objects.locs.find(l => l.id == loc_id))]
 
         if (instances.length == 0) {
           console.error(`Zero instances returned for loc ${loc_id}!`)

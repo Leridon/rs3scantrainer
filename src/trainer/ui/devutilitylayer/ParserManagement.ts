@@ -92,6 +92,10 @@ export class ParserManagementLayer extends GameLayer {
 
     let most_current_data: LocParsingTableData = {
       version: 0,
+      custom_objects: {
+        locs: [],
+        npcs: []
+      },
       associations: []
     }
 

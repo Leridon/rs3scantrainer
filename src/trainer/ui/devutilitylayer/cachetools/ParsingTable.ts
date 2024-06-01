@@ -4,6 +4,8 @@ import {CacheTypes} from "./CacheTypes";
 import {TransportParser} from "./TransportParser";
 import {parsers3} from "./parsers3";
 import LocInstance = CacheTypes.LocInstance;
+import LocWithUsages = CacheTypes.LocWithUsages;
+import NpcWithUsages = CacheTypes.NpcWithUsages;
 
 export type ParsingAssociationGroup = {
   parser_id: string,
@@ -21,6 +23,10 @@ export type ParsingAssociationGroup = {
 
 export type LocParsingTableData = {
   version: number,
+  custom_objects: {
+    locs: LocWithUsages[],
+    npcs: NpcWithUsages[],
+  },
   associations: ParsingAssociationGroup[]
 }
 
@@ -175,27 +181,6 @@ export class LocParsingTable {
     return this.data.associations.find(g => g.group_id == group_id)
   }
 
-  getGroup2(parser: TransportParser, id: number): ParserPairing["group"] {
-    const a = this.data.associations.find(a => a.parser_id == parser.id && (id < 0 || a.group_id == id))
-
-    if (a) {
-      return {
-        parser: parser,
-        id: a.group_id,
-        name: a.group_name,
-        argument: a.per_group_arg
-      }
-    } else {
-      return {
-        parser: parser,
-        id: -1,
-        name: "",
-        argument: undefined
-      }
-    }
-
-  }
-
   getPairing(loc: LocInstance): ParserPairing {
     const group = this.loc_index[loc.loc_id]
 
@@ -220,6 +205,10 @@ export class LocParsingTable {
           argument: instance_group.per_instance_argument,
         } : null
     }
+  }
+
+  addCustomLoc(use: LocInstance) {
+    
   }
 
   private bumpVersion() {

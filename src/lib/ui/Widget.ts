@@ -67,7 +67,7 @@ export default class Widget<T extends HTMLElement = HTMLElement> {
   }
 
   css<prop extends keyof CSS.PropertiesHyphen>(key: prop, value: CSS.PropertiesHyphen[prop]): this {
-    this.container.css(key, value)
+    this._raw.style[key as string] = value
 
     return this
   }

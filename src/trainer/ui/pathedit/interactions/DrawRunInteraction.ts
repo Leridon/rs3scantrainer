@@ -12,6 +12,9 @@ import {PathGraphics} from "../../path_graphics";
 import index = util.index;
 import observe_combined = Observable.observe_combined;
 import arrow = PathGraphics.arrow;
+import * as leaflet from "leaflet";
+import {Vector2} from "../../../../lib/math";
+import createX = PathGraphics.createX;
 
 class DrawRunInteractionInternal extends ValueInteraction<{
   path: TileCoordinates[],
@@ -40,16 +43,49 @@ class DrawRunInteractionInternal extends ValueInteraction<{
     super({
       preview_render: (v) => {
         if (v) {
-          let preview = new PathStepEntity({
-              type: "run",
-              waypoints: v.path,
-            }
-          ).setInteractive(false)
+          const preview = leaflet.featureGroup()
 
-          if (v.no_path_to) {
+          if(v.no_path_to) {
             arrow(index(v.path, -1), v.no_path_to).setStyle({
               color: "red"
             }).addTo(preview)
+
+            let marker = createX(v.no_path_to,
+              "yellow",
+              16
+            ).addTo(preview)
+
+            marker.bindTooltip(leaflet.tooltip({
+                content: `No path`,
+                className: "run-drawing-tile-count",
+                offset: [0, 20],
+                permanent: true,
+                direction: "center",
+              })
+            )
+          } else {
+            leaflet.polyline(
+              //lines.map((t) => .map(Vector2.toLatLong)),
+              v.path.map(Vector2.toLatLong),
+              {
+                color: "#b4b4b4",
+                weight: 3,
+              }
+            ).addTo(preview)
+
+            let marker = createX(index(v.path, -1),
+              "yellow",
+              16
+            ).addTo(preview)
+
+            marker.bindTooltip(leaflet.tooltip({
+                content: `${PathFinder.pathLength(v.path)} tiles`,
+                className: "run-drawing-tile-count",
+                offset: [0, 20],
+                permanent: true,
+                direction: "center",
+              })
+            )
           }
 
           return preview

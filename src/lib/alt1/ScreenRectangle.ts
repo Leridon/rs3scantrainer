@@ -50,4 +50,8 @@ export namespace ScreenRectangle {
 
     return off.x >= 0 && off.x < rect.size.x && off.y >= 0 && off.y < rect.size.y
   }
+
+  export function center(rect: ScreenRectangle): Vector2 {
+    return Vector2.snap(Vector2.add(rect.origin, Vector2.scale(0.5, rect.size)))
+  }
 }

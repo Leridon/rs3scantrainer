@@ -2452,7 +2452,8 @@ export namespace clue_data {
           "y": 3589,
           "level": 0
         }
-      ]
+      ],
+      "valid_area": {"topleft": {"x": 1922, "y": 4092}, "botright": {"x": 3902, "y": 2500}, "level": 0}
     }
 
   export const arc_compass: Clues.Compass =
@@ -2630,7 +2631,8 @@ export namespace clue_data {
           "y": 11432,
           "level": 0
         }
-      ]
+      ],
+      "valid_area": {"topleft": {"x": 1600, "y": 12159}, "botright": {"x": 2751, "y": 11008}, level: 0}
     }
 
   export const compass: Clues.Compass[] = [gielinor_compass, arc_compass]
@@ -3732,7 +3734,7 @@ export namespace clue_data {
       "challenge": [{"type": "slider"}],
       "solution": {
         "type": "talkto",
-        "spots": [{"range": {"origin": {"x": 2849, "y": 3492, "level": 1}, "size": {"x": 3, "y": 3}}, "description": "in eastern Karamja"}],
+        "spots": [{"range": {"origin": {"x": 2849, "y": 3492, "level": 1}, "size": {"x": 3, "y": 3}}, "description": "at the top of White Wolf Mountain"}],
         "npc": "Captain Bleemadge"
       }
     }, {
@@ -5049,7 +5051,7 @@ export namespace clue_data {
       "solution": {
         "type": "talkto",
         "npc": "Cap'n Izzy No-Beard",
-        "spots": [{"range": {"origin":{"x":2806,"y":3190,"level":0},"size":{"x":4,"y":3},"data":"7g8="}, "description": "at the Agility Arena"}]
+        "spots": [{"range": {"origin": {"x": 2806, "y": 3190, "level": 0}, "size": {"x": 4, "y": 3}, "data": "7g8="}, "description": "at the Agility Arena"}]
       },
       "anagram": ["O Birdz A Zany En Pc"]
     }, {

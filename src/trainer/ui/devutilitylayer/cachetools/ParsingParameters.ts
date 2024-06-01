@@ -23,6 +23,8 @@ import {Transportation} from "../../../../lib/runescape/transportation";
 import {TileTransform} from "../../../../lib/runescape/coordinates/TileTransform";
 import NumberSlider from "../../../../lib/ui/controls/NumberSlider";
 import LocInstance = CacheTypes.LocInstance;
+import ButtonRow from "../../../../lib/ui/ButtonRow";
+import {NislIcon} from "../../nisl";
 
 export abstract class ParsingParameter<T = any> {
   constructor(private _default_value: ParsingParameter.P<T>) {}
@@ -47,6 +49,8 @@ export namespace ParsingParameter {
   import inlineimg = C.inlineimg;
   import getActions = LocUtil.getActions;
   import EntityActionMovement = Transportation.EntityActionMovement;
+  import spacer = C.spacer;
+  import span = C.span;
 
   export type P<T> = T | ((loc: LocInstance) => T)
 
@@ -165,6 +169,346 @@ export namespace ParsingParameter {
         }(self)
       }
     }
+  }
+
+  export function tileArea2(allow_relative: boolean = true, allow_absolute: boolean = true): ParsingParameter<{
+    type: "relativetoloc" | "absolute",
+    area: TileArea
+  }> {
+
+    return (new class extends ParsingParameter<{
+      type: "relativetoloc" | "absolute",
+      area: TileArea
+    }> {
+
+      constructor() {
+        super(null);
+      }
+
+      renderForm(depth: number, loc: CacheTypes.LocInstance, map: GameMapMiniWidget): Editor<{
+        type: "relativetoloc" | "absolute",
+        area: TileArea
+      }> {
+        const self = this
+
+        const transform = LocInstance.getTransform(loc)
+        const inverse_transform = LocInstance.getInverseTransform(loc)
+
+        return new class extends ParsingParameter.Editor<{
+          type: "relativetoloc" | "absolute",
+          area: TileArea
+        }> {
+
+          private wip_value: {
+            type: "relativetoloc" | "absolute",
+            tiles: TileCoordinates[]
+          } = null
+
+          interaction: ValueInteraction<any> = null
+
+          render_implementation(value: {
+            type: "relativetoloc" | "absolute",
+            area: TileArea
+          }): void {
+            this.wip_value = value ? {
+              type: value.type,
+              tiles: TileArea.activate(value.area).getTiles()
+            } : null
+
+            this.update_render()
+          }
+
+          private act(type: "relativetoloc" | "absolute") {
+            const editor = this
+
+            map.setInteraction(
+              this.interaction = (new class extends ValueInteraction<TileCoordinates[]> {
+                constructor() {
+                  super();
+
+                  let current_tiles = editor.wip_value?.tiles || []
+
+                  if (editor.wip_value?.type == "relativetoloc") {
+                    current_tiles = current_tiles.map(t => TileCoordinates.transform(t, transform))
+                  }
+
+                  const interact = new DrawTileAreaInteraction(current_tiles)
+                    .onPreview(v => this.preview(v))
+                    .attachTopControl(null)
+                    .addTo(this)
+
+                  this.attachTopControl(new InteractionTopControl({name: "Draw Tile Area"})
+                    .setContent(
+                      c("<div style='font-family: monospace; white-space:pre'></div>")
+                        .append(c().text(`[Shift + Mouse] add tiles, [Alt + Mouse] remove tiles`))
+                    ))
+
+                  interact.preview(current_tiles)
+                }
+              })
+                .onPreview(v => {
+                  if (v.length > 0) {
+                    let new_tiles = v
+
+                    if (type == "relativetoloc") {
+                      new_tiles = new_tiles.map(t => TileCoordinates.transform(t, inverse_transform))
+                    }
+
+                    this.wip_value = {
+                      type: type,
+                      tiles: new_tiles
+                    }
+                  } else {
+                    this.wip_value = null
+                  }
+
+                  this.update_render()
+                })
+                .onEnd(() => {
+                  this.commitTiles()
+
+                  this.interaction = null
+                  this.update_render()
+                })
+            )
+          }
+
+          private commitTiles() {
+
+            if (this.wip_value) {
+              this.commit({
+                type: this.wip_value.type,
+                area: TileArea.fromTiles(this.wip_value.tiles)
+              })
+            } else {
+              this.commit(null)
+            }
+          }
+
+          private update_render(): void {
+
+            this.control.empty().append(hboxl(
+              this.wip_value
+                ? span(`${this.wip_value.tiles.length} tiles [${this.wip_value.type == "relativetoloc" ? "rel" : "abs"}]`)
+                : span("None"),
+              spacer(),
+              this.interaction ?
+                new ButtonRow()
+                  .buttons(
+                    new LightButton("Abort")
+                      .onClick(() => {
+                        this.interaction?.cancel()
+                        this.update_render()
+                      }),
+                    new LightButton("")
+                      .append(NislIcon.delete())
+                      .onClick(() => {
+                        this.wip_value = null
+                        this.interaction?.cancel()
+                        this.update_render()
+
+                        this.commitTiles()
+                      })
+                  )
+                : new ButtonRow()
+                  .buttons(
+                    allow_relative ? new LightButton("Rel")
+                      .onClick(() => this.act("relativetoloc")) : undefined,
+
+                    allow_absolute ? new LightButton("Abs")
+                      .onClick(() => this.act("absolute")) : undefined,
+
+                    new LightButton("")
+                      .append(NislIcon.delete())
+                      .onClick(() => {
+                        this.wip_value = null
+                        this.interaction?.cancel()
+                        this.update_render()
+
+                        this.commitTiles()
+                      })
+                  )
+            ))
+          }
+        }(self)
+      }
+    })
+  }
+
+  export type Movement = {
+    offset?: Transportation.EntityActionMovement.Offset,
+    fixed_target?: { target: TileArea, relative?: boolean, origin_only?: boolean }
+  }
+
+  export function movement(): ParsingParameter<Movement> {
+
+    return (new class extends ParsingParameter<Movement> {
+
+      constructor() {
+        super(null);
+      }
+
+      renderForm(depth: number, loc: CacheTypes.LocInstance, map: GameMapMiniWidget): Editor<Movement> {
+        const self = this
+
+        const transform = LocInstance.getTransform(loc)
+        const inverse_transform = LocInstance.getInverseTransform(loc)
+
+        return new class extends ParsingParameter.Editor<Movement> {
+          interaction: ValueInteraction<any> = null
+
+          wip_value: { tiles: TileCoordinates[], relative: boolean, origin_only: boolean } = null
+
+          render_implementation(value: Movement): void {
+            this.wip_value = value?.fixed_target ? {
+              relative: value.fixed_target.relative,
+              origin_only: value.fixed_target.origin_only,
+              tiles: TileArea.activate(value.fixed_target.target).getTiles()
+            } : null
+
+            this.update_render()
+          }
+
+          private act(type: "offset" | "relativefixed" | "absolutefixed" | "originonly") {
+            const editor = this
+
+            if (type == "offset") {
+              map.setInteraction(
+                new DrawOffset({})
+                  .onCommit(v => {
+                      this.wip_value = null
+
+                      this.commit({
+                        offset: v.offset
+                      })
+
+                      this.render()
+                    }
+                  )
+              )
+            } else {
+              const will_be_relative = type == "relativefixed" || type == "originonly"
+
+              map.setInteraction(
+                this.interaction = (new class extends ValueInteraction<TileCoordinates[]> {
+                  constructor() {
+                    super();
+
+                    let current_tiles = editor.wip_value?.tiles || []
+
+                    if (editor.wip_value?.relative) {
+                      current_tiles = current_tiles.map(t => TileCoordinates.transform(t, transform))
+                    }
+
+                    const interact = new DrawTileAreaInteraction(current_tiles)
+                      .onPreview(v => this.preview(v))
+                      .attachTopControl(null)
+                      .addTo(this)
+
+                    this.attachTopControl(new InteractionTopControl({name: "Draw Tile Area"})
+                      .setContent(
+                        c("<div style='font-family: monospace; white-space:pre'></div>")
+                          .append(c().text(`[Shift + Mouse] add tiles, [Alt + Mouse] remove tiles`))
+                      ))
+
+                    interact.preview(current_tiles)
+                  }
+                })
+                  .onPreview(v => {
+                    if (v.length > 0) {
+                      let new_tiles = v
+
+                      if (will_be_relative) {
+                        new_tiles = new_tiles.map(t => TileCoordinates.transform(t, inverse_transform))
+                      }
+
+                      this.wip_value = {
+                        relative: will_be_relative,
+                        tiles: new_tiles,
+                        origin_only: type == "originonly"
+                      }
+                    } else {
+                      this.wip_value = null
+                    }
+                    this.update_render()
+                  })
+                  .onEnd(() => {
+                    this.commitWIP()
+
+                    this.interaction = null
+                    this.update_render()
+                  })
+              )
+            }
+          }
+
+          private commitWIP() {
+            if (this.wip_value) {
+              this.commit({
+                fixed_target: {
+                  target: TileArea.fromTiles(this.wip_value.tiles),
+                  relative: this.wip_value.relative,
+                  origin_only: this.wip_value.origin_only
+                },
+              })
+            } else {
+              this.commit({offset: {x: 0, y: 0, level: 0}})
+            }
+          }
+
+
+          private update_render(): void {
+            const offset = this.get()?.offset ?? {x: 0, y: 0, level: 0}
+
+            this.control.empty().append(hboxl(
+              this.wip_value
+                ? span(`${this.wip_value.tiles.length} tiles [${(this.wip_value.relative ? "rel" : "abs") + this.wip_value.origin_only ? ", org" : ""}]`)
+                : span(`+${offset.x} | ${offset.y} | ${offset.level}`),
+              spacer(),
+              this.interaction ?
+                new ButtonRow()
+                  .buttons(
+                    new LightButton("Abort")
+                      .onClick(() => {
+                        this.interaction?.cancel()
+                        this.update_render()
+                      }),
+                    new LightButton("")
+                      .append(NislIcon.delete())
+                      .onClick(() => {
+                        this.wip_value = null
+                        this.interaction?.cancel()
+                        this.update_render()
+
+                        this.commitWIP()
+                      })
+                  )
+                : new ButtonRow()
+                  .buttons(
+                    new LightButton("Off")
+                      .onClick(() => this.act("offset")),
+                    new LightButton("Rel")
+                      .onClick(() => this.act("relativefixed")),
+                    new LightButton("Abs")
+                      .onClick(() => this.act("absolutefixed")),
+                    new LightButton("Ori")
+                      .onClick(() => this.act("originonly")),
+
+                    new LightButton("")
+                      .append(NislIcon.delete())
+                      .onClick(() => {
+                        this.wip_value = null
+                        this.interaction?.cancel()
+                        this.update_render()
+
+                        this.commitWIP()
+                      })
+                  )
+            ))
+          }
+        }(self)
+      }
+    })
   }
 
   export function dir(): ParsingParameter<direction> {
@@ -489,9 +833,9 @@ export namespace ParsingParameter {
     }
   }
 
-  export function list<T>(base: ParsingParameter<T>): ParsingParameter<T[]> {
+  export function list<T>(base: ParsingParameter<T>, defaultSize: number = 0): ParsingParameter<T[]> {
     return new class extends ParsingParameter<T[]> {
-      constructor() {super([]);}
+      constructor() {super(l => new Array(defaultSize).fill(null).map(() => base.getDefault(l)));}
 
       renderForm(depth: number, loc: CacheTypes.LocInstance, map: GameMapMiniWidget): ParsingParameter.Editor<T[]> {
         const self = this

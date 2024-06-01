@@ -774,15 +774,6 @@ class SolvingSettingsEdit extends Widget {
         .checkboxes()
     ))
 
-    this.layout.named("Pathing", hgrid(
-      ...new Checkbox.Group([
-        {button: new Checkbox("Show"), value: "show" as const},
-        {button: new Checkbox("Hide"), value: "hide" as const},
-      ]).onChange(v => this.value.path_components = v)
-        .setValue(this.value.path_components)
-        .checkboxes()
-    ))
-
     this.layout.named("Puzzles", hgrid(
       ...new Checkbox.Group([
         {button: new Checkbox("Show"), value: "show" as const},
@@ -888,9 +879,21 @@ class CompassSettingsEdit extends Widget {
       .setValue(this.value.enable_status_overlay), "left", 1)
     this.layout.paragraph("Shows detected angle on top of the compass.")
 
+    this.layout.header(new Checkbox("Show method previews")
+      .onCommit(v => this.value.show_method_preview_of_secondary_solutions = v)
+      .setValue(this.value.show_method_preview_of_secondary_solutions), "left", 1)
+    this.layout.paragraph("Shows method previews for all remaining candidates if only a few candidates remain.")
+
+    /* // Disabled for now
+    this.layout.header(new Checkbox("Use previous solution as first triangulation spot")
+      .onCommit(v => this.value.use_previous_solution_as_start = v)
+      .setValue(this.value.use_previous_solution_as_start), "left", 1)
+    this.layout.paragraph("Uses the solution of the previous clue as the first triangulation spot.")
+    */
+
     this.layout.header("Preconfigured Triangulation Strategy")
 
-    this.layout.paragraph("Preconfigured strategies are used to automatically load trinagulation spots whenever you receive a compass clue.")
+    this.layout.paragraph("Preconfigured strategies are used to automatically load triangulation spots whenever you receive a compass clue.")
 
     for (const compass of clue_data.compass) {
       let binding = this.value.active_triangulation_presets.find(p => p.compass_id == compass.id)
@@ -1152,7 +1155,7 @@ class CompassSettingsEdit extends Widget {
 
     this.layout.header("Manual Tile Selection Inaccuracy", "left", 1)
     this.layout.paragraph("Choose how accurate your manual spot selection when you click the map should be assumed to be. 1 considers your selection to be precisely the tile you stand on, higher values leave more room for error. This does not apply to tiles selected as part of a preconfigured strategy.")
-    this.layout.row(new NumberSlider(1, 10, 1)
+    this.layout.row(new NumberSlider(0, 10, 1)
       .setValue(this.value.manual_tile_inaccuracy)
       .onCommit(v => this.value.manual_tile_inaccuracy = v)
     )

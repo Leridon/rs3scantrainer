@@ -1,4 +1,5 @@
 import * as leaflet from "leaflet";
+import {GameMap} from "../GameMap";
 
 export default class BaseTileLayer extends leaflet.TileLayer {
   constructor(private readonly zoomurls: BaseTileLayer.LayerSource[],

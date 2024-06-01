@@ -21,6 +21,7 @@ export namespace ClueEntities {
   import TalkTo = Clues.Solution.TalkTo;
   import Solution = Clues.Solution;
   import item = C.item;
+  import hbox = C.hbox;
 
   export class NpcEntity extends MapEntity {
 
@@ -103,9 +104,7 @@ export namespace ClueEntities {
         .setTooltip(() => {
           const layout = new Properties()
 
-          layout.header(npc(name))
-
-          layout.paragraph(`Talk to the npc to solve the clue.`)
+          layout.header(hbox("Talk to", C.space(), npc(name), C.space(), "to solve the clue"))
 
           if (spot.note) {
             layout.named("Note", spot.note)
@@ -123,9 +122,7 @@ export namespace ClueEntities {
       this.setTooltip(() => {
         const layout = new Properties()
 
-        layout.header(staticentity(sol.entity))
-
-        layout.paragraph(`Search to solve the clue.`)
+        layout.header(hbox("Search", C.space(), staticentity(sol.entity), C.space(), "to solve the clue"))
 
         if (sol.key) {
           layout.named("Key", "If you do not have 'way of the footshaped key' unlocked, you will need to get a key.")
@@ -150,13 +147,12 @@ export namespace ClueEntities {
       this.setTooltip(() => {
         const layout = new Properties()
 
-        layout.header(TileCoordinates.toString(this.sol.spot))
-
         if (sol.description) {
-          layout.paragraph(`Dig ${sol.description} to solve the clue`)
+          layout.header(`Dig ${sol.description} to solve the clue`)
         } else {
-          layout.paragraph(`Dig at this spot to solve the clue`)
+          layout.header(`Dig at ${TileCoordinates.toString(this.sol.spot)} to solve the clue`)
         }
+
         return layout
       })
     }
@@ -168,13 +164,7 @@ export namespace ClueEntities {
     protected async render_implementation(props: MapEntity.RenderProps): Promise<Element> {
       const floor_group = this.floor_sensitivity_layers.get(props.floor_group_index)
 
-      const range = boxPolygon(digSpotRect(this.sol.spot))
-        .setStyle({
-          color: "gray",
-          interactive: false,
-          opacity: 0.5,
-          fillOpacity: 0.1
-        }).addTo(this)
+      const range = DigSolutionEntity.areaGraphics(this.sol.spot).addTo(this)
 
       const marker = interactionMarker(this.sol.spot, "shovel", props.highlight ? 1.5 : 1, true,
         floor_group.value.correct_level ? undefined : "ctr-entity-wrong-level"
@@ -182,6 +172,18 @@ export namespace ClueEntities {
         .addTo(this)
 
       return marker.getElement()
+    }
+  }
+
+  export namespace DigSolutionEntity {
+    export function areaGraphics(spot: TileCoordinates) {
+      return boxPolygon(digSpotRect(spot))
+        .setStyle({
+          color: "gray",
+          interactive: false,
+          opacity: 0.5,
+          fillOpacity: 0.1
+        })
     }
   }
 

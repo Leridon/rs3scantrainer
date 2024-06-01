@@ -251,65 +251,10 @@ export class GenericPathMethodEditor extends MethodSubEditor {
    * The sequence is the "blueprint" of things that need to be done to complete the step.
    */
   private async updateSequence() {
-    let sequence: GenericPathMethodEditor.Sequence = []
-
     const value = this.value
     const clue = this.value.clue
-    const assumptions = this.assumptions.value()
 
-    if (clue.type == "emote") {
-      const hidey_hole_in_target = clue.hidey_hole && activate(clue.area).query(TileRectangle.center(clue.hidey_hole.location))
-
-      if (!assumptions.full_globetrotter) {
-        if (hidey_hole_in_target) {
-          sequence.push({
-            name: `Path to Hidey Hole in Target Area`,
-            path: {section: "main", target: activate(default_interactive_area(clue.hidey_hole.location))}
-          })
-        } else if (clue.hidey_hole) {
-          sequence.push({
-            name: `Path to Hidey Hole`,
-            path: {section: "pre", target: activate(default_interactive_area(clue.hidey_hole.location))}
-          })
-        }
-
-        if (clue.hidey_hole) sequence.push({name: "Take and Equip Items", ticks: 1})
-        else sequence.push({name: "Unequip Items", ticks: 1 + Math.floor(clue.items.length / 3)})
-      }
-
-      if (assumptions.full_globetrotter || !hidey_hole_in_target) sequence.push({
-        name: "Path to Emote Area",
-        path: {section: "main", target: activate(clue.area)}
-      })
-
-      sequence.push({name: "Summon Uri", ticks: 1})
-
-      if (clue.double_agent) sequence.push({name: "Kill double agent", ticks: clue.tier == "master" ? 5 : 3})
-
-      if (clue.hidey_hole && !hidey_hole_in_target && !assumptions.full_globetrotter) {
-        sequence.push({
-          name: "Return to Hidey Hole",
-          path: {section: "post", target: activate(default_interactive_area(clue.hidey_hole.location))}
-        })
-
-        sequence.push({name: "Return Items", ticks: 1})
-      }
-    } else {
-      if (Clues.requiresKey(clue) && !assumptions.way_of_the_footshaped_key) {
-        sequence.push({name: "Path to Key", path: {section: "pre", target: activate(clue.solution.key.area)}})
-
-        sequence.push({name: `Get Key (${clue.solution.key.instructions})`, ticks: 2})
-      }
-
-      sequence.push({
-        name: "To target", path: {
-          section: "main",
-          target: activate(Clues.ClueSpot.targetArea({clue: clue, spot: value.method.for.spot}))
-        }
-      })
-    }
-
-    this.sequence = sequence
+    this.sequence = await GenericPathMethodEditor.getSequence({clue: clue, spot: value.method.for.spot}, this.assumptions.value())
 
     await this.render()
   }
@@ -377,6 +322,7 @@ export class GenericPathMethodEditor extends MethodSubEditor {
 }
 
 export namespace GenericPathMethodEditor {
+  import ClueAssumptions = SolvingMethods.ClueAssumptions;
   export type SequenceSegment = {
     path?: { section: "pre" | "post" | "main", target: TileArea.ActiveTileArea } | null,
     name: string,
@@ -395,4 +341,85 @@ export namespace GenericPathMethodEditor {
   }
 
   export type Sequence = SequenceSegment[]
+
+
+  export async function getSequence(spot: Clues.ClueSpot, assumptions: ClueAssumptions) {
+    let sequence: GenericPathMethodEditor.Sequence = []
+
+    const clue = spot.clue
+
+    if (clue.type == "emote") {
+      const hidey_hole_in_target = clue.hidey_hole && activate(clue.area).query(TileRectangle.center(clue.hidey_hole.location))
+
+      if (!assumptions.full_globetrotter) {
+        if (hidey_hole_in_target) {
+          sequence.push({
+            name: `Path to Hidey Hole in Target Area`,
+            path: {section: "main", target: activate(default_interactive_area(clue.hidey_hole.location))}
+          })
+        } else if (clue.hidey_hole) {
+          sequence.push({
+            name: `Path to Hidey Hole`,
+            path: {section: "pre", target: activate(default_interactive_area(clue.hidey_hole.location))}
+          })
+        }
+
+        if (clue.hidey_hole) sequence.push({name: "Take and Equip Items", ticks: 1})
+        else sequence.push({name: "Unequip Items", ticks: 1 + Math.floor(clue.items.length / 3)})
+      }
+
+      if (assumptions.full_globetrotter || !hidey_hole_in_target) sequence.push({
+        name: "Path to Emote Area",
+        path: {section: "main", target: activate(clue.area)}
+      })
+
+      sequence.push({name: "Summon Uri", ticks: 1})
+
+      if (clue.double_agent) sequence.push({name: "Kill double agent", ticks: clue.tier == "master" ? 5 : 3})
+
+      if (clue.hidey_hole && !hidey_hole_in_target && !assumptions.full_globetrotter) {
+        sequence.push({
+          name: "Return to Hidey Hole",
+          path: {section: "post", target: activate(default_interactive_area(clue.hidey_hole.location))}
+        })
+
+        sequence.push({name: "Return Items", ticks: 1})
+      }
+    } else {
+      if (Clues.requiresKey(clue) && !assumptions.way_of_the_footshaped_key) {
+        sequence.push({name: "Path to Key", path: {section: "pre", target: activate(clue.solution.key.area)}})
+
+        sequence.push({name: `Get Key (${clue.solution.key.instructions})`, ticks: 2})
+      }
+
+      sequence.push({
+        name: "To target", path: {
+          section: "main",
+          target: activate(Clues.ClueSpot.targetArea({clue: clue, spot: spot.spot}))
+        }
+      })
+    }
+
+    return sequence
+  }
+
+  export async function getEndState(value: AugmentedMethod<GenericPathMethod>) {
+    const sequence = await getSequence({clue: value.clue, spot: value.method.for.spot}, value.method.assumptions)
+
+    return await sequence.reduce<Promise<movement_state>>(async (old_state, section) => {
+      let state: movement_state = lodash.cloneDeep(await old_state)
+
+      if (section.path) {
+        const section_path = getSection(value.method, section.path.section)
+
+        const augmented = await Path.augment(section_path, state, section.path.target)
+
+        state = lodash.cloneDeep(augmented.post_state)
+      }
+
+      if (section.ticks) state.tick += section.ticks
+
+      return state
+    }, Promise.resolve(movement_state.start(value.method.assumptions)))
+  }
 }

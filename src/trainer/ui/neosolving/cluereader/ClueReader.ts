@@ -26,9 +26,10 @@ import stringSimilarity = util.stringSimilarity;
 import ScanStep = Clues.ScanStep;
 import notification = Notification.notification;
 import findBestMatch = util.findBestMatch;
+import {CapturedCompass} from "./capture/CapturedCompass";
+import {ScreenRectangle} from "../../../../lib/alt1/ScreenRectangle";
 
 const CLUEREADERDEBUG = false
-const CLUEREADERDEBUG_READ_SCREEN_INSTEAD_OF_RS = false // This is broken
 
 let CLUEREADER_DEBUG_OVERLAY: OverlayGeometry = null
 
@@ -262,6 +263,38 @@ export class ClueReader {
       }
     }
 
+    // Check for compass interface
+    {
+      const compass = await CapturedCompass.find(img)
+
+      if (compass) {
+        if (CLUEREADERDEBUG) {
+          compass.body.debugOverlay(CLUEREADER_DEBUG_OVERLAY)
+          compass.compass_area.debugOverlay(CLUEREADER_DEBUG_OVERLAY).render()
+        }
+
+        const is_arc = compass.isArcCompass()
+
+        const reader = new CompassReader(compass)
+
+        const compass_state = reader.getAngle()
+
+        if (compass_state?.type != "success") {
+          return null
+        }
+
+        if (CLUEREADERDEBUG) {
+          notification(`Compass ${JSON.stringify(compass_state)}`).show()
+        }
+
+        return {
+          type: "compass",
+          step: is_arc ? clue_data.arc_compass : clue_data.gielinor_compass,
+          reader: reader
+        }
+      }
+    }
+
 
     const found_ui = await (async (): Promise<ClueReader.MatchedUI> => {
       const ui_type_map: {
@@ -284,12 +317,6 @@ export class ClueReader {
               origin_offset: {x: 20, y: -7 + 12 * 6}
             }]
           },
-          {
-            type: "compass", anchors: [{
-              img: this.anchors.compassnorth,
-              origin_offset: {x: 78, y: 20},
-            }]
-          },
         ]
 
       for (let ui_type of ui_type_map) {
@@ -301,17 +328,11 @@ export class ClueReader {
               case "scan":
                 return {
                   type: "scan",
-                  image: img.underlying,
+                  image: img.raw(),
                   rect: Rectangle.fromOriginAndSize(
                     Vector2.sub(locs[0].screenRectangle().origin, anchor.origin_offset),
                     {x: 180, y: 190}
                   )
-                }
-              case "compass":
-                return {
-                  type: "compass",
-                  image: img.underlying,
-                  rect: Rectangle.fromOriginAndSize(Vector2.sub(locs[0].screenRectangle().origin, anchor.origin_offset), CompassReader.UI_SIZE)
                 }
             }
           }
@@ -343,7 +364,7 @@ export class ClueReader {
       switch (found_ui.type) {
         case "scan": {
           const scan_text_full = ClueReader.readScanPanelText(
-            img.underlying,
+            img.raw(),
             Rectangle.screenOrigin(found_ui.rect)
           )
 
@@ -368,33 +389,11 @@ export class ClueReader {
 
           return {type: "scan", step: best}
         }
-
-        case "compass": {
-          const compass_state = CompassReader.readCompassState(found_ui)
-
-          if (compass_state?.type != "success") {
-            return null
-          }
-
-          if (CLUEREADERDEBUG)
-            notification(`Compass ${JSON.stringify(compass_state)}`).show()
-
-          if (compass_state.state.isArc) return {
-            type: "legacy", found_ui: found_ui, step: {step: clue_data.arc_compass, text_index: 0}
-          }
-          else return {
-            type: "legacy", found_ui: found_ui, step: {step: clue_data.gielinor_compass, text_index: 0}
-          }
-        }
       }
     }
   }
 
-  async
-
-  readScreen()
-    :
-    Promise<ClueReader.Result> {
+  async readScreen(): Promise<ClueReader.Result> {
     return this.read(CapturedImage.capture())
   }
 }
@@ -479,6 +478,7 @@ export namespace ClueReader {
     export type CompassClue = base & {
       type: "compass",
       step: Clues.Compass,
+      reader: CompassReader
     }
 
     export type Puzzle = base & {

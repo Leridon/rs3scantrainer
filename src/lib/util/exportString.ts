@@ -28,6 +28,7 @@ function is_json_string(s: string): boolean {
 
 export namespace ExportImport {
   import compose = util.compose;
+  import cleanedJSON = util.cleanedJSON;
   type typed_value<T> = {
     _payload_type: "typed",
     type: string,
@@ -75,7 +76,7 @@ export namespace ExportImport {
   }
 
   function as_string<T>(obj: T): string {
-    return btoa(JSON.stringify(obj))
+    return btoa(cleanedJSON(obj))
   }
 
   export function exp<T>(type_info: { type: string, version: number } = null,

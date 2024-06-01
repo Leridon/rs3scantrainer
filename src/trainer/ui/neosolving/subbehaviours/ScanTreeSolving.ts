@@ -5,7 +5,7 @@ import {AugmentedMethod} from "../../../model/MethodPackManager";
 import {Clues} from "../../../../lib/runescape/clues";
 import BoundsBuilder from "../../../../lib/gamemap/BoundsBuilder";
 import {Path} from "../../../../lib/runescape/pathing";
-import {floor_t} from "../../../../lib/runescape/coordinates";
+import {floor_t, TileRectangle} from "../../../../lib/runescape/coordinates";
 import {Rectangle} from "../../../../lib/math";
 import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
 import {ScanRegionPolygon} from "../ScanLayer";
@@ -28,7 +28,7 @@ import Order = util.Order;
 import span = C.span;
 import spotNumber = ScanTree.spotNumber;
 
-export class ScanTreeSolvingControl extends NeoSolvingSubBehaviour {
+export class ScanTreeSolving extends NeoSolvingSubBehaviour {
   node: ScanTree.Augmentation.AugmentedScanTreeNode = null
   augmented: ScanTree.Augmentation.AugmentedScanTree = null
   layer: leaflet.FeatureGroup = null
@@ -120,6 +120,12 @@ export class ScanTreeSolvingControl extends NeoSolvingSubBehaviour {
     this.fit()
     this.renderLayer()
 
+    this.registerSolution(
+      TileArea.fromRect(
+        TileRectangle.from(...node.remaining_candidates)
+      )
+    )
+
     {
       new MethodSelector(this.parent, this.method.method.for)
         .addClass("ctr-neosolving-solution-row")
@@ -150,19 +156,18 @@ export class ScanTreeSolvingControl extends NeoSolvingSubBehaviour {
     content.append(cls('ctr-neosolving-nextscanstep')
       .append(
         "Next: ",
-        ...this.parent.app.template_resolver.with(...ScanTreeSolvingControl.scan_tree_template_resolvers(node))
+        ...this.parent.app.template_resolver.with(...ScanTreeSolving.scan_tree_template_resolvers(node))
           .resolve(ScanTree.getInstruction(node)))
     )
 
     {
-
       let triples = node.children.filter(e => e.key.pulse == 3)
 
       node.children
         .filter((e) => triples.length <= 1 || e.key.pulse != 3)
         .sort(Order.comap(Scans.Pulse.compare, (a) => a.key))
         .forEach((child) => {
-          const resolvers = this.parent.app.template_resolver.with(...ScanTreeSolvingControl.scan_tree_template_resolvers(child.value))
+          const resolvers = this.parent.app.template_resolver.with(...ScanTreeSolving.scan_tree_template_resolvers(child.value))
 
           cls("ctr-neosolving-scantreeline")
             .append(
@@ -213,7 +218,7 @@ export class ScanTreeSolvingControl extends NeoSolvingSubBehaviour {
   }
 }
 
-export namespace ScanTreeSolvingControl {
+export namespace ScanTreeSolving {
   import AugmentedScanTreeNode = ScanTree.Augmentation.AugmentedScanTreeNode;
   import shorten_integer_list = util.shorten_integer_list;
   import render_digspot = TextRendering.render_digspot;

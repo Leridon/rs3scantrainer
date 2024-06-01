@@ -19,7 +19,7 @@ import PlaceRedClickInteraction from "./interactions/PlaceRedClickInteraction";
 import {SelectTileInteraction} from "../../../lib/gamemap/interaction/SelectTileInteraction";
 import InteractionTopControl from "../map/InteractionTopControl";
 import DrawRunInteraction from "./interactions/DrawRunInteraction";
-import {direction, PathFinder} from "../../../lib/runescape/movement";
+import {direction, MovementAbilities, PathFinder} from "../../../lib/runescape/movement";
 import {PathStepEntity} from "../map/entities/PathStepEntity";
 import TransportLayer from "../map/TransportLayer";
 import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
@@ -433,14 +433,15 @@ export class PathEditor extends Behaviour {
     this.stop()
   }
 
-  editStep(value: PathBuilder.Step, interaction: InteractionLayer) {
+  editStep(value: PathBuilder.Step, interaction: InteractionLayer, hide_preview: boolean = true) {
     this.interaction_guard.set(interaction
       .onStart(() => {
-        value.associated_preview?.setVisible(false)
+        if (hide_preview) value.associated_preview?.setVisible(false)
         this.overlay_control.lens_layer.enabled2.set(false)
       })
       .onEnd(() => {
-        value.associated_preview?.setVisible(true)
+        if (hide_preview) value.associated_preview?.setVisible(true)
+        else value.associated_preview?.render(true)
         this.overlay_control.lens_layer.enabled2.set(true)
       })
     )
@@ -553,6 +554,8 @@ export class PathEditor extends Behaviour {
   contextMenu(step: PathBuilder.Step): Menu {
     const entries: MenuEntry[] = []
 
+    const s = step.step.raw
+
     entries.push({
       type: "basic",
       icon: "assets/icons/edit.png",
@@ -632,8 +635,34 @@ export class PathEditor extends Behaviour {
       })
     }
 
-    if (step.step.raw.type == "cosmetic") {
+    if ((s.type == "ability" && (s.ability == "dive" || s.ability == "barge")) || s.type == "run") {
+      const color = s.type == "ability" ? PathStepEntity.ability_rendering[s.ability].color : PathStepEntity.run_rendering_area_color
 
+      entries.push({
+        type: "basic",
+        text: `Edit target area`,
+        handler: () => {
+          this.editStep(step,
+            new DrawTileAreaInteraction(s.target_area ? activate(s.target_area).getTiles() : [])
+              .setPreviewFunction(tiles =>
+                leaflet.featureGroup(
+                  tiles.map(tile => tilePolygon(tile)
+                    .setStyle({
+                      color: color,
+                      fillOpacity: 0.4,
+                      stroke: false
+                    })
+                  )))
+              .onPreview(tiles => {
+                s.target_area = tiles.length > 0 ? TileArea.fromTiles(tiles) : undefined
+              }),
+            false
+          )
+        }
+      })
+    }
+
+    if (step.step.raw.type == "cosmetic") {
       const s = step.step.raw
 
       entries.push({
@@ -652,7 +681,7 @@ export class PathEditor extends Behaviour {
                     })
                   )))
               .onPreview(tiles => {
-                s.area = TileArea.fromTiles(tiles)
+                s.area = tiles.length > 0 ? TileArea.fromTiles(tiles) : undefined
               })
           )
         }
@@ -683,12 +712,22 @@ export class PathEditor extends Behaviour {
 }
 
 export namespace PathEditor {
-
+  import isFarDive = MovementAbilities.isFarDive;
   export type options_t = {
     initial: Path.raw,
     commit_handler?: (p: Path.raw) => any,
     discard_handler?: () => any,
     target?: TileArea.ActiveTileArea,
     start_state?: movement_state
+  }
+
+  export async function normalizeFarDive(step: Path.Step): Promise<Path.Step> {
+    if (step.type != "ability") return step
+    if (step.ability != "dive") return step
+
+    return {
+      ...step,
+      is_far_dive: await isFarDive(step.from, step.to)
+    }
   }
 }

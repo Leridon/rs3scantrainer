@@ -96,6 +96,7 @@ export class MethodPackManager {
         await (await fetch("data/method_packs/easy_ngis.json")).json(),
         await (await fetch("data/method_packs/medium_ngis.json")).json(),
         await (await fetch("data/method_packs/hard_ngis.json")).json(),
+        await (await fetch("data/method_packs/elite_compass_ngis.json")).json(),
       ]
     })()
 
@@ -208,8 +209,8 @@ export class MethodPackManager {
     this.pack_set_changed.trigger(await this.all())
   }
 
-  async updatePack(pack: Pack, f: (_: Pack) => any): Promise<Pack> {
-    if (pack.type != "local") return
+  async updatePack(pack: Pack, f: (_: Pack) => any, allow_imported: boolean = false): Promise<Pack> {
+    if (pack.type != "local" && (!allow_imported || pack.type != "imported")) return
 
     f(pack)
 

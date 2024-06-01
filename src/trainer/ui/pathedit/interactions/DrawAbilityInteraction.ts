@@ -11,6 +11,8 @@ import {AbilityLens} from "../PathEditOverlays";
 import {PathGraphics} from "../../path_graphics";
 import observe_combined = Observable.observe_combined;
 import arrow = PathGraphics.arrow;
+import isFarDive = MovementAbilities.isFarDive;
+
 
 export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> {
   _possibility_overlay: leaflet.FeatureGroup = null
@@ -103,6 +105,7 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
         okay ? new PathStepEntity({
             type: "ability",
             ability: this.ability,
+            is_far_dive: this.ability == "dive" && await isFarDive(from, to),
             from: from,
             to: to
           }).setInteractive(false)
@@ -123,20 +126,26 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
       if (!this.start_position.value()) {
         this.start_position.set(tile)
       } else {
+
         if (event.original.shiftKey) {
+          const is_far_dive = this.ability == "dive" && await isFarDive(this.start_position.value(), tile)
+
           this.commit({
             type: "ability",
             ability: this.ability,
+            is_far_dive: is_far_dive ? true : undefined,
             from: this.start_position.value(),
             to: tile
           })
         } else {
           let res = await MovementAbilities.generic(HostedMapData.get(), this.ability, this.start_position.value(), tile)
+          const is_far_dive = this.ability == "dive" && await isFarDive(this.start_position.value(), res.tile)
 
           if (res) {
             this.commit({
               type: "ability",
               ability: this.ability,
+              is_far_dive: is_far_dive ? true : undefined,
               from: this.start_position.value(),
               to: res.tile
             })

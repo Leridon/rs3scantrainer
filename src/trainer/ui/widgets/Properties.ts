@@ -14,7 +14,7 @@ export default class Properties extends Widget {
     this.addClass("nisl-properties")
   }
 
-  header(text: string | Widget, align: "left" | "center" = "center", level: 0 | 1 = 0): this {
+  header(text: Appendable, align: "left" | "center" = "center", level: 0 | 1 = 0): this {
     c(`<div class='nisl-property-header nisl-property-row'></div>`)
       .addClass(`nisl-property-header-${level}`)
       .css("text-align", align)

@@ -293,7 +293,7 @@ export namespace CompassReader {
   export const DISABLE_CALIBRATION = false
 
   export const RESOLUTION_INACCURACY_DEGREES = 0.2 // Calculated on a napkin, so might not be completely accurate
-  export const CALIBRATION_INACCURACY_DEGREES = 0.1
+  export const CALIBRATION_INACCURACY_DEGREES = 0.15
   export const EPSILON = degreesToRadians(RESOLUTION_INACCURACY_DEGREES + CALIBRATION_INACCURACY_DEGREES)
   export const CIRCLE_SAMPLE_CONCEALED_THRESHOLD = degreesToRadians(3)
 

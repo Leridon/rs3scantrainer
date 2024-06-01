@@ -1018,7 +1018,7 @@ class CompassSettingsEdit extends Widget {
       this.layout.named("Sequence", sequence)
 
       if (this.active_preset.sequence.length == 0) {
-        sequence.row("No triangulation points found.")
+        sequence.row("No triangulation points yet.")
       } else {
         for (let i = 0; i < this.active_preset.sequence.length; i++) {
           const point = this.active_preset.sequence[i]

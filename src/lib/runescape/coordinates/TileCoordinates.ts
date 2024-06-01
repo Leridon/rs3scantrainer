@@ -16,6 +16,10 @@ export namespace TileCoordinates {
     return a != null && b != null && (a == b || eq(a, b))
   }
 
+  export function equals(a: TileCoordinates, b: TileCoordinates): boolean {
+    return a == b || eq2(a, b)
+  }
+
   export function lift(v: Vector2, level: floor_t): TileCoordinates {
     return {...v, level: level}
   }

@@ -10,8 +10,9 @@ export namespace Compasses {
     position: TileArea.ActiveTileArea,
     angle_radians: number,
     direction: Vector2,
-    uncertainty_origin: Vector2,
-    uncertainty: number
+    area_center: Vector2,
+    modified_origin: Vector2,
+    origin_uncertainty: number
   }
 
   export namespace TriangulationPoint {
@@ -19,18 +20,21 @@ export namespace Compasses {
 
       const direction_vector = Vector2.transform(Compasses.ANGLE_REFERENCE_VECTOR, Transform.rotationRadians(angle))
 
-      const uncertainty = Vector2.length(position.size) / 2
+      const location_uncertainty = Vector2.length(Vector2.sub(position.size, {x: 1, y: 1})) / 2
 
-      const l = uncertainty / Math.tan(CompassReader.EPSILON)
+      const l = location_uncertainty / Math.tan(CompassReader.EPSILON)
 
-      const uncertainty_origin = Vector2.sub(position.center(), Vector2.scale(l, direction_vector))
+      const center = position.center()
+
+      const uncertainty_origin = Vector2.sub(center, Vector2.scale(l, direction_vector))
 
       return {
         position: position,
         angle_radians: angle,
         direction: direction_vector,
-        uncertainty_origin: uncertainty_origin,
-        uncertainty: uncertainty
+        area_center: center,
+        modified_origin: uncertainty_origin,
+        origin_uncertainty: location_uncertainty
       }
     }
   }
@@ -59,8 +63,15 @@ export namespace Compasses {
   }
 
   export function isPossible(information: TriangulationPoint[], spot: TileCoordinates): boolean {
-    return information.every(i =>
-      Math.abs(angleDifference(getExpectedAngle(i.uncertainty_origin, spot), i.angle_radians)) < CompassReader.EPSILON
+    return information.every(i => {
+        const modified_expected = getExpectedAngle(i.modified_origin, spot)
+
+        if (angleDifference(modified_expected, i.angle_radians) >= CompassReader.EPSILON) return false
+
+        const expected = getExpectedAngle(i.area_center, spot)
+
+        return angleDifference(modified_expected, expected) < (Math.PI / 2)
+      }
     )
   }
 }

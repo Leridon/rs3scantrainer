@@ -5,7 +5,6 @@ import Properties from "./ui/widgets/Properties";
 import {C} from "../lib/ui/constructors";
 import LightButton from "./ui/widgets/LightButton";
 import Widget from "../lib/ui/Widget";
-import {Lockboxes} from "../lib/cluetheory/Lockboxes";
 import SliderState = Sliders.SliderState;
 import MoveList = Sliders.MoveList;
 import hgrid = C.hgrid;
@@ -13,6 +12,7 @@ import span = C.span;
 import skillbertRandom = Sliders.SlideSolver.skillbertRandom;
 import spacer = C.spacer;
 import hbox = C.hbox;
+import {CompassReader} from "./ui/neosolving/cluereader/CompassReader";
 
 type DataEntry = {
   id: number,
@@ -265,7 +265,7 @@ class SliderAnalysisModal extends NisModal {
       const container = c()
 
 
-      const INVERTED = true
+      const INVERTED = false
 
       layout.header(analysis.original.name)
       if (analysis.counts) {
@@ -342,6 +342,11 @@ class SliderAnalysisModal extends NisModal {
                   "mix-blend-mode": "difference"
                 })
                 .text(`${(100 * frequency).toFixed(1)}%`)
+                .tooltip(
+                  (INVERTED
+                    ? analysis.tile_frequency[is_tile][should_tile]
+                    : analysis.tile_frequency[should_tile][is_tile]).toString() + " samples"
+                )
                 .appendTo(inner_row)
             }
           }
@@ -372,7 +377,39 @@ class SliderAnalysisModal extends NisModal {
 }
 
 export async function makeshift_main(): Promise<void> {
+  //new SliderAnalysisModal().show()
+
   //new ExportStringModal(CompassReader.calibration_tables.off.getSampleTable().map(radiansToDegrees).join("\n")).show()
+
+  /*
+    const sample_size = 200
+    const start = 1231
+
+    const dataset: SliderState[] = (await crowdsourcedSliderData()).slice(start, start + sample_size).map(s => s.state)
+
+    const result: {
+      state: SliderState,
+      multitile_solution: MoveList,
+      smallstep_solution: MoveList
+    }[] = []
+
+    for (let i = 0; i < dataset.length; i++) {
+      const state = dataset[i]
+
+      console.log(`Running ${i + 1}/${dataset.length}`)
+
+      result.push({
+        state: state,
+        multitile_solution: await skillbertRandom(state).setCombineStraights(true).withTimeout(3000).run(),
+        smallstep_solution: await skillbertRandom(state).setCombineStraights(false).withTimeout(3000).run(),
+      })
+    }
+
+    await new ExportStringModal(result.map(r => {
+      return r.state.join("|") + "," + r.smallstep_solution.length + "," + r.multitile_solution.length
+    }).join("\n")).show()
+    */
+  // await new CompassReader.CalibrationTool().show()
 
   //clue_trainer_test_set.run()
 

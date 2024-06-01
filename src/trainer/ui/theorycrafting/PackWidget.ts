@@ -14,6 +14,7 @@ import exp = ExportImport.exp;
 import cleanedJSON = util.cleanedJSON;
 import notification = Notification.notification;
 import hboxl = C.hboxl;
+import {MethodNormalization} from "./MethodNormalization";
 
 export default class PackWidget extends Widget {
   constructor(public pack: Pack,
@@ -117,6 +118,14 @@ export default class PackWidget extends Widget {
             }
           })
         }
+
+        menu.children.push({
+          type: "basic",
+          text: "Normalize",
+          handler: () => {
+            new MethodNormalization.Modal(this.pack).show()
+          }
+        })
 
         new ContextMenu(menu).showFromEvent2(event.originalEvent as MouseEvent)
       })

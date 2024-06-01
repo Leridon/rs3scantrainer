@@ -102,7 +102,7 @@ export abstract class MapEntity extends leaflet.FeatureGroup implements QuadTree
   isStillHovered(): boolean {
     return this.getLayers().some(e => {
       if (e instanceof leaflet.Marker || e instanceof leaflet.Path) {
-        return e.getElement().matches(":hover")
+        return e.getElement()?.matches(":hover")
       }
 
       return false
@@ -120,8 +120,8 @@ export abstract class MapEntity extends leaflet.FeatureGroup implements QuadTree
 
   protected abstract render_implementation(props: MapEntity.RenderProps): Promise<Element>
 
-  requestRendering() {
-    if (this.parent && !this.rendering_requested) {
+  requestRendering(force: boolean = false) {
+    if (this.parent && (!this.rendering_requested || force)) {
       this.rendering_requested = true
       this.parent.rendering.request(this)
     }
@@ -129,15 +129,13 @@ export abstract class MapEntity extends leaflet.FeatureGroup implements QuadTree
 
   render(force: boolean = false) {
 
-    if (!force && !this.rendering_requested) return
-
-    this.rendering_requested = false
-
     const props = this.desired_render_props.value()
 
     if (!this.parent?.getMap()) return
 
-    if (!force && MapEntity.RenderProps.equals(this.rendered_props, props)) return
+    if (!this.rendering_requested && !force && MapEntity.RenderProps.equals(this.rendered_props, props)) return
+
+    this.rendering_requested = false
     this.rendered_props = props
 
     this.clearLayers()

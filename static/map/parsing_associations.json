@@ -1,5 +1,9 @@
 {
   "version": 1429,
+  "custom_objects": {
+    "locs": [],
+    "npcs": []
+  },
   "associations": [
     {
       "group_id": 0,

@@ -20,6 +20,7 @@ import {CTRIcon} from "../../../CTRIcon";
 import {areaPolygon} from "../../polygon_helpers";
 import arrow = PathGraphics.arrow;
 import createX = PathGraphics.createX;
+import ArrowHeadOptions = PathGraphics.ArrowHeadOptions;
 
 export class PathStepEntity extends MapEntity {
 
@@ -57,45 +58,54 @@ export class PathStepEntity extends MapEntity {
         case "orientation":
           return null
         case "ability": {
-          const meta: Record<MovementAbilities.movement_ability, { color: string, icon: CTRIcon.ID }> = {
-            barge: {color: "#a97104", icon: "ability-barge"},
-            dive: {color: "#e7d82c", icon: "ability-dive-combined"},
-            escape: {color: "#56ba0f", icon: "ability-escape"},
-            surge: {color: "#0091f2", icon: "ability-surge"}
+
+          if (step.target_area) {
+            areaPolygon(step.target_area).setStyle({
+              color: PathStepEntity.ability_rendering[step.ability].color,
+              weight: scale * 1,
+              opacity: opacity * 0.3,
+              fillOpacity: opacity * 0.2,
+              interactive: false,
+              className: cls,
+            }).addTo(this)
           }
 
-          arrow(step.from, step.to)
+          //const head: ArrowHeadOptions = step.is_far_dive ? {type: "bar", arm_length: 0.5} : {type: "tip", arm_length: 0.5}
+          const head: ArrowHeadOptions = (step.is_far_dive || step.ability != "dive") ? {type: "tip", arm_length: 0.5} : {type: "x", arm_length: 0.25}
+
+          const arro = arrow(step.from, step.to, head)
             .setStyle({
-              color: meta[step.ability].color,
+              color: PathStepEntity.ability_rendering[step.ability].color,
               weight: weight,
               interactive: true,
               className: cls,
               opacity: opacity
             }).addTo(this)
 
-          const marker = new MapIcon(Vector2.scale(1 / 2, Vector2.add(step.from, step.to)), {
+          /*const marker = new MapIcon(Vector2.scale(1 / 2, Vector2.add(step.from, step.to)), {
             icon: CTRIcon.get(meta[step.ability].icon),
             scale: scale,
             cls: cls,
             opacity
-          }).addTo(this)
+          }).addTo(this)*/
 
-          return marker.getElement()
+          return arro.getElement()
         }
         case "run": {
-          let lines: [Vector2, Vector2][] = []
-
-          for (let i = 0; i < step.waypoints.length - 1; i++) {
-            const from = step.waypoints[i]
-            const to = step.waypoints[i + 1]
-
-            lines.push([from, to])
+          if (step.target_area) {
+            areaPolygon(step.target_area).setStyle({
+              color: PathStepEntity.run_rendering_area_color,
+              weight: scale * 1,
+              interactive: false,
+              opacity: opacity * 0.6,
+              fillOpacity: opacity * 0.2,
+              className: cls,
+            }).addTo(this)
           }
 
-          lines = lines.filter((l) => !Vector2.eq(l[0], l[1]))
-
           leaflet.polyline(
-            lines.map((t) => t.map(Vector2.toLatLong)),
+            //lines.map((t) => .map(Vector2.toLatLong)),
+            step.waypoints.map(Vector2.toLatLong),
             {
               color: "#b4b4b4",
               weight: weight,
@@ -229,9 +239,11 @@ export class PathStepEntity extends MapEntity {
             if (step.area) {
               areaPolygon(step.area).setStyle({
                 color: step.area_color ?? Path.COSMETIC_DEFAULT_COLORS.area,
-                weight: weight,
-                opacity,
-                interactive: false
+                weight: scale * 1,
+                opacity: opacity * 0.3,
+                fillOpacity: opacity * 0.2,
+                interactive: false,
+                className: cls,
               }).addTo(this)
             }
 
@@ -239,7 +251,9 @@ export class PathStepEntity extends MapEntity {
               arrow(step.arrow[0], step.arrow[1]).setStyle({
                 color: step.arrow_color ?? Path.COSMETIC_DEFAULT_COLORS.arrow,
                 weight: weight,
-                opacity
+                opacity: opacity * 0.6,
+                fillOpacity: opacity * 0.2,
+                className: cls,
               }).addTo(this)
             }
           }
@@ -269,6 +283,15 @@ export class PathStepEntity extends MapEntity {
 }
 
 export namespace PathStepEntity {
+
+  export const ability_rendering: Record<MovementAbilities.movement_ability, { color: string, icon: CTRIcon.ID }> = {
+    barge: {color: "#a97104", icon: "ability-barge"},
+    dive: {color: "#e7d82c", icon: "ability-dive-combined"},
+    escape: {color: "#56ba0f", icon: "ability-escape"},
+    surge: {color: "#0091f2", icon: "ability-surge"}
+  }
+
+  export const run_rendering_area_color = "#6970d9"
 
   export function renderPath(path: Path.Step[]): GameLayer {
     let group = new GameLayer()

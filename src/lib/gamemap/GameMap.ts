@@ -1,9 +1,8 @@
 import * as leaflet from "leaflet";
-import {DomEvent, DomUtil, FitBoundsOptions, MapOptions, Util} from "leaflet";
+import {FitBoundsOptions, MapOptions} from "leaflet";
 import {floor_t, TileCoordinates, TileRectangle} from "../runescape/coordinates";
 import Graticule from "./defaultlayers/Graticule";
 import Widget from "../ui/Widget";
-import {Constants} from "../../trainer/constants";
 import ContextMenu from "../../trainer/ui/widgets/ContextMenu";
 import TileHighlightLayer from "./defaultlayers/TileHighlightLayer";
 import {GameMapContextMenuEvent, GameMapEvent, GameMapKeyboardEvent, GameMapMouseEvent, GameMapViewChangedEvent} from "./MapEvents";
@@ -183,7 +182,7 @@ export class GameMap extends leaflet.Map {
     // Add subtle gridlines
     new Graticule({
       intervals: [
-        {min_zoom: -Infinity, interval: 64},
+        {min_zoom: -3, interval: 64},
         {min_zoom: 0.5, interval: 8},
         {min_zoom: 1, interval: 4},
         {min_zoom: 2, interval: 1},
@@ -307,7 +306,9 @@ export class GameMap extends leaflet.Map {
     options.maxZoom ??= Math.max(this.getZoom(), 4)
 
     this.invalidateSize()
+
     this.fitBounds(util.convert_bounds(Rectangle.toBounds(view)).pad(0.1), options)
+
     this.floor.set(view.level)
     return this
   }
@@ -352,7 +353,7 @@ export class GameMap extends leaflet.Map {
     function geturls(filename: string) {
       return [
         `https://runeapps.org/s3/map${MAP_ID}/live/${filename}`,
-        `https://runeapps.org/node/map/getnamed?mapid=${MAP_ID}&version=${Constants.map_version}&file=${filename}`
+        //`https://runeapps.org/node/map/getnamed?mapid=${MAP_ID}&version=${Constants.map_version}&file=${filename}`
       ];
     }
 
@@ -364,7 +365,8 @@ export class GameMap extends leaflet.Map {
         attribution: SKILLBERT_ATTRIBUTION,
         tileSize: 512,
         maxNativeZoom: 5,
-        minZoom: -5
+        minZoom: -5,
+        bounds: GameMap.bounds()
       }),
       // Walls SVG Layer
       new BaseTileLayer([
@@ -374,7 +376,8 @@ export class GameMap extends leaflet.Map {
         attribution: SKILLBERT_ATTRIBUTION,
         tileSize: 512,
         maxNativeZoom: 3,
-        minZoom: -5
+        minZoom: -5,
+        bounds: GameMap.bounds()
       }),
       // Filtered Collision Layer
       new BaseTileLayer([
@@ -384,7 +387,8 @@ export class GameMap extends leaflet.Map {
         tileSize: 512,
         maxNativeZoom: 3,
         minZoom: -5,
-        className: "map-collisionlayer"
+        className: "map-collisionlayer",
+        bounds: GameMap.bounds()
       })
     ]
 
@@ -438,6 +442,15 @@ export class GameMap extends leaflet.Map {
 }
 
 export namespace GameMap {
+  export const size = {
+    chunks: {x: 100, y: 200},
+    chunk_size: {x: 64, y: 64},
+  }
+
+  export function bounds(): leaflet.LatLngBounds {
+    return new leaflet.LatLngBounds([0, 0], [size.chunks.y * size.chunk_size.y, size.chunks.x * size.chunk_size.x])
+  }
+
   export function gameMapOptions(): MapOptions {
 
     function getCRS(): leaflet.CRS {
@@ -467,7 +480,8 @@ export namespace GameMap {
 
     return {
       crs: getCRS(),
-      zoomSnap: 0.25,
+      //zoomSnap: 0.75,
+      //zoomDelta: 0.75,
       minZoom: -5,
       maxZoom: 7,
       zoomControl: false,
@@ -475,7 +489,9 @@ export namespace GameMap {
       doubleClickZoom: false,
       boxZoom: false,
       attributionControl: false,
-      preferCanvas: false
+      preferCanvas: false,
+      maxBounds: bounds(),
+      maxBoundsViscosity: 0.5
     }
   }
 

@@ -2,23 +2,61 @@ import Widget from "../../../lib/ui/Widget";
 import {Observable, observe} from "../../../lib/reactive";
 import {Path} from "../../../lib/runescape/pathing";
 import MovementStateView from "./MovementStateView";
-import {PathSectionControl} from "../neosolving/PathControl";
 import {PathEditor} from "./PathEditor";
 import {TileRectangle} from "../../../lib/runescape/coordinates";
 import LightButton from "../widgets/LightButton";
 import {direction} from "../../../lib/runescape/movement";
-import {util} from "../../../lib/util/util";
 import {C} from "../../../lib/ui/constructors";
-import {SmallImageButton} from "../widgets/SmallImageButton";
 import {PathBuilder} from "./PathBuilder";
 import ContextMenu, {Menu, MenuEntry} from "../widgets/ContextMenu";
+import {PathStepHeader} from "../pathing/PathStepHeader";
+import * as lodash from "lodash";
 import vbox = C.vbox;
 import spacer = C.spacer;
-import * as jquery from "jquery";
 
 export class IssueWidget extends Widget {
   constructor(issue: Path.issue) {
-    super(jquery(`<div class='ctr-step-issue'><div class="ctr-step-issue-icon"></div> ${issue.message}</div>`).attr("level", issue.level.toString()));
+    super();
+
+    this.addClass('ctr-step-issue').setAttribute("level", issue.level.toString())
+
+    this.append(
+      IssueWidget.icon(issue.level),
+      " ",
+      issue.message
+    )
+  }
+}
+
+export namespace IssueWidget {
+
+  import cls = C.cls;
+
+  export function icon(level: Path.issue_level): Widget {
+    return cls(`ctr-step-issue-icon-${level}`)
+  }
+}
+
+export class AggregatedIssueWidget extends Widget {
+  constructor(private issues: Path.issue[]) {
+    super()
+
+    this.css2({
+      display: "flex"
+    })
+
+    const grouped = lodash.sortBy(Object.entries(lodash.groupBy(issues, i => i.level)), e => e[0])
+
+    grouped.forEach(([key, issues]) => {
+      this.append(
+        IssueWidget.icon(issues[0].level),
+        issues.length.toString()
+      )
+    })
+
+    this.addTippy(vbox(
+      ...issues.map(i => new IssueWidget(i))
+    ))
   }
 }
 
@@ -230,7 +268,7 @@ export namespace EditedPathOverview {
 
       this.setAttribute("draggable", "true")
 
-      const {icon, content} = PathSectionControl.StepRow.renderStep(value.step.raw)
+      const {icon, content} = PathStepHeader.renderTextAndIconSeparately(value.step.raw)
 
       this.addClass("ctr-path-edit-overview-step").append(
         hboxl(c("<div>&#x2630;</div>")
@@ -241,6 +279,7 @@ export namespace EditedPathOverview {
             .css("margin-left", "0")
           , content,
           spacer(),
+          new AggregatedIssueWidget(value.step.issues),
           c().setInnerHtml("&#x22EE;")
             .addClass("ctr-clickable")
             .addClass("ctr-path-edit-overview-step-options")
@@ -248,9 +287,9 @@ export namespace EditedPathOverview {
               this.contextMenu(event.originalEvent)
             })
         ),
-        vbox(
+        /*vbox(
           ...value.step.issues.map(i => new IssueWidget(i))
-        ),
+        ),*/
       )
 
       this.on("dblclick", (event) => {

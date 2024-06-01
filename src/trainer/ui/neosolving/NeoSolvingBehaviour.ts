@@ -35,7 +35,7 @@ import {Notification} from "../NotificationBar";
 import TransportLayer from "../map/TransportLayer";
 import {NeoSolvingSubBehaviour} from "./NeoSolvingSubBehaviour";
 import {CompassSolving} from "./subbehaviours/CompassSolving";
-import {ScanTreeSolvingControl} from "./subbehaviours/ScanTreeSolving";
+import {ScanTreeSolving} from "./subbehaviours/ScanTreeSolving";
 import {KnotSolving} from "./subbehaviours/KnotSolving";
 import {Alt1Modal} from "../../Alt1Modal";
 import {LockboxSolving} from "./subbehaviours/LockboxSolving";
@@ -53,8 +53,8 @@ import spacer = C.spacer;
 import space = C.space;
 import hboxl = C.hboxl;
 import notification = Notification.notification;
-import MatchedUI = ClueReader.MatchedUI;
 import activate = TileArea.activate;
+import ClueSpot = Clues.ClueSpot;
 
 class NeoSolvingLayer extends GameLayer {
   public control_bar: NeoSolvingLayer.MainControlBar
@@ -85,10 +85,10 @@ class NeoSolvingLayer extends GameLayer {
       new NeoSolvingLayer.MainControlBar(behaviour),
       this.clue_container = c(),
       this.solution_container = c(),
-      this.method_selection_container = c(),
       this.scantree_container = c(),
       this.compass_container = c(),
       this.path_container = c(),
+      this.method_selection_container = c(),
     )
 
     this.scan_layer = new ScanEditLayer([]).addTo(this)
@@ -185,7 +185,7 @@ namespace NeoSolvingLayer {
     rest_collapsible: ExpansionBehaviour
 
     dropdown: AbstractDropdownSelection.DropDown<{ step: Clues.Step, text_index: number }> = null
-
+    a
     prepared_search_index: PreparedSearchIndex<{ step: Clues.Step, text_index: number }>
 
     constructor(private parent: NeoSolvingBehaviour) {
@@ -373,14 +373,42 @@ class ClueSolvingReadingBehaviour extends Behaviour {
 export default class NeoSolvingBehaviour extends Behaviour {
   layer: NeoSolvingLayer
 
-  active_clue: NeoSolving.ActiveState = null
+  state: NeoSolving.ActiveState = null
+  history: NeoSolving.ActiveState[] = []
+
   active_method: AugmentedMethod = null
   active_behaviour: SingleBehaviour<NeoSolvingSubBehaviour> = this.withSub(new SingleBehaviour<NeoSolvingSubBehaviour>())
+
+  private activateSubBehaviour(behaviour: NeoSolvingSubBehaviour) {
+    if (behaviour) behaviour.setRelatedState(this.state)
+
+    this.active_behaviour.set(behaviour)
+  }
 
   screen_reading: ClueSolvingReadingBehaviour = this.withSub(new ClueSolvingReadingBehaviour(this))
 
   public path_control = this.withSub(new PathControl(this))
   private default_method_selector: MethodSelector = null
+
+  getAssumedPlayerPosition(): TileArea | null {
+
+    const now = Date.now()
+
+    const LOOKBACK = 5000
+
+    let OLDEST_CONSIDERED_STEP = now - LOOKBACK
+
+    for (let i = this.history.length - 2; i >= 0; i--) {
+      const state = this.history[i]
+
+      if (state.end_time < OLDEST_CONSIDERED_STEP) return null
+
+      if (state.step.type == "puzzle") OLDEST_CONSIDERED_STEP = state.start_time - LOOKBACK
+      else return state.solution_area
+    }
+
+    return null
+  }
 
   constructor(public app: Application) {
     super();
@@ -390,29 +418,46 @@ export default class NeoSolvingBehaviour extends Behaviour {
     })
   }
 
+  private pushState(state: NeoSolving.ActiveState["step"]): NeoSolving.ActiveState {
+    const now = Date.now()
+
+    if (this.state && !this.state.end_time) {
+      this.state.end_time = now
+    }
+
+    this.state = {
+      step: state,
+      start_time: now,
+      end_time: undefined,
+      solution_area: undefined
+    }
+
+    this.history.push(this.state)
+
+    return this.state
+  }
+
   setPuzzle(puzzle: ClueReader.Result.Puzzle.Puzzle | null): boolean {
-    if (this.active_clue?.type == "puzzle" && this.active_clue.puzzle.type == puzzle?.type) return false // Don't do anything if a puzzle of that type is already active
+    if (this.state?.step?.type == "puzzle" && this.state.step.puzzle.type == puzzle?.type) return false // Don't do anything if a puzzle of that type is already active
 
     this.reset()
 
-    if (puzzle) {
-      switch (puzzle.type) {
-        case "slider":
-          this.active_behaviour.set(new SliderSolving(this, puzzle))
-          break;
-        case "knot":
-          this.active_behaviour.set(new KnotSolving(this, puzzle))
-          break;
-        case "lockbox":
-          this.active_behaviour.set(new LockboxSolving(this, puzzle))
-          break;
-        case "tower":
-          this.active_behaviour.set(new TowersSolving(this, puzzle))
-          break;
-      }
-    }
+    this.pushState({type: "puzzle", puzzle: puzzle})
 
-    this.active_clue = {type: "puzzle", puzzle: puzzle}
+    if (puzzle) {
+      this.activateSubBehaviour((() => {
+        switch (puzzle.type) {
+          case "slider":
+            return new SliderSolving(this, puzzle)
+          case "knot":
+            return new KnotSolving(this, puzzle)
+          case "lockbox":
+            return new LockboxSolving(this, puzzle)
+          case "tower":
+            return new TowersSolving(this, puzzle)
+        }
+      })())
+    }
 
     return true
   }
@@ -425,13 +470,13 @@ export default class NeoSolvingBehaviour extends Behaviour {
    * @param read_result
    */
   setClue(step: { step: Clues.Step, text_index: number }, fit_target: boolean = true, read_result: ClueReader.Result): void {
-    if (this.active_clue?.type == "clue" && this.active_clue.clue.step.id == step.step.id && this.active_clue.clue.text_index == step.text_index) {
+    if (this.state?.step?.type == "clue" && this.state.step.clue.step.id == step.step.id && this.state.step.clue.text_index == step.text_index) {
       return
     }
 
     this.reset()
 
-    this.active_clue = {type: "clue", clue: step}
+    const state = this.pushState({type: "clue", clue: step})
 
     const settings = this.app.settings.settings.solving
 
@@ -716,8 +761,20 @@ export default class NeoSolvingBehaviour extends Behaviour {
         this.app.settings.update(set => set.teleport_customization.active_preset = bound_preset)
     }
 
-    if (clue.type == "compass" && read_result.type == "legacy") {
-      this.active_behaviour.set(new CompassSolving(this, clue, read_result?.found_ui as MatchedUI.Compass))
+    if (read_result?.type == "compass" && clue.type == "compass") {
+      const behaviour = new CompassSolving(this, clue, read_result.reader)
+
+      behaviour.selected_spot.subscribe(async spot => {
+        if (spot) {
+          const method = await this.getAutomaticMethod({clue: clue.id, spot: spot.spot})
+
+          this.setMethod(method)
+        } else {
+          this.setMethod(null)
+        }
+      })
+
+      this.activateSubBehaviour(behaviour)
     }
 
     this.setMethod(null)
@@ -731,7 +788,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
    * @param method
    */
   setMethod(method: AugmentedMethod): void {
-    if (this.active_clue.type != "clue" || (method && (method.clue.id != this.active_clue?.clue?.step?.id))) return;
+    if (this.state?.step?.type != "clue" || (method && (method.clue.id != this.state?.step?.clue?.step?.id))) return;
     if (method && method == this.active_method) return;
 
     this.path_control.reset()
@@ -739,41 +796,53 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
     this.active_method = null
 
+    const active_behaviour = this.active_behaviour.get()
+
     if (method) {
       this.active_method = method
 
       if (method.method.type == "scantree") {
-        this.active_behaviour.set(
-          new ScanTreeSolvingControl(this, method as AugmentedMethod<ScanTreeMethod, Clues.Scan>)
+        this.activateSubBehaviour(
+          new ScanTreeSolving(this, method as AugmentedMethod<ScanTreeMethod, Clues.Scan>)
         )
 
         this.layer.scan_layer.setSpotOrder(method.method.tree.ordered_spots)
         this.layer.scan_layer.marker.setRadius(method.method.tree.assumed_range, method.method.assumptions.meerkats_active)
       } else if (method.method.type == "general_path") {
-        this.path_control.reset().setMethod(method as AugmentedMethod<GenericPathMethod>)
+        this.path_control.setMethod(method as AugmentedMethod<GenericPathMethod>)
       }
-    } else if (this.active_clue.clue.step.type != "compass") {
-      this.default_method_selector = new MethodSelector(this, {clue: this.active_clue.clue.step.id})
+    } else if (!(active_behaviour instanceof CompassSolving) || active_behaviour.selected_spot.value()) {
+
+      const clue: ClueSpot.Id = active_behaviour instanceof CompassSolving
+        ? {clue: this.state.step.clue.step.id, spot: active_behaviour.selected_spot.value().spot}
+        : {clue: this.state.step.clue.step.id}
+
+      this.default_method_selector = new MethodSelector(this, clue)
         .addClass("ctr-neosolving-solution-row")
         .appendTo(this.layer.method_selection_container)
     }
   }
 
-  async setClueWithAutomaticMethod(step: Clues.StepWithTextIndex, read_result: ClueReader.Result) {
-    if (this.active_clue?.type == "clue" && this.active_clue.clue.step.id == step.step.id && this.active_clue.clue.text_index == step.text_index) {
-      return
-    }
-
-    let m = await this.app.favourites.getMethod({clue: step.step.id})
+  async getAutomaticMethod(step: ClueSpot.Id): Promise<AugmentedMethod> {
+    let m = await this.app.favourites.getMethod(step)
 
     if (m === undefined) {
-      let ms = await MethodPackManager.instance().getForClue({clue: step.step.id})
+      let ms = await MethodPackManager.instance().getForClue(step)
       if (ms.length > 0) m = ms[0]
     }
 
-    this.setClue(step, !m, read_result)
+    return m
+  }
 
-    if (m) this.setMethod(m)
+  async setClueWithAutomaticMethod(step: Clues.StepWithTextIndex, read_result: ClueReader.Result) {
+    if (this.state?.step?.type == "clue" && this.state.step.clue.step.id == step.step.id && this.state.step.clue.text_index == step.text_index) {
+      return
+    }
+
+    let m = await this.getAutomaticMethod({clue: step.step.id})
+
+    this.setClue(step, !m, read_result)
+    this.setMethod(m)
   }
 
   /**
@@ -783,9 +852,9 @@ export default class NeoSolvingBehaviour extends Behaviour {
     this.layer.reset()
 
     this.path_control.reset()
-    this.active_behaviour.set(null)
+    this.activateSubBehaviour(null)
     this.default_method_selector?.remove()
-    this.active_clue = null
+    this.state = null
     this.active_method = null
   }
 
@@ -803,7 +872,18 @@ export default class NeoSolvingBehaviour extends Behaviour {
 }
 
 export namespace NeoSolving {
-  export type ActiveState = { type: "puzzle", puzzle: ClueReader.Result.Puzzle.Puzzle } | { type: "clue", clue: Clues.StepWithTextIndex }
+  export type ActiveState = {
+    step: {
+      type: "puzzle",
+      puzzle: ClueReader.Result.Puzzle.Puzzle
+    } | {
+      type: "clue",
+      clue: Clues.StepWithTextIndex
+    },
+    start_time: number,
+    end_time: number,
+    solution_area: TileArea,
+  }
 
   export type Settings = {
     info_panel: Settings.InfoPanel,
@@ -850,7 +930,6 @@ export namespace NeoSolving {
       emote_items: "show" | "hide",
       emotes: "show" | "hide",
       double_agent: "show" | "hide",
-      path_components: "show" | "hide",
       puzzle: "show" | "hide",
       challenge: "full" | "answer_only" | "hide"
     }
@@ -867,7 +946,6 @@ export namespace NeoSolving {
         emote_items: "show",
         emotes: "show",
         double_agent: "show",
-        path_components: "show",
         challenge: "full",
         puzzle: "show"
       }
@@ -883,7 +961,6 @@ export namespace NeoSolving {
         emote_items: "hide",
         emotes: "hide",
         double_agent: "hide",
-        path_components: "hide",
         challenge: "hide",
         puzzle: "hide"
       }
@@ -899,13 +976,12 @@ export namespace NeoSolving {
         emote_items: "hide",
         emotes: "hide",
         double_agent: "hide",
-        path_components: "show",
         challenge: "answer_only",
         puzzle: "hide"
       }
 
       export function normalize(settings: InfoPanel): InfoPanel {
-        if (!settings) return lodash.cloneDeep(InfoPanel.EVERYTHING)
+        if (!settings) return lodash.cloneDeep(InfoPanel.REDUCED)
 
         if (!["full", "hide", "abridged"].includes(settings.clue_text)) settings.clue_text = "full"
         if (!["show", "hide"].includes(settings.map_image)) settings.map_image = "show"
@@ -918,7 +994,6 @@ export namespace NeoSolving {
         if (!["show", "hide"].includes(settings.emote_items)) settings.emote_items = "show"
         if (!["show", "hide"].includes(settings.emotes)) settings.emotes = "show"
         if (!["show", "hide"].includes(settings.double_agent)) settings.double_agent = "show"
-        if (!["show", "hide"].includes(settings.path_components)) settings.path_components = "show"
 
         if (!["show", "hide"].includes(settings.puzzle)) settings.puzzle = "show"
         if (!["full", "answer_only", "hide"].includes(settings.challenge)) settings.challenge = "full"
@@ -928,7 +1003,7 @@ export namespace NeoSolving {
     }
 
     export const DEFAULT: Settings = {
-      info_panel: InfoPanel.EVERYTHING,
+      info_panel: InfoPanel.REDUCED,
       puzzles: Puzzles.DEFAULT,
       compass: CompassSolving.Settings.DEFAULT
     }

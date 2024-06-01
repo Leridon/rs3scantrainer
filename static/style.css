@@ -209,6 +209,15 @@ h2 {
     font-size: 1.5rem;
 }
 
+.run-drawing-tile-count {
+    background-color: transparent;
+    border: transparent;
+    box-shadow: none;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    color: white;
+    font-size: 1rem;
+}
+
 .equivalence-class-information {
     background-color: transparent;
     border: transparent;
@@ -319,6 +328,7 @@ h2 {
     font-size: 12px;
     background-repeat: no-repeat;
     background-position: center;
+    background-size: contain;
 }
 
 .fuzzyhighlight {
@@ -691,6 +701,11 @@ video {
     padding: 2px 3px 2px 5px;
 }
 
+.ctr-step-issue[level="2"] {
+    background-color: #3f3f3b;
+    color: #8d8a81;
+}
+
 .ctr-step-issue[level="1"] {
     background-color: #42381f;
     color: #fce2a1;
@@ -701,20 +716,28 @@ video {
     color: #2f2324;
 }
 
-.ctr-step-issue[level="1"] > .ctr-step-issue-icon {
-    margin-right: 0;
+.ctr-step-issue-icon-2 {
     display: inline-block;
     width: 12px;
     height: 11px;
-    background-image: url("assets/icons/warning.png");
+    margin: auto 2px;
+    background-image: url("assets/icons/issue-weak-warning.png");
 }
 
-.ctr-step-issue[level="0"] > .ctr-step-issue-icon {
-    margin-right: 0;
+.ctr-step-issue-icon-1 {
+    display: inline-block;
+    width: 12px;
+    height: 11px;
+    margin: auto 2px;
+    background-image: url("assets/icons/issue-warning.png");
+}
+
+.ctr-step-issue-icon-0 {
     display: inline-block;
     width: 12px;
     height: 12px;
-    background-image: url("assets/icons/error.png");
+    margin: auto 2px;
+    background-image: url("assets/icons/issue-error.png");
 }
 
 .ctr-cooldown-overlay-shadow {
@@ -2193,12 +2216,58 @@ input[type=checkbox] + span {
 
 /* Compass solver */
 
-.ctr-neosolving-compass-entry-selected {
+
+.ctr-compass-solving-entry {
+    cursor: pointer;
+    display: flex;
+}
+
+.ctr-compass-solving-entry.selected {
     background: rgb(40, 89, 112);
 }
 
-.ctr-neosolving-compass-entries-header {
+.ctr-compass-solving-angle {
+    width: 43px;
+    min-width: 43px;
+    padding-left: 3px;
+    margin-right: 3px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: right;
+    overflow: hidden;
+    position: relative;
+    border-left: 1px dotted gray;
+}
+
+.ctr-compass-solving-angle:not(.committed) {
+    font-style: italic;
+    color: gray;
+}
+
+/*
+.ctr-compass-solving-entry:hover:after {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    content: "test";
+    background: #00000020;
+
+}*/
+
+.ctr-neosolving-compass-solving-header > img {
+    display: block;
+    margin: auto;
+}
+
+.ctr-neosolving-compass-solving-header {
+    border-right: 1px dashed gray;
     font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 1px;
 }
 
 .ctr-neosolving-compass-entry-position {
@@ -2209,32 +2278,16 @@ input[type=checkbox] + span {
     overflow: hidden;
 }
 
-.ctr-neosolving-compass-entry-angle {
-    width: 30px;
-    min-width: 30px;
-    margin-left: 3px;
-    margin-right: 3px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
 .ctr-neosolving-compass-entry-button {
     width: 20px;
     min-width: 20px;
     height: 20px;
-    border-radius: 4px;
     text-align: center;
+    font-size: 15px;
 }
 
-.ctr-neosolving-compass-entry-button-commit {
-    border: 2px solid #005600;
-    background: #009400;
-}
-
-.ctr-neosolving-compass-entry-button-discard {
-    border: 2px solid #c40000;
-    background: #ff0000;
+.ctr-neosolving-compass-entry-button:hover {
+    filter: brightness(1.2);
 }
 
 .nisl-click-to-copy {

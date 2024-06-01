@@ -255,7 +255,7 @@ export namespace Settings {
     }
 
     export function normalize(settings: TeleportSettings): TeleportSettings {
-      if (!settings) settings = clueChasersRecommendations()
+      if (!settings) settings = empty()
 
       if (!settings.potas) settings.potas = []
 

@@ -131,25 +131,34 @@ export class TeleportSpotEntity extends MapEntity {
 }
 
 export namespace TeleportSpotEntity {
-  import img = C.img;
-  import div = C.div;
-
   export class TeleportMapIcon extends leaflet.DivIcon {
-    constructor(tele: Transportation.TeleportGroup.Spot, scale: number = 1, transformer: (w: Widget) => Widget = identity) {
-      let i = img(`./assets/icons/teleports/${tele.image().url}`)
+    createIcon(oldIcon?: HTMLElement): HTMLElement {
+      const scale = this.scale
+      const SIZE = 30
+      const tele = this.tele
 
-      i.css2({
-        "width": tele.image().width ? tele.image().width + "px" : "auto",
-        "height": tele.image().height ? tele.image().height + "px" : "auto",
-      })
+      return this.transformer(C.div(
+          this.tele.code() ?? ""
+        )
+        .css2({
+          "background-image": `url("./assets/icons/teleports/${tele.image().url}")`,
+          color: "white",
+          width: `${scale * SIZE}px`,
+          height: `${scale * SIZE}px`,
+          "line-height": `${scale * SIZE}px`,
+          "margin": `-${scale * SIZE / 2}px`,
+          "font-size": `${scale * 12}px`
+        })
+        .addClass("marktele")).raw()
+    }
+
+    constructor(private tele: Transportation.TeleportGroup.Spot,
+                private scale: number = 1,
+                private transformer: (w: Widget) => Widget = identity) {
 
       super({
         iconSize: [0, 0],
         iconAnchor: [0, 0],
-        html: transformer(div(
-          i,
-          tele.code() ? C.div().text(tele.code()) : undefined
-        ).css("scale", scale.toString()).addClass("ctr-map-teleport-icon")).raw()
       });
     }
   }

@@ -16,10 +16,10 @@ import {SearchSelection} from "../widgets/SearchSelection";
 import {CTRIcon} from "../../CTRIcon";
 import {C} from "../../../lib/ui/constructors";
 import {Checkbox} from "../../../lib/ui/controls/Checkbox";
+import {ColorPicker} from "../../../lib/ui/controls/ColorPicker";
 import copyUpdate = util.copyUpdate;
 import hboxl = C.hboxl;
 import inlineimg = C.inlineimg;
-import {ColorPicker} from "../../../lib/ui/controls/ColorPicker";
 
 class StepDetailEdit extends AbstractEditWidget<Path.Step> {
 
@@ -80,6 +80,13 @@ class StepDetailEdit extends AbstractEditWidget<Path.Step> {
             .setValue(value.target_text)
             .onCommit(v => {
               this.commit(copyUpdate(this.get() as Path.step_ability, e => e.target_text = v))
+            })
+          )
+
+          props.named("Is Far Dive?", new Checkbox()
+            .setValue(value.is_far_dive)
+            .onCommit(v => {
+              this.commit(copyUpdate(this.get() as Path.step_ability, e => e.is_far_dive = v))
             })
           )
         }

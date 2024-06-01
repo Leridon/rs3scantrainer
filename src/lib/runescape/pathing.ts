@@ -1,4 +1,4 @@
-import {direction, MovementAbilities, PathFinder, PlayerPosition} from "./movement";
+import {direction, HostedMapData, MovementAbilities, PathFinder, PlayerPosition} from "./movement";
 import {util} from "../util/util";
 import * as lodash from "lodash"
 import {Rectangle, Vector2} from "../math";
@@ -24,6 +24,7 @@ export namespace Path {
   import EntityTransportation = Transportation.GeneralEntityTransportation;
   import activate = TileArea.activate;
   import defaultInteractiveArea = Transportation.EntityTransportation.defaultInteractiveArea;
+  import dive_far_internal = MovementAbilities.dive_far_internal;
   export type PathAssumptions = {
     double_surge?: boolean,
     double_escape?: boolean,
@@ -45,12 +46,15 @@ export namespace Path {
     ability: movement_ability,
     target?: EntityName, // Only for barges
     target_text?: string,
+    target_area?: TileArea, // Only for dives
+    is_far_dive?: boolean,
     from: TileCoordinates,
     to: TileCoordinates,
   }
 
   export type step_run = step_base & {
     type: "run",
+    target_area?: TileArea,
     to_text?: string,
     waypoints: TileCoordinates[]
   }
@@ -199,7 +203,13 @@ export namespace Path {
     issues: issue[]
   }
 
-  export type issue_level = 0 | 1 // 0 = error, 1 = warning
+  export type issue_level = 0 | 1 | 2 // 0 = error, 1 = warning, 2 = weak warning
+  export namespace issue_level {
+    export const error: issue_level = 0
+    export const warning: issue_level = 1
+    export const weak_warning: issue_level = 2
+  }
+
   export type issue = { level: issue_level, message: string }
 
   /**
@@ -818,12 +828,6 @@ export namespace Path {
     }
   }
 
-  export type Section = {
-    name: string,
-    steps?: Step[],
-    subsections?: Section[]
-  }
-
   export type SectionedPath = TreeArray<Step, { name: string }>
 
   export namespace Section {
@@ -869,25 +873,6 @@ export namespace Path {
 
       return root
     }
-
-    /*
-
-    export function get_subsection_from_id_list(sections: Section[], indices: number[]): Section {
-        for (let index of indices) {
-            let sect = sections[index]
-
-            if (sect.subsections) sections = sect.subsections
-            else return sect
-        }
-        return null
-    }
-
-    export function index_of_first_real_section(sections: Section[]): number[] {
-        if (sections[0].subsections) return [0].concat(index_of_first_real_section(sections[0].subsections))
-        else return [0]
-    }
-
-
-     */
   }
+
 }

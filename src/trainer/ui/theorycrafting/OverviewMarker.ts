@@ -52,7 +52,7 @@ export class ClueOverviewMarker extends MapEntity {
         iconUrl: level_markers[pos.level],
         iconSize: highlight ? [27, 45] : [18, 30],
         iconAnchor: highlight ? [13, 45] : [9, 30],
-        className: "marker-icon"
+        className: "marker-icon",
       }),
     }).addTo(this)
 

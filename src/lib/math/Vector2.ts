@@ -151,7 +151,7 @@ export namespace Vector2 {
   }
 
   export function toString(a: Vector2): string {
-    return `${a.x}|${a.y}`
+    return `${a.x} | ${a.y}`
   }
 
   export function hash(c: Vector2, mod: number = 64): number {

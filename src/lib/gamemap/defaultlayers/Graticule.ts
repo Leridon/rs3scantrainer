@@ -1,5 +1,6 @@
 import * as leaflet from "leaflet"
 import {PolylineOptions} from "leaflet"
+import * as lodash from "lodash";
 import {Vector2} from "../../math";
 
 /**
@@ -15,6 +16,8 @@ export default class Graticule extends leaflet.FeatureGroup {
     interval: number
   } = null
 
+  private _style: PolylineOptions
+
   constructor(public _options: {
     intervals: {
       min_zoom: number,
@@ -24,6 +27,8 @@ export default class Graticule extends leaflet.FeatureGroup {
     lineStyle?: PolylineOptions
   }) {
     super()
+
+    this._style = _options.lineStyle
 
     if (!this._options.offset) this._options.offset = {x: 0.5, y: 0.5}
 
@@ -64,10 +69,10 @@ export default class Graticule extends leaflet.FeatureGroup {
 
   redraw() {
     let bounds = this._map.getBounds()
-    let interval = Math.min(...this._options.intervals.filter((i) => this._map.getZoom() >= i.min_zoom).map((i) => i.interval))
+    let interval = lodash.minBy(this._options.intervals.filter((i) => this._map.getZoom() >= i.min_zoom), (i) => i.interval)
 
-    if (!this.last_drawn || !this.last_drawn.bounds.contains(bounds) || this.last_drawn.interval != interval) {
-      this.constructLines(this._map.getBounds().pad(0.5), interval)
+    if (!this.last_drawn || !this.last_drawn.bounds.contains(bounds) || this.last_drawn.interval != interval?.interval) {
+      this.constructLines(this._map.getBounds().pad(0.5), interval?.interval)
     }
   }
 
@@ -79,6 +84,8 @@ export default class Graticule extends leaflet.FeatureGroup {
 
     this.clearLayers()
 
+    if (!interval) return
+
     let counts = {
       x: Math.ceil((bounds.getEast() - bounds.getWest()) / interval),
       y: Math.ceil((bounds.getNorth() - bounds.getSouth()) / interval)
@@ -89,26 +96,29 @@ export default class Graticule extends leaflet.FeatureGroup {
       y: Math.floor(bounds.getSouth() / interval) * interval
     };
 
+    const lines: [number, number][][] = []
+
     //for horizontal lines
     for (let i = 0; i <= counts.x; i++) {
       let x = mins.x + i * interval + this._options.offset.x - 1;
 
-      new leaflet.Polyline([
-        new leaflet.LatLng(bounds.getSouth(), x),
-        new leaflet.LatLng(bounds.getNorth(), x)
-      ], this._options.lineStyle)
-        .addTo(this)
+      lines.push([
+        [bounds.getSouth(), x],
+        [bounds.getNorth(), x]
+      ])
     }
 
     //for vertical lines
     for (let j = 0; j <= counts.y; j++) {
       let y = mins.y + j * interval + this._options.offset.y - 1;
 
-      new leaflet.Polyline([
-        new leaflet.LatLng(y, bounds.getWest()),
-        new leaflet.LatLng(y, bounds.getEast())
-      ], this._options.lineStyle)
-        .addTo(this)
+      lines.push([
+        [y, bounds.getWest()],
+        [y, bounds.getEast()],
+      ])
     }
+
+    new leaflet.Polyline(lines, this._style)
+      .addTo(this)
   }
 }

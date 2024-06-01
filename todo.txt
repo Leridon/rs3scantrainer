@@ -1,23 +1,20 @@
 Patch Notes for next release:
 ** Compass Solver **
     - The UI for the compass solver has been redesigned.
-    - There is a new option to have the compass solver use your predicted your current position based on the solution of the previous clue as the first triangulation option.
-        - For scans, this is the rectangle containing all dig spots that are possible with the progress you entered for the scan tree.
-        - You can also click a dig spot for scans to manually set it as the solution.
     - The compass reader has been recalibrated to be even more accurate than before.
     - The compass reader can now detect the use of MSAA and adjusts its calibration appropriately.
     - The compass solver now supports showing paths from method packs.
-        - The shown path defaults to the spot closest to all the triangulation lines. Click a marker to change the selection.
+        - The shown path defaults to the spot closest to all the triangulation lines. Click a marker to change the selection if necessary.
 
 **Additionally**
     - Optimized rendering of gridlines and teleports on the map for significant performance improvements.
         - Optimization is an ongoing process, so let me know how performance is for you now and if you notice a difference.
     - Removed ability icons for rendered paths since they clutter the map and the colors of the arrows should be obvious enough.
-    - Added optional note-areas to dives and running-steps in the path editor. Using these to simplify existing paths is WIP
+    - Added optional note-areas to dives and running-steps in the path editor. Using these to simplify existing paths is WIP.
     - Rendering for dives now uses distinct arrow shapes for far-clickable and precise dives.
         - This relies on a change in the dataformat, so you need to migrate any existing paths you have. You can find this option by right-clicking the method pack in the Methods tab.
-    - Errors and warnings in the path editor are now shown in a minimized format to save space. Hove over them to see the details.
-    - Fixed the "Export" function for method packs that's apparently been broken for ages. (The base64-version, not the JSON version)
+    - Errors and warnings in the path editor are now shown in a minimized format to save space. Hover over them to see the details.
+    - Fixed the base64 export for method packs that's apparently been broken for ages.
     - Entity-Tooltips now behave much smoother when the entity is right-clicked
     - When drawing a run step in the path editor, the number of tiles this covers is now shown as part of the preview.
     - Teleport customization now starts out as empty instead of the Clue Chasers recommendations.
@@ -25,12 +22,9 @@ Patch Notes for next release:
 
 
 Compass solver:
-    - MSAA Calibration
-    - Close compass after X seconds of concealed
     - [Postponed] Predicted start spot from last scan position
     - [Postponed] Chatbox read service to look for sextant message
     - [Postponed] Fix fight for zoom-authority between compass and path.
-    - Add markers for triangulation spots?
 
 In-App Wiki
     - Compass Explanation
@@ -42,9 +36,7 @@ Issues
     - [Bug, 2] Clue Reader Pausing for knots is bad because it unpauses while the animation is happening.
     - Zoom for long distance transports is still very bad
 
-Path Display:
-    - Path normalization for method packs migrations
-        - Add is_far_dive property to dives
+Path Editor:
     Custom sized square (to help map distances), purely for theorycrafting
     Some sort of parallel world method of displaying steps (with non static teleports), if implemented, preferably differentiatable between absolute and relative step instructions
 

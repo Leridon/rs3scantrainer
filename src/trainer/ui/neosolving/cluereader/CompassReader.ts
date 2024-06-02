@@ -1091,7 +1091,7 @@ export namespace CompassReader {
 
       const read = this.last_read = reader.getAngle()
 
-      if(read.type != "success") console.log(read)
+      if (read.type != "success") console.log(`${read.type}: ${read.details}`)
 
       switch (read.type) {
         case "likely_closed":

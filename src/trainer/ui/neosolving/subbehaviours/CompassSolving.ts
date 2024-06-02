@@ -360,7 +360,6 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
         }
 
         if (is_state) {
-          console.log("Setting preview")
           this.entries.forEach(e => e.widget.setPreviewAngle(!is_state.spinning ? is_state.angle : null))
         }
       })
@@ -772,9 +771,9 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     this.renderWidget()
 
-    const assumed_position_from_previous_clue = this.parent.getAssumedPlayerPosition()
+    const assumed_position_from_previous_clue = null //this.parent.getAssumedPlayerPosition()
 
-    if (assumed_position_from_previous_clue && this.clue.id == gielinor_compass.id
+    if (this.settings.use_previous_solution_as_start && assumed_position_from_previous_clue && this.clue.id == gielinor_compass.id
       && Rectangle.containsRect(this.clue.valid_area, TileArea.toRect(assumed_position_from_previous_clue))
     ) { // Only for elite compass for now
       this.createEntry({

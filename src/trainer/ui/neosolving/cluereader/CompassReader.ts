@@ -253,13 +253,13 @@ export class CompassReader {
     }
 
     if (antialiasing_detected) {
-      if (rectangle_samples.length < 200) return {type: "likely_closed", details: "Not enough pixels sampled for the rectangle sample"}
-      if (rectangle_samples.length < 1750) return {type: "likely_concealed", details: "Not enough pixels sampled for the rectangle sample"}
-      if (rectangle_samples.length > 1950) return {type: "likely_concealed", details: "Too many pixels sampled for the rectangle sample"}
+      if (rectangle_samples.length < 200) return {type: "likely_closed", details: `Not enough pixels (${rectangle_samples.length}) sampled for the rectangle sample. [MSAA]`}
+      if (rectangle_samples.length < 1700) return {type: "likely_concealed", details: `Not enough pixels (${rectangle_samples.length}) sampled for the rectangle sample. [MSAA]`}
+      if (rectangle_samples.length > 2000) return {type: "likely_concealed", details: `Too many pixels (${rectangle_samples.length}) sampled for the rectangle sample. [MSAA]`}
     } else {
-      if (rectangle_samples.length < 200) return {type: "likely_closed", details: "Not enough pixels sampled for the rectangle sample"}
-      if (rectangle_samples.length < 1950) return {type: "likely_concealed", details: "Not enough pixels sampled for the rectangle sample"}
-      if (rectangle_samples.length > 2150) return {type: "likely_concealed", details: "Too many pixels sampled for the rectangle sample"}
+      if (rectangle_samples.length < 200) return {type: "likely_closed", details: `Not enough pixels (${rectangle_samples.length}) sampled for the rectangle sample.`}
+      if (rectangle_samples.length < 1900) return {type: "likely_concealed", details: `Not enough pixels (${rectangle_samples.length}) sampled for the rectangle sample.`}
+      if (rectangle_samples.length > 2200) return {type: "likely_concealed", details: `Too many pixels (${rectangle_samples.length}) sampled for the rectangle sample.`}
     }
 
     const angle_after_rectangle_sample = normalizeAngle(Math.atan2(
@@ -1091,6 +1091,7 @@ export namespace CompassReader {
 
       const read = this.last_read = reader.getAngle()
 
+      if(read.type != "success") console.log(read)
 
       switch (read.type) {
         case "likely_closed":

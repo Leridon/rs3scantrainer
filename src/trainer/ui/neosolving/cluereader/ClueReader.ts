@@ -22,12 +22,11 @@ import {LockBoxReader} from "./LockBoxReader";
 import {CapturedModal} from "./capture/CapturedModal";
 import {CapturedSliderInterface} from "./capture/CapturedSlider";
 import {TowersReader} from "./TowersReader";
+import {CapturedCompass} from "./capture/CapturedCompass";
 import stringSimilarity = util.stringSimilarity;
 import ScanStep = Clues.ScanStep;
 import notification = Notification.notification;
 import findBestMatch = util.findBestMatch;
-import {CapturedCompass} from "./capture/CapturedCompass";
-import {ScreenRectangle} from "../../../../lib/alt1/ScreenRectangle";
 
 const CLUEREADERDEBUG = false
 
@@ -280,6 +279,9 @@ export class ClueReader {
         const compass_state = reader.getAngle()
 
         if (compass_state?.type != "success") {
+          console.error("Compass found, but not parsed properly")
+          console.error(`Broken: ${compass_state.type}, Reason: ${compass_state.details}`)
+
           return null
         }
 

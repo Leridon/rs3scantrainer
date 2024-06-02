@@ -401,8 +401,6 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     this.entry_selection_index = i
 
-    console.log(`Setting index to ${i} of ${this.entries.length}`)
-
     this.entries.forEach((e, i) => {
       e.widget.setSelected(this.entry_selection_index == i)
     })

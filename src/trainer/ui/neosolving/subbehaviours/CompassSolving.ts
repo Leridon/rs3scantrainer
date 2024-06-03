@@ -43,6 +43,7 @@ import hbox = C.hbox;
 import inlineimg = C.inlineimg;
 import count = util.count;
 import gielinor_compass = clue_data.gielinor_compass;
+import digSpotArea = Clues.digSpotArea;
 
 class CompassHandlingLayer extends GameLayer {
   private lines: {
@@ -105,16 +106,21 @@ class CompassHandlingLayer extends GameLayer {
     event.onPost(() => {
 
       if (event.active_entity instanceof TeleportSpotEntity) {
-        this.solving.registerSpot(event.active_entity.teleport)
+        this.solving.registerSpot(event.active_entity.teleport, false)
       } else if (event.active_entity instanceof KnownCompassSpot) {
-        this.solving.selected_spot.set(event.active_entity.spot)
+
+        if (this.solving.entries.some(e => e.information)) {
+          this.solving.setSelectedSpot(event.active_entity.spot, true)
+        } else {
+          this.solving.registerSpot(activate(digSpotArea(event.active_entity.spot.spot)), true)
+        }
       } else {
         this.solving.registerSpot(
           activate(TileArea.fromRect(TileRectangle.lift(
               Rectangle.centeredOn(event.tile(), this.solving.settings.manual_tile_inaccuracy),
-              0
+              event.tile().level
             ))
-          )
+          ), false
         )
       }
     })
@@ -554,8 +560,21 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
   }
 
   /**
+   * Sets the highlighted spot. For the highlighted spot, a path method is shown.
+   * @param spot The spot to set as active
+   * @param set_as_solution If true, the 3 by 3 dig area for this spot is saved as the current clue's solution.
+   */
+  setSelectedSpot(spot: CompassSolving.SpotData, set_as_solution: boolean) {
+    this.selected_spot.set(spot)
+
+    if (set_as_solution && set_as_solution) {
+      this._state.solution_area = digSpotArea(spot.spot)
+    }
+  }
+
+  /**
    * Update possible spots, potentially add a new triangulation entry, activate method for specific spot...
-   * @param maybe_fit
+   * @param maybe_fit If true, the map is zoomed/moved to the remaining candidate spots if it has been narrowed down enough.
    */
   async updatePossibilities(maybe_fit: boolean) {
 
@@ -598,10 +617,10 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
       // Reference comparison is fine because only the instances from the original array in the clue are handled
       if (!possible.some(e => TileCoordinates.equals(old_selection?.spot, e.spot))) {
-        this.selected_spot.set(possible[0])
+        this.setSelectedSpot(possible[0], false)
       }
     } else {
-      this.selected_spot.set(null)
+      this.setSelectedSpot(null, false)
     }
 
     // TODO: Set solution area
@@ -722,7 +741,6 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     entry.widget.discard_requested.on(e => {
       this.discardAngle(e.entry)
-
     })
 
     entry.widget.selection_requested.on(e => {
@@ -738,26 +756,35 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     return entry
   }
 
-  async registerSpot(coords: TileArea.ActiveTileArea | TeleportGroup.Spot): Promise<void> {
+  async registerSpot(coords: TileArea.ActiveTileArea | TeleportGroup.Spot, is_compass_solution: boolean): Promise<void> {
     const i = this.entry_selection_index
 
     const entry = this.entries[i]
 
     if (!entry) return
 
-    const hadInfo = entry.information != null
+    const hadInfo = entry.information
 
     entry.position = coords
     entry.angle = null
     entry.information = null
     entry.preconfigured = null
 
+    if (!is_compass_solution) entry.is_solution_of_previous_clue = undefined
+
+
     entry.widget.render()
 
     const state = this.process.state.value()
     entry.widget.setPreviewAngle(state?.state != "normal" ? null : state.angle)
 
-    if (hadInfo) await this.updatePossibilities(false)
+    if (hadInfo) {
+      if (entry.is_solution_of_previous_clue && is_compass_solution) {
+        await this.commit(entry)
+      } else {
+        await this.updatePossibilities(false)
+      }
+    }
   }
 
   protected async begin() {
@@ -774,7 +801,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
         if (matched_teleport) {
           const tele = TransportData.resolveTeleport(matched_teleport.value.teleport_id)
           if (!tele) return
-          this.registerSpot(tele)
+          this.registerSpot(tele, false)
         }
       } else {
         this.commit(undefined, true)
@@ -790,7 +817,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
         if (this.clue.id != gielinor_compass.id) return
 
-        const assumed_position_from_previous_clue = this.parent.getAssumedPlayerPosition()
+        const assumed_position_from_previous_clue = this.parent.getAssumedPlayerPositionByLastClueSolution()
 
         if (assumed_position_from_previous_clue) return
 

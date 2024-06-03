@@ -390,11 +390,16 @@ export default class NeoSolvingBehaviour extends Behaviour {
   public path_control = this.withSub(new PathControl(this))
   private default_method_selector: MethodSelector = null
 
-  getAssumedPlayerPosition(): TileArea | null {
+  /**
+   * Get an estimate for the player's current position based on the solution of the previous clue.
+   * Currently, only scans and compasses report their respective solution to be used by this.
+   * Solutions expire after 10 seconds, puzzles extend this expiry.
+   */
+  getAssumedPlayerPositionByLastClueSolution(): TileArea | null {
 
     const now = Date.now()
 
-    const LOOKBACK = 5000
+    const LOOKBACK = 10000 // 10 seconds
 
     let OLDEST_CONSIDERED_STEP = now - LOOKBACK
 

@@ -278,7 +278,12 @@ export class ClueReader {
 
         const compass_state = reader.getAngle()
 
-        if (compass_state?.type != "success") {
+        if(compass_state?.type == "likely_solved") {
+          console.error("Compass found, but already in solved state.")
+          return null
+        }
+
+        if (compass_state?.type == "likely_closed" || compass_state?.type == "likely_concealed") {
           console.error("Compass found, but not parsed properly")
           console.error(`Broken: ${compass_state.type}, Reason: ${compass_state.details}`)
 

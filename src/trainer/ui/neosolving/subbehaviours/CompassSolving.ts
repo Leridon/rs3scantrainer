@@ -352,22 +352,22 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
       this.process.state.subscribe((is_state, was_state) => {
 
-        if (was_state && this.settings.auto_commit_on_angle_change && !is_state.spinning) {
-          if (was_state.spinning ||
+        if (was_state && this.settings.auto_commit_on_angle_change && is_state.state == "normal") {
+          if (was_state.state == "spinning" ||
             angleDifference(is_state.angle, was_state.angle) > CompassSolving.ANGLE_CHANGE_COMMIT_THRESHOLD) {
             this.commit()
           }
         }
 
         if (is_state) {
-          this.entries.forEach(e => e.widget.setPreviewAngle(!is_state.spinning ? is_state.angle : null))
+          this.entries.forEach(e => e.widget.setPreviewAngle(is_state?.state == "normal" ? is_state.angle : null))
         }
       })
     }
   }
 
   pausesClueReader(): boolean {
-    return this.process && this.process.last_read?.type == "success"
+    return this.process && (this.process.last_read?.type == "success" || this.process.last_read?.type == "likely_solved")
   }
 
   private entry_container: Widget
@@ -470,7 +470,11 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       entry.angle = null
       entry.information = null
       entry.widget.render()
-      entry.widget.setPreviewAngle(this.process.last_successful_read?.read?.angle)
+      entry.widget.setPreviewAngle(
+        this.process.last_successful_read?.read?.type == "success"
+          ? this.process.last_successful_read.read.angle
+          : undefined
+      )
 
       await this.updatePossibilities(false)
 
@@ -600,6 +604,14 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       this.selected_spot.set(null)
     }
 
+    // TODO: Set solution area
+
+    if (possible.length <= 5) {
+      const area = TileRectangle.extend(TileRectangle.from(...possible.map(s => s.spot)), 1)
+
+      this._state.solution_area = TileArea.fromRect(area)
+    }
+
     // Selected spot and possibilities have been updated, update the preview rendering of methods for spots that are possible but not the most likely.
     await this.updateMethodPreviews()
 
@@ -696,7 +708,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     const state = this.process.state.value()
 
     entry.widget = new CompassEntryWidget(entry)
-      .setPreviewAngle((!state || state.spinning) ? null : state.angle)
+      .setPreviewAngle((!state || state.state != "normal") ? null : state.angle)
       .appendTo(this.entry_container)
 
 
@@ -743,7 +755,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     entry.widget.render()
 
     const state = this.process.state.value()
-    entry.widget.setPreviewAngle(!state || state.spinning ? null : state.angle)
+    entry.widget.setPreviewAngle(state?.state != "normal" ? null : state.angle)
 
     if (hadInfo) await this.updatePossibilities(false)
   }
@@ -771,17 +783,31 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     this.renderWidget()
 
-    const assumed_position_from_previous_clue = null //this.parent.getAssumedPlayerPosition()
 
-    if (this.settings.use_previous_solution_as_start && assumed_position_from_previous_clue && this.clue.id == gielinor_compass.id
-      && Rectangle.containsRect(this.clue.valid_area, TileArea.toRect(assumed_position_from_previous_clue))
-    ) { // Only for elite compass for now
-      this.createEntry({
-        position: TileArea.activate(assumed_position_from_previous_clue),
-        angle: null,
-        information: null,
-        is_solution_of_previous_clue: true,
-      })
+    if (this.settings.use_previous_solution_as_start) {
+      (() => {
+        //return // Currently disabled because it's broken
+
+        if (this.clue.id != gielinor_compass.id) return
+
+        const assumed_position_from_previous_clue = this.parent.getAssumedPlayerPosition()
+
+        if (assumed_position_from_previous_clue) return
+
+        const size = activate(assumed_position_from_previous_clue).size
+
+        // Only use positions that are reasonably small
+        if (Vector2.max_axis(size) > 64) return
+
+        if (!Rectangle.containsRect(this.clue.valid_area, TileArea.toRect(assumed_position_from_previous_clue))) return
+
+        this.createEntry({
+          position: TileArea.activate(assumed_position_from_previous_clue),
+          angle: null,
+          information: null,
+          is_solution_of_previous_clue: true,
+        })
+      })()
     }
 
     const preconfigured_id = this.settings.active_triangulation_presets.find(p => p.compass_id == this.clue.id)?.preset_id

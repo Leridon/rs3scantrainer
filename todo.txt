@@ -1,3 +1,5 @@
+
+
 Transport Backlog:
     Master:
     (City of Um teleport incantation; not sure if same as tome)
@@ -77,6 +79,9 @@ Custom Modal Solution:
 
 - Performance
     - [3] Share a quad tree for all game layers. Cull empty branches.
+    - [2] Simple markers use base64 data urls, which is probably slow and repeats a lot of work.
+    - [3] <img>-elements should probably be preserved in-memory for markers when hidden
+    - [3] Using :hover style rules would probably be faster than the current way of rerendering. Would also reduce some of the pain with lingering activations
 
 - Scan Editor
     - [QOL, 2] Include uncertainty from non-static teleports into path analysis

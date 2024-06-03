@@ -105,6 +105,10 @@ export class GameMap extends leaflet.Map {
       }
     }
 
+    const gridPane = this.createPane("gridPane")
+
+    gridPane.style.zIndex = "250" // Above tile pane, below overlay pane
+
     this.internal_root_layer = new GameLayer()
     this.addLayer(this.internal_root_layer)
 
@@ -193,9 +197,9 @@ export class GameMap extends leaflet.Map {
         color: '#111111',
         opacity: 0.25,
         interactive: false
-      }
+      },
+      pane: "gridPane"
     })
-      .setZIndex(10)
       .addTo(this)
 
     this.updateBaseLayers()

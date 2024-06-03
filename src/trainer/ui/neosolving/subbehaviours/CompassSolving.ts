@@ -43,6 +43,8 @@ import hbox = C.hbox;
 import inlineimg = C.inlineimg;
 import count = util.count;
 import gielinor_compass = clue_data.gielinor_compass;
+import digSpotArea = Clues.digSpotArea;
+import vbox = C.vbox;
 
 class CompassHandlingLayer extends GameLayer {
   private lines: {
@@ -105,16 +107,21 @@ class CompassHandlingLayer extends GameLayer {
     event.onPost(() => {
 
       if (event.active_entity instanceof TeleportSpotEntity) {
-        this.solving.registerSpot(event.active_entity.teleport)
+        this.solving.registerSpot(event.active_entity.teleport, false)
       } else if (event.active_entity instanceof KnownCompassSpot) {
-        this.solving.selected_spot.set(event.active_entity.spot)
+
+        if (this.solving.entries.some(e => e.information)) {
+          this.solving.setSelectedSpot(event.active_entity.spot, true)
+        } else {
+          this.solving.registerSpot(activate(digSpotArea(event.active_entity.spot.spot)), true)
+        }
       } else {
         this.solving.registerSpot(
           activate(TileArea.fromRect(TileRectangle.lift(
               Rectangle.centeredOn(event.tile(), this.solving.settings.manual_tile_inaccuracy),
-              0
+              event.tile().level
             ))
-          )
+          ), false
         )
       }
     })
@@ -352,22 +359,22 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
       this.process.state.subscribe((is_state, was_state) => {
 
-        if (was_state && this.settings.auto_commit_on_angle_change && !is_state.spinning) {
-          if (was_state.spinning ||
+        if (was_state && this.settings.auto_commit_on_angle_change && is_state.state == "normal") {
+          if (was_state.state == "spinning" ||
             angleDifference(is_state.angle, was_state.angle) > CompassSolving.ANGLE_CHANGE_COMMIT_THRESHOLD) {
             this.commit()
           }
         }
 
         if (is_state) {
-          this.entries.forEach(e => e.widget.setPreviewAngle(!is_state.spinning ? is_state.angle : null))
+          this.entries.forEach(e => e.widget.setPreviewAngle(is_state?.state == "normal" ? is_state.angle : null))
         }
       })
     }
   }
 
   pausesClueReader(): boolean {
-    return this.process && this.process.last_read?.type == "success"
+    return this.process && (this.process.last_read?.type == "success" || this.process.last_read?.type == "likely_solved")
   }
 
   private entry_container: Widget
@@ -376,18 +383,30 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
   renderWidget() {
     this.parent.layer.compass_container.empty()
 
-    const container = hbox().appendTo(this.parent.layer.compass_container)
+    const container = vbox().appendTo(this.parent.layer.compass_container)
 
     cls("ctr-neosolving-compass-solving-header")
       .append(
         inlineimg("assets/icons/arrow.png").tooltip("Compass Solver"),
+        "Compass Solver",
+        /*inlineimg("assets/icons/info_nis.png").addClass("ctr-clickable")
+          .css("height", "1em")
+          .css("margin-left", "4px")
+          .on("click", async () => {
+
+          }),*/
         C.spacer(),
+        inlineimg("assets/icons/reset_nis.png").addClass("ctr-clickable")
+          .on("click", async () => {
+            this.reset()
+          })
+          .tooltip("Reset compass solver."),
         inlineimg("assets/icons/settings.png").addClass("ctr-clickable")
           .on("click", async () => {
             const result = await new SettingsModal("compass").do()
 
             if (result.saved) this.settings = result.value.solving.compass
-          })
+          }),
       )
       .appendTo(container)
 
@@ -470,7 +489,11 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       entry.angle = null
       entry.information = null
       entry.widget.render()
-      entry.widget.setPreviewAngle(this.process.last_successful_read?.read?.angle)
+      entry.widget.setPreviewAngle(
+        this.process.last_successful_read?.read?.type == "success"
+          ? this.process.last_successful_read.read.angle
+          : undefined
+      )
 
       await this.updatePossibilities(false)
 
@@ -550,8 +573,21 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
   }
 
   /**
+   * Sets the highlighted spot. For the highlighted spot, a path method is shown.
+   * @param spot The spot to set as active
+   * @param set_as_solution If true, the 3 by 3 dig area for this spot is saved as the current clue's solution.
+   */
+  setSelectedSpot(spot: CompassSolving.SpotData, set_as_solution: boolean) {
+    this.selected_spot.set(spot)
+
+    if (set_as_solution && set_as_solution) {
+      this._state.solution_area = digSpotArea(spot.spot)
+    }
+  }
+
+  /**
    * Update possible spots, potentially add a new triangulation entry, activate method for specific spot...
-   * @param maybe_fit
+   * @param maybe_fit If true, the map is zoomed/moved to the remaining candidate spots if it has been narrowed down enough.
    */
   async updatePossibilities(maybe_fit: boolean) {
 
@@ -594,10 +630,18 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
       // Reference comparison is fine because only the instances from the original array in the clue are handled
       if (!possible.some(e => TileCoordinates.equals(old_selection?.spot, e.spot))) {
-        this.selected_spot.set(possible[0])
+        this.setSelectedSpot(possible[0], false)
       }
     } else {
-      this.selected_spot.set(null)
+      this.setSelectedSpot(null, false)
+    }
+
+    // TODO: Set solution area
+
+    if (possible.length <= 5) {
+      const area = TileRectangle.extend(TileRectangle.from(...possible.map(s => s.spot)), 1)
+
+      this._state.solution_area = TileArea.fromRect(area)
     }
 
     // Selected spot and possibilities have been updated, update the preview rendering of methods for spots that are possible but not the most likely.
@@ -696,7 +740,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     const state = this.process.state.value()
 
     entry.widget = new CompassEntryWidget(entry)
-      .setPreviewAngle((!state || state.spinning) ? null : state.angle)
+      .setPreviewAngle((!state || state.state != "normal") ? null : state.angle)
       .appendTo(this.entry_container)
 
 
@@ -710,7 +754,6 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     entry.widget.discard_requested.on(e => {
       this.discardAngle(e.entry)
-
     })
 
     entry.widget.selection_requested.on(e => {
@@ -726,62 +769,71 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     return entry
   }
 
-  async registerSpot(coords: TileArea.ActiveTileArea | TeleportGroup.Spot): Promise<void> {
+  async registerSpot(coords: TileArea.ActiveTileArea | TeleportGroup.Spot, is_compass_solution: boolean): Promise<void> {
     const i = this.entry_selection_index
 
     const entry = this.entries[i]
 
     if (!entry) return
 
-    const hadInfo = entry.information != null
+    const hadInfo = entry.information
 
     entry.position = coords
     entry.angle = null
     entry.information = null
     entry.preconfigured = null
 
+    if (!is_compass_solution) entry.is_solution_of_previous_clue = undefined
+
+
     entry.widget.render()
 
     const state = this.process.state.value()
-    entry.widget.setPreviewAngle(!state || state.spinning ? null : state.angle)
+    entry.widget.setPreviewAngle(state?.state != "normal" ? null : state.angle)
 
-    if (hadInfo) await this.updatePossibilities(false)
+    if (hadInfo) {
+      if (entry.is_solution_of_previous_clue && is_compass_solution) {
+        await this.commit(entry)
+      } else {
+        await this.updatePossibilities(false)
+      }
+    }
   }
 
-  protected async begin() {
-    this.layer = new CompassHandlingLayer(this)
-    this.parent.layer.add(this.layer)
+  /**
+   * Resets triangulation to a state as if the compass solver has just been started.
+   *
+   * @private
+   */
+  private async reset() {
+    this.entries.forEach(e => e.widget?.remove())
 
-    this.process.run()
+    this.entries = []
 
-    this.parent.app.main_hotkey.subscribe(0, e => {
-      console.log("Hotkey in Compass solving")
-      if (e.text) {
-        const matched_teleport = findBestMatch(CompassSolving.teleport_hovers, ref => stringSimilarity(e.text, ref.expected), 0.9)
+    if (this.settings.use_previous_solution_as_start) {
+      (() => {
+        //return // Currently disabled because it's broken
 
-        if (matched_teleport) {
-          const tele = TransportData.resolveTeleport(matched_teleport.value.teleport_id)
-          if (!tele) return
-          this.registerSpot(tele)
-        }
-      } else {
-        this.commit(undefined, true)
-      }
-    }).bindTo(this.handler_pool)
+        if (this.clue.id != gielinor_compass.id) return
 
-    this.renderWidget()
+        const assumed_position_from_previous_clue = this.parent.getAssumedPlayerPositionByLastClueSolution()
 
-    const assumed_position_from_previous_clue = null //this.parent.getAssumedPlayerPosition()
+        if (assumed_position_from_previous_clue) return
 
-    if (this.settings.use_previous_solution_as_start && assumed_position_from_previous_clue && this.clue.id == gielinor_compass.id
-      && Rectangle.containsRect(this.clue.valid_area, TileArea.toRect(assumed_position_from_previous_clue))
-    ) { // Only for elite compass for now
-      this.createEntry({
-        position: TileArea.activate(assumed_position_from_previous_clue),
-        angle: null,
-        information: null,
-        is_solution_of_previous_clue: true,
-      })
+        const size = activate(assumed_position_from_previous_clue).size
+
+        // Only use positions that are reasonably small
+        if (Vector2.max_axis(size) > 64) return
+
+        if (!Rectangle.containsRect(this.clue.valid_area, TileArea.toRect(assumed_position_from_previous_clue))) return
+
+        this.createEntry({
+          position: TileArea.activate(assumed_position_from_previous_clue),
+          angle: null,
+          information: null,
+          is_solution_of_previous_clue: true,
+        })
+      })()
     }
 
     const preconfigured_id = this.settings.active_triangulation_presets.find(p => p.compass_id == this.clue.id)?.preset_id
@@ -822,6 +874,32 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
       this.updatePossibilities(true)
     }
+  }
+
+  protected async begin() {
+    this.layer = new CompassHandlingLayer(this)
+    this.parent.layer.add(this.layer)
+
+    this.process.run()
+
+    this.parent.app.main_hotkey.subscribe(0, e => {
+      console.log("Hotkey in Compass solving")
+      if (e.text) {
+        const matched_teleport = findBestMatch(CompassSolving.teleport_hovers, ref => stringSimilarity(e.text, ref.expected), 0.9)
+
+        if (matched_teleport) {
+          const tele = TransportData.resolveTeleport(matched_teleport.value.teleport_id)
+          if (!tele) return
+          this.registerSpot(tele, false)
+        }
+      } else {
+        this.commit(undefined, true)
+      }
+    }).bindTo(this.handler_pool)
+
+    this.renderWidget()
+
+    await this.reset()
   }
 
   protected end() {

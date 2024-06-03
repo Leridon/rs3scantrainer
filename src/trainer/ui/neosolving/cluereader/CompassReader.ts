@@ -108,7 +108,6 @@ export class CompassReader {
 
   }
 
-
   private _angle: Lazy<CompassReader.AngleResult> = lazy(() => {
     const CENTER_SIZE = 2
     const OFFSET = CENTER_SIZE - 1
@@ -130,6 +129,33 @@ export class CompassReader {
       CompassReader.debug_overlay.clear()
 
       this.capture.compass_area.debugOverlay(CompassReader.debug_overlay)
+    }
+
+    const TARGET_X_SAMPLE_OFFSETS: Vector2[] = [
+      {x: -15, y: -15},
+      {x: -14, y: -14},
+      {x: -13, y: -13},
+      {x: -12, y: -12},
+      {x: 12, y: 12},
+      {x: 11, y: 11},
+      {x: 10, y: 10},
+      {x: 9, y: 9},
+      {x: 13, y: -16},
+      {x: 12, y: -15},
+      {x: 11, y: -14},
+      {x: 10, y: -13},
+      {x: -15, y: 10},
+      {x: -14, y: 9},
+      {x: -13, y: 8},
+      {x: -12, y: 7},
+    ]
+
+    if (TARGET_X_SAMPLE_OFFSETS.every(coords => {
+      const red = getRed(coords.x, coords.y)
+
+      return red >= 90 && red <= 110
+    })) {
+      return {type: "likely_solved"}
     }
 
     const circle_sampled_pixels: Vector2[] = (() => {
@@ -303,6 +329,7 @@ export namespace CompassReader {
     antialiasing: boolean,
   } | { type: "likely_closed", details: string }
     | { type: "likely_concealed", details: string }
+    | { type: "likely_solved" }
 
   export const debug_overlay = new OverlayGeometry()
 
@@ -1052,8 +1079,8 @@ export namespace CompassReader {
   export class Service extends Process<void> {
     state = observe<{
       angle: number,
-      spinning: boolean
-    }>(null).equality((a, b) => a?.angle == b?.angle && a?.spinning == b?.spinning)
+      state: "normal" | "solved" | "spinning"
+    }>(null).equality((a, b) => a?.angle == b?.angle && a?.state == b?.state)
 
     closed = ewent<this>()
 
@@ -1061,7 +1088,7 @@ export namespace CompassReader {
 
     last_successful_read: {
       timestamp: number,
-      read: CompassReader.AngleResult & { type: "success" }
+      read: CompassReader.AngleResult & { type: "success" | "likely_solved" }
     } = null
 
     ticks_since_stationary: number = 0
@@ -1091,7 +1118,7 @@ export namespace CompassReader {
 
       const read = this.last_read = reader.getAngle()
 
-      if (read.type != "success") console.log(`${read.type}: ${read.details}`)
+      if (read.type == "likely_concealed" || read.type == "likely_closed") console.log(`${read.type}: ${read.details}`)
 
       switch (read.type) {
         case "likely_closed":
@@ -1118,11 +1145,41 @@ export namespace CompassReader {
               color: mixColor(128, 128, 128)
             })
           break;
+        case "likely_solved":
+
+          this.overlay.rect2(
+            ScreenRectangle.move(
+              reader.capture.body.screenRectangle(),
+              {x: 59, y: 172},
+              {x: 55, y: 52}
+            ), {
+              width: 2,
+              color: mixColor(0, 255, 0),
+            }
+          )
+
+          this.overlay.text("Solved",
+            Vector2.add(ScreenRectangle.center(reader.capture.body.screenRectangle()), {x: 5, y: 100}), {
+              shadow: true,
+              centered: true,
+              width: 12,
+              color: mixColor(0, 255, 0),
+            })
+
+          this.state.set({angle: null, state: "solved"})
+
+          this.last_successful_read = {
+            timestamp: Date.now(),
+            read: read
+          }
+
+          break;
+
         case "success":
-          if (this.last_successful_read?.read?.angle == read.angle) {
+          if (this.last_successful_read?.read?.type == "success" && this.last_successful_read?.read?.angle == read.angle) {
             this.state.set({
               angle: read.angle,
-              spinning: false
+              state: "normal",
             })
             this.ticks_since_stationary = 0
           } else {
@@ -1131,7 +1188,7 @@ export namespace CompassReader {
             if (this.ticks_since_stationary > 2) {
               this.state.set({
                 angle: null,
-                spinning: true
+                state: "spinning"
               })
             }
           }
@@ -1149,7 +1206,7 @@ export namespace CompassReader {
 
         const state = this.state.value()
 
-        if (state.spinning) {
+        if (state.state == "spinning") {
           text = "Spinning"
         } else if (state.angle != null) {
           text = `${radiansToDegrees(state.angle).toFixed(this.disable_calibration ? 3 : 1)}°`

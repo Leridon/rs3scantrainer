@@ -884,12 +884,10 @@ class CompassSettingsEdit extends Widget {
       .setValue(this.value.show_method_preview_of_secondary_solutions), "left", 1)
     this.layout.paragraph("Shows method previews for all remaining candidates if only a few candidates remain.")
 
-    /* // Disabled for now
     this.layout.header(new Checkbox("Use previous solution as first triangulation spot")
       .onCommit(v => this.value.use_previous_solution_as_start = v)
       .setValue(this.value.use_previous_solution_as_start), "left", 1)
-    this.layout.paragraph("Uses the solution of the previous clue as the first triangulation spot.")
-    */
+    this.layout.paragraph("Uses the solution of the last clue step as the first triangulation spot for elite compasses.")
 
     this.layout.header("Preconfigured Triangulation Strategy")
 

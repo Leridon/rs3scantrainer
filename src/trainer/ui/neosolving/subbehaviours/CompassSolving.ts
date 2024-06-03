@@ -314,32 +314,17 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
   layer: CompassHandlingLayer
   process: CompassReader.Service
 
-  private preconfigured_sequence: CompassSolving.TriangulationPreset = null
-
   // Variables defining the state machine
   entry_selection_index: number = 0
   entries: CompassSolving.Entry[] = []
   selected_spot = observe<CompassSolving.SpotData>(null)
-
-  private readonly debug_solution: TileCoordinates
 
   constructor(parent: NeoSolvingBehaviour, public clue: Clues.Compass, public reader: CompassReader) {
     super(parent)
 
     this.settings = deps().app.settings.settings.solving.compass
 
-    const preconfigured_id = this.settings.active_triangulation_presets.find(p => p.compass_id == clue.id)?.preset_id
-
-    if (preconfigured_id != null) {
-      this.preconfigured_sequence = [
-        ...CompassSolving.TriangulationPreset.builtin,
-        ...this.settings.custom_triangulation_presets
-      ].find(p => p.id == preconfigured_id)
-    }
-
     this.spots = clue.spots.map((s, i) => ({spot: s, isPossible: true, spot_id: i}))
-
-    this.debug_solution = clue.spots[lodash.random(0, clue.spots.length)]
 
     this.selected_spot.subscribe((spot, old_spot) => {
       spot?.marker?.setActive(true)
@@ -398,7 +383,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
         C.spacer(),
         inlineimg("assets/icons/reset_nis.png").addClass("ctr-clickable")
           .on("click", async () => {
-            this.reset()
+            this.reset(true)
           })
           .tooltip("Reset compass solver."),
         inlineimg("assets/icons/settings.png").addClass("ctr-clickable")
@@ -581,7 +566,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     this.selected_spot.set(spot)
 
     if (set_as_solution && set_as_solution) {
-      this._state.solution_area = digSpotArea(spot.spot)
+      this.registerSolution(digSpotArea(spot.spot))
     }
   }
 
@@ -636,12 +621,10 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       this.setSelectedSpot(null, false)
     }
 
-    // TODO: Set solution area
-
     if (possible.length <= 5) {
       const area = TileRectangle.extend(TileRectangle.from(...possible.map(s => s.spot)), 1)
 
-      this._state.solution_area = TileArea.fromRect(area)
+      this.registerSolution(TileArea.fromRect(area))
     }
 
     // Selected spot and possibilities have been updated, update the preview rendering of methods for spots that are possible but not the most likely.
@@ -805,25 +788,30 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
    *
    * @private
    */
-  private async reset() {
+  private async reset(only_use_previous_solution_if_existed_previously: boolean = false) {
+    this.settings = deps().app.settings.settings.solving.compass
+
     this.entries.forEach(e => e.widget?.remove())
+
+    const had_previous_solution = this.entries.some(e => e.is_solution_of_previous_clue)
 
     this.entries = []
 
-    if (this.settings.use_previous_solution_as_start) {
+    if (this.settings.use_previous_solution_as_start && (had_previous_solution || !only_use_previous_solution_if_existed_previously)) {
       (() => {
-        //return // Currently disabled because it's broken
-
         if (this.clue.id != gielinor_compass.id) return
 
         const assumed_position_from_previous_clue = this.parent.getAssumedPlayerPositionByLastClueSolution()
 
-        if (assumed_position_from_previous_clue) return
+        if (!assumed_position_from_previous_clue) return
 
         const size = activate(assumed_position_from_previous_clue).size
 
         // Only use positions that are reasonably small
-        if (Vector2.max_axis(size) > 64) return
+        if (Vector2.max_axis(size) > 64) {
+          console.log(`Not using previous solution because solution area is too large (${size.x} x ${size.y})`)
+          return
+        }
 
         if (!Rectangle.containsRect(this.clue.valid_area, TileArea.toRect(assumed_position_from_previous_clue))) return
 
@@ -1182,7 +1170,7 @@ export namespace CompassSolving {
       if (![true, false].includes(settings.use_previous_solution_as_start)) settings.use_previous_solution_as_start = DEFAULT.use_previous_solution_as_start
       if (![true, false].includes(settings.show_method_preview_of_secondary_solutions)) settings.show_method_preview_of_secondary_solutions = DEFAULT.show_method_preview_of_secondary_solutions
 
-      settings.use_previous_solution_as_start = false // Options disabled for now because it doesn't work reliably
+      //settings.use_previous_solution_as_start = false // Options disabled for now because it doesn't work reliably
 
       return settings
     }

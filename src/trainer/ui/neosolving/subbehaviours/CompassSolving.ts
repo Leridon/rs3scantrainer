@@ -44,6 +44,7 @@ import inlineimg = C.inlineimg;
 import count = util.count;
 import gielinor_compass = clue_data.gielinor_compass;
 import digSpotArea = Clues.digSpotArea;
+import vbox = C.vbox;
 
 class CompassHandlingLayer extends GameLayer {
   private lines: {
@@ -382,18 +383,30 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
   renderWidget() {
     this.parent.layer.compass_container.empty()
 
-    const container = hbox().appendTo(this.parent.layer.compass_container)
+    const container = vbox().appendTo(this.parent.layer.compass_container)
 
     cls("ctr-neosolving-compass-solving-header")
       .append(
         inlineimg("assets/icons/arrow.png").tooltip("Compass Solver"),
+        "Compass Solver",
+        /*inlineimg("assets/icons/info_nis.png").addClass("ctr-clickable")
+          .css("height", "1em")
+          .css("margin-left", "4px")
+          .on("click", async () => {
+
+          }),*/
         C.spacer(),
+        inlineimg("assets/icons/reset_nis.png").addClass("ctr-clickable")
+          .on("click", async () => {
+            this.reset()
+          })
+          .tooltip("Reset compass solver."),
         inlineimg("assets/icons/settings.png").addClass("ctr-clickable")
           .on("click", async () => {
             const result = await new SettingsModal("compass").do()
 
             if (result.saved) this.settings = result.value.solving.compass
-          })
+          }),
       )
       .appendTo(container)
 
@@ -787,29 +800,15 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     }
   }
 
-  protected async begin() {
-    this.layer = new CompassHandlingLayer(this)
-    this.parent.layer.add(this.layer)
+  /**
+   * Resets triangulation to a state as if the compass solver has just been started.
+   *
+   * @private
+   */
+  private async reset() {
+    this.entries.forEach(e => e.widget?.remove())
 
-    this.process.run()
-
-    this.parent.app.main_hotkey.subscribe(0, e => {
-      console.log("Hotkey in Compass solving")
-      if (e.text) {
-        const matched_teleport = findBestMatch(CompassSolving.teleport_hovers, ref => stringSimilarity(e.text, ref.expected), 0.9)
-
-        if (matched_teleport) {
-          const tele = TransportData.resolveTeleport(matched_teleport.value.teleport_id)
-          if (!tele) return
-          this.registerSpot(tele, false)
-        }
-      } else {
-        this.commit(undefined, true)
-      }
-    }).bindTo(this.handler_pool)
-
-    this.renderWidget()
-
+    this.entries = []
 
     if (this.settings.use_previous_solution_as_start) {
       (() => {
@@ -875,6 +874,32 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
       this.updatePossibilities(true)
     }
+  }
+
+  protected async begin() {
+    this.layer = new CompassHandlingLayer(this)
+    this.parent.layer.add(this.layer)
+
+    this.process.run()
+
+    this.parent.app.main_hotkey.subscribe(0, e => {
+      console.log("Hotkey in Compass solving")
+      if (e.text) {
+        const matched_teleport = findBestMatch(CompassSolving.teleport_hovers, ref => stringSimilarity(e.text, ref.expected), 0.9)
+
+        if (matched_teleport) {
+          const tele = TransportData.resolveTeleport(matched_teleport.value.teleport_id)
+          if (!tele) return
+          this.registerSpot(tele, false)
+        }
+      } else {
+        this.commit(undefined, true)
+      }
+    }).bindTo(this.handler_pool)
+
+    this.renderWidget()
+
+    await this.reset()
   }
 
   protected end() {

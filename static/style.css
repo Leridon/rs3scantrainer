@@ -2258,14 +2258,14 @@ input[type=checkbox] + span {
 
 .ctr-neosolving-compass-solving-header > img {
     display: block;
-    margin: auto;
+    margin: auto 2px;
 }
 
 .ctr-neosolving-compass-solving-header {
-    border-right: 1px dashed gray;
+    border-bottom: 1px dashed gray;
     font-weight: bold;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     text-align: center;
     padding: 1px;
 }

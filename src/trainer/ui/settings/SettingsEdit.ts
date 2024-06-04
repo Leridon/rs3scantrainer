@@ -884,11 +884,6 @@ class CompassSettingsEdit extends Widget {
       .setValue(this.value.show_method_preview_of_secondary_solutions), "left", 1)
     this.layout.paragraph("Shows method previews for all remaining candidates if only a few candidates remain.")
 
-    this.layout.header(new Checkbox("Use previous solution as first triangulation spot")
-      .onCommit(v => this.value.use_previous_solution_as_start = v)
-      .setValue(this.value.use_previous_solution_as_start), "left", 1)
-    this.layout.paragraph("Uses the solution of the last clue step as the first triangulation spot for elite compasses.")
-
     this.layout.header("Preconfigured Triangulation Strategy")
 
     this.layout.paragraph("Preconfigured strategies are used to automatically load triangulation spots whenever you receive a compass clue.")
@@ -1150,6 +1145,16 @@ class CompassSettingsEdit extends Widget {
         })
       )
     }
+
+    this.layout.header(new Checkbox("Use solution of previous clue")
+      .onCommit(v => this.value.use_previous_solution_as_start = v)
+      .setValue(this.value.use_previous_solution_as_start), "left", 1)
+    this.layout.paragraph("Uses the solution of the last clue step as the first triangulation spot for elite compasses.")
+
+    this.layout.header(new Checkbox("Invert preset sequence")
+      .onCommit(v => this.value.invert_preset_sequence_if_previous_solution_was_used = v)
+      .setValue(this.value.invert_preset_sequence_if_previous_solution_was_used), "left", 1)
+    this.layout.paragraph("When active, the preset triangulation sequence is inverted when the solution of the previous clue step is used to draw an initial arrow. This is useful when your triangulation strategy ends somewhere that provides access to useful teleports, such as spirit trees at South Feldip Hills.")
 
     this.layout.header("Manual Tile Selection Inaccuracy", "left", 1)
     this.layout.paragraph("Choose how accurate your manual spot selection when you click the map should be assumed to be. 1 considers your selection to be precisely the tile you stand on, higher values leave more room for error. This does not apply to tiles selected as part of a preconfigured strategy.")

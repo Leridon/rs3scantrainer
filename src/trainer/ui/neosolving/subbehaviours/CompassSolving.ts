@@ -772,7 +772,6 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     if (!is_compass_solution) entry.is_solution_of_previous_clue = undefined
 
-
     entry.widget.render()
 
     const state = this.process.state()
@@ -828,6 +827,8 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       })()
     }
 
+    const previous_solution_used = !!this.entries[0]?.is_solution_of_previous_clue
+
     const preconfigured_id = this.settings.active_triangulation_presets.find(p => p.compass_id == this.clue.id)?.preset_id
 
     const preconfigured_sequence = [
@@ -836,7 +837,13 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     ].find(p => p.id == preconfigured_id)
 
     if (preconfigured_sequence) {
-      preconfigured_sequence.sequence.forEach(e => {
+
+      const sequence =
+        (previous_solution_used && this.settings.invert_preset_sequence_if_previous_solution_was_used)
+          ? [...preconfigured_sequence.sequence].reverse()
+          : preconfigured_sequence.sequence
+
+      sequence.forEach(e => {
         const spot = e.teleport
           ? TransportData.resolveTeleport(e.teleport)
           : activate(TileArea.init(e.tile))
@@ -859,7 +866,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       })
     }
 
-    if (this.entries[0]?.is_solution_of_previous_clue) {
+    if (previous_solution_used) {
       await this.commit(this.entries[0])
     } else {
       this.setSelection(this.entries.findIndex(e => !e.information))
@@ -1072,7 +1079,8 @@ export namespace CompassSolving {
     custom_triangulation_presets: TriangulationPreset[],
     manual_tile_inaccuracy: number,
     use_previous_solution_as_start: boolean,
-    show_method_preview_of_secondary_solutions: boolean
+    show_method_preview_of_secondary_solutions: boolean,
+    invert_preset_sequence_if_previous_solution_was_used: boolean,
   }
 
   export type TriangulationPreset = {
@@ -1161,6 +1169,7 @@ export namespace CompassSolving {
       manual_tile_inaccuracy: 3,
       use_previous_solution_as_start: false,
       show_method_preview_of_secondary_solutions: true,
+      invert_preset_sequence_if_previous_solution_was_used: false
     }
 
     export function normalize(settings: Settings): Settings {
@@ -1173,6 +1182,7 @@ export namespace CompassSolving {
       if (typeof settings.manual_tile_inaccuracy != "number") settings.manual_tile_inaccuracy = DEFAULT.manual_tile_inaccuracy
       if (![true, false].includes(settings.use_previous_solution_as_start)) settings.use_previous_solution_as_start = DEFAULT.use_previous_solution_as_start
       if (![true, false].includes(settings.show_method_preview_of_secondary_solutions)) settings.show_method_preview_of_secondary_solutions = DEFAULT.show_method_preview_of_secondary_solutions
+      if (![true, false].includes(settings.invert_preset_sequence_if_previous_solution_was_used)) settings.show_method_preview_of_secondary_solutions = DEFAULT.invert_preset_sequence_if_previous_solution_was_used
 
       //settings.use_previous_solution_as_start = false // Options disabled for now because it doesn't work reliably
 

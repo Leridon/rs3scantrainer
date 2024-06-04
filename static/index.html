@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="utf-8" />
     <title>Clue Trainer</title>
 
+    <!--
     <script>
         function fallBackJQuery() {
             var s = document.createElement("script");
             s.type = "text/javascript";
-            s.src = 'libs/jquery-3.6.4.min.js';
+            s.src = 'libs/jquery-3.7.1.min.js';
             document.getElementsByTagName("head")[0].prepend(s);
         }
     </script>
     <script
-            src="https://code.jquery.com/jquery-3.6.4.min.js"
+            src="https://code.jquery.com/jquery-3.7.1.min.js"
             crossorigin="anonymous"
             onerror="fallBackJQuery();"
-    ></script>
+    ></script>-->
 
     <link rel="icon" href="favicon.ico">
 
@@ -36,202 +38,7 @@
 <body class="nis" style="display: flex; flex-direction: column">
 
 <div id="main-content" style="display: flex; flex-direction:row; flex-grow: 1">
-    <div class="split-screen" style="max-width: 400px;">
-        <div id="cluesearchpanel">
 
-            <div class="flex-fill" style="display: flex; flex-direction: row; margin-top: 6px">
-                <div class="search-container" style="flex-grow: 1">
-                    <input id="cluesearchbox" type="text" class="nisinput" spellcheck="false"
-                           placeholder="Search Clues...">
-
-                    <div id="searchresults">
-
-                    </div>
-                </div>
-
-                <div id="menubarcontrols" style="display: flex; overflow: hidden">
-                    <div class="nissmallimagebutton togglebutton menubarbutton" id="filtertoggle" title="Filters">
-                        <img src="assets/icons/filter.png">
-                    </div>
-
-                    <div class="nissmallimagebutton togglebutton menubarbutton" id="lockbutton"
-                         title="Automatically solve clues" style="margin-left: 6px">
-                        <img src="assets/icons/lockedglass.png">
-                    </div>
-
-                    <div class="nissmallimagebutton menubarbutton" id="solvebutton" title="Solve"
-                         style="margin-left: 6px">
-                        <img src="assets/icons/glass.png">
-                    </div>
-
-                    <div class="nissmallimagebutton menubarbutton" id="settingsbutton" title="Setting">
-                        <img src="assets/icons/settings.png">
-                    </div>
-
-                    <div class="nissmallimagebutton menubarbutton" id="infobutton" title="About">
-                        <img src="assets/icons/info.png" class="inline-img">
-                    </div>
-                </div>
-            </div>
-
-            <div id="filters" class="panel">
-                <span class="paneltitle">Filters</span>
-
-                <div class="row">
-                    <div class="col-2">
-                        Tier
-                    </div>
-                    <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton togglebutton" data-tier="easy"
-                             title="Easy clues">
-                            <img src="">
-                        </div>
-                    </div>
-                    <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton togglebutton" data-tier="medium"
-                             title="Medium clues">
-                            <img src="">
-                        </div>
-                    </div>
-                    <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton togglebutton" data-tier="hard"
-                             title="Hard clues">
-                            <img src="">
-                        </div>
-                    </div>
-                    <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton togglebutton" data-tier="elite"
-                             title="Elite clues">
-                            <img src="">
-                        </div>
-                    </div>
-                    <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton togglebutton" data-tier="master"
-                             title="Master clues">
-                            <img src="">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-2 ">
-                        Type
-                    </div>
-                    <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton togglebutton" data-type="simple"
-                             title="Simple clues">
-                            <img src="">
-                        </div>
-                    </div>
-                    <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton togglebutton" data-type="cryptic"
-                             title="Cryptic clues">
-                            <img src="">
-                        </div>
-                    </div>
-                    <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton togglebutton" data-type="anagram"
-                             title="Anagram clues"
-                        >
-                            <img src="">
-                        </div>
-                    </div>
-                    <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton togglebutton" data-type="emote"
-                             title="Emote clues">
-                            <img src="">
-                        </div>
-                    </div>
-                    <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton togglebutton" data-type="coordinates"
-                             title="Coordinate clues">
-                            <img src="">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-2">
-
-                    </div>
-                    <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton togglebutton" data-type="image"
-                             title="Map clues">
-                            <img src="">
-                        </div>
-                    </div>
-                    <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton togglebutton" data-type="scan"
-                             title="Scan clues">
-                            <img src="">
-                        </div>
-                    </div>
-                    <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton togglebutton" data-type="compass"
-                             title="Compass clues">
-                            <img src="">
-                        </div>
-                    </div>
-                    <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton togglebutton" data-type="skilling"
-                             title="Skilling clues">
-                            <img src="">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="sidebar-panels">
-            <div id="clue-panel" class="panel">
-                <div style="display: flex">
-                    <span class="paneltitle" id="clue-panel-title">Clue</span>
-                    <span class="flex-grow-1"></span>
-                    <img id="activecluetier" src="" class="icon">
-                    <img id="activecluetype" src="" class="icon flex-ri">
-                </div>
-                <span id="cluetext"></span>
-            </div>
-
-            <div id="solution-panel" class="panel">
-                <div class="paneltitle">Solution</div>
-                <span id="cluesolutioncontent"></span>
-            </div>
-
-            <div id="method-panel" class="panel">
-                <div style="display: flex">
-                    <span class="paneltitle">Method</span>
-                    <span class="flex-grow-1"></span>
-                    <span id="methodexplanation" class="img-button">
-                        <img src="assets/icons/info.png" class="inline-img">
-                    </span>
-                </div>
-
-                <div class="cluemethodcontent" data-methodsection="scantree">
-                    <nav style="--bs-breadcrumb-divider: '>'; display: inline-block" aria-label="breadcrumb">
-                        <ol class="breadcrumb" id="pathview">
-                        </ol>
-                    </nav>
-                    <br>
-
-                    <div class="nextstep">Next: <span id="nextscanstep"></span></div>
-                    <div id="scantreeview">
-
-                    </div>
-                </div>
-
-                <div class="cluemethodcontent" data-methodsection="scanedit">
-                </div>
-            </div>
-
-            <div id="my-player"></div>
-        </div>
-    </div>
-
-    <div class="verticalsep"></div>
-
-    <div class="split-screen">
-        <div id="map"></div>
-    </div>
 </div>
 
 <!-- Modals -->
@@ -310,88 +117,6 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal-about" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5">About Scan Trainer</h1>
-
-                <div class="icon-button modal-exit exit-button" data-bs-dismiss="modal" aria-label="Close"></div>
-            </div>
-            <div class="modal-body">
-                <p>
-                    Scan trainer is being developed by Leridon (RSN Zyklop Marco) over at <a
-                        href="https://github.com/Leridon/rs3scantrainer">GitHub</a>.
-                    Join <a href="https://discord.gg/cluechasers"><img src="assets/icons/cluchasers.png"
-                                                                       class="inline-img"> Clue Chasers</a> on discord,
-                    where conversation about
-                    this plugin takes place in <a
-                        href="https://discord.com/channels/332595657363685377/1103737270114209825">#scan-trainer</a>.
-                </p>
-
-                <p>
-                    Current version: <span id="current-version"></span> <sup><a href="javascript:;" id="viewpatchnotes">View
-                    patchnotes</a></sup>
-                </p>
-
-                <h2>Credits</h2>
-
-                <p>
-                    This project would not be possible without the work of Skillbert on <a
-                        href="https://www.runeapps.org">runeapps.org</a> and the Alt1 toolkit.
-                    This software also includes code from Alt1's official clue solver with kind permission from
-                    Skillbert.
-                </p>
-                <p>
-                    The methods included in this plugin are based on the collective knowledge of the Clue Chasers
-                    discord, especially on Fiery's guide on efficient scan routes.
-                </p>
-
-                <p>
-                    Icons and other assets used are owned by Jagex Ltd. and their use is intended to fall under fair
-                    dealing as a fan project.
-                </p>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modal-public-beta" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5">Beta Notice</h1>
-
-                <div class="icon-button modal-exit exit-button" data-bs-dismiss="modal" aria-label="Close"></div>
-            </div>
-            <div class="modal-body">
-                <p>
-                    <b>This is a public beta release.</b>
-                    I am still experimenting with the way routes are presented and how the app is interacted with.
-                    Expect bugs, unintuitive and changing behaviour.
-                </p>
-
-                <p>
-                    Scan trainer is being developed by Leridon (RSN Zyklop Marco) over at <a
-                        href="https://github.com/Leridon/rs3scantrainer">GitHub</a>.
-                    Join <a href="https://discord.gg/cluechasers"><img src="assets/icons/cluchasers.png"
-                                                                       class="inline-img"> Clue Chasers</a> on discord,
-                    where conversation about
-                    this plugin takes place in <a
-                        href="https://discord.com/channels/332595657363685377/1103737270114209825">#scan-trainer</a>.
-                </p>
-
-            </div>
-
-            <div class="modal-footer align-content-center">
-                <div class="btn-nis" id="beta-notice-dismiss" data-bs-dismiss="modal">I understand, don't show again.
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="modal fade" id="modal-patchnotes" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -411,7 +136,7 @@
                 <div class="patchnotesection" data-patchnotes="b0.3.1">
                     <h2>Version b0.3.1 - 2023-06-17</h2>
 
-                    <p>This is a minor patch get some small changes released while working on larger features that will take some time to finish.</p>
+                    <p>This is a minor patch to get some small changes released while working on larger features that will take some time to finish.</p>
 
                     <ul>
                         <li>The marker icon overlaying scan areas to center the scan radius around has been removed to reduce clutter.</li>
@@ -513,57 +238,6 @@
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="modal-export-string" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5">Export</h1>
-
-                <div class="icon-button modal-exit exit-button" data-bs-dismiss="modal" aria-label="Close"></div>
-            </div>
-            <div class="modal-body">
-
-                <p id="modal-export-string-explanation"></p>
-
-                <label style="display: block">
-                    <textarea id="export-modal-text" readonly style="resize: none; width: 100%; height: 20em"
-                              onclick="this.select()" class="nisinput nistext">
-                    </textarea>
-                </label>
-
-                <div style="text-align: center">
-                    <div class="lightbutton" id="modal-export-string-copy">Copy to Clipboard</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modal-import-string" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5">Import</h1>
-
-                <div class="icon-button modal-exit exit-button" data-bs-dismiss="modal" aria-label="Close"></div>
-            </div>
-            <div class="modal-body">
-                <label style="display: block">
-                    <textarea id="import-modal-text" style="resize: none; width: 100%; height: 20em"
-                              onclick="this.select()" class="nisinput nistext"
-                              placeholder="Paste the shareable string here">
-                    </textarea>
-                </label>
-
-                <div style="text-align: center">
-                    <div class="lightbutton" id="modal-import-string-import-button">Import</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 </body>
 </html>

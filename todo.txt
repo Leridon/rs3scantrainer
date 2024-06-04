@@ -1,114 +1,191 @@
+Transport Backlog:
+    Master:
+    (City of Um teleport incantation; not sure if same as tome)
+    (((Runespan portal, runespan pads on high floor to east and then north)))
+    (and the fishing platform and entrana connections as mentioned above)
+    Kag Ship transports
+    Wildy volcano stepping stone and cliff climb
+    ED Chests
+    Dorgesh Khaan: Grapple hooks
+                   Stairs up to the agility arena
+                   Stairs down to both the north east and south west buildings
+   Daemonheim guard to wildy (also ED2 guard)
+    Fort Forinthry gate to that
+    Taverley dungeon ladder to Water obby
+    Boss portal to barrows
+    (add boss portal transport to reaper portal)
+    Stepping stones in the east and maybe also the shilo gate (for comparison)
+    Soul wars portal
+    Shantay Pass
+    Al kharid mine rock climb
+    Death Plateau rock wall climb
+    Memory strand teleports to memorial to Guthix. If you've prestiged Engrams can be used to teleport to the entrance
+    Max Guild  boss portal teleport options + airut peninsula to it
+
+Transport Tooling:
+- Add a way to browse and add custom locs/npcs
+- Actually implement the new prototype parser
+
+Compass solver:
+    - [Postponed] Predicted start spot from last scan position
+    - [Postponed] Chatbox read service to look for sextant message
+    - [Postponed] Fix fight for zoom-authority between compass and path.
+
+In-App Wiki
+    - Compass Explanation
+
+Issues
+    - [Bug, 1] SearchSelection: Very rarely the dropdown remains after the element is already gone
+    - [Bug] Knot reader fails: https://discord.com/channels/332595657363685377/1103737270114209825/1241500553805172898
+    - capturehold failed needs to be handled more gracefully, capture interval needs to be respected
+    - [Bug, 2] Clue Reader Pausing for knots is bad because it unpauses while the animation is happening.
+    - Zoom for long distance transports is still very bad
+
+Path Editor:
+    Custom sized square (to help map distances), purely for theorycrafting
+    Some sort of parallel world method of displaying steps (with non static teleports), if implemented, preferably differentiatable between absolute and relative step instructions
+
+- Scan Tree Solver
+    - Zoom to path is way too far out.
+    - Clicking on a spot on the map needs to do something useful
+
+
+Custom Modal Solution:
+    - It's no coincidence that bs is short for both bootstrap and bullshit.
+    - Implement a custom solution to show/hide modals, that doesn't have all of the timing bugs bootstrap has
+
+
+
+
+
+
+
+- Solving Behaviour
+    - Path Panel
+        - [Feature] Disable default teleport render when contained in step
+            - Render step instead
+        - [Feature] Cleanup using "fake" steps:
+            - Combine surges/dives following a powerburst into one "fake" step
+            - Duplicate shortcut step to exist in both sections
+            - Combine run followed by shortcut into one
+    - Preferences
+        - Preferred npc spot
+    - Scan Tree Behaviour
+        - Make fit include the entire path
+        - Better render of in-route teleports
+        - Spacing in the tree view is bad
+
+- Performance
+    - [3] Share a quad tree for all game layers. Cull empty branches.
+
+- Scan Editor
+    - [QOL, 2] Include uncertainty from non-static teleports into path analysis
+        - Ability after uncertainty => Error
+        - Dive needs to be possible for all tiles
+    - Improved implicit instructions
+    - [3] Autoname areas
+    - [3] Autonumber spots
+    - Better placement of information marker to guarantee it's always inside the area.
+    - Scale information gain down when zoomed out
+
+- Path Editor
+    - [Feature, 3] Highlight step on hover
+    - Teleports don't use tile areas correctly
+    - [Feature] Check if teleport spot is actually in target area
+    - [Bug] Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflewt-custom-control
+    - [Feature] Check valid access
+
+- Context Menu Builder
+    - Creating context menus currently is a little annoying
+
+- Map Entities
+    - [Feature, 2] Find a way to separate entities on the same tile
+
+- Theorycrafter
+    - Editor for generic path methods
+        - Display Target-Areas and auxiliary stuff (hidey hole) on map
+            - Share with Solver!
+    - Collapsible method pack sections (default|imported|local)
+    - [QOL] Improved Import Modal
+        - Paste or drop file
+        - Show metadata before import
+        - Confirm/Cancel
+    - [Feature] Undo/Redo
+
+- General
+    - [Styling] ControlHeader title and X are not properly aligned
+        - Check modal for how to do it
+    - Clean up cursor on map
+    - Remove old Modals
+        - Patchnotes
+    - Add short summary sentence to update notifications
+    - Use the new ExpansionBehaviour wherever it's applicable
+
+- Data Model
+    - Skilling Clue locations
+    - Sandy clues
+        - Membership only
+
+- Content
+    ✓ Fremmenik Isles
+    ✓ Dorgesh-Kaan
+    ✓ Zanaris
+    ✓ Ardougne
+    - Swamp Caves
+    - Falador
+    - Haunted Woods
+    - Brimhaven
+    - Darkmeyer
+    - Slayer Dungeon
+    - Heart of gielinor
+    - Elven lands
+    - Turtle Islands
+    - Keldagrim
+    - Kharazi Jungle
+    - Menaphos
+    - Mos Le' Harmless
+    - Piscatoris
+    - Prif
+    - Taverley Dungeon
+    - Varrock
+    - Deep Wilderness
+    - Wilderness Crater
+
+Content principles:
+    - Less is more for written instructions, let rendered path speak for itself
+    - Prefer easy to identify target tiles
+
 Ready for release:
+- [Presentation] reenable walls on the map.
+- [Tooling, Presentation] Subtle Walkable-Overlay.
+- [Tooling] Add a permanent tile highlight when moving the mouse over the map
+- Lumbridge Caves: A, B and C are at floor 2, not 0. Check whether that checks out ingame
+- Fix floor of Dorgesh Khaan spot E
+- Update Deep Wildy Scan/Wilderness Crater
+- Update compass spots from rsmv
+- Have a way to directly link to a given clue and its method with query parameters.
+- Shortcut editor
+- The internal datastructure for clues has been revamped and now includes more detail about the individual steps.
+- OverviewLayer/theorycrafter
+    - You can edit methods locally, share them as content packs.
 
-Planned for next release (b0.4):
-- [How] Detailled pathing
-    - Model what kinds of actions a past can consist of
-    - Define a graphical representation for each one.
-    - Add an editor/Unified way to show paths
-
+RELEASE 1.0
+- Auto read pulses
 - [Tech] Overlay pathing into the game.
     - If this works, it is HUGE. Idea: Fix Camera distance and height by zooming out and clicking the compass, then calibrate camera transform using a suitable environment, Falador party room might actually be great.
     - Player position is input explicitly by placing a marker on the map.
     - This should be enough to draw polygons into the world as long as the camera height is not modified.
     - Yaw can be read by the compass on the minimap.
+    - Camera orientation/position: Developer console 'getcamerapos'.
+      Format:  floor,chunkx,chunkz,subx,subz
 
-- [What] Add explanations describing the exact spot (Superscript Question Mark maybe?)
 
-- Settings modal
-    - Local methods
-    - Teleport settings
-- Support for multiple methods
-
-- [Tooling, Presentation] Subtle Walkable-Overlay (Figure out data source).
+Unscheduled (Post launch, if ever):
+- Track Jacket/Backpack Charges via Chat, display them as a permanent overlay
+- Totem reminder
+- Verified speedrunning
 - [What] Incorporate jacket/backpack recommmendations
-- [Tooling] Styling pass over the scan editor
-    - Tree as a table
-    - Disable info buttons that leave 0 candidates
-    - Better placement of information marker to guaranteee it's always inside the area.
-    - Scale information gain down when zoomed out
-
-RELEASE 1.0
-- Finish all elite/master scans
-- Setting menu
-    - Teleports
-        - Fairy Ring Favorites
-        - POTA
-        - Camelot, Watchtower, Varrock alternatives
-
-Unscheduled:
-- Scale teleports with zoom
-- Integrate a solving method for compasses. (This is important because having both solvers open takes up too much screen.)
+- Add some kind of discord integration with Fairy Nuff (Mike, if you stumble upon this: I have some ideas :) )
 - Better algorithm to combine equivalence classes.
 - Better algorithm to construct polygon for equivalence class (with hole support).
-- Some weird stuff happens when jumping to a decision point and then manually changing the decisions. (Could not reproduce when trying to fix)
-- Arrow key/enter control for the search.
-- Collapsible panels
-- Add puzzle solvers
-- Add methods for remaining clue types.
 - Warn when not using meerkats
-- Track Jacket/Backpack Charges via Chat.
-- Locally saved methods
-- Apply information theory and equivalence classes from scans also to compasses.
-- Figure out z-Ordering of layers (need to use panes maybe)
-- Assign clue tiers to remaining clues
-- Figure out how to handle clues with different solutions depending on game progress.
-- Google Maps like layout for a slimmer experience? Make the map be the center of everything
-
-Rechecked
-- Lumbdridge
-- Varrock
-- Falador
-- Keldagrim
-- Ardounge
-- Zanaris
-- Taverley
-- Dorgesh-Kaan
-- Fremennik Isles
-- Piscatoris
-- Haunted Woods
-- Menaphos
-- Desert
-- Fremennik Slayer Dungeon
-
-Next up:
-- Brimhaven
-- Elven Lands
-- Turtle Islands
-- Heart of Gielinor
-- Darkmeyer
-- Prifddinias
-- Kharazi Jungle
-- Mos Le Harmless
-
-Look into https://github.com/mejrs/rs3cache for map data.
-
-Notable feedback to consider:
-
-[23:45]Malinoric: If you're taking feedback, the only problematic locations are places without any buildings as easy reference. Foliage often looks very different between the game visual and what you see on the minimap.
-[23:45]Malinoric: so desert, piscatoris, haunted woods... those places.
-[23:46]Malinoric: kharazi is a particular nightmare, but the positions are a lot more lenient in that case, so it isn't as much of an issue
-
-[03:18]Offline: bit confused, when it says step- (surge), does that mean step and then surge?
-
-then for the double ping, it says (surge) -step south- (surge), does that mean surge, then take 1 step south, then surge once more? maybe it could be separated with commas so its more clear its like a step
-
-the patch notes does note that the zooming when going to next step has changed to include necessary spots, but i think the zoom should also include necessary next steps that dont have a teleport specified
-second picture for example, i dont know where C is, but the map doesnt need to zoom so far to see G because now i know where G is because a teleport is specified
-or for 3rd image i dont know where im diving or surging to, F cant be seen at all
-i see that the plugin works so that you arrive to a step, you see the pings, then click the plugin, then move accordingly
-but the way i use it is that i like to look forward to where i should move and then click the plugin as im arriving
-
-09:25]Offline: I think having an option to go 2 steps ahead might be useful, theres times on the older version where i just dont click the plugin because im moving through the steps rather quickly and then when i get stuck, then i click through whatever steps ive already done
-
-however i think there would have to be more of a distinct separator between ping sections and a section’s future steps
-so maybe indenting the future steps in farther for a better visual, or maybe even adding bullet points so that each section of ping directions has their own bullet points of future steps
-
-as for the blue marker, now that i look at it, it does look like it can be in the way at times, especially on specific tile directions like you said
-sometimes instead of perfectly surging to the next location i just run there because my brain still trying to process next steps and whatnot, so being able to see what exact tile i might need to stand on through the plugin would help
-
-one thing that did come in mind is maybe theres a way you can incorporate a statement that kinda visually describes what to stand near or on… for example maybe for a certain haunted woods step, there could be a tip saying that the next step is 1 step southwest of a nearby mushroom, which iirc step C and F is (just off top of my head)
-or for the second image, it could say something like “dive/surge to B, south of the nearby tree”
-
-also one thing i did remember about is that i think the upstairs portion of dorg was a bit visually confusing (when you option 4 tele to the west) because the map shows upstairs and downstairs
-off top of my head cause im on mobile atm, i think step H was a strip of land that looked like it was right by the bank, so i ended up getting confused if i was supposed to stay upstairs or downstairs for that step
-im not sure if all of the steps relating to dorg orb option4 are upstairs only, but maybe the steps in that table could specify that you would be staying upstairs or noting if/when go downstairs? idk, maybe its a me specific problem

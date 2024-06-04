@@ -3,8 +3,9 @@ import * as OCR from "@alt1/ocr";
 import * as oldlib from "./oldlib";
 import {coldiff} from "../oldlib";
 import {ModalUI} from "./modeluireader";
-import {ClueType, ScanStep} from "../../model/clues";
-import {byType} from "../../data/clues";
+import {byType} from "data/clues";
+import {Clues} from "../../lib/runescape/clues";
+import ScanStep = Clues.ScanStep;
 
 var cluefont = require("./fonts/cluefont.fontmeta.json.js");
 
@@ -118,7 +119,7 @@ export function solvetextclue(cache: ClueCache, imgref: ImgRef, pos: { x: number
 }
 
 function matchimgclue(cache: ClueCache, buf: ImageData): ClueSolution | null {
-	var tiledata = oldlib.tiledata(buf, 20, 20, 90, 25, 300, 240);
+	var tiledata = oldlib.computeImageFingerprint(buf, 20, 20, 90, 25, 300, 240);
 
 	var best: Clue | null = null;
 	var bestscore = Infinity;

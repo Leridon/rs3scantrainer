@@ -1,5 +1,7 @@
 import alt1chain from "@alt1/webpack";
 import * as path from "path";
+import {DefinePlugin, ProvidePlugin} from "webpack";
+import * as process from "process";
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
@@ -23,34 +25,67 @@ config.output(outdir);
 
 let c = config.toConfig()
 
-const is_production = process.env.NODE_ENV == "production"
+const development_mode = process.env.NODE_ENV == "development"
 
 c.plugins = [
-    new CopyWebpackPlugin({
-        patterns: [{
-            from: path.resolve(__dirname, "./static")
-        }]
-    }),
-    new CircularDependencyPlugin({
-        exclude: /a\.js|node_modules/,
-        // include specific files based on a RegExp
-        include: /src/,
-        // add errors to webpack instead of warnings
-        //failOnError: true,
-        // allow import cycles that include an asyncronous import,
-        // e.g. via import( './file.js')
-        allowAsyncCycles: true,
-        // set the current working directory for displaying module paths
-        cwd: process.cwd(),
-    })
+  new CopyWebpackPlugin({
+    patterns: [{
+      from: path.resolve(__dirname, "./static")
+    }]
+  }),
+  new ProvidePlugin({
+    process: 'process/browser',
+    Buffer: ['buffer', 'Buffer']
+  }),
+  new DefinePlugin({
+    'process.env.DEV_MODE': JSON.stringify(development_mode)
+  }),
+  /*
+  new CircularDependencyPlugin({
+      exclude: /a\.js|node_modules/,
+      // include specific files based on a RegExp
+      include: /src/,
+      // add errors to webpack instead of warnings
+      //failOnError: true,
+      // allow import cycles that include an asyncronous import,
+      // e.g. via import( './file.js')
+      allowAsyncCycles: true,
+      // set the current working directory for displaying module paths
+      cwd: process.cwd(),
+  })*/
 ]
 
+if (!c.resolve) c.resolve = {}
+
 c.resolve.fallback = {
-    "timers": false
+  "timers": false,
+  "assert": require.resolve("assert"),
+  "stream": false,
+  "crypto": false,
+  "util": false,
+  "https": false,
+  "http": false,
+  "tls": false,
+  "net": false,
+  "url": false,
+  "zlib": false,
+  "querystring": false,
+  "fs": false,
+  "path": false,
+  "child_process": false,
+  "os": false,
+  "buffer": require.resolve("buffer/")
 }
 
+c.resolve.modules = [
+  path.resolve('./node_modules'),
+  path.resolve('./src')
+]
+
 c.optimization = {
-    minimize: is_production
+  minimize: !development_mode
 }
+
+c.mode = development_mode ? "development" : "production"
 
 export default c

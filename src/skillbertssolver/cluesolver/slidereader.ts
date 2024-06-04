@@ -1,6 +1,4 @@
-import { ImageDetect, ImgRefCtx, ImgRef } from "@alt1/base";
-import * as a1lib from "@alt1/base";
-import { imageDataFromBase64 } from "@alt1/base/dist/imagedetect";
+import { ImgRef } from "@alt1/base";
 import * as defs from "./slidetiles";
 import * as oldlib from "./oldlib";
 
@@ -116,11 +114,12 @@ export class SlideReader {
 
 		return { map, theme };
 	}
+
 	readtile(data: ImageData, x: number, y: number) {
 		var a, vals;
 		var tilelist = this.osrs ? defs.ostiles : defs.tiles;
-		if (this.osrs) { vals = oldlib.tiledata(data, 9, 9, x, y, 36, 36); }
-		else { vals = oldlib.tiledata(data, 12, 12, x, y, 48, 48); }
+		if (this.osrs) { vals = oldlib.computeImageFingerprint(data, 9, 9, x, y, 36, 36); }
+		else { vals = oldlib.computeImageFingerprint(data, 12, 12, x, y, 48, 48); }
 		//if (tiledataname) { tiledata.push({ part: tiledataname + tiledata.length, scores: vals }); }
 		var r: { score: number, part: number, theme: string }[] = [];
 		for (a in tilelist) {

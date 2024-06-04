@@ -1,5 +1,4 @@
-import { ImgRef, RectLike, Rect, ImageDetect } from "@alt1/base";
-import * as a1lib from "@alt1/base";
+import { ImgRef } from "@alt1/base";
 import * as OCR from "@alt1/ocr";
 import { ModalUI } from "./modeluireader";
 
@@ -10,7 +9,7 @@ export default class ClueRewardReader {
 	pos: ModalUI | null = null;
 
 	read(img: ImgRef) {
-		if (!this.pos) { throw new Error("ui not found yet");; }
+		if (!this.pos) { throw new Error("ui not found yet"); }
 		var buf = img.toData(this.pos.rect.x, this.pos.rect.y, this.pos.rect.width, this.pos.rect.height);
 
 		var hash = 0;

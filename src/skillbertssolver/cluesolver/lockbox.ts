@@ -1,8 +1,6 @@
 import * as a1lib from "@alt1/base"
-import * as OCR from "@alt1/ocr/dist/";
 import { webpackImages } from "@alt1/base/dist/imagedetect";
 import { ImgRef } from "@alt1/base";
-import { Grid } from "./towerssolver";
 import { ModalUI } from "./modeluireader";
 
 var imgs = webpackImages({
@@ -25,7 +23,7 @@ export class LockBoxReader {
 	}
 
 	read(img?: ImgRef) {
-		if (!this.pos) { throw new Error("ui not found yet");; }
+		if (!this.pos) { throw new Error("ui not found yet"); }
 		if (!img) { img = this.pos.img; }
 		let rect = this.innerRect()!;
 		var buf = img.toData(rect.x, rect.y, rect.width, rect.height);

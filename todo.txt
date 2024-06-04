@@ -1,4 +1,10 @@
 
+Compass solver:
+    - Predicted start spot from last scan position
+    - Add option to skip triangulation points that are colinear with existing arrows
+    - Clean up settings
+    - [Postponed] Chatbox read service to look for sextant message
+    - [Postponed] Fix fight for zoom-authority between compass and path.
 
 Transport Backlog:
     Master:
@@ -28,10 +34,6 @@ Transport Tooling:
 - Add a way to browse and add custom locs/npcs
 - Actually implement the new prototype parser
 
-Compass solver:
-    - [Postponed] Predicted start spot from last scan position
-    - [Postponed] Chatbox read service to look for sextant message
-    - [Postponed] Fix fight for zoom-authority between compass and path.
 
 In-App Wiki
     - Compass Explanation

@@ -153,7 +153,7 @@ export class CompassReader {
     if (TARGET_X_SAMPLE_OFFSETS.every(coords => {
       const red = getRed(coords.x, coords.y)
 
-      return red >= 90 && red <= 110
+      return red >= 75 && red <= 110
     })) {
       return {type: "likely_solved"}
     }

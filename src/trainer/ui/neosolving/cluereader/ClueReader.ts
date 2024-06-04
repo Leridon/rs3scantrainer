@@ -279,7 +279,7 @@ export class ClueReader {
         const compass_state = reader.getAngle()
 
         if(compass_state?.type == "likely_solved") {
-          console.error("Compass found, but already in solved state.")
+          //console.error("Compass found, but already in solved state.")
           return null
         }
 

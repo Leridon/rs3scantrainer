@@ -39,7 +39,6 @@ import italic = C.italic;
 import activate = TileArea.activate;
 import notification = Notification.notification;
 import DigSolutionEntity = ClueEntities.DigSolutionEntity;
-import hbox = C.hbox;
 import inlineimg = C.inlineimg;
 import count = util.count;
 import gielinor_compass = clue_data.gielinor_compass;
@@ -338,28 +337,27 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
         this.settings.enable_status_overlay
       )
 
-      this.process.closed.on(() => {
-        this.stop()
-      })
+      this.process.onChange((is_state, was_state) => {
+        if (is_state?.state == "closed") {
+          this.stop()
+        } else {
+          if (was_state && this.settings.auto_commit_on_angle_change && is_state.state == "normal") {
+            if (was_state.state == "spinning" ||
+              angleDifference(is_state.angle, was_state.angle) > CompassSolving.ANGLE_CHANGE_COMMIT_THRESHOLD) {
+              this.commit()
+            }
+          }
 
-      this.process.state.subscribe((is_state, was_state) => {
-
-        if (was_state && this.settings.auto_commit_on_angle_change && is_state.state == "normal") {
-          if (was_state.state == "spinning" ||
-            angleDifference(is_state.angle, was_state.angle) > CompassSolving.ANGLE_CHANGE_COMMIT_THRESHOLD) {
-            this.commit()
+          if (is_state) {
+            this.entries.forEach(e => e.widget.setPreviewAngle(is_state?.state == "normal" ? is_state.angle : null))
           }
         }
-
-        if (is_state) {
-          this.entries.forEach(e => e.widget.setPreviewAngle(is_state?.state == "normal" ? is_state.angle : null))
-        }
-      })
+      }, h => h.bindTo(this.handler_pool))
     }
   }
 
   pausesClueReader(): boolean {
-    return this.process && (this.process.last_read?.type == "success" || this.process.last_read?.type == "likely_solved")
+    return this.process && this.process.last_read?.type == "success"
   }
 
   private entry_container: Widget
@@ -471,12 +469,14 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     const index = this.entries.indexOf(entry)
 
     if (index >= 0) {
+      const state = this.process.state()
+
       entry.angle = null
       entry.information = null
       entry.widget.render()
       entry.widget.setPreviewAngle(
-        this.process.last_successful_read?.read?.type == "success"
-          ? this.process.last_successful_read.read.angle
+        state.state == "normal"
+          ? state.angle
           : undefined
       )
 
@@ -503,7 +503,11 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
       angle = res.angle
     } else {
-      angle = this.process.state.value().angle
+      const state = this.process.state()
+
+      if (state.state != "normal") return
+
+      angle = state.angle
     }
 
     const info = Compasses.TriangulationPoint.construct(CompassSolving.Spot.coords(entry.position), angle)
@@ -720,7 +724,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
   }
 
   private createEntry(entry: CompassSolving.Entry): CompassSolving.Entry {
-    const state = this.process.state.value()
+    const state = this.process.state()
 
     entry.widget = new CompassEntryWidget(entry)
       .setPreviewAngle((!state || state.state != "normal") ? null : state.angle)
@@ -771,7 +775,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     entry.widget.render()
 
-    const state = this.process.state.value()
+    const state = this.process.state()
     entry.widget.setPreviewAngle(state?.state != "normal" ? null : state.angle)
 
     if (hadInfo) {

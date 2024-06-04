@@ -37,10 +37,10 @@
   <p align="center">
     An interactive guide and assistant for clue scrolls in RuneScape 3.
    <!-- <br />
-    <a href="https://github.com/leridon/rs3scantrainer"><strong>Explore the docs »</strong></a>
+    <a href="https://cluetrainer.app"><strong>Explore the docs »</strong></a>
     <br />-->
     <br />
-    <a href="https://leridon.github.io/rs3scantrainer/">Web Version and Installation</a>
+    <a href="https://cluetrainer.app">Web Version and Installation</a>
     ·
     <a href="#support-and-feedback">Report Bug</a>
     ·
@@ -92,8 +92,8 @@ Some Highlights:
 ### Installation
 
 1. Make sure you have the Alt1 toolkit installed. Alt1 can only be downloaded legitimately from [runeapps.org](https://runeapps.org/).
-2. Visit the [Web Version](https://leridon.github.io/rs3scantrainer/) to access some of Clue Trainer's features or install it using the links provided there.
-3. Alternatively, open `alt1://addapp/https://leridon.github.io/rs3scantrainer/appconfig.json` in your browser or visit `https://leridon.github.io/rs3scantrainer/` in Alt1's included browser.
+2. Visit the [Web Version](https://cluetrainer.app) to access some of Clue Trainer's features or install it using the links provided there.
+3. Alternatively, open `alt1://addapp/https://cluetrainer.app/appconfig.json` in your browser or visit https://cluetrainer.app in Alt1's included browser.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

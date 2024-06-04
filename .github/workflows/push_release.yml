@@ -24,7 +24,12 @@ jobs:
           npm ci
           npm run build-production
 
-      - name: Deploy 🚀
+      - name: Deploy development preview
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist # The folder the action should deploy.
+
+      - name: Deploy cluetrainer.app
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: dist # The folder the action should deploy.
@@ -32,4 +37,6 @@ jobs:
           branch: main
           repository-name: Leridon/cluetrainer-live
           clean: true
-          tag: release-${{env.VERSION}}-${{github.run_id}}
+          clean-exclude: |
+            CNAME
+          tag: build-${{github.run_id}}

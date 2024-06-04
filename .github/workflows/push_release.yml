@@ -37,6 +37,8 @@ jobs:
           branch: main
           repository-name: Leridon/cluetrainer-live
           clean: true
+          force: true
+          single-commit: true
           clean-exclude: |
             CNAME
           tag: build-${{github.run_id}}

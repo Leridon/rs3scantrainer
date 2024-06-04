@@ -213,6 +213,8 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
     const overlap_prevention_map = new Array(25).fill(false)
     overlap_prevention_map[current_blank] = true
 
+    const move_overlays: OverlayGeometry[] = []
+
     for (let i = 0; i < moves.length; ++i) {
       const move = moves[i]
       const real_move = move.clicked_tile - current_blank
@@ -276,24 +278,28 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
           )
         )
 
-        marker_geometry.polyline(points, true, {width: STROKE + 2 * CONTRAST_BORDER, color: CONTRAST_COLOR})
-        marker_geometry.polyline(points, true, {
-            width: STROKE,
-            color: is_recovery_move
-              ? this.settings.color_recovery_move
-              : this.settings.color_mainline_move
-          }
+        move_overlays.push(
+          over()
+            .polyline(points, true, {width: STROKE + 2 * CONTRAST_BORDER, color: CONTRAST_COLOR})
+            .polyline(points, true, {
+                width: STROKE,
+                color: is_recovery_move
+                  ? this.settings.color_recovery_move
+                  : this.settings.color_mainline_move
+              }
+            )
         )
-
       } else {
-        marker_geometry.rect(
-          Rectangle.centeredOn(this.posToScreen(move.clicked_tile), size + CONTRAST_BORDER),
-          {width: STROKE + 2 * CONTRAST_BORDER, color: mixColor(1, 1, 1)}
-        )
-
-        marker_geometry.rect(
-          Rectangle.centeredOn(this.posToScreen(move.clicked_tile), size),
-          {width: STROKE, color: is_recovery_move ? this.settings.color_recovery_move : this.settings.color_mainline_move}
+        move_overlays.push(
+          over()
+            .rect(
+              Rectangle.centeredOn(this.posToScreen(move.clicked_tile), size + CONTRAST_BORDER),
+              {width: STROKE + 2 * CONTRAST_BORDER, color: mixColor(1, 1, 1)}
+            )
+            .rect(
+              Rectangle.centeredOn(this.posToScreen(move.clicked_tile), size),
+              {width: STROKE, color: is_recovery_move ? this.settings.color_recovery_move : this.settings.color_mainline_move}
+            )
         )
       }
 
@@ -328,6 +334,8 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
 
       last_size = size
     }
+
+    marker_geometry.add(...move_overlays.reverse())
 
     this.move_overlay.add(marker_geometry)
 

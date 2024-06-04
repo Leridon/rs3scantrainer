@@ -42,6 +42,7 @@ Issues
     - capturehold failed needs to be handled more gracefully, capture interval needs to be respected
     - [Bug, 2] Clue Reader Pausing for knots is bad because it unpauses while the animation is happening.
     - Zoom for long distance transports is still very bad
+    - [Bug, 4] Selecting another method while a scan tree method is active glitches
 
 Path Editor:
     Custom sized square (to help map distances), purely for theorycrafting

@@ -132,7 +132,7 @@ export default class Widget<T extends HTMLElement = HTMLElement> {
     return this
   }
 
-  addTippy(tooltip: Widget, options: Partial<tippy.Props> = {}): this {
+  addTippy(tooltip: Appendable, options: Partial<tippy.Props> = {}): this {
     tippy.default(this.raw(), {
       content: c("<div class='ctr-entity-tooltip'></div>").append(tooltip).raw(),
       arrow: true,

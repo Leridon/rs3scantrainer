@@ -464,10 +464,6 @@ video {
     margin-right: 0.5em;
 }
 
-#curtain {
-    background: url("assets/nis/background.png");
-}
-
 .text-icon {
     height: 1.3em;
     margin: auto 3px;
@@ -2324,4 +2320,8 @@ input[type=checkbox] + span {
 .ctr-assumption-icon {
     height: 1.3em;
     margin: auto 0;
+}
+
+.nis-settings-edit-separator {
+    border-bottom: 1px dotted var(--nisl-input-border-color);
 }

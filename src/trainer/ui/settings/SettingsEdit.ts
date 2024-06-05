@@ -52,6 +52,42 @@ import spacer = C.spacer;
 import TeleportGroup = Transportation.TeleportGroup;
 import span = C.span;
 import greatestCommonDivisor = util.greatestCommonDivisor;
+import Appendable = C.Appendable;
+import {ExportImport} from "../../../lib/util/exportString";
+import exp = ExportImport.exp;
+
+class SettingsLayout extends Properties {
+  constructor() {super();}
+
+  private separator(): this {
+    this.row(cls("nis-settings-edit-separator"))
+
+    return this
+  }
+
+  setting(header: Appendable, explanation: Appendable = undefined): this {
+    this.header(hboxl(header, SettingsLayout.info(explanation)), "left", 1)
+
+    return this
+  }
+
+  section(name: string, explanation: Appendable = undefined) {
+    if (this.container.children().length > 0) {
+      this.separator()
+    }
+
+    this.header(hbox(name, SettingsLayout.info(explanation)))
+  }
+}
+
+namespace SettingsLayout {
+
+  export function info(explanation: Appendable): Widget {
+    if (!explanation) return undefined
+
+    return inlineimg("assets/icons/info_nis.png").css("height", "1em").addTippy(explanation)
+  }
+}
 
 class SectionControl<id_type extends string = string> extends Widget {
   menu_bar: Widget
@@ -855,13 +891,13 @@ class CrowdSourcingSettingsEdit extends Widget {
 
 class CompassSettingsEdit extends Widget {
 
-  private layout: Properties
+  private layout: SettingsLayout
   private active_preset: CompassSolving.TriangulationPreset | null = null
 
   constructor(private value: CompassSolving.Settings) {
     super()
 
-    this.layout = new Properties().appendTo(this)
+    this.layout = new SettingsLayout().appendTo(this)
 
     this.render()
   }
@@ -869,24 +905,35 @@ class CompassSettingsEdit extends Widget {
   render() {
     this.layout.empty()
 
-    this.layout.header(new Checkbox("Automatically commit angle on teleport")
-      .onCommit(v => this.value.auto_commit_on_angle_change = v)
-      .setValue(this.value.auto_commit_on_angle_change), "left", 1)
-    this.layout.paragraph("When active, the next triangulation line is automatically drawn when the compass angle changes by more than 10° at once. This is the default behaviour in Alt1's built-in clue solver.")
+    this.layout.section("General")
 
-    this.layout.header(new Checkbox("Show status overlay")
-      .onCommit(v => this.value.enable_status_overlay = v)
-      .setValue(this.value.enable_status_overlay), "left", 1)
-    this.layout.paragraph("Shows detected angle on top of the compass.")
+    this.layout.setting(new Checkbox("Automatically commit angle on teleport")
+        .onCommit(v => this.value.auto_commit_on_angle_change = v)
+        .setValue(this.value.auto_commit_on_angle_change),
+      "When active, the next triangulation line is automatically drawn when the compass angle changes by more than 4° at once. This is the default behaviour in Alt1's built-in clue solver.")
 
-    this.layout.header(new Checkbox("Show method previews")
-      .onCommit(v => this.value.show_method_preview_of_secondary_solutions = v)
-      .setValue(this.value.show_method_preview_of_secondary_solutions), "left", 1)
-    this.layout.paragraph("Shows method previews for all remaining candidates if only a few candidates remain.")
+    this.layout.setting(new Checkbox("Show status overlay")
+        .onCommit(v => this.value.enable_status_overlay = v)
+        .setValue(this.value.enable_status_overlay),
+      "Shows detected compass angle and other info on top of the compass interface."
+    )
 
-    this.layout.header("Preconfigured Triangulation Strategy")
+    this.layout.setting(new Checkbox("Show method previews")
+        .onCommit(v => this.value.show_method_preview_of_secondary_solutions = v)
+        .setValue(this.value.show_method_preview_of_secondary_solutions),
+      "When active method previews for all remaining candidates are shown after the first triangulation step."
+    )
 
-    this.layout.paragraph("Preconfigured strategies are used to automatically load triangulation spots whenever you receive a compass clue.")
+    this.layout.setting("Manual Tile Selection Inaccuracy", "Choose how accurate your manual spot selection when you click the map should be assumed to be. 1 considers your selection to be precisely the tile you stand on, higher values leave more room for error. This does not apply to tiles selected as part of a preconfigured strategy.")
+    this.layout.row(new NumberSlider(0, 10, 1)
+      .setValue(this.value.manual_tile_inaccuracy)
+      .onCommit(v => this.value.manual_tile_inaccuracy = v)
+    )
+
+
+    this.layout.section("Smart Triangulation", "Configure advanced triangulation behaviour that reduces the need for manual input.")
+
+    this.layout.setting("Triangulation Presets", "Triangulation presets are used to automatically load triangulation spots whenever you receive a compass clue. This skips the need to manually select your teleports repeatedly.")
 
     for (const compass of clue_data.compass) {
       let binding = this.value.active_triangulation_presets.find(p => p.compass_id == compass.id)
@@ -919,9 +966,7 @@ class CompassSettingsEdit extends Widget {
       this.layout.named(hboxl(inlineimg(ClueType.meta(compass.tier).icon_url), lodash.capitalize(compass.tier)), preset_selector)
     }
 
-    this.layout.header("Custom Strategies")
-
-    this.layout.paragraph("Create your own strategies.")
+    this.layout.setting("Custom Presets", "You can create your own triangulation presets if none of the builtin presets fit your needs.")
 
     type T = CompassSolving.TriangulationPreset | "create"
 
@@ -956,7 +1001,7 @@ class CompassSettingsEdit extends Widget {
       })
       .css("flex-grow", "1")
 
-    this.layout.named("Preset", hbox(preset_selector,
+    this.layout.named("Selection", hbox(preset_selector,
         this.active_preset ? NislIcon.delete()
           .withClick(async () => {
 
@@ -1146,21 +1191,22 @@ class CompassSettingsEdit extends Widget {
       )
     }
 
-    this.layout.header(new Checkbox("Use solution of previous clue")
-      .onCommit(v => this.value.use_previous_solution_as_start = v)
-      .setValue(this.value.use_previous_solution_as_start), "left", 1)
-    this.layout.paragraph("Uses the solution of the last clue step as the first triangulation spot for elite compasses.")
+    this.layout.setting(new Checkbox("Use solution of previous clue")
+        .onCommit(v => this.value.use_previous_solution_as_start = v)
+        .setValue(this.value.use_previous_solution_as_start),
+      "When active, the solution of the previous clue step is used as the first triangulation spot and the initially read compass angle is immediately committed. Only applies to elite compasses and only uses the solution of scans if you follow the scan tree to a point where the remaining spots are in a reasonably small rectangle."
+    )
 
-    this.layout.header(new Checkbox("Invert preset sequence")
-      .onCommit(v => this.value.invert_preset_sequence_if_previous_solution_was_used = v)
-      .setValue(this.value.invert_preset_sequence_if_previous_solution_was_used), "left", 1)
-    this.layout.paragraph("When active, the preset triangulation sequence is inverted when the solution of the previous clue step is used to draw an initial arrow. This is useful when your triangulation strategy ends somewhere that provides access to useful teleports, such as spirit trees at South Feldip Hills.")
+    this.layout.setting(new Checkbox("Invert preset sequence")
+        .onCommit(v => this.value.invert_preset_sequence_if_previous_solution_was_used = v)
+        .setValue(this.value.invert_preset_sequence_if_previous_solution_was_used),
+      "When active, the preset triangulation sequence is inverted when the solution of the previous clue step is used to draw an initial arrow. This is useful when your triangulation strategy ends somewhere that provides access to useful teleports, such as spirit trees at South Feldip Hills."
+    )
 
-    this.layout.header("Manual Tile Selection Inaccuracy", "left", 1)
-    this.layout.paragraph("Choose how accurate your manual spot selection when you click the map should be assumed to be. 1 considers your selection to be precisely the tile you stand on, higher values leave more room for error. This does not apply to tiles selected as part of a preconfigured strategy.")
-    this.layout.row(new NumberSlider(0, 10, 1)
-      .setValue(this.value.manual_tile_inaccuracy)
-      .onCommit(v => this.value.manual_tile_inaccuracy = v)
+    this.layout.setting(new Checkbox("Skip colinear triangulation spots")
+        .onCommit(v => this.value.skip_triangulation_point_if_colinear = v)
+        .setValue(this.value.skip_triangulation_point_if_colinear),
+      "When active, preset triangulation spots that are too close to being in-line with a previously drawn triangulation arrow are skipped (unless they are the last one remaining)."
     )
   }
 }

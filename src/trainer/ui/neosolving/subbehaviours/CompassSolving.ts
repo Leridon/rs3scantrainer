@@ -524,6 +524,10 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     await this.updatePossibilities(true)
 
+    if (this.settings.skip_triangulation_point_if_colinear) {
+
+    }
+
     if (!this.entries.some(e => !e.information) && count(this.spots, e => e.isPossible) > 1) {
       this.createEntry({
         position: null,
@@ -534,7 +538,35 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     } else {
       // Advance selection index to next uncommitted entry
       let index = this.entries.indexOf(entry) + 1
-      while (index + 1 < this.entries.length && this.entries[index].information) index++ // TODO: Only select if no colinear any with existing lines?
+      
+      while (index + 1 < this.entries.length && this.entries[index].information) {
+        if (index + 1 >= this.entries.length) break;
+
+        const entry = this.entries[index]
+
+        if (!entry.information) {
+          if (!entry.position || !this.settings.skip_triangulation_point_if_colinear) break
+
+          const spot = CompassSolving.Spot.coords(entry.position)
+
+          const colinear_to_any = this.entries.filter(e => e.information).some(e => {
+            const angle = Compasses.getExpectedAngle(
+              e.information.modified_origin,
+              spot.center(),
+            )
+
+            return Math.min(
+              angleDifference(angle, e.information.angle_radians),
+              angleDifference(angle + Math.PI, e.information.angle_radians),
+            ) < degreesToRadians(10)
+          })
+
+          if (!colinear_to_any) break
+        }
+
+        index++
+      }
+
       this.setSelection(index)
     }
   }
@@ -1081,6 +1113,7 @@ export namespace CompassSolving {
     use_previous_solution_as_start: boolean,
     show_method_preview_of_secondary_solutions: boolean,
     invert_preset_sequence_if_previous_solution_was_used: boolean,
+    skip_triangulation_point_if_colinear: boolean,
   }
 
   export type TriangulationPreset = {
@@ -1169,7 +1202,8 @@ export namespace CompassSolving {
       manual_tile_inaccuracy: 3,
       use_previous_solution_as_start: false,
       show_method_preview_of_secondary_solutions: true,
-      invert_preset_sequence_if_previous_solution_was_used: false
+      invert_preset_sequence_if_previous_solution_was_used: false,
+      skip_triangulation_point_if_colinear: true,
     }
 
     export function normalize(settings: Settings): Settings {
@@ -1183,6 +1217,7 @@ export namespace CompassSolving {
       if (![true, false].includes(settings.use_previous_solution_as_start)) settings.use_previous_solution_as_start = DEFAULT.use_previous_solution_as_start
       if (![true, false].includes(settings.show_method_preview_of_secondary_solutions)) settings.show_method_preview_of_secondary_solutions = DEFAULT.show_method_preview_of_secondary_solutions
       if (![true, false].includes(settings.invert_preset_sequence_if_previous_solution_was_used)) settings.show_method_preview_of_secondary_solutions = DEFAULT.invert_preset_sequence_if_previous_solution_was_used
+      if (![true, false].includes(settings.skip_triangulation_point_if_colinear)) settings.skip_triangulation_point_if_colinear = DEFAULT.skip_triangulation_point_if_colinear
 
       //settings.use_previous_solution_as_start = false // Options disabled for now because it doesn't work reliably
 

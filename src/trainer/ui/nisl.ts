@@ -17,6 +17,11 @@ export class NislIcon extends Widget {
     })
   }
 
+  inline(): this {
+    this.img.addClass("text-icon")
+    return this
+  }
+
   setSource(src: string): this {
     this.url.set(src)
     return this
@@ -38,7 +43,7 @@ export class NislIcon extends Widget {
   }
 
   static info(): NislIcon {
-    return new NislIcon().css("cursor", "help").setSource("assets/icons/info.png")
+    return new NislIcon().css("cursor", "help").setSource("assets/icons/info_nis.png")
   }
 
   static delete(): NislIcon {

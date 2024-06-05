@@ -514,6 +514,9 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     if (!this.spots.some(s => Compasses.isPossible([info], s.spot))) {
       if (is_manual) notification("Refusing to lock in impossible angle.", "error").show()
+
+      console.log(`Cowardly refusing to lock in impossible angle ${radiansToDegrees(info.angle_radians)}° from ${info.modified_origin.x} | ${info.modified_origin.y}`)
+
       return
     }
 

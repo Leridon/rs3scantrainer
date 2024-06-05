@@ -910,7 +910,6 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     this.process.run()
 
     this.parent.app.main_hotkey.subscribe(0, e => {
-      console.log("Hotkey in Compass solving")
       if (e.text) {
         const matched_teleport = findBestMatch(CompassSolving.teleport_hovers, ref => stringSimilarity(e.text, ref.expected), 0.9)
 

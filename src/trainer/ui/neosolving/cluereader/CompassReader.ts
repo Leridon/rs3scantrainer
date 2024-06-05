@@ -291,8 +291,6 @@ export class CompassReader {
       }
     }
 
-    console.log(`Antialiasing: ${antialiasing_detected}`)
-
     if (antialiasing_detected) {
       if (rectangle_samples.length < 400) return {type: "likely_closed", details: `Not enough pixels (${rectangle_samples.length}) sampled for the rectangle sample. [MSAA]`}
       if (rectangle_samples.length < 1700) return {type: "likely_concealed", details: `Not enough pixels (${rectangle_samples.length}) sampled for the rectangle sample. [MSAA]`}

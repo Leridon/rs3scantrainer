@@ -1,6 +1,7 @@
 import Behaviour from "../../../lib/ui/Behaviour";
 import NeoSolvingBehaviour, {NeoSolving} from "./NeoSolvingBehaviour";
 import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
+import {Vector2} from "../../../lib/math";
 
 /**
  * {@link NeoSolvingSubBehaviour}s implement active components for the {@link NeoSolvingBehaviour}.
@@ -23,6 +24,9 @@ export abstract class NeoSolvingSubBehaviour<State extends NeoSolving.ActiveStat
       console.error("Setting solution area with undefined state")
       debugger
     }
+
+    console.log(`Setting solution to ${Vector2.toString(area.origin)}`)
+
     this._state.solution_area = area
   }
 

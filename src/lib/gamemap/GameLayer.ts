@@ -209,14 +209,14 @@ export class GameLayer extends leaflet.FeatureGroup {
     return this.getRoot().active_entity.entity
   }
 
-  async lockEntity(entity: MapEntity): Promise<void> {
+  async lockEntity(entity: MapEntity, follow_cursor: boolean = false): Promise<void> {
     if (this.active_entity.entity) {
       this.active_entity.locked = false
       await this.requestEntityActivation(null)
     }
 
     if (entity) {
-      await this.requestEntityActivation(entity, true)
+      await this.requestEntityActivation(entity, !follow_cursor)
       this.active_entity.locked = true
     }
   }

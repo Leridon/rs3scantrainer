@@ -1,4 +1,22 @@
+**Patch notes: ** More compass improvements!
+- The previously shelved feature to use the solution of the previous clue step has been revisited and is now available.
+    - You can activate it in the compass settings.
+    - If the previous clue step was a scan, this will only work if you followed the scan tree until the remaining spots are in a reasonably small rectangle.
+    - If the previous clue was also a compass and multiple spots were in the intersection of the beams, the smallest rectangle containing all spots will be used.
+    - Your selected triangulation preset will load after this initial arrow. There's an option to invert the sequence if the previous solution is used in case you rely on ending the triangulation at a certain spot (for example south feldip hills for the spirit tree).
+    - There's an option to skip spots of the preset sequence if they are close to co-linear to an existing beam.
+- The settings menu for compasses has been cleaned up. Detailed explanations of the individual settings have been moved into a tooltip of a small info-icon.
+- You can now customize the color of the triangulation beams.
+- The compass solver UI has been restored to a horizontal header and now contains a reset button.
+- Various issues with the compass reader that caused wrong "concealed" readings have been resolved.
+- The compass reader now detects if you are on top of the target spot, which no longer closes the compass solver.
+    - This was a necessary fix to make the solution of the previous clue usable. Before, accidentally moving across the compass stop before digging made the entire thing break.
 
+
+
+Compass solver:
+    - [Postponed] Chatbox read service to look for sextant message
+    - [Postponed] Fix fight for zoom-authority between compass and path.
 
 Transport Backlog:
     Master:
@@ -28,10 +46,6 @@ Transport Tooling:
 - Add a way to browse and add custom locs/npcs
 - Actually implement the new prototype parser
 
-Compass solver:
-    - [Postponed] Predicted start spot from last scan position
-    - [Postponed] Chatbox read service to look for sextant message
-    - [Postponed] Fix fight for zoom-authority between compass and path.
 
 In-App Wiki
     - Compass Explanation
@@ -51,17 +65,12 @@ Path Editor:
 - Scan Tree Solver
     - Zoom to path is way too far out.
     - Clicking on a spot on the map needs to do something useful
+    - Auto read pulses
 
 
 Custom Modal Solution:
     - It's no coincidence that bs is short for both bootstrap and bullshit.
     - Implement a custom solution to show/hide modals, that doesn't have all of the timing bugs bootstrap has
-
-
-
-
-
-
 
 - Solving Behaviour
     - Path Panel
@@ -125,7 +134,6 @@ Custom Modal Solution:
     - Remove old Modals
         - Patchnotes
     - Add short summary sentence to update notifications
-    - Use the new ExpansionBehaviour wherever it's applicable
 
 - Data Model
     - Skilling Clue locations
@@ -161,31 +169,6 @@ Content principles:
     - Less is more for written instructions, let rendered path speak for itself
     - Prefer easy to identify target tiles
 
-Ready for release:
-- [Presentation] reenable walls on the map.
-- [Tooling, Presentation] Subtle Walkable-Overlay.
-- [Tooling] Add a permanent tile highlight when moving the mouse over the map
-- Lumbridge Caves: A, B and C are at floor 2, not 0. Check whether that checks out ingame
-- Fix floor of Dorgesh Khaan spot E
-- Update Deep Wildy Scan/Wilderness Crater
-- Update compass spots from rsmv
-- Have a way to directly link to a given clue and its method with query parameters.
-- Shortcut editor
-- The internal datastructure for clues has been revamped and now includes more detail about the individual steps.
-- OverviewLayer/theorycrafter
-    - You can edit methods locally, share them as content packs.
-
-RELEASE 1.0
-- Auto read pulses
-- [Tech] Overlay pathing into the game.
-    - If this works, it is HUGE. Idea: Fix Camera distance and height by zooming out and clicking the compass, then calibrate camera transform using a suitable environment, Falador party room might actually be great.
-    - Player position is input explicitly by placing a marker on the map.
-    - This should be enough to draw polygons into the world as long as the camera height is not modified.
-    - Yaw can be read by the compass on the minimap.
-    - Camera orientation/position: Developer console 'getcamerapos'.
-      Format:  floor,chunkx,chunkz,subx,subz
-
-
 Unscheduled (Post launch, if ever):
 - Track Jacket/Backpack Charges via Chat, display them as a permanent overlay
 - Totem reminder
@@ -195,3 +178,10 @@ Unscheduled (Post launch, if ever):
 - Better algorithm to combine equivalence classes.
 - Better algorithm to construct polygon for equivalence class (with hole support).
 - Warn when not using meerkats
+- [Tech] Overlay pathing into the game.
+    - If this works, it is HUGE. Idea: Fix Camera distance and height by zooming out and clicking the compass, then calibrate camera transform using a suitable environment, Falador party room might actually be great.
+    - Player position is input explicitly by placing a marker on the map.
+    - This should be enough to draw polygons into the world as long as the camera height is not modified.
+    - Yaw can be read by the compass on the minimap.
+    - Camera orientation/position: Developer console 'getcamerapos'.
+    Format:  floor,chunkx,chunkz,subx,subz

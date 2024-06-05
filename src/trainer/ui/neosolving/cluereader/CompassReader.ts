@@ -15,7 +15,7 @@ import {TileCoordinates} from "../../../../lib/runescape/coordinates";
 import {GameMapMouseEvent} from "../../../../lib/gamemap/MapEvents";
 import {tilePolygon} from "../../polygon_helpers";
 import {Process} from "../../../../lib/Process";
-import {ewent, observe} from "../../../../lib/reactive";
+import {EwentHandler, observe} from "../../../../lib/reactive";
 import {ScreenRectangle} from "../../../../lib/alt1/ScreenRectangle";
 import {CapturedImage} from "../../../../lib/alt1/ImageCapture";
 import {deps} from "../../../dependencies";
@@ -28,6 +28,7 @@ import {Alt1MainHotkeyEvent} from "../../../../lib/alt1/Alt1MainHotkeyEvent";
 import Widget from "../../../../lib/ui/Widget";
 import angleDifference = Compasses.angleDifference;
 import ANGLE_REFERENCE_VECTOR = Compasses.ANGLE_REFERENCE_VECTOR;
+import AngleResult = CompassReader.AngleResult;
 
 class AngularKeyframeFunction {
   private constructor(private readonly keyframes: {
@@ -115,6 +116,10 @@ export class CompassReader {
 
     const buf = this.capture.compass_area.getData()
 
+    function sample(x: number, y: number) {
+      return buf.getPixel(x + CENTER_OFFSET.x, y + CENTER_OFFSET.y)
+    }
+
     function getRed(x: number, y: number) {
       const i = 4 * ((CENTER_OFFSET.y + y) * buf.width + x + CENTER_OFFSET.x)
 
@@ -122,7 +127,9 @@ export class CompassReader {
     }
 
     function isArrow(x: number, y: number) {
-      return getRed(x, y) < 5
+      const [r, g, b, _] = sample(x, y)
+
+      return r < 5 && g < 5 && b < 5
     }
 
     if (CompassReader.DEBUG_COMPASS_READER) {
@@ -153,10 +160,12 @@ export class CompassReader {
     if (TARGET_X_SAMPLE_OFFSETS.every(coords => {
       const red = getRed(coords.x, coords.y)
 
-      return red >= 90 && red <= 110
-    })) {
-      return {type: "likely_solved"}
-    }
+      const res = red >= 75 && red <= 110
+
+      // console.log(`${red} at ${coords.x}|${coords.y}`)
+
+      return res
+    })) return {type: "likely_solved"}
 
     const circle_sampled_pixels: Vector2[] = (() => {
       const sampled: Vector2[] = []
@@ -229,8 +238,12 @@ export class CompassReader {
       CompassReader.debug_overlay.render()
     }
 
+    let circle_failure_reason: AngleResult = null
+
     if (circle_sampled_pixels.length == 0) return {type: "likely_closed", details: "No pixels while sampling the circle"}
-    if (circle_sampled_pixels.length > 10) return {type: "likely_concealed", details: `Too many pixels while sampling the circle (${circle_sampled_pixels.length} > 10)`}
+    if (circle_sampled_pixels.length > 10) {
+      circle_failure_reason = {type: "likely_concealed", details: `Too many pixels while sampling the circle (${circle_sampled_pixels.length} > 10)`}
+    }
 
     // Map all sample points to their respective angle
     // The angle is taken from the true center of the compass arrow, which is why we offset the samples by 0.5
@@ -239,10 +252,10 @@ export class CompassReader {
       ANGLE_REFERENCE_VECTOR, Vector2.normalize({x: p.x - 0.5, y: -p.y}))
     )
 
-    const angle_after_circle_sampling = normalizeAngle(circularMean(angles))
+    const angle_after_circle_sampling = !circle_failure_reason ? normalizeAngle(circularMean(angles)) : 0
 
     if (angles.some(a => angleDifference(a, angle_after_circle_sampling) > CompassReader.CIRCLE_SAMPLE_CONCEALED_THRESHOLD)) {
-      return {type: "likely_concealed", details: "Too much variance in the sampled pixels on the circumference"}
+      circle_failure_reason = {type: "likely_concealed", details: "Too much variance in the sampled pixels on the circumference"}
     }
 
     const rectangle_samples: {
@@ -273,20 +286,22 @@ export class CompassReader {
         } else if (!antialiasing_detected && Math.abs(y) <= ANTIALIASING_SEARCH_RADIUS && Math.abs(x) <= ANTIALIASING_SEARCH_RADIUS) {
           const red = getRed(x, y)
 
-          if (red < 30) antialiasing_detected = true
+          if (red < 40) antialiasing_detected = true
         }
       }
     }
 
     if (antialiasing_detected) {
-      if (rectangle_samples.length < 200) return {type: "likely_closed", details: `Not enough pixels (${rectangle_samples.length}) sampled for the rectangle sample. [MSAA]`}
+      if (rectangle_samples.length < 400) return {type: "likely_closed", details: `Not enough pixels (${rectangle_samples.length}) sampled for the rectangle sample. [MSAA]`}
       if (rectangle_samples.length < 1700) return {type: "likely_concealed", details: `Not enough pixels (${rectangle_samples.length}) sampled for the rectangle sample. [MSAA]`}
       if (rectangle_samples.length > 2000) return {type: "likely_concealed", details: `Too many pixels (${rectangle_samples.length}) sampled for the rectangle sample. [MSAA]`}
     } else {
-      if (rectangle_samples.length < 200) return {type: "likely_closed", details: `Not enough pixels (${rectangle_samples.length}) sampled for the rectangle sample.`}
+      if (rectangle_samples.length < 400) return {type: "likely_closed", details: `Not enough pixels (${rectangle_samples.length}) sampled for the rectangle sample.`}
       if (rectangle_samples.length < 1900) return {type: "likely_concealed", details: `Not enough pixels (${rectangle_samples.length}) sampled for the rectangle sample.`}
       if (rectangle_samples.length > 2200) return {type: "likely_concealed", details: `Too many pixels (${rectangle_samples.length}) sampled for the rectangle sample.`}
     }
+
+    if (circle_failure_reason) return circle_failure_reason
 
     const angle_after_rectangle_sample = normalizeAngle(Math.atan2(
       lodash.sum(rectangle_samples.map(a => a.weight * Math.sin(a.angle))),
@@ -1077,21 +1092,10 @@ export namespace CompassReader {
   }
 
   export class Service extends Process<void> {
-    state = observe<{
-      angle: number,
-      state: "normal" | "solved" | "spinning"
-    }>(null).equality((a, b) => a?.angle == b?.angle && a?.state == b?.state)
-
-    closed = ewent<this>()
+    private committed_state = observe<Service.State>(null).equality((a, b) => a?.angle == b?.angle && a?.state == b?.state)
 
     last_read: CompassReader.AngleResult = null
 
-    last_successful_read: {
-      timestamp: number,
-      read: CompassReader.AngleResult & { type: "success" | "likely_solved" }
-    } = null
-
-    ticks_since_stationary: number = 0
 
     constructor(private matched_ui: CapturedCompass,
                 private show_overlay: boolean,
@@ -1105,7 +1109,32 @@ export namespace CompassReader {
 
     private overlay: OverlayGeometry = new OverlayGeometry()
 
+    private tick_counter = 0
+    private last_ticks: Record<AngleResult["type"], number> = {
+      success: -2,
+      likely_closed: -2,
+      likely_solved: -2,
+      likely_concealed: -2,
+    }
+
+    private closed() {
+      this.committed_state.set({angle: null, state: "closed"})
+
+      if (this.refind_after_close) this.matched_ui = null
+
+    }
+
+    private buffered_state: {
+      since: number,
+      last_confirmed: number,
+      state: CompassReader.AngleResult
+    } = null
+
+    private last_stationary_tick: number = -1
+
     async tick(): Promise<void> {
+      const tick = this.tick_counter++
+
       if (this.refind_after_close && !this.matched_ui) {
         this.matched_ui = await CapturedCompass.find(CapturedImage.capture())
       }
@@ -1116,95 +1145,85 @@ export namespace CompassReader {
 
       this.overlay.clear()
 
-      const read = this.last_read = reader.getAngle()
+      {
+        const read = this.last_read = reader.getAngle()
+        const now = Date.now()
 
-      if (read.type == "likely_concealed" || read.type == "likely_closed") console.log(`${read.type}: ${read.details}`)
-
-      switch (read.type) {
-        case "likely_closed":
-          this.closed.trigger(this)
-
-          if (this.refind_after_close) this.matched_ui = null
-
-          break;
-        case "likely_concealed":
-
-          if (this.last_successful_read && this.last_successful_read.timestamp + 5000 < Date.now()) {
-            this.closed.trigger(this)
-
-            if (this.refind_after_close) this.matched_ui = null
-
-            break
+        if (lodash.isEqual(this.buffered_state?.state, read)) {
+          this.buffered_state.last_confirmed = now
+        } else {
+          this.buffered_state = {
+            since: now,
+            last_confirmed: now,
+            state: read
           }
-
-          this.overlay.text("Concealed",
-            Vector2.add(ScreenRectangle.center(reader.capture.body.screenRectangle()), {x: 5, y: 100}), {
-              shadow: true,
-              centered: true,
-              width: 12,
-              color: mixColor(128, 128, 128)
-            })
-          break;
-        case "likely_solved":
-
-          this.overlay.rect2(
-            ScreenRectangle.move(
-              reader.capture.body.screenRectangle(),
-              {x: 59, y: 172},
-              {x: 55, y: 52}
-            ), {
-              width: 2,
-              color: mixColor(0, 255, 0),
-            }
-          )
-
-          this.overlay.text("Solved",
-            Vector2.add(ScreenRectangle.center(reader.capture.body.screenRectangle()), {x: 5, y: 100}), {
-              shadow: true,
-              centered: true,
-              width: 12,
-              color: mixColor(0, 255, 0),
-            })
-
-          this.state.set({angle: null, state: "solved"})
-
-          this.last_successful_read = {
-            timestamp: Date.now(),
-            read: read
-          }
-
-          break;
-
-        case "success":
-          if (this.last_successful_read?.read?.type == "success" && this.last_successful_read?.read?.angle == read.angle) {
-            this.state.set({
-              angle: read.angle,
-              state: "normal",
-            })
-            this.ticks_since_stationary = 0
-          } else {
-            this.ticks_since_stationary++
-
-            if (this.ticks_since_stationary > 2) {
-              this.state.set({
-                angle: null,
-                state: "spinning"
-              })
-            }
-          }
-
-          this.last_successful_read = {
-            timestamp: Date.now(),
-            read: read
-          }
-
-          break;
+        }
       }
 
-      if (this.state.value()) {
+      const state = this.buffered_state.state
+      const state_active_time = this.buffered_state.last_confirmed - this.buffered_state.since
+
+      if (state.type == "likely_concealed" || state.type == "likely_closed") console.log(`${state.type}: ${state.details}`)
+
+      const BUFFER_CONFIRMATION_TIME = 200
+
+      const was_ever_solved = this.last_ticks["likely_solved"] >= 0
+
+      if (state.type == "likely_closed" && (state_active_time > BUFFER_CONFIRMATION_TIME || was_ever_solved)) this.closed()
+      else if (state.type == "likely_concealed" && (state_active_time > 5000 || was_ever_solved)) this.closed()
+      else if (state.type == "likely_concealed" || state.type == "likely_closed") {
+        this.overlay.text("Concealed",
+          Vector2.add(ScreenRectangle.center(reader.capture.body.screenRectangle()), {x: 5, y: 100}), {
+            shadow: true,
+            centered: true,
+            width: 12,
+            color: mixColor(128, 128, 128)
+          })
+      } else if (state.type == "likely_solved") {
+
+        this.overlay.rect2(
+          ScreenRectangle.move(
+            reader.capture.body.screenRectangle(),
+            {x: 59, y: 172},
+            {x: 55, y: 52}
+          ), {
+            width: 2,
+            color: mixColor(0, 255, 0),
+          }
+        )
+
+        this.overlay.text("Solved",
+          Vector2.add(ScreenRectangle.center(reader.capture.body.screenRectangle()), {x: 5, y: 100}), {
+            shadow: true,
+            centered: true,
+            width: 12,
+            color: mixColor(0, 255, 0),
+          })
+
+        this.committed_state.set({angle: null, state: "solved"})
+      } else if (state.type == "success") {
+        if (state_active_time > 0.001) {
+
+          this.committed_state.set({
+            angle: state.angle,
+            state: "normal",
+          })
+
+          this.last_stationary_tick = tick
+        } else if (tick - this.last_stationary_tick > 2) {
+          this.committed_state.set({
+            angle: null,
+            state: "spinning"
+          })
+        }
+      }
+
+      this.last_ticks[state.type] = tick
+
+      if (this.committed_state.value()) {
         let text: string = null
 
-        const state = this.state.value()
+        const state = this.committed_state.value()
 
         if (state.state == "spinning") {
           text = "Spinning"
@@ -1238,6 +1257,23 @@ export namespace CompassReader {
       }
 
       this.overlay?.clear()?.render()
+    }
+
+    onChange(handler: (new_value: Service.State, old: Service.State) => any, handler_f?: (_: EwentHandler<any>) => void): this {
+      this.committed_state.subscribe(handler, false, handler_f)
+
+      return this
+    }
+
+    state(): Service.State {
+      return this.committed_state.value()
+    }
+  }
+
+  export namespace Service {
+    export type State = {
+      angle: number,
+      state: "normal" | "solved" | "spinning" | "closed"
     }
   }
 
@@ -1283,14 +1319,16 @@ export namespace CompassReader {
     }
 
     commit() {
-      if (this.reader.last_read.type == "success") {
+      const state = this.reader.state()
+
+      if (state.state == "normal") {
 
         const entry = this.samples.find(s => Vector2.eq(s.position, this.layer.offset))
 
         if (entry) {
-          entry.is_angle_degrees = radiansToDegrees(this.reader.last_read.angle)
+          entry.is_angle_degrees = radiansToDegrees(state.angle)
         } else {
-          this.samples.push({position: this.layer.offset, is_angle_degrees: radiansToDegrees(this.reader.last_read.angle)})
+          this.samples.push({position: this.layer.offset, is_angle_degrees: radiansToDegrees(state.angle)})
         }
 
         this.autoNextSpot()

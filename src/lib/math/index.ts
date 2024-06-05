@@ -8,12 +8,13 @@ export function radiansToDegrees(radians: number): number {
   return radians / (2 * Math.PI) * 360
 }
 
-export function degreesToRadians(degrees: number): number{
+export function degreesToRadians(degrees: number): number {
   return (degrees / 360) * (2 * Math.PI)
 }
 
 export function normalizeAngle(radians: number): number {
   while (radians < 0) radians += 2 * Math.PI
+  while (radians > 2 * Math.PI) radians -= 2 * Math.PI
 
   return radians
 }

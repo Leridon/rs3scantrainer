@@ -10,6 +10,7 @@ import {C} from "../../../lib/ui/constructors";
 import {PathGraphics} from "../path_graphics";
 import {TransportData} from "../../../data/transports";
 import hboxl = C.hboxl;
+import {util} from "../../../lib/util/util";
 
 
 export class PathStepHeader extends Widget {
@@ -32,6 +33,7 @@ export namespace PathStepHeader {
   import ability_icon = PathGraphics.ability_icon;
   import entity = C.entity;
   import resolveTeleport = TransportData.resolveTeleport;
+  import plural = util.plural;
 
   export function renderTextAndIconSeparately(step: Path.Step): {
     icon?: Widget,
@@ -92,7 +94,7 @@ export namespace PathStepHeader {
         if (step.to_text) {
           content.append(step.to_text)
         } else {
-          content.append(`${PathFinder.pathLength(step.waypoints)} tiles`)
+          content.append(`${plural(PathFinder.pathLength(step.waypoints), "tile")}`)
         }
 
         break;

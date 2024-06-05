@@ -27,27 +27,27 @@ export const yellow_marker = "assets/icons/marker_yellow.png"
 
 export const red_icon = leaflet.icon({
   iconUrl: red_marker,
-  iconSize: [18, 30],
-  iconAnchor: [9, 30],
+  iconSize: [18, 24],
+  iconAnchor: [9, 24],
   className: "marker-icon"
 })
 export const blue_icon = leaflet.icon({
   iconUrl: blue_marker,
-  iconSize: [18, 30],
-  iconAnchor: [9, 30],
+  iconSize: [18, 24],
+  iconAnchor: [9, 24],
   className: "marker-icon"
 })
 export const green_icon = leaflet.icon({
   iconUrl: green_marker,
-  iconSize: [18, 30],
-  iconAnchor: [9, 30],
+  iconSize: [18, 24],
+  iconAnchor: [9, 24],
   className: "marker-icon"
 })
 
 export const yellow_icon = leaflet.icon({
   iconUrl: yellow_marker,
-  iconSize: [18, 30],
-  iconAnchor: [9, 30],
+  iconSize: [18, 24],
+  iconAnchor: [9, 24],
   className: "marker-icon"
 })
 

@@ -6,7 +6,7 @@ import {TileCoordinates, TileRectangle} from "../../../../lib/runescape/coordina
 import {GameMapMouseEvent} from "../../../../lib/gamemap/MapEvents";
 import {C} from "../../../../lib/ui/constructors";
 import * as leaflet from "leaflet"
-import {degreesToRadians, radiansToDegrees, Rectangle, Transform, Vector2} from "../../../../lib/math";
+import {degreesToRadians, normalizeAngle, radiansToDegrees, Rectangle, Transform, Vector2} from "../../../../lib/math";
 import {MapEntity} from "../../../../lib/gamemap/MapEntity";
 import {Compasses} from "../../../../lib/cluetheory/Compasses";
 import {TeleportSpotEntity} from "../../map/entities/TeleportSpotEntity";
@@ -535,8 +535,9 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       // Advance selection index to next uncommitted entry
       let index = this.entries.indexOf(entry) + 1
 
-      while (index + 1 < this.entries.length && this.entries[index].information) {
+      while (true) {
         if (index + 1 >= this.entries.length) break;
+
 
         const entry = this.entries[index]
 
@@ -553,7 +554,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
             return Math.min(
               angleDifference(angle, e.information.angle_radians),
-              angleDifference(angle + Math.PI, e.information.angle_radians),
+              angleDifference(normalizeAngle(angle + Math.PI), e.information.angle_radians),
             ) < degreesToRadians(10)
           })
 
@@ -832,7 +833,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       (() => {
         if (this.clue.id != gielinor_compass.id) return
 
-        const assumed_position_from_previous_clue = this.parent.getAssumedPlayerPositionByLastClueSolution()
+        const assumed_position_from_previous_clue = TileArea.init({x: 3534, y: 3470, level: 0}) // this.parent.getAssumedPlayerPositionByLastClueSolution()
 
         if (!assumed_position_from_previous_clue) return
 

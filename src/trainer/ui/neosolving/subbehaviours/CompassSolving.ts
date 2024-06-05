@@ -833,7 +833,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       (() => {
         if (this.clue.id != gielinor_compass.id) return
 
-        const assumed_position_from_previous_clue = TileArea.init({x: 3534, y: 3470, level: 0}) // this.parent.getAssumedPlayerPositionByLastClueSolution()
+        const assumed_position_from_previous_clue = this.parent.getAssumedPlayerPositionByLastClueSolution()
 
         if (!assumed_position_from_previous_clue) return
 

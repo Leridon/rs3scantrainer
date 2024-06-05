@@ -1,18 +1,13 @@
 import Behaviour from "../../../lib/ui/Behaviour";
 import {Path} from "../../../lib/runescape/pathing";
 import Widget from "../../../lib/ui/Widget";
-import {PathGraphics} from "../path_graphics";
 import * as lodash from "lodash";
-import {capitalize} from "lodash";
 import NeoSolvingBehaviour from "./NeoSolvingBehaviour";
 import {C} from "../../../lib/ui/constructors";
 import {SolvingMethods} from "../../model/methods";
 import {AugmentedMethod} from "../../model/MethodPackManager";
 import MethodSelector from "./MethodSelector";
 import {NislIcon} from "../nisl";
-import TeleportIcon from "../widgets/TeleportIcon";
-import {direction, PathFinder} from "../../../lib/runescape/movement";
-import {Vector2} from "../../../lib/math";
 import {PathStepEntity} from "../map/entities/PathStepEntity";
 import {util} from "../../../lib/util/util";
 import {TreeArray} from "../../../lib/util/TreeArray";
@@ -20,23 +15,16 @@ import * as assert from "assert";
 import {ewent, Observable, observe} from "../../../lib/reactive";
 import {TemplateResolver} from "../../../lib/util/TemplateResolver";
 import {GameLayer} from "../../../lib/gamemap/GameLayer";
-import {CursorType} from "../../../lib/runescape/CursorType";
-import {TransportData} from "../../../data/transports";
-import {deps} from "../../dependencies";
-import {CTRIcon} from "../../CTRIcon";
 import KeyValueStore from "../../../lib/util/KeyValueStore";
+import {PathStepHeader} from "../pathing/PathStepHeader";
+import {deps} from "../../dependencies";
 import hbox = C.hbox;
 import span = C.span;
 import GenericPathMethod = SolvingMethods.GenericPathMethod;
-import div = C.div;
 import hboxl = C.hboxl;
-import img = C.img;
-import staticentity = C.staticentity;
-import ability_icon = PathGraphics.ability_icon;
-import bold = C.bold;
-import entity = C.entity;
 import SectionedPath = Path.SectionedPath;
 import index = util.index;
+import {TileRectangle} from "../../../lib/runescape/coordinates";
 
 class SectionMemory {
 
@@ -127,6 +115,26 @@ export class PathSectionControl extends Widget {
           return c.value
         })
       })()
+
+      if (deps().app.settings.settings.solving.info_panel.path_step_list == "show") {
+        this.selected_section.forEach((step, index) => {
+          let sectionindex = lodash.clone(this.current_section_id)
+          sectionindex[sectionindex.length - 1] = index
+
+          let graphics_node = TreeArray.index(this.step_graphics, sectionindex)
+          assert(graphics_node.type == "leaf")
+
+          if (graphics_node.value.step.type == "cosmetic") return
+
+          new PathSectionControl.StepRow(
+            sectionindex,
+            step,
+            this.template_resolver
+          )
+            .setAssociatedGraphics(graphics_node.value)
+            .appendTo(this)
+        })
+      }
     }
   }
 
@@ -141,6 +149,59 @@ export class PathSectionControl extends Widget {
   onSelection(f: (_: Path.raw) => any): this {
     this.section_selected.on(f)
     return this
+  }
+}
+
+export namespace PathSectionControl {
+  import tr = TileRectangle.tr;
+
+  export class StepRow extends Widget {
+    highlighted: Observable<boolean> = observe(false)
+    associated_graphics: PathStepEntity = null
+
+    constructor(private section_index: number[],
+                private step: Path.Step,
+                private template_resolver: TemplateResolver
+    ) {
+      super();
+
+      this.highlighted.subscribe(v => {
+        this.toggleClass("ctr-neosolving-path-legend-highlighted", v)
+
+        // TODO: Cause the entity to be highlighted on hover without locking it
+        /*if (v) this.associated_graphics?.parent?.getRoot()?.lockEntity(this.associated_graphics, true)
+        else if (this.associated_graphics?.isActive()) this.associated_graphics?.parent?.getRoot()?.lockEntity(null)*/
+      })
+
+      const index = util.index(this.section_index, -1)
+
+      let order = c().text(`${index + 1}.`)
+
+      const {icon, content} = PathStepHeader.renderTextAndIconSeparately(step)
+
+      hboxl(order, icon, content).addClass("ctr-neosolving-path-legend")
+        .on("mouseover", () => this.setHighlight(true))
+        .on("mouseleave", () => this.setHighlight(false))
+        .appendTo(this)
+    }
+
+    setAssociatedGraphics(graphics: PathStepEntity): this {
+      this.associated_graphics = graphics
+
+      if (graphics) {
+        //graphics.setHighlightable(true)
+
+        this.associated_graphics.highlighted.subscribe(v => {
+          this.setHighlight(v)
+        })
+      }
+
+      return this
+    }
+
+    setHighlight(v: boolean) {
+      this.highlighted.set(v)
+    }
   }
 }
 

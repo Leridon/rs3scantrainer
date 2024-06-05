@@ -38,6 +38,7 @@ import TransportLayer from "../map/TransportLayer";
 import {KnotSolving} from "../neosolving/subbehaviours/KnotSolving";
 import {LockboxSolving} from "../neosolving/subbehaviours/LockboxSolving";
 import {TowersSolving} from "../neosolving/subbehaviours/TowersSolving";
+import {ExportImport} from "../../../lib/util/exportString";
 import cls = C.cls;
 import PotaColor = Settings.PotaColor;
 import hbox = C.hbox;
@@ -53,8 +54,6 @@ import TeleportGroup = Transportation.TeleportGroup;
 import span = C.span;
 import greatestCommonDivisor = util.greatestCommonDivisor;
 import Appendable = C.Appendable;
-import {ExportImport} from "../../../lib/util/exportString";
-import exp = ExportImport.exp;
 
 class SettingsLayout extends Properties {
   constructor() {super();}
@@ -77,6 +76,14 @@ class SettingsLayout extends Properties {
     }
 
     this.header(hbox(name, SettingsLayout.info(explanation)))
+  }
+
+  namedSetting(
+    name: Appendable,
+    content: Appendable,
+    explanation: Appendable = undefined
+  ): this {
+    return this.named(hboxl(name, SettingsLayout.info(explanation)), content)
   }
 }
 
@@ -703,12 +710,12 @@ class TowersSettingsEdit extends Widget {
 
 class SolvingSettingsEdit extends Widget {
 
-  private layout: Properties
+  private layout: SettingsLayout
 
   constructor(private value: NeoSolving.Settings.InfoPanel) {
     super()
 
-    this.layout = new Properties().appendTo(this)
+    this.layout = new SettingsLayout().appendTo(this)
 
     this.render()
   }
@@ -716,110 +723,129 @@ class SolvingSettingsEdit extends Widget {
   render() {
     this.layout.empty()
 
+    this.layout.section("Interface")
+
     this.layout.paragraph("Choose what data about a clue step and its solution is displayed on the interface while solving.")
 
-    this.layout.named("Clue Text", hgrid(
-      ...new Checkbox.Group([
-        {button: new Checkbox("Full"), value: "full" as const},
-        {button: new Checkbox("Abridged"), value: "abridged" as const},
-        {button: new Checkbox("Hide"), value: "hide" as const},
-      ]).onChange(v => this.value.clue_text = v)
-        .setValue(this.value.clue_text)
-        .checkboxes()
-    ))
+    this.layout.namedSetting("Clue Text", hgrid(
+        ...new Checkbox.Group([
+          {button: new Checkbox("Full"), value: "full" as const},
+          {button: new Checkbox("Abridged"), value: "abridged" as const},
+          {button: new Checkbox("Hide"), value: "hide" as const},
+        ]).onChange(v => this.value.clue_text = v)
+          .setValue(this.value.clue_text)
+          .checkboxes()
+      ),
+      "The text of the clue for text clues. 'Abridged' uses a shorter version where applicable."
+    )
 
-    this.layout.named("Clue Map", hgrid(
-      ...new Checkbox.Group([
-        {button: new Checkbox("Show"), value: "show" as const},
-        {button: new Checkbox("Hide"), value: "hide" as const},
-      ]).onChange(v => this.value.map_image = v)
-        .setValue(this.value.map_image)
-        .checkboxes()
-    ))
+    this.layout.namedSetting("Clue Map", hgrid(
+        ...new Checkbox.Group([
+          {button: new Checkbox("Show"), value: "show" as const},
+          {button: new Checkbox("Transcript"), value: "transcript" as const},
+          {button: new Checkbox("Hide"), value: "hide" as const},
+        ]).onChange(v => this.value.map_image = v)
+          .setValue(this.value.map_image)
+          .checkboxes()
+      ),
+      "The image for image clues. 'Transcript' displays a text description of the image instead."
+    )
 
-    this.layout.named("Dig Target", hgrid(
+    this.layout.namedSetting("Dig Target", hgrid(
       ...new Checkbox.Group([
         {button: new Checkbox("Show"), value: "show" as const},
         {button: new Checkbox("Hide"), value: "hide" as const},
       ]).onChange(v => this.value.dig_target = v)
         .setValue(this.value.dig_target)
         .checkboxes()
-    ))
+    )
+    , "A description of where to dig or the coordinates if no description is available."
+    )
 
-    this.layout.named("Talk Target", hgrid(
+    this.layout.namedSetting("Talk Target", hgrid(
       ...new Checkbox.Group([
         {button: new Checkbox("Show"), value: "show" as const},
         {button: new Checkbox("Hide"), value: "hide" as const},
       ]).onChange(v => this.value.talk_target = v)
         .setValue(this.value.talk_target)
         .checkboxes()
-    ))
+    ), "The name of the NPC you need to talk to.")
 
-    this.layout.named("Search Target", hgrid(
+    this.layout.namedSetting("Search Target", hgrid(
       ...new Checkbox.Group([
         {button: new Checkbox("Show"), value: "show" as const},
         {button: new Checkbox("Hide"), value: "hide" as const},
       ]).onChange(v => this.value.search_target = v)
         .setValue(this.value.search_target)
         .checkboxes()
-    ))
+    ), "The name of the container (drawers, boxes etc.) you need to search.")
 
-    this.layout.named("Search Key", hgrid(
+    this.layout.namedSetting("Search Key", hgrid(
       ...new Checkbox.Group([
         {button: new Checkbox("Show"), value: "show" as const},
         {button: new Checkbox("Hide"), value: "hide" as const},
       ]).onChange(v => this.value.search_key = v)
         .setValue(this.value.search_key)
         .checkboxes()
-    ))
+    ), "How you get the key for a container on medium clues without 'way of the footshaped key' unlocked.")
 
-    this.layout.named("Hidey Hole", hgrid(
+    this.layout.namedSetting("Hidey Hole", hgrid(
       ...new Checkbox.Group([
         {button: new Checkbox("Show"), value: "show" as const},
         {button: new Checkbox("Hide"), value: "hide" as const},
       ]).onChange(v => this.value.hidey_hole = v)
         .setValue(this.value.hidey_hole)
         .checkboxes()
-    ))
+    ), "The name of the hidey hole for emote clues.")
 
-    this.layout.named("Emote Items", hgrid(
+    this.layout.namedSetting("Emote Items", hgrid(
       ...new Checkbox.Group([
         {button: new Checkbox("Show"), value: "show" as const},
         {button: new Checkbox("Hide"), value: "hide" as const},
       ]).onChange(v => this.value.emote_items = v)
         .setValue(this.value.emote_items)
         .checkboxes()
-    ))
+    ), "What items you need to equip for emote clues.")
 
 
-    this.layout.named("Emote(s)", hgrid(
+    this.layout.namedSetting("Emote(s)", hgrid(
       ...new Checkbox.Group([
         {button: new Checkbox("Show"), value: "show" as const},
         {button: new Checkbox("Hide"), value: "hide" as const},
       ]).onChange(v => this.value.emotes = v)
         .setValue(this.value.emotes)
         .checkboxes()
-    ))
+    ), "The name of the emote/emotes you need to perform for emote clues.")
 
-    this.layout.named("Double Agent", hgrid(
+    this.layout.namedSetting("Double Agent", hgrid(
       ...new Checkbox.Group([
         {button: new Checkbox("Show"), value: "show" as const},
         {button: new Checkbox("Hide"), value: "hide" as const},
       ]).onChange(v => this.value.double_agent = v)
         .setValue(this.value.double_agent)
         .checkboxes()
-    ))
+    ), "Shows if you need to fight a double agent for this emote clue.")
 
-    this.layout.named("Puzzles", hgrid(
+    this.layout.namedSetting("Pathing", hgrid(
       ...new Checkbox.Group([
         {button: new Checkbox("Show"), value: "show" as const},
         {button: new Checkbox("Hide"), value: "hide" as const},
+      ]).onChange(v => this.value.path_step_list = v)
+        .setValue(this.value.path_step_list)
+        .checkboxes()
+    ), "A list containing short descriptions for the steps that make up a path if one is active for the current clue step.")
+
+    this.layout.namedSetting("Puzzles", hgrid(
+      ...new Checkbox.Group([
+        {button: new Checkbox("Show"), value: "show" as const},
+        {button: new Checkbox("Hide"), value: "hide" as const},
+        {button: new Checkbox("Hide for Scans/Compasses"), value: "hideforscansandcompasses" as const},
       ]).onChange(v => this.value.puzzle = v)
         .setValue(this.value.puzzle)
         .checkboxes()
-    ))
+    ), "Shows what puzzle (if any) is given on completion of this clue step.")
 
-    this.layout.named("Challenge", hgrid(
+    this.layout.namedSetting("Challenge", hgrid(
       ...new Checkbox.Group([
         {button: new Checkbox("Full"), value: "full" as const},
         {button: new Checkbox("Answer"), value: "answer_only" as const},
@@ -827,9 +853,11 @@ class SolvingSettingsEdit extends Widget {
       ]).onChange(v => this.value.challenge = v)
         .setValue(this.value.challenge)
         .checkboxes()
-    ))
+    ), "The solution to challenge scrolls given out by npcs.")
 
-    this.layout.named("Presets",
+    this.layout.section("Presets")
+
+    this.layout.row(
       new LightButton("Everything")
         .onClick(() => {
           Object.assign(this.value, lodash.cloneDeep(NeoSolving.Settings.InfoPanel.EVERYTHING))
@@ -837,7 +865,7 @@ class SolvingSettingsEdit extends Widget {
           this.render()
         }))
 
-    this.layout.named("",
+    this.layout.row(
       new LightButton("Reduced (Recommended)")
         .onClick(() => {
           Object.assign(this.value, lodash.cloneDeep(NeoSolving.Settings.InfoPanel.REDUCED))
@@ -845,16 +873,13 @@ class SolvingSettingsEdit extends Widget {
           this.render()
         }))
 
-    this.layout.named("",
+    this.layout.row(
       new LightButton("Nothing")
         .onClick(() => {
           Object.assign(this.value, lodash.cloneDeep(NeoSolving.Settings.InfoPanel.NOTHING))
 
           this.render()
         }))
-
-
-    this.layout.divider()
 
     /*
     this.layout.header("Informative Entities on Map")

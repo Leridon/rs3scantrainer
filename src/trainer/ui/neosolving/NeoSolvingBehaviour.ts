@@ -496,6 +496,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
       if (step.step.type == "map") {
         if (settings.info_panel.map_image == "show") {
           w.append(c(`<img src='${step.step.image_url}' style="width: 100%">`).addClass("ctr-neosolving-solution-row"))
+        } else if(settings.info_panel.map_image == "transcript") {
+          cls("ctr-neosolving-solution-row").text(step.step.text[0]).appendTo(w)
         }
       } else {
         switch (settings.info_panel.clue_text) {
@@ -735,7 +737,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
             }
           }
         } else {
-          if (settings.info_panel.puzzle == "show") {
+          if (settings.info_panel.puzzle == "show" || (settings.info_panel.puzzle == "hideforscansandcompasses" && step.step.type != "compass" && step.step.type != "scan")) {
             const row = cls("ctr-neosolving-solution-row").appendTo(w)
 
             for (let i = 0; i < clue.challenge.length; i++) {
@@ -926,7 +928,7 @@ export namespace NeoSolving {
 
     export type InfoPanel = {
       clue_text: "full" | "abridged" | "hide"
-      map_image: "show" | "hide",
+      map_image: "show" | "transcript" | "hide",
       dig_target: "show" | "hide",
       talk_target: "show" | "hide",
       search_target: "show" | "hide",
@@ -935,8 +937,9 @@ export namespace NeoSolving {
       emote_items: "show" | "hide",
       emotes: "show" | "hide",
       double_agent: "show" | "hide",
-      puzzle: "show" | "hide",
-      challenge: "full" | "answer_only" | "hide"
+      puzzle: "show" | "hide" | "hideforscansandcompasses",
+      challenge: "full" | "answer_only" | "hide",
+      path_step_list: "show" | "hide"
     }
 
     export namespace InfoPanel {
@@ -952,7 +955,8 @@ export namespace NeoSolving {
         emotes: "show",
         double_agent: "show",
         challenge: "full",
-        puzzle: "show"
+        puzzle: "show",
+        path_step_list: "show",
       }
 
       export const NOTHING: Settings["info_panel"] = {
@@ -967,7 +971,8 @@ export namespace NeoSolving {
         emotes: "hide",
         double_agent: "hide",
         challenge: "hide",
-        puzzle: "hide"
+        puzzle: "hide",
+        path_step_list: "hide",
       }
 
       export const REDUCED: Settings["info_panel"] = {
@@ -982,26 +987,30 @@ export namespace NeoSolving {
         emotes: "hide",
         double_agent: "hide",
         challenge: "answer_only",
-        puzzle: "hide"
+        puzzle: "hideforscansandcompasses",
+        path_step_list: "hide",
       }
 
+      export const DEFAULT = REDUCED
+
       export function normalize(settings: InfoPanel): InfoPanel {
-        if (!settings) return lodash.cloneDeep(InfoPanel.REDUCED)
+        if (!settings) return lodash.cloneDeep(DEFAULT)
 
-        if (!["full", "hide", "abridged"].includes(settings.clue_text)) settings.clue_text = "full"
-        if (!["show", "hide"].includes(settings.map_image)) settings.map_image = "show"
-        if (!["show", "hide"].includes(settings.dig_target)) settings.dig_target = "show"
-        if (!["show", "hide"].includes(settings.talk_target)) settings.talk_target = "show"
-        if (!["show", "hide"].includes(settings.search_target)) settings.search_target = "show"
-        if (!["show", "hide"].includes(settings.search_key)) settings.search_key = "show"
+        if (!["full", "hide", "abridged"].includes(settings.clue_text)) settings.clue_text = DEFAULT.clue_text
+        if (!["show", "hide"].includes(settings.map_image)) settings.map_image = DEFAULT.map_image
+        if (!["show", "hide"].includes(settings.dig_target)) settings.dig_target = DEFAULT.dig_target
+        if (!["show", "hide"].includes(settings.talk_target)) settings.talk_target = DEFAULT.talk_target
+        if (!["show", "hide"].includes(settings.search_target)) settings.search_target = DEFAULT.search_target
+        if (!["show", "hide"].includes(settings.search_key)) settings.search_key = DEFAULT.search_key
 
-        if (!["show", "hide"].includes(settings.hidey_hole)) settings.hidey_hole = "show"
-        if (!["show", "hide"].includes(settings.emote_items)) settings.emote_items = "show"
-        if (!["show", "hide"].includes(settings.emotes)) settings.emotes = "show"
-        if (!["show", "hide"].includes(settings.double_agent)) settings.double_agent = "show"
+        if (!["show", "hide"].includes(settings.hidey_hole)) settings.hidey_hole = DEFAULT.hidey_hole
+        if (!["show", "hide"].includes(settings.emote_items)) settings.emote_items = DEFAULT.emote_items
+        if (!["show", "hide"].includes(settings.emotes)) settings.emotes = DEFAULT.emotes
+        if (!["show", "hide"].includes(settings.double_agent)) settings.double_agent = DEFAULT.double_agent
+        if (!["show", "hide"].includes(settings.path_step_list)) settings.path_step_list = DEFAULT.path_step_list
 
-        if (!["show", "hide"].includes(settings.puzzle)) settings.puzzle = "show"
-        if (!["full", "answer_only", "hide"].includes(settings.challenge)) settings.challenge = "full"
+        if (!["show", "hide"].includes(settings.puzzle)) settings.puzzle = DEFAULT.puzzle
+        if (!["full", "answer_only", "hide"].includes(settings.challenge)) settings.challenge = DEFAULT.challenge
 
         return settings
       }

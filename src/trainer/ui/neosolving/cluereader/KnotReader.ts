@@ -393,7 +393,7 @@ export namespace KnotReader {
 
       if (background_neighbours > 2) return {pos: pos, rune: null}
 
-      const is_intersection = background_neighbours == 0
+      const is_intersection = background_neighbours < 2
 
       const track_color = getTrackColor(track_color_sample_positions.map(pos => this.sample(Vector2.add(tile_origin, pos))))
 

@@ -102,6 +102,6 @@ export namespace QueryLinks {
 
   function get_path() {
     if (window) return window.location.origin + window.location.pathname
-    else return "https://leridon.github.io/rs3scantrainer/"
+    else return "https://cluetrainer.app"
   }
 }

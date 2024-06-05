@@ -3382,13 +3382,13 @@ name: "Entrana",
         name: "Overgrown Idols - West of the Karamja shipyard",
         menu_ticks: 3,
       },
-      {
+      /*{
         id: "idolsjadinko",
         target: {"origin": {"x": 2949, "y": 2977, "level": 0}},
         code: "0,6,2",
         name: "Overgrown Idols - North of the Jadinko vine cave",
         menu_ticks: 3,
-      },
+      },*/
     ],
     access: [{
       id: "outfit",

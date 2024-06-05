@@ -2,9 +2,9 @@ import {Rectangle, Transform, Vector2} from "../math";
 import {util} from "../util/util";
 import {mixColor} from "@alt1/base";
 import * as lodash from "lodash";
+import {ScreenRectangle} from "./ScreenRectangle";
 import todo = util.todo;
 import uuid = util.uuid;
-import {ScreenRectangle} from "./ScreenRectangle";
 
 export class OverlayGeometry {
   private is_frozen = false
@@ -24,7 +24,7 @@ export class OverlayGeometry {
     this.geometry.push({type: "rect", rect: rect, options: options})
     return this
   }
-  
+
   rect2(rect: ScreenRectangle, options: OverlayGeometry.StrokeOptions = OverlayGeometry.StrokeOptions.DEFAULT): this {
     this.geometry.push({type: "rect", rect: ScreenRectangle.toRectangle(rect), options: options})
     return this
@@ -85,8 +85,11 @@ export class OverlayGeometry {
     return this
   }
 
-  add(other: OverlayGeometry): this {
-    this.geometry.push(...other.geometry)
+  add(...other: OverlayGeometry[]): this {
+    other.forEach(other => {
+      this.geometry.push(...other.geometry)
+    })
+
     return this
   }
 

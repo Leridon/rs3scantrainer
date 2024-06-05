@@ -54,7 +54,7 @@ export namespace Settings {
           fixed: true,
           name: "Default",
           fairy_ring_favourites: new Array(10).fill(null),
-          active_potas: []
+          active_potas: ["red", "green", "yellow", "purple"]
         }],
         active_preset: 0,
         preset_bindings: {
@@ -140,7 +140,7 @@ export namespace Settings {
               null,
               null
             ],
-            "active_potas": []
+            "active_potas": ["red", "green", "yellow", "purple"]
           },
           {
             "id": -1,

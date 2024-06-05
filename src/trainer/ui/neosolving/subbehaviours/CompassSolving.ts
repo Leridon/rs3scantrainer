@@ -6,7 +6,7 @@ import {TileCoordinates, TileRectangle} from "../../../../lib/runescape/coordina
 import {GameMapMouseEvent} from "../../../../lib/gamemap/MapEvents";
 import {C} from "../../../../lib/ui/constructors";
 import * as leaflet from "leaflet"
-import {degreesToRadians, radiansToDegrees, Rectangle, Transform, Vector2} from "../../../../lib/math";
+import {degreesToRadians, normalizeAngle, radiansToDegrees, Rectangle, Transform, Vector2} from "../../../../lib/math";
 import {MapEntity} from "../../../../lib/gamemap/MapEntity";
 import {Compasses} from "../../../../lib/cluetheory/Compasses";
 import {TeleportSpotEntity} from "../../map/entities/TeleportSpotEntity";
@@ -39,10 +39,11 @@ import italic = C.italic;
 import activate = TileArea.activate;
 import notification = Notification.notification;
 import DigSolutionEntity = ClueEntities.DigSolutionEntity;
-import hbox = C.hbox;
 import inlineimg = C.inlineimg;
 import count = util.count;
 import gielinor_compass = clue_data.gielinor_compass;
+import digSpotArea = Clues.digSpotArea;
+import vbox = C.vbox;
 
 class CompassHandlingLayer extends GameLayer {
   private lines: {
@@ -85,8 +86,7 @@ class CompassHandlingLayer extends GameLayer {
       return {
         line:
           leaflet.featureGroup([
-            leaflet.polyline([Vector2.toLatLong(from), Vector2.toLatLong(to)])
-            ,
+            leaflet.polyline([Vector2.toLatLong(from), Vector2.toLatLong(to)], {color: this.solving.settings.beam_color}),
             leaflet.polygon([
               Vector2.toLatLong(corner_near_left),
               Vector2.toLatLong(corner_near_right),
@@ -94,7 +94,8 @@ class CompassHandlingLayer extends GameLayer {
               Vector2.toLatLong(corner_far_right),
             ]).setStyle({
               stroke: false,
-              fillOpacity: 0.2
+              fillOpacity: 0.2,
+              color: this.solving.settings.beam_color
             })
           ]).addTo(this)
       }
@@ -105,16 +106,21 @@ class CompassHandlingLayer extends GameLayer {
     event.onPost(() => {
 
       if (event.active_entity instanceof TeleportSpotEntity) {
-        this.solving.registerSpot(event.active_entity.teleport)
+        this.solving.registerSpot(event.active_entity.teleport, false)
       } else if (event.active_entity instanceof KnownCompassSpot) {
-        this.solving.selected_spot.set(event.active_entity.spot)
+
+        if (this.solving.entries.some(e => e.information)) {
+          this.solving.setSelectedSpot(event.active_entity.spot, true)
+        } else {
+          this.solving.registerSpot(activate(digSpotArea(event.active_entity.spot.spot)), true)
+        }
       } else {
         this.solving.registerSpot(
           activate(TileArea.fromRect(TileRectangle.lift(
               Rectangle.centeredOn(event.tile(), this.solving.settings.manual_tile_inaccuracy),
-              0
+              event.tile().level
             ))
-          )
+          ), false
         )
       }
     })
@@ -307,32 +313,17 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
   layer: CompassHandlingLayer
   process: CompassReader.Service
 
-  private preconfigured_sequence: CompassSolving.TriangulationPreset = null
-
   // Variables defining the state machine
   entry_selection_index: number = 0
   entries: CompassSolving.Entry[] = []
   selected_spot = observe<CompassSolving.SpotData>(null)
-
-  private readonly debug_solution: TileCoordinates
 
   constructor(parent: NeoSolvingBehaviour, public clue: Clues.Compass, public reader: CompassReader) {
     super(parent)
 
     this.settings = deps().app.settings.settings.solving.compass
 
-    const preconfigured_id = this.settings.active_triangulation_presets.find(p => p.compass_id == clue.id)?.preset_id
-
-    if (preconfigured_id != null) {
-      this.preconfigured_sequence = [
-        ...CompassSolving.TriangulationPreset.builtin,
-        ...this.settings.custom_triangulation_presets
-      ].find(p => p.id == preconfigured_id)
-    }
-
     this.spots = clue.spots.map((s, i) => ({spot: s, isPossible: true, spot_id: i}))
-
-    this.debug_solution = clue.spots[lodash.random(0, clue.spots.length)]
 
     this.selected_spot.subscribe((spot, old_spot) => {
       spot?.marker?.setActive(true)
@@ -346,23 +337,22 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
         this.settings.enable_status_overlay
       )
 
-      this.process.closed.on(() => {
-        this.stop()
-      })
+      this.process.onChange((is_state, was_state) => {
+        if (is_state?.state == "closed") {
+          this.stop()
+        } else {
+          if (was_state && this.settings.auto_commit_on_angle_change && is_state.state == "normal") {
+            if (was_state.state == "spinning" ||
+              angleDifference(is_state.angle, was_state.angle) > CompassSolving.ANGLE_CHANGE_COMMIT_THRESHOLD) {
+              this.commit()
+            }
+          }
 
-      this.process.state.subscribe((is_state, was_state) => {
-
-        if (was_state && this.settings.auto_commit_on_angle_change && !is_state.spinning) {
-          if (was_state.spinning ||
-            angleDifference(is_state.angle, was_state.angle) > CompassSolving.ANGLE_CHANGE_COMMIT_THRESHOLD) {
-            this.commit()
+          if (is_state) {
+            this.entries.forEach(e => e.widget.setPreviewAngle(is_state?.state == "normal" ? is_state.angle : null))
           }
         }
-
-        if (is_state) {
-          this.entries.forEach(e => e.widget.setPreviewAngle(!is_state.spinning ? is_state.angle : null))
-        }
-      })
+      }, h => h.bindTo(this.handler_pool))
     }
   }
 
@@ -376,18 +366,30 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
   renderWidget() {
     this.parent.layer.compass_container.empty()
 
-    const container = hbox().appendTo(this.parent.layer.compass_container)
+    const container = vbox().appendTo(this.parent.layer.compass_container)
 
     cls("ctr-neosolving-compass-solving-header")
       .append(
         inlineimg("assets/icons/arrow.png").tooltip("Compass Solver"),
+        "Compass Solver",
+        /*inlineimg("assets/icons/info_nis.png").addClass("ctr-clickable")
+          .css("height", "1em")
+          .css("margin-left", "4px")
+          .on("click", async () => {
+
+          }),*/
         C.spacer(),
+        inlineimg("assets/icons/reset_nis.png").addClass("ctr-clickable")
+          .on("click", async () => {
+            this.reset(true)
+          })
+          .tooltip("Reset compass solver."),
         inlineimg("assets/icons/settings.png").addClass("ctr-clickable")
           .on("click", async () => {
             const result = await new SettingsModal("compass").do()
 
             if (result.saved) this.settings = result.value.solving.compass
-          })
+          }),
       )
       .appendTo(container)
 
@@ -467,10 +469,16 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     const index = this.entries.indexOf(entry)
 
     if (index >= 0) {
+      const state = this.process.state()
+
       entry.angle = null
       entry.information = null
       entry.widget.render()
-      entry.widget.setPreviewAngle(this.process.last_successful_read?.read?.angle)
+      entry.widget.setPreviewAngle(
+        state.state == "normal"
+          ? state.angle
+          : undefined
+      )
 
       await this.updatePossibilities(false)
 
@@ -495,7 +503,11 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
       angle = res.angle
     } else {
-      angle = this.process.state.value().angle
+      const state = this.process.state()
+
+      if (state.state != "normal") return
+
+      angle = state.angle
     }
 
     const info = Compasses.TriangulationPoint.construct(CompassSolving.Spot.coords(entry.position), angle)
@@ -522,7 +534,36 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     } else {
       // Advance selection index to next uncommitted entry
       let index = this.entries.indexOf(entry) + 1
-      while (index + 1 < this.entries.length && this.entries[index].information) index++ // TODO: Only select if no colinear any with existing lines?
+
+      while (true) {
+        if (index + 1 >= this.entries.length) break;
+
+
+        const entry = this.entries[index]
+
+        if (!entry.information) {
+          if (!entry.position || !this.settings.skip_triangulation_point_if_colinear) break
+
+          const spot = CompassSolving.Spot.coords(entry.position)
+
+          const colinear_to_any = this.entries.filter(e => e.information).some(e => {
+            const angle = Compasses.getExpectedAngle(
+              e.information.modified_origin,
+              spot.center(),
+            )
+
+            return Math.min(
+              angleDifference(angle, e.information.angle_radians),
+              angleDifference(normalizeAngle(angle + Math.PI), e.information.angle_radians),
+            ) < degreesToRadians(10)
+          })
+
+          if (!colinear_to_any) break
+        }
+
+        index++
+      }
+
       this.setSelection(index)
     }
   }
@@ -550,8 +591,21 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
   }
 
   /**
+   * Sets the highlighted spot. For the highlighted spot, a path method is shown.
+   * @param spot The spot to set as active
+   * @param set_as_solution If true, the 3 by 3 dig area for this spot is saved as the current clue's solution.
+   */
+  setSelectedSpot(spot: CompassSolving.SpotData, set_as_solution: boolean) {
+    this.selected_spot.set(spot)
+
+    if (set_as_solution && set_as_solution) {
+      this.registerSolution(digSpotArea(spot.spot))
+    }
+  }
+
+  /**
    * Update possible spots, potentially add a new triangulation entry, activate method for specific spot...
-   * @param maybe_fit
+   * @param maybe_fit If true, the map is zoomed/moved to the remaining candidate spots if it has been narrowed down enough.
    */
   async updatePossibilities(maybe_fit: boolean) {
 
@@ -594,10 +648,16 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
       // Reference comparison is fine because only the instances from the original array in the clue are handled
       if (!possible.some(e => TileCoordinates.equals(old_selection?.spot, e.spot))) {
-        this.selected_spot.set(possible[0])
+        this.setSelectedSpot(possible[0], false)
       }
     } else {
-      this.selected_spot.set(null)
+      this.setSelectedSpot(null, false)
+    }
+
+    if (possible.length <= 5) {
+      const area = TileRectangle.extend(TileRectangle.from(...possible.map(s => s.spot)), 1)
+
+      this.registerSolution(TileArea.fromRect(area))
     }
 
     // Selected spot and possibilities have been updated, update the preview rendering of methods for spots that are possible but not the most likely.
@@ -693,10 +753,10 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
   }
 
   private createEntry(entry: CompassSolving.Entry): CompassSolving.Entry {
-    const state = this.process.state.value()
+    const state = this.process.state()
 
     entry.widget = new CompassEntryWidget(entry)
-      .setPreviewAngle((!state || state.spinning) ? null : state.angle)
+      .setPreviewAngle((!state || state.state != "normal") ? null : state.angle)
       .appendTo(this.entry_container)
 
 
@@ -710,7 +770,6 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     entry.widget.discard_requested.on(e => {
       this.discardAngle(e.entry)
-
     })
 
     entry.widget.selection_requested.on(e => {
@@ -726,63 +785,78 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     return entry
   }
 
-  async registerSpot(coords: TileArea.ActiveTileArea | TeleportGroup.Spot): Promise<void> {
+  async registerSpot(coords: TileArea.ActiveTileArea | TeleportGroup.Spot, is_compass_solution: boolean): Promise<void> {
     const i = this.entry_selection_index
 
     const entry = this.entries[i]
 
     if (!entry) return
 
-    const hadInfo = entry.information != null
+    const hadInfo = entry.information
 
     entry.position = coords
     entry.angle = null
     entry.information = null
     entry.preconfigured = null
 
+    if (!is_compass_solution) entry.is_solution_of_previous_clue = undefined
+
     entry.widget.render()
 
-    const state = this.process.state.value()
-    entry.widget.setPreviewAngle(!state || state.spinning ? null : state.angle)
+    const state = this.process.state()
+    entry.widget.setPreviewAngle(state?.state != "normal" ? null : state.angle)
 
-    if (hadInfo) await this.updatePossibilities(false)
+    if (hadInfo) {
+      if (entry.is_solution_of_previous_clue && is_compass_solution) {
+        await this.commit(entry)
+      } else {
+        await this.updatePossibilities(false)
+      }
+    }
   }
 
-  protected async begin() {
-    this.layer = new CompassHandlingLayer(this)
-    this.parent.layer.add(this.layer)
+  /**
+   * Resets triangulation to a state as if the compass solver has just been started.
+   *
+   * @private
+   */
+  private async reset(only_use_previous_solution_if_existed_previously: boolean = false) {
+    this.settings = deps().app.settings.settings.solving.compass
 
-    this.process.run()
+    this.entries.forEach(e => e.widget?.remove())
 
-    this.parent.app.main_hotkey.subscribe(0, e => {
-      console.log("Hotkey in Compass solving")
-      if (e.text) {
-        const matched_teleport = findBestMatch(CompassSolving.teleport_hovers, ref => stringSimilarity(e.text, ref.expected), 0.9)
+    const had_previous_solution = this.entries.some(e => e.is_solution_of_previous_clue)
 
-        if (matched_teleport) {
-          const tele = TransportData.resolveTeleport(matched_teleport.value.teleport_id)
-          if (!tele) return
-          this.registerSpot(tele)
+    this.entries = []
+
+    if (this.settings.use_previous_solution_as_start && (had_previous_solution || !only_use_previous_solution_if_existed_previously)) {
+      (() => {
+        if (this.clue.id != gielinor_compass.id) return
+
+        const assumed_position_from_previous_clue = this.parent.getAssumedPlayerPositionByLastClueSolution()
+
+        if (!assumed_position_from_previous_clue) return
+
+        const size = activate(assumed_position_from_previous_clue).size
+
+        // Only use positions that are reasonably small
+        if (Vector2.max_axis(size) > 128) {
+          console.log(`Not using previous solution because solution area is too large (${size.x} x ${size.y})`)
+          return
         }
-      } else {
-        this.commit(undefined, true)
-      }
-    }).bindTo(this.handler_pool)
 
-    this.renderWidget()
+        if (!Rectangle.containsRect(this.clue.valid_area, TileArea.toRect(assumed_position_from_previous_clue))) return
 
-    const assumed_position_from_previous_clue = null //this.parent.getAssumedPlayerPosition()
-
-    if (this.settings.use_previous_solution_as_start && assumed_position_from_previous_clue && this.clue.id == gielinor_compass.id
-      && Rectangle.containsRect(this.clue.valid_area, TileArea.toRect(assumed_position_from_previous_clue))
-    ) { // Only for elite compass for now
-      this.createEntry({
-        position: TileArea.activate(assumed_position_from_previous_clue),
-        angle: null,
-        information: null,
-        is_solution_of_previous_clue: true,
-      })
+        this.createEntry({
+          position: TileArea.activate(assumed_position_from_previous_clue),
+          angle: null,
+          information: null,
+          is_solution_of_previous_clue: true,
+        })
+      })()
     }
+
+    const previous_solution_used = !!this.entries[0]?.is_solution_of_previous_clue
 
     const preconfigured_id = this.settings.active_triangulation_presets.find(p => p.compass_id == this.clue.id)?.preset_id
 
@@ -792,7 +866,13 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     ].find(p => p.id == preconfigured_id)
 
     if (preconfigured_sequence) {
-      preconfigured_sequence.sequence.forEach(e => {
+
+      const sequence =
+        (previous_solution_used && this.settings.invert_preset_sequence_if_previous_solution_was_used)
+          ? [...preconfigured_sequence.sequence].reverse()
+          : preconfigured_sequence.sequence
+
+      sequence.forEach(e => {
         const spot = e.teleport
           ? TransportData.resolveTeleport(e.teleport)
           : activate(TileArea.init(e.tile))
@@ -815,13 +895,38 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       })
     }
 
-    if (this.entries[0]?.is_solution_of_previous_clue) {
+    if (previous_solution_used) {
       await this.commit(this.entries[0])
     } else {
       this.setSelection(this.entries.findIndex(e => !e.information))
 
       this.updatePossibilities(true)
     }
+  }
+
+  protected async begin() {
+    this.layer = new CompassHandlingLayer(this)
+    this.parent.layer.add(this.layer)
+
+    this.process.run()
+
+    this.parent.app.main_hotkey.subscribe(0, e => {
+      if (e.text) {
+        const matched_teleport = findBestMatch(CompassSolving.teleport_hovers, ref => stringSimilarity(e.text, ref.expected), 0.9)
+
+        if (matched_teleport) {
+          const tele = TransportData.resolveTeleport(matched_teleport.value.teleport_id)
+          if (!tele) return
+          this.registerSpot(tele, false)
+        }
+      } else {
+        this.commit(undefined, true)
+      }
+    }).bindTo(this.handler_pool)
+
+    this.renderWidget()
+
+    await this.reset()
   }
 
   protected end() {
@@ -1002,7 +1107,10 @@ export namespace CompassSolving {
     custom_triangulation_presets: TriangulationPreset[],
     manual_tile_inaccuracy: number,
     use_previous_solution_as_start: boolean,
-    show_method_preview_of_secondary_solutions: boolean
+    show_method_preview_of_secondary_solutions: boolean,
+    invert_preset_sequence_if_previous_solution_was_used: boolean,
+    skip_triangulation_point_if_colinear: boolean,
+    beam_color: string
   }
 
   export type TriangulationPreset = {
@@ -1091,6 +1199,9 @@ export namespace CompassSolving {
       manual_tile_inaccuracy: 3,
       use_previous_solution_as_start: false,
       show_method_preview_of_secondary_solutions: true,
+      invert_preset_sequence_if_previous_solution_was_used: false,
+      skip_triangulation_point_if_colinear: true,
+      beam_color: '#3388ff'
     }
 
     export function normalize(settings: Settings): Settings {
@@ -1103,8 +1214,11 @@ export namespace CompassSolving {
       if (typeof settings.manual_tile_inaccuracy != "number") settings.manual_tile_inaccuracy = DEFAULT.manual_tile_inaccuracy
       if (![true, false].includes(settings.use_previous_solution_as_start)) settings.use_previous_solution_as_start = DEFAULT.use_previous_solution_as_start
       if (![true, false].includes(settings.show_method_preview_of_secondary_solutions)) settings.show_method_preview_of_secondary_solutions = DEFAULT.show_method_preview_of_secondary_solutions
+      if (![true, false].includes(settings.invert_preset_sequence_if_previous_solution_was_used)) settings.show_method_preview_of_secondary_solutions = DEFAULT.invert_preset_sequence_if_previous_solution_was_used
+      if (![true, false].includes(settings.skip_triangulation_point_if_colinear)) settings.skip_triangulation_point_if_colinear = DEFAULT.skip_triangulation_point_if_colinear
+      if (typeof settings.beam_color != "string") settings.beam_color = DEFAULT.beam_color
 
-      settings.use_previous_solution_as_start = false // Options disabled for now because it doesn't work reliably
+      //settings.use_previous_solution_as_start = false // Options disabled for now because it doesn't work reliably
 
       return settings
     }

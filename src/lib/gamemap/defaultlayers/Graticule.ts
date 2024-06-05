@@ -19,13 +19,15 @@ export default class Graticule extends leaflet.FeatureGroup {
   private _style: PolylineOptions
 
   constructor(public _options: {
-    intervals: {
-      min_zoom: number,
-      interval: number
-    }[],
-    offset?: Vector2,
-    lineStyle?: PolylineOptions
-  }) {
+                intervals: {
+                  min_zoom: number,
+                  interval: number
+                }[],
+                offset?: Vector2,
+                lineStyle?: PolylineOptions
+                pane?: string | undefined
+              },
+  ) {
     super()
 
     this._style = _options.lineStyle
@@ -37,8 +39,10 @@ export default class Graticule extends leaflet.FeatureGroup {
       color: '#111',
       opacity: 0.6,
       weight: 1,
-      interactive: false
+      interactive: false,
     }
+
+    if (_options.pane && !this._style.pane) this._style.pane = _options.pane
   }
 
   _hook = () => this.redraw()

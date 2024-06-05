@@ -314,6 +314,7 @@ export class Application extends Behaviour {
 
     this.menu_bar.switchToTab(this.in_alt1 ? "solve" : "solve")
 
+    /*
     if (this.mode() == "preview") {
       if (!this.startup_settings.value().hide_preview_notice) {
         notification("Preview Notice: Clue Trainer is actively in development and currently incomplete.")
@@ -333,8 +334,9 @@ export class Application extends Behaviour {
           this.startup_settings.update(s => s.dont_recommend_alt1 = true)
           not.dismiss()
         }).show()
-    }
+    }*/
 
+    /*
     if (this.startup_settings.value().last_loaded_version != null && this.startup_settings.value().last_loaded_version != this.version) {
       notification("There has been an update!")
         .addButton("View patchnotes", (not) => {
@@ -342,6 +344,7 @@ export class Application extends Behaviour {
           not.dismiss()
         })
     }
+    */
 
     this.startup_settings.update(s => s.last_loaded_version = this.version)
 
@@ -355,6 +358,7 @@ export class Application extends Behaviour {
   protected end() {
   }
 
+  /*
   mode(): "development" | "live" | "preview" {
     return "preview"
 
@@ -367,7 +371,7 @@ export class Application extends Behaviour {
     }
 
     return "development"
-  }
+  }*/
 
   addToAlt1Link(): string {
     return `alt1://addapp/${window.location.protocol}//${window.location.host}${window.location.pathname.slice(0, window.location.pathname.lastIndexOf("/") + 1)}appconfig.json`

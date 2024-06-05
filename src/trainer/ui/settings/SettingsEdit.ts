@@ -949,19 +949,17 @@ class CompassSettingsEdit extends Widget {
       "When active method previews for all remaining candidates are shown after the first triangulation step."
     )
 
+    this.layout.namedSetting("Beam Color",
+      new ColorPicker()
+        .setValue(this.value.beam_color)
+        .onCommit(v => this.value.beam_color = v),
+      "Select the color of the triangulation beams on the map.")
+
     this.layout.setting("Manual Tile Selection Inaccuracy", "Choose how accurate your manual spot selection when you click the map should be assumed to be. 1 considers your selection to be precisely the tile you stand on, higher values leave more room for error. This does not apply to tiles selected as part of a preconfigured strategy.")
     this.layout.row(new NumberSlider(0, 10, 1)
       .setValue(this.value.manual_tile_inaccuracy)
       .onCommit(v => this.value.manual_tile_inaccuracy = v)
     )
-
-    this.layout.setting("Beam Color", "Select the color of the triangulation beams on the map.")
-    this.layout.row(
-      new ColorPicker()
-        .setValue(this.value.beam_color)
-        .onCommit(v => this.value.beam_color = v)
-    )
-
 
     this.layout.section("Smart Triangulation", "Configure advanced triangulation behaviour that reduces the need for manual input.")
 

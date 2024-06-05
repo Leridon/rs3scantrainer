@@ -86,8 +86,7 @@ class CompassHandlingLayer extends GameLayer {
       return {
         line:
           leaflet.featureGroup([
-            leaflet.polyline([Vector2.toLatLong(from), Vector2.toLatLong(to)])
-            ,
+            leaflet.polyline([Vector2.toLatLong(from), Vector2.toLatLong(to)], {color: this.solving.settings.beam_color}),
             leaflet.polygon([
               Vector2.toLatLong(corner_near_left),
               Vector2.toLatLong(corner_near_right),
@@ -95,7 +94,8 @@ class CompassHandlingLayer extends GameLayer {
               Vector2.toLatLong(corner_far_right),
             ]).setStyle({
               stroke: false,
-              fillOpacity: 0.2
+              fillOpacity: 0.2,
+              color: this.solving.settings.beam_color
             })
           ]).addTo(this)
       }
@@ -524,10 +524,6 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     await this.updatePossibilities(true)
 
-    if (this.settings.skip_triangulation_point_if_colinear) {
-
-    }
-
     if (!this.entries.some(e => !e.information) && count(this.spots, e => e.isPossible) > 1) {
       this.createEntry({
         position: null,
@@ -538,7 +534,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     } else {
       // Advance selection index to next uncommitted entry
       let index = this.entries.indexOf(entry) + 1
-      
+
       while (index + 1 < this.entries.length && this.entries[index].information) {
         if (index + 1 >= this.entries.length) break;
 
@@ -1114,6 +1110,7 @@ export namespace CompassSolving {
     show_method_preview_of_secondary_solutions: boolean,
     invert_preset_sequence_if_previous_solution_was_used: boolean,
     skip_triangulation_point_if_colinear: boolean,
+    beam_color: string
   }
 
   export type TriangulationPreset = {
@@ -1204,6 +1201,7 @@ export namespace CompassSolving {
       show_method_preview_of_secondary_solutions: true,
       invert_preset_sequence_if_previous_solution_was_used: false,
       skip_triangulation_point_if_colinear: true,
+      beam_color: '#3388ff'
     }
 
     export function normalize(settings: Settings): Settings {
@@ -1218,6 +1216,7 @@ export namespace CompassSolving {
       if (![true, false].includes(settings.show_method_preview_of_secondary_solutions)) settings.show_method_preview_of_secondary_solutions = DEFAULT.show_method_preview_of_secondary_solutions
       if (![true, false].includes(settings.invert_preset_sequence_if_previous_solution_was_used)) settings.show_method_preview_of_secondary_solutions = DEFAULT.invert_preset_sequence_if_previous_solution_was_used
       if (![true, false].includes(settings.skip_triangulation_point_if_colinear)) settings.skip_triangulation_point_if_colinear = DEFAULT.skip_triangulation_point_if_colinear
+      if (typeof settings.beam_color != "string") settings.beam_color = DEFAULT.beam_color
 
       //settings.use_previous_solution_as_start = false // Options disabled for now because it doesn't work reliably
 

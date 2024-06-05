@@ -1,3 +1,19 @@
+**Patch notes: ** More compass improvements!
+- The previously shelved feature to use the solution of the previous clue step has been revisited and is now available.
+    - You can activate it in the compass settings.
+    - If the previous clue step was a scan, this will only work if you followed the scan tree until the remaining spots are in a reasonably small rectangle.
+    - If the previous clue was also a compass and multiple spots were in the intersection of the beams, the smallest rectangle containing all spots will be used.
+    - Your selected triangulation preset will load after this initial arrow. There's an option to invert the sequence if the previous solution is used in case you rely on ending the triangulation at a certain spot (for example south feldip hills for the spirit tree).
+    - There's an option to skip spots of the preset sequence if they are close to co-linear to an existing beam.
+- The settings menu for compasses has been cleaned up. Detailed explanations of the individual settings have been moved into a tooltip of a small info-icon.
+- You can now customize the color of the triangulation beams.
+- The compass solver UI has been restored to a horizontal header and now contains a reset button.
+- Various issues with the compass reader that caused wrong "concealed" readings have been resolved.
+- The compass reader now detects if you are on top of the target spot, which no longer closes the compass solver.
+    - This was a necessary fix to make the solution of the previous clue usable. Before, accidentally moving across the compass stop before digging made the entire thing break.
+
+
+
 Compass solver:
     - [Postponed] Chatbox read service to look for sextant message
     - [Postponed] Fix fight for zoom-authority between compass and path.

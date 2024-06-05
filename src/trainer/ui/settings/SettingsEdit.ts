@@ -930,6 +930,13 @@ class CompassSettingsEdit extends Widget {
       .onCommit(v => this.value.manual_tile_inaccuracy = v)
     )
 
+    this.layout.setting("Beam Color", "Select the color of the triangulation beams on the map.")
+    this.layout.row(
+      new ColorPicker()
+        .setValue(this.value.beam_color)
+        .onCommit(v => this.value.beam_color = v)
+    )
+
 
     this.layout.section("Smart Triangulation", "Configure advanced triangulation behaviour that reduces the need for manual input.")
 
@@ -1191,7 +1198,7 @@ class CompassSettingsEdit extends Widget {
       )
     }
 
-    this.layout.setting(new Checkbox("Use solution of previous clue")
+    this.layout.setting(new Checkbox("Use solution of previous step")
         .onCommit(v => this.value.use_previous_solution_as_start = v)
         .setValue(this.value.use_previous_solution_as_start),
       "When active, the solution of the previous clue step is used as the first triangulation spot and the initially read compass angle is immediately committed. Only applies to elite compasses and only uses the solution of scans if you follow the scan tree to a point where the remaining spots are in a reasonably small rectangle."

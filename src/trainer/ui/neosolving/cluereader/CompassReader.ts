@@ -336,7 +336,7 @@ export namespace CompassReader {
   export const DISABLE_CALIBRATION = false
 
   export const RESOLUTION_INACCURACY_DEGREES = 0.2 // Calculated on a napkin, so might not be completely accurate
-  export const CALIBRATION_INACCURACY_DEGREES = 0.2
+  export const CALIBRATION_INACCURACY_DEGREES = 0.25
   export const EPSILON = degreesToRadians(RESOLUTION_INACCURACY_DEGREES + CALIBRATION_INACCURACY_DEGREES)
   export const CIRCLE_SAMPLE_CONCEALED_THRESHOLD = degreesToRadians(3)
 
@@ -1126,6 +1126,12 @@ export namespace CompassReader {
 
     }
 
+    private previous_state: {
+      since: number,
+      last_confirmed: number,
+      state: CompassReader.AngleResult
+    } = null
+
     private buffered_state: {
       since: number,
       last_confirmed: number,
@@ -1154,6 +1160,8 @@ export namespace CompassReader {
         if (lodash.isEqual(this.buffered_state?.state, read)) {
           this.buffered_state.last_confirmed = now
         } else {
+          this.previous_state = this.buffered_state
+
           this.buffered_state = {
             since: now,
             last_confirmed: now,
@@ -1204,7 +1212,7 @@ export namespace CompassReader {
 
         this.committed_state.set({angle: null, state: "solved"})
       } else if (state.type == "success") {
-        if (state_active_time > 0.001) {
+        if (state_active_time > 0.1) {
 
           this.committed_state.set({
             angle: state.angle,
@@ -1212,7 +1220,7 @@ export namespace CompassReader {
           })
 
           this.last_stationary_tick = tick
-        } else if (tick - this.last_stationary_tick > 2) {
+        } else if (this.previous_state?.state.type == "success" && tick - this.last_stationary_tick > 2) {
           this.committed_state.set({
             angle: null,
             state: "spinning"

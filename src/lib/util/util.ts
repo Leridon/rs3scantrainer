@@ -301,6 +301,10 @@ export namespace util {
   }
 
 
+  export function rgbContrast(a: [number, number, number], b: [number, number, number]): number {
+    return 1 - rgbSimilarity(a, b)
+  }
+
   export function greatestCommonDivisor(a: number, b: number): number {
     if (b == 0) return Math.abs(a)
     else return greatestCommonDivisor(b, a % b)

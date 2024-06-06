@@ -558,7 +558,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
             return Math.min(
               angleDifference(angle, e.information.angle_radians),
               angleDifference(normalizeAngle(angle + Math.PI), e.information.angle_radians),
-            ) < degreesToRadians(10)
+            ) < degreesToRadians(5)
           })
 
           if (!colinear_to_any) break

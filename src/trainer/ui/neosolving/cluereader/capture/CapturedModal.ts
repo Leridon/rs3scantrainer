@@ -58,13 +58,11 @@ export class CapturedModal {
 
       const top_left = img.find(skin.top_left)[0]
       if (!top_left) {
-        console.log("Couldnt find top left")
         return null;
       }
 
       const bot_left = img.find(skin.bot_left)[0]
       if (!bot_left) {
-        console.log("Couldnt find bot left")
         return null;
       }
 

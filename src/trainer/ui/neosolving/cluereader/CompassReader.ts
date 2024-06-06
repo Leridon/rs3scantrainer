@@ -29,6 +29,7 @@ import Widget from "../../../../lib/ui/Widget";
 import angleDifference = Compasses.angleDifference;
 import ANGLE_REFERENCE_VECTOR = Compasses.ANGLE_REFERENCE_VECTOR;
 import AngleResult = CompassReader.AngleResult;
+import {Log} from "../../../../lib/util/Log";
 
 class AngularKeyframeFunction {
   private constructor(private readonly keyframes: {
@@ -330,6 +331,7 @@ export class CompassReader {
 export namespace CompassReader {
   import greatestCommonDivisor = util.greatestCommonDivisor;
   import cleanedJSON = util.cleanedJSON;
+  import log = Log.log;
   export const DEBUG_COMPASS_READER = false
   export const DISABLE_CALIBRATION = false
 
@@ -1163,7 +1165,7 @@ export namespace CompassReader {
       const state = this.buffered_state.state
       const state_active_time = this.buffered_state.last_confirmed - this.buffered_state.since
 
-      if (state.type == "likely_concealed" || state.type == "likely_closed") console.log(`${state.type}: ${state.details}`)
+      if (state.type == "likely_concealed" || state.type == "likely_closed") log().log(`${state.type}: ${state.details}`, "Compass Reader")
 
       const BUFFER_CONFIRMATION_TIME = 200
 
@@ -1298,7 +1300,6 @@ export namespace CompassReader {
       this.samples = lodash.cloneDeep(samples)
 
       this.handler = deps().app.main_hotkey.subscribe(0, (e) => {
-        console.log("Hotkey in Calibration")
         this.commit()
       })
 
@@ -1397,8 +1398,6 @@ export namespace CompassReader {
           if (test(v)) return
         }
       }
-
-      console.log("No more eligible spots")
 
       /*
             for (let d = 1; d <= 100; d++) {
@@ -1529,8 +1528,6 @@ export namespace CompassReader {
       }
 
       setOffset(offset: Vector2) {
-        console.log(`Setting ${Vector2.toString(offset)}`)
-
         this.offset = offset
 
         this.tool.expected.text(`Expected: ${radiansToDegrees(normalizeAngle(Math.atan2(-offset.y, -offset.x))).toFixed(3)}°`)

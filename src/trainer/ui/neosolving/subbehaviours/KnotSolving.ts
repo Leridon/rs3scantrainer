@@ -10,6 +10,10 @@ import {CapturedModal} from "../cluereader/capture/CapturedModal";
 import {AbstractPuzzleProcess} from "./AbstractPuzzleProcess";
 import {AbstractPuzzleSolving} from "./AbstractPuzzleSolving";
 import {deps} from "../../../dependencies";
+import {Log} from "../../../../lib/util/Log";
+import log = Log.log;
+import {util} from "../../../../lib/util/util";
+import cleanedJSON = util.cleanedJSON;
 
 const CENTER_TEXT_SIZE = 20
 const MOVE_FONT_SIZE = 24
@@ -53,10 +57,9 @@ class KnotSolvingProcess extends AbstractPuzzleProcess {
       const buttons = KnotReader.getButtons(this.puzzle.shape)
 
       if (!buttons) {
-        console.log("Button positions unknown")
-        console.log(this.puzzle.shape)
-        console.log("Hash")
-        console.log(CelticKnots.PuzzleShape.hash(this.puzzle.shape))
+        log().log(`Could not identity knot shape: ${cleanedJSON(this.puzzle.shape)}`, "Knot Solver")
+        log().log(`Hash: ${cleanedJSON(CelticKnots.PuzzleShape.hash(this.puzzle.shape))}`, "Knot Solver")
+
         await reader.showDebugOverlay(true)
       }
 

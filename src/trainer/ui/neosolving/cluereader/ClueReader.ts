@@ -53,7 +53,6 @@ export class ClueReader {
 
   async init() {
     this.anchors = await AnchorImages.getAnchorImages()
-    console.log("Initialized anchors")
   }
 
   async read(img: CapturedImage): Promise<ClueReader.Result> {

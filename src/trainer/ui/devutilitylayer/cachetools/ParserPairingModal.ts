@@ -62,7 +62,6 @@ export class ParserPairingEdit extends Widget {
   }
 
   center_map() {
-    console.log("Centering")
     this.map.map.fitView(TileRectangle.extend(this.loc.box, 3), {maxZoom: 20})
   }
 

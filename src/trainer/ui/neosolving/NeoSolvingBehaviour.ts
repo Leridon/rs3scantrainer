@@ -55,6 +55,8 @@ import hboxl = C.hboxl;
 import notification = Notification.notification;
 import activate = TileArea.activate;
 import ClueSpot = Clues.ClueSpot;
+import {Log} from "../../../lib/util/Log";
+import log = Log.log;
 
 class NeoSolvingLayer extends GameLayer {
   public control_bar: NeoSolvingLayer.MainControlBar
@@ -437,6 +439,15 @@ export default class NeoSolvingBehaviour extends Behaviour {
       solution_area: undefined
     }
 
+    switch (state.type) {
+      case "puzzle":
+        log().log(`Changed state to ${state.puzzle.type}`, "Solving")
+        break;
+      case "clue":
+        log().log(`Changed state to ${state.clue.step.type}`, "Solving")
+        break;
+    }
+
     this.history.push(this.state)
 
     return this.state
@@ -496,7 +507,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
       if (step.step.type == "map") {
         if (settings.info_panel.map_image == "show") {
           w.append(c(`<img src='${step.step.image_url}' style="width: 100%">`).addClass("ctr-neosolving-solution-row"))
-        } else if(settings.info_panel.map_image == "transcript") {
+        } else if (settings.info_panel.map_image == "transcript") {
           cls("ctr-neosolving-solution-row").text(step.step.text[0]).appendTo(w)
         }
       } else {
@@ -863,6 +874,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
     this.default_method_selector?.remove()
     this.state = null
     this.active_method = null
+
+    log().log("Reset state", "Solving")
   }
 
   protected begin() {

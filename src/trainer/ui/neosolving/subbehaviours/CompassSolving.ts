@@ -44,6 +44,8 @@ import count = util.count;
 import gielinor_compass = clue_data.gielinor_compass;
 import digSpotArea = Clues.digSpotArea;
 import vbox = C.vbox;
+import {Log} from "../../../../lib/util/Log";
+import log = Log.log;
 
 class CompassHandlingLayer extends GameLayer {
   private lines: {
@@ -301,6 +303,8 @@ class CompassEntryWidget extends Widget {
   }
 }
 
+const DEBUG_ANGLE_OVERRIDE: number = null // degreesToRadians(206.87152474371157)
+
 /**
  * The {@link NeoSolvingSubBehaviour} for compass clues.
  * It controls the compass UI and uses an internal process to continuously read the compass state.
@@ -411,8 +415,6 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     const index = this.entries.indexOf(entry)
 
     if (index >= 0) {
-      console.log(`Deleting ${index}`)
-
       this.entries.splice(index, 1)
 
       entry.widget?.remove()
@@ -422,8 +424,6 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       } else if (index == this.entry_selection_index) {
         this.setSelection(this.entry_selection_index) // Update selection index to the same value as before to force interface update
       }
-
-      console.log(`Index after deletion: ${this.entry_selection_index}`)
     }
   }
 
@@ -510,12 +510,14 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       angle = state.angle
     }
 
+    if (DEBUG_ANGLE_OVERRIDE != null) angle = DEBUG_ANGLE_OVERRIDE
+
     const info = Compasses.TriangulationPoint.construct(CompassSolving.Spot.coords(entry.position), angle)
 
     if (!this.spots.some(s => Compasses.isPossible([info], s.spot))) {
       if (is_manual) notification("Refusing to lock in impossible angle.", "error").show()
 
-      console.log(`Cowardly refusing to lock in impossible angle ${radiansToDegrees(info.angle_radians)}° from ${info.modified_origin.x} | ${info.modified_origin.y}`)
+      log().log(`Cowardly refusing to lock in impossible angle ${radiansToDegrees(info.angle_radians)}° from ${info.modified_origin.x} | ${info.modified_origin.y}`, "Compass Solver")
 
       return
     }
@@ -687,68 +689,6 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
         this.deleteEntry(i)
       }
     }
-
-    // Remove redundant triangulation entries that have no commited angle
-    // Only the last uncommitted entry is preserved, and only if there is more than one candidate spot left
-    /*{
-      let preserve_index = needs_more_info ? lodash.findLastIndex(this.entries, e => !e.information) : null
-
-      let selection_after = this.entry_selection_index
-
-      while (true) {
-        const i = this.entries.findIndex(e => !e.information)
-
-        if (i < 0 || i == preserve_index) break
-
-        const entry = this.entries[i]
-
-        entry.widget.remove()
-        entry.widget = null
-
-        this.entries.splice(i, 1)
-
-        preserve_index--
-        if (selection_after >= i) selection_after--
-      }
-
-      this.setSelection(selection_after)
-    }*/
-
-
-    // Check if we need to add another triangulation spot
-    /*if (needs_more_info && lodash.every(this.entries, e => e.information)) {
-      (() => {
-
-        if (!this.entries.some(e => e.is_solution_of_previous_clue)) {
-          // Check if there's an element of the preconfigured sequence we can still use
-          const unused_preconfigured = this.preconfigured_sequence?.sequence?.find(step => !this.entries.some(e => e.preconfigured == step))
-
-          if (unused_preconfigured) {
-            const spot = unused_preconfigured.teleport
-              ? TransportData.resolveTeleport(unused_preconfigured.teleport)
-              : activate(TileArea.init(unused_preconfigured.tile))
-
-            if (spot) {
-              this.createEntry({
-                position: spot,
-                angle: null,
-                information: null,
-                preconfigured: unused_preconfigured,
-              })
-              return
-            }
-          }
-        }
-
-        // If we get to this point, add empty entry without position
-        this.createEntry({
-          position: null,
-          angle: null,
-          information: null,
-          preconfigured: null,
-        })
-      })()
-    }*/
 
     await this.layer.updateOverlay()
 

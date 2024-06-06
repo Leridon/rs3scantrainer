@@ -113,7 +113,7 @@ export namespace Log {
       super._log(message)
       this.buffers[0]._log(message)
 
-      if (this.buffers[0].entries.length > 1000) {
+      if (this.buffers[0].entries.length > 10000) {
         this.buffers[1] = this.buffers[0]
         this.buffers[0] = new SingleBuffered()
       }

@@ -4,11 +4,16 @@ import {deps} from "../../../dependencies";
 import {NisModal} from "../../../../lib/ui/NisModal";
 import {Notification} from "../../NotificationBar";
 import notification = Notification.notification;
+import {util} from "../../../../lib/util/util";
+import download = util.download;
 
 export default class ExportStringModal extends NisModal {
   textarea: TextArea
 
-  constructor(private string: string, private explanation: string = "") {
+  constructor(private string: string,
+              private explanation: string = "",
+              private file_name: string = undefined
+  ) {
     super({force_footer: true});
   }
 
@@ -30,15 +35,42 @@ export default class ExportStringModal extends NisModal {
   }
 
   getButtons(): BigNisButton[] {
-    return [
+    const buttons: BigNisButton[] = [
       new BigNisButton("Cancel", "cancel")
         .onClick(() => this.remove()),
       new BigNisButton("Copy", "confirm")
         .onClick(async () => {
-          await navigator.clipboard.writeText(this.string)
+          try {
+            await navigator.clipboard.writeText(this.string)
 
-          notification("String copied to clipboard!").show()
+            notification("String copied to clipboard!").show()
+          } catch {
+            notification("Copying failed!", "error").show()
+          }
+
         })
     ]
+
+    if (this.file_name && this.file_name.length > 0) {
+      buttons.push(new BigNisButton("Download", "confirm")
+        .onClick(async () => {
+          try {
+            download(this.file_name, this.string)
+          } catch {
+            notification("Download failed!", "error").show()
+          }
+        })
+      )
+    }
+
+    return buttons
+  }
+
+  static do(
+    value: string,
+    explanation: string = "",
+    file_name: string = undefined
+  ): Promise<ExportStringModal> {
+    return new ExportStringModal(value, explanation, file_name).show()
   }
 }

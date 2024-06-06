@@ -42,6 +42,9 @@ import entity = C.entity;
 import notification = Notification.notification;
 import {Alt1Modal} from "./Alt1Modal";
 import {Alt1ContextMenuDetection} from "../lib/alt1/Alt1ContextMenuDetection";
+import ExportStringModal from "./ui/widgets/modals/ExportStringModal";
+import {Log} from "../lib/util/Log";
+import log = Log.log;
 
 export class SimpleLayerBehaviour extends Behaviour {
   constructor(private map: GameMap, private layer: GameLayer) {
@@ -290,7 +293,7 @@ export class Application extends Behaviour {
     this.favourites = new FavoriteIndex(MethodPackManager.instance())
 
     if (this.in_dev_mode) {
-      console.log("In development mode")
+      log().log("In development mode")
     }
   }
 
@@ -350,6 +353,21 @@ export class Application extends Behaviour {
 
     let query_function = QueryLinks.get_from_params(ScanTrainerCommands.index, new URLSearchParams(window.location.search))
     if (query_function) query_function(this)
+
+    document.body.addEventListener("keydown", e => {
+      if (e.key == "F6") {
+
+        log().log("Log export started")
+
+        ExportStringModal.do(
+          log().toString(),
+          "",
+          `cluetrainerlog${Date.now()}.txt`
+        )
+      }
+    })
+
+    log().log("Clue Trainer started")
 
     //ExportStringModal.do(await makeshift_main())
     await makeshift_main()

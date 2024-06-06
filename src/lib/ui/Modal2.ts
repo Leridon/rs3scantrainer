@@ -69,8 +69,6 @@ export abstract class Modal2 {
 
         Modal2.open_count--
 
-        console.log(`Open Modals ${Modal2.open_count}`)
-
         if (Modal2.open_count == 0) {
           const backdrops = document.getElementsByClassName("modal-backdrop")
           for (let i = 0; i < backdrops.length; i++) {
@@ -110,7 +108,6 @@ export abstract class Modal2 {
   hide() {
     if (this.state.value() == "showing") {
       this.should_hide = true
-      console.log("Request hiding")
     } else if (this.state.value() == "shown") {
       this.bs_modal.hide()
       this.state.set("hiding")

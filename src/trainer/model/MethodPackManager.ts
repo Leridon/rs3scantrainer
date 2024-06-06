@@ -11,6 +11,8 @@ import timestamp = util.timestamp;
 import ClueSpot = Clues.ClueSpot;
 import ClueAssumptions = SolvingMethods.ClueAssumptions;
 import uuid = util.uuid;
+import {Log} from "../../lib/util/Log";
+import log = Log.log;
 
 export type Pack = Pack.Meta & {
   type: "default" | "local" | "imported"
@@ -191,14 +193,15 @@ export class MethodPackManager {
 
   async deletePack(pack: Pack) {
     if (pack.type == "default") {
-      console.log("Attempting to delete default pack")
+      log().log("Attempting to delete default pack")
+
       return
     }
 
     let i = this.local_packs.findIndex(p => p.local_id == pack.local_id)
 
     if (i < 0) {
-      console.log("Attempting to delete non-existing pack")
+      log().log("Attempting to delete non-existing pack")
       return
     }
 

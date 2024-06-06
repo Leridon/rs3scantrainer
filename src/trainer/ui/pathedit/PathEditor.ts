@@ -234,8 +234,6 @@ class PathEditorGameLayer extends GameLayer {
 
                 const target = interactiveArea(s, a)
 
-                console.log(activate(target).getTiles())
-
                 const steps: Path.Step[] = []
 
                 if (current_tile && !activate(target).query(current_tile)) {

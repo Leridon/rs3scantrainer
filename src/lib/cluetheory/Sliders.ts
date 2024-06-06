@@ -4,6 +4,7 @@ import * as lodash from "lodash";
 import {Process} from "../Process";
 import {util} from "../util/util";
 import {ImageFingerprint} from "../util/ImageFingerprint";
+import {Log} from "../util/Log";
 
 export namespace Sliders {
   export type SliderPuzzle = { tiles: Tile[], theme?: string, match_score?: number }
@@ -339,6 +340,8 @@ export namespace Sliders {
   }
 
   export namespace SlideSolver {
+    import log = Log.log;
+
     /**
      * This is completely taken from skillbert's random solver and just fitted to the new interface
      * @param start_state
@@ -368,7 +371,7 @@ export namespace Sliders {
             }
 
             if (steps++ > 50) {
-              console.log("failed to solve puzzle, over 50 actions attempted");
+              log().log("failed to solve puzzle, over 50 actions attempted", "Puzzle Solver")
               return null;
             }
           }

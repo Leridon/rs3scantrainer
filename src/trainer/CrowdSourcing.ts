@@ -4,6 +4,8 @@ import * as lodash from "lodash";
 import {storage} from "../lib/util/storage";
 import SliderPuzzle = Sliders.SliderPuzzle;
 import SliderState = Sliders.SliderState;
+import {Log} from "../lib/util/Log";
+import log = Log.log;
 
 export class CrowdSourcing {
   private last_slider_state = new storage.Variable<{
@@ -48,7 +50,7 @@ export class CrowdSourcing {
         theme: slider.theme
       })
 
-      console.log(`Adding ${body} to crowdsourcing`)
+      log().log(`Adding slider ${body}`, "Crowdsourcing")
 
       fetch(this.endpoint("initial_slider_state"), {
         method: "POST",

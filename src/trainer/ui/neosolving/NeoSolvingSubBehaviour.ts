@@ -2,6 +2,10 @@ import Behaviour from "../../../lib/ui/Behaviour";
 import NeoSolvingBehaviour, {NeoSolving} from "./NeoSolvingBehaviour";
 import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
 import {Vector2} from "../../../lib/math";
+import {Log} from "../../../lib/util/Log";
+import log = Log.log;
+import activate = TileArea.activate;
+import {TileCoordinates} from "../../../lib/runescape/coordinates";
 
 /**
  * {@link NeoSolvingSubBehaviour}s implement active components for the {@link NeoSolvingBehaviour}.
@@ -25,7 +29,7 @@ export abstract class NeoSolvingSubBehaviour<State extends NeoSolving.ActiveStat
       debugger
     }
 
-    console.log(`Setting solution to ${Vector2.toString(area.origin)}`)
+    log().log(`Setting clue solution to ${area.size?.x ?? 1}x${area.size?.y ?? 1} at ${TileCoordinates.toString(area.origin)}`, "Solving")
 
     this._state.solution_area = area
   }

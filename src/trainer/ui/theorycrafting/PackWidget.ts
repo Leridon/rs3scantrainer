@@ -99,14 +99,16 @@ export default class PackWidget extends Widget {
             }
           })
 
+          const pack_name = pack.name.length > 0 ? pack.name : "Unnamed Pack"
+
           menu.children.push({
             type: "basic",
             text: "Export",
             handler: () => {
-              new ExportStringModal(exp({type: "method-pack", version: 1},
+             ExportStringModal.do(exp({type: "method-pack", version: 1},
                 true,
                 true
-              )(pack)).show()
+              )(pack), "", `${pack_name}.txt`)
             }
           })
 
@@ -114,7 +116,9 @@ export default class PackWidget extends Widget {
             type: "basic",
             text: "Export JSON",
             handler: () => {
-              new ExportStringModal(cleanedJSON(pack, 4)).show()
+              ExportStringModal.do(cleanedJSON(pack, 4), "",
+                `${pack_name}.json`
+              )
             }
           })
         }

@@ -40,8 +40,6 @@ export class Alt1ContextMenuDetection {
       const pixel = sampleImage(sub.getData(), {x: 0, y: 0})
 
       if (rgbSimilarity(expected_color, pixel) < 0.9) {
-        console.log("Context menu closed")
-
         this.last_rect = null
         this.ewent.trigger(this.last_rect)
       }

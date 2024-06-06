@@ -286,8 +286,6 @@ export class GameLayer extends leaflet.FeatureGroup {
         }
 
         traverse_leafs(this.entity_quadtree).forEach(p => p.addTo(this.debug_layer))
-
-        console.log("Queued: " + this.rendering.entity_rendering_lock_queue.length)
       }
 
       this.entity_quadtree.forEachVisible(e => {

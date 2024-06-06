@@ -6,6 +6,8 @@ import {util} from "../../../../../lib/util/util";
 import rgbSimilarity = util.rgbSimilarity;
 import sampleImage = util.sampleImage;
 import {Vector2} from "../../../../../lib/math";
+import {Log} from "../../../../../lib/util/Log";
+import log = Log.log;
 
 
 export class CapturedCompass {
@@ -43,6 +45,7 @@ export class CapturedCompass {
 
     return n > PIXEL_REQUIRED_TO_BE_CONSIDERED_ARC_COMPASS;
   })
+
   isArcCompass(): boolean {
     return this._is_arc_lines.get()
   }
@@ -55,8 +58,40 @@ export class CapturedCompass {
     const position = screen.find(await CapturedCompass.anchor.get())[0]
 
     if (position) {
+
+      // This is where it gets weird, so pay attention:
+      // The position of the north indicator is nondeterministic. It varies by a pixel to the left/right.
+      // We need to fix or the compass readings will be extremely off.
+
+      // We (try to) fix this, by checking for checking the contrast between 2 specific pixels that are part of the little arrow below the north-indicator.
+      // We sample three consecutive pixels, and depending on which pair has the higher contrast, we move the position a pixel to the right (or not).
+
+      const contrast_check_image = screen.getSubSection(
+        ScreenRectangle.move(position.relativeRectangle(),
+          {x: 5, y: 22},
+          {x: 3, y: 1}),
+      ).getData()
+
+      const a = sampleImage(contrast_check_image, {x: 0, y: 0})
+      const b = sampleImage(contrast_check_image, {x: 1, y: 0})
+      const c = sampleImage(contrast_check_image, {x: 2, y: 0})
+
+      const contrast_ab = 1 - rgbSimilarity(a, b)
+      const contrast_bc = 1 - rgbSimilarity(b, c)
+
+      if (contrast_bc > contrast_ab) log().log("Correcting compass reader to the right", "Compass Reader")
+      else  log().log("No need for correction", "Compass Reader")
+
+      // If the contrast of the right 2 pixels is larger than the constrast on the left, we need to move the entire interface 1 pixel to the right because the north-indicator is in the left position
+      const weirdness_correction =
+        contrast_bc > contrast_ab
+          ? {x: 1, y: 0}
+          : {x: 0, y: 0}
+
       const section = screen.getSubSection(
-        ScreenRectangle.move(position.relativeRectangle(), CapturedCompass.origin_offset_from_anchor, CapturedCompass.UI_SIZE),
+        ScreenRectangle.move(position.relativeRectangle(),
+          Vector2.add(CapturedCompass.origin_offset_from_anchor, weirdness_correction),
+          CapturedCompass.UI_SIZE),
       )
 
       return new CapturedCompass(section)

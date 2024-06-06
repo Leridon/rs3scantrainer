@@ -659,7 +659,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       this.setSelectedSpot(null, false)
     }
 
-    if (possible.length <= 5) {
+    if (possible.length > 0 && possible.length <= 5) {
       const area = TileRectangle.extend(TileRectangle.from(...possible.map(s => s.spot)), 1)
 
       this.registerSolution(TileArea.fromRect(area))

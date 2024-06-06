@@ -52,12 +52,12 @@ export default class ExportStringModal extends NisModal {
     ]
 
     if (this.file_name && this.file_name.length > 0) {
-      buttons.push(new BigNisButton("Download", "confirm")
+      buttons.push(new BigNisButton("Save File", "confirm")
         .onClick(async () => {
           try {
             download(this.file_name, this.string)
           } catch {
-            notification("Download failed!", "error").show()
+            notification("Saving failed!", "error").show()
           }
         })
       )

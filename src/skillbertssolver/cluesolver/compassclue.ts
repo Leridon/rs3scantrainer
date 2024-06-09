@@ -71,12 +71,7 @@ export class CompassReader {
   pos: a1lib.PointLike | null = null;
 
   find(img: ImgRef) {
-    let locs = img.findSubimage(imgs.northimg);
-    if (locs.length != 1) { return null; }
-    this.pos = {
-      x: locs[0].x - 53,
-      y: locs[0].y + 54
-    }
+
   }
 
   read(img: ImgRef): CompassState | null {

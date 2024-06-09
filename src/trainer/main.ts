@@ -409,8 +409,60 @@ export async function makeshift_main(): Promise<void> {
       return r.state.join("|") + "," + r.smallstep_solution.length + "," + r.multitile_solution.length
     }).join("\n")).show()
     */
-  // await new CompassReader.CalibrationTool().show()
+  await new CompassReader.CalibrationTool().show()
 
+
+  const wip =
+    [
+    {"position":{"x":-1,"y":0},"is_angle_degrees":10.776334248295548},
+    {"position":{"x":-4,"y":-1},"is_angle_degrees":327.3602034069823},
+    {"position":{"x":-3,"y":-1},"is_angle_degrees":357.44087228132037},
+    {"position":{"x":-2,"y":-1},"is_angle_degrees":39.653272916494394},
+    {"position":{"x":-3,"y":-2},"is_angle_degrees":35.038015601431454},
+    {"position":{"x":-4,"y":-3},"is_angle_degrees":37.322234795373355},
+    {"position":{"y":-1,"x":-1},"is_angle_degrees":35.80930899270409},
+    {"position":{"x":-3,"y":-4},"is_angle_degrees":32.30154656394916},
+    {"position":{"x":-2,"y":-3},"is_angle_degrees":35.221258663316085},
+    {"position":{"x":-1,"y":-2},"is_angle_degrees":30.63109546752282},
+    {"position":{"x":-1,"y":-3},"is_angle_degrees":49.11017130021864},
+    {"position":{"x":-1,"y":-4},"is_angle_degrees":69.77194676481548},
+    {"position":{"x":0,"y":-1},"is_angle_degrees":101.21750775407162},
+    {"position":{"x":1,"y":-4},"is_angle_degrees":54.203911690820476},
+    {"position":{"x":1,"y":-3},"is_angle_degrees":87.31359575652262},
+    {"position":{"x":1,"y":-2},"is_angle_degrees":129.65327291649442},
+    {"position":{"x":2,"y":-3},"is_angle_degrees":129.2180006177683},
+    {"position":{"x":3,"y":-4},"is_angle_degrees":127.32223479537336},
+    {"position":{"x":1,"y":-1},"is_angle_degrees":125.80930899270409},
+    {"position":{"x":4,"y":-3},"is_angle_degrees":122.30154656394917},
+    {"position":{"x":3,"y":-2},"is_angle_degrees":125.05931017949135},
+    {"position":{"x":2,"y":-1},"is_angle_degrees":120.63109546752281},
+    {"position":{"x":3,"y":-1},"is_angle_degrees":136.49890833221},
+    {"position":{"x":4,"y":-1},"is_angle_degrees":156.7231439355018},
+    {"position":{"x":1,"y":0},"is_angle_degrees":195.59470065815773},
+    {"position":{"x":4,"y":1},"is_angle_degrees":140.46330882797446},
+    {"position":{"x":3,"y":1},"is_angle_degrees":177.31359575652263},
+    {"position":{"x":2,"y":1},"is_angle_degrees":219.6532729164944},
+    {"position":{"x":3,"y":2},"is_angle_degrees":219.2180006177683},
+    {"position":{"x":4,"y":3},"is_angle_degrees":217.32223479537333},
+    {"position":{"y":1,"x":1},"is_angle_degrees":215.80930899270408},
+    {"position":{"x":3,"y":4},"is_angle_degrees":212.30154656394916},
+    {"position":{"x":2,"y":3},"is_angle_degrees":215.2212586633161},
+    {"position":{"x":1,"y":2},"is_angle_degrees":210.63109546752284},
+    {"position":{"x":1,"y":3},"is_angle_degrees":226.49890833221},
+    {"position":{"x":1,"y":4},"is_angle_degrees":246.72314393550178},
+    {"position":{"x":0,"y":1},"is_angle_degrees":283.45089015113444},
+    {"position":{"x":-1,"y":4},"is_angle_degrees":230.4633088279745},
+    {"position":{"x":-1,"y":3},"is_angle_degrees":267.44087228132037},
+    {"position":{"x":-1,"y":2},"is_angle_degrees":309.65327291649436},
+    {"position":{"x":-2,"y":3},"is_angle_degrees":309.21800061776827},
+    {"position":{"x":-3,"y":4},"is_angle_degrees":307.3222347953734},
+    {"position":{"x":-1,"y":1},"is_angle_degrees":305.8093089927041},
+    {"position":{"x":-4,"y":3},"is_angle_degrees":302.30154656394916},
+    {"position":{"x":-3,"y":2},"is_angle_degrees":305.22125866331606},
+    {"position":{"x":-2,"y":1},"is_angle_degrees":300.6310954675228},
+    {"position":{"x":-3,"y":1},"is_angle_degrees":319.1101713002186},
+    {"position":{"x":-4,"y":1},"is_angle_degrees":342.1052434755517}
+  ]
   //clue_trainer_test_set.run()
 
   /*

@@ -3466,6 +3466,12 @@ name: "Entrana",
         name: "Stormguard Citadel",
       },
       {
+        id: "daemonheim",
+        target: {"origin":{"x":3428,"y":3699,"level":0}},
+        code: "7",
+        name: "Daemonheim",
+      },
+      {
         id: "warforge",
         target: {"origin": {"x": 2409, "y": 2824, "level": 0}},
         code: "8",

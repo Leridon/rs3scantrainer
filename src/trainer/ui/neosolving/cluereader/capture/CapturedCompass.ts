@@ -80,7 +80,7 @@ export class CapturedCompass {
         {x: 1, y: -1},
       ]
 
-      const correction = lodash.minBy(correction_candidates, correction => {
+      const correction = {x: 0, y: 0}/*lodash.minBy(correction_candidates, correction => {
         const bl_index: Vector2 = {
           x: 0 + correction.x,
           y: 2 + correction.y,
@@ -92,17 +92,17 @@ export class CapturedCompass {
         const tr = sampleImage(contrast_check_image, {x: bl_index.x + 1, y: bl_index.y + 1})
 
         return rgbContrast(bl, tl) + rgbContrast(br, tr) - rgbContrast(tl, tr)
-      })
+      })*/
 
       /*const a = sampleImage(contrast_check_image, {x: 0, y: 0})
       const b = sampleImage(contrast_check_image, {x: 1, y: 0})
       const c = sampleImage(contrast_check_image, {x: 2, y: 0})
 
       const contrast_ab = 1 - rgbSimilarity(a, b)
-      const contrast_bc = 1 - rgbSimilarity(b, c)*/
+      const contrast_bc = 1 - rgbSimilarity(b, c)
 
       if (correction.x != 0 || correction.y != 0) log().log(`Correcting compass reader by ${correction.x}|${correction.y}`, "Compass Reader")
-      else log().log("No need for correction", "Compass Reader")
+      else log().log("No need for correction", "Compass Reader")*/
 
       // If the contrast of the right 2 pixels is larger than the constrast on the left, we need to move the entire interface 1 pixel to the right because the north-indicator is in the left position
       /*const weirdness_correction =

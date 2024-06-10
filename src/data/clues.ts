@@ -1379,7 +1379,7 @@ export namespace clue_data {
         },
         {
           "x": 3432,
-          "y": 3752,
+          "y": 3754,
           "level": 0
         },
         {
@@ -6509,7 +6509,7 @@ export namespace clue_data {
       "id": 377,
       "answer": "Cook a wild pie. The 'Bake Pie' spell works.",
       "cursor": "cook",
-      "areas": null
+      "areas": [{"origin": {"x": 2633, "y": 3164, "level": 0}, "size": {"x": 2, "y": 2}}]
     }, {
       "type": "skilling",
       "text": ["In a station of power someone requires assistance. Do a good deed to spread some happiness."],
@@ -6547,7 +6547,7 @@ export namespace clue_data {
       "id": 381,
       "answer": "Light some magic logs.",
       "cursor": "burn",
-      "areas": null
+      "areas": [{"origin": {"x": 4310, "y": 823, "level": 0}, "size": {"x": 3, "y": 2}, "data": "Og=="}]
     }, {
       "type": "skilling",
       "text": ["The crystals tempt most however, there are other riches to gain for the quick-fingered."],
@@ -6555,7 +6555,7 @@ export namespace clue_data {
       "id": 382,
       "answer": "Pickpocket any elf",
       "cursor": "thieve",
-      "areas": null
+      "areas": [{"origin":{"x":2141,"y":3333,"level":1},"size":{"x":7,"y":13}}]
     }, {
       "type": "skilling",
       "text": ["Magical energy floats unleashed. The fluid of life that flows through us all. Span the gap to capture this energy."],
@@ -6653,7 +6653,7 @@ export namespace clue_data {
       "id": 392,
       "answer": "Burn some elder logs.",
       "cursor": "herblore",
-      "areas": null
+      "areas": [{"origin": {"x": 4310, "y": 823, "level": 0}, "size": {"x": 3, "y": 2}, "data": "Og=="}]
     }, {
       "type": "skilling",
       "text": ["Keeping all your gold together. That's a good idea. It shall be mine."],

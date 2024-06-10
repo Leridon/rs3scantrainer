@@ -409,7 +409,7 @@ export async function makeshift_main(): Promise<void> {
       return r.state.join("|") + "," + r.smallstep_solution.length + "," + r.multitile_solution.length
     }).join("\n")).show()
     */
-  // await new CompassReader.CalibrationTool().show()
+  //await new CompassReader.CalibrationTool().show()
 
   //clue_trainer_test_set.run()
 

@@ -1379,7 +1379,7 @@ export namespace clue_data {
         },
         {
           "x": 3432,
-          "y": 3752,
+          "y": 3754,
           "level": 0
         },
         {

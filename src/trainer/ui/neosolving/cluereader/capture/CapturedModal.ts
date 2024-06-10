@@ -27,8 +27,6 @@ export class CapturedModal {
         ).getData()
 
         this._title = OCR.readSmallCapsBackwards(title_bar, CapturedModal.title_font, [[255, 152, 31]], 0, 13, title_bar.width, 1).text
-
-        console.log(this._title)
       } else {
         const TITLE_BAR_OFFSET_FROM_BODY = {x: 0, y: -24}
         const TITLE_BAR_SIZE = {x: 250, y: 20}

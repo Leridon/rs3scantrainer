@@ -66,7 +66,6 @@ export class ClueSpotIndex<T> {
       if (v.clue.type == "compass") {
         c.spot_index = new Array(ClueSpotIndex.BUCKETS)
 
-        // I'm gobsmacked. new Arra(64).map(() => []) doesn't work and I have no idea why.
         for (let i = 0; i < c.spot_index.length; i++) {
           c.spot_index[i] = []
         }
@@ -106,10 +105,14 @@ export class ClueSpotIndex<T> {
   get(clue: ClueSpot.Id): { for: Clues.ClueSpot } & T {
     let r = this._index[clue.clue]
 
-    if(!r) debugger
+    if (!r) debugger
 
     if (!clue.spot && !r.spot_index) return r.value
-    if (clue.spot && r.spot_index) return r.spot_index[Vector2.hash(clue.spot, ClueSpotIndex.BUCKETS)].find(v => TileCoordinates.eq2(v.spot, clue.spot))?.value
+    if (clue.spot && r.spot_index) {
+      const bucket = r.spot_index[Vector2.hash(clue.spot, ClueSpotIndex.BUCKETS)]
+
+      return bucket.find(v => TileCoordinates.eq2(v.spot, clue.spot))?.value
+    }
 
     return null
   }

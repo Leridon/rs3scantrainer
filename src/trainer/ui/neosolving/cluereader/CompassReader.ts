@@ -60,7 +60,8 @@ class AngularKeyframeFunction {
 
   getCSV(): string {
     return this.keyframes.map((keyframe) => {
-      return `${radiansToDegrees(keyframe.angle)},${radiansToDegrees(keyframe.value)},"${keyframe.original?.x}|${keyframe.original?.y}"`
+      return [keyframe.angle, keyframe.value, this.base_f(keyframe.angle), keyframe.value + this.base_f(keyframe.angle)]
+        .map(radiansToDegrees).join(",") + `,${keyframe.original?.x}|${keyframe.original?.y}`
     }).join("\n")
   }
 
@@ -87,24 +88,45 @@ class AngularKeyframeFunction {
   static fromCalibrationSamples(samples: {
                                   position: Vector2, is_angle_degrees: number
                                 }[],
-                                baseline_function: (_: number) => number = () => 0
+                                baseline_type: "cosine" | null = null,
   ): AngularKeyframeFunction {
+
+    const keyframes = samples.filter(s => s.is_angle_degrees != undefined).map(({position, is_angle_degrees}) => {
+      const should_angle = Vector2.angle(ANGLE_REFERENCE_VECTOR, {x: -position.x, y: -position.y})
+      const is_angle = degreesToRadians(is_angle_degrees)
+
+      let dif = should_angle - is_angle
+      if (dif < -Math.PI) dif += 2 * Math.PI
+
+      return {
+        original: position,
+        angle: is_angle,
+        value: dif
+      }
+    })
+
+    const baseline_function = (() => {
+      switch (baseline_type) {
+        case null:
+          return () => 0
+        case "cosine":
+          // This would probably be the place for a fourier transform tbh, but this simplified version should be enough
+
+          const max = Math.max(...keyframes.map(f => f.value))
+          const min = Math.min(...keyframes.map(f => f.value))
+
+          const offset = (max + min) / 2
+          const amplitude = (max - min) / 2
+          const phase = lodash.maxBy(keyframes, k => k.value).angle
+
+          return (x) => amplitude * Math.cos(4 * (x - phase)) + offset
+      }
+    })()
+
+    const reduced_keyframes = keyframes.map(f => ({...f, value: f.value - baseline_function(f.angle)}))
+
     return new AngularKeyframeFunction(
-      samples.filter(s => s.is_angle_degrees != undefined).map(({position, is_angle_degrees}) => {
-        const should_angle = Vector2.angle(ANGLE_REFERENCE_VECTOR, {x: -position.x, y: -position.y})
-        const is_angle = degreesToRadians(is_angle_degrees)
-
-        let dif = should_angle - is_angle
-        if (dif < -Math.PI) dif += 2 * Math.PI
-
-        dif -= baseline_function(is_angle)
-
-        return {
-          original: position,
-          angle: is_angle,
-          value: dif
-        }
-      })
+      reduced_keyframes, baseline_function
     ).withBaseline(baseline_function)
   }
 }
@@ -127,8 +149,9 @@ export class CompassReader {
 
     const buf = this.capture.compass_area.getData()
 
-    function sample(x: number, y: number) {
-      return buf.getPixel(x + CENTER_OFFSET.x, y + CENTER_OFFSET.y)
+    const buf_center = {
+      x: buf.width / 2,
+      y: buf.height / 2
     }
 
     function getRed(x: number, y: number) {
@@ -138,7 +161,7 @@ export class CompassReader {
     }
 
     function isArrow(x: number, y: number) {
-      const [r, g, b, _] = sample(x, y)
+      const [r, g, b, _] = buf.getPixel(x, y)
 
       return r < 5 && g < 5 && b < 5
     }
@@ -277,12 +300,12 @@ export class CompassReader {
 
     const ANTIALIASING_SEARCH_RADIUS = 40
 
-    for (let y = -CapturedCompass.TOTAL_COMPASS_RADIUS; y <= CapturedCompass.TOTAL_COMPASS_RADIUS; y++) {
-      for (let x = -CapturedCompass.TOTAL_COMPASS_RADIUS; x <= CapturedCompass.TOTAL_COMPASS_RADIUS; x++) {
+    for (let y = 0; y < buf.height; y++) {
+      for (let x = 0; x < buf.width; x++) {
         if (isArrow(x, y)) {
           rectangle_samples.push({x, y})
-        } else if (!antialiasing_detected && Math.abs(y) <= ANTIALIASING_SEARCH_RADIUS && Math.abs(x) <= ANTIALIASING_SEARCH_RADIUS) {
-          const red = getRed(x, y)
+        } else if (!antialiasing_detected && Vector2.max_axis(Vector2.sub({x, y}, buf_center)) <= ANTIALIASING_SEARCH_RADIUS) {
+          const red = buf.getPixel(x, y)[0]
 
           if (red < 40) antialiasing_detected = true
         }
@@ -317,11 +340,13 @@ export class CompassReader {
     const angle_samples: {
       angle: number,
       weight: number
-    }[] = rectangle_samples.map(v => {
+    }[] = rectangle_samples.flatMap(v => {
 
       const vector = Vector2.sub(v, center_of_area)
 
       let angle = angleof(vector)
+
+      if(Number.isNaN(angle)) return []
 
       if (angleDifference(angle, initial_angle) > Math.PI / 2)
         angle = normalizeAngle(angle - Math.PI)
@@ -337,12 +362,17 @@ export class CompassReader {
       lodash.sum(angle_samples.map(a => a.weight * Math.cos(a.angle))),
     ))
 
+
+    console.log(`After rectangle sample: ${radiansToDegrees(angle_after_rectangle_sample).toFixed(3)}°`)
+
     const calibration_mode = (this.disable_calibration || CompassReader.DISABLE_CALIBRATION) ? null
       : (antialiasing_detected ? "msaa" : "off")
 
     const final_angle = calibration_mode
       ? normalizeAngle(angle_after_rectangle_sample + CompassReader.calibration_tables[calibration_mode].sample(angle_after_rectangle_sample))
       : angle_after_rectangle_sample
+
+    console.log(`After calibration: ${radiansToDegrees(final_angle).toFixed(3)}°`)
 
     return {
       type: "success",
@@ -380,24 +410,40 @@ export namespace CompassReader {
 
   export const calibration_tables = {
     "off": AngularKeyframeFunction.fromCalibrationSamples([
-        {"position": {"x": -1, "y": 0}, "is_angle_degrees": 358.97548361371},
-        {"position": {"x": -2, "y": -1}, "is_angle_degrees": 21.561442482587285},
-        {"position": {"y": -1, "x": -1}, "is_angle_degrees": 43.61960030459728},
-        {"position": {"x": -1, "y": -2}, "is_angle_degrees": 65.3972229459928},
-        {"position": {"x": 0, "y": -1}, "is_angle_degrees": 88.81969121931886},
-        {"position": {"x": 1, "y": -2}, "is_angle_degrees": 111.56144248258734},
-        {"position": {"x": 1, "y": -1}, "is_angle_degrees": 133.61960030459727},
-        {"position": {"x": 2, "y": -1}, "is_angle_degrees": 155.3972229459928},
-        {"position": {"x": 1, "y": 0}, "is_angle_degrees": 178.9454106464548},
-        {"position": {"x": 2, "y": 1}, "is_angle_degrees": 201.5614424825873},
-        {"position": {"y": 1, "x": 1}, "is_angle_degrees": 223.61960030459727},
-        {"position": {"x": 1, "y": 2}, "is_angle_degrees": 245.39722294599275},
-        {"position": {"x": 0, "y": 1}, "is_angle_degrees": 268.9574622056212},
-        {"position": {"x": -1, "y": 2}, "is_angle_degrees": 291.56144248258727},
-        {"position": {"x": -1, "y": 1}, "is_angle_degrees": 313.6196003045972},
-        {"position": {"x": -2, "y": 1}, "is_angle_degrees": 335.3972229459928}
+        {"position":{"x":-1,"y":0},"is_angle_degrees":358.97548361371},
+        {"position":{"x":-3,"y":-1},"is_angle_degrees":13.542012421869865},
+        {"position":{"x":-2,"y":-1},"is_angle_degrees":21.561442482587285},
+        {"position":{"x":-3,"y":-2},"is_angle_degrees":28.864414114670076},
+        {"position":{"y":-1,"x":-1},"is_angle_degrees":43.61960030459728},
+        {"position":{"x":-2,"y":-3},"is_angle_degrees":58.21159214357648},
+        {"position":{"x":-1,"y":-2},"is_angle_degrees":65.3972229459928},
+        {"position":{"x":-1,"y":-3},"is_angle_degrees":73.34657713754882},
+        {"position":{"x":0,"y":-1},"is_angle_degrees":88.81969121931886},
+        {"position":{"x":1,"y":-3},"is_angle_degrees":103.73657745745831},
+        {"position":{"x":1,"y":-2},"is_angle_degrees":111.56144248258734},
+        {"position":{"x":2,"y":-3},"is_angle_degrees":119.1425984804859},
+        {"position":{"x":1,"y":-1},"is_angle_degrees":133.61960030459727},
+        {"position":{"x":3,"y":-2},"is_angle_degrees":148.41189959121326},
+        {"position":{"x":2,"y":-1},"is_angle_degrees":155.3972229459928},
+        {"position":{"x":3,"y":-1},"is_angle_degrees":163.5033282727502},
+        {"position":{"x":1,"y":0},"is_angle_degrees":178.9454106464548},
+        {"position":{"x":3,"y":1},"is_angle_degrees":193.7365774574583},
+        {"position":{"x":2,"y":1},"is_angle_degrees":201.5614424825873},
+        {"position":{"x":3,"y":2},"is_angle_degrees":209.14259848048587},
+        {"position":{"y":1,"x":1},"is_angle_degrees":223.61960030459727},
+        {"position":{"x":2,"y":3},"is_angle_degrees":238.21159214357647},
+        {"position":{"x":1,"y":2},"is_angle_degrees":245.39722294599275},
+        {"position":{"x":1,"y":3},"is_angle_degrees":253.50332827275014},
+        {"position":{"x":0,"y":1},"is_angle_degrees":268.9574622056212},
+        {"position":{"x":-1,"y":3},"is_angle_degrees":283.54201242186986},
+        {"position":{"x":-1,"y":2},"is_angle_degrees":291.56144248258727},
+        {"position":{"x":-2,"y":3},"is_angle_degrees":299.1425984804859},
+        {"position":{"x":-1,"y":1},"is_angle_degrees":313.6196003045972},
+        {"position":{"x":-3,"y":2},"is_angle_degrees":328.21159214357647},
+        {"position":{"x":-2,"y":1},"is_angle_degrees":335.3972229459928},
+        {"position":{"x":-3,"y":1},"is_angle_degrees":343.3465771375488}
       ],
-      a => Math.cos(4 * (a - 0.3763181628)) * 3.482941409 + 1.520667286 // baseline calculated with 16 samples
+      "cosine"
     )
     ,
     "msaa": AngularKeyframeFunction.fromCalibrationSamples([
@@ -770,7 +816,7 @@ export namespace CompassReader {
         {"position": {"x": -11, "y": 1}, "is_angle_degrees": 354.8765335083275},
         {"position": {"x": -12, "y": 1}, "is_angle_degrees": 355.16178324256697}
       ],
-      () => 0
+      "cosine"
     )
   }
 
@@ -1139,7 +1185,7 @@ export namespace CompassReader {
           ).show()
         }),
         new LightButton("Export CSV").onClick(() => {
-          new ExportStringModal(AngularKeyframeFunction.fromCalibrationSamples(this.samples).getCSV()).show()
+          new ExportStringModal(AngularKeyframeFunction.fromCalibrationSamples(this.samples, "cosine").getCSV()).show()
         }),
       ).appendTo(this.body)
 

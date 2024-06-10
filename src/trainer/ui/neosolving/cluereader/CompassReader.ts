@@ -29,6 +29,7 @@ import Widget from "../../../../lib/ui/Widget";
 import {Log} from "../../../../lib/util/Log";
 import angleDifference = Compasses.angleDifference;
 import ANGLE_REFERENCE_VECTOR = Compasses.ANGLE_REFERENCE_VECTOR;
+import log = Log.log;
 
 class AngularKeyframeFunction {
   private constructor(private readonly keyframes: {
@@ -335,8 +336,6 @@ export class CompassReader {
 
     const initial_angle = angleof(Vector2.sub(center_of_mass, center_of_area))
 
-    console.log(`Initial angle ${radiansToDegrees(initial_angle).toFixed(3)}°`)
-
     const angle_samples: {
       angle: number,
       weight: number
@@ -346,7 +345,7 @@ export class CompassReader {
 
       let angle = angleof(vector)
 
-      if(Number.isNaN(angle)) return []
+      if (Number.isNaN(angle)) return []
 
       if (angleDifference(angle, initial_angle) > Math.PI / 2)
         angle = normalizeAngle(angle - Math.PI)
@@ -362,9 +361,6 @@ export class CompassReader {
       lodash.sum(angle_samples.map(a => a.weight * Math.cos(a.angle))),
     ))
 
-
-    console.log(`After rectangle sample: ${radiansToDegrees(angle_after_rectangle_sample).toFixed(3)}°`)
-
     const calibration_mode = (this.disable_calibration || CompassReader.DISABLE_CALIBRATION) ? null
       : (antialiasing_detected ? "msaa" : "off")
 
@@ -372,7 +368,13 @@ export class CompassReader {
       ? normalizeAngle(angle_after_rectangle_sample + CompassReader.calibration_tables[calibration_mode].sample(angle_after_rectangle_sample))
       : angle_after_rectangle_sample
 
-    console.log(`After calibration: ${radiansToDegrees(final_angle).toFixed(3)}°`)
+    if (CompassReader.DEBUG_COMPASS_READER) {
+      log().log(`Angle: ${radiansToDegrees(initial_angle).toFixed(3)}° (CoM), ${radiansToDegrees(angle_after_rectangle_sample).toFixed(3)}° (rect), ${radiansToDegrees(final_angle).toFixed(3)}° (final)`,
+        "Compass Reader"
+      )
+
+      CompassReader.debug_overlay.render()
+    }
 
     return {
       type: "success",
@@ -410,38 +412,38 @@ export namespace CompassReader {
 
   export const calibration_tables = {
     "off": AngularKeyframeFunction.fromCalibrationSamples([
-        {"position":{"x":-1,"y":0},"is_angle_degrees":358.97548361371},
-        {"position":{"x":-3,"y":-1},"is_angle_degrees":13.542012421869865},
-        {"position":{"x":-2,"y":-1},"is_angle_degrees":21.561442482587285},
-        {"position":{"x":-3,"y":-2},"is_angle_degrees":28.864414114670076},
-        {"position":{"y":-1,"x":-1},"is_angle_degrees":43.61960030459728},
-        {"position":{"x":-2,"y":-3},"is_angle_degrees":58.21159214357648},
-        {"position":{"x":-1,"y":-2},"is_angle_degrees":65.3972229459928},
-        {"position":{"x":-1,"y":-3},"is_angle_degrees":73.34657713754882},
-        {"position":{"x":0,"y":-1},"is_angle_degrees":88.81969121931886},
-        {"position":{"x":1,"y":-3},"is_angle_degrees":103.73657745745831},
-        {"position":{"x":1,"y":-2},"is_angle_degrees":111.56144248258734},
-        {"position":{"x":2,"y":-3},"is_angle_degrees":119.1425984804859},
-        {"position":{"x":1,"y":-1},"is_angle_degrees":133.61960030459727},
-        {"position":{"x":3,"y":-2},"is_angle_degrees":148.41189959121326},
-        {"position":{"x":2,"y":-1},"is_angle_degrees":155.3972229459928},
-        {"position":{"x":3,"y":-1},"is_angle_degrees":163.5033282727502},
-        {"position":{"x":1,"y":0},"is_angle_degrees":178.9454106464548},
-        {"position":{"x":3,"y":1},"is_angle_degrees":193.7365774574583},
-        {"position":{"x":2,"y":1},"is_angle_degrees":201.5614424825873},
-        {"position":{"x":3,"y":2},"is_angle_degrees":209.14259848048587},
-        {"position":{"y":1,"x":1},"is_angle_degrees":223.61960030459727},
-        {"position":{"x":2,"y":3},"is_angle_degrees":238.21159214357647},
-        {"position":{"x":1,"y":2},"is_angle_degrees":245.39722294599275},
-        {"position":{"x":1,"y":3},"is_angle_degrees":253.50332827275014},
-        {"position":{"x":0,"y":1},"is_angle_degrees":268.9574622056212},
-        {"position":{"x":-1,"y":3},"is_angle_degrees":283.54201242186986},
-        {"position":{"x":-1,"y":2},"is_angle_degrees":291.56144248258727},
-        {"position":{"x":-2,"y":3},"is_angle_degrees":299.1425984804859},
-        {"position":{"x":-1,"y":1},"is_angle_degrees":313.6196003045972},
-        {"position":{"x":-3,"y":2},"is_angle_degrees":328.21159214357647},
-        {"position":{"x":-2,"y":1},"is_angle_degrees":335.3972229459928},
-        {"position":{"x":-3,"y":1},"is_angle_degrees":343.3465771375488}
+        {"position": {"x": -1, "y": 0}, "is_angle_degrees": 358.97548361371},
+        {"position": {"x": -3, "y": -1}, "is_angle_degrees": 13.542012421869865},
+        {"position": {"x": -2, "y": -1}, "is_angle_degrees": 21.561442482587285},
+        {"position": {"x": -3, "y": -2}, "is_angle_degrees": 28.864414114670076},
+        {"position": {"y": -1, "x": -1}, "is_angle_degrees": 43.61960030459728},
+        {"position": {"x": -2, "y": -3}, "is_angle_degrees": 58.21159214357648},
+        {"position": {"x": -1, "y": -2}, "is_angle_degrees": 65.3972229459928},
+        {"position": {"x": -1, "y": -3}, "is_angle_degrees": 73.34657713754882},
+        {"position": {"x": 0, "y": -1}, "is_angle_degrees": 88.81969121931886},
+        {"position": {"x": 1, "y": -3}, "is_angle_degrees": 103.73657745745831},
+        {"position": {"x": 1, "y": -2}, "is_angle_degrees": 111.56144248258734},
+        {"position": {"x": 2, "y": -3}, "is_angle_degrees": 119.1425984804859},
+        {"position": {"x": 1, "y": -1}, "is_angle_degrees": 133.61960030459727},
+        {"position": {"x": 3, "y": -2}, "is_angle_degrees": 148.41189959121326},
+        {"position": {"x": 2, "y": -1}, "is_angle_degrees": 155.3972229459928},
+        {"position": {"x": 3, "y": -1}, "is_angle_degrees": 163.5033282727502},
+        {"position": {"x": 1, "y": 0}, "is_angle_degrees": 178.9454106464548},
+        {"position": {"x": 3, "y": 1}, "is_angle_degrees": 193.7365774574583},
+        {"position": {"x": 2, "y": 1}, "is_angle_degrees": 201.5614424825873},
+        {"position": {"x": 3, "y": 2}, "is_angle_degrees": 209.14259848048587},
+        {"position": {"y": 1, "x": 1}, "is_angle_degrees": 223.61960030459727},
+        {"position": {"x": 2, "y": 3}, "is_angle_degrees": 238.21159214357647},
+        {"position": {"x": 1, "y": 2}, "is_angle_degrees": 245.39722294599275},
+        {"position": {"x": 1, "y": 3}, "is_angle_degrees": 253.50332827275014},
+        {"position": {"x": 0, "y": 1}, "is_angle_degrees": 268.9574622056212},
+        {"position": {"x": -1, "y": 3}, "is_angle_degrees": 283.54201242186986},
+        {"position": {"x": -1, "y": 2}, "is_angle_degrees": 291.56144248258727},
+        {"position": {"x": -2, "y": 3}, "is_angle_degrees": 299.1425984804859},
+        {"position": {"x": -1, "y": 1}, "is_angle_degrees": 313.6196003045972},
+        {"position": {"x": -3, "y": 2}, "is_angle_degrees": 328.21159214357647},
+        {"position": {"x": -2, "y": 1}, "is_angle_degrees": 335.3972229459928},
+        {"position": {"x": -3, "y": 1}, "is_angle_degrees": 343.3465771375488}
       ],
       "cosine"
     )

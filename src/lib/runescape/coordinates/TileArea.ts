@@ -135,8 +135,8 @@ export namespace TileArea {
       return TileRectangle.from(this.origin, TileCoordinates.move(this.origin, Vector2.add(this.size, {x: -1, y: -1})))
     }
 
-    center(): TileCoordinates {
-      const start = TileRectangle.center(this.rect())
+    center(snap: boolean = true): TileCoordinates {
+      const start = TileRectangle.center(this.rect(), snap)
 
       let queue: { pos: TileCoordinates, dirs: direction[] }[] = [{pos: start, dirs: direction.all}]
 

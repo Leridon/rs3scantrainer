@@ -1,34 +1,66 @@
 import * as jquery from "jquery";
-import {ewent, Observable, observe} from "../reactive";
+import {ewent, observe} from "../reactive";
 import Widget from "./Widget";
-import * as bootstrap from "bootstrap"
-import observe_combined = Observable.observe_combined;
+import {C} from "./constructors";
+import cls = C.cls;
 
 export abstract class Modal2 {
-  private bs_modal: bootstrap.Modal
-
   state = observe<"unmounted" | "showing" | "shown" | "hiding" | "hidden">("unmounted")
 
   shown = ewent<this>()
+  hiding = ewent<this>()
   hidden = ewent<this>()
-  removed = ewent<this>()
 
+  private should_hide: boolean = false
+
+  protected _container: Widget
+  protected _backdrop: Widget
   protected _modal: Widget
   protected _dialog: Widget
   protected _content: Widget
 
-  private visible = observe(false)
-  private should_dismount = observe(false)
-  private should_hide = false
-
   protected constructor(protected options: Modal2.Options = {}) {
-    this._modal = c("<div class='modal ctr-modal' tabindex='-1'></div>")
+    this.state.subscribe(s => {
+      switch (s) {
+        case "shown":
+          this.shown.trigger(this);
+          break;
+        case "hiding":
+          this.hiding.trigger(this)
+          break;
+        case"hidden":
+          this.hidden.trigger(this);
+          break;
+      }
+    })
+  }
+
+  abstract render(): Promise<void> | void
+
+  private mount() {
+
+    this._container = cls("ctr-modal-container").css("z-index", 10000 + Modal2.open_count)
+      .on("click", () => {
+        console.log("Clicked backdrop")
+
+        if (!this.options.fixed) this.hide()
+      })
+
+    if (!this.options.no_backdrop) {
+      this._backdrop = cls("ctr-modal-backdrop").appendTo(this._container)
+    }
+
+    this._modal = c("<div class='modal ctr-modal' tabindex='-1'></div>").appendTo(this._container)
     this._dialog = c("<div class='modal-dialog'></div>").appendTo(this._modal)
+      .on("click", e => e.stopPropagation())
     this._content = c("<div class='modal-content'></div>").appendTo(this._dialog)
 
-    if (!options.no_fade) this._modal.addClass("fade")
+    if (!this.options.no_fade) {
+      this._modal.addClass("fade")
+      this._backdrop.addClass("fade")
+    }
 
-    switch (options.size || "medium") {
+    switch (this.options.size ?? "medium") {
       case "small":
         this._dialog.addClass("modal-sm")
         break;
@@ -39,55 +71,22 @@ export abstract class Modal2 {
         this._dialog.addClass("ctr-modal-fullscreen")
     }
 
-    observe_combined({visible: this.visible, should_dismount: this.should_dismount}).subscribe(({visible, should_dismount}) => {
-      if (!visible && should_dismount) this.dismount()
-    })
-  }
+    this._container.appendTo(jquery(document.body))
 
-  abstract render(): Promise<void> | void
+    this._modal.raw().addEventListener("hidden.bs.modal", () => {
+      this.hidden.trigger(this)
 
-  private mount() {
-    if (this._modal.container.parent().length == 0) {
-      this._modal.appendTo(jquery("body"))
+      this.state.set("hidden")
 
-      this._modal.raw().addEventListener("shown.bs.modal", () => {
-        this.visible.set(true)
-        this.shown.trigger(this)
+      Modal2.open_count--
 
-        this.state.set("shown")
-
-        Modal2.open_count++
-
-        if (this.should_hide) this.hide()
-      })
-
-      this._modal.raw().addEventListener("hidden.bs.modal", () => {
-        this.visible.set(false)
-        this.hidden.trigger(this)
-
-        this.state.set("hidden")
-
-        Modal2.open_count--
-
-        if (Modal2.open_count == 0) {
-          const backdrops = document.getElementsByClassName("modal-backdrop")
-          for (let i = 0; i < backdrops.length; i++) {
-            backdrops[i].remove()
-          }
+      if (Modal2.open_count == 0) {
+        const backdrops = document.getElementsByClassName("modal-backdrop")
+        for (let i = 0; i < backdrops.length; i++) {
+          backdrops[i].remove()
         }
-      })
-
-      this.bs_modal = new bootstrap.Modal(this._modal.raw(), {
-        backdrop: this.options.fixed ? "static" : true,
-        keyboard: !this.options.fixed,
-      })
-    }
-  }
-
-  private dismount() {
-    this._modal.remove()
-    this.state.set("hidden")
-    this.removed.trigger(this)
+      }
+    })
   }
 
   async show(): Promise<this> {
@@ -97,10 +96,22 @@ export abstract class Modal2 {
 
     this.mount()
 
-    await this.render()
+    Modal2.open_count++
 
-    this.state.set("showing")
-    this.bs_modal.show()
+    setTimeout(() => {
+      this.state.set("showing")
+
+      this._modal.addClass("show").css("display", "block")
+      this._backdrop.addClass("show")
+
+      setTimeout(() => {
+        if (this.state.value() == "showing") this.state.set("shown")
+
+        if (this.should_hide) this.hide()
+      }, 0.15)
+    }, 0.1)
+
+    await this.render()
 
     return promise
   }
@@ -109,13 +120,23 @@ export abstract class Modal2 {
     if (this.state.value() == "showing") {
       this.should_hide = true
     } else if (this.state.value() == "shown") {
-      this.bs_modal.hide()
       this.state.set("hiding")
+
+      this._modal.toggleClass("show", false).css("display", undefined)
+      this._backdrop.toggleClass("show", false)
+
+      setTimeout(() => {
+        if (this.state.value() == "hiding") {
+          this.state.set("hidden")
+          Modal2.open_count--
+          this._container.remove()
+        }
+      }, 0.15)
     }
   }
 
   remove() {
-    this.should_dismount.set(true)
+    //this.should_dismount.set(true)
     this.hide()
   }
 
@@ -131,6 +152,7 @@ export namespace Modal2 {
     no_fade?: boolean,
     size?: "small" | "medium" | "large" | "fullscreen",
     fixed?: boolean,
+    no_backdrop?: boolean,
     disable_close_button?: boolean
   }
 }

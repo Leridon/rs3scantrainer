@@ -30,14 +30,14 @@ export namespace ExportImport {
   import compose = util.compose;
   import cleanedJSON = util.cleanedJSON;
   type typed_value<T> = {
-    _payload_type: "typed",
+    payload_type: "typed",
     type: string,
     version: number,
     value: T
   }
 
   type envelop = {
-    _payload_type: "envelop",
+    payload_type: "envelop",
     hash?: number,
     compressed?: boolean,
     value: string
@@ -46,7 +46,7 @@ export namespace ExportImport {
   function with_type<T>(type: string, version: number): (value: T) => typed_value<T> {
     return (value: T) => {
       return {
-        _payload_type: "typed",
+        payload_type: "typed",
         type: type,
         version: version,
         value: value
@@ -58,7 +58,7 @@ export namespace ExportImport {
                          hash: boolean = true): (value: T) => envelop {
     return (value: T): envelop => {
       let p: envelop = {
-        _payload_type: "envelop",
+        payload_type: "envelop",
         value: JSON.stringify(value)
       }
 
@@ -102,7 +102,7 @@ export namespace ExportImport {
     }
     const extract_envelop = (o) => {
 
-      if (o?._payload_type == "envelop") {
+      if (o?.payload_type == "envelop") {
         let envelop = o as envelop
 
         if (envelop.hash != null && cyrb53(envelop.value) != o.hash) throw new Error()
@@ -114,7 +114,7 @@ export namespace ExportImport {
       return o
     }
     const extract_typed = (o) => {
-      if (o?._payload_type == "typed") {
+      if (o?.payload_type == "typed") {
         let envelop = o as typed_value<T>
 
         let version = envelop.version

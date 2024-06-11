@@ -124,8 +124,6 @@ class AngularKeyframeFunction {
 
           const hill_samples = keyframes.filter(k => Math.abs(max - k.value) < amplitude / 10).map(k => k.angle % (2 * Math.PI / PHASES))
 
-          console.log(`${hill_samples.length} hills`)
-
           const phase = circularMean(hill_samples)
 
           //const phase = lodash.maxBy(keyframes, k => k.value).angle

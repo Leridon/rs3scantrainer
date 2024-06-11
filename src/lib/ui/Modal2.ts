@@ -23,6 +23,7 @@ export abstract class Modal2 {
     this.state.subscribe(s => {
       switch (s) {
         case "shown":
+          if(this.should_hide) this.hide()
           this.shown.trigger(this);
           break;
         case "hiding":
@@ -104,8 +105,6 @@ export abstract class Modal2 {
 
       setTimeout(() => {
         if (this.state.value() == "showing") this.state.set("shown")
-
-        if (this.should_hide) this.hide()
       }, 0.15)
     }, 0.1)
 

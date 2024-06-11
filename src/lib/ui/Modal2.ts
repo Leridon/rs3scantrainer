@@ -23,6 +23,7 @@ export abstract class Modal2 {
     this.state.subscribe(s => {
       switch (s) {
         case "shown":
+          if(this.should_hide) this.hide()
           this.shown.trigger(this);
           break;
         case "hiding":
@@ -41,8 +42,6 @@ export abstract class Modal2 {
 
     this._container = cls("ctr-modal-container").css("z-index", 10000 + Modal2.open_count)
       .on("click", () => {
-        console.log("Clicked backdrop")
-
         if (!this.options.fixed) this.hide()
       })
 
@@ -106,8 +105,6 @@ export abstract class Modal2 {
 
       setTimeout(() => {
         if (this.state.value() == "showing") this.state.set("shown")
-
-        if (this.should_hide) this.hide()
       }, 0.15)
     }, 0.1)
 
@@ -117,9 +114,7 @@ export abstract class Modal2 {
   }
 
   hide() {
-    if (this.state.value() == "showing") {
-      this.should_hide = true
-    } else if (this.state.value() == "shown") {
+    if (this.state.value() == "shown") {
       this.state.set("hiding")
 
       this._modal.toggleClass("show", false).css("display", undefined)
@@ -132,6 +127,8 @@ export abstract class Modal2 {
           this._container.remove()
         }
       }, 0.15)
+    } else {
+      this.should_hide = true
     }
   }
 

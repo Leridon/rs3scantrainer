@@ -24,7 +24,7 @@ export namespace Compasses {
 
       const l = location_uncertainty / Math.tan(CompassReader.EPSILON)
 
-      const center = position.center()
+      const center = position.center(false)
 
       const uncertainty_origin = Vector2.sub(center, Vector2.scale(l, direction_vector))
 

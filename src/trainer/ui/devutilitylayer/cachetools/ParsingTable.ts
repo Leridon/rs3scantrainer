@@ -5,7 +5,6 @@ import {TransportParser} from "./TransportParser";
 import {parsers3} from "./parsers3";
 import LocInstance = CacheTypes.LocInstance;
 import LocWithUsages = CacheTypes.LocWithUsages;
-import NpcWithUsages = CacheTypes.NpcWithUsages;
 
 export type ParsingAssociationGroup = {
   parser_id: string,
@@ -25,7 +24,6 @@ export type LocParsingTableData = {
   version: number,
   custom_objects: {
     locs: LocWithUsages[],
-    npcs: NpcWithUsages[],
   },
   associations: ParsingAssociationGroup[]
 }

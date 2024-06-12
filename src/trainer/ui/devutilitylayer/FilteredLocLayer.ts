@@ -26,7 +26,6 @@ import LocInstance = CacheTypes.LocInstance;
 import getInstances = LocUtil.getInstances;
 import LocWithUsages = CacheTypes.LocWithUsages;
 import hbox = C.hbox;
-import NpcWithUsages = CacheTypes.NpcWithUsages;
 
 export type LocFilter = {
   names?: string[],
@@ -240,7 +239,6 @@ export class FilteredLocLayer extends GameLayer {
     instances: LocInstanceEntity[]
   } | {
     type: "npc",
-    npc: NpcWithUsages,
     instances: MapEntity[]
   })[] = []
 

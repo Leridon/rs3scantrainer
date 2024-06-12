@@ -94,7 +94,6 @@ export class ParserManagementLayer extends GameLayer {
       version: 0,
       custom_objects: {
         locs: [],
-        npcs: []
       },
       associations: []
     }

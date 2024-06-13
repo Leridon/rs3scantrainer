@@ -14,9 +14,18 @@ import {CacheTypes} from "./cachetools/CacheTypes";
 import {ParserPairingModal} from "./cachetools/ParserPairingModal";
 import {storage} from "../../../lib/util/storage";
 import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
+import {PrototypeExplorer} from "./cachetools/PrototypeExplorer";
+import ControlWithHeader from "../map/ControlWithHeader";
+import {ProcessedCacheTypes} from "./cachetools/ProcessedCacheTypes";
+import {MapEntity} from "../../../lib/gamemap/MapEntity";
+import {areaPolygon} from "../polygon_helpers";
+import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
+import {Rectangle} from "../../../lib/math";
 import cleanedJSON = util.cleanedJSON;
 import LocDataFile = CacheTypes.LocDataFile;
 import LocInstance = CacheTypes.LocInstance;
+import PrototypeIndex = ProcessedCacheTypes.PrototypeIndex;
+import PrototypeInstance = ProcessedCacheTypes.PrototypeInstance;
 
 class RecentlyUsedParserGroups {
   last_used_groups = new storage.Variable<number[]>("devutility/locparsing/recentgroups", () => [])
@@ -34,7 +43,33 @@ class RecentlyUsedParserGroups {
   }
 }
 
+class PrototypeInstanceEntity extends MapEntity {
+
+  constructor(private instance: PrototypeInstance) {
+    super();
+  }
+
+  protected async render_implementation(props: MapEntity.RenderProps): Promise<Element> {
+
+    const color = this.instance.isLoc() ? "cyan" : "yellow"
+
+    const box = areaPolygon(this.instance.box).setStyle({
+      color: color,
+      stroke: true
+    }).addTo(this)
+
+
+    return box.getElement()
+  }
+
+  bounds(): Rectangle {
+    return TileArea.toRect(this.instance.box);
+  }
+}
+
 export class ParserManagementLayer extends GameLayer {
+  private prototypes: Promise<PrototypeIndex>
+
   loc_layer: FilteredLocLayer
 
   local_store = KeyValueStore.instance().variable<LocParsingTableData>("devutility/locparsing/parserassociations")
@@ -45,8 +80,15 @@ export class ParserManagementLayer extends GameLayer {
   parsing_table: LocParsingTable
   data_file: LocDataFile
 
+  private prototype_explorer: PrototypeExplorer
+
   constructor() {
     super();
+
+    new GameMapControl({type: "floating", position: "left-top"},
+      new ControlWithHeader("Prototype Explorer")
+        .setContent(this.prototype_explorer = new PrototypeExplorer([]))
+    ).addTo(this)
 
     new GameMapControl({type: "gapless", position: "bottom-center"}, c())
       .setContent(
@@ -84,6 +126,27 @@ export class ParserManagementLayer extends GameLayer {
   }
 
   async init() {
+    this.prototypes = fetch("rscache/prototypes.json").then(async res => new PrototypeIndex(await res.json()))
+
+    this.prototypes.then(p => this.prototype_explorer.setPrototypes(p.data))
+
+    fetch("rscache/prototype_instances.json")
+      .then(async res => (await res.json()) as ProcessedCacheTypes.Instance[])
+      .then(async (res: ProcessedCacheTypes.Instance[]) => {
+        (await this.prototypes)
+
+        const index = await this.prototypes
+
+        console.log(`${res.length} instances`)
+
+        res.forEach(instance => {
+
+          if (!instance.position) debugger
+          new PrototypeInstanceEntity(index.resolve(instance)).addTo(this)
+        })
+      })
+
+    return // TODO:
 
     let local_data: LocParsingTableData = await this.local_store.get()
     let repo_data: LocParsingTableData = await (await fetch("map/parsing_associations.json")).json().catch(() => undefined)

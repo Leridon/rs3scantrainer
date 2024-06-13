@@ -8,19 +8,20 @@ import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
 import {PrototypeProperties} from "./PrototypeExplorer";
 import PrototypeInstance = ProcessedCacheTypes.PrototypeInstance;
 import Prototype = ProcessedCacheTypes.Prototype;
+import {FloorLevels, ZoomLevels} from "../../../../lib/gamemap/ZoomLevels";
 
-interface Filter {
+export interface PrototypeFilter {
 
   applyPrototype(prototype: Prototype): boolean
 
   applyInstance(instance: PrototypeInstance): boolean
 }
 
-namespace Filter {
+export namespace PrototypeFilter {
   import PrototypeID = ProcessedCacheTypes.PrototypeID;
 
-  export function none(): Filter {
-    return new class implements Filter {
+  export function none(): PrototypeFilter {
+    return new class implements PrototypeFilter {
       applyPrototype(prototype: ProcessedCacheTypes.Prototype): boolean {
         return true
       }
@@ -37,8 +38,8 @@ namespace Filter {
     type: PrototypeID["0"] | undefined,
   }
 
-  export function forConfig(config: Config): Filter {
-    return new class implements Filter {
+  export function forConfig(config: Config): PrototypeFilter {
+    return new class implements PrototypeFilter {
       applyInstance(instance: ProcessedCacheTypes.PrototypeInstance): boolean {
         return true;
       }
@@ -47,12 +48,22 @@ namespace Filter {
         if (config.names.length > 0 && !config.names.some(n => prototype.name.toLowerCase().includes(n))) return false
         if (config.action_names.length > 0 && !config.action_names.some(n => prototype.actions.some(a => a[0].toLowerCase().includes(n)))) return false
 
-        if(config.type && config.type != prototype.id[0]) return false
+        if (config.type && config.type != prototype.id[0]) return false
 
         return true;
       }
 
     }
+  }
+
+  export function pre_filter(): PrototypeFilter {
+    return forConfig({
+      action_names: ["open", "use", "enter", "climb", "crawl", "scale", "pass", "jump", "leave", "teleport", "descend", "step", "walk", "cross", "exit", "squeeze",
+        "stand", "ascend", "top", "bottom", "descend", "across", "swing", "slash", "pray", "operate", "pull", "dig", "push", "grapple",
+        "board", "swim", "through", "past", "attune", "traverse", "vault", "slide", "merge", "activate", "charge", "chop-down"],
+      names: [],
+      type: undefined
+    })
   }
 }
 
@@ -76,8 +87,12 @@ export class PrototypeInstanceDataSource {
 
 class PrototypeInstanceEntity extends MapEntity {
 
-  constructor(private instance: PrototypeInstance) {
+  constructor(public instance: PrototypeInstance) {
     super();
+
+    this.zoom_sensitivity_layers = ZoomLevels.none
+
+    this.floor_sensitivity_layers = FloorLevels.single(instance.box.origin.level)
 
     this.setTooltip(() => new PrototypeProperties(this.instance.prototype))
   }
@@ -101,15 +116,17 @@ class PrototypeInstanceEntity extends MapEntity {
 }
 
 export class FilteredPrototypeLayer extends GameLayer {
-  private filter: Filter
+  private filter: PrototypeFilter = PrototypeFilter.none()
 
   private lookup_table: {
     loc: {
       prototype: Prototype.Loc,
+      pre_filtered: boolean,
       entities: PrototypeInstanceEntity[]
     }[],
     npc: {
       prototype: Prototype.Loc,
+      pre_filtered: boolean,
       entities: PrototypeInstanceEntity[]
     }[]
   } = {
@@ -117,16 +134,22 @@ export class FilteredPrototypeLayer extends GameLayer {
     npc: []
   }
 
-  constructor(private pre_filter: Filter = Filter.none()) {
+  constructor(private pre_filter: PrototypeFilter = PrototypeFilter.none()) {
     super()
   }
 
   addDataSource(...sources: PrototypeInstanceDataSource[]): this {
+    this.rendering.lock()
+
     sources.forEach(source => {
       source.get().forEach(instance => this.create(instance))
 
       source.created.on(i => this.create(i)).bindTo(this.handler_pool)
     })
+
+    this.rendering.unlock()
+
+    this.updateFilter()
 
     return this
   }
@@ -138,14 +161,49 @@ export class FilteredPrototypeLayer extends GameLayer {
     if (!entry) {
       entry = this.lookup_table[instance.prototype.id[0]][instance.prototype.id[1]] = {
         prototype: instance.prototype as any,
+        pre_filtered: this.pre_filter.applyPrototype(instance.prototype),
         entities: []
       }
     }
 
-    entry.entities.push(new PrototypeInstanceEntity(instance).addTo(this))
+    if (entry.pre_filtered) {
+      entry.entities.push(new PrototypeInstanceEntity(instance).setVisible(
+        this.filter.applyPrototype(instance.prototype) && this.filter.applyInstance(instance)
+      ).addTo(this))
+    }
   }
 
-  setFilter(filter: Filter) {
+  private updateFilter() {
+    this.lookup_table.loc.forEach(entry => {
+      if (!entry || !entry.pre_filtered) return
 
+      const prototype_visible = this.filter.applyPrototype(entry.prototype)
+
+      entry.entities.forEach(entity => {
+        const visible = prototype_visible && this.filter.applyInstance(entity.instance)
+
+        entity.setVisible(visible)
+      })
+    })
+
+    this.lookup_table.npc.forEach(entry => {
+      if (!entry || !entry.pre_filtered) return
+
+      const prototype_visible = this.filter.applyPrototype(entry.prototype)
+
+      entry.entities.forEach(entity => {
+        const visible = prototype_visible && this.filter.applyInstance(entity.instance)
+
+        entity.setVisible(visible)
+      })
+    })
+  }
+
+  setFilter(filter: PrototypeFilter): this {
+    this.filter = filter
+
+    this.updateFilter()
+
+    return this
   }
 }

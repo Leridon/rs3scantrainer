@@ -17,7 +17,7 @@ import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
 import {PrototypeExplorer} from "./cachetools/PrototypeExplorer";
 import ControlWithHeader from "../map/ControlWithHeader";
 import {ProcessedCacheTypes} from "./cachetools/ProcessedCacheTypes";
-import {FilteredPrototypeLayer, PrototypeInstanceDataSource} from "./cachetools/FilteredPrototypeLayer";
+import {FilteredPrototypeLayer, PrototypeFilter, PrototypeInstanceDataSource} from "./cachetools/FilteredPrototypeLayer";
 import cleanedJSON = util.cleanedJSON;
 import LocDataFile = CacheTypes.LocDataFile;
 import LocInstance = CacheTypes.LocInstance;
@@ -96,7 +96,7 @@ export class ParserManagementLayer extends GameLayer {
           )
       ).addTo(this)
 
-    this.loc_layer2 = new FilteredPrototypeLayer().addTo(this)
+    this.loc_layer2 = new FilteredPrototypeLayer(PrototypeFilter.pre_filter()).addTo(this)
 
     this.init()
   }

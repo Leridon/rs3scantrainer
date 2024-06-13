@@ -114,8 +114,8 @@ export namespace ProcessedCacheTypes {
     public readonly box: TileArea
 
     constructor(
-      private prototype: T,
-      private instance: T extends Prototype.Npc ? Instance.NPC : Instance.Loc,
+      public prototype: T,
+      public  instance: T extends Prototype.Npc ? Instance.NPC : Instance.Loc,
     ) {
       this.box = TileArea.init(
         this.instance.position,

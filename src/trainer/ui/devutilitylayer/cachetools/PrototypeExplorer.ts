@@ -35,7 +35,7 @@ class PreparedSearch<T> {
   }
 }
 
-class PrototypeProperties extends Properties {
+export class PrototypeProperties extends Properties {
 
   constructor(prototype: Prototype) {
     super()

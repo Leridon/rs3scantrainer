@@ -17,15 +17,11 @@ import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
 import {PrototypeExplorer} from "./cachetools/PrototypeExplorer";
 import ControlWithHeader from "../map/ControlWithHeader";
 import {ProcessedCacheTypes} from "./cachetools/ProcessedCacheTypes";
-import {MapEntity} from "../../../lib/gamemap/MapEntity";
-import {areaPolygon} from "../polygon_helpers";
-import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
-import {Rectangle} from "../../../lib/math";
+import {FilteredPrototypeLayer, PrototypeInstanceDataSource} from "./cachetools/FilteredPrototypeLayer";
 import cleanedJSON = util.cleanedJSON;
 import LocDataFile = CacheTypes.LocDataFile;
 import LocInstance = CacheTypes.LocInstance;
 import PrototypeIndex = ProcessedCacheTypes.PrototypeIndex;
-import PrototypeInstance = ProcessedCacheTypes.PrototypeInstance;
 
 class RecentlyUsedParserGroups {
   last_used_groups = new storage.Variable<number[]>("devutility/locparsing/recentgroups", () => [])
@@ -43,32 +39,10 @@ class RecentlyUsedParserGroups {
   }
 }
 
-class PrototypeInstanceEntity extends MapEntity {
-
-  constructor(private instance: PrototypeInstance) {
-    super();
-  }
-
-  protected async render_implementation(props: MapEntity.RenderProps): Promise<Element> {
-
-    const color = this.instance.isLoc() ? "cyan" : "yellow"
-
-    const box = areaPolygon(this.instance.box).setStyle({
-      color: color,
-      stroke: true
-    }).addTo(this)
-
-
-    return box.getElement()
-  }
-
-  bounds(): Rectangle {
-    return TileArea.toRect(this.instance.box);
-  }
-}
-
 export class ParserManagementLayer extends GameLayer {
   private prototypes: Promise<PrototypeIndex>
+
+  private loc_layer2: FilteredPrototypeLayer
 
   loc_layer: FilteredLocLayer
 
@@ -122,6 +96,8 @@ export class ParserManagementLayer extends GameLayer {
           )
       ).addTo(this)
 
+    this.loc_layer2 = new FilteredPrototypeLayer().addTo(this)
+
     this.init()
   }
 
@@ -133,17 +109,13 @@ export class ParserManagementLayer extends GameLayer {
     fetch("rscache/prototype_instances.json")
       .then(async res => (await res.json()) as ProcessedCacheTypes.Instance[])
       .then(async (res: ProcessedCacheTypes.Instance[]) => {
-        (await this.prototypes)
-
         const index = await this.prototypes
 
         console.log(`${res.length} instances`)
 
-        res.forEach(instance => {
-
-          if (!instance.position) debugger
-          new PrototypeInstanceEntity(index.resolve(instance)).addTo(this)
-        })
+        this.loc_layer2.addDataSource(
+          PrototypeInstanceDataSource.fromList(res.map(i => index.resolve(i)))
+        )
       })
 
     return // TODO:

@@ -23,10 +23,12 @@ import {CapturedModal} from "./capture/CapturedModal";
 import {CapturedSliderInterface} from "./capture/CapturedSlider";
 import {TowersReader} from "./TowersReader";
 import {CapturedCompass} from "./capture/CapturedCompass";
+import {Log} from "../../../../lib/util/Log";
 import stringSimilarity = util.stringSimilarity;
 import ScanStep = Clues.ScanStep;
 import notification = Notification.notification;
 import findBestMatch = util.findBestMatch;
+import SliderState = Sliders.SliderState;
 
 const CLUEREADERDEBUG = false
 
@@ -251,6 +253,13 @@ export class ClueReader {
         }
 
         if (res.match_score >= SlideReader.DETECTION_THRESHOLD_SCORE) {
+
+          const state = res.tiles.map(t => t.position)
+
+          if (!SliderState.isSolveable(state)) {
+            Log.log().log(`Read impossible slider puzzle: ${state.join(",")}`)
+          }
+
           return {
             type: "puzzle",
             puzzle: {type: "slider", reader: reader, puzzle: res},
@@ -277,7 +286,7 @@ export class ClueReader {
 
         const compass_state = reader.getAngle()
 
-        if(compass_state?.type == "likely_solved") {
+        if (compass_state?.type == "likely_solved") {
           //console.error("Compass found, but already in solved state.")
           return null
         }

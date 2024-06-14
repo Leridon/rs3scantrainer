@@ -29,6 +29,7 @@ import {ClueEntities} from "../ClueEntities";
 import {PathStepEntity} from "../../map/entities/PathStepEntity";
 import {SettingsModal} from "../../settings/SettingsEdit";
 import * as assert from "assert";
+import {Log} from "../../../../lib/util/Log";
 import span = C.span;
 import cls = C.cls;
 import TeleportGroup = Transportation.TeleportGroup;
@@ -44,7 +45,6 @@ import count = util.count;
 import gielinor_compass = clue_data.gielinor_compass;
 import digSpotArea = Clues.digSpotArea;
 import vbox = C.vbox;
-import {Log} from "../../../../lib/util/Log";
 import log = Log.log;
 
 class CompassHandlingLayer extends GameLayer {
@@ -968,6 +968,10 @@ export namespace CompassSolving {
       teleport_id: {group: "ancientspellook", spot: "ghorrock"}
     },
 
+      {expected: "Cast Kandarin monastery Teleport", teleport_id: {group: "greenteleport", spot: "monastery"}},
+      {expected: "Cast Manor farm Teleport", teleport_id: {group: "greenteleport", spot: "manorfarm"}},
+      {expected: "Cast Skeletal horror Teleport", teleport_id: {group: "greenteleport", spot: "skelettalhorror"}},
+
       {expected: "Cast Moonclan Teleport", teleport_id: {group: "lunarspellbook", spot: "moonclan"}},
       {expected: "Cast Ourania Teleport", teleport_id: {group: "lunarspellbook", spot: "ourania"}},
       {expected: "Cast South Falador Teleport", teleport_id: {group: "lunarspellbook", spot: "southfalador"}},
@@ -1036,6 +1040,35 @@ export namespace CompassSolving {
       {expected: "Teleport Fort Forinthry Lodestone", teleport_id: {group: "home", spot: "fortforinthry"}},
       {expected: "Quick teleport City of Um Lodestone", teleport_id: {group: "home", spot: "cityofum"}},
       {expected: "Teleport City of Um Lodestone", teleport_id: {group: "home", spot: "cityofum"}},
+
+      {expected: "Al Kharid lodestone", teleport_id: {group: "home", spot: "alkharid"}},
+      {expected: "Anachronia lodestone", teleport_id: {group: "home", spot: "anachronia"}},
+      {expected: "Ardounge lodestone", teleport_id: {group: "home", spot: "ardougne"}},
+      {expected: "Ashdale lodestone", teleport_id: {group: "home", spot: "ashdale"}},
+      {expected: "Bandit Camp lodestone", teleport_id: {group: "home", spot: "banditcamp"}},
+      {expected: "Burthorpe lodestone", teleport_id: {group: "home", spot: "burthorpe"}},
+      {expected: "Canifis lodestone", teleport_id: {group: "home", spot: "canifis"}},
+      {expected: "Catherby lodestone", teleport_id: {group: "home", spot: "catherby"}},
+      {expected: "Draynor lodestone", teleport_id: {group: "home", spot: "draynor"}},
+      {expected: "Eagles` Peak lodestone", teleport_id: {group: "home", spot: "eaglespeak"}},
+      {expected: "Edgeville lodestone", teleport_id: {group: "home", spot: "edgeville"}},
+      {expected: "Falador lodestone", teleport_id: {group: "home", spot: "falador"}},
+      {expected: "Fremmenik Province lodestone", teleport_id: {group: "home", spot: "fremmenik"}},
+      {expected: "Karamja lodestone", teleport_id: {group: "home", spot: "karamja"}},
+      {expected: "Lumbridge lodestone", teleport_id: {group: "home", spot: "lumbridge"}},
+      {expected: "Lunar Isle lodestone", teleport_id: {group: "home", spot: "lunarisle"}},
+      {expected: "Oo´glog lodestone", teleport_id: {group: "home", spot: "ooglog"}},
+      {expected: "Port Sarim lodestone", teleport_id: {group: "home", spot: "portsarim"}},
+      {expected: "Prifddinas lodestone", teleport_id: {group: "home", spot: "prifddinas"}},
+      {expected: "Seers´ Village lodestone", teleport_id: {group: "home", spot: "seersvillage"}},
+      {expected: "Taverley lodestone", teleport_id: {group: "home", spot: "taverley"}},
+      {expected: "Tirannwn lodestone", teleport_id: {group: "home", spot: "tirannwn"}},
+      {expected: "Varrock lodestone", teleport_id: {group: "home", spot: "varrock"}},
+      {expected: "Wilderness lodestone", teleport_id: {group: "home", spot: "wilderness"}},
+      {expected: "Yanille lodestone", teleport_id: {group: "home", spot: "yanille"}},
+      {expected: "Menaphos lodestone", teleport_id: {group: "home", spot: "menaphos"}},
+      {expected: "Fort Forinthry lodestone", teleport_id: {group: "home", spot: "fortforinthry"}},
+      {expected: "City of Um lodestone", teleport_id: {group: "home", spot: "cityofum"}},
     ]
 
   export const ANGLE_CHANGE_COMMIT_THRESHOLD = degreesToRadians(4)

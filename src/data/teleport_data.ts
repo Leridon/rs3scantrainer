@@ -1451,7 +1451,7 @@ const raw_data: Transportation.TeleportGroup[] = [
       },
       {
         id: "daemonheimpeninsula",
-        target: {"origin": {"x": 3510, "y": 3663, "level": 0}, "size": {"x": 4, "y": 7}, "data": "d///Dw=="},
+        target: {"origin": {"x": 3510, "y": 3663, "level": 0}, "size": {"x": 4, "y": 7}},
         code: "5",
         name: "Daemonheim Peninsula",
         menu_ticks: 1,
@@ -1542,7 +1542,7 @@ const raw_data: Transportation.TeleportGroup[] = [
       },
       {
         id: "kalgeriondemons",
-        target: {"origin": {"x": 3398, "y": 3662, "level": 0}, "size": {"x": 5, "y": 7}, "data": "/7333gE="},
+        target: {"origin": {"x": 3398, "y": 3662, "level": 0}, "size": {"x": 4, "y": 7}, "data": "d/dXAw=="},
         code: "0,9",
         name: "Daemonheim demons",
         menu_ticks: 2,
@@ -3467,7 +3467,7 @@ name: "Entrana",
       },
       {
         id: "daemonheim",
-        target: {"origin":{"x":3428,"y":3699,"level":0}},
+        target: {"origin": {"x": 3428, "y": 3699, "level": 0}},
         code: "7",
         name: "Daemonheim",
       },
@@ -3569,7 +3569,7 @@ name: "Entrana",
     spots: [{
       id: "daemonheim",
       name: "Daemonheim",
-      target: {"origin": {"x": 3441, "y": 3694, "level": 0}, "size": {"x": 11, "y": 11}, "data": "//////nPf/jDH/6gBzzAAA=="},
+      target: {"origin": {"x": 3441, "y": 3694, "level": 0}, "size": {"x": 11, "y": 11}, "data": "9/////mPf/jDH/6ABzjAAQ=="},
       menu_ticks: 0,
       animation_ticks: 8
     }],

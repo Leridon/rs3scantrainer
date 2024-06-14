@@ -64,7 +64,11 @@ export class QuadTree<T extends QuadTree.Element<T>> {
     const elements = this.elements
     this.elements = []
 
-    this.cull(this.cull_rectangle)
+    if (this.is_culled) {
+      this.propagateCulled(this.cull_rectangle, true)
+    } else {
+      this.cull(this.cull_rectangle)
+    }
 
     elements.forEach(e => this.insert(e))
   }

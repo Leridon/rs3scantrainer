@@ -28,8 +28,7 @@ export namespace Parsing {
 
       for (const loc_id of loc_group.loc_ids) {
         const instances =
-          [...data.get(loc_id),
-            ...getInstances(parsing_table.data.custom_objects.locs.find(l => l.id == loc_id))]
+          [...data.get(loc_id)]
 
         if (instances.length == 0) {
           console.error(`Zero instances returned for loc ${loc_id}!`)

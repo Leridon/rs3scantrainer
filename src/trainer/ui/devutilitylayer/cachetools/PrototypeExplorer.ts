@@ -9,6 +9,8 @@ import Prototype = ProcessedCacheTypes.Prototype;
 import vbox = C.vbox;
 import hboxl = C.hboxl;
 import inlineimg = C.inlineimg;
+import ContextMenu, {MenuEntry} from "../../widgets/ContextMenu";
+import {PrototypeFilter} from "./FilteredPrototypeLayer";
 
 class PreparedSearch<T> {
 
@@ -53,7 +55,7 @@ export class PrototypeProperties extends Properties {
   }
 }
 
-namespace PrototypeProperties {
+export namespace PrototypeProperties {
   import staticentity = C.staticentity;
   import npc = C.npc;
 
@@ -72,7 +74,10 @@ export class PrototypeExplorer extends Widget {
   private result_area: Widget
   private search_field: TextField
 
-  constructor(prototypes: Prototype[]) {
+  constructor(prototypes: Prototype[],
+              private filter: PrototypeFilter,
+              private click_options: (_: Prototype) => MenuEntry[]
+              ) {
     super();
 
     this.search_field = new TextField().setPlaceholder("Search...")
@@ -96,12 +101,17 @@ export class PrototypeExplorer extends Widget {
   private update(term: string) {
     const results = this.index.do(term, 200)
 
-    console.log(`${results.length} items`)
-
     this.result_area.empty()
 
     results.forEach(prototype => {
       new PrototypeExplorer.PrototypeSearchResult(prototype)
+        .on("click", e => {
+          new ContextMenu({
+            type: "submenu",
+            children: this.click_options(prototype),
+            text: () => PrototypeProperties.renderName(prototype)
+          }).showFromEvent(e)
+        })
         .appendTo(this.result_area)
     })
   }
@@ -114,6 +124,8 @@ export namespace PrototypeExplorer {
   export class PrototypeSearchResult extends Widget {
     constructor(prototype: Prototype) {
       super();
+
+      this.addClass("ctr-clickable")
 
       this.append(hboxl(PrototypeProperties.renderName(prototype), C.space(), `(${prototype.size.x}x${prototype.size.y})`))
 

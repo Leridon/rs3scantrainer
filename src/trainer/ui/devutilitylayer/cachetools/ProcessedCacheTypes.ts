@@ -121,7 +121,7 @@ export namespace ProcessedCacheTypes {
         this.instance.position,
         (this.instance.rotation % 2 == 0)
           ? this.prototype.size
-          : {x: this.prototype.size.y, y: this.prototype.size.y}
+          : {x: this.prototype.size.y, y: this.prototype.size.x}
       )
     }
 

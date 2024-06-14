@@ -1,6 +1,6 @@
 import {GameLayer} from "../../../lib/gamemap/GameLayer";
-import {FilteredLocLayer, LocInstanceEntity} from "./FilteredLocLayer";
-import {GameMapContextMenuEvent} from "../../../lib/gamemap/MapEvents";
+import {LocInstanceEntity} from "./FilteredLocLayer";
+import {GameMapContextMenuEvent, GameMapKeyboardEvent, GameMapMouseEvent} from "../../../lib/gamemap/MapEvents";
 import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
 import ButtonRow from "../../../lib/ui/ButtonRow";
 import {LocParsingTable, LocParsingTableData, ParserPairing, ParsingAssociationGroup} from "./cachetools/ParsingTable";
@@ -8,8 +8,7 @@ import KeyValueStore from "../../../lib/util/KeyValueStore";
 import LightButton from "../widgets/LightButton";
 import ExportStringModal from "../widgets/modals/ExportStringModal";
 import {util} from "../../../lib/util/util";
-import {hardcoded_transports, Parsers3, parsers3} from "./cachetools/parsers3";
-import {Parsing} from "./cachetools/Parsing";
+import {Parsers3} from "./cachetools/parsers3";
 import {CacheTypes} from "./cachetools/CacheTypes";
 import {ParserPairingModal} from "./cachetools/ParserPairingModal";
 import {storage} from "../../../lib/util/storage";
@@ -17,11 +16,16 @@ import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
 import {PrototypeExplorer} from "./cachetools/PrototypeExplorer";
 import ControlWithHeader from "../map/ControlWithHeader";
 import {ProcessedCacheTypes} from "./cachetools/ProcessedCacheTypes";
-import {FilteredPrototypeLayer, PrototypeFilter, PrototypeInstanceDataSource} from "./cachetools/FilteredPrototypeLayer";
+import {FilteredPrototypeLayer, PrototypeFilter, PrototypeInstanceDataSource, PrototypeInstanceEntity} from "./cachetools/FilteredPrototypeLayer";
+import {ValueInteraction} from "../../../lib/gamemap/interaction/ValueInteraction";
+import {InteractionGuard} from "../../../lib/gamemap/interaction/InteractionLayer";
 import cleanedJSON = util.cleanedJSON;
-import LocDataFile = CacheTypes.LocDataFile;
 import LocInstance = CacheTypes.LocInstance;
 import PrototypeIndex = ProcessedCacheTypes.PrototypeIndex;
+import PrototypeInstance = ProcessedCacheTypes.PrototypeInstance;
+import Prototype = ProcessedCacheTypes.Prototype;
+import pre_filter = PrototypeFilter.pre_filter;
+import {TileCoordinates} from "../../../lib/runescape/coordinates";
 
 class RecentlyUsedParserGroups {
   last_used_groups = new storage.Variable<number[]>("devutility/locparsing/recentgroups", () => [])
@@ -39,12 +43,68 @@ class RecentlyUsedParserGroups {
   }
 }
 
+class PlacePrototypeInteraction extends ValueInteraction<ProcessedCacheTypes.Instance> {
+  constructor(private prototype: Prototype) {
+    super({
+      preview_render: i => {
+        return new PrototypeInstanceEntity(new PrototypeInstance(prototype, i)).setInteractive(false)
+      }
+    })
+  }
+
+  private rotation: number = 0
+  private last_hover: TileCoordinates = null
+
+  private get(pos: TileCoordinates): ProcessedCacheTypes.Instance {
+    if (Prototype.isLoc(this.prototype)) {
+      return {
+        id: this.prototype.id,
+        position: pos,
+        rotation: this.rotation
+      }
+    } else {
+     return{
+        id: this.prototype.id,
+        position: pos,
+        rotation: this.rotation
+      }
+    }
+  }
+
+  eventKeyDown(event: GameMapKeyboardEvent) {
+    event.onPre(() => {
+      if (event.original.key.toLowerCase() == "r") {
+        const offset = event.original.shiftKey ? -1 : 1
+
+        this.rotation = (this.rotation + 4 + offset) % 4
+
+        this.preview(this.get(this.last_hover))
+      }
+    })
+  }
+
+  eventHover(event: GameMapMouseEvent) {
+    event.onPre(() => {
+      this.last_hover = event.tile()
+
+      this.preview(this.get(event.tile()))
+    })
+  }
+
+  eventClick(event: GameMapMouseEvent) {
+    event.onPre(() => {
+      this.commit(this.get(event.tile()))
+    })
+  }
+}
+
 export class ParserManagementLayer extends GameLayer {
+  private guard = new InteractionGuard().setDefaultLayer(this)
+
   private prototypes: Promise<PrototypeIndex>
+  private instance_datasource_cache: PrototypeInstanceDataSource
 
   private loc_layer2: FilteredPrototypeLayer
-
-  loc_layer: FilteredLocLayer
 
   local_store = KeyValueStore.instance().variable<LocParsingTableData>("devutility/locparsing/parserassociations")
   recents: RecentlyUsedParserGroups
@@ -52,7 +112,6 @@ export class ParserManagementLayer extends GameLayer {
   repo_version_number: number
 
   parsing_table: LocParsingTable
-  data_file: LocDataFile
 
   private prototype_explorer: PrototypeExplorer
 
@@ -61,7 +120,21 @@ export class ParserManagementLayer extends GameLayer {
 
     new GameMapControl({type: "floating", position: "left-top"},
       new ControlWithHeader("Prototype Explorer")
-        .setContent(this.prototype_explorer = new PrototypeExplorer([]))
+        .setContent(this.prototype_explorer = new PrototypeExplorer([],
+          PrototypeFilter.none(),
+          proto => [
+            {
+              type: "basic", handler: () => {
+                this.guard.set(
+                  new PlacePrototypeInteraction(proto)
+                    .onCommit(i => {
+                      this.parsing_table.instanceDataSource.create(i)
+                    })
+                )
+              }, text: "Place on map"
+            }
+          ]
+        ))
     ).addTo(this)
 
     new GameMapControl({type: "gapless", position: "bottom-center"}, c())
@@ -87,16 +160,16 @@ export class ParserManagementLayer extends GameLayer {
               }),
             new LightButton("Apply parsers")
               .onClick(async () => {
-                const results = await Parsing.applyParsing(parsers3, this.data_file, this.parsing_table)
+                /*const results = await Parsing.applyParsing(parsers3, this.data_file, this.parsing_table)
 
                 results.push(...hardcoded_transports())
 
-                new ExportStringModal(cleanedJSON(results), `Parsed ${results.length} transports.`).show()
+                new ExportStringModal(cleanedJSON(results), `Parsed ${results.length} transports.`).show()*/
               }),
           )
       ).addTo(this)
 
-    this.loc_layer2 = new FilteredPrototypeLayer(PrototypeFilter.pre_filter()).addTo(this)
+    this.loc_layer2 = new FilteredPrototypeLayer().addTo(this)
 
     this.init()
   }
@@ -114,11 +187,12 @@ export class ParserManagementLayer extends GameLayer {
         console.log(`${res.length} instances`)
 
         this.loc_layer2.addDataSource(
-          PrototypeInstanceDataSource.fromList(res.map(i => index.resolve(i)))
+          this.instance_datasource_cache = PrototypeInstanceDataSource.fromList(
+            res.map(i => index.resolve(i))
+              .filter(i => pre_filter.applyPrototype(i.prototype))
+          )
         )
       })
-
-    return // TODO:
 
     let local_data: LocParsingTableData = await this.local_store.get()
     let repo_data: LocParsingTableData = await (await fetch("map/parsing_associations.json")).json().catch(() => undefined)
@@ -127,16 +201,14 @@ export class ParserManagementLayer extends GameLayer {
 
     let most_current_data: LocParsingTableData = {
       version: 0,
-      custom_objects: {
-        locs: [],
-      },
+      custom_instances: [],
       associations: []
     }
 
-    if ((local_data?.version ?? -1) > most_current_data.version) most_current_data = local_data
-    if ((repo_data?.version ?? -1) > most_current_data.version) most_current_data = repo_data
+    //if ((local_data?.version ?? -1) > most_current_data.version) most_current_data = local_data
+    //if ((repo_data?.version ?? -1) > most_current_data.version) most_current_data = repo_data
 
-    this.parsing_table = new LocParsingTable(most_current_data)
+    this.parsing_table = new LocParsingTable(await this.prototypes, most_current_data)
 
     this.recents = new RecentlyUsedParserGroups(this.parsing_table)
 
@@ -144,9 +216,7 @@ export class ParserManagementLayer extends GameLayer {
       await this.local_store.set(this.parsing_table.data)
     })
 
-    this.data_file = await LocDataFile.fromURL("map/raw_loc_data.json")
-
-    this.loc_layer = new FilteredLocLayer(this.data_file, this.parsing_table).addTo(this)
+    this.loc_layer2.addDataSource(this.parsing_table.instanceDataSource)
   }
 
   commitPairing(loc: LocInstance, pairing: ParserPairing) {
@@ -224,6 +294,21 @@ export class ParserManagementLayer extends GameLayer {
                   })
               }
           })*/
+        }
+      }
+
+      if (event.active_entity instanceof PrototypeInstanceEntity) {
+
+        const instance = event.active_entity.instance
+
+        if (instance instanceof PrototypeInstanceDataSource.Mutable.MutableInstance) {
+          event.addForEntity({
+            type: "basic",
+            text: "Delete Instance",
+            handler: async () => {
+              instance.deleteInstance()
+            }
+          })
         }
       }
     })

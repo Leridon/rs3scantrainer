@@ -5,6 +5,10 @@ import {TransportParser} from "./TransportParser";
 import {parsers3} from "./parsers3";
 import LocInstance = CacheTypes.LocInstance;
 import LocWithUsages = CacheTypes.LocWithUsages;
+import {ProcessedCacheTypes} from "./ProcessedCacheTypes";
+import {PrototypeInstanceDataSource} from "./FilteredPrototypeLayer";
+import PrototypeInstance = ProcessedCacheTypes.PrototypeInstance;
+import PrototypeIndex = ProcessedCacheTypes.PrototypeIndex;
 
 export type ParsingAssociationGroup = {
   parser_id: string,
@@ -22,12 +26,9 @@ export type ParsingAssociationGroup = {
 
 export type LocParsingTableData = {
   version: number,
-  custom_objects: {
-    locs: LocWithUsages[],
-  },
+  custom_instances: ProcessedCacheTypes.Instance[],
   associations: ParsingAssociationGroup[]
 }
-
 
 export type ParserPairing = {
   group: {
@@ -49,7 +50,7 @@ export class LocParsingTable {
 
   version: Observable<number>
 
-  constructor(data: LocParsingTableData) {
+  constructor(prototype_index: PrototypeIndex, data: LocParsingTableData) {
     this.data = data
 
     this.version = observe(data.version)
@@ -61,7 +62,25 @@ export class LocParsingTable {
         this.loc_index[loc_id] = association
       })
     })
+
+    this.instanceDataSource = new PrototypeInstanceDataSource.Mutable(prototype_index, this.data.custom_instances)
+
+    this.instanceDataSource.created.on(instance => {
+      this.data.custom_instances.push(instance.instance)
+      this.bumpVersion()
+    })
+
+    this.instanceDataSource.removed.on(instance => {
+      const i = this.data.custom_instances.indexOf(instance.instance)
+
+      if(i >= 0) {
+        this.data.custom_instances.splice(i, 1)
+        this.bumpVersion()
+      }
+    })
   }
+
+  public instanceDataSource: PrototypeInstanceDataSource.Mutable
 
   setPairing(loc: LocInstance, pairing: ParserPairing): ParserPairing {
 
@@ -203,10 +222,6 @@ export class LocParsingTable {
           argument: instance_group.per_instance_argument,
         } : null
     }
-  }
-
-  addCustomLoc(use: LocInstance) {
-    
   }
 
   private bumpVersion() {

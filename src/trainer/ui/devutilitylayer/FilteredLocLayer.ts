@@ -277,14 +277,6 @@ export class FilteredLocLayer extends GameLayer {
 
   private updateCustomEntities() {
     this.custom_loc_entities?.forEach(e => e.instances.forEach(i => i.remove()))
-
-    this.custom_loc_entities = this.parsing_table.data.custom_objects.locs.map(loc =>
-      ({
-        type: "loc" as const,
-        loc: loc,
-        instances: getInstances(loc).map(i => new LocInstanceEntity(i, this.parsing_table))
-      })
-    )
   }
 
   private applyFilter() {

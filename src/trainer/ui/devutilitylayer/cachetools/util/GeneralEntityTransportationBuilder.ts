@@ -4,7 +4,7 @@ import {LocUtil} from "./LocUtil";
 import {CacheTypes} from "../CacheTypes";
 import {Transform, Vector2} from "../../../../../lib/math";
 import {TileTransform} from "../../../../../lib/runescape/coordinates/TileTransform";
-import {TileRectangle} from "../../../../../lib/runescape/coordinates";
+import {TileCoordinates, TileRectangle} from "../../../../../lib/runescape/coordinates";
 import {CursorType} from "../../../../../lib/runescape/CursorType";
 import {TileArea} from "../../../../../lib/runescape/coordinates/TileArea";
 import EntityAction = Transportation.EntityAction;
@@ -13,6 +13,8 @@ import GeneralEntityTransportation = Transportation.GeneralEntityTransportation;
 import getAction = LocUtil.getAction;
 import LocInstance = CacheTypes.LocInstance;
 import getNthAction = LocUtil.getNthAction;
+import {ProcessedCacheTypes} from "../ProcessedCacheTypes";
+import PrototypeInstance = ProcessedCacheTypes.PrototypeInstance;
 
 export class EntityActionBuilder {
 
@@ -28,20 +30,20 @@ export class EntityActionBuilder {
 }
 
 export class EntityTransportationBuilder {
-  constructor(public underlying: LocInstance,
+  constructor(public underlying: PrototypeInstance,
               public value: EntityTransportation) {}
 
   finish(): EntityTransportation {
     let transport = this.value
 
-    transport.source_loc = this.underlying.loc_id
+    transport.source_loc = this.underlying.prototype.id
 
     let use = this.underlying
 
     // Apply rotation
-    if (use.rotation != 0) {
+    if (use.instance.rotation != 0) {
       transport = Transportation.transform(transport, TileTransform.normalize(
-        Transform.rotation((4 - use.rotation) % 4), // Cache rotation is clockwise, while Transform.rotation is counterclockwise
+        Transform.rotation((4 - use.instance.rotation) % 4), // Cache rotation is clockwise, while Transform.rotation is counterclockwise
       ))
     }
 
@@ -50,7 +52,7 @@ export class EntityTransportationBuilder {
       : transport.position
 
     transport = Transportation.transform(transport,
-      TileTransform.translation(Vector2.sub(use.origin, current_origin), use.effectiveLevel),
+      TileTransform.translation(Vector2.sub(use.box.origin, current_origin), use.box.origin.level),
     )
 
     if (transport.type == "entity") {
@@ -63,7 +65,7 @@ export class EntityTransportationBuilder {
 
 export class GeneralEntityTransportationBuilder extends EntityTransportationBuilder {
   constructor(
-    public underlying: LocInstance,
+    public underlying: PrototypeInstance,
     public value: GeneralEntityTransportation) {
 
     super(underlying, value)
@@ -98,15 +100,15 @@ export class GeneralEntityTransportationBuilder extends EntityTransportationBuil
 
 export namespace EntityTransportationBuilder {
 
-  import LocInstance = CacheTypes.LocInstance;
+  import PrototypeInstance = ProcessedCacheTypes.PrototypeInstance;
 
-  export function from(instance: LocInstance): GeneralEntityTransportationBuilder {
+  export function from(instance: PrototypeInstance): GeneralEntityTransportationBuilder {
     const transport: Transportation.EntityTransportation = {
       type: "entity",
       entity: {name: instance.prototype.name!!, kind: "static"},
       clickable_area: TileRectangle.from(
         {x: 0, y: 0, level: 0},
-        {x: (instance.prototype.width ?? 1) - 1, y: (instance.prototype.length ?? 1) - 1, level: 0},
+        TileCoordinates.lift(Vector2.add(instance.prototype.size, {x: -1, y: -1}), 0),
       ),
       actions: [],
     }

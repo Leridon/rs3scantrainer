@@ -1,9 +1,10 @@
 import {CursorType} from "../../../../lib/runescape/CursorType";
-import {Vector2} from "../../../../lib/math";
+import {Rectangle, Transform, Vector2} from "../../../../lib/math";
 import {TileCoordinates} from "../../../../lib/runescape/coordinates";
 import * as lodash from "lodash";
 import {CacheTypes} from "./CacheTypes";
 import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
+import {TileTransform} from "../../../../lib/runescape/coordinates/TileTransform";
 
 export namespace ProcessedCacheTypes {
 
@@ -72,6 +73,10 @@ export namespace ProcessedCacheTypes {
     export function hash(id: PrototypeID): string {
       return id[0] + ":" + id[1]
     }
+
+    export function equals(a: PrototypeID, b: PrototypeID): boolean {
+      return a[0] == b[0] && a[1] == b[1]
+    }
   }
 
   export type Instance = Instance.Loc | Instance.NPC
@@ -115,7 +120,7 @@ export namespace ProcessedCacheTypes {
 
     constructor(
       public prototype: T,
-      public  instance: T extends Prototype.Npc ? Instance.NPC : Instance.Loc,
+      public instance: T extends Prototype.Npc ? Instance.NPC : Instance.Loc,
     ) {
       this.box = TileArea.init(
         this.instance.position,
@@ -125,50 +130,109 @@ export namespace ProcessedCacheTypes {
       )
     }
 
+    protoId(): PrototypeID {
+      return this.prototype.id
+    }
+
     isLoc(): this is PrototypeInstance<Prototype.Loc> {
       return this.prototype.id[0] == "loc"
     }
+
+    getTransform(): TileTransform {
+      const rotation = Transform.rotation((4 - this.instance.rotation) % 4)
+
+      const rotated_box = Rectangle.from({x: 0, y: 0}, Vector2.transform(Vector2.sub(this.prototype.size, {x: -1, y: -1}), rotation))
+
+      return TileTransform.chain(
+        TileTransform.translation(
+          Vector2.sub(this.instance.position, Rectangle.bottomLeft(rotated_box)),
+          this.instance.position.level
+        ),
+        rotation,
+      )
+    }
+
+    getInverseTransform(): TileTransform {
+      const rotation = Transform.rotation(this.instance.rotation % 4)
+
+      const rotated_box = Rectangle.from({x: 0, y: 0}, Vector2.transform(Vector2.sub(this.prototype.size, {x: -1, y: -1}),
+        Transform.rotation((4 - this.instance.rotation) % 4)))
+
+      return TileTransform.chain(
+        rotation,
+        TileTransform.translation(
+          Vector2.sub(Rectangle.bottomLeft(rotated_box), this.instance.position),
+          -this.instance.position.level
+        ),
+      )
+    }
   }
 
-  export class PrototypeIndex {
+  export class PrototypeIndex<DataT = null> {
     private lookup_table: {
-      loc: Prototype.Loc[],
-      npc: Prototype.Npc[]
+      loc: {
+        prototype: Prototype.Loc
+        data: DataT
+      }[],
+      npc: {
+        prototype: Prototype.Npc
+        data: DataT
+      }[]
     } = {
       loc: [],
       npc: []
     }
 
-    constructor(public data: Prototype[]) {
+    constructor(public data: Prototype[],
+                f: (_: Prototype) => DataT,
+    ) {
       data.forEach(proto => {
         const is_loc = Prototype.isLoc(proto)
 
         if (is_loc) {
-          this.lookup_table.loc[proto.id[1]] = proto
+          this.lookup_table.loc[proto.id[1]] = {
+            prototype: proto,
+            data: f(proto)
+          }
         } else {
-          this.lookup_table.npc[proto.id[1]] = proto
+          this.lookup_table.npc[proto.id[1]] = {
+            prototype: proto,
+            data: f(proto)
+          }
         }
       })
     }
 
-    static fromPrototypes(prototypes: Prototype[]): PrototypeIndex {
-      return new PrototypeIndex(prototypes) as PrototypeIndex
+    static simple(prototypes: Prototype[]): PrototypeIndex {
+      return new PrototypeIndex(prototypes, () => null) as PrototypeIndex
+    }
+
+    private getEntry(id: PrototypeID): { prototype: ProcessedCacheTypes.Prototype; data: DataT } {
+      return this.lookup_table[id[0]][id[1]]
     }
 
     lookup(id: PrototypeID.Loc): Prototype.Loc
     lookup(id: PrototypeID.NPC): Prototype.Npc
     lookup(id: PrototypeID): Prototype
     lookup(id: PrototypeID): Prototype {
-      return this.lookup_table[id[0]][id[1]]
+      return this.getEntry(id).prototype
     }
 
     resolve(instance: Instance.Loc): PrototypeInstance<Prototype.Loc>
     resolve(instance: Instance.NPC): PrototypeInstance<Prototype.Npc>
-    resolve(instance: Instance): PrototypeInstance<Prototype>
-    resolve(instance: Instance): PrototypeInstance<Prototype> {
+    resolve(instance: Instance): PrototypeInstance
+    resolve(instance: Instance): PrototypeInstance {
       const resolve = this.lookup(instance.id)
 
       return new PrototypeInstance(resolve, instance)
+    }
+
+    set(proto: PrototypeID, value: DataT) {
+      this.getEntry(proto).data = value
+    }
+
+    get(id: PrototypeID): DataT {
+      return this.getEntry(id).data
     }
   }
 }

@@ -175,7 +175,7 @@ export class ParserManagementLayer extends GameLayer {
   }
 
   async init() {
-    this.prototypes = fetch("rscache/prototypes.json").then(async res => new PrototypeIndex(await res.json()))
+    this.prototypes = fetch("rscache/prototypes.json").then(async res => PrototypeIndex.simple(await res.json()))
 
     this.prototypes.then(p => this.prototype_explorer.setPrototypes(p.data))
 
@@ -205,8 +205,8 @@ export class ParserManagementLayer extends GameLayer {
       associations: []
     }
 
-    //if ((local_data?.version ?? -1) > most_current_data.version) most_current_data = local_data
-    //if ((repo_data?.version ?? -1) > most_current_data.version) most_current_data = repo_data
+    if ((local_data?.version ?? -1) > most_current_data.version) most_current_data = local_data
+    if ((repo_data?.version ?? -1) > most_current_data.version) most_current_data = repo_data
 
     this.parsing_table = new LocParsingTable(await this.prototypes, most_current_data)
 
@@ -219,7 +219,7 @@ export class ParserManagementLayer extends GameLayer {
     this.loc_layer2.addDataSource(this.parsing_table.instanceDataSource)
   }
 
-  commitPairing(loc: LocInstance, pairing: ParserPairing) {
+  commitPairing(loc: PrototypeInstance, pairing: ParserPairing) {
     const resultpair = this.parsing_table.setPairing(loc, pairing)
 
     if (resultpair.group && resultpair.group.name != "") this.recents.use(resultpair.group.id)
@@ -228,7 +228,7 @@ export class ParserManagementLayer extends GameLayer {
   eventContextMenu(event: GameMapContextMenuEvent) {
 
     event.onPre(() => {
-      if (event.active_entity instanceof LocInstanceEntity) {
+      if (event.active_entity instanceof PrototypeInstanceEntity) {
         const instance = event.active_entity.instance
 
         const pairing = this.parsing_table.getPairing(instance)

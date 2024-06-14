@@ -212,9 +212,9 @@ export class LocInstanceEntity extends MapEntity {
   }
 
   checkParserRedraw() {
-    if (this.rendered_props.render_at_all && (this.parsing_table && !!this.parsing_table.getPairing(this.instance).group) != this.rendered_with_parser) {
+    /*if (this.rendered_props.render_at_all && (this.parsing_table && !!this.parsing_table.getPairing(this.instance).group) != this.rendered_with_parser) {
       this.render(true)
-    }
+    }*/
   }
 }
 

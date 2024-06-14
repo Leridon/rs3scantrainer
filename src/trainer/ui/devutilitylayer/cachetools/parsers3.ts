@@ -17,6 +17,8 @@ import fixed = MovementBuilder.fixed;
 import EntityActionMovement = Transportation.EntityActionMovement;
 import {C} from "../../../../lib/ui/constructors";
 import span = C.span;
+import {ProcessedCacheTypes} from "./ProcessedCacheTypes";
+import PrototypeInstance = ProcessedCacheTypes.PrototypeInstance;
 
 const orientation_new: ParsingParameter<Pick<EntityActionMovement, "orientation" | "forced_orientation">> = PP.choose<Pick<EntityActionMovement, "orientation" | "forced_orientation">>(
   {
@@ -105,7 +107,7 @@ function parse<GroupT, InstanceT>(id: string,
                                   groupPar: ParsingParameter<GroupT>,
                                   instancePar: ParsingParameter<InstanceT>,
                                   instance_group_required: boolean,
-                                  apply: (instance: CacheTypes.LocInstance, args: { per_loc: GroupT; per_instance?: InstanceT }) => Promise<Transportation.Transportation[]>) {
+                                  apply: (instance: PrototypeInstance, args: { per_loc: GroupT; per_instance?: InstanceT }) => Promise<Transportation.Transportation[]>) {
 
   return (new class extends TransportParser {
     constructor() {
@@ -116,20 +118,20 @@ function parse<GroupT, InstanceT>(id: string,
       this.instance_group_required = instancePar && instance_group_required
     }
 
-    apply(instance: CacheTypes.LocInstance, args: { per_loc: GroupT; per_instance?: InstanceT }): Promise<Transportation.Transportation[]> {
+    apply(instance: PrototypeInstance, args: { per_loc: GroupT; per_instance?: InstanceT }): Promise<Transportation.Transportation[]> {
       return apply(instance, args)
     }
   })
 }
 
-function transformWithLoc(transport: Transportation.GeneralEntityTransportation, use: LocInstance): Transportation.GeneralEntityTransportation
-function transformWithLoc(transport: Transportation.EntityTransportation, use: LocInstance): Transportation.EntityTransportation
-function transformWithLoc(transport: Transportation.DoorTransportation, use: LocInstance): Transportation.DoorTransportation
-function transformWithLoc(transport: Transportation.EntityTransportation, use: LocInstance): Transportation.EntityTransportation {
+function transformWithLoc(transport: Transportation.GeneralEntityTransportation, use: PrototypeInstance): Transportation.GeneralEntityTransportation
+function transformWithLoc(transport: Transportation.EntityTransportation, use: PrototypeInstance): Transportation.EntityTransportation
+function transformWithLoc(transport: Transportation.DoorTransportation, use: PrototypeInstance): Transportation.DoorTransportation
+function transformWithLoc(transport: Transportation.EntityTransportation, use: PrototypeInstance): Transportation.EntityTransportation {
   // Apply rotation
-  if (use.rotation != 0) {
+  if (use.instance.rotation != 0) {
     transport = Transportation.transform(transport, TileTransform.normalize(
-      Transform.rotation((4 - use.rotation) % 4), // Cache rotation is clockwise, while Transform.rotation is counterclockwise
+      Transform.rotation((4 - use.instance.rotation) % 4), // Cache rotation is clockwise, while Transform.rotation is counterclockwise
     ))
   }
 
@@ -138,7 +140,7 @@ function transformWithLoc(transport: Transportation.EntityTransportation, use: L
     : transport.position
 
   transport = Transportation.transform(transport,
-    TileTransform.translation(Vector2.sub(use.origin, current_origin), use.effectiveLevel - current_origin.level),
+    TileTransform.translation(Vector2.sub(use.box.origin, current_origin), use.box.origin.level - current_origin.level),
   )
 
   if (transport.type == "entity") {
@@ -153,7 +155,7 @@ export const parsers3: TransportParser[] = [
 
       const door: Transportation.DoorTransportation = {
         type: "door",
-        position: instance.origin,
+        position: instance.box.origin,
         direction: direction.west,
         name: instance.prototype.name ?? "Door",
       }
@@ -213,7 +215,7 @@ export const parsers3: TransportParser[] = [
             index: per_loc.top.action.id,
             interactive_area: interactive
           },
-          offset({...off, level: per_loc.top.level - instance.box.level})
+          offset({...off, level: per_loc.top.level - instance.box.origin.level})
             .orientation("toentitybefore")
             .time(3)
         )
@@ -251,7 +253,7 @@ export const parsers3: TransportParser[] = [
       builder.action({
         index: per_loc.action.id,
         interactive_area: per_loc.area
-      }, fixed(TileArea.transform(per_instance.target, LocInstance.getTransform(instance))).time(per_loc.time ?? 1))
+      }, fixed(TileArea.transform(per_instance.target, instance.getTransform())).time(per_loc.time ?? 1))
 
       return [builder.finish()]
     }).makeLegacy(),
@@ -294,9 +296,9 @@ export const parsers3: TransportParser[] = [
               let a = m.movement.fixed.area
 
               if (m.movement.fixed.origin_only) {
-                a = TileArea.transform(a, LocInstance.getTransform(instance))
+                a = TileArea.transform(a, instance.getTransform())
                 a = TileArea.init(a.origin)
-                a = TileArea.transform(a, LocInstance.getInverseTransform(instance))
+                a = TileArea.transform(a, instance.getInverseTransform())
               }
 
               b = fixed(a, true)
@@ -367,13 +369,13 @@ export const parsers3: TransportParser[] = [
               let a = m.movement.fixed.area
 
               if (m.movement.fixed.relative) {
-                a = TileArea.transform(a, LocInstance.getTransform(instance))
+                a = TileArea.transform(a, instance.getTransform())
               }
 
               a = TileArea.init(a.origin)
 
               if (m.movement.fixed.relative) {
-                a = TileArea.transform(a, LocInstance.getInverseTransform(instance))
+                a = TileArea.transform(a, instance.getInverseTransform())
               }
 
               b = fixed(a, m.movement.fixed.relative)

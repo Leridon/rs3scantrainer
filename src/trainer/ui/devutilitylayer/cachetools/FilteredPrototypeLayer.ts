@@ -9,9 +9,9 @@ import {PrototypeProperties} from "./PrototypeExplorer";
 import {FloorLevels, ZoomLevels} from "../../../../lib/gamemap/ZoomLevels";
 import {GameMapContextMenuEvent} from "../../../../lib/gamemap/MapEvents";
 import {Menu} from "../../widgets/ContextMenu";
+import * as leaflet from "leaflet";
 import PrototypeInstance = ProcessedCacheTypes.PrototypeInstance;
 import Prototype = ProcessedCacheTypes.Prototype;
-import * as leaflet from "leaflet";
 
 export abstract class PrototypeFilter {
 
@@ -63,9 +63,9 @@ export namespace PrototypeFilter {
   }
 
   export type Config = {
-    names: string[],
-    action_names: string[],
-    type: PrototypeID["0"] | undefined,
+    names?: string[],
+    action_names?: string[],
+    type?: PrototypeID["0"] | undefined,
   }
 
   export function forConfig(config: Config): PrototypeFilter {
@@ -75,9 +75,8 @@ export namespace PrototypeFilter {
       }
 
       applyPrototype(prototype: ProcessedCacheTypes.Prototype): boolean {
-        if (config.names.length > 0 && !config.names.some(n => prototype.name.toLowerCase().includes(n))) return false
-        if (config.action_names.length > 0 && !config.action_names.some(n => prototype.actions.some(a => a[0].toLowerCase().includes(n)))) return false
-
+        if (config.names?.length > 0 && !config.names.some(n => prototype.name.toLowerCase().includes(n))) return false
+        if (config.action_names?.length > 0 && !config.action_names.some(n => prototype.actions.some(a => a[0].toLowerCase().includes(n)))) return false
         if (config.type && config.type != prototype.id[0]) return false
 
         return true;
@@ -118,13 +117,15 @@ export namespace PrototypeInstanceDataSource {
 
   export class Mutable extends PrototypeInstanceDataSource {
     constructor(private index: PrototypeIndex, start_data: Instance[]) {
-      super(start_data.flatMap(instance => {
-        const prototype = this.index.lookup(instance.id)
+      super([])
+
+      this.data = start_data.flatMap(instance => {
+        const prototype = index.lookup(instance.id)
 
         if (!prototype) return []
 
         return [new Mutable.MutableInstance(prototype, instance, this)]
-      }));
+      })
     }
 
     create(instance: ProcessedCacheTypes.Instance) {
@@ -214,7 +215,6 @@ export class PrototypeInstanceEntity extends MapEntity {
     leaflet.polyline(true_west.map(Vector2.toLatLong), {
       color: "red"
     }).addTo(this)
-
 
     return box.getElement()
   }

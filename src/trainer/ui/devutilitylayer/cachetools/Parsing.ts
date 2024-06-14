@@ -34,7 +34,7 @@ export namespace Parsing {
       }
 
       for (const loc_id of loc_group.loc_ids) {
-        const instances = instance_index.get(loc_id)
+        const instances = instance_index.get(loc_id) ?? []
 
         if (instances.length == 0) {
           console.error(`Zero instances returned for loc ${loc_id}!`)

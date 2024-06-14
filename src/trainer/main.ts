@@ -381,23 +381,6 @@ class SliderAnalysisModal extends NisModal {
 export async function makeshift_main(): Promise<void> {
   //new SliderAnalysisModal().show()
 
-  await fetch("map/parsing_associations.json").then(async res => {
-      const data = await res.json()
-
-      data["associations"].forEach(group => {
-        group["loc_ids"] = group["loc_ids"].map(id => ["loc", id])
-        group["instance_groups"].forEach(igroup => {
-          igroup["instances"].forEach(instance => {
-            instance["loc"] = ["loc", instance["loc"]]
-          })
-
-        })
-      })
-
-      ExportStringModal.do(cleanedJSON(data, 4))
-    }
-  )
-
   //new ExportStringModal(CompassReader.calibration_tables.off.getSampleTable().map(radiansToDegrees).join("\n")).show()
 
   /*

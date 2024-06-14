@@ -208,7 +208,12 @@ export namespace ProcessedCacheTypes {
     }
 
     private getEntry(id: PrototypeID): { prototype: ProcessedCacheTypes.Prototype; data: DataT } {
-      return this.lookup_table[id[0]][id[1]]
+
+      const res = this.lookup_table[id[0]][id[1]]
+
+      if (!res) console.log(`Missing ${id[1]}`)
+
+      return res
     }
 
     lookup(id: PrototypeID.Loc): Prototype.Loc
@@ -228,11 +233,12 @@ export namespace ProcessedCacheTypes {
     }
 
     set(proto: PrototypeID, value: DataT) {
-      this.getEntry(proto).data = value
+      const entry = this.getEntry(proto)
+      if (entry) entry.data = value
     }
 
     get(id: PrototypeID): DataT {
-      return this.getEntry(id).data
+      return this.getEntry(id)?.data
     }
   }
 }

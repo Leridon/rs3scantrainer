@@ -46,7 +46,6 @@ export type ParserPairing = {
 export class LocParsingTable {
   data: LocParsingTableData
 
-
   loc_index: PrototypeIndex<ParsingAssociationGroup>
 
   version: Observable<number>

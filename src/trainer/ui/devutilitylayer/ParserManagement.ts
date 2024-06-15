@@ -46,7 +46,7 @@ class PlacePrototypeInteraction extends ValueInteraction<ProcessedCacheTypes.Ins
   constructor(private prototype: Prototype) {
     super({
       preview_render: i => {
-        return new PrototypeInstanceEntity(new PrototypeInstance(prototype, i)).setInteractive(false)
+        return new PrototypeInstanceEntity(new PrototypeInstance(prototype, i), null).setInteractive(false)
       }
     })
   }
@@ -178,10 +178,6 @@ export class ParserManagementLayer extends GameLayer {
           )
       ).addTo(this)
 
-    this.loc_layer = new FilteredPrototypeLayer()
-      .setFilter(PrototypeFilter.forConfig(this.filter_control.get()))
-      .addTo(this)
-
     this.init()
   }
 
@@ -190,20 +186,9 @@ export class ParserManagementLayer extends GameLayer {
 
     this.prototypes.then(p => this.prototype_explorer.setPrototypes(p.data))
 
-    fetch("rscache/prototype_instances.json")
+    const instances = fetch("rscache/prototype_instances.json")
       .then(async res => {
-        const instances = (await res.json()) as ProcessedCacheTypes.Instance[]
-
-        const index = await this.prototypes
-
-        console.log(`${instances.length} instances`)
-
-        this.loc_layer.addDataSource(
-          this.instance_datasource_cache = PrototypeInstanceDataSource.fromList(
-            instances.map(i => index.resolve(i))
-              .filter(i => pre_filter.applyPrototype(i.prototype))
-          )
-        )
+        return (await res.json()) as ProcessedCacheTypes.Instance[]
       })
 
     let local_data: LocParsingTableData = await this.local_store.get()
@@ -221,6 +206,19 @@ export class ParserManagementLayer extends GameLayer {
     if ((repo_data?.version ?? -1) > most_current_data.version) most_current_data = repo_data
 
     this.parsing_table = new LocParsingTable(await this.prototypes, most_current_data)
+
+    this.loc_layer = new FilteredPrototypeLayer(this.parsing_table)
+      .setFilter(PrototypeFilter.forConfig(this.filter_control.get()))
+      .addTo(this)
+
+    const index = await this.prototypes
+
+    this.loc_layer.addDataSource(
+      this.instance_datasource_cache = PrototypeInstanceDataSource.fromList(
+        (await instances).map(i => index.resolve(i))
+          .filter(i => pre_filter.applyPrototype(i.prototype))
+      )
+    )
 
     this.recents = new RecentlyUsedParserGroups(this.parsing_table)
 

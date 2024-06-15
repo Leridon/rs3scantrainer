@@ -10,6 +10,7 @@ import {FloorLevels, ZoomLevels} from "../../../../lib/gamemap/ZoomLevels";
 import {GameMapContextMenuEvent} from "../../../../lib/gamemap/MapEvents";
 import {Menu} from "../../widgets/ContextMenu";
 import * as leaflet from "leaflet";
+import {LocParsingTable} from "./ParsingTable";
 import PrototypeInstance = ProcessedCacheTypes.PrototypeInstance;
 import Prototype = ProcessedCacheTypes.Prototype;
 
@@ -171,7 +172,7 @@ export namespace PrototypeInstanceDataSource {
 
 export class PrototypeInstanceEntity extends MapEntity {
 
-  constructor(public instance: PrototypeInstance) {
+  constructor(public instance: PrototypeInstance, private parsing_table: LocParsingTable) {
     super();
 
     this.zoom_sensitivity_layers = new ZoomLevels<{ scale: number }>([
@@ -185,11 +186,21 @@ export class PrototypeInstanceEntity extends MapEntity {
     this.setTooltip(() => new PrototypeProperties(this.instance.prototype))
   }
 
+  private rendered_with_parser: boolean
+
   protected async render_implementation(props: MapEntity.RenderProps): Promise<Element> {
-    const color = this.instance.isLoc() ? "cyan" : "yellow"
+
+    const parsing_group = this.parsing_table && this.parsing_table.getPairing(this.instance)
+
+    const has_parser = this.rendered_with_parser = !!parsing_group?.group
+    const has_instance_parser = has_parser && (!parsing_group.group.parser.instance_group_required || parsing_group.instance_group)
+
+    const type_color = this.instance.isLoc() ? "cyan" : "yellow"
+    const parser_color = has_parser ? "green" : "orange"
 
     const box = areaPolygon(this.instance.box).setStyle({
-      color: color,
+      fillColor: this.parsing_table ? parser_color : type_color,
+      color: this.parsing_table ? parser_color : type_color,
       stroke: true
     }).addTo(this)
 
@@ -230,6 +241,12 @@ export class PrototypeInstanceEntity extends MapEntity {
       children: []
     }
   }
+
+  checkParserRedraw() {
+    if (this.rendered_props.render_at_all && (this.parsing_table && !!this.parsing_table.getPairing(this.instance).group) != this.rendered_with_parser) {
+      this.render(true)
+    }
+  }
 }
 
 export class FilteredPrototypeLayer extends GameLayer {
@@ -249,8 +266,17 @@ export class FilteredPrototypeLayer extends GameLayer {
     npc: []
   }
 
-  constructor() {
+  constructor(private parsing_table: LocParsingTable) {
     super()
+
+    this.parsing_table.version.subscribe(() => {
+      this.entity_quadtree.forEachVisible(e => {
+        if (e instanceof PrototypeInstanceEntity) {
+          e.checkParserRedraw()
+        }
+      })
+    })
+
   }
 
   addDataSource(...sources: PrototypeInstanceDataSource[]): this {
@@ -304,7 +330,7 @@ export class FilteredPrototypeLayer extends GameLayer {
   private create(instance: PrototypeInstance) {
     let entry = this.entry(instance.prototype)
 
-    entry.entities.push(new PrototypeInstanceEntity(instance).setVisible(
+    entry.entities.push(new PrototypeInstanceEntity(instance, this.parsing_table).setVisible(
       this.filter.applyPrototype(instance.prototype) && this.filter.applyInstance(instance)
     ).addTo(this))
   }

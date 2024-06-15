@@ -17,8 +17,8 @@ import {InteractionGuard} from "./interaction/InteractionLayer";
 import {ValueInteraction} from "./interaction/ValueInteraction";
 import * as jquery from "jquery";
 import {C} from "../ui/constructors";
-import cls = C.cls;
 import {Constants} from "../../trainer/constants";
+import cls = C.cls;
 
 export const red_marker = "assets/icons/marker_red.png"
 export const blue_marker = "assets/icons/marker_blue.png"
@@ -439,6 +439,8 @@ export class GameMap extends leaflet.Map {
     }
 
     event.active_entity = this.internal_root_layer.getHoveredEntity()
+
+    if (!event.active_entity?.isStillHovered()) event.active_entity = null
 
     propagate(this.internal_root_layer)
 

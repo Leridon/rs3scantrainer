@@ -1,7 +1,8 @@
 import {CacheTypes} from "./CacheTypes";
 import {Transportation} from "../../../../lib/runescape/transportation";
 import {ParsingParameter} from "./ParsingParameters";
-import LocInstance = CacheTypes.LocInstance;
+import {ProcessedCacheTypes} from "./ProcessedCacheTypes";
+import PrototypeInstance = ProcessedCacheTypes.PrototypeInstance;
 
 export abstract class TransportParser {
   per_loc_group_parameter: ParsingParameter
@@ -12,7 +13,7 @@ export abstract class TransportParser {
 
   protected constructor(public readonly id: string, public readonly name: string) { }
 
-  abstract apply(instance: LocInstance, args: { per_loc: any, per_instance?: any }): Promise<Transportation.Transportation[]>
+  abstract apply(instance: PrototypeInstance, args: { per_loc: any, per_instance?: any }): Promise<Transportation.Transportation[]>
 
   makeLegacy(): this {
     this.legacy = true

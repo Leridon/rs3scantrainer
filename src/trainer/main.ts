@@ -12,7 +12,9 @@ import span = C.span;
 import skillbertRandom = Sliders.SlideSolver.skillbertRandom;
 import spacer = C.spacer;
 import hbox = C.hbox;
-import {CompassReader} from "./ui/neosolving/cluereader/CompassReader";
+import ExportStringModal from "./ui/widgets/modals/ExportStringModal";
+import {util} from "../lib/util/util";
+import cleanedJSON = util.cleanedJSON;
 
 type DataEntry = {
   id: number,

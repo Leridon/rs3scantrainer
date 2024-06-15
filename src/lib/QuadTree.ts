@@ -4,13 +4,14 @@ import {Rectangle, Vector2} from "./math";
 export class QuadTree<T extends QuadTree.Element<T>> {
   elements: T[] = []
   private subdivisions: QuadTree<T>[] = []
-  private is_dirty = false
+  is_final_depth: boolean
 
   private cull_rectangle: Rectangle = null
   private is_culled = false
 
   private constructor(private parent: QuadTree<T>,
                       private rect: Rectangle) {
+    this.is_final_depth = Rectangle.width(rect) <= 32
 
   }
 
@@ -46,8 +47,6 @@ export class QuadTree<T extends QuadTree.Element<T>> {
   }
 
   private createSubdivisions() {
-    this.is_dirty = false
-
     if (Rectangle.width(this.rect) <= 32) return;
     if (this.subdivisions.length > 0) return
 
@@ -64,43 +63,37 @@ export class QuadTree<T extends QuadTree.Element<T>> {
     const elements = this.elements
     this.elements = []
 
-    this.cull(this.cull_rectangle)
+    if (this.isCulled()) {
+      this.subdivisions.forEach(sub => sub.propagateCulled(this.cull_rectangle, true))
+    } else {
+      this.subdivisions.forEach(sub => sub.cull(this.cull_rectangle))
+    }
 
     elements.forEach(e => this.insert(e))
   }
 
-  insert(...elements: T[]) {
-    const affectedNodes = elements.map(element => {
-      const bounds = element.bounds()
+  insert(element: T): void {
+    const bounds = element.bounds()
 
-      function pushDown(self: QuadTree<T>): QuadTree<T> {
-        // Find eligible subdivision
-        const next = self.subdivisions.find(s => Rectangle.containsRect(s.rect, bounds))
+    let tree: QuadTree<T> = this
 
-        if (next) return pushDown(next)
-        else {
-          element.setCulled(self.is_culled)
+    while(true) {
+      if (!tree.is_final_depth && tree.subdivisions.length == 0 && tree.elements.length >= 10) tree.createSubdivisions()
 
-          self.elements.push(element)
+      // Find eligible subdivision
+      const next = tree.subdivisions.find(s => Rectangle.containsRect(s.rect, bounds))
 
-          element.spatial = self
+      if (next) tree = next
+      else {
+        element.setCulled(tree.is_culled)
 
-          self.is_dirty = true
+        tree.elements.push(element)
 
-          return self
-        }
+        element.spatial = tree
+
+        break;
       }
-
-      return pushDown(this)
-    })
-
-    affectedNodes.forEach(node => {
-      if (node.is_dirty) {
-        if (node.elements.length > 10) node.createSubdivisions()
-
-        node.is_dirty = false
-      }
-    })
+    }
   }
 
   remove(...elements: T[]) {

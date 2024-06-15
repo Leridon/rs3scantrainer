@@ -7,10 +7,12 @@ import {CursorType} from "./CursorType";
 import {EntityName} from "./EntityName";
 import {Settings} from "../../trainer/ui/settings/Settings";
 import {deps} from "../../trainer/dependencies";
+import {ProcessedCacheTypes} from "../../trainer/ui/devutilitylayer/cachetools/ProcessedCacheTypes";
 
 export namespace Transportation {
 
-  export type transportation_base = { type: string, source_loc?: number }
+  import PrototypeID = ProcessedCacheTypes.PrototypeID;
+  export type transportation_base = { type: string, source_loc?: PrototypeID }
 
   export type ImageUrl = { url: string, width?: number, height?: number }
 

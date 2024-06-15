@@ -2,7 +2,7 @@ import {FormModal} from "../../../../lib/ui/controls/FormModal";
 import {CacheTypes} from "./CacheTypes";
 import {TransportParser} from "./TransportParser";
 import Properties from "../../widgets/Properties";
-import {Parsers3, parsers3} from "./parsers3";
+import {Parsers3, parsers} from "./parsers";
 import {DropdownSelection} from "../../widgets/DropdownSelection";
 import Widget from "../../../../lib/ui/Widget";
 import {LocParsingTable, ParserPairing, ParsingAssociationGroup} from "./ParsingTable";
@@ -11,13 +11,11 @@ import {SearchSelection} from "../../widgets/SearchSelection";
 import {Checkbox} from "../../../../lib/ui/controls/Checkbox";
 import TextField from "../../../../lib/ui/controls/TextField";
 import {GameMapMiniWidget} from "../../../../lib/gamemap/GameMap";
-import {LocInstanceEntity} from "../FilteredLocLayer";
 import {TileRectangle} from "../../../../lib/runescape/coordinates";
 import * as leaflet from "leaflet"
 import {C} from "../../../../lib/ui/constructors";
 import {Vector2} from "../../../../lib/math";
 import {NavigationControl} from "../NavigationControl";
-import LocInstance = CacheTypes.LocInstance;
 import img = C.img;
 import {ProcessedCacheTypes} from "./ProcessedCacheTypes";
 import PrototypeInstance = ProcessedCacheTypes.PrototypeInstance;
@@ -41,7 +39,7 @@ export class ParserPairingEdit extends Widget {
 
     new NavigationControl().addTo(this.map.main_layer)
 
-    new PrototypeInstanceEntity(this.loc)
+    new PrototypeInstanceEntity(this.loc, null)
       .addTo(this.map.main_layer)
 
     leaflet.marker(Vector2.toLatLong(TileRectangle.center(TileArea.toRect(this.loc.box), false)), {
@@ -133,7 +131,7 @@ export class ParserPairingEdit extends Widget {
           type_class: {
             toHTML: (v: TransportParser) => c().text(v ? v.name : "None")
           }
-        }, parsers3.filter(p => !p.legacy))
+        }, parsers.filter(p => !p.legacy))
           .setValue(this.pairing.group.parser)
           .onSelection(parser => {
             this.pairing.group.parser = parser

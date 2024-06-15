@@ -150,7 +150,7 @@ function transformWithLoc(transport: Transportation.EntityTransportation, use: P
   return transport
 }
 
-export const parsers3: TransportParser[] = [
+export const parsers: TransportParser[] = [
   parse("west-facing-doors", "Standard West Doors", null, null, false, async (instance) => {
 
       const door: Transportation.DoorTransportation = {
@@ -540,6 +540,6 @@ export function hardcoded_transports(): Transportation.Transportation[] {
 
 export namespace Parsers3 {
   export function getById(id: string): TransportParser {
-    return parsers3.find(p => p.id == id)
+    return parsers.find(p => p.id == id)
   }
 }

@@ -1,7 +1,7 @@
 import {TransportParser} from "./TransportParser";
 import {LocParsingTable} from "./ParsingTable";
 import {Transportation} from "../../../../lib/runescape/transportation";
-import {parsers3} from "./parsers3";
+import {parsers} from "./parsers";
 import {TileCoordinates} from "../../../../lib/runescape/coordinates";
 import {PrototypeInstanceDataSource} from "./FilteredPrototypeLayer";
 import {ProcessedCacheTypes} from "./ProcessedCacheTypes";
@@ -26,7 +26,7 @@ export namespace Parsing {
 
     for (const loc_group of parsing_table.data.associations) {
 
-      const parser = parsers3.find(p => p.id == loc_group.parser_id)
+      const parser = parsers.find(p => p.id == loc_group.parser_id)
 
       if (!parser) {
         console.error(`Parser ${loc_group.parser_id} is not defined!`)

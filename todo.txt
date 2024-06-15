@@ -22,13 +22,12 @@ Transport Backlog:
     Memory strand teleports to memorial to Guthix. If you've prestiged Engrams can be used to teleport to the entrance
     Max Guild  boss portal teleport options + airut peninsula to it
 
-Transport Tooling:
-- Add a way to browse and add custom locs/npcs
-- Actually implement the new prototype parser
+    port hardcoded to new tool
 
 
 In-App Wiki
     - Compass Explanation
+    - Scan Explanation
 
 Issues
     - [Bug, 1] SearchSelection: Very rarely the dropdown remains after the element is already gone

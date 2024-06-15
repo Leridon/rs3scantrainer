@@ -2,7 +2,7 @@ import {Observable, observe} from "../../../../lib/reactive";
 import {TileCoordinates} from "../../../../lib/runescape/coordinates";
 import {CacheTypes} from "./CacheTypes";
 import {TransportParser} from "./TransportParser";
-import {parsers3} from "./parsers3";
+import {parsers} from "./parsers";
 import {ProcessedCacheTypes} from "./ProcessedCacheTypes";
 import {PrototypeInstanceDataSource} from "./FilteredPrototypeLayer";
 import PrototypeInstance = ProcessedCacheTypes.PrototypeInstance;
@@ -210,7 +210,7 @@ export class LocParsingTable {
     return {
       group:
         group ? {
-          parser: parsers3.find(p => p.id == group.parser_id),
+          parser: parsers.find(p => p.id == group.parser_id),
           id: group.group_id,
           name: group.group_name,
           argument: group.per_group_arg

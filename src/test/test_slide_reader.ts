@@ -4,8 +4,11 @@ import {ImageDetect, ImgRefData} from "@alt1/base";
 import {time} from "../lib/gamemap/GameLayer";
 import SliderState = Sliders.SliderState;
 import SliderPuzzle = Sliders.SliderPuzzle;
+import {ScuffedTesting} from "./test_framework";
+import fail = ScuffedTesting.fail;
+import assert = ScuffedTesting.assert;
 
-export async function test_slide_reader(): Promise<boolean> {
+export async function test_slide_reader(): Promise<void> {
 
   await SlideReader.getReferenceSliders()
 
@@ -77,5 +80,5 @@ export async function test_slide_reader(): Promise<boolean> {
     }
   }
 
-  return correct == data.length
+  assert(correct == data.length)
 }

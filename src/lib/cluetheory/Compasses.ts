@@ -3,6 +3,7 @@ import {Transform, Vector2} from "../math";
 import {posmod} from "../../skillbertssolver/util";
 import {CompassReader} from "../../trainer/ui/neosolving/cluereader/CompassReader";
 import {TileArea} from "../runescape/coordinates/TileArea";
+import {angleDifference, rectangleCrossSection} from "lib/math";
 
 export namespace Compasses {
 
@@ -16,15 +17,17 @@ export namespace Compasses {
   }
 
   export namespace TriangulationPoint {
+
+
     export function construct(position: TileArea.ActiveTileArea, angle: number): TriangulationPoint {
 
       const direction_vector = Vector2.transform(Compasses.ANGLE_REFERENCE_VECTOR, Transform.rotationRadians(angle))
 
-      const location_uncertainty = Vector2.length(Vector2.sub(position.size, {x: Math.min(1, position.size.x), y: Math.min(1, position.size.y)})) / 2 + 0.025
+      const location_uncertainty = rectangleCrossSection(position.size, angle) / 2
 
       const l = location_uncertainty / Math.tan(CompassReader.EPSILON)
 
-      const center = position.center(false)
+      const center = Vector2.sub(position.center(false), Vector2.scale(0.5 * rectangleCrossSection(position.size, angle + Math.PI / 2), direction_vector))
 
       const uncertainty_origin = Vector2.sub(center, Vector2.scale(l, direction_vector))
 
@@ -41,9 +44,6 @@ export namespace Compasses {
 
   export const ANGLE_REFERENCE_VECTOR = {x: 1, y: 0}
 
-  export function angleDifference(a: number, b: number) {
-    return Math.abs(posmod(b - a + Math.PI, 2 * Math.PI) - Math.PI);
-  }
 
   /**
    * Gets the expected compass angle for a given player spot and a target compass spot in radians

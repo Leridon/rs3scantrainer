@@ -1,5 +1,5 @@
 export namespace ScuffedTesting {
-  export type Test = (() => Promise<boolean> | boolean) | TestSet
+  export type Test = (() => void | Promise<void>) | TestSet
 
   export class TestSet {
     constructor(public name: string, public sub_tests: Test[]) {}
@@ -29,7 +29,8 @@ export namespace ScuffedTesting {
     } else {
       const success = await (async () => {
         try {
-          return await test()
+          await test()
+          return true
         } catch (e) {
           return false
         }
@@ -39,5 +40,22 @@ export namespace ScuffedTesting {
 
       return success
     }
+  }
+
+  class TestFailedException extends Error {
+    constructor() {super();}
+  }
+
+  export function fail(): never {
+    debugger
+    throw new TestFailedException()
+  }
+
+  export function assert(b: boolean) {
+    if (!b) fail()
+  }
+
+  export function assertEquals(a: number, b: number, epsilon: number = 0.000001) {
+    assert(Math.abs(a - b) < epsilon)
   }
 }

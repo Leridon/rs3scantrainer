@@ -313,4 +313,9 @@ export namespace util {
   export function sampleImage(img: ImageData, pos: Vector2): [number, number, number] {
     return img.getPixel(pos.x, pos.y) as any
   }
+
+  export function positive_mod(x: number, mod: number) {
+    const res = x % mod
+    return x < 0 ? mod - res : res
+  }
 }

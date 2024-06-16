@@ -13,6 +13,7 @@ import Properties from "./widgets/Properties";
 import {SettingsModal} from "./settings/SettingsEdit";
 import {AboutModal} from "../AboutModal";
 import {Alt1Modal} from "../Alt1Modal";
+import {HoverTileDisplay} from "./devutilitylayer/UtilityLayer";
 import spacer = C.spacer;
 import span = C.span;
 
@@ -37,14 +38,20 @@ class MenuButton extends Button {
 }
 
 export class SimpleMapBehaviour extends Behaviour {
-  constructor(app: Application) {
+  private layer = new GameLayer()
+
+  constructor(private app: Application) {
     super();
+
+    this.layer.add(new HoverTileDisplay())
   }
 
   protected begin() {
+    this.app.map.addGameLayer(this.layer)
   }
 
   protected end() {
+    this.layer.remove()
   }
 
 }

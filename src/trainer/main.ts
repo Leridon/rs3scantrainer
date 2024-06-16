@@ -15,6 +15,7 @@ import hbox = C.hbox;
 import ExportStringModal from "./ui/widgets/modals/ExportStringModal";
 import {util} from "../lib/util/util";
 import cleanedJSON = util.cleanedJSON;
+import {clue_trainer_test_set} from "../test/tests";
 
 type DataEntry = {
   id: number,
@@ -379,6 +380,8 @@ class SliderAnalysisModal extends NisModal {
 }
 
 export async function makeshift_main(): Promise<void> {
+  // await clue_trainer_test_set.run()
+
   //new SliderAnalysisModal().show()
 
   //new ExportStringModal(CompassReader.calibration_tables.off.getSampleTable().map(radiansToDegrees).join("\n")).show()

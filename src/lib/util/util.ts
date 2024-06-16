@@ -315,7 +315,6 @@ export namespace util {
   }
 
   export function positive_mod(x: number, mod: number) {
-    const res = x % mod
-    return x < 0 ? mod - res : res
+    return ((x % mod) + mod) % mod;
   }
 }

@@ -21,13 +21,15 @@ export namespace Compasses {
 
     export function construct(position: TileArea.ActiveTileArea, angle: number): TriangulationPoint {
 
+      const size = Vector2.sub(position.size, {x: 0.975, y: 0.975})
+
       const direction_vector = Vector2.transform(Compasses.ANGLE_REFERENCE_VECTOR, Transform.rotationRadians(angle))
 
-      const location_uncertainty = rectangleCrossSection(position.size, angle) / 2
+      const location_uncertainty = rectangleCrossSection(size, angle) / 2
 
       const l = location_uncertainty / Math.tan(CompassReader.EPSILON)
 
-      const center = Vector2.sub(position.center(false), Vector2.scale(0.5 * rectangleCrossSection(position.size, angle + Math.PI / 2), direction_vector))
+      const center = Vector2.sub(position.center(false), Vector2.scale(0.5 * rectangleCrossSection(size, angle + Math.PI / 2), direction_vector))
 
       const uncertainty_origin = Vector2.sub(center, Vector2.scale(l, direction_vector))
 

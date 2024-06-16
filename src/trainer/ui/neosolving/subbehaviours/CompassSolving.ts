@@ -1093,6 +1093,9 @@ export namespace CompassSolving {
       {expected: "Menaphos lodestone", teleport_id: {group: "home", spot: "menaphos"}},
       {expected: "Fort Forinthry lodestone", teleport_id: {group: "home", spot: "fortforinthry"}},
       {expected: "City of Um lodestone", teleport_id: {group: "home", spot: "cityofum"}},
+
+      {expected: "Grand Exchange Luck of the Dwarves", teleport_id: {group: "ringofwealth", spot: "grandexchange"}},
+      {expected: "Dwarven Outpost Luck of the Dwarves", teleport_id: {group: "luckofthedwarves", spot: "outpost"}},
     ]
 
   export const ANGLE_CHANGE_COMMIT_THRESHOLD = degreesToRadians(4)

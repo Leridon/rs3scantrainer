@@ -139,6 +139,8 @@ export namespace CursorType {
 
   export function getIcon(cursor: CursorType): CTRIcon {
     const meta = CursorType.meta(cursor)
+
+    if(!meta) debugger
     return {
       file_name: `${meta.short_icon}.png`,
       id: "",
@@ -151,14 +153,25 @@ export namespace CursorType {
   export function fromCacheCursor(id: number | null | undefined) {
     const table: Record<number, CursorType> = {
       0: "generic",
+      5: "trade",
+      42: "attack",
       44: "talk",
+      46: "use",
       49: "open",
       52: "ladderup",
       53: "ladderdown",
       55: "jump",
+      56: "search",
+      58: "mine",
       59: "chop",
+      60: "fish",
+      61: "pray",
       63: "smith",
+      64: "cook",
+      171: "farm",
+      173: "shovel",
       181: "agility",
+      200: "divine",
       208: "discover",
     }
 

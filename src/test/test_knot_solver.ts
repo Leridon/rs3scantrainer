@@ -1,6 +1,8 @@
 import {CelticKnots} from "../lib/cluetheory/CelticKnots";
+import {ScuffedTesting} from "./test_framework";
+import fail = ScuffedTesting.fail;
 
-export async function test_knot_solver(): Promise<boolean> {
+export async function test_knot_solver(): Promise<void> {
 
   const simple_pair: CelticKnots.PuzzleShape = {
     snake_lengths: [8, 8], locks:
@@ -36,5 +38,5 @@ export async function test_knot_solver(): Promise<boolean> {
     }
   }
 
-  return success
+  if(!success) fail()
 }

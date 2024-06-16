@@ -1,25 +1,32 @@
 import {TransportParser} from "./TransportParser";
-import {CacheTypes} from "./CacheTypes";
 import {LocParsingTable} from "./ParsingTable";
 import {Transportation} from "../../../../lib/runescape/transportation";
-import {parsers3} from "./parsers3";
+import {parsers} from "./parsers";
 import {TileCoordinates} from "../../../../lib/runescape/coordinates";
-import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
-import {Rectangle} from "../../../../lib/math";
-import {debug} from "@alt1/ocr";
-import {LocUtil} from "./util/LocUtil";
+import {PrototypeInstanceDataSource} from "./FilteredPrototypeLayer";
+import {ProcessedCacheTypes} from "./ProcessedCacheTypes";
 
 export namespace Parsing {
 
-  import LocDataFile = CacheTypes.LocDataFile;
-  import getInstances = LocUtil.getInstances;
+  import PrototypeIndex = ProcessedCacheTypes.PrototypeIndex;
+  import PrototypeInstance = ProcessedCacheTypes.PrototypeInstance;
+  import Prototype = ProcessedCacheTypes.Prototype;
 
-  export async function applyParsing(parsers: TransportParser[], data: LocDataFile, parsing_table: LocParsingTable): Promise<Transportation.Transportation[]> {
+  export async function applyParsing(parsers: TransportParser[],
+                                     prototypes: Prototype[],
+                                     data: PrototypeInstanceDataSource,
+                                     parsing_table: LocParsingTable): Promise<Transportation.Transportation[]> {
     let results: Transportation.Transportation[] = []
+
+    const instance_index = new PrototypeIndex<PrototypeInstance[]>(prototypes, () => []);
+
+    [data, parsing_table.instanceDataSource].forEach(source =>
+      source.get().forEach(i => instance_index.get(i.protoId()).push(i))
+    )
 
     for (const loc_group of parsing_table.data.associations) {
 
-      const parser = parsers3.find(p => p.id == loc_group.parser_id)
+      const parser = parsers.find(p => p.id == loc_group.parser_id)
 
       if (!parser) {
         console.error(`Parser ${loc_group.parser_id} is not defined!`)
@@ -27,9 +34,7 @@ export namespace Parsing {
       }
 
       for (const loc_id of loc_group.loc_ids) {
-        const instances =
-          [...data.get(loc_id),
-            ...getInstances(parsing_table.data.custom_objects.locs.find(l => l.id == loc_id))]
+        const instances = instance_index.get(loc_id) ?? []
 
         if (instances.length == 0) {
           console.error(`Zero instances returned for loc ${loc_id}!`)
@@ -39,7 +44,7 @@ export namespace Parsing {
           const per_instance_arg =
             parser.per_instance_parameter
               ? loc_group.instance_groups?.find(igroup =>
-                igroup.instances.some(i => i.loc == loc_id && TileCoordinates.eq(i.origin, instance.origin))
+                igroup.instances.some(i => i.loc == loc_id && TileCoordinates.eq(i.origin, instance.box.origin))
               )?.per_instance_argument
               : undefined
 

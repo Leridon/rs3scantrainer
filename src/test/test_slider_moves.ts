@@ -1,7 +1,9 @@
 import * as lodash from "lodash";
 import {Sliders} from "../lib/cluetheory/Sliders";
+import {ScuffedTesting} from "./test_framework";
+import assert = ScuffedTesting.assert;
 
-export async function test_slider_move_attachment(): Promise<boolean> {
+export async function test_slider_move_attachment(): Promise<void> {
   const test_cases: {
     existing: Sliders.MoveList,
     attachment: Sliders.MoveList,
@@ -24,5 +26,5 @@ export async function test_slider_move_attachment(): Promise<boolean> {
     }
   }
 
-  return success
+  assert(success)
 }

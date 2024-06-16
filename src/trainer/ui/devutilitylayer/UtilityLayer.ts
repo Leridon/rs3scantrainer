@@ -81,7 +81,7 @@ class ChunkGridGraticule extends Graticule {
   }
 }
 
-class HoverTileDisplay extends GameMapControl {
+export class HoverTileDisplay extends GameMapControl {
 
   constructor() {
     super({

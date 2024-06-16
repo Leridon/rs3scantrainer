@@ -35,7 +35,6 @@ import cls = C.cls;
 import TeleportGroup = Transportation.TeleportGroup;
 import findBestMatch = util.findBestMatch;
 import stringSimilarity = util.stringSimilarity;
-import angleDifference = Compasses.angleDifference;
 import italic = C.italic;
 import activate = TileArea.activate;
 import notification = Notification.notification;
@@ -46,6 +45,7 @@ import gielinor_compass = clue_data.gielinor_compass;
 import digSpotArea = Clues.digSpotArea;
 import vbox = C.vbox;
 import log = Log.log;
+import { angleDifference } from "lib/math";
 
 class CompassHandlingLayer extends GameLayer {
   private lines: {
@@ -82,8 +82,8 @@ class CompassHandlingLayer extends GameLayer {
 
       const corner_near_left = Vector2.add(from, Vector2.scale(info.origin_uncertainty, right))
       const corner_near_right = Vector2.add(from, Vector2.scale(-info.origin_uncertainty, right))
-      const corner_far_left = Vector2.add(from, Vector2.transform(off, Transform.rotationRadians(-CompassReader.EPSILON)))
-      const corner_far_right = Vector2.add(from, Vector2.transform(off, Transform.rotationRadians(CompassReader.EPSILON)))
+      const corner_far_left = Vector2.add(corner_near_left, Vector2.transform(off, Transform.rotationRadians(CompassReader.EPSILON)))
+      const corner_far_right = Vector2.add(corner_near_right, Vector2.transform(off, Transform.rotationRadians(-CompassReader.EPSILON)))
 
       return {
         line:
@@ -92,8 +92,8 @@ class CompassHandlingLayer extends GameLayer {
             leaflet.polygon([
               Vector2.toLatLong(corner_near_left),
               Vector2.toLatLong(corner_near_right),
-              Vector2.toLatLong(corner_far_left),
               Vector2.toLatLong(corner_far_right),
+              Vector2.toLatLong(corner_far_left),
             ]).setStyle({
               stroke: false,
               fillOpacity: 0.2,
@@ -304,6 +304,7 @@ class CompassEntryWidget extends Widget {
 }
 
 const DEBUG_ANGLE_OVERRIDE: number = null // degreesToRadians(206.87152474371157)
+const DEBUG_LAST_SOLUTION_OVERRIDE: TileArea = null // TileArea.init({x: 2944, y: 3328, level: 0}, {x: 128, y: 64})
 
 /**
  * The {@link NeoSolvingSubBehaviour} for compass clues.
@@ -415,6 +416,8 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     const index = this.entries.indexOf(entry)
 
     if (index >= 0) {
+      Log.log().log(`Deleting triangulation spot ${index}.`, "Compass Solving")
+
       this.entries.splice(index, 1)
 
       entry.widget?.remove()
@@ -461,12 +464,13 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
           preconfigured: null,
         })
       }
-
     }
   }
 
   async discardAngle(entry: CompassSolving.Entry) {
     const index = this.entries.indexOf(entry)
+
+    Log.log().log(`Discarding angle of triangulation spot ${index}`, "Compass Solving")
 
     if (index >= 0) {
       const state = this.process.state()
@@ -517,10 +521,12 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     if (!this.spots.some(s => Compasses.isPossible([info], s.spot))) {
       if (is_manual) notification("Refusing to lock in impossible angle.", "error").show()
 
-      log().log(`Cowardly refusing to lock in impossible angle ${radiansToDegrees(info.angle_radians)}° from ${info.modified_origin.x} | ${info.modified_origin.y}`, "Compass Solver")
+      log().log(`Cowardly refusing to lock in impossible angle ${radiansToDegrees(info.angle_radians)}° from ${info.modified_origin.x} | ${info.modified_origin.y}`, "Compass Solving")
 
       return
     }
+
+    log().log(`Committing ${radiansToDegrees(info.angle_radians)}° to entry ${this.entries.indexOf(entry)} (${info.modified_origin.x} | ${info.modified_origin.y})`, "Compass Solving")
 
     entry.angle = angle
     entry.information = info
@@ -543,7 +549,6 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       while (true) {
         if (index + 1 >= this.entries.length) break;
 
-
         const entry = this.entries[index]
 
         if (!entry.information) {
@@ -551,23 +556,36 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
           const spot = CompassSolving.Spot.coords(entry.position)
 
-          const colinear_to_any = this.entries.filter(e => e.information).some(e => {
+          const colinear_index = this.entries.findIndex(e => {
+            if (!e.information) return false
+
             const angle = Compasses.getExpectedAngle(
-              e.information.modified_origin,
+              e.information.area_center,
               spot.center(),
             )
 
-            return Math.min(
+            const res = Math.min(
               angleDifference(angle, e.information.angle_radians),
               angleDifference(normalizeAngle(angle + Math.PI), e.information.angle_radians),
             ) < degreesToRadians(5)
+
+            if (res) debugger
+
+            return res
           })
 
+          const colinear_to_any = colinear_index >= 0
+
           if (!colinear_to_any) break
+          else {
+            Log.log().log(`Skipping triangulation entry ${index} because it's colinear to ${colinear_index}`, "Compass Solving")
+          }
         }
 
         index++
       }
+
+      Log.log().log(`Advancing selection to ${index} from ${this.entry_selection_index}`, "Compass Solving")
 
       this.setSelection(index)
     }
@@ -776,7 +794,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       (() => {
         if (this.clue.id != gielinor_compass.id) return
 
-        const assumed_position_from_previous_clue = this.parent.getAssumedPlayerPositionByLastClueSolution()
+        const assumed_position_from_previous_clue = DEBUG_LAST_SOLUTION_OVERRIDE ?? this.parent.getAssumedPlayerPositionByLastClueSolution()
 
         if (!assumed_position_from_previous_clue) return
 
@@ -784,11 +802,18 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
         // Only use positions that are reasonably small
         if (Vector2.max_axis(size) > 128) {
-          console.log(`Not using previous solution because solution area is too large (${size.x} x ${size.y})`)
+          Log.log().log(`Not using previous solution because solution area is too large (${size.x} x ${size.y})`, "Compass Solving")
+
           return
         }
 
-        if (!Rectangle.containsRect(this.clue.valid_area, TileArea.toRect(assumed_position_from_previous_clue))) return
+        if (!Rectangle.containsRect(this.clue.valid_area, TileArea.toRect(assumed_position_from_previous_clue))) {
+          Log.log().log(`Not using previous solution because it is outside of the viable area`, "Compass Solving")
+
+          return
+        }
+
+        Log.log().log(`Loaded previous solution as first triangulation spot`, "Compass Solving")
 
         this.createEntry({
           position: TileArea.activate(assumed_position_from_previous_clue),
@@ -809,7 +834,6 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     ].find(p => p.id == preconfigured_id)
 
     if (preconfigured_sequence) {
-
       const sequence =
         (previous_solution_used && this.settings.invert_preset_sequence_if_previous_solution_was_used)
           ? [...preconfigured_sequence.sequence].reverse()

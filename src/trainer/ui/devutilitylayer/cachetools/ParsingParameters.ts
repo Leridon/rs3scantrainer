@@ -7,7 +7,6 @@ import {AbstractDropdownSelection} from "../../widgets/AbstractDropdownSelection
 import {DropdownSelection} from "../../widgets/DropdownSelection";
 import {direction} from "../../../../lib/runescape/movement";
 import Widget from "../../../../lib/ui/Widget";
-import {CacheTypes} from "./CacheTypes";
 import {LocUtil} from "./util/LocUtil";
 import {CursorType} from "../../../../lib/runescape/CursorType";
 import NumberInput from "../../../../lib/ui/controls/NumberInput";
@@ -22,9 +21,10 @@ import {DrawOffset} from "../../shortcut_editing/interactions/DrawOffset";
 import {Transportation} from "../../../../lib/runescape/transportation";
 import {TileTransform} from "../../../../lib/runescape/coordinates/TileTransform";
 import NumberSlider from "../../../../lib/ui/controls/NumberSlider";
-import LocInstance = CacheTypes.LocInstance;
 import ButtonRow from "../../../../lib/ui/ButtonRow";
 import {NislIcon} from "../../nisl";
+import {ProcessedCacheTypes} from "./ProcessedCacheTypes";
+import PrototypeInstance = ProcessedCacheTypes.PrototypeInstance;
 
 export abstract class ParsingParameter<T = any> {
   constructor(private _default_value: ParsingParameter.P<T>) {}
@@ -35,28 +35,26 @@ export abstract class ParsingParameter<T = any> {
     return this
   }
 
-  getDefault(loc: LocInstance): T {
+  getDefault(loc: PrototypeInstance): T {
     return ParsingParameter.P.apply(this._default_value, loc)
   }
 
-  abstract renderForm(depth: number, loc: LocInstance, map: GameMapMiniWidget): ParsingParameter.Editor<T>
+  abstract renderForm(depth: number, loc: PrototypeInstance, map: GameMapMiniWidget): ParsingParameter.Editor<T>
 }
 
 export namespace ParsingParameter {
   import copyUpdate2 = util.copyUpdate2;
-  import getNthAction = LocUtil.getNthAction;
   import hboxl = C.hboxl;
   import inlineimg = C.inlineimg;
-  import getActions = LocUtil.getActions;
   import EntityActionMovement = Transportation.EntityActionMovement;
   import spacer = C.spacer;
   import span = C.span;
 
-  export type P<T> = T | ((loc: LocInstance) => T)
+  export type P<T> = T | ((loc: PrototypeInstance) => T)
 
   export namespace P {
-    export function apply<T>(p: P<T>, loc: LocInstance): T {
-      if (typeof p == "function") return (p as ((loc: LocInstance) => T))(loc)
+    export function apply<T>(p: P<T>, loc: PrototypeInstance): T {
+      if (typeof p == "function") return (p as ((loc: PrototypeInstance) => T))(loc)
       else return p
     }
   }
@@ -91,7 +89,7 @@ export namespace ParsingParameter {
         super((loc) => Math.max(P.apply(bounds, loc)[0], 0))
       }
 
-      override renderForm(depth: number, loc: LocInstance): Editor<number> {
+      override renderForm(depth: number, loc: PrototypeInstance): Editor<number> {
         const self = this
 
         return new class extends ParsingParameter.Editor<number> {
@@ -157,7 +155,7 @@ export namespace ParsingParameter {
         super((loc) => P.apply(choices, loc)[0])
       }
 
-      override renderForm(depth: number, loc: LocInstance): Editor<T> {
+      override renderForm(depth: number, loc: PrototypeInstance): Editor<T> {
         const self = this
 
         return new class extends ParsingParameter.Editor<T> {
@@ -185,14 +183,14 @@ export namespace ParsingParameter {
         super(null);
       }
 
-      renderForm(depth: number, loc: CacheTypes.LocInstance, map: GameMapMiniWidget): Editor<{
+      renderForm(depth: number, loc: PrototypeInstance, map: GameMapMiniWidget): Editor<{
         type: "relativetoloc" | "absolute",
         area: TileArea
       }> {
         const self = this
 
-        const transform = LocInstance.getTransform(loc)
-        const inverse_transform = LocInstance.getInverseTransform(loc)
+        const transform = loc.getTransform()
+        const inverse_transform = loc.getInverseTransform()
 
         return new class extends ParsingParameter.Editor<{
           type: "relativetoloc" | "absolute",
@@ -348,11 +346,11 @@ export namespace ParsingParameter {
         super(null);
       }
 
-      renderForm(depth: number, loc: CacheTypes.LocInstance, map: GameMapMiniWidget): Editor<Movement> {
+      renderForm(depth: number, loc: PrototypeInstance, map: GameMapMiniWidget): Editor<Movement> {
         const self = this
 
-        const transform = LocInstance.getTransform(loc)
-        const inverse_transform = LocInstance.getInverseTransform(loc)
+        const transform = loc.getTransform()
+        const inverse_transform = loc.getInverseTransform()
 
         return new class extends ParsingParameter.Editor<Movement> {
           interaction: ValueInteraction<any> = null
@@ -524,11 +522,11 @@ export namespace ParsingParameter {
         super(TileArea.init({x: 0, y: 0, level: 0}));
       }
 
-      renderForm(depth: number, loc: CacheTypes.LocInstance, map: GameMapMiniWidget): Editor<TileArea> {
+      renderForm(depth: number, loc: PrototypeInstance, map: GameMapMiniWidget): Editor<TileArea> {
         const self = this
 
-        const transform = relative_to_loc ? LocInstance.getTransform(loc) : TileTransform.identity()
-        const inverse_transform = relative_to_loc ? LocInstance.getInverseTransform(loc) : TileTransform.identity()
+        const transform = relative_to_loc ? loc.getTransform() : TileTransform.identity()
+        const inverse_transform = relative_to_loc ? loc.getInverseTransform() : TileTransform.identity()
 
         return new class extends ParsingParameter.Editor<TileArea> {
           edited_tiles: TileCoordinates[]
@@ -644,13 +642,13 @@ export namespace ParsingParameter {
 
     return choose<{ id: number }>((loc) => ({
       toHTML: (v: { id: number }) => {
-        const a = getNthAction(loc.prototype, v.id)
+        const a = loc.prototype.actions[v.id]
 
         if (!a) return c().text("undefined")
 
-        return hboxl(inlineimg(CursorType.meta(a.cursor).icon_url), " ", a.name)
+        return hboxl(inlineimg(CursorType.meta(a[1]).icon_url), " ", a[0])
       }
-    }), (loc) => getActions(loc.prototype).map(a => ({id: a.cache_id})))
+    }), (loc) => loc.prototype.actions.map((a, i) => ({id: i})))
   }
 
   export function action() {
@@ -722,7 +720,7 @@ export namespace ParsingParameter {
       });
     }
 
-    override renderForm(depth: number, loc: LocInstance, map: GameMapMiniWidget): ParsingParameter.Editor<Record<string, any>> {
+    override renderForm(depth: number, loc: PrototypeInstance, map: GameMapMiniWidget): ParsingParameter.Editor<Record<string, any>> {
       const self = this
 
       return new class extends ParsingParameter.Editor {
@@ -768,7 +766,7 @@ export namespace ParsingParameter {
       constructor(public element: Element<T>,
                   public cb_type: "none" | "check" | "radio",
                   public depth: number,
-                  private loc: LocInstance,
+                  private loc: PrototypeInstance,
                   private map: GameMapMiniWidget) {
         super(element.type)
 
@@ -837,7 +835,7 @@ export namespace ParsingParameter {
     return new class extends ParsingParameter<T[]> {
       constructor() {super(l => new Array(defaultSize).fill(null).map(() => base.getDefault(l)));}
 
-      renderForm(depth: number, loc: CacheTypes.LocInstance, map: GameMapMiniWidget): ParsingParameter.Editor<T[]> {
+      renderForm(depth: number, loc: PrototypeInstance, map: GameMapMiniWidget): ParsingParameter.Editor<T[]> {
         const self = this
 
         return new class extends ParsingParameter.Editor<T[]> {
@@ -892,7 +890,7 @@ export namespace ParsingParameter {
         });
       }
 
-      override renderForm(depth: number, loc: LocInstance, map: GameMapMiniWidget): ParsingParameter.Editor<{ [key in keyof T]?: T[key] }> {
+      override renderForm(depth: number, loc: PrototypeInstance, map: GameMapMiniWidget): ParsingParameter.Editor<{ [key in keyof T]?: T[key] }> {
         const self = this
 
         return new class extends ParsingParameter.Editor {
@@ -931,9 +929,9 @@ export namespace ParsingParameter {
 
   export function offset(relative_to_loc: boolean = true): ParsingParameter<Transportation.EntityActionMovement.Offset> {
     return new class extends ParsingParameter<{ x: number; y: number; level: number }> {
-      renderForm(depth: number, loc: CacheTypes.LocInstance, map: GameMapMiniWidget): ParsingParameter.Editor<Transportation.EntityActionMovement.Offset> {
-        const transform = LocInstance.getTransform(loc)
-        const inverse_transform = LocInstance.getInverseTransform(loc)
+      renderForm(depth: number, loc: PrototypeInstance, map: GameMapMiniWidget): ParsingParameter.Editor<Transportation.EntityActionMovement.Offset> {
+        const transform = loc.getTransform()
+        const inverse_transform = loc.getInverseTransform()
 
         return new class extends ParsingParameter.Editor<Transportation.EntityActionMovement.Offset> {
           transformed_value: Transportation.EntityActionMovement.Offset

@@ -1,6 +1,6 @@
 import {Compasses} from "../../../../lib/cluetheory/Compasses";
 import {mixColor} from "@alt1/base";
-import {circularMean, degreesToRadians, normalizeAngle, radiansToDegrees, Rectangle, Vector2} from "../../../../lib/math";
+import {angleDifference, circularMean, degreesToRadians, normalizeAngle, radiansToDegrees, Rectangle, Vector2} from "../../../../lib/math";
 import * as lodash from "lodash";
 import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
 import {CapturedCompass} from "./capture/CapturedCompass";
@@ -27,7 +27,6 @@ import ImportStringModal from "../../widgets/modals/ImportStringModal";
 import {Alt1MainHotkeyEvent} from "../../../../lib/alt1/Alt1MainHotkeyEvent";
 import Widget from "../../../../lib/ui/Widget";
 import {Log} from "../../../../lib/util/Log";
-import angleDifference = Compasses.angleDifference;
 import ANGLE_REFERENCE_VECTOR = Compasses.ANGLE_REFERENCE_VECTOR;
 import log = Log.log;
 

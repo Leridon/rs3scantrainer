@@ -4,6 +4,9 @@ import {LocUtil} from "./util/LocUtil";
 import {Rectangle, Transform, Vector2} from "../../../../lib/math";
 import {TileTransform} from "../../../../lib/runescape/coordinates/TileTransform";
 import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
+import {CursorType} from "../../../../lib/runescape/CursorType";
+import * as lodash from "lodash";
+import {util} from "../../../../lib/util/util";
 
 export namespace CacheTypes {
 
@@ -399,16 +402,6 @@ export namespace CacheTypes {
     id: number,
     location: objects,
     uses: LocUse[]
-  }
-
-  export type NpcUse = {
-    wander_range: TileArea
-  }
-
-  export type NpcWithUsages = {
-    id: number,
-    npc: npcs,
-    uses: NpcUse[]
   }
 
   export type LocInstance = LocUse & {

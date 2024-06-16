@@ -30,6 +30,7 @@ import {PathStepEntity} from "../../map/entities/PathStepEntity";
 import {SettingsModal} from "../../settings/SettingsEdit";
 import * as assert from "assert";
 import {Log} from "../../../../lib/util/Log";
+import {angleDifference} from "lib/math";
 import span = C.span;
 import cls = C.cls;
 import TeleportGroup = Transportation.TeleportGroup;
@@ -45,7 +46,6 @@ import gielinor_compass = clue_data.gielinor_compass;
 import digSpotArea = Clues.digSpotArea;
 import vbox = C.vbox;
 import log = Log.log;
-import { angleDifference } from "lib/math";
 
 class CompassHandlingLayer extends GameLayer {
   private lines: {
@@ -567,7 +567,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
             const res = Math.min(
               angleDifference(angle, e.information.angle_radians),
               angleDifference(normalizeAngle(angle + Math.PI), e.information.angle_radians),
-            ) < degreesToRadians(5)
+            ) < 5 * CompassReader.EPSILON
 
             if (res) debugger
 

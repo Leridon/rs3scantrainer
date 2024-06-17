@@ -72,7 +72,7 @@ class CompassHandlingLayer extends GameLayer {
     const information = this.solving.entries.filter(e => e.information).map(l => l.information)
 
     this.lines = information.map(info => {
-      const from = info.area_center
+      const from = info.origin
 
       const off = Vector2.transform(Vector2.scale(2000, Compasses.ANGLE_REFERENCE_VECTOR), Transform.rotationRadians(info.angle_radians))
 
@@ -560,7 +560,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
             if (!e.information) return false
 
             const angle = Compasses.getExpectedAngle(
-              e.information.area_center,
+              e.information.origin,
               spot.center(),
             )
 

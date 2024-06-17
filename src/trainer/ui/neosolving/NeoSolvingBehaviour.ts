@@ -40,6 +40,7 @@ import {KnotSolving} from "./subbehaviours/KnotSolving";
 import {Alt1Modal} from "../../Alt1Modal";
 import {LockboxSolving} from "./subbehaviours/LockboxSolving";
 import {TowersSolving} from "./subbehaviours/TowersSolving";
+import {Log} from "../../../lib/util/Log";
 import span = C.span;
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import interactionMarker = RenderingUtility.interactionMarker;
@@ -55,7 +56,6 @@ import hboxl = C.hboxl;
 import notification = Notification.notification;
 import activate = TileArea.activate;
 import ClueSpot = Clues.ClueSpot;
-import {Log} from "../../../lib/util/Log";
 import log = Log.log;
 
 class NeoSolvingLayer extends GameLayer {
@@ -829,7 +829,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
       } else if (method.method.type == "general_path") {
         this.path_control.setMethod(method as AugmentedMethod<GenericPathMethod>)
       }
-    } else if (!(active_behaviour instanceof CompassSolving) || active_behaviour.selected_spot.value()) {
+    } else if ((this.state.step?.clue?.step?.type != "compass") || (active_behaviour instanceof CompassSolving && active_behaviour.selected_spot.value())) {
 
       const clue: ClueSpot.Id = active_behaviour instanceof CompassSolving
         ? {clue: this.state.step.clue.step.id, spot: active_behaviour.selected_spot.value().spot}

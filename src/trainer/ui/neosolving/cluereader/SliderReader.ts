@@ -4,18 +4,31 @@ import {Sliders} from "../../../../lib/cluetheory/Sliders";
 import {ImageFingerprint} from "../../../../lib/util/ImageFingerprint";
 import {deps} from "../../../dependencies";
 import {CapturedSliderInterface} from "./capture/CapturedSlider";
+import {Vector2} from "../../../../lib/math";
+import {async_lazy} from "../../../../lib/properties/Lazy";
+import {util} from "../../../../lib/util/util";
 
 export namespace SlideReader {
-  export const DETECTION_THRESHOLD_SCORE = 0.9
-
-  const DEBUG_SLIDE_READER = false
-
+  import findBestMatch = util.findBestMatch;
   import SliderPuzzle = Sliders.SliderPuzzle;
   import Tile = Sliders.Tile;
+  export const DETECTION_THRESHOLD_SCORE = 0.9
+
+  const DEBUG_SLIDE_READER = true
+
 
   export const SLIDER_SIZE = 5
 
   const KERNEL_INTERVAL = 7
+
+  const TILE_SIZE = 49
+
+  export function parseTile(img: ImageData, offset: Vector2): ImageFingerprint {
+    return ImageFingerprint.get(img, offset,
+      {x: TILE_SIZE, y: TILE_SIZE},
+      {x: KERNEL_INTERVAL, y: KERNEL_INTERVAL}
+    )
+  }
 
   /**
    * Parses the tiles of a slider image from a reference image.
@@ -27,8 +40,6 @@ export namespace SlideReader {
    */
   export function parseSliderImage(img: ImageData, gutter: number = 0, known_theme: string = undefined): SliderPuzzle {
     // Assumes a slider size of 245 x 245!
-    const TILE_SIZE = 49
-
     const tiles: Tile[] = []
 
     for (let y = 0; y < SLIDER_SIZE; y++) {
@@ -37,10 +48,7 @@ export namespace SlideReader {
           {
             theme: known_theme,
             position: y * SLIDER_SIZE + x,
-            signature: ImageFingerprint.get(img, {x: x * (TILE_SIZE + gutter), y: y * (TILE_SIZE + gutter)},
-              {x: TILE_SIZE, y: TILE_SIZE},
-              {x: KERNEL_INTERVAL, y: KERNEL_INTERVAL}
-            )
+            signature: parseTile(img, {x: x * (TILE_SIZE + gutter), y: y * (TILE_SIZE + gutter)})
           }
         )
       }
@@ -70,6 +78,24 @@ export namespace SlideReader {
     return reference_sliders
   }
 
+  const _blank_tile_reference = async_lazy(async () => {
+    const data = await ImageDetect.imageDataFromUrl("alt1anchors/sliders/blanktiles.png")
+
+    const tile_number = data.width / TILE_SIZE
+
+    const variants: ImageFingerprint[] = []
+
+    for (let i = 0; i < tile_number; i++) {
+      variants.push(parseTile(data, {x: i * TILE_SIZE, y: 0}))
+    }
+
+    return variants
+  })
+
+  export async function getBlankTileReferences(): Promise<ImageFingerprint[]> {
+    return _blank_tile_reference.get()
+  }
+
   export function getThemeImageUrl(theme: string): string {
     return `alt1anchors/sliders/${theme}.png`
   }
@@ -83,7 +109,7 @@ export namespace SlideReader {
 
     public async getPuzzle(known_theme: string = undefined): Promise<SliderPuzzle> {
 
-      if(!this._puzzle) {
+      if (!this._puzzle) {
         this._puzzle = await identify(this.ui.body.getData(), known_theme)
       }
 
@@ -101,18 +127,25 @@ export namespace SlideReader {
       score: number
     }[] = []
 
+    const blank_refs = await getBlankTileReferences()
+    const compare_to = known_theme
+      ? [(await getReferenceSliders())[known_theme]]
+      : Object.values(await getReferenceSliders())
+
     for (let tile of tiles.tiles) {
-      const compare_to = known_theme
-        ? [(await getReferenceSliders())[known_theme]]
-        : Object.values(await getReferenceSliders())
+      const best_blank_match = findBestMatch(blank_refs, (blank_ref) => ImageFingerprint.similarity(tile.signature, blank_ref))
 
       for (let slider of compare_to) {
         for (let ref_tile of slider.tiles) {
           tile_scores.push({
             tile: tile,
             reference_tile: ref_tile,
-            score: ImageFingerprint.similarity(tile.signature, ref_tile.signature)
+            score:
+              ref_tile.position == 24
+                ? best_blank_match.score
+                : ImageFingerprint.similarity(tile.signature, ref_tile.signature)
           })
+
         }
       }
     }

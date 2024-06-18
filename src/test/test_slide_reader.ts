@@ -63,6 +63,26 @@ export async function test_slide_reader(): Promise<void> {
             7, 20, 19, 12, 9]
       }
     },
+    {
+      file: "test_assets/sliders/tree_scrambled2.png", expected: {
+        theme: "tree", state:
+          [19, 4, 3, 1, 0,
+            2, 14, 7, 8, 13,
+            23, 11, 18, 20, 6,
+            16, 9, 21, 10, 5,
+            12, 15, 17, 22, 24]
+      }
+    },
+    {
+      file: "test_assets/sliders/tree_scrambled3.png", expected: {
+        theme: "tree", state:
+          [23, 2, 12, 4, 10,
+            0, 3, 24, 1, 5,
+            8, 14, 11, 9, 21,
+            13, 17, 18, 16, 22,
+            7, 6, 15, 19, 20]
+      }
+    },
   ]
 
   let correct = 0

@@ -14,8 +14,7 @@ export namespace SlideReader {
   import Tile = Sliders.Tile;
   export const DETECTION_THRESHOLD_SCORE = 0.9
 
-  const DEBUG_SLIDE_READER = true
-
+  const DEBUG_SLIDE_READER = false
 
   export const SLIDER_SIZE = 5
 

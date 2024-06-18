@@ -1,11 +1,9 @@
 import {Sliders} from "../lib/cluetheory/Sliders";
 import {SlideReader} from "../trainer/ui/neosolving/cluereader/SliderReader";
-import {ImageDetect, ImgRefData} from "@alt1/base";
-import {time} from "../lib/gamemap/GameLayer";
+import {ImageDetect} from "@alt1/base";
+import {ScuffedTesting} from "./test_framework";
 import SliderState = Sliders.SliderState;
 import SliderPuzzle = Sliders.SliderPuzzle;
-import {ScuffedTesting} from "./test_framework";
-import fail = ScuffedTesting.fail;
 import assert = ScuffedTesting.assert;
 
 export async function test_slide_reader(): Promise<void> {
@@ -55,6 +53,16 @@ export async function test_slide_reader(): Promise<void> {
             18, 17, 23, 22, 24]
       }
     },
+    {
+      file: "test_assets/sliders/tree_scrambled.png", expected: {
+        theme: "tree", state:
+          [0, 6, 24, 3, 4,
+            5, 13, 8, 17, 18,
+            10, 1, 2, 11, 23,
+            15, 16, 14, 22, 21,
+            7, 20, 19, 12, 9]
+      }
+    },
   ]
 
   let correct = 0
@@ -68,15 +76,17 @@ export async function test_slide_reader(): Promise<void> {
 
     const tiles = SliderPuzzle.getState(res)
 
+
     if (res.theme == test_case.expected.theme && SliderState.equals(tiles, test_case.expected.state)) {
       correct++
       //console.log(`SUCCESS ${test_case.file}`)
     } else {
-      //console.log(`ERROR ${test_case.file}`)
-      //console.log(`Expected ${test_case.expected.theme}:`)
-      //console.log(SliderState.toString(test_case.expected.state))
-      //console.log(`Got ${res.theme}:`)
-      //console.log(SliderState.toString(tiles))
+      console.log(`ERROR ${test_case.file}`)
+      console.log(`Expected ${test_case.expected.theme}:`)
+      console.log(SliderState.toString(test_case.expected.state))
+      console.log(`Got ${res.theme}:`)
+      console.log(SliderState.toString(tiles))
+      debugger
     }
   }
 

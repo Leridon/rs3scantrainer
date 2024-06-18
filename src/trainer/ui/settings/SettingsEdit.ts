@@ -556,8 +556,8 @@ class PuzzleSettingsEdit extends Widget {
     this.layout.paragraph("Show an estimate for your equivalent slider speed in Alt1's builtin clue solver after finishing a slider. Takes the faster animation of multi-tile moves in the builtin solver into account.")
 
     this.layout.header(new Checkbox("Improve screen reader with backtracking (Experimental)")
-      .onCommit(v => this.value.estimate_slider_speed = v)
-      .setValue(this.value.estimate_slider_speed), "left", 1)
+      .onCommit(v => this.value.improve_slider_matches_backtracking = v)
+      .setValue(this.value.improve_slider_matches_backtracking), "left", 1)
     this.layout.paragraph("Currently experimental. When activated, tries to improve the match read from screen by doing a second search with a bounded backtracking algorithm.")
 
     this.layout.header(new Checkbox("Continuous solving (Experimental)")

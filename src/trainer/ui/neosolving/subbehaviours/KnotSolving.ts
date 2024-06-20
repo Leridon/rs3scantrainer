@@ -184,7 +184,7 @@ export class KnotSolving extends AbstractPuzzleSolving<
 
     if (start) {
       this.process = new KnotSolvingProcess(this)
-      this.process.puzzle_closed.on(() => this.stop())
+      this.process.puzzle_closed.on(() => this.endClue())
       this.process.run()
     }
 

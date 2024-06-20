@@ -36,7 +36,7 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
   tree_widget: Widget
 
   constructor(parent: NeoSolvingBehaviour, public method: AugmentedMethod<ScanTreeMethod, Clues.Scan>) {
-    super(parent)
+    super(parent, "method")
 
     this.augmented = ScanTree.Augmentation.basic_augmentation(method.method.tree, method.clue)
   }
@@ -201,6 +201,9 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
   }
 
   protected begin() {
+    this.parent.layer.scan_layer.setSpotOrder(this.method.method.tree.ordered_spots)
+    this.parent.layer.scan_layer.marker.setRadius(this.method.method.tree.assumed_range, this.method.method.assumptions.meerkats_active)
+
     this.tree_widget = c().appendTo(this.parent.layer.scantree_container)
     this.layer = leaflet.featureGroup().addTo(this.parent.layer.scan_layer)
 
@@ -210,6 +213,10 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
   protected end() {
     this.tree_widget.remove()
     this.tree_widget = null
+
+    this.parent.layer.scan_layer.marker.setFixedSpot(null)
+    this.parent.layer.scan_layer.marker.clearManualMarker()
+    this.parent.layer.scan_layer.setSpotOrder(null)
 
     if (this.layer) {
       this.layer.remove()

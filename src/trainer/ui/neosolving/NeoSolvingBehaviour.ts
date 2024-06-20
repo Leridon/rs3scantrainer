@@ -41,6 +41,7 @@ import {Alt1Modal} from "../../Alt1Modal";
 import {LockboxSolving} from "./subbehaviours/LockboxSolving";
 import {TowersSolving} from "./subbehaviours/TowersSolving";
 import {Log} from "../../../lib/util/Log";
+import * as assert from "assert";
 import span = C.span;
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import interactionMarker = RenderingUtility.interactionMarker;
@@ -806,8 +807,24 @@ export default class NeoSolvingBehaviour extends Behaviour {
    * @param method
    */
   setMethod(method: AugmentedMethod): void {
-    if (this.state?.step?.type != "clue" || (method && (method.clue.id != this.state?.step?.clue?.step?.id))) return;
-    if (method && method == this.active_method) return;
+    log().log(`Setting method ${method ? method.method.name : "null"}`)
+
+    if (this.state?.step?.type != "clue") {
+      log().log(`Aborting set method because active state is not a clue step: '${this.state?.step?.type}'.`)
+
+      return;
+    }
+
+    if (method && (method.clue.id != this.state?.step?.clue?.step?.id)) {
+      log().log(`Aborting set method because method does not match clue.`)
+
+      return;
+    }
+    if (method && method == this.active_method) {
+      log().log(`Aborting set method because same method is already active.`)
+
+      return;
+    }
 
     this.path_control.reset()
     this.default_method_selector?.remove()
@@ -816,6 +833,15 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
     const active_behaviour = this.active_behaviour.get()
 
+    if (active_behaviour?.type == "method") {
+      active_behaviour.stop()
+    }
+
+    if (!method && active_behaviour instanceof ScanTreeSolving) {
+      assert(this.state.step.clue.step.type == "scan")
+      this.layer.fit(TileRectangle.from(...this.state.step.clue.step.spots))
+    }
+
     if (method) {
       this.active_method = method
 
@@ -823,9 +849,6 @@ export default class NeoSolvingBehaviour extends Behaviour {
         this.activateSubBehaviour(
           new ScanTreeSolving(this, method as AugmentedMethod<ScanTreeMethod, Clues.Scan>)
         )
-
-        this.layer.scan_layer.setSpotOrder(method.method.tree.ordered_spots)
-        this.layer.scan_layer.marker.setRadius(method.method.tree.assumed_range, method.method.assumptions.meerkats_active)
       } else if (method.method.type == "general_path") {
         this.path_control.setMethod(method as AugmentedMethod<GenericPathMethod>)
       }
@@ -880,10 +903,6 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
   protected begin() {
     this.app.map.addGameLayer(this.layer = new NeoSolvingLayer(this))
-
-    this.active_behaviour.content_stopped.on(() => {
-      this.reset()
-    })
   }
 
   protected end() {

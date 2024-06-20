@@ -5,6 +5,13 @@ import Properties from "./ui/widgets/Properties";
 import {C} from "../lib/ui/constructors";
 import LightButton from "./ui/widgets/LightButton";
 import Widget from "../lib/ui/Widget";
+import ExportStringModal from "./ui/widgets/modals/ExportStringModal";
+import {Compasses} from "../lib/cluetheory/Compasses";
+import {clue_data} from "../data/clues";
+import {TransportData} from "../data/transports";
+import {TileArea} from "../lib/runescape/coordinates/TileArea";
+import {TileRectangle} from "../lib/runescape/coordinates";
+import {util} from "../lib/util/util";
 import SliderState = Sliders.SliderState;
 import MoveList = Sliders.MoveList;
 import hgrid = C.hgrid;
@@ -12,10 +19,12 @@ import span = C.span;
 import skillbertRandom = Sliders.SlideSolver.skillbertRandom;
 import spacer = C.spacer;
 import hbox = C.hbox;
-import ExportStringModal from "./ui/widgets/modals/ExportStringModal";
-import {util} from "../lib/util/util";
-import cleanedJSON = util.cleanedJSON;
-import {clue_trainer_test_set} from "../test/tests";
+import gielinor_compass = clue_data.gielinor_compass;
+import resolveTeleport = TransportData.resolveTeleport;
+import activate = TileArea.activate;
+import getAllTeleportSpots = TransportData.getAllTeleportSpots;
+import Order = util.Order;
+import natural_order = util.Order.natural_order;
 
 type DataEntry = {
   id: number,
@@ -380,7 +389,34 @@ class SliderAnalysisModal extends NisModal {
 }
 
 export async function makeshift_main(): Promise<void> {
-  // await clue_trainer_test_set.run()
+
+  /*const candidates = getAllTeleportSpots()
+    .filter(spot => TileRectangle.contains(gielinor_compass.valid_area, spot.targetArea().origin))
+
+  const table = candidates
+    .map((spot, i) => {
+      console.log(`${i + 1}/${candidates.length}`)
+
+      return {
+        spot: spot,
+        res: Compasses.analyze([activate(spot.targetArea()),], gielinor_compass.spots)
+      }
+    })
+    .sort(Order.comap(Order.reverse(natural_order), e => e.res.average_information))
+    .map(res => `${res.spot.group.id}:${res.spot.spot.id},${res.spot.isStatic()},${res.res.average_ambiguity},${res.res.average_information},${util.count(res.res.results, x => x.total_spots.length > 1)}`)
+    .join("\n")
+
+  await ExportStringModal.do(table)*/
+
+  const res = Compasses.analyze([
+    activate(TileArea.init({"x":3005,"y":3375,"level":0})),
+    /*activate(resolveTeleport({group: "normalspellbook", spot: "southfeldiphills"}).targetArea()),
+    activate(resolveTeleport({group: "houseteleports", spot: "menaphos"}).targetArea()),*/
+  ], gielinor_compass.spots)
+
+  await ExportStringModal.do(res.csv)
+
+  //await clue_trainer_test_set.run()
 
   //new SliderAnalysisModal().show()
 

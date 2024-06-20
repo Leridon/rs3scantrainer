@@ -243,6 +243,10 @@ export namespace Transportation {
           spot: this.spot.id
         }
       }
+
+      isStatic(): boolean {
+        return TileArea.isSingleTile(this.spot.target)
+      }
     }
   }
 

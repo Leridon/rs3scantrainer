@@ -3,9 +3,11 @@ import {Transform, Vector2} from "../math";
 import {CompassReader} from "../../trainer/ui/neosolving/cluereader/CompassReader";
 import {TileArea} from "../runescape/coordinates/TileArea";
 import {angleDifference, rectangleCrossSection} from "lib/math";
+import {util} from "../util/util";
 
 export namespace Compasses {
 
+  import avg = util.avg;
   export type TriangulationPoint = {
     position: TileArea.ActiveTileArea,
     angle_radians: number,
@@ -48,8 +50,8 @@ export namespace Compasses {
 
   /**
    * Gets the expected compass angle for a given player spot and a target compass spot in radians
-   * @param position
-   * @param spot
+   * @param position The player's position
+   * @param spot The compass spot
    */
   export function getExpectedAngle(position: Vector2, spot: Vector2): number {
     const offset = Vector2.normalize(Vector2.sub(spot, position))
@@ -82,5 +84,52 @@ export namespace Compasses {
 
       return angleDifference(modified_expected, expected) < (Math.PI / 2)
     })
+  }
+
+  export function analyze(triangulation_spots: TileArea.ActiveTileArea[], spots: TileCoordinates[]): {
+    results: {
+      spot: TileCoordinates,
+      total_spots: TileCoordinates[]
+    }[],
+    ambiguities: number[],
+    average_ambiguity: number,
+    average_information: number,
+    csv: string
+  } {
+
+    const res: {
+      spot: TileCoordinates,
+      total_spots: TileCoordinates[]
+    }[] = spots.map(spot => {
+      const information = triangulation_spots.map(position => {
+        const expected = getExpectedAngle(position.center(), spot)
+
+        return TriangulationPoint.construct(position, expected)
+      })
+
+      return ({
+        spot: spot,
+        total_spots: spots.filter(s => isPossible(information, s))
+      })
+    })
+
+    const ambiguitities: number[] = []
+
+    res.forEach(x => {
+      ambiguitities[x.total_spots.length]++
+    })
+
+    const average_information = avg(...res.map(line => Math.log2(spots.length / line.total_spots.length)).filter(Number.isFinite))
+    const average_ambiguity = avg(...res.map(r => r.total_spots.length))
+
+    return {
+      results: res,
+      ambiguities: ambiguitities,
+      average_ambiguity: average_ambiguity,
+      csv: `ambigutity,${average_ambiguity}\ninformation,${average_information}\nspot,candidates\n` + res.map(line =>
+        `${Vector2.toString(line.spot)},${line.total_spots.length}`
+      ).join("\n"),
+      average_information: average_information
+    }
   }
 }

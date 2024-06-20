@@ -15,12 +15,17 @@ import {TileCoordinates} from "../../../lib/runescape/coordinates";
 export abstract class NeoSolvingSubBehaviour<State extends NeoSolving.ActiveState = NeoSolving.ActiveState> extends Behaviour {
   protected _state: State = undefined
 
-  protected constructor(public readonly parent: NeoSolvingBehaviour) {
+  protected constructor(public readonly parent: NeoSolvingBehaviour, public readonly type: "clue" | "method") {
     super()
   }
 
   public setRelatedState(state: State) {
     this._state = state
+  }
+
+  endClue() {
+    this.parent?.reset()
+    this.stop()
   }
 
   protected registerSolution(area: TileArea) {

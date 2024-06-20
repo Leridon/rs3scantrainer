@@ -324,7 +324,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
   selected_spot = observe<CompassSolving.SpotData>(null)
 
   constructor(parent: NeoSolvingBehaviour, public clue: Clues.Compass, public reader: CompassReader) {
-    super(parent)
+    super(parent, "clue")
 
     this.settings = deps().app.settings.settings.solving.compass
 
@@ -344,7 +344,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
       this.process.onChange((is_state, was_state) => {
         if (is_state?.state == "closed") {
-          this.stop()
+          this.endClue()
         } else {
           if (was_state && this.settings.auto_commit_on_angle_change && is_state.state == "normal") {
             if (was_state.state == "spinning" ||

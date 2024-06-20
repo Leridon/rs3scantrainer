@@ -16,7 +16,7 @@ export class PuzzleModal extends NisModal {
     super({size: "medium", fixed: true});
 
     this.hidden.on(() => {
-      this.parent.stop()
+      this.parent.endClue()
     })
   }
 

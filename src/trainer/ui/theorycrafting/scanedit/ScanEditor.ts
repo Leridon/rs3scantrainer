@@ -69,7 +69,7 @@ export class ScanEditLayer extends GameLayer {
     this.markers = spots.map(s => new ScanEditLayer.MarkerPair(s))
 
     this.markers.forEach((m, i) => {
-      m.setNumber(i + 1)
+      //m.setNumber(i + 1)
 
       m.regular.addTo(this)
       m.complement.addTo(this)
@@ -88,10 +88,14 @@ export class ScanEditLayer extends GameLayer {
     return this.markers.find(m => TileCoordinates.eq2(m.spot, coords))
   }
 
-  setSpotOrder(order: TileCoordinates[]) {
-    order.forEach((spot, i) => {
-      this.getMarker(spot)?.setNumber(i + 1)
-    })
+  setSpotOrder(order: TileCoordinates[] | null) {
+    if(order) {
+      order.forEach((spot, i) => {
+        this.getMarker(spot)?.setNumber(i + 1)
+      })
+    } else {
+      this.markers.forEach(m => m.setNumber(null))
+    }
   }
 
   setTiming(timing: AugmentedScanTree["state"]["timing_analysis"]) {

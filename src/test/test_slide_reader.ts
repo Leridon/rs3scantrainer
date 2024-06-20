@@ -83,6 +83,16 @@ export async function test_slide_reader(): Promise<void> {
             7, 6, 15, 19, 20]
       }
     },
+    {
+      file: "test_assets/sliders/tree_scrambled4.png", expected: {
+        theme: "tree", state:
+          [ 0,  3,  4, 19, 2,
+            24, 18, 16,  6, 11,
+            7, 20, 17,  1, 14,
+            8,  9, 15, 13,  5,
+            22, 21, 23, 10, 12]
+      }
+    },
   ]
 
   let correct = 0

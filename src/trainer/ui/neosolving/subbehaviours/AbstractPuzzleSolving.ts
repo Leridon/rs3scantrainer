@@ -19,7 +19,7 @@ export abstract class AbstractPuzzleSolving<
                         private modal_title: string,
                         public settings_id: section_id
   ) {
-    super(parent);
+    super(parent, "clue");
   }
 
   protected abstract constructProcess(): ProcessT
@@ -32,7 +32,7 @@ export abstract class AbstractPuzzleSolving<
 
     if (start) {
       this.process = this.constructProcess()
-      this.process.puzzle_closed.on(() => this.stop())
+      this.process.puzzle_closed.on(() => this.endClue())
       this.process.run()
     }
 
@@ -44,7 +44,7 @@ export abstract class AbstractPuzzleSolving<
 
     this.modal.title.set(this.modal_title)
 
-    this.modal.hidden.on(() => this.stop())
+    this.modal.hidden.on(() => this.endClue())
 
     this.modal.show()
 

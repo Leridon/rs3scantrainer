@@ -242,11 +242,15 @@ export class AdaptiveScanRadiusMarker extends GameLayer {
     return this
   }
 
+  clearManualMarker() {
+    this.manualMarker.set(null)
+  }
+
   eventClick(event: GameMapMouseEvent) {
     event.onPost(() => {
       if (this.canBeManuallySet.value()) {
         if ((this.custom_marker && event.active_entity == this.custom_marker) || TileCoordinates.eq2(event.tile(), this.manualMarker.value())) {
-          this.manualMarker.set(null)
+          this.clearManualMarker()
         } else {
           this.manualMarker.set(event.tile())
         }

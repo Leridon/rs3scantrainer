@@ -98,7 +98,7 @@ export class LockboxSolving extends AbstractPuzzleSolving<ClueReader.Result.Puzz
 
     if (start) {
       this.process = new LockboxSolvingProcess(this)
-      this.process.puzzle_closed.on(() => this.stop())
+      this.process.puzzle_closed.on(() => this.endClue())
       this.process.run()
     }
 

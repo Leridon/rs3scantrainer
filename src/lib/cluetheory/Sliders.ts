@@ -5,6 +5,7 @@ import {Process} from "../Process";
 import {util} from "../util/util";
 import {ImageFingerprint} from "../util/ImageFingerprint";
 import {Log} from "../util/Log";
+import {RandomSolver} from "./sliders/RandomSolver";
 
 export namespace Sliders {
   export type SliderPuzzle = { tiles: Tile[], theme?: string, match_score?: number }
@@ -292,15 +293,15 @@ export namespace Sliders {
     }
   }
 
-  function skillbertMoveToMyMove(move: SlideMove): Move {
-    return (move.y2 - move.y1) * 5 + (move.x2 - move.x1)
+  export abstract class Solver {
+    abstract instantiate(state: SliderState): SolvingProcess
   }
 
   /**
    * Abstract base class for solving processes for slider puzzles.
    * SlideSolvers are single-use for a specific starting state.
    */
-  export abstract class SlideSolver extends Process<MoveList> {
+  export abstract class SolvingProcess extends Process<MoveList> {
     private update_event = ewent<this>()
     private better_solution_found = ewent<MoveList>()
     protected best_solution: MoveList = null
@@ -368,62 +369,7 @@ export namespace Sliders {
   export namespace SlideSolver {
     import log = Log.log;
 
-    /**
-     * This is completely taken from skillbert's random solver and just fitted to the new interface
-     * @param start_state
-     */
-    export function skillbertRandom(start_state: SliderState): SlideSolver {
-      if (start_state.includes(undefined)) debugger
 
-      return new class extends Sliders.SlideSolver {
-        firstrun = true;
 
-        private step() {
-          const first = this.firstrun;
-          this.firstrun = false;
-          let steps = 0;
-          let map = new SliderMap(this.start_state);
-          while (true) {
-            let actions = calcmap(map);
-            if (actions.length == 0) { break; }
-            actions.sort(function (a, b) { return b.score - a.score; });
-            let n = (first ? 0 : Math.floor(actions.length * Math.random()));
-            let action = actions[n];
-
-            try {
-              action.f(map);
-            } catch {
-              break; //TODO still check solver paths even if this is dead end
-            }
-
-            if (steps++ > 50) {
-              log().log("failed to solve puzzle, over 50 actions attempted", "Puzzle Solver")
-              return null;
-            }
-          }
-
-          if (map.getMinMoves() == 0) {
-            this.registerSolution(optimisemoves(map.moves).map(skillbertMoveToMyMove));
-          }
-        }
-
-        override async solve_implementation() {
-          while (!this.should_stop) {
-            this.step();
-
-            //Let go of the thread for a bit so ui gets a chance
-            await this.checkTime()
-          }
-        }
-      }(start_state)
-    }
-  }
-
-  export async function solve(state: SliderState): Promise<MoveList> {
-    const solver = new SlideSolverRandom(state)
-
-    await solver.startSolve(3000)
-
-    return solver.bestsolution.map(skillbertMoveToMyMove)
   }
 }

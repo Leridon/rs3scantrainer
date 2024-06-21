@@ -153,7 +153,7 @@ class IterativeDeepeningSlideSolver extends IterativeDeepeningAStar<SlideStateWi
   }
 }
 
-export class AStarSlideSolver extends Sliders.SlideSolver {
+export class AStarSlideSolvingProcess extends Sliders.SolvingProcess {
 
   private subprocess: IterativeDeepeningSlideSolver
 
@@ -181,4 +181,11 @@ export class AStarSlideSolver extends Sliders.SlideSolver {
     super.stop()
     this.subprocess?.stop()
   }
+}
+
+export const AStarSolver: Sliders.Solver = new class extends Sliders.Solver {
+  instantiate(state: Sliders.SliderState): Sliders.SolvingProcess {
+    return new AStarSlideSolvingProcess(state);
+  }
+
 }

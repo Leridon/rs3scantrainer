@@ -9,13 +9,13 @@ import SliderState = Sliders.SliderState;
 import MoveList = Sliders.MoveList;
 import hgrid = C.hgrid;
 import span = C.span;
-import skillbertRandom = Sliders.SlideSolver.skillbertRandom;
 import spacer = C.spacer;
 import hbox = C.hbox;
 import ExportStringModal from "./ui/widgets/modals/ExportStringModal";
 import {util} from "../lib/util/util";
 import cleanedJSON = util.cleanedJSON;
 import {clue_trainer_test_set} from "../test/tests";
+import {RandomSolver} from "../lib/cluetheory/sliders/RandomSolver";
 
 type DataEntry = {
   id: number,
@@ -54,7 +54,7 @@ class SliderBenchmarkModal extends NisModal {
 
     type Candidate = {
       name: string,
-      construct: (state: SliderState) => Sliders.SlideSolver,
+      solver: Sliders.Solver,
       continuation_solving?: {
         lookahead: number,
         assumed_moves_per_second: number
@@ -85,7 +85,7 @@ class SliderBenchmarkModal extends NisModal {
     for (let mps = 4; mps <= 6; mps++) {
       for (let la = 10; la <= 20; la += 2) {
         candidates.push(
-          {name: "Skillbert Random", construct: s => skillbertRandom(s), continuation_solving: {lookahead: la, assumed_moves_per_second: mps}},
+          {name: "Skillbert Random", solver: RandomSolver, continuation_solving: {lookahead: la, assumed_moves_per_second: mps}},
         )
       }
     }
@@ -114,7 +114,7 @@ class SliderBenchmarkModal extends NisModal {
         this.layout.empty().row(`Running Candidate ${candidate_i + 1}/${candidates.length}, test ${test_i + 1}/${test_set.length}`)
 
         const test = test_set[test_i]
-        const solver = candidate.construct(test)
+        const solver = candidate.solver.instantiate(test)
           .setCombineStraights(true)
 
         let best = await solver.withTimeout(TIMEOUT).run()
@@ -125,7 +125,7 @@ class SliderBenchmarkModal extends NisModal {
           const TIME_PER_STEP = (candidate.continuation_solving.lookahead / candidate.continuation_solving.assumed_moves_per_second) * 1000
 
           for (let i = candidate.continuation_solving.lookahead; i < best.length; i += candidate.continuation_solving.lookahead) {
-            const better = await candidate.construct(SliderState.withMove(test, ...best.slice(0, i)))
+            const better = await candidate.solver.instantiate(SliderState.withMove(test, ...best.slice(0, i)))
               .withTimeout(TIME_PER_STEP)
               .withInterrupt(30, 10)
               .setCombineStraights(true)

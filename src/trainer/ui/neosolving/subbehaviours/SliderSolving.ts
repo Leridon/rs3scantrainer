@@ -11,14 +11,15 @@ import {ClueReader} from "../cluereader/ClueReader";
 import NeoSolvingBehaviour from "../NeoSolvingBehaviour";
 import {AbstractPuzzleSolving} from "./AbstractPuzzleSolving";
 import {AbstractPuzzleProcess} from "./AbstractPuzzleProcess";
+import {PDBSolver} from "../../../../lib/cluetheory/sliders/PDBSolver";
+import {SliderPatternDatabase} from "../../../../lib/cluetheory/sliders/SliderPatternDatabase";
 import over = OverlayGeometry.over;
 import SliderState = Sliders.SliderState;
 import SliderPuzzle = Sliders.SliderPuzzle;
-import SlideSolver = Sliders.SlideSolver;
+import SolvingProcess = Sliders.SolvingProcess;
 import AnnotatedMoveList = Sliders.AnnotatedMoveList;
 import MoveList = Sliders.MoveList;
 import Move = Sliders.Move;
-import skillbertRandom = Sliders.SlideSolver.skillbertRandom;
 
 class SliderGuideProcess extends AbstractPuzzleProcess {
   settings = deps().app.settings.settings.solving.puzzles.sliders
@@ -29,8 +30,8 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
   private puzzle: SliderPuzzle
 
   private initial_state: SliderState
-  private solver: {
-    solver: SlideSolver,
+  private active_solving_process: {
+    solver: SolvingProcess,
     solving_from: number
   } = null
 
@@ -52,7 +53,7 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
   private last_frame_state: SliderState = null
   private arrow_keys_inverted: boolean = false
 
-  constructor(private parent: SliderSolving) {
+  constructor(private parent: SliderSolving, private solver: Sliders.Solver) {
     super()
 
     this.puzzle = parent.puzzle.puzzle
@@ -95,7 +96,7 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
 
     this.progress_overlay.clear()
 
-    const solution_length = this.solution?.length ?? this.solver?.solver?.getBest()?.length
+    const solution_length = this.solution?.length ?? this.active_solving_process?.solver?.getBest()?.length
 
     const center = Vector2.add(
       this.parent.puzzle.reader.ui.body.screenRectangle().origin,
@@ -356,7 +357,7 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
 
     this.solving_overlay.clear()
 
-    if (!this.solution && this.solver) {
+    if (!this.solution && this.active_solving_process) {
       this.solving_overlay
         .text("Solving",
           Vector2.add(
@@ -369,7 +370,7 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
       this.solving_overlay.progressbar(Vector2.add(
         this.parent.puzzle.reader.ui.body.screenRectangle().origin,
         BAR_POSITION,
-      ), 100, this.solver.solver.getProgress(), 5)
+      ), 100, this.active_solving_process.solver.getProgress(), 5)
     } else if (!this.solution) {
       this.solving_overlay
         .text("No solution found",
@@ -394,13 +395,12 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
 
     const frame_state = read_result.state
 
-    if (!this.solver && !this.solution) {
+    if (!this.active_solving_process && !this.solution) {
       this.initial_state = frame_state
 
-      this.solver = {
+      this.active_solving_process = {
         solver: this.instantiateSolver(frame_state)
           //new AStarSlideSolver(frame_state)
-          .setCombineStraights(this.settings.mode == "mouse" || this.settings.mode == "hybrid")
           .onUpdate(solver => {
             this.updateSolvingOverlay()
             this.updateProgressOverlay()
@@ -409,9 +409,9 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
         solving_from: 0
       }
 
-      const initial_solution = await this.solver.solver.run()
+      const initial_solution = await this.active_solving_process.solver.run()
 
-      this.solver = null
+      this.active_solving_process = null
       this.current_mainline_index = 0
       this.error_recovery_solution = {sequence: [], recovering_to_mainline_index: 0}
 
@@ -436,25 +436,24 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
 
     const LASOLVING = this.settings.max_lookahead + 7
     if (this.settings.continue_solving_after_initial_solve) {
-      if (this.solver && this.current_mainline_index + this.settings.max_lookahead + 2 >= this.solver.solving_from) {
+      if (this.active_solving_process && this.current_mainline_index + this.settings.max_lookahead + 2 >= this.active_solving_process.solving_from) {
         // Getting close to the current start of the solving, stop the solving process
-        this.solver.solver.stop()
-        this.solver = null
+        this.active_solving_process.solver.stop()
+        this.active_solving_process = null
       }
 
-      if (!this.solver && (this.current_mainline_index + LASOLVING < this.solution.length)) {
+      if (!this.active_solving_process && (this.current_mainline_index + LASOLVING < this.solution.length)) {
         const solving_start_index = this.current_mainline_index + LASOLVING
 
         const solving_start_state = this.solution[solving_start_index - 1].post_state
 
-        this.solver = {
+        this.active_solving_process = {
           solver: this.instantiateSolver(solving_start_state)
             //new AStarSlideSolver(frame_state)
-            .setCombineStraights(this.settings.mode == "mouse" || this.settings.mode == "hybrid")
             .registerSolution(this.solution.slice(solving_start_index).map(m => m.move))
             .withInterrupt(20, 10) // Cooperative interrupt behaviour
             .onFound(better => {
-              if (solving_start_index == this.solver?.solving_from && this.current_mainline_index < solving_start_index) {
+              if (solving_start_index == this.active_solving_process?.solving_from && this.current_mainline_index < solving_start_index) {
                 const new_sequence = Sliders.MoveList.combine(
                   this.solution.slice(0, solving_start_index).map(m => m.move),
                   better,
@@ -464,14 +463,14 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
                 this.solution = MoveList.annotate(this.initial_state, new_sequence, this.settings.mode != "keyboard")
 
                 // Stop the solver in case the combination
-                this.solver.solver.stop()
-                this.solver = null
+                this.active_solving_process.solver.stop()
+                this.active_solving_process = null
               }
             }),
           solving_from: solving_start_index
         }
 
-        this.solver.solver.run()
+        this.active_solving_process.solver.run()
       }
     }
 
@@ -543,8 +542,9 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
     this.updateMoveOverlay()
   }
 
-  private instantiateSolver(state: SliderState): SlideSolver {
-    return skillbertRandom(state)
+  private instantiateSolver(state: SliderState): SolvingProcess {
+    return this.solver.instantiate(state)
+      .setCombineStraights(this.settings.mode == "mouse" || this.settings.mode == "hybrid")
   }
 
   override async implementation(): Promise<void> {
@@ -553,7 +553,7 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
     this.move_overlay?.hide()
     this.solving_overlay?.hide()
     this.progress_overlay?.hide()
-    this.solver?.solver?.stop()
+    this.active_solving_process?.solver?.stop()
   }
 
   private getLastKnownMove() {
@@ -578,8 +578,13 @@ export class SliderSolving extends AbstractPuzzleSolving<
     )
   }
 
-  protected constructProcess(): SliderGuideProcess {
-    return new SliderGuideProcess(this)
+  protected async constructProcess(): Promise<SliderGuideProcess> {
+    return new SliderGuideProcess(this, new PDBSolver(new SliderPatternDatabase.RegionGraph([
+      new SliderPatternDatabase({region: [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 3, 3]}, new Uint8Array(await (await fetch("data/sliderpdb/5x5_4TM_d2a3da14b5.t")).arrayBuffer())),
+      new SliderPatternDatabase({region: [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 3, 3]}, new Uint8Array(await (await fetch("data/sliderpdb/5x4_4TM_d2a3da9b5.t")).arrayBuffer())),
+      new SliderPatternDatabase({region: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 0, 0, 0, 1, 1, 0, 0, 3, 1, 1, 0, 3, 3]}, new Uint8Array(await (await fetch("data/sliderpdb/5x3_4TM_d2ab2da2b2a3b2.t")).arrayBuffer())),
+      new SliderPatternDatabase({region: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 1, 1, 3, 2, 2, 1, 3, 3]}, new Uint8Array(await (await fetch("data/sliderpdb/3x3_2TM_d2bdb5.t")).arrayBuffer())),
+    ])))
   }
 
   pausesClueReader(): boolean {

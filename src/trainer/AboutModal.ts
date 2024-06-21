@@ -18,7 +18,7 @@ export class AboutModal extends NisModal {
 
     layout.header("About Clue Trainer")
 
-    layout.paragraph("Clue Trainer is a new generation clue solver for Alt1 and developed by Zyklop Marco in the Clue Chasers discord. Originally intended to provide an interactive way to learn optimal scan routes, the scope has gradually increased and is now on-route to be a fully-featured clue solver and a test bed for new ways to solve clues in Runescape 3.")
+    layout.paragraph("Clue Trainer is a new generation clue solver for Alt1 developed by Zyklop Marco in the Clue Chasers discord. Originally intended to provide an interactive way to learn optimal scan routes, the scope has gradually increased and is now a fully-featured clue solver and a test bed for new ways to solve clues in RuneScape 3.")
 
     layout.paragraph("Visit Clue Trainer at",
       " <a href='https://github.com/Leridon/rs3scantrainer' target=”_blank”><img class='inline-img' src='assets/icons/github-mark-white.png'> GitHub</a>",
@@ -33,6 +33,15 @@ export class AboutModal extends NisModal {
       )
     }
 
+    layout.header("Support")
+
+    layout.paragraph("You can support development of Clue Trainer by donating at <a href='https://ko-fi.com/I2I4XY829' target=”_blank”>KoFi</a>. Donations contribute to covering tge costs associated with hosting Clue Trainer and are a great way to show appreciation for the time and effort that goes into development.")
+
+    layout.row(
+      //"<script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support Me on Ko-fi', '#29abe0', 'I2I4XY829');kofiwidget2.draw();</script> "
+      "<div style='text-align: center'><a href='https://ko-fi.com/I2I4XY829' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi3.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a></div>"
+    )
+
     layout.header("Credits")
 
     layout.paragraph("Clue Trainer is a team effort that requires much more than just the programming and I want to mention a few people specifically that contributed to this journey.")
@@ -45,7 +54,7 @@ export class AboutModal extends NisModal {
 
     layout.paragraph("<strong>Beau</strong> and the rest of the Clue Chasers team for supporting development by providing a space for open discussion around the tool and clue methods.")
 
-    layout.paragraph("And everyone else who contributed by reporting issues, expressing their thoughts and generally ")
+    layout.paragraph("And everyone else who contributed by reporting issues, expressing their thoughts and generally being part of this journey.")
 
     layout.header("Legal disclaimer")
     layout.paragraph("Icons and other assets used are owned by Jagex Ltd. and their use is intended to fall under fair dealing as a fan project.")

@@ -1,8 +1,8 @@
 import {Sliders} from "../Sliders";
+import {SliderPatternDatabase} from "./SliderPatternDatabase";
 import SliderState = Sliders.SliderState;
 import MoveList = Sliders.MoveList;
 import SlideStateWithBlank = Sliders.SlideStateWithBlank;
-import {SliderPatternDatabase} from "./SliderPatternDatabase";
 
 export class PDBSlideSolver extends Sliders.SlideSolver {
 
@@ -14,9 +14,13 @@ export class PDBSlideSolver extends Sliders.SlideSolver {
 
     const state = SlideStateWithBlank.fromState(this.start_state)
 
-    const pass = (current_region: SliderPatternDatabase, remaining_slackness: number, initial_state: SlideStateWithBlank, moves_so_far: MoveList): void => {
+    const pass = async (current_region: SliderPatternDatabase, remaining_slackness: number, initial_state: SlideStateWithBlank, moves_so_far: MoveList): Promise<void> => {
 
       for (let used_slackness = remaining_slackness; used_slackness >= 0; used_slackness--) {
+        await this.checkTime()
+
+        if (this.should_stop) return
+
         const state = SlideStateWithBlank.copy(initial_state)
 
         const moves: MoveList = [...moves_so_far]
@@ -39,7 +43,7 @@ export class PDBSlideSolver extends Sliders.SlideSolver {
           const children = this.data.getChildren(current_region)
 
           for (const child of children) {
-            pass(child, remaining_slackness - used_slackness, state, moves)
+            await pass(child, remaining_slackness - used_slackness, state, moves)
           }
         }
       }

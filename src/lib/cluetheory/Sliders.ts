@@ -164,6 +164,7 @@ export namespace Sliders {
     export function fromState(state: SliderState): SlideStateWithBlank {
       return {tiles: state, blank: SliderState.blank(state)}
     }
+
     export function doMove(state: SlideStateWithBlank, move: Move): void {
       const index = state.blank + move
 
@@ -295,6 +296,10 @@ export namespace Sliders {
     return (move.y2 - move.y1) * 5 + (move.x2 - move.x1)
   }
 
+  /**
+   * Abstract base class for solving processes for slider puzzles.
+   * SlideSolvers are single-use for a specific starting state.
+   */
   export abstract class SlideSolver extends Process<MoveList> {
     private update_event = ewent<this>()
     private better_solution_found = ewent<MoveList>()

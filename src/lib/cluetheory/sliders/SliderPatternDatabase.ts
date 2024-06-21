@@ -1,9 +1,25 @@
 import {Sliders} from "../Sliders";
 import {util} from "../../util/util";
+import SliderState = Sliders.SliderState;
 
-export namespace SliderPDB {
-  import SliderState = Sliders.SliderState;
-  type Region = Region.Tile[]
+export class SliderPatternDatabase {
+  constructor(public meta: SliderPatternDatabase.Meta, private data: Uint8Array) {
+
+  }
+
+  get(state: SliderState): Sliders.Move {
+    const state_index = SliderPatternDatabase.Region.stateIndex(this.meta.region, state)
+
+    // TODO: Incorporate compression techniques for data
+
+    return this.data[state_index] - SliderState.blank(state)
+  }
+}
+
+export namespace SliderPatternDatabase {
+
+
+  export type Region = Region.Tile[]
 
   export namespace Region {
     import SliderState = Sliders.SliderState;
@@ -52,23 +68,25 @@ export namespace SliderPDB {
     }
   }
 
-  export class PatternDB {
-    constructor(public meta: PatternDB.Meta, private data: Uint8Array) {
-
-    }
-
-    get(state: SliderState): Sliders.Move {
-      const state_index = Region.stateIndex(this.meta.region, state)
-
-      // TODO: Incorporate compression techniques for data
-
-      return this.data[state_index] - SliderState.blank(state)
-    }
+  export type Meta = {
+    region: Region,
   }
 
-  export namespace PatternDB {
-    export type Meta = {
-      region: Region,
+  export class RegionGraph {
+    private edges: [SliderPatternDatabase, SliderPatternDatabase][] = []
+
+    constructor(private databases: SliderPatternDatabase[]) {
+      databases.forEach(parent => databases.forEach(child => {
+        if (SliderPatternDatabase.Region.isChild(parent.meta.region, child.meta.region)) this.edges.push([parent, child])
+      }))
+    }
+
+    getChildren(parent: SliderPatternDatabase): SliderPatternDatabase[] {
+      return this.edges.filter(e => e[0] == parent).map(e => e[1])
+    }
+
+    getEntryPoints(): SliderPatternDatabase[] {
+      return this.databases.filter(db => SliderPatternDatabase.Region.isFirst(db.meta.region))
     }
   }
 }

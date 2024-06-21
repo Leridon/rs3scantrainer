@@ -18,6 +18,7 @@ import SlideSolver = Sliders.SlideSolver;
 import AnnotatedMoveList = Sliders.AnnotatedMoveList;
 import MoveList = Sliders.MoveList;
 import Move = Sliders.Move;
+import skillbertRandom = Sliders.SlideSolver.skillbertRandom;
 
 class SliderGuideProcess extends AbstractPuzzleProcess {
   settings = deps().app.settings.settings.solving.puzzles.sliders
@@ -397,7 +398,7 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
       this.initial_state = frame_state
 
       this.solver = {
-        solver: SlideSolver.skillbertRandom(frame_state)
+        solver: this.instantiateSolver(frame_state)
           //new AStarSlideSolver(frame_state)
           .setCombineStraights(this.settings.mode == "mouse" || this.settings.mode == "hybrid")
           .onUpdate(solver => {
@@ -447,7 +448,7 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
         const solving_start_state = this.solution[solving_start_index - 1].post_state
 
         this.solver = {
-          solver: SlideSolver.skillbertRandom(solving_start_state)
+          solver: this.instantiateSolver(solving_start_state)
             //new AStarSlideSolver(frame_state)
             .setCombineStraights(this.settings.mode == "mouse" || this.settings.mode == "hybrid")
             .registerSolution(this.solution.slice(solving_start_index).map(m => m.move))
@@ -540,6 +541,10 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
     this.last_frame_state = frame_state
 
     this.updateMoveOverlay()
+  }
+
+  private instantiateSolver(state: SliderState): SlideSolver {
+    return skillbertRandom(state)
   }
 
   override async implementation(): Promise<void> {

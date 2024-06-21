@@ -20,6 +20,8 @@ export namespace Sliders {
   export type SliderState = number[]
 
   export namespace SliderState {
+    export const BLANK_TILE = 24
+
     export const SOLVED: SliderState =
       [
         0, 1, 2, 3, 4,
@@ -155,6 +157,25 @@ export namespace Sliders {
     }
   }
 
+  export type SlideStateWithBlank = { tiles: SliderState, blank: number }
+
+  export namespace SlideStateWithBlank {
+
+    export function fromState(state: SliderState): SlideStateWithBlank {
+      return {tiles: state, blank: SliderState.blank(state)}
+    }
+    export function doMove(state: SlideStateWithBlank, move: Move): void {
+      const index = state.blank + move
+
+      state.tiles[state.blank] = state.tiles[index]
+      state.tiles[index] = SliderState.BLANK_TILE
+    }
+
+    export function copy(state: SlideStateWithBlank): SlideStateWithBlank {
+      return lodash.cloneDeep(state)
+    }
+  }
+
   /**
    * A move is the index offset from the current position of tile 24 to the tile you need to click next.
    * Examples:
@@ -277,7 +298,7 @@ export namespace Sliders {
   export abstract class SlideSolver extends Process<MoveList> {
     private update_event = ewent<this>()
     private better_solution_found = ewent<MoveList>()
-    private best_solution: MoveList = null
+    protected best_solution: MoveList = null
 
     private progress: number
 

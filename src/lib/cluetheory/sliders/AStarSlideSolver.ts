@@ -4,6 +4,7 @@ import {delay} from "../../../skillbertssolver/oldlib";
 import SliderState = Sliders.SliderState;
 import Move = Sliders.Move;
 import {Process} from "../../Process";
+import SlideStateWithBlank = Sliders.SlideStateWithBlank;
 
 export class IterativeDeepeningAStar<UnderlyingState, Move> extends Process<IterativeDeepeningAStar.State<UnderlyingState, Move>> {
 
@@ -102,8 +103,6 @@ export namespace IterativeDeepeningAStar {
     }
   }
 }
-
-type SlideStateWithBlank = { tiles: SliderState, blank: number }
 
 class IterativeDeepeningSlideSolver extends IterativeDeepeningAStar<SlideStateWithBlank, Move> {
   constructor(start_state: SliderState, heurmod: number) {

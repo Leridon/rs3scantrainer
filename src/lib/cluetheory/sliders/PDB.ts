@@ -17,6 +17,10 @@ export namespace SliderPDB {
       export const LOCKED = 3
     }
 
+    export function isFirst(region: Region): boolean {
+      return region.every(tile => tile != Tile.FIXED)
+    }
+
     export function isChild(parent: Region, child: Region): boolean {
       return child.every((child_tile, index) => {
         const parent_tile = parent[index]
@@ -49,7 +53,7 @@ export namespace SliderPDB {
   }
 
   export class PatternDB {
-    constructor(private meta: PatternDB.Meta, private data: Uint8Array) {
+    constructor(public meta: PatternDB.Meta, private data: Uint8Array) {
 
     }
 
@@ -65,7 +69,6 @@ export namespace SliderPDB {
   export namespace PatternDB {
     export type Meta = {
       region: Region,
-      type: "multitile" | "singletile"
     }
   }
 }

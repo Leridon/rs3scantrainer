@@ -12,5 +12,5 @@
   "maxHeight": 1000,
   "requestHandlers": [],
   "activators": [],
-  "permissions": "pixel, gamestate, overlay"
+  "permissions": "pixel,gamestate,overlay"
 }

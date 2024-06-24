@@ -2635,7 +2635,76 @@ export namespace clue_data {
       "valid_area": {"topleft": {"x": 1600, "y": 12159}, "botright": {"x": 2751, "y": 11008}, level: 0}
     }
 
-  export const compass: Clues.Compass[] = [gielinor_compass, arc_compass]
+  export const tetracompass: Clues.Compass = {
+    id: 470,
+    type: "compass",
+    tier: "tetracompass",
+    text: [
+      "The compass shows where you need to dig up the casket."
+    ],
+    "valid_area": {"topleft": {"x": 1922, "y": 4092}, "botright": {"x": 3902, "y": 2500}, "level": 0},
+    spots: [
+      {x: 2935, y: 3489, level: 0},
+      {x: 2946, y: 3462, level: 0},
+      {x: 2945, y: 3274, level: 0},
+      {x: 2896, y: 3550, level: 0},
+      {x: 2623, y: 3001, level: 0},
+      {x: 2462, y: 2897, level: 0},
+      {x: 2614, y: 3624, level: 0},
+      {x: 2713, y: 3628, level: 0},
+      {x: 2674, y: 3710, level: 0},
+      {x: 2729, y: 3606, level: 0},
+      {x: 2590, y: 3263, level: 0},
+      {x: 2680, y: 3370, level: 0},
+      {x: 2468, y: 3278, level: 0},
+      {x: 2752, y: 3394, level: 0},
+      {x: 2482, y: 3357, level: 0},
+      {x: 2609, y: 3383, level: 0},
+      {x: 2554, y: 3467, level: 0},
+      {x: 2546, y: 3522, level: 0},
+      {x: 2534, y: 3430, level: 0},
+      {x: 2425, y: 3187, level: 0},
+      {x: 2460, y: 3198, level: 0},
+      {x: 2305, y: 3544, level: 0},
+      {x: 2269, y: 3537, level: 0},
+      {x: 2363, y: 3574, level: 0},
+      {x: 2365, y: 3545, level: 0},
+      {x: 2720, y: 3468, level: 0},
+      {x: 2704, y: 3453, level: 0},
+      {x: 2722, y: 3577, level: 0},
+      {x: 2632, y: 3489, level: 0},
+      {x: 2764, y: 3478, level: 0},
+      {x: 2450, y: 3516, level: 0},
+      {x: 2453, y: 3554, level: 0},
+      {x: 2358, y: 3483, level: 0},
+      {x: 2516, y: 3187, level: 0},
+      {x: 2504, y: 3205, level: 0},
+      {x: 2857, y: 2970, level: 0},
+      {x: 2779, y: 3100, level: 0},
+      {x: 2910, y: 3075, level: 0},
+      {x: 2705, y: 3157, level: 0},
+      {x: 2726, y: 3223, level: 0},
+      {x: 3256, y: 3195, level: 0},
+      {x: 3142, y: 3251, level: 0},
+      {x: 3356, y: 3396, level: 0},
+      {x: 3200, y: 3200, level: 0},
+      {x: 3731, y: 3165, level: 0},
+      {x: 2196, y: 3101, level: 0},
+      {x: 2255, y: 3119, level: 0},
+      {x: 2207, y: 3156, level: 0},
+      {x: 2168, y: 3083, level: 0},
+      {x: 2893, y: 3656, level: 0},
+      {x: 2860, y: 3662, level: 0},
+      {x: 3162, y: 3542, level: 0},
+      {x: 3430, y: 3649, level: 0},
+      {x: 2961, y: 3821, level: 0},
+      {x: 3236, y: 3665, level: 0},
+      {x: 2992, y: 3686, level: 0},
+      {x: 2965, y: 3746, level: 0},
+    ]
+  }
+
+  export const compass: Clues.Compass[] = [gielinor_compass, arc_compass, tetracompass]
 
   export const simple: Clues.Simple[] = [
     {
@@ -6555,7 +6624,7 @@ export namespace clue_data {
       "id": 382,
       "answer": "Pickpocket any elf",
       "cursor": "thieve",
-      "areas": [{"origin":{"x":2141,"y":3333,"level":1},"size":{"x":7,"y":13}}]
+      "areas": [{"origin": {"x": 2141, "y": 3333, "level": 1}, "size": {"x": 7, "y": 13}}]
     }, {
       "type": "skilling",
       "text": ["Magical energy floats unleashed. The fluid of life that flows through us all. Span the gap to capture this energy."],

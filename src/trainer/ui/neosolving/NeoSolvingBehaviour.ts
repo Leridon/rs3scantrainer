@@ -188,7 +188,7 @@ namespace NeoSolvingLayer {
     rest_collapsible: ExpansionBehaviour
 
     dropdown: AbstractDropdownSelection.DropDown<{ step: Clues.Step, text_index: number }> = null
-    a
+
     prepared_search_index: PreparedSearchIndex<{ step: Clues.Step, text_index: number }>
 
     constructor(private parent: NeoSolvingBehaviour) {
@@ -206,32 +206,36 @@ namespace NeoSolvingLayer {
       )
 
       this.append(
-        new MainControlButton({icon: "assets/icons/glass.png"})
-          .append(this.search_bar = new TextField()
-            .css("flex-grow", "1")
-            .css("font-weight", "normal")
-            .setPlaceholder("Enter Search Term...")
-            .toggleClass("nisl-textinput", false)
-            .addClass("ctr-neosolving-main-bar-search")
-            .setVisible(false)
-            .onPreview((value) => {
-              let results = this.prepared_search_index.search(value)
+        this.parent.tetracompass_only
+          ? new MainControlButton({icon: "assets/icons/tetracompass.png"})
+            .css("cursor", "default")
+          : new MainControlButton({icon: "assets/icons/glass.png"})
+            .append(
+              this.search_bar = new TextField()
+                .css("flex-grow", "1")
+                .css("font-weight", "normal")
+                .setPlaceholder("Enter Search Term...")
+                .toggleClass("nisl-textinput", false)
+                .addClass("ctr-neosolving-main-bar-search")
+                .setVisible(false)
+                .onPreview((value) => {
+                  let results = this.prepared_search_index.search(value)
 
-              this.dropdown.setItems(results)
-            })
-          )
-          .tooltip("Search Clues")
-          .onClick((e) => {
-            e.stopPropagation()
+                  this.dropdown.setItems(results)
+                })
+            )
+            .tooltip("Search Clues")
+            .onClick((e) => {
+              e.stopPropagation()
 
-            if (this.search_bar_collapsible.isExpanded()) {
-              e.preventDefault()
-            } else {
-              this.search_bar_collapsible.expand()
-              this.search_bar.container.focus()
-              this.search_bar.setValue("")
-            }
-          }),
+              if (this.search_bar_collapsible.isExpanded()) {
+                e.preventDefault()
+              } else {
+                this.search_bar_collapsible.expand()
+                this.search_bar.container.focus()
+                this.search_bar.setValue("")
+              }
+            }),
         this.rest = hbox(
           deps().app.in_alt1
             ? undefined
@@ -306,7 +310,7 @@ class ClueSolvingReadingBehaviour extends Behaviour {
   constructor(private parent: NeoSolvingBehaviour) {
     super();
 
-    this.reader = new ClueReader()
+    this.reader = new ClueReader(this.parent.tetracompass_only)
   }
 
   protected begin() {
@@ -418,7 +422,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
     return null
   }
 
-  constructor(public app: Application) {
+  constructor(public app: Application, public tetracompass_only: boolean) {
     super();
 
     this.path_control.section_selected.on(p => {

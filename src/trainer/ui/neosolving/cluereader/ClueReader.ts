@@ -49,7 +49,7 @@ export class ClueReader {
     compassnorth: ImageData;
   }
 
-  constructor() {
+  constructor(public tetracompass_only: boolean) {
     this.initialized = this.init()
   }
 
@@ -66,207 +66,210 @@ export class ClueReader {
       CLUEREADER_DEBUG_OVERLAY.clear()
     }
 
-    // Check for modal interface
-    {
-      const modal = await CapturedModal.findIn(img)
+    if (!this.tetracompass_only) {
 
-      if (modal) {
-        if (CLUEREADERDEBUG) {
-          CLUEREADER_DEBUG_OVERLAY.rect(Rectangle.fromOriginAndSize(modal.body.screenRectangle().origin, modal.body.screenRectangle().size), {
-            width: 1,
-            color: a1lib.mixColor(255, 0, 0, 255)
-          }).render()
-        }
+      // Check for modal interface
+      {
+        const modal = await CapturedModal.findIn(img)
 
-        const modal_type = (() => {
-          const modal_type_map: {
-            type: ClueReader.ModalType,
-            possible_titles: string[]
-          }[] =
-            [
-              {
-                type: "textclue", possible_titles: [
-                  "mysterious clue scroll", "treasure map",
-                  "pergaminho de dicas mister", "mapa do tesouro",
-                  "..:se hinweis-schriftp", ""
+        if (modal) {
+          if (CLUEREADERDEBUG) {
+            CLUEREADER_DEBUG_OVERLAY.rect(Rectangle.fromOriginAndSize(modal.body.screenRectangle().origin, modal.body.screenRectangle().size), {
+              width: 1,
+              color: a1lib.mixColor(255, 0, 0, 255)
+            }).render()
+          }
+
+          const modal_type = (() => {
+            const modal_type_map: {
+              type: ClueReader.ModalType,
+              possible_titles: string[]
+            }[] =
+              [
+                {
+                  type: "textclue", possible_titles: [
+                    "mysterious clue scroll", "treasure map",
+                    "pergaminho de dicas mister", "mapa do tesouro",
+                    "..:se hinweis-schriftp", ""
+                  ]
+                }, {
+                type: "towers", possible_titles: [
+                  "towers",
+                  "torres",
+                  ", ( rme"//t"urme
                 ]
               }, {
-              type: "towers", possible_titles: [
-                "towers",
-                "torres",
-                ", ( rme"//t"urme
-              ]
-            }, {
-              type: "lockbox", possible_titles: [
-                "lockbox",
-                "gica",//Caixa M`agica,
-                "schlie. .;fach"//schliessfach
-              ]
-            },
-              {
-                type: "knot", possible_titles: [
-                  "celtic knot",
-                  "..: celta",//N~o celta
-                  "keltischer knoten"
+                type: "lockbox", possible_titles: [
+                  "lockbox",
+                  "gica",//Caixa M`agica,
+                  "schlie. .;fach"//schliessfach
                 ]
-              }
-            ]
+              },
+                {
+                  type: "knot", possible_titles: [
+                    "celtic knot",
+                    "..: celta",//N~o celta
+                    "keltischer knoten"
+                  ]
+                }
+              ]
 
-          const title = modal.title().toLowerCase()
+            const title = modal.title().toLowerCase()
 
-          const best = findBestMatch(modal_type_map.map(
-            m => ({value: m, score: findBestMatch(m.possible_titles, possible_title => stringSimilarity(title, possible_title)).score})
-          ), m => m.score).value
+            const best = findBestMatch(modal_type_map.map(
+              m => ({value: m, score: findBestMatch(m.possible_titles, possible_title => stringSimilarity(title, possible_title)).score})
+            ), m => m.score).value
 
-          // Minimum score to avoid unrelated modals to be matched as something
-          if (best.score < 0.7) return null
+            // Minimum score to avoid unrelated modals to be matched as something
+            if (best.score < 0.7) return null
 
-          return best.value.type
-        })()
+            return best.value.type
+          })()
 
-        if (modal_type) {
-          switch (modal_type) {
-            case "textclue":
-              const text = ClueReader.readTextClueModalText(modal)
+          if (modal_type) {
+            switch (modal_type) {
+              case "textclue":
+                const text = ClueReader.readTextClueModalText(modal)
 
-              if (text.length >= 10) {
-                const best = findBestMatch(
-                  clue_data.all.flatMap<Clues.StepWithTextIndex>(c => c.text.map((text, text_index) => {
-                    return {step: c, text_index: text_index}
-                  })),
-                  ({step, text_index}) => {
-                    let reference_text = step.text[text_index]
+                if (text.length >= 10) {
+                  const best = findBestMatch(
+                    clue_data.all.flatMap<Clues.StepWithTextIndex>(c => c.text.map((text, text_index) => {
+                      return {step: c, text_index: text_index}
+                    })),
+                    ({step, text_index}) => {
+                      let reference_text = step.text[text_index]
 
-                    if (step.type == "skilling") {
-                      reference_text = `Complete the action to solve the clue: ${reference_text}`
+                      if (step.type == "skilling") {
+                        reference_text = `Complete the action to solve the clue: ${reference_text}`
+                      }
+
+                      return stringSimilarity(text, reference_text)
                     }
+                  )
 
-                    return stringSimilarity(text, reference_text)
+                  if (best.score < 0.7) return null
+
+                  return {
+                    type: "textclue",
+                    modal: modal,
+                    step: best.value
                   }
-                )
+                } else {
+                  const fingerprint = oldlib.computeImageFingerprint(modal.body.getData(), 20, 20, 90, 25, 300, 240);
 
-                if (best.score < 0.7) return null
+                  const best = findBestMatch(clue_data.map, c => comparetiledata(c.ocr_data, fingerprint), undefined, true)
 
-                return {
-                  type: "textclue",
-                  modal: modal,
-                  step: best.value
+                  return {
+                    type: "textclue",
+                    modal: modal,
+                    step: {step: best.value, text_index: 0}
+                  }
                 }
-              } else {
-                const fingerprint = oldlib.computeImageFingerprint(modal.body.getData(), 20, 20, 90, 25, 300, 240);
+              case "knot": {
+                const reader = new KnotReader.KnotReader(modal)
 
-                const best = findBestMatch(clue_data.map, c => comparetiledata(c.ocr_data, fingerprint), undefined, true)
+                if (await reader.getPuzzle()) {
+                  return {
+                    type: "puzzle",
+                    puzzle: {
+                      type: "knot",
+                      reader: reader,
+                    },
+                  }
+                } else {
 
-                return {
-                  type: "textclue",
-                  modal: modal,
-                  step: {step: best.value, text_index: 0}
+                  console.error("Knot found, but not parsed properly")
+                  console.error(`Broken: ${reader.isBroken}, Reason: ${reader.brokenReason}`)
+
+                  //await (reader.showDebugOverlay())
+
+                  return null
                 }
               }
-            case "knot": {
-              const reader = new KnotReader.KnotReader(modal)
+              case "lockbox": {
+                const reader = new LockBoxReader.LockBoxReader(modal)
 
-              if (await reader.getPuzzle()) {
-                return {
-                  type: "puzzle",
-                  puzzle: {
-                    type: "knot",
-                    reader: reader,
-                  },
+                if (await reader.getPuzzle()) {
+                  return {
+                    type: "puzzle",
+                    puzzle: {
+                      type: "lockbox",
+                      reader: reader,
+                    },
+                  }
+                } else {
+                  console.error("Lockbox found, but not parsed properly. Maybe it's concealed by something.")
+
+                  return null
                 }
-              } else {
-
-                console.error("Knot found, but not parsed properly")
-                console.error(`Broken: ${reader.isBroken}, Reason: ${reader.brokenReason}`)
-
-                //await (reader.showDebugOverlay())
-
-                return null
               }
-            }
-            case "lockbox": {
-              const reader = new LockBoxReader.LockBoxReader(modal)
+              case "towers": {
+                const reader = new TowersReader.TowersReader(modal)
 
-              if (await reader.getPuzzle()) {
-                return {
-                  type: "puzzle",
-                  puzzle: {
-                    type: "lockbox",
-                    reader: reader,
-                  },
+                if (true || await reader.getPuzzle()) {
+                  return {
+                    type: "puzzle",
+                    puzzle: {
+                      type: "tower",
+                      reader: reader,
+                    },
+                  }
+                } else {
+                  console.error("Towers puzzle found, but not parsed properly. Maybe it's concealed by something.")
+
+                  return null
                 }
-              } else {
-                console.error("Lockbox found, but not parsed properly. Maybe it's concealed by something.")
-
-                return null
-              }
-            }
-            case "towers": {
-              const reader = new TowersReader.TowersReader(modal)
-
-              if (true || await reader.getPuzzle()) {
-                return {
-                  type: "puzzle",
-                  puzzle: {
-                    type: "tower",
-                    reader: reader,
-                  },
-                }
-              } else {
-                console.error("Towers puzzle found, but not parsed properly. Maybe it's concealed by something.")
-
-                return null
               }
             }
           }
-        }
 
-        return null
+          return null
+        }
       }
-    }
 
-    // Check for slider interface
-    {
-      const slider = await CapturedSliderInterface.findIn(img, false)
+      // Check for slider interface
+      {
+        const slider = await CapturedSliderInterface.findIn(img, false)
 
-      if (slider) {
-        const reader = new SlideReader.SlideReader(slider)
-        const res = await reader.getPuzzle()
+        if (slider) {
+          const reader = new SlideReader.SlideReader(slider)
+          const res = await reader.getPuzzle()
 
-        if (CLUEREADERDEBUG) {
-          res.tiles.forEach((tile, i) => {
-            const pos = Vector2.add(
-              Rectangle.screenOrigin(found_ui.rect),
-              {x: Math.floor(i % 5) * 56, y: Math.floor(i / 5) * 56}
-            )
+          if (CLUEREADERDEBUG) {
+            res.tiles.forEach((tile, i) => {
+              const pos = Vector2.add(
+                reader.ui.body.screenRectangle().origin,
+                {x: Math.floor(i % 5) * 56, y: Math.floor(i / 5) * 56}
+              )
 
-            alt1.overLayText(`${res.theme}\n${tile.position}`,
-              a1lib.mixColor(0, 255, 0),
-              10,
-              pos.x,
-              pos.y,
-              5000
-            )
-          })
+              alt1.overLayText(`${res.theme}\n${tile.position}`,
+                a1lib.mixColor(0, 255, 0),
+                10,
+                pos.x,
+                pos.y,
+                5000
+              )
+            })
 
-          notification(`Found theme ${res.theme}`).show()
-        }
-
-        if (res.match_score >= SlideReader.DETECTION_THRESHOLD_SCORE) {
-
-          const state = res.tiles.map(t => t.position)
-
-          if (!SliderState.isSolveable(state)) {
-            Log.log().log(`Read impossible slider puzzle: ${state.join(",")}`)
+            notification(`Found theme ${res.theme}`).show()
           }
 
-          return {
-            type: "puzzle",
-            puzzle: {type: "slider", reader: reader, puzzle: res},
-          }
-        }
+          if (res.match_score >= SlideReader.DETECTION_THRESHOLD_SCORE) {
 
-        return null
+            const state = res.tiles.map(t => t.position)
+
+            if (!SliderState.isSolveable(state)) {
+              Log.log().log(`Read impossible slider puzzle: ${state.join(",")}`)
+            }
+
+            return {
+              type: "puzzle",
+              puzzle: {type: "slider", reader: reader, puzzle: res},
+            }
+          }
+
+          return null
+        }
       }
     }
 
@@ -304,105 +307,107 @@ export class ClueReader {
 
         return {
           type: "compass",
-          step: is_arc ? clue_data.arc_compass : clue_data.gielinor_compass,
+          step: is_arc ? clue_data.arc_compass : (this.tetracompass_only ? clue_data.tetracompass : clue_data.gielinor_compass),
           reader: reader
         }
       }
     }
 
+    if (!this.tetracompass_only) {
 
-    const found_ui = await (async (): Promise<ClueReader.MatchedUI> => {
-      const ui_type_map: {
-        type: ClueReader.UIType,
-        anchors: {
-          img: ImageData,
-          origin_offset: Vector2
-        }[]
-      }[] =
-        [
-          {
-            type: "scan", anchors: [{
-              img: this.anchors.scanfartext,
-              origin_offset: {x: 20, y: -5 + 12 * 4}
-            }, {
-              img: this.anchors.scanfartext_pt,
-              origin_offset: {x: 20, y: -5 + 12 * 4}
-            }, {
-              img: this.anchors.scanleveltext,
-              origin_offset: {x: 20, y: -7 + 12 * 6}
-            }]
-          },
-        ]
+      const found_ui = await (async (): Promise<ClueReader.MatchedUI> => {
+        const ui_type_map: {
+          type: ClueReader.UIType,
+          anchors: {
+            img: ImageData,
+            origin_offset: Vector2
+          }[]
+        }[] =
+          [
+            {
+              type: "scan", anchors: [{
+                img: this.anchors.scanfartext,
+                origin_offset: {x: 20, y: -5 + 12 * 4}
+              }, {
+                img: this.anchors.scanfartext_pt,
+                origin_offset: {x: 20, y: -5 + 12 * 4}
+              }, {
+                img: this.anchors.scanleveltext,
+                origin_offset: {x: 20, y: -7 + 12 * 6}
+              }]
+            },
+          ]
 
-      for (let ui_type of ui_type_map) {
-        for (let anchor of ui_type.anchors) {
-          let locs = img.find(anchor.img)
+        for (let ui_type of ui_type_map) {
+          for (let anchor of ui_type.anchors) {
+            let locs = img.find(anchor.img)
 
-          if (locs.length > 0) {
-            switch (ui_type.type) {
-              case "scan":
-                return {
-                  type: "scan",
-                  image: img.raw(),
-                  rect: Rectangle.fromOriginAndSize(
-                    Vector2.sub(locs[0].screenRectangle().origin, anchor.origin_offset),
-                    {x: 180, y: 190}
-                  )
-                }
+            if (locs.length > 0) {
+              switch (ui_type.type) {
+                case "scan":
+                  return {
+                    type: "scan",
+                    image: img.raw(),
+                    rect: Rectangle.fromOriginAndSize(
+                      Vector2.sub(locs[0].screenRectangle().origin, anchor.origin_offset),
+                      {x: 180, y: 190}
+                    )
+                  }
+              }
             }
           }
         }
-      }
-    })()
+      })()
 
-    if (found_ui) {
+      if (found_ui) {
 
-      if (CLUEREADERDEBUG) {
-        alt1.overLayRect(a1lib.mixColor(255, 0, 0, 255),
-          found_ui.rect.topleft.x,
-          found_ui.rect.botright.y,
-          Rectangle.width(found_ui.rect),
-          Rectangle.height(found_ui.rect),
-          5000,
-          1
-        )
-
-        alt1.overLayText(
-          found_ui.type,
-          a1lib.mixColor(255, 0, 0, 255),
-          10,
-          found_ui.rect.topleft.x,
-          found_ui.rect.botright.y,
-          5000)
-      }
-
-      switch (found_ui.type) {
-        case "scan": {
-          const scan_text_full = ClueReader.readScanPanelText(
-            img.raw(),
-            Rectangle.screenOrigin(found_ui.rect)
+        if (CLUEREADERDEBUG) {
+          alt1.overLayRect(a1lib.mixColor(255, 0, 0, 255),
+            found_ui.rect.topleft.x,
+            found_ui.rect.botright.y,
+            Rectangle.width(found_ui.rect),
+            Rectangle.height(found_ui.rect),
+            5000,
+            1
           )
 
-          if (CLUEREADERDEBUG) notification(`Scan ${scan_text_full}`).show()
+          alt1.overLayText(
+            found_ui.type,
+            a1lib.mixColor(255, 0, 0, 255),
+            10,
+            found_ui.rect.topleft.x,
+            found_ui.rect.botright.y,
+            5000)
+        }
 
-          const scan_text = scan_text_full.split("\n")[0]
+        switch (found_ui.type) {
+          case "scan": {
+            const scan_text_full = ClueReader.readScanPanelText(
+              img.raw(),
+              Rectangle.screenOrigin(found_ui.rect)
+            )
 
-          if (CLUEREADERDEBUG)
-            notification(`Scan ${scan_text}`).show()
+            if (CLUEREADERDEBUG) notification(`Scan ${scan_text_full}`).show()
 
-          let bestscore = 0;
-          let best: ScanStep | null = null;
+            const scan_text = scan_text_full.split("\n")[0]
 
-          for (let clue of clue_data.scan) {
-            let score = stringSimilarity(scan_text, clue.scantext);
+            if (CLUEREADERDEBUG)
+              notification(`Scan ${scan_text}`).show()
 
-            if (score > bestscore) {
-              best = clue;
-              bestscore = score;
+            let bestscore = 0;
+            let best: ScanStep | null = null;
+
+            for (let clue of clue_data.scan) {
+              let score = stringSimilarity(scan_text, clue.scantext);
+
+              if (score > bestscore) {
+                best = clue;
+                bestscore = score;
+              }
             }
-          }
 
-          return {type: "scan", step: best}
+            return {type: "scan", step: best}
+          }
         }
       }
     }

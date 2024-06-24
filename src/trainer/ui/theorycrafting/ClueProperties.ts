@@ -1,5 +1,5 @@
 import Properties from "../widgets/Properties";
-import {Clues, ClueType} from "../../../lib/runescape/clues";
+import {Clues, ClueTier, ClueType} from "../../../lib/runescape/clues";
 import {Constants} from "../../constants";
 import {GieliCoordinates, TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 import LightButton from "../widgets/LightButton";
@@ -165,7 +165,7 @@ export namespace ClueProperties {
     return hbox(
       span(`${ClueType.meta(clue.clue.tier).name} ${ClueType.meta(clue.clue.type).name} Step (Id ${clue.clue.id})`).css("font-weight", "bold"),
       spacer().css("min-width", "20px"),
-      c(`<img class="icon" src='${clue.clue.tier ? Constants.icons.tiers[clue.clue.tier] : ""}' title="${ClueType.pretty(clue.clue.tier)}" style="margin-right: 3px">`),
+      c(`<img class="icon" src='${clue.clue.tier ? ClueType.meta(clue.clue.tier).icon_url : ""}' title="${ClueType.pretty(clue.clue.tier)}" style="margin-right: 3px">`),
       c(`<img class="icon" src='${Constants.icons.types[clue.clue.type]}' title="${ClueType.pretty(clue.clue.type)}">`)
     )
   }

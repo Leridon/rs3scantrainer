@@ -6580,59 +6580,57 @@ export namespace clue_data {
     {
       "type": "skilling",
       "text": ["Pick some coconuts that are oh so close to the stage."],
-      "tier": "master",
+      "tier": "sandy",
       "id": 479,
-      "areas": [null],
+      "areas": [{"origin":{"x":3185,"y":3239,"level":0},"size":{"x":3,"y":2}}],
       "answer": "Attempt to pick coconuts from the palm tree south of the main stage at the Lumbridge Crater, or read the palm if it's depleted.",
-      "cursor": null
+      "cursor": "generic"
     },
     {
       "type": "skilling",
       "text": ["Investigate a large hole that leads... Well, we don't know where it leads."],
-      "tier": "master",
+      "tier": "sandy",
       "id": 480,
-      "areas": [null],
+      "areas": [{"origin":{"x":3167,"y":3242,"level":0},"size":{"x":5,"y":6},"data":"////CQ=="}],
       "answer": "Attempt to dungeoneer in the Dungeoneering hole at the Lumbridge Crater.",
-      "cursor": null
-    },
+      "cursor": "generic"
+    },/*
     {
       "type": "skilling",
       "text": ["Investigate a magical portal that will take you to a Fort near the Wilderness."],
-      "tier": "master",
+      "tier": "sandy",
       "id": 481,
       "areas": [null],
       "answer": "Attempt to enter the Fort Forinthry Storyline portal at the Lumbridge Crater.",
       "cursor": null
-    },
+    },*/
     {
       "type": "skilling",
       "text": ["Investigate a magical portal that will take you to random encounters within a dangerous land."],
-      "tier": "master",
+      "tier": "sandy",
       "id": 482,
-      "areas": [null],
+      "areas": [{"origin":{"x":3150,"y":3222,"level":0},"size":{"x":3,"y":3}}],
       "answer": "Attempt to enter the Wilderness Flash Events portal at the Lumbridge Crater.",
-      "cursor": null
+      "cursor": "generic"
     },
     {
       "type": "skilling",
       "text": ["Something smells fishy behind a dwarf on holiday."],
-      "tier": "master",
+      "tier": "sandy",
       "id": 483,
-      "areas": [null],
+      "areas": [{"origin":{"x":3180,"y":3251,"level":0},"size":{"x":3,"y":4}}],
       "answer": "Click on the table behind Nigel at the Lumbridge Crater.",
-      "cursor": null
+      "cursor": "generic"
     },
     {
       "type": "skilling",
       "text": ["Somewhere a dwarf looks after a pile of coconuts. Search the pile!"],
-      "tier": "master",
+      "tier": "sandy",
       "id": 484,
-      "areas": [null],
+      "areas": [{"origin":{"x":3171,"y":3214,"level":0},"size":{"x":3,"y":3},"data":"ugA="}],
       "answer": "Attempt to deposit coconuts on the pile of coconuts next to the coconut shy at the Lumbridge Crater.",
-      "cursor": null
+      "cursor": "generic"
     },
-
-
     {
       "type": "skilling",
       "text": ["Crossing the desert I met a crocodile. She gave me a dazzling smile but she had something in her teeth."],

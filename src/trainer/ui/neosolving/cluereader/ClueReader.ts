@@ -131,6 +131,9 @@ export class ClueReader {
               case "textclue":
                 const text = ClueReader.readTextClueModalText(modal)
 
+                console.log("Read")
+                console.log(text)
+
                 if (text.length >= 10) {
                   const best = findBestMatch(
                     clue_data.all.flatMap<Clues.StepWithTextIndex>(c => c.text.map((text, text_index) => {
@@ -147,7 +150,10 @@ export class ClueReader {
                     }
                   )
 
-                  if (best.score < 0.7) return null
+                  if (best.score < 0.7) {
+                    console.log(`Read : ${best.score}, ${best.value}`)
+                    return null
+                  }
 
                   return {
                     type: "textclue",

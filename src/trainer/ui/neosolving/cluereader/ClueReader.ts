@@ -90,7 +90,7 @@ export class ClueReader {
                   type: "textclue", possible_titles: [
                     "mysterious clue scroll", "treasure map",
                     "pergaminho de dicas mister", "mapa do tesouro",
-                    "..:se hinweis-schriftp", ""
+                    "..:se hinweis-schriftp", "sandy clue scroll"
                   ]
                 }, {
                 type: "towers", possible_titles: [

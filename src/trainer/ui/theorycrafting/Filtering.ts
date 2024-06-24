@@ -61,7 +61,8 @@ export namespace ClueSpotFilter {
         hard: true,
         master: true,
         medium: true,
-        tetracompass: true
+        tetracompass: true,
+        sandy: true
       }
     }
 

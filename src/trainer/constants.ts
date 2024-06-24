@@ -3,13 +3,6 @@ export namespace Constants {
   export const map_version: number = 1710516666
 
   export const icons = {
-    tiers: {
-      "easy": "assets/icons/sealedeasy.png",
-      "medium": "assets/icons/sealedmedium.png",
-      "hard": "assets/icons/sealedhard.png",
-      "elite": "assets/icons/sealedelite.png",
-      "master": "assets/icons/sealedmaster.png",
-    },
     types: {
       "anagram": "assets/icons/activeclue.png",
       "compass": "assets/icons/arrow.png",

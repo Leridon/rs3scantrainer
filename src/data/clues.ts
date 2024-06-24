@@ -2638,7 +2638,7 @@ export namespace clue_data {
   export const tetracompass: Clues.Compass = {
     id: 470,
     type: "compass",
-    tier: undefined,
+    tier: "tetracompass",
     text: [
       "The compass shows where you need to go."
     ],
@@ -2704,7 +2704,7 @@ export namespace clue_data {
     ]
   }
 
-  export const compass: Clues.Compass[] = [gielinor_compass, arc_compass]
+  export const compass: Clues.Compass[] = [gielinor_compass, arc_compass, tetracompass]
 
   export const simple: Clues.Simple[] = [
     {

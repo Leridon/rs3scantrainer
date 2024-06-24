@@ -369,6 +369,10 @@ export class Application extends Behaviour {
 
     log().log("Clue Trainer started")
 
+    if (alt1) {
+      log().log(`Alt 1 detected: ${alt1.version}`)
+    }
+
     //ExportStringModal.do(await makeshift_main())
     await makeshift_main()
   }

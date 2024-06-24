@@ -2640,7 +2640,7 @@ export namespace clue_data {
     type: "compass",
     tier: "tetracompass",
     text: [
-      "The compass shows where you need to go."
+      "The compass shows where you need to dig up the casket."
     ],
     "valid_area": {"topleft": {"x": 1922, "y": 4092}, "botright": {"x": 3902, "y": 2500}, "level": 0},
     spots: [

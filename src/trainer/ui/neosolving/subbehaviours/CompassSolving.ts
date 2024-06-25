@@ -688,7 +688,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     // Fit camera view to only the remaining possible spots. (TODO: This conflicts with the camera zoom that happens when setting the method for the most likely spot)
     if (maybe_fit) {
-      if (possible.length > 0 && (information.length > 0 || possible.length < 100)) {
+      if (possible.length > 0 && (information.length > 0 || possible.length < 50)) {
         this.layer.getMap().fitView(TileRectangle.from(...possible.map(s => s.spot)),
           {maxZoom: 2}
         )

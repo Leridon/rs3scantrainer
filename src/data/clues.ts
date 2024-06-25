@@ -2636,7 +2636,7 @@ export namespace clue_data {
     }
 
   export const tetracompass: Clues.Compass = {
-    id: 470,
+    "id": 470,
     type: "compass",
     tier: "tetracompass",
     text: [
@@ -3202,9 +3202,65 @@ export namespace clue_data {
         "npc": "Hazelmere",
         "spots": [{"range": {"origin": {"x": 2675, "y": 3085, "level": 1}, "size": {"x": 5, "y": 5}}, "description": "east of Yanille"}]
       }
-    }]
+    }
+  ]
 
   export const cryptic: Clues.Cryptic[] = [
+    {
+      "id": 472,
+      "type": "cryptic",
+      "tier": "sandy",
+      "text": ["He's got a rebuildathon going on, and an endless stream of important visitors."],
+      "solution": {"type": "talkto", "npc": "Foreman George", "spots": [{"range": {"origin":{"x":3154,"y":3239,"level":0},"size":{"x":3,"y":3},"data":"ugA="}, "description": "near the sandcastles"}]}
+    },
+    {
+      "id": 473,
+      "type": "cryptic",
+      "tier": "sandy",
+      "text": ["He's got one hat, two hat, three hat, many hats!"],
+      "solution": {"type": "talkto", "npc": "Sheldon", "spots": [{"range": {"origin":{"x":3168,"y":3253,"level":0},"size":{"x":3,"y":3},"data":"ugA="}, "description": "at the northern entrance"}]}
+    },
+    {
+      "id": 474,
+      "type": "cryptic",
+      "tier": "sandy",
+      "text": ["He's named after a boot, and carrying nets on his shoulder."],
+      "solution": {"type": "talkto", "npc": "Wellington", "spots": [{"range": {"origin":{"x":3154,"y":3239,"level":0},"size":{"x":3,"y":3},"data":"ugA="}, "description": "at the fishing spots"}]}
+    },
+    {
+      "id": 475,
+      "type": "cryptic",
+      "tier": "sandy",
+      "text": ["She can be trusted, she isn't shy and she likes ducks."],
+      "solution": {"type": "talkto", "npc": "Sarah", "spots": [{"range": {"origin":{"x":3169,"y":3214,"level":0},"size":{"x":3,"y":3},"data":"ugA="}, "description": "at the southern entrance"}]}
+    },
+    {
+      "id": 476,
+      "type": "cryptic",
+      "tier": "sandy",
+      "text": ["She doesn't sell sea shells, but does share common ground with the feather of fletching."],
+      "solution": {"type": "talkto", "npc": "Flo", "spots": [{"range": {"origin":{"x":3163,"y":3213,"level":0},"size":{"x":3,"y":3},"data":"ugA="}, "description": "at the southern entrance"}]}
+    },
+    {
+      "id": 477,
+      "type": "cryptic",
+      "tier": "sandy",
+      "text": ["Some say he guards their life, others say he sits around watching beach balls roll around."],
+      "solution": {"type": "talkto", "npc": "Lifeguard", "spots": [{"range": {"origin":{"x":3165,"y":3255,"level":0},"size":{"x":3,"y":3},"data":"ugA="}, "description": "at the northern entrance"}]}
+    },
+    {
+      "id": 478,
+      "type": "cryptic",
+      "tier": "sandy",
+      "text": ["Some say he's got the beach in the palm of his hand. Others think he's just excited about coconuts."],
+      "solution": {"type": "talkto", "npc": "Palmer", "spots": [{"range": {"origin":{"x":3142,"y":3227,"level":0},"size":{"x":3,"y":3},"data":"ugA="}, "description": "at the western entrance"}]}
+    },
+
+
+
+
+
+
     {
       "id": 179,
       "type": "cryptic",
@@ -6521,6 +6577,60 @@ export namespace clue_data {
     }]
 
   export const skilling: Clues.Skilling[] = [
+    {
+      "type": "skilling",
+      "text": ["Pick some coconuts that are oh so close to the stage."],
+      "tier": "sandy",
+      "id": 479,
+      "areas": [{"origin":{"x":3185,"y":3239,"level":0},"size":{"x":3,"y":2}}],
+      "answer": "Attempt to pick coconuts from the palm tree south of the main stage at the Lumbridge Crater, or read the palm if it's depleted.",
+      "cursor": "generic"
+    },
+    {
+      "type": "skilling",
+      "text": ["Investigate a large hole that leads... Well, we don't know where it leads."],
+      "tier": "sandy",
+      "id": 480,
+      "areas": [{"origin":{"x":3167,"y":3242,"level":0},"size":{"x":5,"y":6},"data":"////CQ=="}],
+      "answer": "Attempt to dungeoneer in the Dungeoneering hole at the Lumbridge Crater.",
+      "cursor": "generic"
+    },/*
+    {
+      "type": "skilling",
+      "text": ["Investigate a magical portal that will take you to a Fort near the Wilderness."],
+      "tier": "sandy",
+      "id": 481,
+      "areas": [null],
+      "answer": "Attempt to enter the Fort Forinthry Storyline portal at the Lumbridge Crater.",
+      "cursor": null
+    },*/
+    {
+      "type": "skilling",
+      "text": ["Investigate a magical portal that will take you to random encounters within a dangerous land."],
+      "tier": "sandy",
+      "id": 482,
+      "areas": [{"origin":{"x":3150,"y":3222,"level":0},"size":{"x":3,"y":3}}],
+      "answer": "Attempt to enter the Wilderness Flash Events portal at the Lumbridge Crater.",
+      "cursor": "generic"
+    },
+    {
+      "type": "skilling",
+      "text": ["Something smells fishy behind a dwarf on holiday."],
+      "tier": "sandy",
+      "id": 483,
+      "areas": [{"origin":{"x":3180,"y":3251,"level":0},"size":{"x":3,"y":4}}],
+      "answer": "Click on the table behind Nigel at the Lumbridge Crater.",
+      "cursor": "generic"
+    },
+    {
+      "type": "skilling",
+      "text": ["Somewhere a dwarf looks after a pile of coconuts. Search the pile!"],
+      "tier": "sandy",
+      "id": 484,
+      "areas": [{"origin":{"x":3171,"y":3214,"level":0},"size":{"x":3,"y":3},"data":"ugA="}],
+      "answer": "Attempt to deposit coconuts on the pile of coconuts next to the coconut shy at the Lumbridge Crater.",
+      "cursor": "generic"
+    },
     {
       "type": "skilling",
       "text": ["Crossing the desert I met a crocodile. She gave me a dazzling smile but she had something in her teeth."],

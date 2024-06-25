@@ -27,6 +27,7 @@ import spacer = C.spacer;
 import span = C.span;
 import vbox = C.vbox;
 import ClueSpot = Clues.ClueSpot;
+import ContextMenu from "../widgets/ContextMenu";
 
 export type ClueSpotFilter = {
   tiers?: { [P in ClueTier]: boolean },
@@ -110,7 +111,7 @@ export namespace ClueSpotFilter {
 }
 
 class ClueSpotFilterResult extends Widget {
-  props: ClueProperties
+  //props: ClueProperties
   summary: Widget
 
   constructor(private spot: ClueSpot,
@@ -122,9 +123,17 @@ class ClueSpotFilterResult extends Widget {
 
     this.addClass("ctr-filtered-clue-result")
 
-    this.props = new ClueProperties(this.spot, this.methods, this.edit_handler, true, undefined, true).css2({
-      "display": "none",
-      "border-top": "1px dashed grey"
+    this.addTippy(() => {
+      let self = this
+
+      return (new ClueProperties(
+        this.spot,
+        self.methods,
+        self.edit_handler,
+        true,
+        undefined,
+        false
+      )).row(c().text("Right click marker to manage methods.").css("font-style", "italic"))
     })
 
     this.append(hbox(
@@ -140,14 +149,20 @@ class ClueSpotFilterResult extends Widget {
         "overflow": "hidden"
       }),
       spacer(),
-      new NisCollapseButton(ExpansionBehaviour.vertical({
-          target: this.props,
-          starts_collapsed: true
+      c().setInnerHtml("&#x22EE;")
+        .addClass("ctr-path-edit-overview-step-options")
+        .addClass("ctr-clickable")
+        .on("click", async (event) => {
+          new ContextMenu(await ClueProperties.methodMenu(this.spot, this.edit_handler)).showFromEvent(event)
         })
-      )
     ))
 
-    this.append(this.props)
+    this.on("contextmenu", async (event) => {
+      event.preventDefault()
+      new ContextMenu(await ClueProperties.methodMenu(this.spot, this.edit_handler)).showFromEvent(event)
+    })
+
+    //this.append(this.props)
   }
 }
 

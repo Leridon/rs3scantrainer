@@ -127,7 +127,7 @@ export default class MainTabControl extends Widget {
         })
         .addTippy(
           new Properties().header("Tetracompass Solver")
-            .row(c().text("The compass solver adapted to work for tetracompasses").css("font-style", "italic"))
+            .row(c().text("The compass solver adapted to work for tetracompasses.").css("font-style", "italic"))
           , {
             placement: "right",
             hideOnClick: false

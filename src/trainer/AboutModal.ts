@@ -35,7 +35,7 @@ export class AboutModal extends NisModal {
 
     layout.header("Support")
 
-    layout.paragraph("You can support development of Clue Trainer by donating at <a href='https://ko-fi.com/I2I4XY829' target=”_blank”>KoFi</a>. Donations contribute to covering tge costs associated with hosting Clue Trainer and are a great way to show appreciation for the time and effort that goes into development.")
+    layout.paragraph("You can support development of Clue Trainer by donating at <a href='https://ko-fi.com/I2I4XY829' target=”_blank”>KoFi</a>. Donations contribute to covering the costs associated with hosting Clue Trainer and are a great way to show appreciation for the time and effort that goes into development.")
 
     layout.row(
       //"<script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support Me on Ko-fi', '#29abe0', 'I2I4XY829');kofiwidget2.draw();</script> "

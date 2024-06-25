@@ -45,6 +45,7 @@ import {Alt1ContextMenuDetection} from "../lib/alt1/Alt1ContextMenuDetection";
 import ExportStringModal from "./ui/widgets/modals/ExportStringModal";
 import {Log} from "../lib/util/Log";
 import log = Log.log;
+import {Changelog} from "./ChangeLog";
 
 export class SimpleLayerBehaviour extends Behaviour {
   constructor(private map: GameMap, private layer: GameLayer) {
@@ -204,8 +205,6 @@ export class SettingsManagement {
 }
 
 export class Application extends Behaviour {
-  version = "0.3.1"
-
   crowdsourcing: CrowdSourcing = new CrowdSourcing(this, "https://api.cluetrainer.app")
 
   settings = new SettingsManagement()
@@ -339,17 +338,18 @@ export class Application extends Behaviour {
         }).show()
     }*/
 
-    /*
-    if (this.startup_settings.value().last_loaded_version != null && this.startup_settings.value().last_loaded_version != this.version) {
-      notification("There has been an update!")
-        .addButton("View patchnotes", (not) => {
-          // TODO: Actually view patchnotes
-          not.dismiss()
-        })
-    }
-    */
+    const is_first_visit = this.startup_settings.value().last_loaded_version == null
 
-    this.startup_settings.update(s => s.last_loaded_version = this.version)
+    if (!is_first_visit && this.startup_settings.value().last_loaded_version != Changelog.last_patch.version) {
+      notification(Changelog.last_patch.notification ?? "There has been an update!")
+        .setDuration(30000)
+        .addButton("View patchnotes", (not) => {
+          new Changelog.Modal().show()
+          not.dismiss()
+        }).show()
+    }
+
+    this.startup_settings.update(s => s.last_loaded_version = Changelog.last_patch.version)
 
     let query_function = QueryLinks.get_from_params(ScanTrainerCommands.index, new URLSearchParams(window.location.search))
     if (query_function) query_function(this)
@@ -367,9 +367,9 @@ export class Application extends Behaviour {
       }
     })
 
-    log().log("Clue Trainer started")
+    log().log(`Clue Trainer v${Changelog.last_patch.version} started`)
 
-    if (alt1) {
+    if (globalThis.alt1) {
       log().log(`Alt 1 detected: ${alt1.version}`)
     }
 
@@ -402,7 +402,7 @@ export class Application extends Behaviour {
 
 namespace Application {
   export type Preferences = {
-    last_loaded_version?: string,
+    last_loaded_version?: number,
     dont_recommend_alt1?: boolean,
     hide_preview_notice?: boolean
   }

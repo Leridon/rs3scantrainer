@@ -3,6 +3,7 @@ import Properties from "./ui/widgets/Properties";
 import {C} from "../lib/ui/constructors";
 import {deps} from "./dependencies";
 import {Alt1Modal} from "./Alt1Modal";
+import {Changelog} from "./ChangeLog";
 
 export class AboutModal extends NisModal {
   constructor() {
@@ -32,6 +33,13 @@ export class AboutModal extends NisModal {
         "to learn how to install Clue Trainer for Alt1."
       )
     }
+
+    layout.paragraph("Click",
+      C.space(),
+      C.text_link("here", () => new Changelog.Modal().show()),
+      C.space(),
+      "to view patch notes."
+    )
 
     layout.header("Support")
 

@@ -688,7 +688,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     // Fit camera view to only the remaining possible spots. (TODO: This conflicts with the camera zoom that happens when setting the method for the most likely spot)
     if (maybe_fit) {
-      if (possible.length > 0 && (information.length > 0 || possible.length < 100)) {
+      if (possible.length > 0 && (information.length > 0 || possible.length < 50)) {
         this.layer.getMap().fitView(TileRectangle.from(...possible.map(s => s.spot)),
           {maxZoom: 2}
         )
@@ -1118,7 +1118,7 @@ export namespace CompassSolving {
 
   export type TriangulationPreset = {
     id: number,
-    compass_id: number,
+    compass_id: number | number[],
     name: string,
     sequence: {
       tile?: TileCoordinates,
@@ -1127,9 +1127,8 @@ export namespace CompassSolving {
   }
 
   export namespace TriangulationPreset {
-
     export const elite_moonclan_southfeldiphills: TriangulationPreset = {
-      compass_id: clue_data.gielinor_compass.id,
+      compass_id: [clue_data.gielinor_compass.id, clue_data.tetracompass.id],
       id: -1,
       name: "{{teleport lunarspellbook moonclan}} Moonclan - {{teleport normalspellbook southfeldiphills}} South Feldip Hills",
       sequence: [
@@ -1139,7 +1138,7 @@ export namespace CompassSolving {
     }
 
     export const elite_moonclan_iceplateu: TriangulationPreset = {
-      compass_id: clue_data.gielinor_compass.id,
+      compass_id: [clue_data.gielinor_compass.id, clue_data.tetracompass.id],
       id: -2,
       name: "{{teleport lunarspellbook moonclan}} Moonclan - {{teleport lunarspellbook iceplateu}} Ice Plateau",
       sequence: [
@@ -1158,7 +1157,7 @@ export namespace CompassSolving {
     }
 
     export const elite_falador: TriangulationPreset = {
-      compass_id: clue_data.gielinor_compass.id,
+      compass_id: [clue_data.gielinor_compass.id, clue_data.tetracompass.id],
       id: -4,
       name: "{{teleport normalspellbook falador}} Falador",
       sequence: [
@@ -1172,6 +1171,15 @@ export namespace CompassSolving {
       name: "{{teleport arcsailing turtleislands}} Ship to Turtle Island",
       sequence: [
         {teleport: {group: "arcsailing", spot: "turtleislands"}},
+      ]
+    }
+
+    export const elite_falador_dave: TriangulationPreset = {
+      compass_id: [clue_data.gielinor_compass.id, clue_data.tetracompass.id],
+      id: -6,
+      name: "{{teleport davesspellbook falador}} Falador",
+      sequence: [
+        {teleport: {group: "davesspellbook", spot: "falador"}},
       ]
     }
 

@@ -1,3 +1,14 @@
+Usability playtesting results:
+    - It's not immediately obvious what Solve, Auto-Solve, and Fullscreen do
+        => add tooltips
+    - When you're used to Alt1's sliders, adaptive slider speed can be confusing at first
+    - It's not obvious that you have to click the largest box first
+    - Compass solving isn't obvious (Neither is it with base Alt1 though)
+    - Settings are overwhelming at first
+    - Yellow Xs on the map aren't obviously part of the run step
+    - When the first beam narrows the spots down to only a few and you take a gamble going straight to one of them, it will commit an angle to the second teleport of the preset and delete the correct solution
+
+
 Transport Backlog:
     Master:
     (City of Um teleport incantation; not sure if same as tome)

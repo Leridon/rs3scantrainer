@@ -58,6 +58,7 @@ export class SimpleMapBehaviour extends Behaviour {
 
 export default class MainTabControl extends Widget {
   solve_button: MenuButton
+  tetracompass_button: MenuButton
   map_button: MenuButton
   create_button: MenuButton
   paths_button: MenuButton
@@ -120,6 +121,17 @@ export default class MainTabControl extends Widget {
             hideOnClick: false
           })
       ,
+      this.tetracompass_button = new MenuButton("Tetras", "assets/icons/ribbon_tetra.png")
+        .onClick(() => {
+          this.switchToTab("tetracompass")
+        })
+        .addTippy(
+          new Properties().header("Tetracompass Solver")
+            .row(c().text("The compass solver adapted to work for tetracompasses.").css("font-style", "italic"))
+          , {
+            placement: "right",
+            hideOnClick: false
+          }),
 
       this.app.in_dev_mode ?
         this.utility_button = new MenuButton("Utility", "assets/icons/ribbon_notes.webp")
@@ -164,7 +176,14 @@ export default class MainTabControl extends Widget {
       c(`<div style="font-size: 8pt" class='nisl-textlink'>About</div>`)
         .on("click", () => {
           new AboutModal().show()
-        })
+        }),
+      c().append(
+        c(`<a href="https://github.com/Leridon/rs3scantrainer" target="_blank"> <img class="ctr-clickable" height="15px" style="padding: 0 2px" src="assets/icons/github-mark-white.png"></a>`),
+        c(`<a href="https://ko-fi.com/I2I4XY829" target="_blank"><img class="ctr-clickable" height="15px" src="assets/icons/kofi.webp"></a>`),
+        //c(`<a href="https://discord.gg/cluechasers" target="_blank"> <img class="ctr-clickable" height="16px" style="padding: 0 2px" src="assets/icons/cluechasers.png"></a>`),
+      ),
+      c().append(
+      )
     )
 
     this.updateState()
@@ -185,7 +204,10 @@ export default class MainTabControl extends Widget {
         this.app.main_behaviour.set(new SimpleMapBehaviour(this.app))
         break;
       case "solve":
-        this.app.main_behaviour.set(new NeoSolvingBehaviour(this.app))
+        this.app.main_behaviour.set(new NeoSolvingBehaviour(this.app, false))
+        break;
+      case "tetracompass":
+        this.app.main_behaviour.set(new NeoSolvingBehaviour(this.app, true))
         break;
       case "create":
         this.app.main_behaviour.set(new TheoryCrafter(this.app))
@@ -211,6 +233,7 @@ export default class MainTabControl extends Widget {
     this.create_button?.setActive(active_tab == "create")
     this.paths_button?.setActive(active_tab == "pathedit")
     this.utility_button?.setActive(active_tab == "utility")
+    this.tetracompass_button?.setActive(active_tab == "tetracompass")
   }
 
   setCollapsed(v: boolean) {
@@ -220,5 +243,5 @@ export default class MainTabControl extends Widget {
 }
 
 export namespace MainTabControl {
-  export type Tab = "map" | "solve" | "create" | "pathedit" | "utility"
+  export type Tab = "map" | "solve" | "create" | "pathedit" | "utility" | "tetracompass"
 }

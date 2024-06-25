@@ -38,7 +38,6 @@ import TransportLayer from "../map/TransportLayer";
 import {KnotSolving} from "../neosolving/subbehaviours/KnotSolving";
 import {LockboxSolving} from "../neosolving/subbehaviours/LockboxSolving";
 import {TowersSolving} from "../neosolving/subbehaviours/TowersSolving";
-import {ExportImport} from "../../../lib/util/exportString";
 import cls = C.cls;
 import PotaColor = Settings.PotaColor;
 import hbox = C.hbox;
@@ -752,14 +751,14 @@ class SolvingSettingsEdit extends Widget {
     )
 
     this.layout.namedSetting("Dig Target", hgrid(
-      ...new Checkbox.Group([
-        {button: new Checkbox("Show"), value: "show" as const},
-        {button: new Checkbox("Hide"), value: "hide" as const},
-      ]).onChange(v => this.value.dig_target = v)
-        .setValue(this.value.dig_target)
-        .checkboxes()
-    )
-    , "A description of where to dig or the coordinates if no description is available."
+        ...new Checkbox.Group([
+          {button: new Checkbox("Show"), value: "show" as const},
+          {button: new Checkbox("Hide"), value: "hide" as const},
+        ]).onChange(v => this.value.dig_target = v)
+          .setValue(this.value.dig_target)
+          .checkboxes()
+      )
+      , "A description of where to dig or the coordinates if no description is available."
     )
 
     this.layout.namedSetting("Talk Target", hgrid(
@@ -978,7 +977,7 @@ class CompassSettingsEdit extends Widget {
       const candidate_presets = [
         ...this.value.custom_triangulation_presets,
         ...CompassSolving.TriangulationPreset.builtin
-      ].filter(p => p.compass_id == compass.id)
+      ].filter(p => [p.compass_id].flat().includes(compass.id))
 
       const preset_selector = new DropdownSelection<CompassSolving.TriangulationPreset>({
         type_class: {

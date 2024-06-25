@@ -7,7 +7,7 @@ import {Transportation} from "./transportation";
 export type ClueTier = typeof ClueTier.values[number]
 
 export namespace ClueTier {
-  export const values = ["easy", "medium", "hard", "elite", "master"] as const
+  export const values = ["easy", "medium", "hard", "elite", "master", "tetracompass", "sandy"] as const
 }
 
 export type ClueType =
@@ -32,6 +32,8 @@ export namespace ClueType {
       hard: {icon_url: "assets/icons/sealedhard.png", name: "Hard"},
       elite: {icon_url: "assets/icons/sealedelite.png", name: "Elite"},
       master: {icon_url: "assets/icons/sealedmaster.png", name: "Master"},
+      tetracompass: {icon_url: "assets/icons/tetracompass.png", name: "Tetracompass"},
+      sandy: {icon_url: "assets/icons/sandcastle.png", name: "Sandy"},
       anagram: {icon_url: "assets/icons/activeclue.png", name: "Anagram"},
       compass: {icon_url: "assets/icons/arrow.png", name: "Compass"},
       coordinates: {icon_url: "assets/icons/sextant.png", name: "Coordinate"},

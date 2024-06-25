@@ -5,17 +5,15 @@ import Properties from "./ui/widgets/Properties";
 import {C} from "../lib/ui/constructors";
 import LightButton from "./ui/widgets/LightButton";
 import Widget from "../lib/ui/Widget";
+import {util} from "../lib/util/util";
+import {RandomSolver} from "../lib/cluetheory/sliders/RandomSolver";
+import {SliderPatternDatabase} from "../lib/cluetheory/sliders/SliderPatternDatabase";
 import SliderState = Sliders.SliderState;
 import MoveList = Sliders.MoveList;
 import hgrid = C.hgrid;
 import span = C.span;
 import spacer = C.spacer;
 import hbox = C.hbox;
-import ExportStringModal from "./ui/widgets/modals/ExportStringModal";
-import {util} from "../lib/util/util";
-import cleanedJSON = util.cleanedJSON;
-import {clue_trainer_test_set} from "../test/tests";
-import {RandomSolver} from "../lib/cluetheory/sliders/RandomSolver";
 
 type DataEntry = {
   id: number,
@@ -380,6 +378,13 @@ class SliderAnalysisModal extends NisModal {
 }
 
 export async function makeshift_main(): Promise<void> {
+
+  const db = SliderPatternDatabase.generate(
+    [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], true
+  )
+
+  debugger
+
   // await clue_trainer_test_set.run()
 
   //new SliderAnalysisModal().show()

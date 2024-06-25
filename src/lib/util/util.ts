@@ -318,6 +318,11 @@ export namespace util {
     return ((x % mod) + mod) % mod;
   }
 
+  export function factorial(n: number, lower: number = 1): number {
+    if (n <= lower) return 1
+    else return n * factorial(n - 1, lower)
+  }
+
   export function padInteger(n: number, length: number): string {
     return lodash.padStart(n.toString(), length, "0")
   }

@@ -1,8 +1,11 @@
 import {Sliders} from "../Sliders";
 import {SliderPatternDatabase} from "./SliderPatternDatabase";
+import {util} from "../../util/util";
 import SliderState = Sliders.SliderState;
 import MoveList = Sliders.MoveList;
 import SlideStateWithBlank = Sliders.SlideStateWithBlank;
+import Move = Sliders.Move;
+import index = util.index;
 
 export class PDBSolvingProcess extends Sliders.SolvingProcess {
 
@@ -23,9 +26,9 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
 
         if (move_list.length > this.best_solution.length) return // Abort if this can't be better than the best solution we already found
 
-        const potential_moves = current_region.get(state)
+        const state_index = current_region.region.stateIndex(state.tiles)
 
-        if (potential_moves.length == 0) {
+        if (state_index == 0) {
           // Region is solved, go to next region
           const children = this.data.getChildren(current_region)
 
@@ -38,7 +41,36 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
           }
         } else {
 
-          for (const move of potential_moves) {
+          const last_move = index(move_list, -1)
+          const distance = current_region.getByIndex(state_index)
+
+          const was_vertical = last_move && last_move % 5 == 0
+          const was_horizontal = last_move && !was_vertical
+
+          const blank_x = state.blank % 5
+          const blank_y = ~~(state.blank / 5)
+
+          // TODO: This function is a good candidate for caching with lookup tables, needs to be profiled
+          function getPotentialMoves() {
+            const potential_moves: Move[] = []
+
+            if (!was_horizontal) {
+              for (let xi = 0; xi < 5; xi++) {
+                if (xi != blank_x) potential_moves.push(xi - blank_x)
+              }
+            }
+
+            if (!was_vertical) {
+              for (let yi = 0; yi < 5; yi++) {
+                if (yi != blank_y) potential_moves.push(yi - blank_y)
+              }
+            }
+
+            return potential_moves
+          }
+
+
+          for (const move of getPotentialMoves()) {
             SlideStateWithBlank.doMove(state, move)
 
             move_list.push(move)

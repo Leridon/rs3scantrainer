@@ -74,7 +74,7 @@ export namespace Sliders {
       return move
     }
 
-    export function neighbours(state: SliderState, prestates_multitile_allowed: boolean = true): SliderState[] {
+    export function neighbours(state: SliderState, multitile_allowed: boolean = true): SliderState[] {
       const open_tile = blank(state)
 
       const x = open_tile % 5
@@ -90,7 +90,7 @@ export namespace Sliders {
         if (yi != y) moves.push((yi - y) * 5)
       }
 
-      if (!prestates_multitile_allowed) moves = moves.filter(Move.isSmallStep)
+      if (!multitile_allowed) moves = moves.filter(Move.isSmallStep)
 
       return moves.map(m => SliderState.withMove(state, m))
     }

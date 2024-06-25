@@ -46,15 +46,15 @@ export class AboutModal extends NisModal {
 
     layout.paragraph("Clue Trainer is a team effort that requires much more than just the programming and I want to mention a few people specifically that contributed to this journey.")
 
-    layout.paragraph("<strong>Skillbert</strong> for his work on <a href='https://www.runeapps.org'>runeapps.org</a> and the Alt1 toolkit. Clue Trainer includes code from Alt1's official clue solver with kind permission from Skillbert.")
+    layout.paragraph("<strong>Skillbert</strong> for his work on <a href='https://www.runeapps.org'>runeapps.org</a> and the Alt1 toolkit, as well as always helping out with questions about RuneScape's inner workings. Clue Trainer includes code from Alt1's official clue solver with kind permission from Skillbert.")
 
-    layout.paragraph("<strong>Ngis</strong> for being very enthusiastic about Clue Trainer's editor tools and contributing the builtin method packs for easy, medium and hard clues.")
+    layout.paragraph("<strong>Ngis</strong> for being very enthusiastic about Clue Trainer's editor tools and contributing a large majority of the builtin method packs.")
 
     layout.paragraph("<strong>Fiery</strong> for creating the original scan guide spreadsheet that prompted the original creation of this tool as 'Scan Trainer' and is the basis of many of the included scan routes.")
 
     layout.paragraph("<strong>Beau</strong> and the rest of the Clue Chasers team for supporting development by providing a space for open discussion around the tool and clue methods.")
 
-    layout.paragraph("And everyone else who contributed by reporting issues, expressing their thoughts and generally being part of this journey.")
+    layout.paragraph("In no particular order <strong>Pup</strong>, <strong>Xindrjayzda</strong>, <strong>Mr Cob</strong>, <strong>Dongus Bungholius</strong>, <strong>treborsmada</strong>, as well as everyone else who contributed by reporting issues, expressing thoughts, sharing clue methods and generally being part of this journey.")
 
     layout.header("Legal disclaimer")
     layout.paragraph("Icons and other assets used are owned by Jagex Ltd. and their use is intended to fall under fair dealing as a fan project.")

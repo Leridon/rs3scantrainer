@@ -583,7 +583,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
             if (settings.info_panel.search_target == "show") {
               w.append(cls("ctr-neosolving-solution-row").append(
-                inlineimg("assets/icons/cursor_talk.png"),
+                inlineimg("assets/icons/cursor_search.png"),
                 " ",
                 span("Search "),
                 C.staticentity(sol.entity, true)
@@ -674,7 +674,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
         if (clue.double_agent && settings.info_panel.double_agent == "show") {
           w.append(cls("ctr-neosolving-solution-row").append(
             inlineimg("assets/icons/cursor_attack.png"),
-            " ",
+            space(),
             span("Kill "),
             C.npc("Double Agent")
           ))
@@ -689,7 +689,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
         bounds.addArea(clue.area)
       } else if (clue.type == "skilling") {
         w.append(cls("ctr-neosolving-solution-row").append(
-          c(`<img src="${CursorType.meta(clue.cursor).icon_url}">`),
+          inlineimg(CursorType.meta(clue.cursor).icon_url),
+          space(),
           span(clue.answer)
         ))
 

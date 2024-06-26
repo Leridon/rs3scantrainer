@@ -5,6 +5,7 @@ import SlideStateWithBlank = Sliders.SlideStateWithBlank;
 import SliderState = Sliders.SliderState;
 import {stat} from "copy-webpack-plugin/types/utils";
 import factorial = util.factorial;
+import {delay} from "../../../skillbertssolver/oldlib";
 
 const n_choose_k_table: number[][] = (() => {
   function choose(n: number, k: number): number {
@@ -55,6 +56,7 @@ export namespace SliderPatternDatabase {
     import factorial = util.factorial;
     import SliderState = Sliders.SliderState;
     import count = util.count;
+    import Move = Sliders.Move;
 
     export class Active {
       public number_of_permutations: number
@@ -67,6 +69,11 @@ export namespace SliderPatternDatabase {
       private combination_relevant_tiles: boolean[]
       private permutation_table: number[]
 
+      // Prepared move table that contains all possible moves for every blank position and both move directions
+      // move_table[0][i] = possible horizontal moves when the blank tile is at position i
+      // move_table[1][i] = possible vertical moves when the blank tile is at position i+
+      move_table: Move[][][]
+
       constructor(private region: Region) {
         this.current = count(region, t => t == Tile.CURRENT) + 1 // +1 because the blank tile is always part of this
         this.freedom = count(region, t => t != Tile.FIXED)
@@ -74,6 +81,42 @@ export namespace SliderPatternDatabase {
         this.number_of_permutations = factorial(this.current)
         this.size = factorial(this.freedom, this.freedom - this.current)
 
+        this.move_table = (() => {
+
+          // TODO: This needs to depend on whether we're doing single tile or multi tile moves
+
+          const res: Move[][][] = []
+
+          const lut: Move[][] = [
+            [1, 2, 3, 4],
+            [-1, 1, 2, 3],
+            [-2, -1, 1, 2],
+            [-3, -2, -1, 1],
+            [-4, -3, -2, -1],
+          ]
+
+          // Horizontal moves
+          {
+            res[0] = new Array<Move[]>(25)
+
+            for (let blank_i = 0; blank_i < 25; blank_i++) {
+
+              res[0][blank_i] = lut[blank_i % 5]
+            }
+          }
+
+          // Vertical moves
+          {
+            res[1] = new Array<Move[]>(25)
+
+            for (let blank_i = 0; blank_i < 25; blank_i++) {
+
+              res[1][blank_i] = lut[~~(blank_i / 5)].map(m => 5 * m)
+            }
+          }
+
+          return res.map(tbl => tbl.map((moves, blank_i) => moves.filter(m => this.region[m + blank_i] != Tile.FIXED)))
+        })()
 
         {
           this.combination_prioritized_indices = lodash.sortBy(region.map((tile, i) => [tile, i]).filter(e => e[0] != Tile.FIXED), e => -e[0]).map(e => e[1])
@@ -215,35 +258,62 @@ export namespace SliderPatternDatabase {
     }
   }
 
-  export function generate(region: Region, multitile: boolean): SliderPatternDatabase {
+  export async function generate(region: Region, multitile: boolean): Promise<SliderPatternDatabase> {
     const r = new Region.Active(region)
-
-    let c = 0
 
     const distance = new Array(r.size).fill(null)
 
-    function traverse(state: SliderState, depth: number): void {
+    async function traverse(state: SliderState, next_direction: 0 | 1, depth: number, depth_limit: number): Promise<number> {
+
+
+      // TODO: There's another abortion condition here to prune the tree early
+
       const index = r.stateIndex(state)
 
-      if (distance[index] != null) return // branch already visited
+      if (depth == depth_limit) {
+        if (index >= r.size) debugger
 
-      if (index >= r.size) debugger
-
-      console.log(depth)
-
-      distance[index] = depth
-      c++
-
-      if (c % 1 == 0) {
-        console.log(`${(c / r.size).toFixed(2)}%`)
+        if (distance[index] != null) {
+          return 0
+        } // branch already visited
+        else {
+          distance[index] = depth
+          return 1
+        }
+      } else if (depth > distance[index]) {
+        // If we arrived here at a larger depth than saved for this state, we can't find new nodes
+        return 0
       }
 
-      for (let child of SliderState.neighbours(state, multitile)) {
-        traverse(child, depth + 1)
+      const moves = r.move_table[next_direction][SliderState.blank(state)]
+
+      let n = 0
+      for (const move of moves) {
+        const child = SliderState.withMove(state, move)
+
+        n += await traverse(child, 1 - next_direction as 0 | 1, depth + 1, depth_limit)
       }
+
+      if(n % 1000 == 0) await delay(1)
+
+      return 1 + n
     }
 
-    traverse(SliderState.SOLVED, 0)
+
+    let limit = 0
+    let c = 0
+
+    // Iterative deepening
+    while (c < r.size) {
+      // TODO: Enumerate all solved states instead of just this one
+
+      c += await traverse(SliderState.SOLVED, 0, 0, limit)
+      c += await traverse(SliderState.SOLVED, 1, 0, limit)
+
+      console.log(`Limit ${limit}, total ${c}`)
+
+      limit++
+    }
 
     const compressed = new Uint8Array(Math.ceil(r.size / 4)).fill(0)
 

@@ -6,44 +6,9 @@ import SlideStateWithBlank = Sliders.SlideStateWithBlank;
 import Move = Sliders.Move;
 
 
-// Prepared move table that contains all possible moves for every blank position and both move directions
-// move_table[0][i] = possible horizontal moves when the blank tile is at position i
-// move_table[1][i] = possible vertical moves when the blank tile is at position i+
 
 // TODO: Move table is dependent on region, move into Region.Active
-const move_table: Move[][][] = (() => {
-  const res: Move[][][] = []
 
-  const lut: Move[][] = [
-    [1, 2, 3, 4],
-    [-1, 1, 2, 3],
-    [-2, -1, 1, 2],
-    [-3, -2, -1, 1],
-    [-4, -3, -2, -1],
-  ]
-
-  // Horizontal moves
-  {
-    res[0] = new Array<Move[]>(25)
-
-    for (let i = 0; i < 25; i++) {
-
-      res[0][i] = lut[i % 5]
-    }
-  }
-
-  // Vertical moves
-  {
-    res[1] = new Array<Move[]>(25)
-
-    for (let i = 0; i < 25; i++) {
-
-      res[1][i] = lut[~~(i / 5)].map(m => 5 * m)
-    }
-  }
-
-  return res
-})()
 
 export class PDBSolvingProcess extends Sliders.SolvingProcess {
 
@@ -66,7 +31,7 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
 
         let found_optimal_move: boolean = false
 
-        for (const move of move_table[next_direction][state.blank]) {
+        for (const move of current_region.region.move_table[next_direction][state.blank]) {
 
           const child_index = current_region.region.stateIndex(state.tiles)
           const child_distance = current_region.getDistanceByIndex(child_index)

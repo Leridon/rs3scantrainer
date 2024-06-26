@@ -59,7 +59,7 @@ export namespace Sliders {
     }
 
     export function blank(state: SliderState): number {
-      return state.indexOf(24)
+      return state.indexOf(BLANK_TILE)
     }
 
     export function findMove(before: SliderState, after: SliderState): Move | null {

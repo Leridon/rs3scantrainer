@@ -390,14 +390,9 @@ export async function makeshift_main(): Promise<void> {
     15, 16, 17, 18, 19,
     20, 21, 22, 23, 5])
 
-  debugger
-
-
   const db = SliderPatternDatabase.generate(
     [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], true
   )
-
-  debugger
 
   // await clue_trainer_test_set.run()
 

@@ -8,7 +8,9 @@ import Move = Sliders.Move;
 
 // Prepared move table that contains all possible moves for every blank position and both move directions
 // move_table[0][i] = possible horizontal moves when the blank tile is at position i
-// move_table[1][i] = possible vertical moves when the blank tile is at position i
+// move_table[1][i] = possible vertical moves when the blank tile is at position i+
+
+// TODO: Move table is dependent on region, move into Region.Active
 const move_table: Move[][][] = (() => {
   const res: Move[][][] = []
 
@@ -62,8 +64,30 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
 
         if (move_list.length > this.best_solution.length) return // Abort if this can't be better than the best solution we already found
 
-        if (state_index == 0) {
-          // Region is solved, go to next region
+        let found_optimal_move: boolean = false
+
+        for (const move of move_table[next_direction][state.blank]) {
+
+          const child_index = current_region.region.stateIndex(state.tiles)
+          const child_distance = current_region.getDistanceByIndex(child_index)
+
+          if ((child_distance + 1) % 4 == known_distance) {
+            // this is an optimal move
+
+            found_optimal_move = false
+
+            SlideStateWithBlank.doMove(state, move) // TODO: This only works for single tile moves!
+
+            move_list.push(move)
+            await dostate(1 - next_direction as 0 | 1, child_distance, child_index)
+            move_list.pop()
+
+            SlideStateWithBlank.doMove(state, -move)
+          }
+        }
+
+        if (!found_optimal_move) {
+          // When no optimal move exists, this must be a solved state. Continue with child regions instead
           const children = this.data.getChildren(current_region)
 
           if (children.length == 0) {
@@ -71,25 +95,6 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
           } else {
             for (const child of children) {
               await doregion(child, next_direction)
-            }
-          }
-        } else {
-
-          for (const move of move_table[next_direction][state.blank]) {
-
-            const child_index = current_region.region.stateIndex(state.tiles)
-            const child_distance = current_region.getDistanceByIndex(child_index)
-
-            if ((child_distance + 1) % 4 == known_distance) {
-              // this is an optimal move
-
-              SlideStateWithBlank.doMove(state, move) // TODO: This only works for single tile moves!
-
-              move_list.push(move)
-              await dostate(1 - next_direction as 0 | 1, child_distance, child_index)
-              move_list.pop()
-
-              SlideStateWithBlank.doMove(state, -move)
             }
           }
         }

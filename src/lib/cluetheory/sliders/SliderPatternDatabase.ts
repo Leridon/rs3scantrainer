@@ -3,6 +3,28 @@ import {util} from "../../util/util";
 import * as lodash from "lodash";
 import SlideStateWithBlank = Sliders.SlideStateWithBlank;
 import SliderState = Sliders.SliderState;
+import {stat} from "copy-webpack-plugin/types/utils";
+import factorial = util.factorial;
+
+const n_choose_k_table: number[][] = (() => {
+  function choose(n: number, k: number): number {
+    if (k > n) return 0
+
+    return factorial(n, n - k) / factorial(k)
+  }
+
+  const res: number[][] = new Array(26).fill(null).map(_ => {
+    return new Array(26).fill(null)
+  })
+
+  for (let n = 0; n <= 25; n++) {
+    for (let k = 0; k <= 25; k++) {
+      res[n][k] = choose(n, k)
+    }
+  }
+
+  return res
+})()
 
 export class SliderPatternDatabase {
   region: SliderPatternDatabase.Region.Active
@@ -39,7 +61,7 @@ export namespace SliderPatternDatabase {
       public current: number
       public freedom: number
       public size: number
-      private relevant_indices: number[]
+      private solution_relevant_indices: number[]
 
       private combination_prioritized_indices: number[]
       private combination_relevant_tiles: boolean[]
@@ -54,10 +76,7 @@ export namespace SliderPatternDatabase {
 
 
         {
-          const sorted_indices = lodash.sortBy(region.map((tile, i) => [tile, i]).filter(e => e[0] != Tile.FIXED), e => -e[0]).map(e => e[1])
-
-          this.combination_prioritized_indices = new Array(region.length).fill(0)
-            .map((_, i) => sorted_indices.indexOf(i))
+          this.combination_prioritized_indices = lodash.sortBy(region.map((tile, i) => [tile, i]).filter(e => e[0] != Tile.FIXED), e => -e[0]).map(e => e[1])
 
           this.combination_relevant_tiles = region.map((tile, index) => tile == Tile.CURRENT || index == SliderState.BLANK_TILE)
         }
@@ -75,7 +94,7 @@ export namespace SliderPatternDatabase {
           }
         }
 
-        this.relevant_indices = region.flatMap((tile, position) => tile == Tile.CURRENT ? [position] : [])
+        this.solution_relevant_indices = region.flatMap((tile, position) => tile == Tile.CURRENT ? [position] : [])
       }
 
       stateIndex(state: SliderState): number {
@@ -94,49 +113,36 @@ export namespace SliderPatternDatabase {
 
         let combination_index = 0
 
-        const permutation: number[] = []
-
-        function comb(i: number, r: number): number {
-          return factorial(i) / (factorial(r) * factorial(i - r))
-        }
-
         {
-          let result = 0
-          let counter = 0
+          // https://en.wikipedia.org/wiki/Combinatorial_number_system
+          // https://www.jaapsch.net/puzzles/compindx.htm
 
-          for (let i = 0; i < this.combination_prioritized_indices.length; i++) {
+          let counter = 1
+
+          for (let i = 0; i < this.combination_prioritized_indices.length && counter <= this.current; i++) {
             const index = this.combination_prioritized_indices[i]
 
             if (this.combination_relevant_tiles[state[index]]) {
               // There's a relevant tile in this position
 
-              // TODO: This is not correct yet
-              // https://en.wikipedia.org/wiki/Combinatorial_number_system
-              // https://www.jaapsch.net/puzzles/compindx.htm
-
-              result += comb(i, counter)
+              combination_index += n_choose_k_table[i][counter]
               counter += 1
             }
           }
-
-          combination_index = result
         }
 
-        state.forEach((tile, index) => {
+        const permutation: number[] = []
+        state.forEach((tile) => {
           if (this.permutation_table[tile] != null) {
-            combination_index += this.combination_prioritized_indices[index]
-
             permutation.push(this.permutation_table[tile])
           }
         })
-
-        debugger
 
         return combination_index * this.number_of_permutations + permutationIndex(permutation)
       }
 
       satisfied(state: SlideStateWithBlank): boolean {
-        return this.relevant_indices.every(i => state[i] == i)
+        return this.solution_relevant_indices.every(i => state[i] == i)
       }
     }
 
@@ -222,7 +228,6 @@ export namespace SliderPatternDatabase {
       if (distance[index] != null) return // branch already visited
 
       if (index >= r.size) debugger
-
 
       console.log(depth)
 

@@ -14,6 +14,7 @@ import hgrid = C.hgrid;
 import span = C.span;
 import spacer = C.spacer;
 import hbox = C.hbox;
+import Region = SliderPatternDatabase.Region;
 
 type DataEntry = {
   id: number,
@@ -378,6 +379,19 @@ class SliderAnalysisModal extends NisModal {
 }
 
 export async function makeshift_main(): Promise<void> {
+
+  const r = new Region.Active(
+    [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  )
+
+  const idx = r.stateIndex([0, 1, 2, 3, 4,
+    24, 6, 7, 8, 9,
+    10, 11, 12, 13, 14,
+    15, 16, 17, 18, 19,
+    20, 21, 22, 23, 5])
+
+  debugger
+
 
   const db = SliderPatternDatabase.generate(
     [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], true

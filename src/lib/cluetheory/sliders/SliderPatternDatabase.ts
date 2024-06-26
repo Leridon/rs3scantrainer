@@ -16,11 +16,11 @@ export class SliderPatternDatabase {
    * Returns the number of moves required to solve this region from the current state MOD 4
    * @param state
    */
-  get(state: SliderState): number {
-    return this.getByIndex(this.region.stateIndex(state))
+  getDistance(state: SliderState): number {
+    return this.getDistanceByIndex(this.region.stateIndex(state))
   }
 
-  getByIndex(index: number): number {
+  getDistanceByIndex(index: number): number {
     return (this.underlying_data[this.data_offset + ~~(index / 4)] >> (index % 4)) & 0x03
   }
 }

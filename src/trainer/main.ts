@@ -15,6 +15,7 @@ import span = C.span;
 import spacer = C.spacer;
 import hbox = C.hbox;
 import Region = SliderPatternDatabase.Region;
+import TextArea from "../lib/ui/controls/TextArea";
 
 type DataEntry = {
   id: number,
@@ -390,9 +391,32 @@ export async function makeshift_main(): Promise<void> {
     15, 16, 17, 18, 19,
     20, 21, 22, 23, 5])
 
-  const db = SliderPatternDatabase.generate(
-    [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], true
-  )
+  await (new class extends NisModal {
+    private text: TextArea
+
+    render() {
+      super.render()
+
+      this.text = new TextArea()
+        .setValue("2, 2, 2, 2, 2,\n2, 2, 2, 2, 2,\n2, 2, 1, 1, 1,\n2, 2, 1, 1, 1,\n2, 2, 1, 1, 1")
+        .css("height", "100px")
+        .appendTo(this.body)
+
+      new LightButton("Do")
+        .onClick(async () => {
+          const pattern = this.text.get().split(",").map(s => Number(s.trim()))
+
+          if(!pattern.every(t => t >= 0 && t <= 2)){
+            console.log("Invalid pattern")
+            return
+          }
+
+          const db = await SliderPatternDatabase.generate(
+            pattern as Region, true
+          )
+        }).appendTo(this.body)
+    }
+  }).show()
 
   // await clue_trainer_test_set.run()
 

@@ -1,11 +1,10 @@
 import {Sliders} from "../Sliders";
 import {util} from "../../util/util";
 import * as lodash from "lodash";
+import {delay} from "../../../skillbertssolver/oldlib";
 import SlideStateWithBlank = Sliders.SlideStateWithBlank;
 import SliderState = Sliders.SliderState;
-import {stat} from "copy-webpack-plugin/types/utils";
 import factorial = util.factorial;
-import {delay} from "../../../skillbertssolver/oldlib";
 
 const n_choose_k_table: number[][] = (() => {
   function choose(n: number, k: number): number {
@@ -74,8 +73,11 @@ export namespace SliderPatternDatabase {
       // move_table[1][i] = possible vertical moves when the blank tile is at position i+
       move_table: Move[][][]
 
+      public readonly solves_puzzle: boolean
+
       constructor(private region: Region) {
-        this.current = count(region, t => t == Tile.CURRENT) + 1 // +1 because the blank tile is always part of this
+        this.solves_puzzle = region.every(t => t != Tile.FREE)
+        this.current = count(region, t => t == Tile.CURRENT) + (this.solves_puzzle ? 0 : 1) // +1 because the blank tile is always part of this
         this.freedom = count(region, t => t != Tile.FIXED)
 
         this.number_of_permutations = factorial(this.current)
@@ -138,6 +140,7 @@ export namespace SliderPatternDatabase {
         }
 
         this.solution_relevant_indices = region.flatMap((tile, position) => tile == Tile.CURRENT ? [position] : [])
+
       }
 
       stateIndex(state: SliderState): number {
@@ -245,8 +248,6 @@ export namespace SliderPatternDatabase {
       databases.forEach(parent => databases.forEach(child => {
         if (SliderPatternDatabase.Region.isChild(parent.meta.region, child.meta.region)) this.edges.push([parent, child])
       }))
-
-      debugger
     }
 
     getChildren(parent: SliderPatternDatabase): SliderPatternDatabase[] {
@@ -264,18 +265,13 @@ export namespace SliderPatternDatabase {
     const distance = new Array(r.size).fill(null)
 
     async function traverse(state: SliderState, next_direction: 0 | 1, depth: number, depth_limit: number): Promise<number> {
-
-
-      // TODO: There's another abortion condition here to prune the tree early
-
       const index = r.stateIndex(state)
 
       if (depth == depth_limit) {
-        if (index >= r.size) debugger
-
         if (distance[index] != null) {
+          // branch already visited
           return 0
-        } // branch already visited
+        }
         else {
           distance[index] = depth
           return 1
@@ -294,21 +290,33 @@ export namespace SliderPatternDatabase {
         n += await traverse(child, 1 - next_direction as 0 | 1, depth + 1, depth_limit)
       }
 
-      if(n % 1000 == 0) await delay(1)
+      //if (n % 100000 == 0) await delay(1)
 
-      return 1 + n
+      return n
     }
-
 
     let limit = 0
     let c = 0
 
     // Iterative deepening
     while (c < r.size) {
-      // TODO: Enumerate all solved states instead of just this one
+      if (r.solves_puzzle) {
+        c += await traverse(SliderState.SOLVED, 0, 0, limit)
+        c += await traverse(SliderState.SOLVED, 1, 0, limit)
+      } else {
 
-      c += await traverse(SliderState.SOLVED, 0, 0, limit)
-      c += await traverse(SliderState.SOLVED, 1, 0, limit)
+        for (let i = 0; i < 25; i++) {
+          if (region[i] == Region.Tile.FREE) {
+            const state = [...SliderState.SOLVED]
+
+            state[24] = i
+            state[i] = 24
+
+            c += await traverse(state, 0, 0, limit)
+            c += await traverse(state, 1, 0, limit)
+          }
+        }
+      }
 
       console.log(`Limit ${limit}, total ${c}`)
 

@@ -81,7 +81,7 @@ export namespace SliderPatternDatabase {
         this.freedom = count(region, t => t != Tile.FIXED)
 
         this.number_of_permutations = factorial(this.current)
-        this.size = factorial(this.freedom, this.freedom - this.current)
+        this.size = factorial(this.freedom, Math.max(2, this.freedom - this.current))
 
         this.move_table = (() => {
 
@@ -264,21 +264,19 @@ export namespace SliderPatternDatabase {
 
     const distance = new Array(r.size).fill(null)
 
-    async function traverse(state: SliderState, next_direction: 0 | 1, depth: number, depth_limit: number): Promise<number> {
+    async function traverse(state: SliderState, next_direction: 0 | 1, depth: number, depth_limit: number): Promise<void> {
       const index = r.stateIndex(state)
 
       if (depth == depth_limit) {
-        if (distance[index] != null) {
-          // branch already visited
-          return 0
-        }
-        else {
+        if (distance[index] == null) {
           distance[index] = depth
-          return 1
+          c++
         }
+
+        return
       } else if (depth > distance[index]) {
         // If we arrived here at a larger depth than saved for this state, we can't find new nodes
-        return 0
+        return
       }
 
       const moves = r.move_table[next_direction][SliderState.blank(state)]
@@ -287,12 +285,10 @@ export namespace SliderPatternDatabase {
       for (const move of moves) {
         const child = SliderState.withMove(state, move)
 
-        n += await traverse(child, 1 - next_direction as 0 | 1, depth + 1, depth_limit)
+        await traverse(child, 1 - next_direction as 0 | 1, depth + 1, depth_limit)
       }
 
-      //if (n % 100000 == 0) await delay(1)
-
-      return n
+      if (c % 1000 == 0) await delay(1)
     }
 
     let limit = 0
@@ -301,8 +297,8 @@ export namespace SliderPatternDatabase {
     // Iterative deepening
     while (c < r.size) {
       if (r.solves_puzzle) {
-        c += await traverse(SliderState.SOLVED, 0, 0, limit)
-        c += await traverse(SliderState.SOLVED, 1, 0, limit)
+        await traverse(SliderState.SOLVED, 0, 0, limit)
+        await traverse(SliderState.SOLVED, 1, 0, limit)
       } else {
 
         for (let i = 0; i < 25; i++) {
@@ -312,13 +308,13 @@ export namespace SliderPatternDatabase {
             state[24] = i
             state[i] = 24
 
-            c += await traverse(state, 0, 0, limit)
-            c += await traverse(state, 1, 0, limit)
+            await traverse(state, 0, 0, limit)
+            await traverse(state, 1, 0, limit)
           }
         }
       }
 
-      console.log(`Limit ${limit}, total ${c}`)
+      console.log(`Limit ${limit}, total ${c}/${r.size}`)
 
       limit++
     }

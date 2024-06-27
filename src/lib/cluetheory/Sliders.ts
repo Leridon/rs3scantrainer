@@ -169,6 +169,8 @@ export namespace Sliders {
     export function doMove(state: SlideStateWithBlank, move: Move): void {
       const index = state.blank + move
 
+      // TODO: This does not account for multi tile moves
+
       state.tiles[state.blank] = state.tiles[index]
       state.tiles[index] = SliderState.BLANK_TILE
     }
@@ -208,6 +210,10 @@ export namespace Sliders {
 
     export function isVertical(move: Move): boolean {
       return move % 5 == 0
+    }
+
+    export function asSmallStep(move: Move): Move {
+      return
     }
   }
 

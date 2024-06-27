@@ -1,9 +1,10 @@
 import {Sliders} from "../Sliders";
-import {SliderPatternDatabase} from "./SliderPatternDatabase";
+import {RegionDistanceDatabase} from "./RegionDatabase";
 import SliderState = Sliders.SliderState;
 import MoveList = Sliders.MoveList;
 import SlideStateWithBlank = Sliders.SlideStateWithBlank;
 import Move = Sliders.Move;
+import {OptimizedSliderState} from "./OptimizedSliderState";
 
 
 
@@ -12,16 +13,16 @@ import Move = Sliders.Move;
 
 export class PDBSolvingProcess extends Sliders.SolvingProcess {
 
-  constructor(start_state: SliderState, private data: SliderPatternDatabase.RegionGraph) {
+  constructor(start_state: SliderState, private data: RegionDistanceDatabase.RegionGraph) {
     super(start_state);
   }
 
   protected async solve_implementation(): Promise<void> {
 
-    const state = SlideStateWithBlank.fromState(this.start_state)
+    const state = OptimizedSliderState.fromState(this.start_state)
     const move_list: MoveList = []
 
-    const doregion = async (current_region: SliderPatternDatabase, next_direction: 0 | 1): Promise<void> => {
+    const doregion = async (current_region: RegionDistanceDatabase, next_direction: 0 | 1): Promise<void> => {
       await this.checkTime() // TODO: Maybe this doesn't need to be done this often
 
       const dostate = async (next_direction: 0 | 1, known_distance: number, state_index: number) => {
@@ -31,9 +32,9 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
 
         let found_optimal_move: boolean = false
 
-        for (const move of current_region.region.move_table[next_direction][state.blank]) {
+        for (const move of current_region.region.move_table[next_direction][state[OptimizedSliderState.BLANK_INDEX]]) {
 
-          const child_index = current_region.region.stateIndex(state.tiles)
+          const child_index = current_region.region.stateIndex(state)
           const child_distance = current_region.getDistanceByIndex(child_index)
 
           if ((child_distance + 1) % 4 == known_distance) {
@@ -41,13 +42,13 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
 
             found_optimal_move = false
 
-            SlideStateWithBlank.doMove(state, move) // TODO: This only works for single tile moves!
+            OptimizedSliderState.doMove(state, move)
 
             move_list.push(move)
             await dostate(1 - next_direction as 0 | 1, child_distance, child_index)
             move_list.pop()
 
-            SlideStateWithBlank.doMove(state, -move)
+            OptimizedSliderState.doMove(state, -move)
           }
         }
 
@@ -65,7 +66,7 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
         }
       }
 
-      const idx = current_region.region.stateIndex(state.tiles)
+      const idx = current_region.region.stateIndex(state)
 
       await dostate(next_direction, current_region.getDistanceByIndex(idx), idx)
     }
@@ -82,7 +83,7 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
 }
 
 export class PDBSolver extends Sliders.Solver {
-  constructor(private data: SliderPatternDatabase.RegionGraph) {
+  constructor(private data: RegionDistanceDatabase.RegionGraph) {
     super();
   }
 

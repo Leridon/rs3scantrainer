@@ -5,17 +5,16 @@ import Properties from "./ui/widgets/Properties";
 import {C} from "../lib/ui/constructors";
 import LightButton from "./ui/widgets/LightButton";
 import Widget from "../lib/ui/Widget";
-import {util} from "../lib/util/util";
 import {RandomSolver} from "../lib/cluetheory/sliders/RandomSolver";
-import {SliderPatternDatabase} from "../lib/cluetheory/sliders/SliderPatternDatabase";
+import {RegionDistanceDatabase} from "../lib/cluetheory/sliders/RegionDatabase";
 import SliderState = Sliders.SliderState;
 import MoveList = Sliders.MoveList;
 import hgrid = C.hgrid;
 import span = C.span;
 import spacer = C.spacer;
 import hbox = C.hbox;
-import Region = SliderPatternDatabase.Region;
 import TextArea from "../lib/ui/controls/TextArea";
+import {Region} from "../lib/cluetheory/sliders/Region";
 
 type DataEntry = {
   id: number,
@@ -381,16 +380,6 @@ class SliderAnalysisModal extends NisModal {
 
 export async function makeshift_main(): Promise<void> {
 
-  const r = new Region.Active(
-    [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-  )
-
-  const idx = r.stateIndex([0, 1, 2, 3, 4,
-    24, 6, 7, 8, 9,
-    10, 11, 12, 13, 14,
-    15, 16, 17, 18, 19,
-    20, 21, 22, 23, 5])
-
   await (new class extends NisModal {
     private text: TextArea
 
@@ -411,8 +400,8 @@ export async function makeshift_main(): Promise<void> {
             return
           }
 
-          const db = await SliderPatternDatabase.generate(
-            {tiles: pattern as Region, multitile_moves: true}
+          const db = await RegionDistanceDatabase.generate(
+            {region: pattern as Region, multitile: true}
           )
         }).appendTo(this.body)
     }

@@ -11,8 +11,6 @@ import {ClueReader} from "../cluereader/ClueReader";
 import NeoSolvingBehaviour from "../NeoSolvingBehaviour";
 import {AbstractPuzzleSolving} from "./AbstractPuzzleSolving";
 import {AbstractPuzzleProcess} from "./AbstractPuzzleProcess";
-import {PDBSolver} from "../../../../lib/cluetheory/sliders/PDBSolver";
-import {SliderPatternDatabase} from "../../../../lib/cluetheory/sliders/SliderPatternDatabase";
 import over = OverlayGeometry.over;
 import SliderState = Sliders.SliderState;
 import SliderPuzzle = Sliders.SliderPuzzle;
@@ -579,12 +577,7 @@ export class SliderSolving extends AbstractPuzzleSolving<
   }
 
   protected async constructProcess(): Promise<SliderGuideProcess> {
-    return new SliderGuideProcess(this, new PDBSolver(new SliderPatternDatabase.RegionGraph([
-      new SliderPatternDatabase({region: [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}, 0, new Uint8Array(await (await fetch("data/sliderpdb/5x5_4TM_d2a3da14b5.t")).arrayBuffer())),
-      new SliderPatternDatabase({region: [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}, 0, new Uint8Array(await (await fetch("data/sliderpdb/5x4_4TM_d2a3da9b5.t")).arrayBuffer())),
-      new SliderPatternDatabase({region: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0]}, 0, new Uint8Array(await (await fetch("data/sliderpdb/5x3_4TM_d2ab2da2b2a3b2.t")).arrayBuffer())),
-      new SliderPatternDatabase({region: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 1, 1, 1, 2, 2, 1, 1, 1]}, 0, new Uint8Array(await (await fetch("data/sliderpdb/3x3_2TM_d2bdb5.t")).arrayBuffer())),
-    ])))
+    return null
   }
 
   pausesClueReader(): boolean {

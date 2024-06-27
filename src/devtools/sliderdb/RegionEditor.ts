@@ -53,9 +53,19 @@ export class RegionEditor extends AbstractEditWidget<Region> {
     if (this.description) {
       const r = new Region.Active(this.get())
 
-      this.description.text(
-        `Size: ${numberWithCommas(r.size)}, ${(r.size / 4 / 1024 / 1024).toFixed(1)}MB`
-      )
+      let text = `Size: ${numberWithCommas(r.size)}`
+
+
+      const bytes = r.size / 4
+      if (bytes > 1024 * 1024) {
+        text += `, ${(bytes / 1024 / 1024).toFixed(1)}MB`
+      } else {
+        text += `, ${(bytes / 1024).toFixed(1)}KB`
+      }
+
+      if (r.solves_puzzle) text += ", Final"
+
+      this.description.text(text)
     }
   }
 
@@ -73,7 +83,7 @@ export class RegionEditor extends AbstractEditWidget<Region> {
       for (let x = 0; x < 5; x++) {
         const i = y * 5 + x
 
-        new TileEditor([19, 23, 24].includes(i)).setValue(region[i])
+        new TileEditor([19, 23].includes(i)).setValue(region[i])
           .onCommit(v => {
             const copy = [...this.get()]
 

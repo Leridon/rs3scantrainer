@@ -51,11 +51,11 @@ export namespace Region {
     public readonly solves_puzzle: boolean
 
     constructor(private region: Region) {
-      this.solves_puzzle = region.every(t => t != Tile.FREE)
+      this.solves_puzzle = region.every((t, i) => t != Tile.FREE || [23, 19].includes(i))
       this.current = count(region, t => t == Tile.CURRENT) + (this.solves_puzzle ? 0 : 1) // +1 because the blank tile is always part of this
       this.freedom = count(region, t => t != Tile.FIXED)
 
-      this.number_of_permutations = this.solves_puzzle ? factorial(this.current) / 2 : factorial(this.current)
+      this.number_of_permutations = factorial(this.current)
       this.size = factorial(this.freedom, Math.max(2, this.freedom - this.current))
 
       this.move_table = (() => {
@@ -132,56 +132,38 @@ export namespace Region {
         return t
       }
 
-      if (this.solves_puzzle) {
-        // For regions that solve the full puzzle, only the permutation is relevant since the combination is always the same
 
-        // TODO: Optimize this so it doesn't create the permutation array
-        const permutation: number[] = []
+      let combination_index = 0
 
+      {
+        // https://en.wikipedia.org/wiki/Combinatorial_number_system
+        // https://www.jaapsch.net/puzzles/compindx.htm
 
-        for (let i = 0; i < 25; i++) {
-          const tile = state[i]
+        let counter = 1
 
-          if (this.permutation_table[tile] != null) {
-            permutation.push(this.permutation_table[tile])
+        for (let i = 0; i < this.combination_prioritized_indices.length && counter <= this.current; i++) {
+          const index = this.combination_prioritized_indices[i]
+
+          if (this.combination_relevant_tiles[state[index]]) {
+            // There's a relevant tile in this position
+
+            combination_index += n_choose_k_table[i][counter]
+            counter += 1
           }
         }
-
-        // TODO: for regions that solve the whole puzzle, the permutation index includes unsolvable states
-        return permutationIndex(permutation)
-      } else {
-        let combination_index = 0
-
-        {
-          // https://en.wikipedia.org/wiki/Combinatorial_number_system
-          // https://www.jaapsch.net/puzzles/compindx.htm
-
-          let counter = 1
-
-          for (let i = 0; i < this.combination_prioritized_indices.length && counter <= this.current; i++) {
-            const index = this.combination_prioritized_indices[i]
-
-            if (this.combination_relevant_tiles[state[index]]) {
-              // There's a relevant tile in this position
-
-              combination_index += n_choose_k_table[i][counter]
-              counter += 1
-            }
-          }
-        }
-
-        // TODO: Optimize this so it doesn't create the permutation array
-        const permutation: number[] = []
-        for (let i = 0; i < 25; i++) {
-          const tile = state[i]
-
-          if (this.permutation_table[tile] != null) {
-            permutation.push(this.permutation_table[tile])
-          }
-        }
-
-        return combination_index * this.number_of_permutations + permutationIndex(permutation)
       }
+
+      // TODO: Optimize this so it doesn't create the permutation array
+      const permutation: number[] = []
+      for (let i = 0; i < 25; i++) {
+        const tile = state[i]
+
+        if (this.permutation_table[tile] != null) {
+          permutation.push(this.permutation_table[tile])
+        }
+      }
+
+      return combination_index * this.number_of_permutations + permutationIndex(permutation)
     }
   }
 

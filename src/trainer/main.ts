@@ -7,14 +7,15 @@ import LightButton from "./ui/widgets/LightButton";
 import Widget from "../lib/ui/Widget";
 import {RandomSolver} from "../lib/cluetheory/sliders/RandomSolver";
 import {RegionDistanceDatabase} from "../lib/cluetheory/sliders/RegionDatabase";
+import TextArea from "../lib/ui/controls/TextArea";
+import {Region} from "../lib/cluetheory/sliders/Region";
+import {RegionEditor} from "../devtools/sliderdb/RegionEditor";
 import SliderState = Sliders.SliderState;
 import MoveList = Sliders.MoveList;
 import hgrid = C.hgrid;
 import span = C.span;
 import spacer = C.spacer;
 import hbox = C.hbox;
-import TextArea from "../lib/ui/controls/TextArea";
-import {Region} from "../lib/cluetheory/sliders/Region";
 
 type DataEntry = {
   id: number,
@@ -381,27 +382,19 @@ class SliderAnalysisModal extends NisModal {
 export async function makeshift_main(): Promise<void> {
 
   await (new class extends NisModal {
-    private text: TextArea
+    private region: RegionEditor
 
     render() {
       super.render()
 
-      this.text = new TextArea()
-        .setValue("2, 2, 2, 2, 2,\n2, 2, 2, 2, 2,\n2, 2, 1, 1, 1,\n2, 2, 1, 1, 1,\n2, 2, 1, 1, 1")
-        .css("height", "100px")
+      this.region = new RegionEditor()
+        .setValue([1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
         .appendTo(this.body)
 
       new LightButton("Do")
         .onClick(async () => {
-          const pattern = this.text.get().split(",").map(s => s.trim()).filter(s => s.length > 0).map(s => Number(s))
-
-          if(!pattern.every(t => t >= 0 && t <= 2)){
-            console.log("Invalid pattern")
-            return
-          }
-
           const db = await RegionDistanceDatabase.generate(
-            {region: pattern as Region, multitile: true}
+            {region: this.region.get(), multitile: true}
           )
         }).appendTo(this.body)
     }

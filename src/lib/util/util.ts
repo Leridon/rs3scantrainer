@@ -323,6 +323,10 @@ export namespace util {
     else return n * factorial(n - 1, lower)
   }
 
+  export function numberWithCommas(x: number) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   export function padInteger(n: number, length: number): string {
     return lodash.padStart(n.toString(), length, "0")
   }

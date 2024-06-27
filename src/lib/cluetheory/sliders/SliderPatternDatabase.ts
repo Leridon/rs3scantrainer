@@ -2,6 +2,7 @@ import {Sliders} from "../Sliders";
 import {util} from "../../util/util";
 import * as lodash from "lodash";
 import {delay} from "../../../skillbertssolver/oldlib";
+import {Queue} from "queue-typescript";
 import SlideStateWithBlank = Sliders.SlideStateWithBlank;
 import SliderState = Sliders.SliderState;
 import factorial = util.factorial;
@@ -52,6 +53,11 @@ export namespace SliderPatternDatabase {
   export type Region = Region.Tile[]
 
   export namespace Region {
+    export type Description = {
+      tiles: Region.Tile[],
+      multitile_moves: boolean
+    }
+
     import factorial = util.factorial;
     import SliderState = Sliders.SliderState;
     import count = util.count;
@@ -259,65 +265,101 @@ export namespace SliderPatternDatabase {
     }
   }
 
-  export async function generate(region: Region, multitile: boolean): Promise<SliderPatternDatabase> {
-    const r = new Region.Active(region)
+  export async function generate(region: Region.Description): Promise<SliderPatternDatabase> {
+    const r = new Region.Active(region.tiles)
 
-    const distance = new Array(r.size).fill(null)
+    const EMPTY = 0xFF
 
-    async function traverse(state: SliderState, next_direction: 0 | 1, depth: number, depth_limit: number): Promise<void> {
-      const index = r.stateIndex(state)
+    const distance = new Array(r.size).fill(EMPTY)
 
-      if (depth == depth_limit) {
-        if (distance[index] == null) {
-          distance[index] = depth
-          c++
-        }
-
-        return
-      } else if (depth > distance[index]) {
-        // If we arrived here at a larger depth than saved for this state, we can't find new nodes
-        return
-      }
-
-      const moves = r.move_table[next_direction][SliderState.blank(state)]
-
-      let n = 0
-      for (const move of moves) {
-        const child = SliderState.withMove(state, move)
-
-        await traverse(child, 1 - next_direction as 0 | 1, depth + 1, depth_limit)
-      }
-
-      if (c % 1000 == 0) await delay(1)
-    }
-
-    let limit = 0
     let c = 0
 
-    // Iterative deepening
-    while (c < r.size) {
-      if (r.solves_puzzle) {
-        await traverse(SliderState.SOLVED, 0, 0, limit)
-        await traverse(SliderState.SOLVED, 1, 0, limit)
-      } else {
+    const queue = new Queue<{
+      state: SliderState,
+      next_direction: 0 | 1,
+      depth: number
+    }>()
 
-        for (let i = 0; i < 25; i++) {
-          if (region[i] == Region.Tile.FREE) {
-            const state = [...SliderState.SOLVED]
+    function push(state: SliderState, next_direction: 0 | 1, depth: number) {
+      const index = r.stateIndex(state)
 
-            state[24] = i
-            state[i] = 24
-
-            await traverse(state, 0, 0, limit)
-            await traverse(state, 1, 0, limit)
-          }
-        }
+      if (distance[index] < depth) {
+        return
       }
 
-      console.log(`Limit ${limit}, total ${c}/${r.size}`)
+      if(distance[index] > depth) {
+        distance[index] = depth
+        c++
+      }
 
-      limit++
+      queue.enqueue({
+        state: state,
+        next_direction: next_direction,
+        depth: depth
+      })
     }
+
+    function pushStart(state: SliderState) {
+      const index = r.stateIndex(state)
+
+      distance[index] = 0
+      c++
+
+      queue.enqueue({
+        state: state,
+        next_direction: 0,
+        depth: 0
+      })
+
+      queue.enqueue({
+        state: state,
+        next_direction: 1,
+        depth: 0
+      })
+    }
+
+    // Determine all solved states
+    if (r.solves_puzzle) {
+      pushStart(SliderState.SOLVED)
+    } else {
+      for (let i = 0; i < 25; i++) {
+        if (region[i] == Region.Tile.FREE) {
+          const state = [...SliderState.SOLVED]
+
+          state[24] = i
+          state[i] = 24
+
+          pushStart(state)
+        }
+      }
+    }
+
+    let last_dist = -1
+
+    while (queue.length > 0) {
+      if (c % 10000 == 0) await delay(1)
+
+      const node = queue.dequeue()
+
+      if (node.depth > last_dist) {
+        debugger
+        console.log(`Depth ${node.depth}, total ${c}/${r.size}`)
+        last_dist = node.depth
+      }
+
+      const moves =
+        [
+          ...r.move_table[0][SliderState.blank(node.state)],
+          ...r.move_table[1][SliderState.blank(node.state)]
+        ]
+
+      for (const move of moves) {
+        const child = SliderState.withMove(node.state, move)
+
+        push(child, 1 - node.next_direction as 0 | 1, node.depth + 1)
+      }
+    }
+    console.log(`Limit ${last_dist}, total ${c}/${r.size}`)
 
     const compressed = new Uint8Array(Math.ceil(r.size / 4)).fill(0)
 
@@ -325,7 +367,7 @@ export namespace SliderPatternDatabase {
       compressed[~~(i / 4)] |= (d % 4) << i % 4
     })
 
-    return new SliderPatternDatabase({region: region}, 0, compressed)
+    return new SliderPatternDatabase({region: region.tiles}, 0, compressed)
   }
 }
 
@@ -350,9 +392,5 @@ export class SliderDatabaseMegafile {
     }
 
     this.graph = new SliderPatternDatabase.RegionGraph(regions)
-  }
-
-  static fromKumiNaTanoFiles(files: { region: SliderPatternDatabase.Region, data: Uint8Array }) {
-
   }
 }

@@ -28,6 +28,7 @@
     "lodash": "^4.17.21",
     "pako": "^2.1.0",
     "process": "^0.11.10",
+    "queue-typescript": "^1.0.1",
     "timers-browserify": "^2.0.12",
     "tippy.js": "^6.3.7",
     "uuid": "^9.0.1"

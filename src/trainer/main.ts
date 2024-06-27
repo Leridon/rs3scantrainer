@@ -404,7 +404,7 @@ export async function makeshift_main(): Promise<void> {
 
       new LightButton("Do")
         .onClick(async () => {
-          const pattern = this.text.get().split(",").map(s => Number(s.trim()))
+          const pattern = this.text.get().split(",").map(s => s.trim()).filter(s => s.length > 0).map(s => Number(s))
 
           if(!pattern.every(t => t >= 0 && t <= 2)){
             console.log("Invalid pattern")
@@ -412,7 +412,7 @@ export async function makeshift_main(): Promise<void> {
           }
 
           const db = await SliderPatternDatabase.generate(
-            pattern as Region, true
+            {tiles: pattern as Region, multitile_moves: true}
           )
         }).appendTo(this.body)
     }

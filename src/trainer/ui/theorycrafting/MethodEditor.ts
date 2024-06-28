@@ -23,10 +23,11 @@ import Method = SolvingMethods.Method;
 import ClueSpot = Clues.ClueSpot;
 import {Notification} from "../NotificationBar";
 import notification = Notification.notification;
+import {MethodProperties} from "../MethodProperties";
 
 class MethodEditSideBar extends MapSideBar {
   save_row: ButtonRow
-  meta_props: Properties
+  meta_props: MethodProperties
 
   constructor(private parent: MethodEditor) {
     super("Method Editor");
@@ -40,28 +41,16 @@ class MethodEditSideBar extends MapSideBar {
     })*/
 
     this.parent.is_dirty.subscribe(() => this.renderSaveRow())
-    this.meta_props = new Properties().appendTo(this.body)
+    this.meta_props = new MethodProperties(this.parent.method).appendTo(this.body)
 
     this.renderMetaProps()
     this.renderSaveRow()
   }
 
   private renderMetaProps() {
-    this.meta_props.empty()
+    this.meta_props.render()
 
-    const props = this.meta_props
-
-    props.named("Pack", c().text(this.parent.method.pack ? this.parent.method.pack.name : "None"))
-    props.named("Name", c().text(this.parent.method.method.name))
-    props.named("Assumptions", c().append(...AssumptionProperty.icons(this.parent.method.method.assumptions)))
-
-    props.header("Description")
-    props.row(c().text(this.parent.method.method.description
-        ? this.parent.method.method.description
-        : "None"
-      ).css("font-style", "italic")
-    )
-    props.row(new LightButton("Edit Metainformation", "rectangle").onClick(async () => {
+    this.meta_props.row(new LightButton("Edit Metainformation", "rectangle").onClick(async () => {
       const result = await new EditMethodMetaModal({clue: this.parent.method.clue, spot: this.parent.method.method.for.spot},
         Method.meta(this.parent.method.method)
       ).do()
@@ -73,7 +62,6 @@ class MethodEditSideBar extends MapSideBar {
         this.parent.registerChange()
       }
     }))
-
   }
 
   private renderSaveRow() {

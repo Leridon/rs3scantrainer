@@ -4211,8 +4211,8 @@ name: "Entrana",
     type: "teleports",
     id: "amuletofnature",
     name: "Amulet of Nature",
-    menu_ticks: 1,
-    animation_ticks: 4,
+    menu_ticks: 0,
+    animation_ticks: 3,
     spots: [
       {
         id: "draynornightshade",

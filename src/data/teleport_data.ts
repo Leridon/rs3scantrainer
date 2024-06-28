@@ -4246,7 +4246,6 @@ name: "Entrana",
       action_name: "Teleport",
       img: {url: "amuletofnature.png"},
       name: {kind: "item", name: "Amulet of nature"},
-      menu_ticks: 1,
     }]
   },
   {

@@ -619,7 +619,7 @@ export default class ScanEditor extends MethodSubEditor {
     })
 
     this.builder.augmented.subscribe(a => {
-      this.value.method.expected_time = a.state.timing_analysis.average + 1
+      this.value.method.expected_time = a.state.timing_analysis.average + 1 // + 1 Tick because digging isn't included in the path analysis
     })
   }
 

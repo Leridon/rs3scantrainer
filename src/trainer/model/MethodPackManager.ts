@@ -98,7 +98,9 @@ export class MethodPackManager {
         await (await fetch("data/method_packs/easy_ngis.json")).json(),
         await (await fetch("data/method_packs/medium_ngis.json")).json(),
         await (await fetch("data/method_packs/hard_ngis.json")).json(),
+        await (await fetch("data/method_packs/master_ngis.json")).json(),
         await (await fetch("data/method_packs/elite_compass_ngis.json")).json(),
+        await (await fetch("data/method_packs/tetras_ngis.json")).json(),
       ]
     })()
 

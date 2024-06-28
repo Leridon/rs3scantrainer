@@ -116,7 +116,7 @@ export default class PackWidget extends Widget {
             type: "basic",
             text: "Export JSON",
             handler: () => {
-              ExportStringModal.do(cleanedJSON(pack, 4), "",
+              ExportStringModal.do(cleanedJSON(pack), "",
                 `${pack_name}.json`
               )
             }

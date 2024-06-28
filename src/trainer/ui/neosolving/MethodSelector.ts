@@ -10,6 +10,7 @@ import spacer = C.spacer;
 import span = C.span;
 import hbox = C.hbox;
 import ClueSpot = Clues.ClueSpot;
+import {MethodProperties} from "../MethodProperties";
 
 export default class MethodSelector extends Widget {
   public method: Observable<AugmentedMethod>
@@ -86,13 +87,11 @@ export default class MethodSelector extends Widget {
               spacer()
             )
           } else {
-            // TODO: Add tippy tooltip with more details for the method
-
             return hbox(
               new FavouriteIcon().set(m == this.parent.active_method),
               this.renderName(m),
               spacer()
-            ).tooltip(m.method.description)
+            ).addTippy(new MethodProperties(m))
           }
         }
       })

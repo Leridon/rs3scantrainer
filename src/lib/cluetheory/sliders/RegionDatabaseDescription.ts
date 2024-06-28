@@ -6,7 +6,6 @@ export type RegionDatabaseDescription = {
 }
 
 export namespace RegionDatabaseDescription {
-
   export const SERIALIZED_SIZE = 26
 
   export function serialize(description: RegionDatabaseDescription): Uint8Array {

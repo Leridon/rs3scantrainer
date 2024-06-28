@@ -9,13 +9,14 @@ import {RandomSolver} from "../lib/cluetheory/sliders/RandomSolver";
 import {RegionDistanceDatabase} from "../lib/cluetheory/sliders/RegionDatabase";
 import TextArea from "../lib/ui/controls/TextArea";
 import {Region} from "../lib/cluetheory/sliders/Region";
-import {RegionEditor} from "../devtools/sliderdb/RegionEditor";
+import {RegionChainEditor, RegionEditor} from "../devtools/sliderdb/RegionEditor";
 import SliderState = Sliders.SliderState;
 import MoveList = Sliders.MoveList;
 import hgrid = C.hgrid;
 import span = C.span;
 import spacer = C.spacer;
 import hbox = C.hbox;
+import {RegionChain} from "../lib/cluetheory/sliders/RegionChain";
 
 type DataEntry = {
   id: number,
@@ -382,21 +383,18 @@ class SliderAnalysisModal extends NisModal {
 export async function makeshift_main(): Promise<void> {
 
   await (new class extends NisModal {
-    private region: RegionEditor
+    private region: RegionChainEditor
 
     render() {
       super.render()
 
-      this.region = new RegionEditor()
-        .setValue([1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+      this.region = new RegionChainEditor()
+        .setValue([{
+          region: [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          value: undefined
+        }])
         .appendTo(this.body)
 
-      new LightButton("Do")
-        .onClick(async () => {
-          const db = await RegionDistanceDatabase.generate(
-            {region: this.region.get(), multitile: true}
-          )
-        }).appendTo(this.body)
     }
   }).show()
 

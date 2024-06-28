@@ -27,6 +27,10 @@ const n_choose_k_table: number[][] = (() => {
 export type Region = Region.Tile[]
 
 export namespace Region {
+
+  export function empty(): Region {
+    return [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,]
+  }
   import Move = Sliders.Move;
   import count = util.count;
   import factorial = util.factorial;
@@ -208,5 +212,14 @@ export namespace Region {
     for (let i = 0; i <= current_tiles; i++) result *= (usable_spots - i)
 
     return result
+  }
+
+  export function check(region: Region): string[] {
+    // TODO:
+    //   - Connected
+    //   - Blank is free or everything is solved
+    //   - Every free
+
+    return []
   }
 }

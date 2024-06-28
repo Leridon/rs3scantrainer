@@ -5,7 +5,13 @@ import Widget from "../../lib/ui/Widget";
 import {util} from "../../lib/util/util";
 import hbox = C.hbox;
 import numberWithCommas = util.numberWithCommas;
-
+import {RegionChain} from "../../lib/cluetheory/sliders/RegionChain";
+import Properties from "../../trainer/ui/widgets/Properties";
+import LightButton from "../../trainer/ui/widgets/LightButton";
+import vbox = C.vbox;
+import {Checkbox} from "../../lib/ui/controls/Checkbox";
+import hboxc = C.hboxc;
+import {NislIcon} from "../../trainer/ui/nisl";
 
 class TileEditor extends AbstractEditWidget<Region.Tile> {
   constructor(private locked: boolean = false) {
@@ -53,8 +59,7 @@ export class RegionEditor extends AbstractEditWidget<Region> {
     if (this.description) {
       const r = new Region.Active(this.get())
 
-      let text = `Size: ${numberWithCommas(r.size)}`
-
+      let text = `${numberWithCommas(r.size)}`
 
       const bytes = r.size / 4
       if (bytes > 1024 * 1024) {
@@ -97,5 +102,104 @@ export class RegionEditor extends AbstractEditWidget<Region> {
     this.description = c().appendTo(this)
 
     this.updatePreview()
+  }
+}
+
+export class RegionChainEditor extends AbstractEditWidget<RegionChain<undefined>> {
+  private region_layout: Properties
+
+  private mtm_toggle: Checkbox.Group<boolean>
+
+  constructor() {
+    super();
+
+    const vertical = hbox().appendTo(this)
+
+    hboxc(
+      this.region_layout = new Properties()
+      .css2({
+        "padding-left": "3px",
+        "padding-right": "3px",
+        "max-height": "500px",
+        "overflow-y": "auto"
+      })
+    ).css("flex-grow", 1).appendTo(vertical)
+
+
+    const menu = new Properties().appendTo(vertical)
+      .css("border-left", "1px solid gray")
+      .css("display", "inline-block")
+      .css2({
+        "padding-left": "3px",
+        "padding-right": "3px",
+      })
+
+    menu.row(new LightButton("New Chain", "rectangle").css("margin", "2px")
+      .onClick(() => {
+        this.setValue([{
+          region: Region.empty(),
+          value: undefined
+        }])
+      })
+    )
+    menu.row(new LightButton("Import", "rectangle").css("margin", "2px"))
+    menu.row(new LightButton("Export", "rectangle").css("margin", "2px"))
+
+    menu.row(vbox(
+      ...(this.mtm_toggle = new Checkbox.Group([
+        {button: new Checkbox("STM"), value: false},
+        {button: new Checkbox("MTM"), value: true},
+      ])).checkboxes()
+    ))
+
+    menu.divider()
+
+    menu.row(new LightButton("New Region", "rectangle").css("margin", "2px")
+      .onClick(() => {
+        const copy = [...this.get()]
+        copy.push({region: Region.empty(), value: undefined})
+
+        this.commit(copy, true)
+      })
+    )
+
+    menu.divider()
+
+    menu.row(new LightButton("Create tables", "rectangle").css("margin", "2px"))
+  }
+
+  protected render() {
+    const chain = this.get()
+
+    this.region_layout.empty()
+
+    for (let i = 0; i < chain.length; i++) {
+      const region = chain[i]
+
+      if (i > 0) this.region_layout.divider()
+
+      this.region_layout.header(
+        hbox(
+          hboxc(`Region ${i}`).css("flex-grow", 1),
+          NislIcon.delete()
+            .on("click", () =>  {
+              const copy = [...this.get()]
+
+              copy.splice(i, 1)
+
+              this.commit(copy, true)
+            })
+        )
+      )
+
+      this.region_layout.row(new RegionEditor().setValue(region.region)
+        .onCommit(r => {
+          const copy = [...chain]
+          copy[i].region = r
+
+          this.commit(copy)
+        })
+      )
+    }
   }
 }

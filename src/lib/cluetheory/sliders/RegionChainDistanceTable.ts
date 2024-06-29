@@ -2,11 +2,12 @@ import {RegionDistanceTable} from "./RegionDistanceTable";
 import {Process} from "../../Process";
 import {Region} from "./Region";
 import {Observable, observe} from "../../reactive";
+import * as lodash from "lodash";
 
 export class RegionChainDistanceTable {
   graph: RegionDistanceTable.RegionGraph
 
-  constructor(private data: Uint8Array) {
+  constructor(public data: Uint8Array) {
     let offset = 0
 
     const regions: RegionDistanceTable[] = []
@@ -44,7 +45,7 @@ export namespace RegionChainDistanceTable {
         visited_nodes: 0,
         active_region: 0,
         sub_progress: this.description.regions.map(r => ({
-          region: new Region.Active(r),
+          region: new Region.Indexing(r),
           depth: 0,
           nodes: 0
         }))
@@ -89,7 +90,23 @@ export namespace RegionChainDistanceTable {
         this.solved_nodes += generator.region.size
       }
 
-      // TODO: concat regions
+      const sum = lodash.sumBy(generated_regions, r => r.byte_size)
+
+      const total = new Uint8Array(sum)
+
+      let offset = 0
+      for(let region of generated_regions) {
+        total.set(region.underlying_data, offset)
+        offset += region.byte_size
+      }
+
+      const result = new RegionChainDistanceTable(total)
+
+      this.progress.update2(c => {
+        c.final_result = result
+      })
+
+      return result
     }
 
     onProgress(f: (_: Generator.Progress) => void): this {

@@ -1,20 +1,22 @@
-import {Queue} from "queue-typescript";
 import {OptimizedSliderState} from "./OptimizedSliderState";
 import {Region} from "./Region";
 import {Process} from "../../Process";
 import {Observable, observe} from "../../reactive";
+import {MoveTable} from "./MoveTable";
 
 export class RegionDistanceTable {
   public description: RegionDistanceTable.Description
 
   public readonly byte_size: number
 
-  region: Region.Active
+  region: Region.Indexing
+  move_table: MoveTable
 
-  constructor(private underlying_data: Uint8Array, private data_offset: number = 0) {
+  constructor(public underlying_data: Uint8Array, private data_offset: number = 0) {
     this.description = RegionDistanceTable.Description.deserialize(underlying_data, data_offset)
 
-    this.region = new Region.Active(this.description.region)
+    this.region = new Region.Indexing(this.description.region)
+    this.move_table = new MoveTable(this.description.region, this.description.multitile)
 
     this.byte_size = RegionDistanceTable.Description.SERIALIZED_SIZE + this.region.size / 4
   }
@@ -33,6 +35,7 @@ export class RegionDistanceTable {
 }
 
 export namespace RegionDistanceTable {
+
   export type Description = {
     region: Region,
     multitile: boolean
@@ -82,14 +85,14 @@ export namespace RegionDistanceTable {
   export class Generator extends Process<RegionDistanceTable> {
     private progress: Observable<Generator.Progress>
 
-    public region: Region.Active
+    public region: Region.Indexing
     private visited_nodes: number = 0
     private current_depth: number = 0
 
     constructor(private description: Description) {
       super();
 
-      this.region = new Region.Active(this.description.region)
+      this.region = new Region.Indexing(this.description.region)
 
       this.progress = observe<Generator.Progress>({region: this.region, nodes: 0, depth: 0})
 
@@ -103,23 +106,16 @@ export namespace RegionDistanceTable {
     async implementation(): Promise<RegionDistanceTable> {
 
       const r = this.region
+      const move_table = new MoveTable(this.description.region, this.description.multitile)
 
       const visited = new Uint8Array(Math.ceil(r.size / 8)).fill(0)
       const compressed = new Uint8Array(Description.SERIALIZED_SIZE + r.size / 4).fill(0)
 
-      // TODO: This queue implementation is too heavyweight and breaks for the larger tables
-      //        - Elements being an object is bad
-      //        - depth could be stored for an entire range/runlength instead of per node
-      //        - Saving the previous move inside of the same optimizedsliderstate would be better
-      //        - The queue probably creates a lot of objects internally. Using a custom ring buffer implementation could be more efficient
-      //          - ... or just maintain two lists: current depth/next depth.
-      const queue = new Queue<{
-        state: OptimizedSliderState,
-        next_direction: 0 | 1,
-        depth: number
-      }>()
+      let depth = 0
+      let current_depth: OptimizedSliderState[] = []
+      let next_depth: OptimizedSliderState[] = []
 
-      const push = (state: OptimizedSliderState, next_direction: 0 | 1, depth: number) => {
+      const push = (state: OptimizedSliderState, depth: number) => {
         const index = r.stateIndex(state)
 
         const h = ~~(index / 8)
@@ -132,39 +128,12 @@ export namespace RegionDistanceTable {
 
         this.visited_nodes++
 
-        queue.enqueue({
-          state: state,
-          next_direction: next_direction,
-          depth: depth
-        })
-      }
-
-      const pushStart = (state: OptimizedSliderState) => {
-        const index = r.stateIndex(state)
-
-        const h = ~~(index / 8)
-        const l = index % 8
-
-        visited[h] |= 1 << l
-
-        this.visited_nodes++
-
-        queue.enqueue({
-          state: state,
-          next_direction: 0,
-          depth: 0
-        })
-
-        queue.enqueue({
-          state: state,
-          next_direction: 1,
-          depth: 0
-        })
+        next_depth.push(state)
       }
 
       // Determine all solved states
       if (r.solves_puzzle) {
-        pushStart(OptimizedSliderState.SOLVED)
+        push(OptimizedSliderState.SOLVED, 0)
       } else {
         for (let i = 0; i < 25; i++) {
           if (this.description.region[i] == Region.Tile.FREE) {
@@ -174,41 +143,34 @@ export namespace RegionDistanceTable {
             state[i] = 24
             state[OptimizedSliderState.BLANK_INDEX] = i
 
-            pushStart(state)
+            push(state, 0)
           }
         }
       }
 
-      console.log(`Starting with ${queue.length} nodes`)
+      while (next_depth.length > 0) {
+        current_depth = next_depth
+        next_depth = []
 
-      let last_dist = -1
+        console.log(`Depth ${depth}, total ${this.visited_nodes}/${r.size}, queue: ${current_depth.length.toString()}`)
 
-      while (queue.length > 0) {
-        if (this.visited_nodes % 10000 == 0) await this.checkTime()
+        this.current_depth = depth++
 
-        if (this.should_stop) return null
+        for (const node of current_depth) {
+          if (this.visited_nodes % 100000 == 0) await this.checkTime()
 
-        const node = queue.dequeue()
+          if (this.should_stop) return null
 
-        if (node.depth > last_dist) {
-          this.current_depth = node.depth
+          for (const move of move_table.get(node)) {
+            const child = OptimizedSliderState.copy(node)
+            OptimizedSliderState.doMove(child, move)
 
-          console.log(`Depth ${node.depth}, total ${this.visited_nodes}/${r.size}, queue: ${queue.length.toString()}`)
-          last_dist = node.depth
-        }
-
-        const moves = r.move_table[node.next_direction][node.state[OptimizedSliderState.BLANK_INDEX]]
-
-        for (const move of moves) {
-          const child = OptimizedSliderState.copy(node.state)
-          OptimizedSliderState.doMove(child, move)
-
-          push(child, 1 - node.next_direction as 0 | 1, node.depth + 1)
+            push(child, depth)
+          }
         }
       }
 
-
-      console.log(`Depth ${last_dist}, total ${c}/${r.size}`)
+      console.log(`Depth ${depth}, total ${this.visited_nodes}/${r.size}`)
 
       compressed.set(Description.serialize(this.description))
 
@@ -226,7 +188,7 @@ export namespace RegionDistanceTable {
 
   export namespace Generator {
     export type Progress = {
-      region: Region.Active,
+      region: Region.Indexing,
       nodes: number,
       depth: number
     }

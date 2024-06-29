@@ -1,11 +1,9 @@
-import {calcmap, optimisemoves, SlideMove, SliderMap, SlideSolverRandom} from "../../skillbertssolver/cluesolver/slidesolver";
 import {ewent} from "../reactive";
 import * as lodash from "lodash";
 import {Process} from "../Process";
 import {util} from "../util/util";
 import {ImageFingerprint} from "../util/ImageFingerprint";
 import {Log} from "../util/Log";
-import {RandomSolver} from "./sliders/RandomSolver";
 
 export namespace Sliders {
   export type SliderPuzzle = { tiles: Tile[], theme?: string, match_score?: number }
@@ -192,6 +190,13 @@ export namespace Sliders {
   export type Move = number
 
   export namespace Move {
+    export const all: Move[] = [-20, -15, -10, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 10, 15, 20]
+    export const singletile_moves: Move[] = [-4, -3, -2, -1, 1, 2, 3, 4]
+    export const multitile_moves: Move[] = all
+
+    export const horizontal_mtm = [-4, -3, -2, -1, 1, 2, 3, 4]
+    export const vertical_mtm = [-20, -15, -10, -5, 5, 10, 15, 20]
+
     export function split(move: Move): Move[] {
       const single_tile_move = Math.sign(move) * (Math.abs(move) >= 5 ? 5 : 1)
 
@@ -210,10 +215,6 @@ export namespace Sliders {
 
     export function isVertical(move: Move): boolean {
       return move % 5 == 0
-    }
-
-    export function asSmallStep(move: Move): Move {
-      return
     }
   }
 
@@ -373,7 +374,6 @@ export namespace Sliders {
   }
 
   export namespace SlideSolver {
-    import log = Log.log;
 
 
 

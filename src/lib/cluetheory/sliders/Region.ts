@@ -31,12 +31,12 @@ export namespace Region {
   export function empty(): Region {
     return [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,]
   }
-  import Move = Sliders.Move;
+
   import count = util.count;
   import factorial = util.factorial;
   import SliderState = Sliders.SliderState;
 
-  export class Active {
+  export class Indexing {
     public number_of_permutations: number
     public current: number
     public freedom: number
@@ -47,11 +47,6 @@ export namespace Region {
     private combination_relevant_tiles: boolean[]
     private permutation_table: number[]
 
-    // Prepared move table that contains all possible moves for every blank position and both move directions
-    // move_table[0][i] = possible horizontal moves when the blank tile is at position i
-    // move_table[1][i] = possible vertical moves when the blank tile is at position i
-    move_table: Move[][][]
-
     public readonly solves_puzzle: boolean
 
     constructor(private region: Region) {
@@ -61,43 +56,6 @@ export namespace Region {
 
       this.number_of_permutations = factorial(this.current)
       this.size = factorial(this.freedom, Math.max(2, this.freedom - this.current))
-
-      this.move_table = (() => {
-
-        // TODO: This needs to depend on whether we're doing single tile or multi tile moves
-
-        const res: Move[][][] = []
-
-        const lut: Move[][] = [
-          [1, 2, 3, 4],
-          [-1, 1, 2, 3],
-          [-2, -1, 1, 2],
-          [-3, -2, -1, 1],
-          [-4, -3, -2, -1],
-        ]
-
-        // Horizontal moves
-        {
-          res[0] = new Array<Move[]>(25)
-
-          for (let blank_i = 0; blank_i < 25; blank_i++) {
-
-            res[0][blank_i] = lut[blank_i % 5]
-          }
-        }
-
-        // Vertical moves
-        {
-          res[1] = new Array<Move[]>(25)
-
-          for (let blank_i = 0; blank_i < 25; blank_i++) {
-
-            res[1][blank_i] = lut[~~(blank_i / 5)].map(m => 5 * m)
-          }
-        }
-
-        return res.map(tbl => tbl.map((moves, blank_i) => moves.filter(m => this.region[m + blank_i] != Tile.FIXED)))
-      })()
 
       {
         this.combination_prioritized_indices = lodash.sortBy(region.map((tile, i) => [tile, i]).filter(e => e[0] != Tile.FIXED), e => -e[0]).map(e => e[1])
@@ -194,6 +152,13 @@ export namespace Region {
         case Tile.FIXED:
           return child[index] == Tile.CURRENT
       }
+    })
+  }
+
+  export function child(parent: Region): Region {
+    return parent.map(tile => {
+      if (tile == Tile.FREE) return Tile.FREE
+      else return Tile.FIXED
     })
   }
 

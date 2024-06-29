@@ -8,12 +8,15 @@ import LightButton from "../../trainer/ui/widgets/LightButton";
 import {Checkbox} from "../../lib/ui/controls/Checkbox";
 import {NislIcon} from "../../trainer/ui/nisl";
 import {RegionChainDistanceTable} from "../../lib/cluetheory/sliders/RegionChainDistanceTable";
+import {NisModal} from "../../lib/ui/NisModal";
+import {BigNisButton} from "../../trainer/ui/widgets/BigNisButton";
 import hbox = C.hbox;
 import numberWithCommas = util.numberWithCommas;
 import vbox = C.vbox;
 import hboxc = C.hboxc;
 import copyUpdate = util.copyUpdate;
-import {NisModal} from "../../lib/ui/NisModal";
+import downloadBinaryFile = util.downloadBinaryFile;
+import {deflate} from "pako";
 
 class TileEditor extends AbstractEditWidget<Region.Tile> {
   constructor(private locked: boolean = false) {
@@ -59,7 +62,7 @@ export class RegionEditor extends AbstractEditWidget<Region> {
 
   private updatePreview() {
     if (this.description) {
-      const r = new Region.Active(this.get())
+      const r = new Region.Indexing(this.get())
 
       let text = `${numberWithCommas(r.size)}`
 
@@ -211,6 +214,8 @@ export class RegionChainEditor extends AbstractEditWidget<RegionChainDistanceTab
 
       if (i > 0) this.region_layout.divider()
 
+      const editor = new RegionEditor().setValue(region)
+
       this.region_layout.header(
         hbox(
           hboxc(`Region ${i}`).css("flex-grow", 1),
@@ -219,11 +224,17 @@ export class RegionChainEditor extends AbstractEditWidget<RegionChainDistanceTab
               this.commit(copyUpdate(this.get(), e => {
                 e.regions.splice(i, 1)
               }), true)
-            })
+            }),
+          NislIcon.from("assets/icons/copy.png")
+            .on("click", () => {
+              this.commit(copyUpdate(this.get(), c => {
+                c.regions.push(Region.child(editor.get()))
+              }), true)
+            }),
         )
       )
 
-      this.region_layout.row(new RegionEditor().setValue(region)
+      this.region_layout.row(editor
         .onCommit(r => {
 
           this.commit(copyUpdate(this.get(),
@@ -245,7 +256,8 @@ class ProgressWidget extends Widget {
       const bar = c().css2({
         height: "30px",
         border: "1px solid gray",
-        position: "relative"
+        position: "relative",
+        "margin-bottom": "5px"
       }).appendTo(this)
 
       c().css2({
@@ -253,7 +265,7 @@ class ProgressWidget extends Widget {
         left: 0,
         top: 0,
         bottom: 0,
-        "z-index": 10,
+        "z-index": 0,
         width: `${(100 * sub.nodes / sub.region.size).toFixed(1)}%`,
         "background-color": "orange"
       }).appendTo(bar)
@@ -269,7 +281,20 @@ class ProgressWidget extends Widget {
         .appendTo(bar)
     }
 
-  }
+    if (progress.final_result) {
+      new BigNisButton("Download File", "confirm")
+        .onClick(() => {
+          downloadBinaryFile("pdb.bin", progress.final_result.data)
+        }).appendTo(this)
+
+      new BigNisButton("Download Compressed", "confirm")
+        .onClick(() => {
+          const compressed = deflate(progress.final_result.data)
+
+          downloadBinaryFile("pdb_compressed.bin", compressed)
+        }).appendTo(this)
+    }
+  }W
 }
 
 export class RegionChainGeneratorWidget extends Widget {

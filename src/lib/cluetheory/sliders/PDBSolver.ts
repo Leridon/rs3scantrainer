@@ -32,7 +32,7 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
 
         let found_optimal_move: boolean = false
 
-        for (const move of current_region.region.move_table[next_direction][state[OptimizedSliderState.BLANK_INDEX]]) {
+        for (const move of current_region.move_table[next_direction][state[OptimizedSliderState.BLANK_INDEX]]) {
 
           const child_index = current_region.region.stateIndex(state)
           const child_distance = current_region.getDistanceByIndex(child_index)

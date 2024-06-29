@@ -1,19 +1,15 @@
 import {Sliders} from "../Sliders";
 import {RegionDistanceTable} from "./RegionDistanceTable";
+import {OptimizedSliderState} from "./OptimizedSliderState";
+import {RegionChainDistanceTable} from "./RegionChainDistanceTable";
 import SliderState = Sliders.SliderState;
 import MoveList = Sliders.MoveList;
-import SlideStateWithBlank = Sliders.SlideStateWithBlank;
-import Move = Sliders.Move;
-import {OptimizedSliderState} from "./OptimizedSliderState";
-
-
-
-// TODO: Move table is dependent on region, move into Region.Active
-
+import {util} from "../../util/util";
+import numberWithCommas = util.numberWithCommas;
 
 export class PDBSolvingProcess extends Sliders.SolvingProcess {
 
-  constructor(start_state: SliderState, private data: RegionDistanceTable.RegionGraph) {
+  constructor(start_state: SliderState, private data: RegionChainDistanceTable) {
     super(start_state);
   }
 
@@ -22,45 +18,52 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
     const state = OptimizedSliderState.fromState(this.start_state)
     const move_list: MoveList = []
 
-    const doregion = async (current_region: RegionDistanceTable, next_direction: 0 | 1): Promise<void> => {
+    const doregion = async (current_region: RegionDistanceTable): Promise<void> => {
       await this.checkTime() // TODO: Maybe this doesn't need to be done this often
 
-      const dostate = async (next_direction: 0 | 1, known_distance: number, state_index: number) => {
+      const dostate = async (known_distance: number) => {
         if (this.should_stop) return
 
-        if (move_list.length > this.best_solution.length) return // Abort if this can't be better than the best solution we already found
+        if (this.best_solution && move_list.length > this.best_solution.length) return // Abort if this can't be better than the best solution we already found
 
         let found_optimal_move: boolean = false
 
-        for (const move of current_region.move_table[next_direction][state[OptimizedSliderState.BLANK_INDEX]]) {
+        const moves = current_region.move_table.get(state)
+        const previous_move = state[OptimizedSliderState.LASTMOVE_INDEX]
+
+        for (const move of moves) {
+
+          OptimizedSliderState.doMove(state, move)
 
           const child_index = current_region.region.stateIndex(state)
           const child_distance = current_region.getDistanceByIndex(child_index)
 
+          console.log(`${child_distance} from ${known_distance} for move ${move} to ${numberWithCommas(child_index)}`)
+
           if ((child_distance + 1) % 4 == known_distance) {
             // this is an optimal move
-
-            found_optimal_move = false
-
-            OptimizedSliderState.doMove(state, move)
+            found_optimal_move = true
 
             move_list.push(move)
-            await dostate(1 - next_direction as 0 | 1, child_distance, child_index)
+            await dostate(child_distance)
             move_list.pop()
-
-            OptimizedSliderState.doMove(state, -move)
           }
+
+          state[OptimizedSliderState.LASTMOVE_INDEX] = previous_move
+          OptimizedSliderState.doMove(state, -move)
         }
 
         if (!found_optimal_move) {
+          debugger
+
           // When no optimal move exists, this must be a solved state. Continue with child regions instead
-          const children = this.data.getChildren(current_region)
+          const children = this.data.graph.getChildren(current_region)
 
           if (children.length == 0) {
             this.registerSolution(move_list)
           } else {
             for (const child of children) {
-              await doregion(child, next_direction)
+              await doregion(child)
             }
           }
         }
@@ -68,22 +71,21 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
 
       const idx = current_region.region.stateIndex(state)
 
-      await dostate(next_direction, current_region.getDistanceByIndex(idx), idx)
+      await dostate(current_region.getDistanceByIndex(idx))
     }
 
     while (!this.should_stop) {
-      for (const start of this.data.getEntryPoints()) {
+      for (const start of this.data.graph.getEntryPoints()) {
 
         // Start the search 2 times. Once with a vertical first move and once with a horizontal first move
-        await doregion(start, 0)
-        await doregion(start, 1)
+        await doregion(start)
       }
     }
   }
 }
 
 export class PDBSolver extends Sliders.Solver {
-  constructor(private data: RegionDistanceTable.RegionGraph) {
+  constructor(private data: RegionChainDistanceTable) {
     super();
   }
 

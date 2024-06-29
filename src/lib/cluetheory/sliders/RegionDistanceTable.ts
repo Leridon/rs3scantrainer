@@ -12,6 +12,8 @@ export class RegionDistanceTable {
   region: Region.Indexing
   move_table: MoveTable
 
+  private real_data_offset: number
+
   constructor(public underlying_data: Uint8Array, private data_offset: number = 0) {
     this.description = RegionDistanceTable.Description.deserialize(underlying_data, data_offset)
 
@@ -19,6 +21,7 @@ export class RegionDistanceTable {
     this.move_table = new MoveTable(this.description.region, this.description.multitile)
 
     this.byte_size = RegionDistanceTable.Description.SERIALIZED_SIZE + this.region.size / 4
+    this.real_data_offset = data_offset + RegionDistanceTable.Description.SERIALIZED_SIZE
   }
 
   /**
@@ -30,7 +33,7 @@ export class RegionDistanceTable {
   }
 
   getDistanceByIndex(index: number): number {
-    return (this.underlying_data[this.data_offset + ~~(index / 4)] >> (index % 4)) & 0x03
+    return (this.underlying_data[this.real_data_offset + ~~(index / 4)] >> (index % 4)) & 0x03
   }
 }
 

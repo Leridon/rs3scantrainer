@@ -76,6 +76,6 @@ export namespace OptimizedSliderState {
   export function fromState(state: SliderState): OptimizedSliderState {
     const blank = SliderState.blank(state)
 
-    return new Uint8Array([...state, blank, 0])
+    return new Uint8Array([...state, blank, 20])
   }
 }

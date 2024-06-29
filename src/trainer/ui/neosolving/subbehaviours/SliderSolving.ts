@@ -18,6 +18,8 @@ import SolvingProcess = Sliders.SolvingProcess;
 import AnnotatedMoveList = Sliders.AnnotatedMoveList;
 import MoveList = Sliders.MoveList;
 import Move = Sliders.Move;
+import {PDBSolver} from "../../../../lib/cluetheory/sliders/PDBSolver";
+import {RegionChainDistanceTable} from "../../../../lib/cluetheory/sliders/RegionChainDistanceTable";
 
 class SliderGuideProcess extends AbstractPuzzleProcess {
   settings = deps().app.settings.settings.solving.puzzles.sliders
@@ -577,7 +579,12 @@ export class SliderSolving extends AbstractPuzzleSolving<
   }
 
   protected async constructProcess(): Promise<SliderGuideProcess> {
-    return null
+    const pdb = await (await fetch("data/sliderpdb/pdb.bin")).arrayBuffer()
+
+    return new SliderGuideProcess(
+      this,
+      new PDBSolver(new RegionChainDistanceTable(new Uint8Array(pdb)))
+    )
   }
 
   pausesClueReader(): boolean {

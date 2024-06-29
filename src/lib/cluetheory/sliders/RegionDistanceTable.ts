@@ -107,6 +107,12 @@ export namespace RegionDistanceTable {
       const visited = new Uint8Array(Math.ceil(r.size / 8)).fill(0)
       const compressed = new Uint8Array(Description.SERIALIZED_SIZE + r.size / 4).fill(0)
 
+      // TODO: This queue implementation is too heavyweight and breaks for the larger tables
+      //        - Elements being an object is bad
+      //        - depth could be stored for an entire range/runlength instead of per node
+      //        - Saving the previous move inside of the same optimizedsliderstate would be better
+      //        - The queue probably creates a lot of objects internally. Using a custom ring buffer implementation could be more efficient
+      //          - ... or just maintain two lists: current depth/next depth.
       const queue = new Queue<{
         state: OptimizedSliderState,
         next_direction: 0 | 1,

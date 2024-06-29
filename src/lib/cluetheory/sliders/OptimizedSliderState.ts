@@ -11,8 +11,9 @@ export namespace OptimizedSliderState {
   }
 
   export const BLANK_INDEX = 25
+  export const LASTMOVE_INDEX = 26
 
-  export const SOLVED: OptimizedSliderState = new Uint8Array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 24])
+  export const SOLVED: OptimizedSliderState = new Uint8Array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 24, 0])
 
   const partial_moves: number[][] = [
     /* -20 */[0, -5, -10, -15, -20],
@@ -67,12 +68,14 @@ export namespace OptimizedSliderState {
       state[blank + partials[i]] = state[blank + partials[i + 1]]
     }
 
+    state[LASTMOVE_INDEX] = move
+
     state[state[BLANK_INDEX] = blank + move] = 24
   }
 
   export function fromState(state: SliderState): OptimizedSliderState {
     const blank = SliderState.blank(state)
 
-    return new Uint8Array([...state, blank])
+    return new Uint8Array([...state, blank, 0])
   }
 }

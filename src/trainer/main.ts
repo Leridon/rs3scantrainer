@@ -6,7 +6,7 @@ import {C} from "../lib/ui/constructors";
 import LightButton from "./ui/widgets/LightButton";
 import Widget from "../lib/ui/Widget";
 import {RandomSolver} from "../lib/cluetheory/sliders/RandomSolver";
-import {RegionDistanceDatabase} from "../lib/cluetheory/sliders/RegionDatabase";
+import {RegionDistanceTable} from "../lib/cluetheory/sliders/RegionDistanceTable";
 import TextArea from "../lib/ui/controls/TextArea";
 import {Region} from "../lib/cluetheory/sliders/Region";
 import {RegionChainEditor, RegionEditor} from "../devtools/sliderdb/RegionEditor";
@@ -17,6 +17,8 @@ import span = C.span;
 import spacer = C.spacer;
 import hbox = C.hbox;
 import {RegionChain} from "../lib/cluetheory/sliders/RegionChain";
+import {TileRectangle} from "../lib/runescape/coordinates";
+import tr = TileRectangle.tr;
 
 type DataEntry = {
   id: number,
@@ -389,10 +391,12 @@ export async function makeshift_main(): Promise<void> {
       super.render()
 
       this.region = new RegionChainEditor()
-        .setValue([{
-          region: [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-          value: undefined
-        }])
+        .setValue({
+          multitile: true,
+          regions: [
+            [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+          ]
+        })
         .appendTo(this.body)
 
     }

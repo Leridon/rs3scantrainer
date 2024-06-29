@@ -1,5 +1,5 @@
 import {Sliders} from "../Sliders";
-import {RegionDistanceDatabase} from "./RegionDatabase";
+import {RegionDistanceTable} from "./RegionDistanceTable";
 import SliderState = Sliders.SliderState;
 import MoveList = Sliders.MoveList;
 import SlideStateWithBlank = Sliders.SlideStateWithBlank;
@@ -13,7 +13,7 @@ import {OptimizedSliderState} from "./OptimizedSliderState";
 
 export class PDBSolvingProcess extends Sliders.SolvingProcess {
 
-  constructor(start_state: SliderState, private data: RegionDistanceDatabase.RegionGraph) {
+  constructor(start_state: SliderState, private data: RegionDistanceTable.RegionGraph) {
     super(start_state);
   }
 
@@ -22,7 +22,7 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
     const state = OptimizedSliderState.fromState(this.start_state)
     const move_list: MoveList = []
 
-    const doregion = async (current_region: RegionDistanceDatabase, next_direction: 0 | 1): Promise<void> => {
+    const doregion = async (current_region: RegionDistanceTable, next_direction: 0 | 1): Promise<void> => {
       await this.checkTime() // TODO: Maybe this doesn't need to be done this often
 
       const dostate = async (next_direction: 0 | 1, known_distance: number, state_index: number) => {
@@ -83,7 +83,7 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
 }
 
 export class PDBSolver extends Sliders.Solver {
-  constructor(private data: RegionDistanceDatabase.RegionGraph) {
+  constructor(private data: RegionDistanceTable.RegionGraph) {
     super();
   }
 

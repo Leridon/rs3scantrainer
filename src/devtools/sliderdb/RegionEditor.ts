@@ -3,15 +3,17 @@ import {Region} from "../../lib/cluetheory/sliders/Region";
 import {C} from "../../lib/ui/constructors";
 import Widget from "../../lib/ui/Widget";
 import {util} from "../../lib/util/util";
-import hbox = C.hbox;
-import numberWithCommas = util.numberWithCommas;
-import {RegionChain} from "../../lib/cluetheory/sliders/RegionChain";
 import Properties from "../../trainer/ui/widgets/Properties";
 import LightButton from "../../trainer/ui/widgets/LightButton";
-import vbox = C.vbox;
 import {Checkbox} from "../../lib/ui/controls/Checkbox";
-import hboxc = C.hboxc;
 import {NislIcon} from "../../trainer/ui/nisl";
+import {RegionChainDistanceTable} from "../../lib/cluetheory/sliders/RegionChainDistanceTable";
+import hbox = C.hbox;
+import numberWithCommas = util.numberWithCommas;
+import vbox = C.vbox;
+import hboxc = C.hboxc;
+import copyUpdate = util.copyUpdate;
+import {NisModal} from "../../lib/ui/NisModal";
 
 class TileEditor extends AbstractEditWidget<Region.Tile> {
   constructor(private locked: boolean = false) {
@@ -105,7 +107,7 @@ export class RegionEditor extends AbstractEditWidget<Region> {
   }
 }
 
-export class RegionChainEditor extends AbstractEditWidget<RegionChain<undefined>> {
+export class RegionChainEditor extends AbstractEditWidget<RegionChainDistanceTable.Description> {
   private region_layout: Properties
 
   private mtm_toggle: Checkbox.Group<boolean>
@@ -117,12 +119,12 @@ export class RegionChainEditor extends AbstractEditWidget<RegionChain<undefined>
 
     hboxc(
       this.region_layout = new Properties()
-      .css2({
-        "padding-left": "3px",
-        "padding-right": "3px",
-        "max-height": "500px",
-        "overflow-y": "auto"
-      })
+        .css2({
+          "padding-left": "3px",
+          "padding-right": "3px",
+          "max-height": "500px",
+          "overflow-y": "auto"
+        })
     ).css("flex-grow", 1).appendTo(vertical)
 
 
@@ -136,10 +138,10 @@ export class RegionChainEditor extends AbstractEditWidget<RegionChain<undefined>
 
     menu.row(new LightButton("New Chain", "rectangle").css("margin", "2px")
       .onClick(() => {
-        this.setValue([{
-          region: Region.empty(),
-          value: undefined
-        }])
+        this.setValue({
+          multitile: false,
+          regions: [Region.empty()]
+        })
       })
     )
     menu.row(new LightButton("Import", "rectangle").css("margin", "2px"))
@@ -156,16 +158,39 @@ export class RegionChainEditor extends AbstractEditWidget<RegionChain<undefined>
 
     menu.row(new LightButton("New Region", "rectangle").css("margin", "2px")
       .onClick(() => {
-        const copy = [...this.get()]
-        copy.push({region: Region.empty(), value: undefined})
-
-        this.commit(copy, true)
+        this.commit(copyUpdate(this.get(), c => {
+          c.regions.push(Region.empty())
+        }), true)
       })
     )
 
     menu.divider()
 
-    menu.row(new LightButton("Create tables", "rectangle").css("margin", "2px"))
+    menu.row(new LightButton("Create tables", "rectangle").css("margin", "2px")
+      .onClick(() => {
+        const generator = new RegionChainDistanceTable.Generator(this.get());
+
+        const modal = (new class extends NisModal {
+          constructor() {super();}
+
+          render() {
+            super.render();
+
+            new RegionChainGeneratorWidget(generator).appendTo(this.body)
+          }
+        })
+
+        modal.show()
+
+        modal.hidden.on(() => {
+          generator.stop()
+        })
+
+        modal.shown.on(() => {
+          generator.run()
+        })
+      })
+    )
   }
 
   protected render() {
@@ -173,8 +198,10 @@ export class RegionChainEditor extends AbstractEditWidget<RegionChain<undefined>
 
     this.region_layout.empty()
 
-    for (let i = 0; i < chain.length; i++) {
-      const region = chain[i]
+    this.mtm_toggle.setValue(chain.multitile)
+
+    for (let i = 0; i < chain.regions.length; i++) {
+      const region = chain.regions[i]
 
       if (i > 0) this.region_layout.divider()
 
@@ -182,24 +209,70 @@ export class RegionChainEditor extends AbstractEditWidget<RegionChain<undefined>
         hbox(
           hboxc(`Region ${i}`).css("flex-grow", 1),
           NislIcon.delete()
-            .on("click", () =>  {
-              const copy = [...this.get()]
-
-              copy.splice(i, 1)
-
-              this.commit(copy, true)
+            .on("click", () => {
+              this.commit(copyUpdate(this.get(), e => {
+                e.regions.splice(i, 1)
+              }), true)
             })
         )
       )
 
-      this.region_layout.row(new RegionEditor().setValue(region.region)
+      this.region_layout.row(new RegionEditor().setValue(region)
         .onCommit(r => {
-          const copy = [...chain]
-          copy[i].region = r
 
-          this.commit(copy)
+          this.commit(copyUpdate(this.get(),
+            e => e.regions[i] = r
+          ))
         })
       )
     }
+  }
+}
+
+class ProgressWidget extends Widget {
+  constructor(progress: RegionChainDistanceTable.Generator.Progress) {
+    super();
+
+    for (let i = 0; i < progress.sub_progress.length; i++) {
+      const sub = progress.sub_progress[i]
+
+      const bar = c().css2({
+        height: "30px",
+        border: "1px solid gray",
+        position: "relative"
+      }).appendTo(this)
+
+      c().css2({
+        position: "absolute",
+        left: 0,
+        top: 0,
+        bottom: 0,
+        "z-index": 10,
+        width: `${(100 * sub.nodes / sub.region.size).toFixed(1)}%`,
+        "background-color": "orange"
+      }).appendTo(bar)
+
+      c().css2({
+        width: "100%",
+        height: "100%",
+        position: "relative",
+        "text-shadow": "-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000",
+        "text-align": "center",
+        "z-index": 1
+      }).text(`Depth ${sub.depth}: ${numberWithCommas(sub.nodes)}/${numberWithCommas(sub.region.size)}`)
+        .appendTo(bar)
+    }
+
+  }
+}
+
+export class RegionChainGeneratorWidget extends Widget {
+  constructor(private generator: RegionChainDistanceTable.Generator) {
+    super();
+
+    generator.onProgress(p => {
+      this.empty()
+      this.append(new ProgressWidget(p))
+    })
   }
 }

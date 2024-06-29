@@ -104,9 +104,8 @@ export namespace RegionDistanceTable {
 
       const r = this.region
 
-      const EMPTY = 0xFF
-
-      const distance = new Uint8Array(r.size).fill(EMPTY)
+      const visited = new Uint8Array(Math.ceil(r.size / 8)).fill(0)
+      const compressed = new Uint8Array(Description.SERIALIZED_SIZE + r.size / 4).fill(0)
 
       const queue = new Queue<{
         state: OptimizedSliderState,
@@ -117,9 +116,14 @@ export namespace RegionDistanceTable {
       const push = (state: OptimizedSliderState, next_direction: 0 | 1, depth: number) => {
         const index = r.stateIndex(state)
 
-        if (distance[index] != EMPTY) return
+        const h = ~~(index / 8)
+        const l = index % 8
 
-        distance[index] = depth
+        if (((visited[h] >> l) & 1) != 0) return
+
+        visited[h] |= 1 << l
+        compressed[Description.SERIALIZED_SIZE + ~~(index / 4)] |= (depth % 4) << (index % 4)
+
         this.visited_nodes++
 
         queue.enqueue({
@@ -132,7 +136,11 @@ export namespace RegionDistanceTable {
       const pushStart = (state: OptimizedSliderState) => {
         const index = r.stateIndex(state)
 
-        distance[index] = 0
+        const h = ~~(index / 8)
+        const l = index % 8
+
+        visited[h] |= 1 << l
+
         this.visited_nodes++
 
         queue.enqueue({
@@ -172,7 +180,7 @@ export namespace RegionDistanceTable {
       while (queue.length > 0) {
         if (this.visited_nodes % 10000 == 0) await this.checkTime()
 
-        if(this.should_stop) return null
+        if (this.should_stop) return null
 
         const node = queue.dequeue()
 
@@ -196,13 +204,7 @@ export namespace RegionDistanceTable {
 
       console.log(`Depth ${last_dist}, total ${c}/${r.size}`)
 
-      const compressed = new Uint8Array(Description.SERIALIZED_SIZE + r.size / 4).fill(0)
-
       compressed.set(Description.serialize(this.description))
-
-      distance.forEach((d, i) => {
-        compressed[Description.SERIALIZED_SIZE + ~~(i / 4)] |= (d % 4) << i % 4
-      })
 
       this.progress.set({region: this.region, nodes: this.visited_nodes, depth: this.current_depth})
 

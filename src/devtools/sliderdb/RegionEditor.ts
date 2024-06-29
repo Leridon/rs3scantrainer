@@ -171,7 +171,11 @@ export class RegionChainEditor extends AbstractEditWidget<RegionChainDistanceTab
         const generator = new RegionChainDistanceTable.Generator(this.get());
 
         const modal = (new class extends NisModal {
-          constructor() {super();}
+          constructor() {
+            super();
+
+            this.setTitle("Table Generation")
+          }
 
           render() {
             super.render();
@@ -186,8 +190,10 @@ export class RegionChainEditor extends AbstractEditWidget<RegionChainDistanceTab
           generator.stop()
         })
 
-        modal.shown.on(() => {
-          generator.run()
+        modal.shown.on(async () => {
+          await generator.run()
+
+          console.log("Chain generator ended")
         })
       })
     )

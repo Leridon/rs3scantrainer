@@ -33,6 +33,9 @@ export namespace RegionChainDistanceTable {
     private progress: Observable<Generator.Progress>
     private active_generator: RegionDistanceTable.Generator = null
 
+    private solved_nodes = 0
+    public subgenerators: RegionDistanceTable.Generator[]
+
     constructor(private description: Description) {
       super();
 
@@ -47,6 +50,20 @@ export namespace RegionChainDistanceTable {
         }))
       })
 
+      this.subgenerators = this.description.regions.map((region, i) => {
+        return new RegionDistanceTable.Generator({
+          multitile: this.description.multitile,
+          region: region
+        })
+          .onProgress(progress => {
+            this.progress.update2(c => {
+              c.visited_nodes = this.solved_nodes + c.visited_nodes
+              c.active_region = i
+              c.sub_progress[i] = progress
+            })
+          })
+      })
+
       this.withInterrupt(100, 1)
     }
 
@@ -58,32 +75,18 @@ export namespace RegionChainDistanceTable {
 
     async implementation(): Promise<RegionChainDistanceTable> {
 
-      let solved_nodes = 0
-
       const generated_regions: RegionDistanceTable[] = []
 
       for (let i = 0; i < this.description.regions.length; i++) {
         if (this.should_stop) return null
 
-        const region = this.description.regions[i]
-
-        const generator = this.active_generator = new RegionDistanceTable.Generator({
-          multitile: this.description.multitile,
-          region: region
-        })
-          .onProgress(progress => {
-            this.progress.update2(c => {
-              c.visited_nodes = solved_nodes + c.visited_nodes
-              c.active_region = i
-              c.sub_progress[i] = progress
-            })
-          })
+        const generator = this.active_generator = this.subgenerators[i]
 
         generated_regions.push(await generator.run())
 
         console.log(`Generator ${i} ended`)
 
-        solved_nodes += generator.region.size
+        this.solved_nodes += generator.region.size
       }
 
       // TODO: concat regions

@@ -14,12 +14,13 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
   }
 
   protected async solve_implementation(): Promise<void> {
-
-    const state = OptimizedSliderState.fromState(this.start_state)
-    const move_list: MoveList = []
+    let state: OptimizedSliderState
+    let move_list: MoveList
 
     const doregion = async (current_region: RegionDistanceTable): Promise<void> => {
       await this.checkTime() // TODO: Maybe this doesn't need to be done this often
+
+      const child_regions = this.data.graph.getChildren(current_region)
 
       console.log(`Entering ${current_region.description.region.join(",")}`)
 
@@ -42,14 +43,16 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
 
           const is_optimal = (child_distance + 1) % 4 == known_distance
 
-          console.log(`${child_distance} from ${known_distance} for move ${move} to ${numberWithCommas(child_index)}, ${is_optimal}`)
+          console.log(`${child_distance} from ${known_distance} for move ${move} to ${numberWithCommas(child_index)}, ${is_optimal}, ${state.join(",")}`)
 
           if ((child_distance + 1) % 4 == known_distance) {
             // this is an optimal move
             found_optimal_move = true
 
             move_list.push(move)
+
             await dostate(child_distance)
+
             move_list.pop()
           }
 
@@ -59,13 +62,18 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
 
         if (!found_optimal_move) {
           // When no optimal move exists, this must be a solved state. Continue with child regions instead
-          const children = this.data.graph.getChildren(current_region)
+          if (child_regions.length == 0) {
+            //debugger
 
-          if (children.length == 0) {
-            debugger
-            this.registerSolution([...move_list])
+            console.log(`Found ${move_list.length}`)
+
+            if (move_list.length > 0) this.registerSolution([...move_list])
+            else debugger
+
+            //this.registerSolution([...move_list])
           } else {
-            for (const child of children) {
+            //debugger
+            for (const child of child_regions) {
               await doregion(child)
             }
           }
@@ -79,8 +87,9 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
 
     while (!this.should_stop) {
       for (const start of this.data.graph.getEntryPoints()) {
+        state = OptimizedSliderState.fromState(this.start_state)
+        move_list = []
 
-        // Start the search 2 times. Once with a vertical first move and once with a horizontal first move
         await doregion(start)
       }
     }

@@ -33,6 +33,8 @@ export class RegionDistanceTable {
   }
 
   getDistanceByIndex(index: number): number {
+    if(index > this.region.size) debugger
+
     return (this.underlying_data[this.real_data_offset + ~~(index / 4)] >> 2 * (index % 4)) & 0x03
   }
 }

@@ -384,7 +384,7 @@ class SliderAnalysisModal extends NisModal {
 
 export async function makeshift_main(): Promise<void> {
 
-  await (new class extends NisModal {
+  /*await (new class extends NisModal {
     private region: RegionChainEditor
 
     render() {
@@ -400,7 +400,7 @@ export async function makeshift_main(): Promise<void> {
         .appendTo(this.body)
 
     }
-  }).show()
+  }).show()*/
 
   // await clue_trainer_test_set.run()
 

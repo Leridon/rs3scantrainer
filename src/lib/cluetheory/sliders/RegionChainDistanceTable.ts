@@ -21,8 +21,6 @@ export class RegionChainDistanceTable {
     }
 
     this.graph = new RegionDistanceTable.RegionGraph(regions)
-
-    debugger
   }
 }
 

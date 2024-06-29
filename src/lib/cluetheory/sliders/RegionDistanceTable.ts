@@ -33,7 +33,7 @@ export class RegionDistanceTable {
   }
 
   getDistanceByIndex(index: number): number {
-    return (this.underlying_data[this.real_data_offset + ~~(index / 4)] >> (index % 4)) & 0x03
+    return (this.underlying_data[this.real_data_offset + ~~(index / 4)] >> 2 * (index % 4)) & 0x03
   }
 }
 
@@ -127,7 +127,7 @@ export namespace RegionDistanceTable {
         if (((visited[h] >> l) & 1) != 0) return
 
         visited[h] |= 1 << l
-        compressed[Description.SERIALIZED_SIZE + ~~(index / 4)] |= (depth % 4) << (index % 4)
+        compressed[Description.SERIALIZED_SIZE + ~~(index / 4)] |= (depth % 4) << 2 * (index % 4)
 
         this.visited_nodes++
 

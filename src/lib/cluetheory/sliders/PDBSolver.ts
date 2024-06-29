@@ -38,7 +38,9 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
           const child_index = current_region.region.stateIndex(state)
           const child_distance = current_region.getDistanceByIndex(child_index)
 
-          console.log(`${child_distance} from ${known_distance} for move ${move} to ${numberWithCommas(child_index)}`)
+          const is_optimal = (child_distance + 1) % 4 == known_distance
+
+          console.log(`${child_distance} from ${known_distance} for move ${move} to ${numberWithCommas(child_index)}, ${is_optimal}`)
 
           if ((child_distance + 1) % 4 == known_distance) {
             // this is an optimal move
@@ -59,8 +61,7 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
           // When no optimal move exists, this must be a solved state. Continue with child regions instead
           const children = this.data.graph.getChildren(current_region)
 
-          if (children.length == 0) {
-            this.registerSolution(move_list)
+          if (true || children.length == 0) {
             this.registerSolution([...move_list])
           } else {
             for (const child of children) {

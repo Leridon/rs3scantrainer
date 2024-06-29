@@ -2,9 +2,9 @@ import {Sliders} from "../Sliders";
 import {RegionDistanceTable} from "./RegionDistanceTable";
 import {OptimizedSliderState} from "./OptimizedSliderState";
 import {RegionChainDistanceTable} from "./RegionChainDistanceTable";
+import {util} from "../../util/util";
 import SliderState = Sliders.SliderState;
 import MoveList = Sliders.MoveList;
-import {util} from "../../util/util";
 import numberWithCommas = util.numberWithCommas;
 
 export class PDBSolvingProcess extends Sliders.SolvingProcess {
@@ -20,6 +20,8 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
 
     const doregion = async (current_region: RegionDistanceTable): Promise<void> => {
       await this.checkTime() // TODO: Maybe this doesn't need to be done this often
+
+      console.log(`Entering ${current_region.description.region.join(",")}`)
 
       const dostate = async (known_distance: number) => {
         if (this.should_stop) return
@@ -56,12 +58,11 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
         }
 
         if (!found_optimal_move) {
-          debugger
-
           // When no optimal move exists, this must be a solved state. Continue with child regions instead
           const children = this.data.graph.getChildren(current_region)
 
-          if (true || children.length == 0) {
+          if (children.length == 0) {
+            debugger
             this.registerSolution([...move_list])
           } else {
             for (const child of children) {

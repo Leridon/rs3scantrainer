@@ -150,7 +150,7 @@ export namespace Region {
         case Tile.CURRENT:
           return parent_tile == Tile.FREE
         case Tile.FIXED:
-          return child[index] == Tile.CURRENT
+          return parent_tile == Tile.FIXED || parent_tile == Tile.CURRENT
       }
     })
   }

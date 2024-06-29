@@ -72,7 +72,7 @@ export namespace RegionDistanceTable {
 
     constructor(private databases: RegionDistanceTable[]) {
       databases.forEach(parent => databases.forEach(child => {
-        if (Region.isChild(parent.description.region, child.description.region)) this.edges.push([parent, child])
+        if (parent != child && Region.isChild(parent.description.region, child.description.region)) this.edges.push([parent, child])
       }))
     }
 

@@ -61,6 +61,7 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
 
           if (children.length == 0) {
             this.registerSolution(move_list)
+            this.registerSolution([...move_list])
           } else {
             for (const child of children) {
               await doregion(child)

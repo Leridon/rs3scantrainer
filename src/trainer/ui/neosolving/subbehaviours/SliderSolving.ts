@@ -17,6 +17,7 @@ import {async_lazy, lazy} from "../../../../lib/properties/Lazy";
 import KeyValueStore from "../../../../lib/util/KeyValueStore";
 import {Observable, observe} from "../../../../lib/reactive";
 import {RandomSolver} from "../../../../lib/cluetheory/sliders/RandomSolver";
+import {ProgressBar} from "../../widgets/ProgressBar";
 import over = OverlayGeometry.over;
 import SliderState = Sliders.SliderState;
 import SliderPuzzle = Sliders.SliderPuzzle;
@@ -58,7 +59,7 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
   private last_frame_state: SliderState = null
   private arrow_keys_inverted: boolean = false
 
-  constructor(private parent: SliderSolving, private solver: Sliders.Solver) {
+  constructor(private parent: SliderSolving, public solver: Sliders.Solver) {
     super()
 
     this.puzzle = parent.puzzle.puzzle
@@ -70,6 +71,12 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
       {x: 25, y: 25},
       {x: (pos % 5) * 56, y: Math.floor(pos / 5) * 56}
     )
+  }
+
+  setSolver(solver: Sliders.Solver) {
+    this.solver = solver
+
+    if(this.active_solving_process) this.active_solving_process.
   }
 
   private async read(): Promise<{
@@ -620,9 +627,11 @@ class PDBManager {
 
       let offset = 0
 
+      let loaded = 0
+
       for (let i = 0; i < desc.file_count; i++) {
 
-        const response = await fetch(`data/sliderpdb/${desc.id}/chunk${lodash.padStart(i.toString(), 2, "0")}`, {})
+        const response = await fetch(`data/sliderpdb/${desc.id}/v${desc.version}chunk${lodash.padStart(i.toString(), 2, "0")}`, {})
 
         if (!response.ok) return null;
 
@@ -632,8 +641,10 @@ class PDBManager {
             for (; ;) {
               const {done, value} = await reader.read();
               if (done) break;
-              // loaded += value.byteLength;
-              // progress({loaded, total})
+              loaded += value.byteLength;
+              res.update2(p => {
+                p.progress = loaded / buffer.length
+              })
               controller.enqueue(value);
             }
             controller.close();
@@ -642,8 +653,11 @@ class PDBManager {
 
         buffer.set(chunk, offset)
         offset += chunk.length
-      }
 
+        res.update2(p => {
+          p.progress = offset / buffer.length
+        })
+      }
 
       this.cache = {description: desc, table: new RegionChainDistanceTable(buffer)}
       await this.db.set(desc.id, {description: desc, data: buffer.buffer} satisfies StoredPDB)
@@ -707,10 +721,29 @@ export class SliderSolving extends AbstractPuzzleSolving<
       ? new PDBSolver(table.table)
       : RandomSolver
 
-    return new SliderGuideProcess(
+    const process = new SliderGuideProcess(
       this,
       solver
     )
+
+    if (table.download) {
+      const progressbar = new ProgressBar()
+        .setText("Downloading Database")
+
+      this.modal.setStatus(progressbar)
+
+      table.download.subscribe(p => {
+        progressbar.setProgress(p.progress)
+
+        if (p.is_done) {
+          process.solver = new PDBSolver(p.data)
+          progressbar.setText("Download finished")
+          progressbar.setProgress(1)
+        }
+      }, true)
+    }
+
+    return process
   }
 
   protected begin() {

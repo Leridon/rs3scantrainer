@@ -3,6 +3,7 @@ import {Region} from "./Region";
 import {Process} from "../../Process";
 import {Observable, observe} from "../../reactive";
 import {MoveTable} from "./MoveTable";
+import {util} from "../../util/util";
 
 export class RegionDistanceTable {
   public description: RegionDistanceTable.Description
@@ -33,14 +34,13 @@ export class RegionDistanceTable {
   }
 
   getDistanceByIndex(index: number): number {
-    if (index > this.region.size) debugger
-
     return (this.underlying_data[this.real_data_offset + ~~(index / 4)] >> 2 * (index % 4)) & 0x03
   }
 }
 
 export namespace RegionDistanceTable {
 
+  import numberWithCommas = util.numberWithCommas;
   export type Description = {
     region: Region,
     multitile: boolean
@@ -62,10 +62,8 @@ export namespace RegionDistanceTable {
       }
     }
 
-    export class MoveTable {
-      constructor(description: Description) {
-
-      }
+    export function byteSize(region: Region.Indexing): number {
+      return RegionDistanceTable.Description.SERIALIZED_SIZE + region.size / 4
     }
   }
 
@@ -87,6 +85,41 @@ export namespace RegionDistanceTable {
     }
   }
 
+
+  class Queue {
+    private buffer: ArrayBuffer
+    private view: Uint8Array
+    private next_free: number
+    private next_element: number
+
+    public length = 0
+
+    constructor(private size: number) {
+      this.buffer = new ArrayBuffer(size * OptimizedSliderState.SIZE)
+      this.view = new Uint8Array(this.buffer)
+      this.next_free = 0
+      this.next_element = 0
+    }
+
+    enqueue(state: OptimizedSliderState) {
+      this.view.set(state, this.next_free)
+
+      this.next_free = (this.next_free + OptimizedSliderState.SIZE) % this.view.length
+      this.length++
+    }
+
+    poll(): OptimizedSliderState {
+      const s = new Uint8Array(this.buffer, this.next_element, OptimizedSliderState.SIZE)
+      this.next_element = (this.next_element + OptimizedSliderState.SIZE) % this.view.length
+      this.length--
+      return s
+    }
+
+    isEmpty(): boolean {
+      return this.next_free == this.next_element
+    }
+  }
+
   export class Generator extends Process<RegionDistanceTable> {
     private progress: Observable<Generator.Progress>
 
@@ -101,7 +134,7 @@ export namespace RegionDistanceTable {
 
       this.progress = observe<Generator.Progress>({region: this.region, nodes: 0, depth: 0})
 
-      this.withInterrupt(100, 1)
+      this.withInterrupt(100, 10)
 
       this.onInterrupt(() => {
         this.progress.set({region: this.region, nodes: this.visited_nodes, depth: this.current_depth})
@@ -117,8 +150,7 @@ export namespace RegionDistanceTable {
       const compressed = new Uint8Array(Description.SERIALIZED_SIZE + r.size / 4).fill(0)
 
       let depth = 0
-      let current_depth: OptimizedSliderState[] = []
-      let next_depth: OptimizedSliderState[] = []
+      const queue = new Queue(75_000_000)
 
       const push = (state: OptimizedSliderState, depth: number) => {
         const index = r.stateIndex(state)
@@ -132,8 +164,7 @@ export namespace RegionDistanceTable {
         compressed[Description.SERIALIZED_SIZE + ~~(index / 4)] |= (depth % 4) << 2 * (index % 4)
 
         this.visited_nodes++
-
-        next_depth.push(state)
+        queue.enqueue(state)
       }
 
       // Determine all solved states
@@ -153,15 +184,20 @@ export namespace RegionDistanceTable {
         }
       }
 
-      while (next_depth.length > 0) {
-        current_depth = next_depth
-        next_depth = []
+      let previous_node_count = 0
 
-        console.log(`Depth ${depth}, total ${this.visited_nodes}/${r.size}, queue: ${current_depth.length.toString()}`)
+      while (!queue.isEmpty()) {
+        const n = this.visited_nodes - previous_node_count
+
+        console.log(`Depth ${depth}, total ${numberWithCommas(this.visited_nodes)}/${numberWithCommas(r.size)}, queue: ${numberWithCommas(n)}/${numberWithCommas(queue.length)}`)
+
+        previous_node_count = this.visited_nodes
 
         this.current_depth = depth++
 
-        for (const node of current_depth) {
+        for (let i = 0; i < n; i++) {
+          const node = queue.poll()
+
           if (this.visited_nodes % 100000 == 0) await this.checkTime()
 
           if (this.should_stop) return null

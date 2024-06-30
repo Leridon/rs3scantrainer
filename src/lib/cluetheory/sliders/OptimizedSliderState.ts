@@ -3,6 +3,8 @@ import {Sliders} from "../Sliders";
 export type OptimizedSliderState = Uint8Array
 
 export namespace OptimizedSliderState {
+  export const SIZE = 27
+
   import Move = Sliders.Move;
   import SliderState = Sliders.SliderState;
 
@@ -77,5 +79,17 @@ export namespace OptimizedSliderState {
     const blank = SliderState.blank(state)
 
     return new Uint8Array([...state, blank, 20])
+  }
+
+  export function reflect(state: OptimizedSliderState): void {
+    const flips: [number, number][] = [
+      [1, 5], [2, 10], [3, 15], [4, 20], [7, 11], [8, 16], [9, 21], [13, 17], [14, 22], [19, 23]
+    ]
+
+    for(const [a, b] of flips) {
+      const tmp = state[a]
+      state[a] = state[b]
+      state[b] = tmp
+    }
   }
 }

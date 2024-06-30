@@ -6,6 +6,7 @@ import {util} from "../../util/util";
 import SliderState = Sliders.SliderState;
 import MoveList = Sliders.MoveList;
 import numberWithCommas = util.numberWithCommas;
+import profileAsync = util.profileAsync;
 
 export class PDBSolvingProcess extends Sliders.SolvingProcess {
 
@@ -20,19 +21,24 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
     const doregion = async (current_region: RegionDistanceTable): Promise<void> => {
       await this.checkTime() // TODO: Maybe this doesn't need to be done this often
 
+      if (this.should_stop) return
+
       const child_regions = this.data.graph.getChildren(current_region)
 
-      console.log(`Entering ${current_region.description.region.join(",")}`)
+      state[OptimizedSliderState.LASTMOVE_INDEX] = 20
+
+      console.log(`Entering region ${current_region.description.region.join(",")}`)
 
       const dostate = async (known_distance: number) => {
-        if (this.should_stop) return
+        const previous_move = state[OptimizedSliderState.LASTMOVE_INDEX]
+
+        console.log(`Entering state ${state.join(",")}, previous ${previous_move - 20}`)
 
         if (this.best_solution && move_list.length > this.best_solution.length) return // Abort if this can't be better than the best solution we already found
 
         let found_optimal_move: boolean = false
 
         const moves = current_region.move_table.get(state)
-        const previous_move = state[OptimizedSliderState.LASTMOVE_INDEX]
 
         for (const move of moves) {
 
@@ -56,11 +62,13 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
             move_list.pop()
           }
 
-          state[OptimizedSliderState.LASTMOVE_INDEX] = previous_move
           OptimizedSliderState.doMove(state, -move)
+          state[OptimizedSliderState.LASTMOVE_INDEX] = previous_move
         }
 
         if (!found_optimal_move) {
+          if (!current_region.region.satisfied(state)) debugger
+
           // When no optimal move exists, this must be a solved state. Continue with child regions instead
           if (child_regions.length == 0) {
             //debugger
@@ -85,14 +93,16 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
       await dostate(current_region.getDistanceByIndex(idx))
     }
 
-    while (!this.should_stop) {
+    //while (!this.should_stop) {
+    await profileAsync(async () => {
       for (const start of this.data.graph.getEntryPoints()) {
         state = OptimizedSliderState.fromState(this.start_state)
         move_list = []
 
         await doregion(start)
       }
-    }
+    }, "Slackness 0")
+    //}
   }
 }
 

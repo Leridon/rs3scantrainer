@@ -76,7 +76,7 @@ export namespace Region {
         }
       }
 
-      this.solution_relevant_indices = region.flatMap((tile, position) => tile == Tile.CURRENT ? [position] : [])
+      this.solution_relevant_indices = region.flatMap((tile, position) => tile == Tile.CURRENT || tile == Tile.FIXED ? [position] : [])
 
     }
 
@@ -93,7 +93,6 @@ export namespace Region {
         }
         return t
       }
-
 
       let combination_index = 0
 
@@ -126,6 +125,10 @@ export namespace Region {
       }
 
       return combination_index * this.number_of_permutations + permutationIndex(permutation)
+    }
+
+    satisfied(state: OptimizedSliderState): boolean {
+      return this.solution_relevant_indices.every(i => state[i] == i)
     }
   }
 

@@ -14,7 +14,7 @@ export class RegionDistanceTable {
 
   private real_data_offset: number
 
-  constructor(public underlying_data: Uint8Array, private data_offset: number = 0) {
+  constructor(public underlying_data: Uint8Array, private data_offset: number) {
     this.description = RegionDistanceTable.Description.deserialize(underlying_data, data_offset)
 
     this.region = new Region.Indexing(this.description.region)
@@ -33,7 +33,7 @@ export class RegionDistanceTable {
   }
 
   getDistanceByIndex(index: number): number {
-    if(index > this.region.size) debugger
+    if (index > this.region.size) debugger
 
     return (this.underlying_data[this.real_data_offset + ~~(index / 4)] >> 2 * (index % 4)) & 0x03
   }
@@ -177,11 +177,11 @@ export namespace RegionDistanceTable {
 
       console.log(`Depth ${depth}, total ${this.visited_nodes}/${r.size}`)
 
-      compressed.set(Description.serialize(this.description))
+      compressed.set(Description.serialize(this.description), 0)
 
       this.progress.set({region: this.region, nodes: this.visited_nodes, depth: this.current_depth})
 
-      return new RegionDistanceTable(compressed)
+      return new RegionDistanceTable(compressed, 0)
     }
 
     onProgress(f: (_: Generator.Progress) => void): this {

@@ -10,13 +10,18 @@ import {NislIcon} from "../../trainer/ui/nisl";
 import {RegionChainDistanceTable} from "../../lib/cluetheory/sliders/RegionChainDistanceTable";
 import {NisModal} from "../../lib/ui/NisModal";
 import {BigNisButton} from "../../trainer/ui/widgets/BigNisButton";
+import {deflate} from "pako";
+import ExportStringModal from "../../trainer/ui/widgets/modals/ExportStringModal";
+import ImportStringModal from "../../trainer/ui/widgets/modals/ImportStringModal";
+import {ExportImport} from "../../lib/util/exportString";
 import hbox = C.hbox;
 import numberWithCommas = util.numberWithCommas;
 import vbox = C.vbox;
 import hboxc = C.hboxc;
 import copyUpdate = util.copyUpdate;
 import downloadBinaryFile = util.downloadBinaryFile;
-import {deflate} from "pako";
+import cleanedJSON = util.cleanedJSON;
+import imp = ExportImport.imp;
 
 class TileEditor extends AbstractEditWidget<Region.Tile> {
   constructor(private locked: boolean = false) {
@@ -125,7 +130,6 @@ export class RegionChainEditor extends AbstractEditWidget<RegionChainDistanceTab
         .css2({
           "padding-left": "3px",
           "padding-right": "3px",
-          "max-height": "500px",
           "overflow-y": "auto"
         })
     ).css("flex-grow", 1).appendTo(vertical)
@@ -147,8 +151,20 @@ export class RegionChainEditor extends AbstractEditWidget<RegionChainDistanceTab
         })
       })
     )
-    menu.row(new LightButton("Import", "rectangle").css("margin", "2px"))
-    menu.row(new LightButton("Export", "rectangle").css("margin", "2px"))
+    menu.row(new LightButton("Import", "rectangle").css("margin", "2px")
+      .onClick(async () => {
+        const res = await new ImportStringModal(imp<RegionChainDistanceTable.Description>()).do()
+
+        if (res?.imported) this.commit(res.imported, true)
+      })
+    )
+    menu.row(new LightButton("Export", "rectangle").css("margin", "2px")
+      .onClick(() => {
+        ExportStringModal.do(
+          cleanedJSON(this.get())
+        )
+      })
+    )
 
     menu.row(vbox(
       ...(this.mtm_toggle = new Checkbox.Group([
@@ -294,7 +310,9 @@ class ProgressWidget extends Widget {
           downloadBinaryFile("pdb_compressed.bin", compressed)
         }).appendTo(this)
     }
-  }W
+  }
+
+  W
 }
 
 export class RegionChainGeneratorWidget extends Widget {

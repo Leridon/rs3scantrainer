@@ -25,14 +25,8 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
 
       const child_regions = this.data.graph.getChildren(current_region)
 
-      state[OptimizedSliderState.LASTMOVE_INDEX] = 20
-
-      console.log(`Entering region ${current_region.description.region.join(",")}`)
-
       const dostate = async (known_distance: number) => {
         const previous_move = state[OptimizedSliderState.LASTMOVE_INDEX]
-
-        console.log(`Entering state ${state.join(",")}, previous ${previous_move - 20}`)
 
         if (this.best_solution && move_list.length > this.best_solution.length) return // Abort if this can't be better than the best solution we already found
 
@@ -46,10 +40,6 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
 
           const child_index = current_region.region.stateIndex(state)
           const child_distance = current_region.getDistanceByIndex(child_index)
-
-          const is_optimal = (child_distance + 1) % 4 == known_distance
-
-          console.log(`${child_distance} from ${known_distance} for move ${move} to ${numberWithCommas(child_index)}, ${is_optimal}, ${state.join(",")}`)
 
           if ((child_distance + 1) % 4 == known_distance) {
             // this is an optimal move
@@ -67,20 +57,12 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
         }
 
         if (!found_optimal_move) {
-          if (!current_region.region.satisfied(state)) debugger
+          if (!current_region.region.satisfied(state)) return // Ran into a dead end
 
           // When no optimal move exists, this must be a solved state. Continue with child regions instead
           if (child_regions.length == 0) {
-            //debugger
-
-            console.log(`Found ${move_list.length}`)
-
             if (move_list.length > 0) this.registerSolution([...move_list])
-            else debugger
-
-            //this.registerSolution([...move_list])
           } else {
-            //debugger
             for (const child of child_regions) {
               await doregion(child)
             }

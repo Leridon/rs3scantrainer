@@ -30,6 +30,12 @@ export namespace RegionChainDistanceTable {
     regions: Region[]
   }
 
+  export namespace Description {
+    export function bytesize(desc: Description) {
+      return lodash.sumBy(desc.regions, r => RegionDistanceTable.Description.byteSize(new Region.Indexing(r)))
+    }
+  }
+
   export class Generator extends Process<RegionChainDistanceTable> {
     private progress: Observable<Generator.Progress>
     private active_generator: RegionDistanceTable.Generator = null
@@ -95,7 +101,7 @@ export namespace RegionChainDistanceTable {
       const total = new Uint8Array(sum)
 
       let offset = 0
-      for(let region of generated_regions) {
+      for (let region of generated_regions) {
         total.set(region.underlying_data, offset)
         offset += region.byte_size
       }

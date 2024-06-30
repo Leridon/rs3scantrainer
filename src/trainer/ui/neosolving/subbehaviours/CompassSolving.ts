@@ -31,6 +31,7 @@ import {SettingsModal} from "../../settings/SettingsEdit";
 import * as assert from "assert";
 import {Log} from "../../../../lib/util/Log";
 import {angleDifference} from "lib/math";
+import {async_lazy} from "../../../../lib/properties/Lazy";
 import span = C.span;
 import cls = C.cls;
 import TeleportGroup = Transportation.TeleportGroup;
@@ -46,6 +47,7 @@ import gielinor_compass = clue_data.gielinor_compass;
 import digSpotArea = Clues.digSpotArea;
 import vbox = C.vbox;
 import log = Log.log;
+import {RegionChainDistanceTable} from "../../../../lib/cluetheory/sliders/RegionChainDistanceTable";
 
 class CompassHandlingLayer extends GameLayer {
   private lines: {

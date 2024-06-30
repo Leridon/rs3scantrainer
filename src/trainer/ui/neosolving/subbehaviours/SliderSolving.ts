@@ -11,6 +11,12 @@ import {ClueReader} from "../cluereader/ClueReader";
 import NeoSolvingBehaviour from "../NeoSolvingBehaviour";
 import {AbstractPuzzleSolving} from "./AbstractPuzzleSolving";
 import {AbstractPuzzleProcess} from "./AbstractPuzzleProcess";
+import {PDBSolver} from "../../../../lib/cluetheory/sliders/PDBSolver";
+import {RegionChainDistanceTable} from "../../../../lib/cluetheory/sliders/RegionChainDistanceTable";
+import {async_lazy, lazy} from "../../../../lib/properties/Lazy";
+import KeyValueStore from "../../../../lib/util/KeyValueStore";
+import {Observable, observe} from "../../../../lib/reactive";
+import {RandomSolver} from "../../../../lib/cluetheory/sliders/RandomSolver";
 import over = OverlayGeometry.over;
 import SliderState = Sliders.SliderState;
 import SliderPuzzle = Sliders.SliderPuzzle;
@@ -18,8 +24,7 @@ import SolvingProcess = Sliders.SolvingProcess;
 import AnnotatedMoveList = Sliders.AnnotatedMoveList;
 import MoveList = Sliders.MoveList;
 import Move = Sliders.Move;
-import {PDBSolver} from "../../../../lib/cluetheory/sliders/PDBSolver";
-import {RegionChainDistanceTable} from "../../../../lib/cluetheory/sliders/RegionChainDistanceTable";
+import profileAsync = util.profileAsync;
 
 class SliderGuideProcess extends AbstractPuzzleProcess {
   settings = deps().app.settings.settings.solving.puzzles.sliders
@@ -565,6 +570,123 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
   }
 }
 
+type PDBDesc = {
+  id: string,
+  name: string,
+  version: number,
+  file_count: number,
+  description: RegionChainDistanceTable.Description
+}
+
+type StoredPDB = {
+  description: PDBDesc,
+  data: ArrayBuffer,
+}
+
+type PDBDownload = Observable<{
+  is_done: boolean,
+  progress: number,
+  data?: RegionChainDistanceTable
+}>
+
+class PDBManager {
+  pdbs = async_lazy<PDBDesc[]>(async () => {
+    return (await fetch("data/sliderpdb/pdbs.json")).json()
+  })
+
+  private cache: {
+    description: PDBDesc,
+    table: RegionChainDistanceTable
+  } = null
+
+  private downloader: Record<string, PDBDownload> = {}
+
+  private constructor() {
+
+  }
+
+  private download(desc: PDBDesc): PDBDownload {
+
+    if (this.downloader[desc.id]) return this.downloader[desc.id]
+
+    const res: PDBDownload = this.downloader[desc.id] = observe({
+      is_done: false,
+      progress: 0
+    });
+
+    (async () => {
+
+      const buffer = new Uint8Array(RegionChainDistanceTable.Description.bytesize(desc.description))
+
+      let offset = 0
+
+      for (let i = 0; i < desc.file_count; i++) {
+
+        const response = await fetch(`data/sliderpdb/${desc.id}/chunk${lodash.padStart(i.toString(), 2, "0")}`, {})
+
+        if (!response.ok) return null;
+
+        const chunk = new Uint8Array(await new Response(new ReadableStream({
+          async start(controller) {
+            const reader = response.body.getReader();
+            for (; ;) {
+              const {done, value} = await reader.read();
+              if (done) break;
+              // loaded += value.byteLength;
+              // progress({loaded, total})
+              controller.enqueue(value);
+            }
+            controller.close();
+          },
+        })).arrayBuffer())
+
+        buffer.set(chunk, offset)
+        offset += chunk.length
+      }
+
+
+      this.cache = {description: desc, table: new RegionChainDistanceTable(buffer)}
+      await this.db.set(desc.id, {description: desc, data: buffer.buffer} satisfies StoredPDB)
+
+      res.update2(o => {
+        o.is_done = true
+        o.data = this.cache.table
+      })
+
+      this.downloader[desc.id] = null
+    })()
+
+    return res
+  }
+
+  private db = new KeyValueStore("slider-pdbs")
+
+  async get(multitile: boolean): Promise<{
+    table?: RegionChainDistanceTable,
+    download?: PDBDownload
+  }> {
+    const pdbs = await this.pdbs.get()
+    const preferred = pdbs.find(d => d.description.multitile == multitile)
+
+    if (this.cache?.description?.id != preferred.id || this.cache?.description?.version != preferred.version) {
+      const existing_in_indexeddb = await profileAsync(async () => await this.db.get(preferred.id) as StoredPDB, "retrieve")
+
+      if (existing_in_indexeddb && existing_in_indexeddb.description.version == preferred.version) {
+        this.cache = {description: preferred, table: new RegionChainDistanceTable(new Uint8Array(existing_in_indexeddb.data))}
+      } else {
+        return {
+          table: null,
+          download: this.download(preferred)
+        }
+      }
+    }
+
+    return {table: this.cache.table}
+  }
+
+  static instance = lazy(() => new PDBManager())
+}
+
 export class SliderSolving extends AbstractPuzzleSolving<
   ClueReader.Result.Puzzle.Slider,
   SliderGuideProcess
@@ -579,12 +701,22 @@ export class SliderSolving extends AbstractPuzzleSolving<
   }
 
   protected async constructProcess(): Promise<SliderGuideProcess> {
-    const pdb = await (await fetch("data/sliderpdb/pdb.bin")).arrayBuffer()
+    const table = await PDBManager.instance.get().get(deps().app.settings.settings.solving.puzzles.sliders.mode != "keyboard")
+
+    const solver = table.table
+      ? new PDBSolver(table.table)
+      : RandomSolver
 
     return new SliderGuideProcess(
       this,
-      new PDBSolver(new RegionChainDistanceTable(new Uint8Array(pdb)))
+      solver
     )
+  }
+
+  protected begin() {
+    super.begin();
+
+    this.modal.setImage(this.puzzle.reader.ui.body.getData())
   }
 
   pausesClueReader(): boolean {

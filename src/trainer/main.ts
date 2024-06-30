@@ -6,19 +6,16 @@ import {C} from "../lib/ui/constructors";
 import LightButton from "./ui/widgets/LightButton";
 import Widget from "../lib/ui/Widget";
 import {RandomSolver} from "../lib/cluetheory/sliders/RandomSolver";
-import {RegionDistanceTable} from "../lib/cluetheory/sliders/RegionDistanceTable";
-import TextArea from "../lib/ui/controls/TextArea";
-import {Region} from "../lib/cluetheory/sliders/Region";
-import {RegionChainEditor, RegionEditor} from "../devtools/sliderdb/RegionEditor";
+import {RegionChainEditor} from "../devtools/sliderdb/RegionEditor";
+import {TileRectangle} from "../lib/runescape/coordinates";
+import {PDBSolver} from "../lib/cluetheory/sliders/PDBSolver";
+import {RegionChainDistanceTable} from "../lib/cluetheory/sliders/RegionChainDistanceTable";
 import SliderState = Sliders.SliderState;
 import MoveList = Sliders.MoveList;
 import hgrid = C.hgrid;
 import span = C.span;
 import spacer = C.spacer;
 import hbox = C.hbox;
-import {RegionChain} from "../lib/cluetheory/sliders/RegionChain";
-import {TileRectangle} from "../lib/runescape/coordinates";
-import tr = TileRectangle.tr;
 
 type DataEntry = {
   id: number,
@@ -77,26 +74,27 @@ class SliderBenchmarkModal extends NisModal {
     }
 
     const candidates: Candidate[] = [
-      /* {name: "Skillbert Random", construct: s => skillbertRandom(s)},
-       {name: "Skillbert Random", construct: s => skillbertRandom(s), continuation_solving: {lookahead: 20, assumed_moves_per_second: 4}},
-       {name: "Skillbert Random", construct: s => skillbertRandom(s), continuation_solving: {lookahead: 20, assumed_moves_per_second: 5}},
-       {name: "Skillbert Random", construct: s => skillbertRandom(s), continuation_solving: {lookahead: 20, assumed_moves_per_second: 6}},
- */
+      {name: "Skillbert Random", solver: RandomSolver},
+      {
+        name: "PDB Solver", solver: new PDBSolver(new RegionChainDistanceTable(new Uint8Array(await (await fetch("data/sliderpdb/pdb.bin")).arrayBuffer())))
+      },
+
+
       //{name: "IDA* Default", construct: s => new AStarSlideSolver(s)},
     ]
 
-    for (let mps = 4; mps <= 6; mps++) {
+    /*for (let mps = 4; mps <= 6; mps++) {
       for (let la = 10; la <= 20; la += 2) {
         candidates.push(
           {name: "Skillbert Random", solver: RandomSolver, continuation_solving: {lookahead: la, assumed_moves_per_second: mps}},
         )
       }
-    }
+    }*/
 
     const test_set: SliderState[] = []
 
     const TIMEOUT = 2000
-    const TEST_SIZE = 20
+    const TEST_SIZE = 100
 
     const data = await crowdsourcedSliderData()
 
@@ -384,7 +382,7 @@ class SliderAnalysisModal extends NisModal {
 
 export async function makeshift_main(): Promise<void> {
 
-  await (new class extends NisModal {
+  /*await (new class extends NisModal {
     private region: RegionChainEditor
 
     render() {
@@ -400,7 +398,9 @@ export async function makeshift_main(): Promise<void> {
         .appendTo(this.body)
 
     }
-  }).show()
+  }).show()*/
+
+  new SliderBenchmarkModal().show()
 
   // await clue_trainer_test_set.run()
 

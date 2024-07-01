@@ -2,6 +2,18 @@ import {Sliders} from "../Sliders";
 
 export type OptimizedSliderState = Uint8Array
 
+const tile_reflection_table: number[] = [
+  0, 5, 10, 15, 20,
+  1, 6, 11, 16, 21,
+  2, 7, 12, 17, 22,
+  3, 8, 13, 18, 23,
+  4, 9, 14, 19, 24
+]
+
+const reflection_pairs: [number, number][] = [
+  [1, 5], [2, 10], [3, 15], [4, 20], [7, 11], [8, 16], [9, 21], [13, 17], [14, 22], [19, 23]
+]
+
 export namespace OptimizedSliderState {
   export const SIZE = 27
 
@@ -82,14 +94,16 @@ export namespace OptimizedSliderState {
   }
 
   export function reflect(state: OptimizedSliderState): void {
-    const flips: [number, number][] = [
-      [1, 5], [2, 10], [3, 15], [4, 20], [7, 11], [8, 16], [9, 21], [13, 17], [14, 22], [19, 23]
-    ]
-
-    for(const [a, b] of flips) {
+    // Swap tiles on opposing side of the main diagonal
+    for (const [a, b] of reflection_pairs) {
       const tmp = state[a]
       state[a] = state[b]
       state[b] = tmp
+    }
+
+    // Update tile values to the reflected tile id
+    for (let i = 0; i < 25; i++) {
+      state[i] = tile_reflection_table[state[i]]
     }
   }
 }

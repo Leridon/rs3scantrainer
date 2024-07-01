@@ -114,7 +114,7 @@ export namespace Region {
         }
       }
 
-      // TODO: Optimize this so it doesn't create the permutation array
+      // TODO: Optimize this so it doesn't create the permutation array for each node
       const permutation: number[] = []
       for (let i = 0; i < 25; i++) {
         const tile = state[i]

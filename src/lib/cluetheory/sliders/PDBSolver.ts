@@ -8,6 +8,45 @@ import MoveList = Sliders.MoveList;
 import numberWithCommas = util.numberWithCommas;
 import profileAsync = util.profileAsync;
 
+const move_translation_identity: number[] = [
+  -20, undefined, undefined, undefined, undefined, // -20
+  -15, undefined, undefined, undefined, undefined, // -15
+  -10, undefined, undefined, undefined, undefined, // -10
+  -5, // -5
+  -4, // -4
+  -3, // -3
+  -2, // -2
+  -1,  // -1
+  0,    //  0
+  1,  // 1
+  2, // 2
+  3, // 3
+  4, // 4
+  5, undefined, undefined, undefined, undefined, // 5
+  10, undefined, undefined, undefined, undefined, // 10
+  15, undefined, undefined, undefined, undefined, // 15
+  20, // 20
+]
+const move_translation_reflect: number[] = [
+  -4, undefined, undefined, undefined, undefined, // -20
+  -3, undefined, undefined, undefined, undefined, // -15
+  -2, undefined, undefined, undefined, undefined, // -10
+  -1, // -5
+  -20, // -4
+  -15, // -3
+  -10, // -2
+  -5,  // -1
+  0,    //  0
+  5,  // 1
+  10, // 2
+  15, // 3
+  20, // 4
+  1, undefined, undefined, undefined, undefined, // 5
+  2, undefined, undefined, undefined, undefined, // 10
+  3, undefined, undefined, undefined, undefined, // 15
+  4, // 20
+]
+
 export class PDBSolvingProcess extends Sliders.SolvingProcess {
 
   constructor(start_state: SliderState, private data: RegionChainDistanceTable) {
@@ -20,6 +59,8 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
 
     const doregion = async (current_region: RegionDistanceTable): Promise<void> => {
       await this.checkTime() // TODO: Maybe this doesn't need to be done this often
+
+      const move_translation = move_translation_identity
 
       if (this.should_stop) return
 
@@ -45,7 +86,7 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
             // this is an optimal move
             found_optimal_move = true
 
-            move_list.push(move)
+            move_list.push(move_translation[move + 20])
 
             await dostate(child_distance)
 

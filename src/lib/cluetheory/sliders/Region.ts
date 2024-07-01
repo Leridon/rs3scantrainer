@@ -32,6 +32,14 @@ export namespace Region {
     return [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,]
   }
 
+  export function reflect(region: Region): Region {
+    return OptimizedSliderState.tile_reflection_table.map(i => region[i])
+  }
+
+  export function equals(a: Region, b: Region): boolean {
+    return lodash.isEqual(a, b)
+  }
+
   import count = util.count;
   import factorial = util.factorial;
   import SliderState = Sliders.SliderState;
@@ -107,7 +115,6 @@ export namespace Region {
 
           if (this.combination_relevant_tiles[state[index]]) {
             // There's a relevant tile in this position
-
             combination_index += n_choose_k_table[i][counter]
             counter += 1
           }

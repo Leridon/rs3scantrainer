@@ -338,4 +338,8 @@ export namespace util {
   export function padInteger(n: number, length: number): string {
     return lodash.padStart(n.toString(), length, "0")
   }
+
+  export function chooseRandom<T>(items: T[]): T {
+    return items[Math.floor(Math.random() * items.length)];
+  }
 }

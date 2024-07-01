@@ -4,6 +4,8 @@ import {Process} from "../Process";
 import {util} from "../util/util";
 import {ImageFingerprint} from "../util/ImageFingerprint";
 import {Log} from "../util/Log";
+import {MoveTable} from "./sliders/MoveTable";
+import {Region} from "./sliders/Region";
 
 export namespace Sliders {
   export type SliderPuzzle = { tiles: Tile[], theme?: string, match_score?: number }

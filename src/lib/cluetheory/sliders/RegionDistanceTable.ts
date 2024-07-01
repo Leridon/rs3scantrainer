@@ -10,18 +10,18 @@ export class RegionDistanceTable {
 
   public readonly byte_size: number
 
-  region: Region.Indexing
+  indexing: Region.Indexing
   move_table: MoveTable
 
   private real_data_offset: number
 
-  constructor(public underlying_data: Uint8Array, private data_offset: number) {
+  constructor(public underlying_data: Uint8Array, public data_offset: number) {
     this.description = RegionDistanceTable.Description.deserialize(underlying_data, data_offset)
 
-    this.region = new Region.Indexing(this.description.region)
+    this.indexing = new Region.Indexing(this.description.region)
     this.move_table = new MoveTable(this.description.region, this.description.multitile)
 
-    this.byte_size = RegionDistanceTable.Description.SERIALIZED_SIZE + this.region.size / 4
+    this.byte_size = RegionDistanceTable.Description.SERIALIZED_SIZE + this.indexing.size / 4
     this.real_data_offset = data_offset + RegionDistanceTable.Description.SERIALIZED_SIZE
   }
 
@@ -30,7 +30,7 @@ export class RegionDistanceTable {
    * @param state
    */
   getDistance(state: OptimizedSliderState): number {
-    return this.getDistanceByIndex(this.region.stateIndex(state))
+    return this.getDistanceByIndex(this.indexing.stateIndex(state))
   }
 
   getDistanceByIndex(index: number): number {
@@ -68,20 +68,45 @@ export namespace RegionDistanceTable {
   }
 
   export class RegionGraph {
-    private edges: [RegionDistanceTable, RegionDistanceTable][] = []
+    private nodes: RegionGraph.Node[]
+    private entry_nodes: RegionGraph.Node[]
 
-    constructor(private databases: RegionDistanceTable[]) {
-      databases.forEach(parent => databases.forEach(child => {
-        if (parent != child && Region.isChild(parent.description.region, child.description.region)) this.edges.push([parent, child])
+    constructor(private databases: RegionDistanceTable[], include_reflected_nodes: boolean) {
+      const nodes: RegionGraph.Node[] = []
+
+      databases.forEach((table, i) => {
+        nodes.push({effective_region: table.description.region, table: table, reflected: false, children: [], name: i.toString()})
+
+        if (include_reflected_nodes) {
+          const reflected = Region.reflect(table.description.region)
+
+          if (!(nodes.some(n => Region.equals(n.effective_region, reflected)))) nodes.push({effective_region: reflected, table: table, reflected: true, children: [], name: i.toString() + "R"})
+        }
+      })
+
+      this.nodes = nodes
+
+      nodes.forEach(parent => nodes.forEach(child => {
+        if (parent != child && Region.isChild(parent.effective_region, child.effective_region)) {
+          parent.children.push(child)
+        }
       }))
+
+      this.entry_nodes = this.nodes.filter(n => Region.isFirst(n.effective_region))
     }
 
-    getChildren(parent: RegionDistanceTable): RegionDistanceTable[] {
-      return this.edges.filter(e => e[0] == parent).map(e => e[1])
+    getEntryPoints(): RegionGraph.Node[] {
+      return this.entry_nodes
     }
+  }
 
-    getEntryPoints(): RegionDistanceTable[] {
-      return this.databases.filter(db => Region.isFirst(db.description.region))
+  export namespace RegionGraph {
+    export type Node = {
+      reflected: boolean,
+      name: string,
+      effective_region: Region,
+      table: RegionDistanceTable,
+      children: Node[]
     }
   }
 

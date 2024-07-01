@@ -18,6 +18,7 @@ import KeyValueStore from "../../../../lib/util/KeyValueStore";
 import {Observable, observe} from "../../../../lib/reactive";
 import {RandomSolver} from "../../../../lib/cluetheory/sliders/RandomSolver";
 import {ProgressBar} from "../../widgets/ProgressBar";
+import {RegionDistanceTable} from "../../../../lib/cluetheory/sliders/RegionDistanceTable";
 import over = OverlayGeometry.over;
 import SliderState = Sliders.SliderState;
 import SliderPuzzle = Sliders.SliderPuzzle;
@@ -599,7 +600,7 @@ type PDBDownload = Observable<{
   data?: RegionChainDistanceTable
 }>
 
-class PDBManager {
+export class PDBManager {
   pdbs = async_lazy<PDBDesc[]>(async () => {
     return (await fetch("data/sliderpdb/pdbs.json")).json()
   })
@@ -678,12 +679,28 @@ class PDBManager {
 
   private db = new KeyValueStore("slider-pdbs")
 
-  async get(multitile: boolean): Promise<{
+  async getSimple(multitile: boolean, id?: string): Promise<RegionChainDistanceTable> {
+    const raw = await this.get(multitile, id)
+
+    if (raw.table) return raw.table
+    else return new Promise(resolve => {
+      raw.download.subscribe(r => {
+        if (r.is_done) resolve(r.data)
+      })
+    })
+  }
+
+  async get(multitile: boolean, id?: string): Promise<{
     table?: RegionChainDistanceTable,
     download?: PDBDownload
   }> {
+
+    const matches = (desc: PDBDesc): boolean => {
+      return desc.description.multitile == multitile && (!id || desc.id == id)
+    }
+
     const pdbs = await this.pdbs.get()
-    const preferred = pdbs.find(d => d.description.multitile == multitile)
+    const preferred = pdbs.find(matches)
 
     if (this.cache?.description?.id != preferred.id || this.cache?.description?.version != preferred.version) {
       const existing_in_indexeddb = await profileAsync(async () => await this.db.get(preferred.id) as StoredPDB, "retrieve")
@@ -721,7 +738,7 @@ export class SliderSolving extends AbstractPuzzleSolving<
     const table = await PDBManager.instance.get().get(deps().app.settings.settings.solving.puzzles.sliders.mode != "keyboard")
 
     const solver = table.table
-      ? new PDBSolver(table.table)
+      ? new PDBSolver(new RegionDistanceTable.RegionGraph(table.table.tables, true))
       : RandomSolver
 
     const process = new SliderGuideProcess(
@@ -739,7 +756,7 @@ export class SliderSolving extends AbstractPuzzleSolving<
         progressbar.setProgress(p.progress)
 
         if (p.is_done) {
-          process.setSolver(new PDBSolver(p.data))
+          process.setSolver(new PDBSolver(new RegionDistanceTable.RegionGraph(p.data.tables, true)))
           progressbar.setText("Download finished")
           progressbar.setProgress(1)
         }

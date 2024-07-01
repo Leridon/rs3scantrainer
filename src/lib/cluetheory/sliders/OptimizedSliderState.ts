@@ -1,24 +1,31 @@
 import {Sliders} from "../Sliders";
+import {MoveTable} from "./MoveTable";
+import {Region} from "./Region";
+import * as lodash from "lodash"
+import {chooseRandom} from "../../util/util";
 
 export type OptimizedSliderState = Uint8Array
 
-const tile_reflection_table: number[] = [
-  0, 5, 10, 15, 20,
-  1, 6, 11, 16, 21,
-  2, 7, 12, 17, 22,
-  3, 8, 13, 18, 23,
-  4, 9, 14, 19, 24
-]
-
-const reflection_pairs: [number, number][] = [
-  [1, 5], [2, 10], [3, 15], [4, 20], [7, 11], [8, 16], [9, 21], [13, 17], [14, 22], [19, 23]
-]
 
 export namespace OptimizedSliderState {
-  export const SIZE = 27
-
   import Move = Sliders.Move;
   import SliderState = Sliders.SliderState;
+  import createRandom = Sliders.SliderState.createRandom;
+  export const SIZE = 27
+
+  export const tile_reflection_table: number[] = [
+    0, 5, 10, 15, 20,
+    1, 6, 11, 16, 21,
+    2, 7, 12, 17, 22,
+    3, 8, 13, 18, 23,
+    4, 9, 14, 19, 24
+  ]
+
+  export const reflection_pairs: [number, number][] = [
+    [1, 5], [2, 10], [3, 15], [4, 20], [7, 11], [8, 16], [9, 21], [13, 17], [14, 22], [19, 23]
+  ]
+
+
 
   export function copy(state: OptimizedSliderState): OptimizedSliderState {
     return new Uint8Array(state)
@@ -105,5 +112,19 @@ export namespace OptimizedSliderState {
     for (let i = 0; i < 25; i++) {
       state[i] = tile_reflection_table[state[i]]
     }
+  }
+
+  export function asState(state: OptimizedSliderState): SliderState {
+    return [...state.slice(0, 25)]
+  }
+
+  export function ramenShuffle(n: number = 0, state: OptimizedSliderState = OptimizedSliderState.fromState(SliderState.SOLVED)): OptimizedSliderState {
+    const table = new MoveTable(Region.empty(), false)
+
+    for (let i = 0; i < n; i++) {
+      doMove(state, chooseRandom(table.get(state)))
+    }
+
+    return state
   }
 }

@@ -7,7 +7,6 @@ import LightButton from "./ui/widgets/LightButton";
 import Widget from "../lib/ui/Widget";
 import {RandomSolver} from "../lib/cluetheory/sliders/RandomSolver";
 import {RegionChainEditor} from "../devtools/sliderdb/RegionEditor";
-import {TileRectangle} from "../lib/runescape/coordinates";
 import {PDBSolver} from "../lib/cluetheory/sliders/PDBSolver";
 import {RegionChainDistanceTable} from "../lib/cluetheory/sliders/RegionChainDistanceTable";
 import SliderState = Sliders.SliderState;
@@ -16,6 +15,8 @@ import hgrid = C.hgrid;
 import span = C.span;
 import spacer = C.spacer;
 import hbox = C.hbox;
+import {PDBManager} from "./ui/neosolving/subbehaviours/SliderSolving";
+import {RegionDistanceTable} from "../lib/cluetheory/sliders/RegionDistanceTable";
 
 type DataEntry = {
   id: number,
@@ -75,10 +76,11 @@ class SliderBenchmarkModal extends NisModal {
 
     const candidates: Candidate[] = [
       {name: "Skillbert Random", solver: RandomSolver},
-      {
-        name: "PDB Solver", solver: new PDBSolver(new RegionChainDistanceTable(new Uint8Array(await (await fetch("data/sliderpdb/pdb.bin")).arrayBuffer())))
-      },
-
+      {name: "MTM PDB (Huge + R)", solver: new PDBSolver(new RegionDistanceTable.RegionGraph((await PDBManager.instance.get().getSimple(true, "mtm_huge")).tables, true))},
+      {name: "MTM PDB (Huge)", solver: new PDBSolver(new RegionDistanceTable.RegionGraph((await PDBManager.instance.get().getSimple(true, "mtm_huge")).tables, false))},
+      {name: "MTM PDB (Large R*)", solver: new PDBSolver(new RegionDistanceTable.RegionGraph((await PDBManager.instance.get().getSimple(true, "mtm_large")).tables, false))},
+      //{name: "MTM PDB (Large + R)", solver: new PDBSolver(new RegionDistanceTable.RegionGraph((await PDBManager.instance.get().getSimple(true, "mtm_large2")).tables, true))},
+      //{name: "MTM PDB (Large)", solver: new PDBSolver(new RegionDistanceTable.RegionGraph((await PDBManager.instance.get().getSimple(true, "mtm_large2")).tables, false))},
 
       //{name: "IDA* Default", construct: s => new AStarSlideSolver(s)},
     ]
@@ -94,7 +96,7 @@ class SliderBenchmarkModal extends NisModal {
     const test_set: SliderState[] = []
 
     const TIMEOUT = 2000
-    const TEST_SIZE = 100
+    const TEST_SIZE = 50
 
     const data = await crowdsourcedSliderData()
 

@@ -3,9 +3,10 @@ import {Process} from "../../Process";
 import {Region} from "./Region";
 import {Observable, observe} from "../../reactive";
 import * as lodash from "lodash";
+import RegionGraph = RegionDistanceTable.RegionGraph;
 
 export class RegionChainDistanceTable {
-  graph: RegionDistanceTable.RegionGraph
+  public tables: RegionDistanceTable[]
 
   constructor(public data: Uint8Array) {
     let offset = 0
@@ -20,7 +21,7 @@ export class RegionChainDistanceTable {
       offset += region.byte_size
     }
 
-    this.graph = new RegionDistanceTable.RegionGraph(regions)
+    this.tables = regions
   }
 }
 

@@ -76,7 +76,10 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
   setSolver(solver: Sliders.Solver) {
     this.solver = solver
 
-    if(this.active_solving_process) this.active_solving_process.
+    if (this.active_solving_process) {
+      this.active_solving_process.solver.stop()
+      this.active_solving_process = null
+    }
   }
 
   private async read(): Promise<{
@@ -736,7 +739,7 @@ export class SliderSolving extends AbstractPuzzleSolving<
         progressbar.setProgress(p.progress)
 
         if (p.is_done) {
-          process.solver = new PDBSolver(p.data)
+          process.setSolver(new PDBSolver(p.data))
           progressbar.setText("Download finished")
           progressbar.setProgress(1)
         }

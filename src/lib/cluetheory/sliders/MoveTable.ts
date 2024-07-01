@@ -7,15 +7,20 @@ export class MoveTable {
 
   move_table: Move[][][]
 
-  constructor(private region: Region, private multitile: boolean) {
+  constructor(private region: Region, private multitile: boolean, private allow_undoing_moves: boolean = false) {
     this.move_table = new Array(41)
 
     for (let last_move of [0, ...Move.all]) {
       const move_entry = this.move_table[last_move + 20] = new Array(25)
 
-      const mvs = this.multitile
-        ? (last_move == 0 ? Move.multitile_moves : (Move.isVertical(last_move) ? Move.horizontal_mtm : Move.vertical_mtm))
-        : Move.singletile_moves.filter(m => m != -last_move)
+      const mvs =
+        allow_undoing_moves
+          ? (this.multitile ? Move.multitile_moves : Move.singletile_moves)
+          : (
+            this.multitile
+              ? (last_move == 0 ? Move.multitile_moves : (Move.isVertical(last_move) ? Move.horizontal_mtm : Move.vertical_mtm))
+              : Move.singletile_moves.filter(m => m != -last_move)
+          )
 
       for (let blank_tile = 0; blank_tile < 25; blank_tile++) {
         const blank_x = blank_tile % 5

@@ -1,7 +1,6 @@
 import {Sliders} from "../Sliders";
 import {RegionDistanceTable} from "./RegionDistanceTable";
 import {OptimizedSliderState} from "./OptimizedSliderState";
-import {RegionChainDistanceTable} from "./RegionChainDistanceTable";
 import {util} from "../../util/util";
 import SliderState = Sliders.SliderState;
 import MoveList = Sliders.MoveList;
@@ -53,6 +52,7 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
     super(start_state);
   }
 
+  //FIXME: Apparently this does not produce any solution if the state is already solved
   protected async solve_implementation(): Promise<void> {
     let state: OptimizedSliderState
     let move_list: MoveList
@@ -100,7 +100,8 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
 
           // When no optimal move exists, this must be a solved state. Continue with child regions instead
           if (current_region.children.length == 0) {
-            if (move_list.length > 0) this.registerSolution([...move_list])
+            if (move_list.length > 0 || current_region.table.indexing.solves_puzzle) this.registerSolution([...move_list])
+            else debugger
           } else {
             for (const child of current_region.children) {
               await doregion(current_region.reflected, child)

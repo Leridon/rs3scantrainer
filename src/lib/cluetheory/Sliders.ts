@@ -193,7 +193,7 @@ export namespace Sliders {
 
   export namespace Move {
     export const all: Move[] = [-20, -15, -10, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 10, 15, 20]
-    export const singletile_moves: Move[] = [-4, -3, -2, -1, 1, 2, 3, 4]
+    export const singletile_moves: Move[] = [-5, -1, 1, 5]
     export const multitile_moves: Move[] = all
 
     export const horizontal_mtm = [-4, -3, -2, -1, 1, 2, 3, 4]

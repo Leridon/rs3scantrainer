@@ -1,8 +1,7 @@
 import {Sliders} from "../Sliders";
 import {MoveTable} from "./MoveTable";
 import {Region} from "./Region";
-import * as lodash from "lodash"
-import {chooseRandom} from "../../util/util";
+import {util} from "../../util/util";
 
 export type OptimizedSliderState = Uint8Array
 
@@ -11,6 +10,7 @@ export namespace OptimizedSliderState {
   import Move = Sliders.Move;
   import SliderState = Sliders.SliderState;
   import createRandom = Sliders.SliderState.createRandom;
+  import chooseRandom = util.chooseRandom;
   export const SIZE = 27
 
   export const tile_reflection_table: number[] = [
@@ -118,8 +118,8 @@ export namespace OptimizedSliderState {
     return [...state.slice(0, 25)]
   }
 
-  export function ramenShuffle(n: number = 0, state: OptimizedSliderState = OptimizedSliderState.fromState(SliderState.SOLVED)): OptimizedSliderState {
-    const table = new MoveTable(Region.empty(), false)
+  export function ramenShuffle(n: number = 100, state: OptimizedSliderState = OptimizedSliderState.fromState(SliderState.SOLVED)): OptimizedSliderState {
+    const table = new MoveTable(Region.empty(), false, true)
 
     for (let i = 0; i < n; i++) {
       doMove(state, chooseRandom(table.get(state)))

@@ -6,17 +6,16 @@ import {C} from "../lib/ui/constructors";
 import LightButton from "./ui/widgets/LightButton";
 import Widget from "../lib/ui/Widget";
 import {RandomSolver} from "../lib/cluetheory/sliders/RandomSolver";
-import {RegionChainEditor} from "../devtools/sliderdb/RegionEditor";
 import {PDBSolver} from "../lib/cluetheory/sliders/PDBSolver";
-import {RegionChainDistanceTable} from "../lib/cluetheory/sliders/RegionChainDistanceTable";
+import {PDBManager} from "./ui/neosolving/subbehaviours/SliderSolving";
+import {RegionDistanceTable} from "../lib/cluetheory/sliders/RegionDistanceTable";
+import {OptimizedSliderState} from "../lib/cluetheory/sliders/OptimizedSliderState";
 import SliderState = Sliders.SliderState;
 import MoveList = Sliders.MoveList;
 import hgrid = C.hgrid;
 import span = C.span;
 import spacer = C.spacer;
 import hbox = C.hbox;
-import {PDBManager} from "./ui/neosolving/subbehaviours/SliderSolving";
-import {RegionDistanceTable} from "../lib/cluetheory/sliders/RegionDistanceTable";
 
 type DataEntry = {
   id: number,
@@ -79,8 +78,8 @@ class SliderBenchmarkModal extends NisModal {
       {name: "MTM PDB (Huge + R)", solver: new PDBSolver(new RegionDistanceTable.RegionGraph((await PDBManager.instance.get().getSimple(true, "mtm_huge")).tables, true))},
       {name: "MTM PDB (Huge)", solver: new PDBSolver(new RegionDistanceTable.RegionGraph((await PDBManager.instance.get().getSimple(true, "mtm_huge")).tables, false))},
       {name: "MTM PDB (Large R*)", solver: new PDBSolver(new RegionDistanceTable.RegionGraph((await PDBManager.instance.get().getSimple(true, "mtm_large")).tables, false))},
-      //{name: "MTM PDB (Large + R)", solver: new PDBSolver(new RegionDistanceTable.RegionGraph((await PDBManager.instance.get().getSimple(true, "mtm_large2")).tables, true))},
-      //{name: "MTM PDB (Large)", solver: new PDBSolver(new RegionDistanceTable.RegionGraph((await PDBManager.instance.get().getSimple(true, "mtm_large2")).tables, false))},
+      {name: "MTM PDB (Large + R)", solver: new PDBSolver(new RegionDistanceTable.RegionGraph((await PDBManager.instance.get().getSimple(true, "mtm_large2")).tables, true))},
+      {name: "MTM PDB (Large)", solver: new PDBSolver(new RegionDistanceTable.RegionGraph((await PDBManager.instance.get().getSimple(true, "mtm_large2")).tables, false))},
 
       //{name: "IDA* Default", construct: s => new AStarSlideSolver(s)},
     ]
@@ -96,14 +95,16 @@ class SliderBenchmarkModal extends NisModal {
     const test_set: SliderState[] = []
 
     const TIMEOUT = 2000
-    const TEST_SIZE = 50
+    const TEST_SIZE = 20
 
     const data = await crowdsourcedSliderData()
 
     while (test_set.length < TEST_SIZE) {
-      const shuffled = data[lodash.random(data.length - 1)]
+      //const shuffled = data[lodash.random(data.length - 1)]
 
-      if (SliderState.isSolveable(shuffled.state)) test_set.push(shuffled.state)
+      //if (SliderState.isSolveable(shuffled.state)) test_set.push(shuffled.state)
+
+      test_set.push(OptimizedSliderState.asState(OptimizedSliderState.ramenShuffle()))
     }
 
     const results: Result[] = []
@@ -122,7 +123,7 @@ class SliderBenchmarkModal extends NisModal {
 
         let best = await solver.withTimeout(TIMEOUT).run()
 
-        const best_before_continuation = [...best]
+        const best_before_continuation = best ? [...best] : undefined
 
         if (candidate.continuation_solving && best) {
           const TIME_PER_STEP = (candidate.continuation_solving.lookahead / candidate.continuation_solving.assumed_moves_per_second) * 1000

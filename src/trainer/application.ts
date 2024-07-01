@@ -356,8 +356,7 @@ export class Application extends Behaviour {
 
     document.body.addEventListener("keydown", e => {
       if (e.key == "F6") {
-
-        log().log("Log export started")
+        log().log("Log exported")
 
         ExportStringModal.do(
           log().toString(),
@@ -370,7 +369,9 @@ export class Application extends Behaviour {
     log().log(`Clue Trainer v${Changelog.last_patch.version} started`)
 
     if (globalThis.alt1) {
-      log().log(`Alt 1 detected: ${alt1.version}`)
+      log().log(`Alt1 version detected: ${alt1.version}`)
+      log().log(`Active capture mode: ${alt1.captureMethod}`)
+      log().log(`Permissions: Installed ${alt1.permissionInstalled}, GameState ${alt1.permissionGameState}, Pixel ${alt1.permissionPixel}, Overlay ${alt1.permissionOverlay}`)
     }
 
     //ExportStringModal.do(await makeshift_main())

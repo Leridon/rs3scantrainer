@@ -1,3 +1,4 @@
+import * as lodash from "lodash";
 import {lazy} from "../properties/Lazy";
 import {util} from "./util";
 
@@ -58,24 +59,21 @@ export namespace Log {
   }[]
 
   namespace Buffer {
+    import padInteger = util.padInteger;
+
     export function toString(buffer: Buffer): string {
-
-
+      
       function formatTime(timestamp: number): string {
         const date = new Date(timestamp)
 
-        function pad(str: string): string {
-          return ("0000" + str).substring(str.length, str.length + 4)
-        }
-
-        return `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}.${pad( date.getMilliseconds().toString())}`
+        return `${padInteger(date.getHours(), 2)}:${padInteger(date.getMinutes(), 2)}:${padInteger(date.getSeconds(), 2)}.${padInteger(date.getMilliseconds(), 4)}`
       }
 
       return buffer.map(entry => {
         if (entry.timestamps.length > 1) {
-          return `${Message.toString(entry.message)} (${entry.timestamps.length}x between ${formatTime(entry.timestamps[0])} and ${formatTime(index(entry.timestamps, -1))})`
+          return `${formatTime(entry.timestamps[0])} - ${Message.toString(entry.message)} (${entry.timestamps.length}x until ${formatTime(index(entry.timestamps, -1))})`
         } else {
-          return `${Message.toString(entry.message)} (${formatTime(entry.timestamps[0])})`
+          return `${formatTime(entry.timestamps[0])} - ${Message.toString(entry.message)}`
         }
 
       }).join("\n")

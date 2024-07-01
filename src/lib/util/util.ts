@@ -317,4 +317,8 @@ export namespace util {
   export function positive_mod(x: number, mod: number) {
     return ((x % mod) + mod) % mod;
   }
+
+  export function padInteger(n: number, length: number): string {
+    return lodash.padStart(n.toString(), length, "0")
+  }
 }

@@ -115,7 +115,7 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
         }
 
         if (!found_optimal_move) {
-          if (known_distance != 0 || current_region.table.indexing.satisfied(state)) return // Ran into a dead end
+          if (known_distance != 0 || !current_region.table.indexing.satisfied(state)) return // Ran into a dead end
 
           // When no optimal move exists, this must be a solved state. Continue with child regions instead
           if (current_region.children.length == 0) {
@@ -158,6 +158,8 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
           await doregion(false, start, slackness)
         }
       }, `Slackness ${slackness}`)
+
+      slackness++
     }
   }
 }

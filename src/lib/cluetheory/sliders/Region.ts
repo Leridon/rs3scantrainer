@@ -133,7 +133,7 @@ export namespace Region {
         const tile = state[i]
 
         if (this.relevant_tile_numbers_translation[tile] != null) {
-          permutation.push(this.relevant_tile_numbers_translation[tile])
+          permutation.push(tile)
         }
       }
 

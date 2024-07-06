@@ -52,8 +52,8 @@ export namespace Region {
     private solution_relevant_indices: number[]
 
     private combination_prioritized_indices: number[]
-    private combination_relevant_tiles: boolean[]
-    private permutation_table: number[]
+    private relevant_tile_numbers: boolean[]
+    private relevant_tile_numbers_translation: number[] // TODO: I don't think the translation is needed at all
 
     public readonly solves_puzzle: boolean
 
@@ -68,17 +68,17 @@ export namespace Region {
       {
         this.combination_prioritized_indices = lodash.sortBy(region.map((tile, i) => [tile, i]).filter(e => e[0] != Tile.FIXED), e => -e[0]).map(e => e[1])
 
-        this.combination_relevant_tiles = region.map((tile, index) => tile == Tile.CURRENT || index == SliderState.BLANK_TILE)
+        this.relevant_tile_numbers = region.map((tile, index) => tile == Tile.CURRENT || index == SliderState.BLANK_TILE)
       }
 
       {
-        this.permutation_table = new Array(region.length).fill(null)
+        this.relevant_tile_numbers_translation = new Array(region.length).fill(null)
 
         let tile_index = 0
 
         for (let i = 0; i < region.length; i++) {
           if (region[i] == Tile.CURRENT || i == SliderState.BLANK_TILE) {
-            this.permutation_table[i] = tile_index
+            this.relevant_tile_numbers_translation[i] = tile_index
             tile_index++
           }
         }
@@ -89,14 +89,20 @@ export namespace Region {
     }
 
     stateIndex(state: OptimizedSliderState): number {
+
+      // TODO: This is O(n²), but there is an O(n log n) algorithm. Also, inline this so ideally no array needs to be created.
+      //       For the regions we use, in the worst case these are 6+5+4+3+2+1 = 21 comparisons.
       function permutationIndex(pm: number[]): number {
         const n = pm.length
 
         let t = 0;
         for (let i = 0; i < pm.length - 1; i++) {
-          t *= (n - i)
+          t *= (n - i) // TODO: This computes the factorial on the fly, which could be replaced with a lookup table probably
+
+          // Now we count how many of the following elements are less than the current element
+          // Question: Can this be reformulated so we need
           for (let j = i + 1; j < n; j++) {
-            if (pm[i] > pm[j]) t += 1
+            if (pm[j] < pm[i]) t += 1
           }
         }
         return t
@@ -113,7 +119,7 @@ export namespace Region {
         for (let i = 0; i < this.combination_prioritized_indices.length && counter <= this.current; i++) {
           const index = this.combination_prioritized_indices[i]
 
-          if (this.combination_relevant_tiles[state[index]]) {
+          if (this.relevant_tile_numbers[state[index]]) {
             // There's a relevant tile in this position
             combination_index += n_choose_k_table[i][counter]
             counter += 1
@@ -126,8 +132,8 @@ export namespace Region {
       for (let i = 0; i < 25; i++) {
         const tile = state[i]
 
-        if (this.permutation_table[tile] != null) {
-          permutation.push(this.permutation_table[tile])
+        if (this.relevant_tile_numbers_translation[tile] != null) {
+          permutation.push(this.relevant_tile_numbers_translation[tile])
         }
       }
 

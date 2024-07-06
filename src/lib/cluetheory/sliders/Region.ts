@@ -114,13 +114,9 @@ export namespace Region {
       function permutationIndex(pm: number[]): number {
         let t = 0;
         for (let i = 1; i < pm.length; i++) {
-          let higher_count = 0
+          const value = factorial_table[i]
 
-          for(let j = 0; j < i; j++) if(pm[j] > pm[i]) higher_count++
-
-          //const higher_count = bintree.insert(tree, pm[i])
-
-          t += factorial_table[i] * higher_count
+          for(let j = 0; j < i; j++) if(pm[j] > pm[i]) t += value
         }
         return t
       }

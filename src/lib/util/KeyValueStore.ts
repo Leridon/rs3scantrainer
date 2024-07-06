@@ -60,6 +60,11 @@ export default class KeyValueStore {
     return new KeyValueStoreVariable<T>(this, key)
   }
 
+  async clear(): Promise<void> {
+    let s = await this.getStore("readwrite");
+    s.clear()
+  }
+
   static _instance: KeyValueStore = null
 
   static instance(): KeyValueStore {

@@ -245,9 +245,9 @@ class BenchmarkConfigurator extends Widget {
     testcase_type: "crowdsourced",
     candidates: [
       {type: "random"},
-      {type: "pdb", reflect: false, db: "mtm_large"},
-      {type: "pdb", reflect: true, db: "mtm_large2"},
-      {type: "pdb", reflect: false, db: "mtm_large2"},
+      //{type: "pdb", reflect: false, db: "mtm_large"},
+      /*{type: "pdb", reflect: true, db: "mtm_large2"},
+      {type: "pdb", reflect: false, db: "mtm_large2"},*/
       {type: "pdb", reflect: false, db: "mtm_huge"},
       {type: "pdb", reflect: true, db: "mtm_huge"},
     ]

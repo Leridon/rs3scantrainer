@@ -5,6 +5,7 @@ import {SliderBenchmarkModal} from "./SliderBenchmarking";
 import {PDBGeneratorModal, RegionIndexingModal, StateIndexBenchmarkWidget} from "./sliderdb/RegionEditor";
 import {CompassReader} from "../trainer/ui/neosolving/cluereader/CompassReader";
 import {clue_trainer_test_set} from "../test/tests";
+import {PDBManager} from "../trainer/ui/neosolving/subbehaviours/SliderSolving";
 
 
 export class DevelopmentModal extends NisModal {
@@ -40,6 +41,12 @@ export class DevelopmentModal extends NisModal {
     layout.row(new LightButton("Benchmark Region Indexing", "rectangle")
       .onClick(() => {
         new RegionIndexingModal().show()
+      })
+    )
+
+    layout.row(new LightButton("Delete local pdbs", "rectangle")
+      .onClick(() => {
+        PDBManager.instance.get().clearCache()
       })
     )
 

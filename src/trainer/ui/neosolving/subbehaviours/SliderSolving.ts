@@ -616,6 +616,10 @@ export class PDBManager {
 
   }
 
+  public clearCache(): Promise<void> {
+    return this.db.clear()
+  }
+
   private download(desc: PDBDesc): PDBDownload {
 
     if (this.downloader[desc.id]) return this.downloader[desc.id]
@@ -680,7 +684,7 @@ export class PDBManager {
   private db = new KeyValueStore("slider-pdbs")
 
   async getSimple(multitile: boolean, id?: string): Promise<RegionChainDistanceTable> {
-    const raw = await this.get(multitile, id)
+    const raw = await this.getBest(multitile, id)
 
     if (raw.table) return raw.table
     else return new Promise(resolve => {
@@ -690,7 +694,7 @@ export class PDBManager {
     })
   }
 
-  async get(multitile: boolean, id?: string): Promise<{
+  async getBest(multitile: boolean, id?: string): Promise<{
     table?: RegionChainDistanceTable,
     download?: PDBDownload
   }> {
@@ -735,7 +739,7 @@ export class SliderSolving extends AbstractPuzzleSolving<
   }
 
   protected async constructProcess(): Promise<SliderGuideProcess> {
-    const table = await PDBManager.instance.get().get(deps().app.settings.settings.solving.puzzles.sliders.mode != "keyboard")
+    const table = await PDBManager.instance.get().getBest(deps().app.settings.settings.solving.puzzles.sliders.mode != "keyboard")
 
     const solver = table.table
       ? new PDBSolver(new RegionDistanceTable.RegionGraph(table.table.tables, true))

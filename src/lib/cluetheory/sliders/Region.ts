@@ -110,7 +110,7 @@ export namespace Region {
 
       // TODO: This is O(n²), but there is an O(n log n) algorithm. Also, inline this so ideally no array needs to be created.
       //       For the regions we use, in the worst case these are 6+5+4+3+2+1 = 21 comparisons, so this might not be as relevant
-      //       The n log n algorithm involves maintaining something that can be binary searched, so either a binary tree or a sorted array
+      //       The n log n algorithm involves maintaining something that can be binary searched, so either a binary tree or a sorted array, which for the sizes we are working with is more overhead than the saved comparison
       function permutationIndex(pm: number[]): number {
         let t = 0;
         for (let i = 1; i < pm.length; i++) {

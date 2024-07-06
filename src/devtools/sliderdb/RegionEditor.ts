@@ -311,8 +311,6 @@ class ProgressWidget extends Widget {
         }).appendTo(this)
     }
   }
-
-  W
 }
 
 export class RegionChainGeneratorWidget extends Widget {
@@ -323,5 +321,23 @@ export class RegionChainGeneratorWidget extends Widget {
       this.empty()
       this.append(new ProgressWidget(p))
     })
+  }
+}
+
+export class PDBGeneratorModal extends NisModal {
+  private region: RegionChainEditor
+
+  render() {
+    super.render()
+
+    this.region = new RegionChainEditor()
+      .setValue({
+        multitile: true,
+        regions: [
+          [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ]
+      })
+      .appendTo(this.body)
+
   }
 }

@@ -24,7 +24,39 @@ const n_choose_k_table: number[][] = (() => {
   return res
 })()
 
+const factorial_table: number[] = (() => {
+  return new Array(12).fill(null)
+    .map((_, i) => factorial(i))
+})()
+
 export type Region = Region.Tile[]
+
+type bintree = {
+  value?: number,
+  size: number,
+  left?: bintree,
+  right?: bintree
+}
+
+namespace bintree {
+  export function insert(tree: bintree, value: number): number {
+    tree.size++
+
+    if (tree.value == null) {
+      tree.value = value
+      tree.left = {size: 0}
+      tree.right = {size: 0}
+
+      return 0
+    } else if (value < tree.value) {
+      tree.size++
+
+      return tree.right.size + 1 + insert(tree.left, value)
+    } else {
+      return insert(tree.right, value)
+    }
+  }
+}
 
 export namespace Region {
 
@@ -69,7 +101,7 @@ export namespace Region {
 
         this.relevant_tile_numbers = region.map((tile, index) => tile == Tile.CURRENT || index == SliderState.BLANK_TILE)
       }
-      
+
       this.solution_relevant_indices = region.flatMap((tile, position) => tile == Tile.CURRENT || tile == Tile.FIXED ? [position] : [])
 
     }
@@ -77,19 +109,18 @@ export namespace Region {
     stateIndex(state: OptimizedSliderState): number {
 
       // TODO: This is O(n²), but there is an O(n log n) algorithm. Also, inline this so ideally no array needs to be created.
-      //       For the regions we use, in the worst case these are 6+5+4+3+2+1 = 21 comparisons.
+      //       For the regions we use, in the worst case these are 6+5+4+3+2+1 = 21 comparisons, so this might not be as relevant
+      //       The n log n algorithm involves maintaining something that can be binary searched, so either a binary tree or a sorted array
       function permutationIndex(pm: number[]): number {
-        const n = pm.length
-
         let t = 0;
-        for (let i = 0; i < pm.length - 1; i++) {
-          t *= (n - i) // TODO: This computes the factorial on the fly, which could be replaced with a lookup table probably
+        for (let i = 1; i < pm.length; i++) {
+          let higher_count = 0
 
-          // Now we count how many of the following elements are less than the current element
-          // Question: Can this be reformulated?
-          for (let j = i + 1; j < n; j++) {
-            if (pm[j] < pm[i]) t += 1
-          }
+          for(let j = 0; j < i; j++) if(pm[j] > pm[i]) higher_count++
+
+          //const higher_count = bintree.insert(tree, pm[i])
+
+          t += factorial_table[i] * higher_count
         }
         return t
       }
@@ -108,15 +139,16 @@ export namespace Region {
           const tile = state[index]
 
           if (this.relevant_tile_numbers[tile]) {
+            // There's a relevant tile in this position
             permutation.push(tile)
 
-            // There's a relevant tile in this position
             combination_index += n_choose_k_table[i][counter]
             counter += 1
           }
         }
       }
 
+      //return combination_index * this.number_of_permutations + permutation_part
       return combination_index * this.number_of_permutations + permutationIndex(permutation)
     }
 

@@ -2,7 +2,7 @@ import {NisModal} from "../lib/ui/NisModal";
 import Properties from "../trainer/ui/widgets/Properties";
 import LightButton from "../trainer/ui/widgets/LightButton";
 import {SliderBenchmarkModal} from "./SliderBenchmarking";
-import {PDBGeneratorModal} from "./sliderdb/RegionEditor";
+import {PDBGeneratorModal, RegionIndexingModal, StateIndexBenchmarkWidget} from "./sliderdb/RegionEditor";
 import {CompassReader} from "../trainer/ui/neosolving/cluereader/CompassReader";
 import {clue_trainer_test_set} from "../test/tests";
 
@@ -37,6 +37,11 @@ export class DevelopmentModal extends NisModal {
       })
     )
 
+    layout.row(new LightButton("Benchmark Region Indexing", "rectangle")
+      .onClick(() => {
+        new RegionIndexingModal().show()
+      })
+    )
 
     layout.header("Compass")
     layout.row(new LightButton("Calibration Tool", "rectangle")

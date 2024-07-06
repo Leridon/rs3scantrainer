@@ -2,6 +2,7 @@ import {Sliders} from "../Sliders";
 import {MoveTable} from "./MoveTable";
 import {Region} from "./Region";
 import {util} from "../../util/util";
+import {Optimization} from "webpack-chain";
 
 export type OptimizedSliderState = Uint8Array
 
@@ -119,10 +120,15 @@ export namespace OptimizedSliderState {
   }
 
   export function ramenShuffle(n: number = 100, state: OptimizedSliderState = OptimizedSliderState.fromState(SliderState.SOLVED)): OptimizedSliderState {
+
     const table = new MoveTable(Region.empty(), false, true)
+    return shuffle(table, n, state)
+  }
+
+  export function shuffle(move_table: MoveTable, n: number = 100, state: OptimizedSliderState = OptimizedSliderState.fromState(SliderState.SOLVED)): OptimizedSliderState {
 
     for (let i = 0; i < n; i++) {
-      doMove(state, chooseRandom(table.get(state)))
+      doMove(state, chooseRandom(move_table.get(state)))
     }
 
     return state

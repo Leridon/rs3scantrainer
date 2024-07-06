@@ -22,6 +22,13 @@ import copyUpdate = util.copyUpdate;
 import downloadBinaryFile = util.downloadBinaryFile;
 import cleanedJSON = util.cleanedJSON;
 import imp = ExportImport.imp;
+import {Process} from "../../lib/Process";
+import {MoveTable} from "../../lib/cluetheory/sliders/MoveTable";
+import {OptimizedSliderState} from "../../lib/cluetheory/sliders/OptimizedSliderState";
+import {observe} from "../../lib/reactive";
+import Indexing = Region.Indexing;
+import hgrid = C.hgrid;
+import span = C.span;
 
 class TileEditor extends AbstractEditWidget<Region.Tile> {
   constructor(private locked: boolean = false) {
@@ -115,10 +122,10 @@ export class RegionEditor extends AbstractEditWidget<Region> {
   }
 }
 
-export class RegionChainEditor extends AbstractEditWidget<RegionChainDistanceTable.Description> {
+export class RegionChainEditor extends AbstractEditWidget<Region[]> {
   private region_layout: Properties
 
-  private mtm_toggle: Checkbox.Group<boolean>
+  public menu: Properties
 
   constructor() {
     super();
@@ -134,8 +141,7 @@ export class RegionChainEditor extends AbstractEditWidget<RegionChainDistanceTab
         })
     ).css("flex-grow", 1).appendTo(vertical)
 
-
-    const menu = new Properties().appendTo(vertical)
+    const menu = this.menu = new Properties().appendTo(vertical)
       .css("border-left", "1px solid gray")
       .css("display", "inline-block")
       .css2({
@@ -145,15 +151,12 @@ export class RegionChainEditor extends AbstractEditWidget<RegionChainDistanceTab
 
     menu.row(new LightButton("New Chain", "rectangle").css("margin", "2px")
       .onClick(() => {
-        this.setValue({
-          multitile: false,
-          regions: [Region.empty()]
-        })
+        this.setValue([Region.empty()])
       })
     )
     menu.row(new LightButton("Import", "rectangle").css("margin", "2px")
       .onClick(async () => {
-        const res = await new ImportStringModal(imp<RegionChainDistanceTable.Description>()).do()
+        const res = await new ImportStringModal(imp<Region[]>()).do()
 
         if (res?.imported) this.commit(res.imported, true)
       })
@@ -166,28 +169,84 @@ export class RegionChainEditor extends AbstractEditWidget<RegionChainDistanceTab
       })
     )
 
-    menu.row(vbox(
-      ...(this.mtm_toggle = new Checkbox.Group([
-        {button: new Checkbox("STM"), value: false},
-        {button: new Checkbox("MTM"), value: true},
-      ])).checkboxes()
-    ))
-
     menu.divider()
 
     menu.row(new LightButton("New Region", "rectangle").css("margin", "2px")
       .onClick(() => {
         this.commit(copyUpdate(this.get(), c => {
-          c.regions.push(Region.empty())
+          c.push(Region.empty())
         }), true)
       })
     )
+  }
 
-    menu.divider()
+  protected render() {
+    const chain = this.get()
 
-    menu.row(new LightButton("Create tables", "rectangle").css("margin", "2px")
+    this.region_layout.empty()
+
+    for (let i = 0; i < chain.length; i++) {
+      const region = chain[i]
+
+      if (i > 0) this.region_layout.divider()
+
+      const editor = new RegionEditor().setValue(region)
+
+      this.region_layout.header(
+        hbox(
+          hboxc(`Region ${i}`).css("flex-grow", 1),
+          NislIcon.delete()
+            .on("click", () => {
+              this.commit(copyUpdate(this.get(), e => {
+                e.splice(i, 1)
+              }), true)
+            }),
+          NislIcon.from("assets/icons/copy.png")
+            .on("click", () => {
+              this.commit(copyUpdate(this.get(), c => {
+                c.push(Region.child(editor.get()))
+              }), true)
+            }),
+        )
+      )
+
+      this.region_layout.row(editor
+        .onCommit(r => {
+
+          this.commit(copyUpdate(this.get(),
+            e => e[i] = r
+          ))
+        })
+      )
+    }
+  }
+}
+
+export class PDBGeneratorWidget extends Widget {
+  private editor: RegionChainEditor
+  private mtm_toggle: Checkbox.Group<boolean>
+
+  constructor(private value: RegionChainDistanceTable.Description) {
+    super();
+
+    this.editor = new RegionChainEditor().setValue(value.regions).appendTo(this)
+
+    this.editor.menu.divider()
+
+    this.editor.menu.row(vbox(
+      ...(this.mtm_toggle = new Checkbox.Group([
+        {button: new Checkbox("STM"), value: false},
+        {button: new Checkbox("MTM"), value: true},
+      ])).setValue(value.multitile).checkboxes()
+    ))
+
+
+    this.editor.menu.row(new LightButton("Create tables", "rectangle").css("margin", "2px")
       .onClick(() => {
-        const generator = new RegionChainDistanceTable.Generator(this.get());
+        const generator = new RegionChainDistanceTable.Generator({
+          regions: this.editor.get(),
+          multitile: this.mtm_toggle.get()
+        });
 
         const modal = (new class extends NisModal {
           constructor() {
@@ -217,48 +276,101 @@ export class RegionChainEditor extends AbstractEditWidget<RegionChainDistanceTab
       })
     )
   }
+}
 
-  protected render() {
-    const chain = this.get()
+export class StateIndexBenchmarkWidget extends Widget {
+  private editor: RegionChainEditor
 
-    this.region_layout.empty()
+  constructor(private value: RegionChainDistanceTable.Description) {
+    super();
 
-    this.mtm_toggle.setValue(chain.multitile)
+    this.editor = new RegionChainEditor().setValue(value.regions).appendTo(this)
 
-    for (let i = 0; i < chain.regions.length; i++) {
-      const region = chain.regions[i]
+    this.editor.menu.divider()
 
-      if (i > 0) this.region_layout.divider()
+    this.editor.menu.row(new LightButton("Run Benchmark", "rectangle").css("margin", "2px")
+      .onClick(() => {
 
-      const editor = new RegionEditor().setValue(region)
+        const self = this
+        const benchmarker = (new class extends Process {
+          progress = observe<{ region: Region, tests: number, time: number }[]>([])
 
-      this.region_layout.header(
-        hbox(
-          hboxc(`Region ${i}`).css("flex-grow", 1),
-          NislIcon.delete()
-            .on("click", () => {
-              this.commit(copyUpdate(this.get(), e => {
-                e.regions.splice(i, 1)
-              }), true)
-            }),
-          NislIcon.from("assets/icons/copy.png")
-            .on("click", () => {
-              this.commit(copyUpdate(this.get(), c => {
-                c.regions.push(Region.child(editor.get()))
-              }), true)
-            }),
-        )
-      )
+          async implementation(): Promise<void> {
+            const regions = self.editor.get()
 
-      this.region_layout.row(editor
-        .onCommit(r => {
+            for (const region of regions) {
 
-          this.commit(copyUpdate(this.get(),
-            e => e.regions[i] = r
-          ))
+              const move_table = new MoveTable(region, true, false)
+
+              const tests = await Promise.all(new Array(100_000).fill(null).map(async (_, i) => {
+                if (i % 1000 == 0) await this.checkTime()
+
+                return OptimizedSliderState.shuffle(move_table, 100)
+              }))
+
+              const indexing = new Region.Indexing(region)
+
+              const RUNS = 100
+
+              const start = Date.now()
+
+              for (let i = 0; i < RUNS; i++) {
+                const r = tests.map(t => indexing.stateIndex(t))
+              }
+
+              const end = Date.now()
+
+              this.progress.update2(v => v.push({region: region, tests: tests.length * RUNS, time: end - start}))
+
+              await this.checkTime()
+            }
+
+            return undefined;
+          }
+        }).withInterrupt(200, 5)
+
+        const modal = (new class extends NisModal {
+          constructor() {
+            super();
+
+            this.setTitle("Table Generation")
+
+            benchmarker.progress.subscribe(p => {
+              this.body.empty()
+
+              this.body.append(hgrid(span("#"), span("Tests"), span("Time"), span("Indexes/s")))
+
+              for (let i = 0; i < p.length; i++) {
+                const line = p[i]
+                this.body.append(hgrid(
+                  span(i.toString()),
+                  span(line.tests.toString()),
+                  span(`${(line.time / 1000).toFixed(2)}s`),
+                  span(`${numberWithCommas(~~(line.tests / (line.time / 1000)))}/s`),
+                ))
+              }
+
+            })
+          }
+
+          render() {
+            super.render();
+          }
         })
-      )
-    }
+
+        modal.show()
+
+        modal.hidden.on(() => {
+          benchmarker.stop()
+        })
+
+        modal.shown.on(async () => {
+          await benchmarker.run()
+
+          console.log("Chain generator ended")
+        })
+      })
+    )
   }
 }
 
@@ -325,19 +437,32 @@ export class RegionChainGeneratorWidget extends Widget {
 }
 
 export class PDBGeneratorModal extends NisModal {
-  private region: RegionChainEditor
-
   render() {
     super.render()
 
-    this.region = new RegionChainEditor()
-      .setValue({
-        multitile: true,
-        regions: [
-          [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        ]
-      })
-      .appendTo(this.body)
+    this.setTitle("PDB Generation")
 
+    new PDBGeneratorWidget({
+      multitile: true,
+      regions: [
+        [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      ]
+    }).appendTo(this.body)
+  }
+}
+
+export class RegionIndexingModal extends NisModal {
+  render() {
+    super.render()
+
+    this.setTitle("Index Benchmarking")
+
+    new StateIndexBenchmarkWidget({
+      multitile: true,
+      regions:
+        [
+          [1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[2,2,2,2,2,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[2,2,2,2,2,2,2,2,2,2,1,1,0,0,0,1,1,0,0,0,1,1,0,0,0],[2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,2,2,1,1,0,2,2,1,0,1],[2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0],[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,0,1,1,1,0,1],[2,2,2,2,2,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0],[2,2,2,2,2,2,1,1,1,1,2,1,0,0,0,2,1,0,0,0,2,1,0,0,0]]
+
+    }).appendTo(this.body)
   }
 }

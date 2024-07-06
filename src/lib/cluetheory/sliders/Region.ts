@@ -51,9 +51,8 @@ export namespace Region {
     public size: number
     private solution_relevant_indices: number[]
 
-    private combination_prioritized_indices: number[]
+    private combination_relevant_indices: number[]
     private relevant_tile_numbers: boolean[]
-    private relevant_tile_numbers_translation: number[] // TODO: I don't think the translation is needed at all
 
     public readonly solves_puzzle: boolean
 
@@ -66,24 +65,11 @@ export namespace Region {
       this.size = factorial(this.freedom, Math.max(2, this.freedom - this.current))
 
       {
-        this.combination_prioritized_indices = lodash.sortBy(region.map((tile, i) => [tile, i]).filter(e => e[0] != Tile.FIXED), e => -e[0]).map(e => e[1])
+        this.combination_relevant_indices = lodash.sortBy(region.map((tile, i) => [tile, i]).filter(e => e[0] != Tile.FIXED), e => -e[0]).map(e => e[1])
 
         this.relevant_tile_numbers = region.map((tile, index) => tile == Tile.CURRENT || index == SliderState.BLANK_TILE)
       }
-
-      {
-        this.relevant_tile_numbers_translation = new Array(region.length).fill(null)
-
-        let tile_index = 0
-
-        for (let i = 0; i < region.length; i++) {
-          if (region[i] == Tile.CURRENT || i == SliderState.BLANK_TILE) {
-            this.relevant_tile_numbers_translation[i] = tile_index
-            tile_index++
-          }
-        }
-      }
-
+      
       this.solution_relevant_indices = region.flatMap((tile, position) => tile == Tile.CURRENT || tile == Tile.FIXED ? [position] : [])
 
     }
@@ -100,7 +86,7 @@ export namespace Region {
           t *= (n - i) // TODO: This computes the factorial on the fly, which could be replaced with a lookup table probably
 
           // Now we count how many of the following elements are less than the current element
-          // Question: Can this be reformulated so we need
+          // Question: Can this be reformulated?
           for (let j = i + 1; j < n; j++) {
             if (pm[j] < pm[i]) t += 1
           }
@@ -109,6 +95,7 @@ export namespace Region {
       }
 
       let combination_index = 0
+      const permutation: number[] = []
 
       {
         // https://en.wikipedia.org/wiki/Combinatorial_number_system
@@ -116,24 +103,17 @@ export namespace Region {
 
         let counter = 1
 
-        for (let i = 0; i < this.combination_prioritized_indices.length && counter <= this.current; i++) {
-          const index = this.combination_prioritized_indices[i]
+        for (let i = 0; i < this.combination_relevant_indices.length && counter <= this.current; i++) {
+          const index = this.combination_relevant_indices[i]
+          const tile = state[index]
 
-          if (this.relevant_tile_numbers[state[index]]) {
+          if (this.relevant_tile_numbers[tile]) {
+            permutation.push(tile)
+
             // There's a relevant tile in this position
             combination_index += n_choose_k_table[i][counter]
             counter += 1
           }
-        }
-      }
-
-      // TODO: Optimize this so it doesn't create the permutation array for each node
-      for (let i = 0; i < 25 && permutation.length < this.current; i++) {
-      for (let i = 0; i < 25; i++) {
-        const tile = state[i]
-
-        if (this.relevant_tile_numbers_translation[tile] != null) {
-          permutation.push(tile)
         }
       }
 

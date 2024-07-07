@@ -30,7 +30,7 @@ import notification = Notification.notification;
 import findBestMatch = util.findBestMatch;
 import SliderState = Sliders.SliderState;
 
-const CLUEREADERDEBUG = false
+const CLUEREADERDEBUG = true
 
 let CLUEREADER_DEBUG_OVERLAY: OverlayGeometry = null
 
@@ -115,6 +115,10 @@ export class ClueReader {
               ]
 
             const title = modal.title().toLowerCase()
+
+            if(CLUEREADERDEBUG) {
+              console.log(`Title: ${title}`)
+            }
 
             const best = findBestMatch(modal_type_map.map(
               m => ({value: m, score: findBestMatch(m.possible_titles, possible_title => stringSimilarity(title, possible_title)).score})

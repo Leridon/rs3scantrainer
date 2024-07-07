@@ -582,6 +582,7 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
 }
 
 type PDBDesc = {
+  is_default: boolean,
   id: string,
   name: string,
   version: number,
@@ -683,8 +684,25 @@ export class PDBManager {
 
   private db = new KeyValueStore("slider-pdbs")
 
-  async getSimple(multitile: boolean, id?: string): Promise<RegionChainDistanceTable> {
-    const raw = await this.getBest(multitile, id)
+  async find(multitile: boolean = undefined, id: string = undefined): Promise<PDBDesc> {
+    const matches = (desc: PDBDesc): boolean => {
+      return (multitile == undefined || desc.description.multitile == multitile)
+        && (id == undefined || desc.id == id)
+    }
+
+    const pdbs = await this.pdbs.get()
+    return pdbs.find(matches)
+  }
+
+  async findBest(multitile: boolean): Promise<PDBDesc> {
+    const pdbs = await this.pdbs.get()
+
+    return pdbs.find(d => d.description.multitile == multitile && d.is_default)
+      ?? pdbs.find(d => d.description.multitile == multitile)
+  }
+
+  async getSimple(desc: PDBDesc): Promise<RegionChainDistanceTable> {
+    const raw = await this.get(desc)
 
     if (raw.table) return raw.table
     else return new Promise(resolve => {
@@ -694,18 +712,10 @@ export class PDBManager {
     })
   }
 
-  async getBest(multitile: boolean, id?: string): Promise<{
+  async get(preferred: PDBDesc): Promise<{
     table?: RegionChainDistanceTable,
     download?: PDBDownload
   }> {
-
-    const matches = (desc: PDBDesc): boolean => {
-      return desc.description.multitile == multitile && (!id || desc.id == id)
-    }
-
-    const pdbs = await this.pdbs.get()
-    const preferred = pdbs.find(matches)
-
     if (this.cache?.description?.id != preferred.id || this.cache?.description?.version != preferred.version) {
       const existing_in_indexeddb = await profileAsync(async () => await this.db.get(preferred.id) as StoredPDB, "retrieve")
 
@@ -739,7 +749,9 @@ export class SliderSolving extends AbstractPuzzleSolving<
   }
 
   protected async constructProcess(): Promise<SliderGuideProcess> {
-    const table = await PDBManager.instance.get().getBest(deps().app.settings.settings.solving.puzzles.sliders.mode != "keyboard")
+    const mngr = await PDBManager.instance.get()
+
+    const table = await mngr.get(await mngr.findBest(deps().app.settings.settings.solving.puzzles.sliders.mode != "keyboard"))
 
     const solver = table.table
       ? new PDBSolver(new RegionDistanceTable.RegionGraph(table.table.tables, true))

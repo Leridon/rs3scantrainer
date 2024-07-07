@@ -10,24 +10,21 @@ import {PDBManager} from "../trainer/ui/neosolving/subbehaviours/SliderSolving";
 import {OptimizedSliderState} from "../lib/cluetheory/sliders/OptimizedSliderState";
 import * as lodash from "lodash";
 import {Process} from "../lib/Process";
-import SliderState = Sliders.SliderState;
-import MoveList = Sliders.MoveList;
 import {ewent} from "../lib/reactive";
 import {util} from "../lib/util/util";
-import avg = util.avg;
-import todo = util.todo;
-import AbstractEditWidget from "../trainer/ui/widgets/AbstractEditWidget";
 import Widget from "../lib/ui/Widget";
 import ButtonRow from "../lib/ui/ButtonRow";
 import {Checkbox} from "../lib/ui/controls/Checkbox";
 import {C} from "../lib/ui/constructors";
-import hboxc = C.hboxc;
 import {async_lazy} from "../lib/properties/Lazy";
+import {DropdownSelection} from "../trainer/ui/widgets/DropdownSelection";
+import SliderState = Sliders.SliderState;
+import MoveList = Sliders.MoveList;
+import avg = util.avg;
+import hboxc = C.hboxc;
 import hgrid = C.hgrid;
 import span = C.span;
 import count = util.count;
-import * as process from "process";
-import {DropdownSelection} from "../trainer/ui/widgets/DropdownSelection";
 import vbox = C.vbox;
 
 export type SliderDataEntry = {
@@ -109,14 +106,15 @@ namespace BenchmarkSetup {
             name: "Random"
           }
         case "pdb":
+          const mngr = await PDBManager.instance.get()
+
           const name = `PDB ${c.db}${c.reflect ? " +R" : ""}`
-          const solver = new PDBSolver(new RegionDistanceTable.RegionGraph((await PDBManager.instance.get().getSimple(setup.metric == "mtm", c.db)).tables, c.reflect))
+          const solver = new PDBSolver(new RegionDistanceTable.RegionGraph((await mngr.getSimple(await mngr.find(undefined,  c.db))).tables, c.reflect))
 
           return {
             solver: solver,
             name: name
           }
-
       }
     }))
 
@@ -165,13 +163,13 @@ class BenchmarkProcess extends Process<Result[]> {
       const candidate = this.settings.candidates[candidate_i]
 
       for (let test_i = 0; test_i < this.settings.test_cases.length; test_i++) {
-        if(this.should_stop) return results
+        if (this.should_stop) return results
 
         // this.layout.empty().row(`Running Candidate ${candidate_i + 1}/${candidates.length}, test ${test_i + 1}/${test_set.length}`)
 
         const test = this.settings.test_cases[test_i]
         const solver = candidate.solver.instantiate(test)
-          .setCombineStraights(true)
+          .setCombineStraights(this.settings.setup.metric == "mtm")
 
         let best = await solver.withTimeout(this.settings.setup.timeout).run()
 
@@ -245,11 +243,11 @@ class BenchmarkConfigurator extends Widget {
     testcase_type: "crowdsourced",
     candidates: [
       {type: "random"},
-      //{type: "pdb", reflect: false, db: "mtm_large"},
-      /*{type: "pdb", reflect: true, db: "mtm_large2"},
-      {type: "pdb", reflect: false, db: "mtm_large2"},*/
       {type: "pdb", reflect: false, db: "mtm_huge"},
       {type: "pdb", reflect: true, db: "mtm_huge"},
+      {type: "pdb", reflect: false, db: "mtm_large"},
+      {type: "pdb", reflect: true, db: "mtm_large"},
+      {type: "pdb", reflect: false, db: "mtm_large_builtinreflection"},
     ]
   }
 

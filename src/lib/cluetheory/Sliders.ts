@@ -300,6 +300,10 @@ export namespace Sliders {
 
       return combined_moves
     }
+
+    export function expand(moves: MoveList): MoveList {
+      return moves.flatMap(Move.split)
+    }
   }
 
   export abstract class Solver {
@@ -333,6 +337,7 @@ export namespace Sliders {
 
     registerSolution(moves: MoveList): this {
       if (this.compress_moves) moves = MoveList.compress(moves)
+      else moves= MoveList.expand(moves)
 
       if (!this.best_solution || moves.length < this.best_solution.length) {
         this.best_solution = moves

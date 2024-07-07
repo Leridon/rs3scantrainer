@@ -3,9 +3,6 @@ import * as lodash from "lodash";
 import {Process} from "../Process";
 import {util} from "../util/util";
 import {ImageFingerprint} from "../util/ImageFingerprint";
-import {Log} from "../util/Log";
-import {MoveTable} from "./sliders/MoveTable";
-import {Region} from "./sliders/Region";
 
 export namespace Sliders {
   export type SliderPuzzle = { tiles: Tile[], theme?: string, match_score?: number }
@@ -322,6 +319,7 @@ export namespace Sliders {
     private progress: number
 
     private compress_moves: boolean = false
+    protected native_compression: boolean = false
 
     constructor(protected start_state: SliderState) {
       super()
@@ -336,8 +334,10 @@ export namespace Sliders {
     }
 
     registerSolution(moves: MoveList): this {
-      if (this.compress_moves) moves = MoveList.compress(moves)
-      else moves= MoveList.expand(moves)
+      if(this.native_compression != this.compress_moves) {
+        if (this.compress_moves) moves = MoveList.compress(moves)
+        else moves = MoveList.expand(moves)
+      }
 
       if (!this.best_solution || moves.length < this.best_solution.length) {
         this.best_solution = moves
@@ -378,11 +378,5 @@ export namespace Sliders {
     getBest(): MoveList {
       return this.best_solution
     }
-  }
-
-  export namespace SlideSolver {
-
-
-
   }
 }

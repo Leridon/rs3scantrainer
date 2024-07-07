@@ -6,7 +6,6 @@ import SliderState = Sliders.SliderState;
 import MoveList = Sliders.MoveList;
 import profileAsync = util.profileAsync;
 import RegionGraph = RegionDistanceTable.RegionGraph;
-import todo = util.todo;
 
 const move_translation_identity: number[] = [
   -20, undefined, undefined, undefined, undefined, // -20
@@ -52,6 +51,8 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
 
   constructor(start_state: SliderState, private chain: RegionGraph) {
     super(start_state);
+
+    this.native_compression = chain.getEntryPoints()[0].table.description.multitile
   }
 
   //FIXME: Apparently this does not produce any solution if the state is already solved
@@ -89,21 +90,19 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
             move_list.push(move_translation[move + 20])
             await dostate(child_distance, remaining_slackness)
             move_list.pop()
-          } else if (child_distance == known_distance) {
-            // This state doesn't bring us any closer to the target state, but doesn't move away from it either
-            // To use this move, we need to invest 1 unit of slackness
+          } else if (remaining_slackness >= 1) {
 
-            if (remaining_slackness >= 1) {
+            if (child_distance == known_distance) {
+              // This state doesn't bring us any closer to the target state, but doesn't move away from it either
+              // To use this move, we need to invest 1 unit of slackness
 
               move_list.push(move_translation[move + 20])
               await dostate(child_distance, remaining_slackness - 1)
               move_list.pop()
-            }
-          } else if ((known_distance + 1) % 4 == child_distance) {
-            // This state is further away from the target state than the current state.
-            // To use this move, we need to invest 2 units of slackness
+            } else if (remaining_slackness >= 2) {
+              // This state is further away from the target state than the current state.
+              // To use this move, we need to invest 2 units of slackness
 
-            if (remaining_slackness >= 2) {
               move_list.push(move_translation[move + 20])
               await dostate(child_distance, remaining_slackness - 2)
               move_list.pop()
@@ -164,7 +163,9 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
   }
 }
 
-export class PDBSolver extends Sliders.Solver {
+export class PDBSolver
+  extends Sliders
+    .Solver {
   constructor(private chain: RegionGraph) {
     super();
   }

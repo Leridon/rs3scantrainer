@@ -88,10 +88,13 @@ export namespace Region {
 
     public readonly solves_puzzle: boolean
 
+    private permutation_array: number[]
+
     constructor(private region: Region) {
       this.solves_puzzle = region.every((t, i) => t != Tile.FREE || [23, 19].includes(i))
       this.current = count(region, t => t == Tile.CURRENT) + (this.solves_puzzle ? 0 : 1) // +1 because the blank tile is always part of this
       this.freedom = count(region, t => t != Tile.FIXED)
+      this.permutation_array = new Array(this.current).fill(null)
 
       this.number_of_permutations = factorial(this.current)
       this.size = factorial(this.freedom, Math.max(2, this.freedom - this.current))
@@ -122,7 +125,6 @@ export namespace Region {
       }
 
       let combination_index = 0
-      const permutation: number[] = []
 
       {
         // https://en.wikipedia.org/wiki/Combinatorial_number_system
@@ -136,7 +138,7 @@ export namespace Region {
 
           if (this.relevant_tile_numbers[tile]) {
             // There's a relevant tile in this position
-            permutation.push(tile)
+            this.permutation_array[counter - 1] = tile
 
             combination_index += n_choose_k_table[i][counter]
             counter += 1
@@ -145,7 +147,7 @@ export namespace Region {
       }
 
       //return combination_index * this.number_of_permutations + permutation_part
-      return combination_index * this.number_of_permutations + permutationIndex(permutation)
+      return combination_index * this.number_of_permutations + permutationIndex(this.permutation_array)
     }
 
     satisfied(state: OptimizedSliderState): boolean {

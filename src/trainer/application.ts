@@ -46,6 +46,7 @@ import ExportStringModal from "./ui/widgets/modals/ExportStringModal";
 import {Log} from "../lib/util/Log";
 import log = Log.log;
 import {Changelog} from "./ChangeLog";
+import {DevelopmentModal} from "../devtools/DevelopmentMenu";
 
 export class SimpleLayerBehaviour extends Behaviour {
   constructor(private map: GameMap, private layer: GameLayer) {
@@ -363,6 +364,10 @@ export class Application extends Behaviour {
           "",
           `cluetrainerlog${Date.now()}.txt`
         )
+      }
+
+      if (e.key == "F4") {
+        new DevelopmentModal().show()
       }
     })
 

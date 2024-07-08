@@ -217,9 +217,13 @@ export namespace util {
     return (a, b) => (a == b) || (a != null && b != null && f(a, b))
   }
 
-  export function download(filename: string, text: string) {
+  export function downloadTextFile(filename: string, text: string) {
+    download(filename, 'data:text/plain;charset=utf-8,' + encodeURIComponent(text))
+  }
+
+  export function download(filename: string, url: string) {
     const element = document.createElement('a');
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('href', url);
     element.setAttribute('download', filename);
 
     element.style.display = 'none';
@@ -228,6 +232,10 @@ export namespace util {
     element.click();
 
     document.body.removeChild(element);
+  }
+
+  export function downloadBinaryFile(filename: string, data: Uint8Array) {
+    download(filename, window.URL.createObjectURL(new Blob([data])))
   }
 
   export function stringSimilarity(string: string, reference: string): number {
@@ -318,7 +326,20 @@ export namespace util {
     return ((x % mod) + mod) % mod;
   }
 
+  export function factorial(n: number, lower: number = 1): number {
+    if (n <= lower) return 1
+    else return n * factorial(n - 1, lower)
+  }
+
+  export function numberWithCommas(x: number) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   export function padInteger(n: number, length: number): string {
     return lodash.padStart(n.toString(), length, "0")
+  }
+
+  export function chooseRandom<T>(items: T[]): T {
+    return items[Math.floor(Math.random() * items.length)];
   }
 }

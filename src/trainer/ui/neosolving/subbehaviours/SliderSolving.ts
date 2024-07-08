@@ -416,7 +416,6 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
 
       this.active_solving_process = {
         solver: this.instantiateSolver(frame_state)
-          //new AStarSlideSolver(frame_state)
           .onUpdate(solver => {
             this.updateSolvingOverlay()
             this.updateProgressOverlay()

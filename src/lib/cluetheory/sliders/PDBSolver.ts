@@ -49,6 +49,8 @@ const move_translation_reflect: number[] = [
 
 export class PDBSolvingProcess extends Sliders.SolvingProcess {
 
+  public completed_slackness: number = -1
+
   constructor(start_state: SliderState, private chain: RegionGraph) {
     super(start_state);
 
@@ -61,7 +63,7 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
     let move_list: MoveList
 
     const doregion = async (coming_from_reflected_region: boolean, current_region: RegionGraph.Node, remaining_slackness: number): Promise<void> => {
-      await this.checkTime() // TODO: Maybe this doesn't need to be done this often
+      await this.checkTime() // TODO: Maybe this doesn't need to be done this often. Scratch that, it needs to be done more often for higher slackness
       if (this.should_stop) return
 
       const move_translation = current_region.reflected ? move_translation_reflect : move_translation_identity
@@ -148,7 +150,7 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
       }
     }
 
-    let slackness = 0
+    let slackness = this.completed_slackness + 1
 
     while (!this.should_stop) {
       await profileAsync(async () => {
@@ -159,6 +161,8 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
           await doregion(false, start, slackness)
         }
       }, `Slackness ${slackness}`)
+
+      if (!this.should_stop) this.completed_slackness = slackness
 
       slackness++
     }

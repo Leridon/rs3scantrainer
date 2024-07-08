@@ -111,6 +111,8 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
 
           OptimizedSliderState.doMove(state, -move)
           state[OptimizedSliderState.LASTMOVE_INDEX] = previous_move
+
+          if (found_optimal_move && current_region.table.indexing.solves_puzzle) break
         }
 
         if (!found_optimal_move) {

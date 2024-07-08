@@ -52,19 +52,15 @@ export class CapturedModal {
 
       if (!x) continue
 
-      console.log("Found X")
-
       const top_left = img.find(skin.top_left)[0]
       if (!top_left) {
         return null;
       }
-      console.log("Found TL")
 
       const bot_left = img.find(skin.bot_left)[0]
       if (!bot_left) {
         return null;
       }
-      console.log("Found BL")
 
       const body_tl = Vector2.add(top_left.relativeRectangle().origin, skin.BODY_TL_OFFSET_FROM_TL)
       const body_bl = Vector2.add(bot_left.relativeRectangle().origin, skin.BODY_BL_OFFSET_FROM_BL)

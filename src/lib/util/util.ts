@@ -342,4 +342,10 @@ export namespace util {
   export function chooseRandom<T>(items: T[]): T {
     return items[Math.floor(Math.random() * items.length)];
   }
+
+  export function formatTime(timestamp: number): string {
+    const date = new Date(timestamp)
+
+    return `${padInteger(date.getHours(), 2)}:${padInteger(date.getMinutes(), 2)}:${padInteger(date.getSeconds(), 2)}.${padInteger(date.getMilliseconds(), 4)}`
+  }
 }

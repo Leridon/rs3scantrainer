@@ -47,6 +47,8 @@ import {Log} from "../lib/util/Log";
 import log = Log.log;
 import {Changelog} from "./ChangeLog";
 import {DevelopmentModal} from "../devtools/DevelopmentMenu";
+import {LogViewer} from "../devtools/LogViewer";
+import {CapturedImage} from "../lib/alt1/ImageCapture";
 
 export class SimpleLayerBehaviour extends Behaviour {
   constructor(private map: GameMap, private layer: GameLayer) {
@@ -323,13 +325,15 @@ export class Application extends Behaviour {
 
     document.body.addEventListener("keydown", e => {
       if (e.key == "F6") {
-        log().log("Log exported")
+        log().log("Log exported", "", {type: "image", value: CapturedImage.capture().getData()})
 
-        ExportStringModal.do(
+        LogViewer.do(log().get())
+
+        /*ExportStringModal.do(
           log().toString(),
           "",
           `cluetrainerlog${Date.now()}.txt`
-        )
+        )*/
       }
 
       if (e.key == "F4") {
@@ -343,6 +347,7 @@ export class Application extends Behaviour {
       log().log(`Alt1 version detected: ${alt1.version}`)
       log().log(`Active capture mode: ${alt1.captureMethod}`)
       log().log(`Permissions: Installed ${alt1.permissionInstalled}, GameState ${alt1.permissionGameState}, Pixel ${alt1.permissionPixel}, Overlay ${alt1.permissionOverlay}`)
+      log().log("Settings on startup", "Startup", {type: "object", value: lodash.cloneDeep(this.settings.settings)})
     }
   }
 

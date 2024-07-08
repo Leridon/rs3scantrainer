@@ -1,10 +1,12 @@
-import * as lodash from "lodash";
 import {lazy} from "../properties/Lazy";
 import {util} from "./util";
 
+type Attachment = { type: "object", value: any } | { type: "image", value: ImageData }
+
 type Message = {
   category: string,
-  body: object | string | number
+  body: object | string | number,
+  attachment?: Attachment
 }
 
 namespace Message {
@@ -30,8 +32,10 @@ export abstract class Log {
     this.clone_to?._log(message)
   }
 
-  log(msg: object | string | number, category: string = undefined): this {
-    this._log({body: msg, category: category ?? ""})
+  log(msg: object | string | number, category: string = undefined, attachment: ImageData | any = undefined): this {
+
+
+    this._log({body: msg, category: category ?? "", attachment: attachment})
     return this
   }
 }
@@ -53,22 +57,15 @@ export namespace Log {
     }
   }
 
-  type Buffer = {
+  export type Buffer = {
     timestamps: number[],
     message: Message
   }[]
 
   namespace Buffer {
-    import padInteger = util.padInteger;
+    import formatTime = util.formatTime;
 
     export function toString(buffer: Buffer): string {
-      
-      function formatTime(timestamp: number): string {
-        const date = new Date(timestamp)
-
-        return `${padInteger(date.getHours(), 2)}:${padInteger(date.getMinutes(), 2)}:${padInteger(date.getSeconds(), 2)}.${padInteger(date.getMilliseconds(), 4)}`
-      }
-
       return buffer.map(entry => {
         if (entry.timestamps.length > 1) {
           return `${formatTime(entry.timestamps[0])} - ${Message.toString(entry.message)} (${entry.timestamps.length}x until ${formatTime(index(entry.timestamps, -1))})`

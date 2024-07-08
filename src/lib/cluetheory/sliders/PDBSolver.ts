@@ -57,18 +57,22 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
     this.native_compression = chain.getEntryPoints()[0].table.description.multitile
   }
 
-  //FIXME: Apparently this does not produce any solution if the state is already solved
   protected async solve_implementation(): Promise<void> {
     let state: OptimizedSliderState
     let move_list: MoveList
 
-    const doregion = async (coming_from_reflected_region: boolean, current_region: RegionGraph.Node, remaining_slackness: number): Promise<void> => {
-      await this.checkTime() // TODO: Maybe this doesn't need to be done this often. Scratch that, it needs to be done more often for higher slackness
-      if (this.should_stop) return
+    let iterations = 0
 
+    const doregion = async (coming_from_reflected_region: boolean, current_region: RegionGraph.Node, remaining_slackness: number): Promise<void> => {
       const move_translation = current_region.reflected ? move_translation_reflect : move_translation_identity
 
       const dostate = async (known_distance: number, remaining_slackness: number) => {
+        iterations++
+
+        if (iterations % 10_000 == 0) await this.checkTime()
+
+        if (this.should_stop) return
+
         const previous_move = state[OptimizedSliderState.LASTMOVE_INDEX]
 
         if (this.best_solution && move_list.length > this.best_solution.length) return // Abort if this can't be better than the best solution we already found
@@ -159,6 +163,8 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
           move_list = []
 
           await doregion(false, start, slackness)
+
+          await this.checkTime()
         }
       }, `Slackness ${slackness}`)
 

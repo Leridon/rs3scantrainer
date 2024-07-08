@@ -30,7 +30,7 @@ import notification = Notification.notification;
 import findBestMatch = util.findBestMatch;
 import SliderState = Sliders.SliderState;
 
-const CLUEREADERDEBUG = true
+const CLUEREADERDEBUG = false
 
 let CLUEREADER_DEBUG_OVERLAY: OverlayGeometry = null
 

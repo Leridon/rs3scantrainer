@@ -2344,3 +2344,28 @@ input[type=checkbox] + span {
 .nis-settings-edit-separator {
     border-bottom: 1px dotted var(--nisl-input-border-color);
 }
+
+.ctr-progress-bar {
+    position: relative;
+    height: 22px;
+    border-radius: 5px;
+    border: 2px solid gray;
+}
+
+.ctr-progress-bar-text {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    top: 0;
+    height: 100%;
+    text-align: center;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.ctr-progress-bar-fill {
+    position: absolute;
+    background-color: #cf8c12;
+    left: 0;
+    top: 0;
+    bottom: 0;
+}

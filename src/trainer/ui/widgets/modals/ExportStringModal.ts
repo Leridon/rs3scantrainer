@@ -5,7 +5,7 @@ import {NisModal} from "../../../../lib/ui/NisModal";
 import {Notification} from "../../NotificationBar";
 import notification = Notification.notification;
 import {util} from "../../../../lib/util/util";
-import download = util.download;
+import download = util.downloadTextFile;
 
 export default class ExportStringModal extends NisModal {
   textarea: TextArea

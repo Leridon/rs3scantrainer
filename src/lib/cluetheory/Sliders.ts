@@ -1,10 +1,8 @@
-import {calcmap, optimisemoves, SlideMove, SliderMap, SlideSolverRandom} from "../../skillbertssolver/cluesolver/slidesolver";
 import {ewent} from "../reactive";
 import * as lodash from "lodash";
 import {Process} from "../Process";
 import {util} from "../util/util";
 import {ImageFingerprint} from "../util/ImageFingerprint";
-import {Log} from "../util/Log";
 
 export namespace Sliders {
   export type SliderPuzzle = { tiles: Tile[], theme?: string, match_score?: number }
@@ -20,6 +18,8 @@ export namespace Sliders {
   export type SliderState = number[]
 
   export namespace SliderState {
+    export const BLANK_TILE = 24
+
     export const SOLVED: SliderState =
       [
         0, 1, 2, 3, 4,
@@ -56,7 +56,7 @@ export namespace Sliders {
     }
 
     export function blank(state: SliderState): number {
-      return state.indexOf(24)
+      return state.indexOf(BLANK_TILE)
     }
 
     export function findMove(before: SliderState, after: SliderState): Move | null {
@@ -71,7 +71,7 @@ export namespace Sliders {
       return move
     }
 
-    export function neighbours(state: SliderState, prestates_multitile_allowed: boolean = true): SliderState[] {
+    export function neighbours(state: SliderState, multitile_allowed: boolean = true): SliderState[] {
       const open_tile = blank(state)
 
       const x = open_tile % 5
@@ -87,7 +87,7 @@ export namespace Sliders {
         if (yi != y) moves.push((yi - y) * 5)
       }
 
-      if (!prestates_multitile_allowed) moves = moves.filter(Move.isSmallStep)
+      if (!multitile_allowed) moves = moves.filter(Move.isSmallStep)
 
       return moves.map(m => SliderState.withMove(state, m))
     }
@@ -155,6 +155,28 @@ export namespace Sliders {
     }
   }
 
+  export type SlideStateWithBlank = { tiles: SliderState, blank: number }
+
+  export namespace SlideStateWithBlank {
+
+    export function fromState(state: SliderState): SlideStateWithBlank {
+      return {tiles: state, blank: SliderState.blank(state)}
+    }
+
+    export function doMove(state: SlideStateWithBlank, move: Move): void {
+      const index = state.blank + move
+
+      // TODO: This does not account for multi tile moves
+
+      state.tiles[state.blank] = state.tiles[index]
+      state.tiles[index] = SliderState.BLANK_TILE
+    }
+
+    export function copy(state: SlideStateWithBlank): SlideStateWithBlank {
+      return lodash.cloneDeep(state)
+    }
+  }
+
   /**
    * A move is the index offset from the current position of tile 24 to the tile you need to click next.
    * Examples:
@@ -167,6 +189,13 @@ export namespace Sliders {
   export type Move = number
 
   export namespace Move {
+    export const all: Move[] = [-20, -15, -10, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 10, 15, 20]
+    export const singletile_moves: Move[] = [-5, -1, 1, 5]
+    export const multitile_moves: Move[] = all
+
+    export const horizontal_mtm = [-4, -3, -2, -1, 1, 2, 3, 4]
+    export const vertical_mtm = [-20, -15, -10, -5, 5, 10, 15, 20]
+
     export function split(move: Move): Move[] {
       const single_tile_move = Math.sign(move) * (Math.abs(move) >= 5 ? 5 : 1)
 
@@ -268,20 +297,29 @@ export namespace Sliders {
 
       return combined_moves
     }
+
+    export function expand(moves: MoveList): MoveList {
+      return moves.flatMap(Move.split)
+    }
   }
 
-  function skillbertMoveToMyMove(move: SlideMove): Move {
-    return (move.y2 - move.y1) * 5 + (move.x2 - move.x1)
+  export abstract class Solver {
+    abstract instantiate(state: SliderState): SolvingProcess
   }
 
-  export abstract class SlideSolver extends Process<MoveList> {
+  /**
+   * Abstract base class for solving processes for slider puzzles.
+   * SlideSolvers are single-use for a specific starting state.
+   */
+  export abstract class SolvingProcess extends Process<MoveList> {
     private update_event = ewent<this>()
     private better_solution_found = ewent<MoveList>()
-    private best_solution: MoveList = null
+    protected best_solution: MoveList = null
 
     private progress: number
 
     private compress_moves: boolean = false
+    protected native_compression: boolean = false
 
     constructor(protected start_state: SliderState) {
       super()
@@ -296,7 +334,10 @@ export namespace Sliders {
     }
 
     registerSolution(moves: MoveList): this {
-      if (this.compress_moves) moves = MoveList.compress(moves)
+      if(this.native_compression != this.compress_moves) {
+        if (this.compress_moves) moves = MoveList.compress(moves)
+        else moves = MoveList.expand(moves)
+      }
 
       if (!this.best_solution || moves.length < this.best_solution.length) {
         this.best_solution = moves
@@ -337,67 +378,5 @@ export namespace Sliders {
     getBest(): MoveList {
       return this.best_solution
     }
-  }
-
-  export namespace SlideSolver {
-    import log = Log.log;
-
-    /**
-     * This is completely taken from skillbert's random solver and just fitted to the new interface
-     * @param start_state
-     */
-    export function skillbertRandom(start_state: SliderState): SlideSolver {
-      if (start_state.includes(undefined)) debugger
-
-      return new class extends Sliders.SlideSolver {
-        firstrun = true;
-
-        private step() {
-          const first = this.firstrun;
-          this.firstrun = false;
-          let steps = 0;
-          let map = new SliderMap(this.start_state);
-          while (true) {
-            let actions = calcmap(map);
-            if (actions.length == 0) { break; }
-            actions.sort(function (a, b) { return b.score - a.score; });
-            let n = (first ? 0 : Math.floor(actions.length * Math.random()));
-            let action = actions[n];
-
-            try {
-              action.f(map);
-            } catch {
-              break; //TODO still check solver paths even if this is dead end
-            }
-
-            if (steps++ > 50) {
-              log().log("failed to solve puzzle, over 50 actions attempted", "Puzzle Solver")
-              return null;
-            }
-          }
-
-          if (map.getMinMoves() == 0) {
-            this.registerSolution(optimisemoves(map.moves).map(skillbertMoveToMyMove));
-          }
-        }
-
-        override async solve_implementation() {
-          while (!this.should_stop) {
-            this.step();
-
-            //Let go of the thread for a bit so ui gets a chance
-            await this.checkTime()
-          }
-        }
-      }(start_state)
-    }
-  }
-
-  export async function solve(state: SliderState): Promise<MoveList> {
-    const solver = new SlideSolverRandom(state)
-
-    await solver.startSolve(3000)
-
-    return solver.bestsolution.map(skillbertMoveToMyMove)
   }
 }

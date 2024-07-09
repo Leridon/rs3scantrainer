@@ -88,33 +88,36 @@ export class ClueReader {
               [
                 {
                   type: "textclue", possible_titles: [
-                    "mysterious clue scroll", "treasure map",
-                    "pergaminho de dicas mister", "mapa do tesouro",
-                    "..:se hinweis-schriftp", "sandy clue scroll"
+                    "mysterious clue",
+                    "mysterious clue scroll",
+                    "sandy clue scro",
+                    "sandy clue scroll"
                   ]
                 }, {
                 type: "towers", possible_titles: [
                   "towers",
-                  "torres",
-                  ", ( rme"//t"urme
                 ]
               }, {
                 type: "lockbox", possible_titles: [
                   "lockbox",
-                  "gica",//Caixa M`agica,
-                  "schlie. .;fach"//schliessfach
                 ]
               },
                 {
                   type: "knot", possible_titles: [
                     "celtic knot",
-                    "..: celta",//N~o celta
-                    "keltischer knoten"
                   ]
-                }
+                }, {
+                type: "map", possible_titles: [
+                  "treasure map",
+                ]
+              }
               ]
 
             const title = modal.title().toLowerCase()
+
+            if (CLUEREADERDEBUG) {
+              console.log(`Title: ${title}`)
+            }
 
             const best = findBestMatch(modal_type_map.map(
               m => ({value: m, score: findBestMatch(m.possible_titles, possible_title => stringSimilarity(title, possible_title)).score})
@@ -155,15 +158,17 @@ export class ClueReader {
                     step: best.value
                   }
                 } else {
-                  const fingerprint = oldlib.computeImageFingerprint(modal.body.getData(), 20, 20, 90, 25, 300, 240);
+                  return null
+                }
+              case "map":
+                const fingerprint = oldlib.computeImageFingerprint(modal.body.getData(), 20, 20, 90, 25, 300, 240);
 
-                  const best = findBestMatch(clue_data.map, c => comparetiledata(c.ocr_data, fingerprint), undefined, true)
+                const best = findBestMatch(clue_data.map, c => comparetiledata(c.ocr_data, fingerprint), undefined, true)
 
-                  return {
-                    type: "textclue",
-                    modal: modal,
-                    step: {step: best.value, text_index: 0}
-                  }
+                return {
+                  type: "textclue",
+                  modal: modal,
+                  step: {step: best.value, text_index: 0}
                 }
               case "knot": {
                 const reader = new KnotReader.KnotReader(modal)
@@ -445,7 +450,7 @@ export namespace ClueReader {
     }
   }
 
-  export type ModalType = "towers" | "lockbox" | "textclue" | "knot"
+  export type ModalType = "towers" | "lockbox" | "textclue" | "knot" | "map"
 
   export namespace Result {
     export type Kind = "textclue" | "legacy" | "scan" | "compass" | "puzzle"

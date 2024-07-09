@@ -46,6 +46,7 @@ import ExportStringModal from "./ui/widgets/modals/ExportStringModal";
 import {Log} from "../lib/util/Log";
 import log = Log.log;
 import {Changelog} from "./ChangeLog";
+import {DevelopmentModal} from "../devtools/DevelopmentMenu";
 
 export class SimpleLayerBehaviour extends Behaviour {
   constructor(private map: GameMap, private layer: GameLayer) {
@@ -139,40 +140,6 @@ export namespace ScanTrainerCommands {
   export const index = [
     load_path, load_overview, load_method
   ]
-}
-
-class PatchNotesModal extends Modal {
-  sections: { el: JQuery, patchnotes: string }[]
-  all_title: JQuery
-  new_title: JQuery
-
-  constructor(id: string, private app: Application) {
-    super(id);
-
-    this.all_title = jquery("#patch-note-title-all")
-    this.new_title = jquery("#patch-note-title-new")
-
-    this.sections = jquery(".patchnotesection").get().map(jquery).map((e: JQuery) => {
-      return {
-        el: e,
-        patchnotes: e.data("patchnotes") as string
-      }
-    })
-  }
-
-  showAll() {
-    jquery("#modal-patchnotes-report-issues").hide()
-
-    this.all_title.show()
-    this.new_title.hide()
-
-    this.sections.forEach((el) => {
-      el.el.show()
-    })
-
-    return this.show()
-  }
-
 }
 
 const DEBUG_SIMULATE_INALT1 = false
@@ -363,6 +330,10 @@ export class Application extends Behaviour {
           "",
           `cluetrainerlog${Date.now()}.txt`
         )
+      }
+
+      if (e.key == "F4") {
+        new DevelopmentModal().show()
       }
     })
 

@@ -7,9 +7,11 @@ import ButtonRow from "../../../lib/ui/ButtonRow";
 import {SettingsModal} from "../settings/SettingsEdit";
 import hbox = C.hbox;
 import inlineimg = C.inlineimg;
+import Appendable = C.Appendable;
 
 export class PuzzleModal extends NisModal {
   private image_container: Widget
+  private status_row: Widget
   private button_row: ButtonRow
 
   constructor(public readonly parent: AbstractPuzzleSolving<any, any>) {
@@ -18,6 +20,12 @@ export class PuzzleModal extends NisModal {
     this.hidden.on(() => {
       this.parent.endClue()
     })
+  }
+
+  setStatus(a: Appendable): this {
+    this.status_row.empty().append(a)
+
+    return this
   }
 
   render() {
@@ -29,7 +37,7 @@ export class PuzzleModal extends NisModal {
           "max-width": "100%",
           "text-align": "center"
         }),
-
+      this.status_row = c(),
       hbox(
         this.button_row = new ButtonRow({align: "center"}).css("flex-grow", 1),
         inlineimg("assets/icons/settings.png").addClass("ctr-clickable")

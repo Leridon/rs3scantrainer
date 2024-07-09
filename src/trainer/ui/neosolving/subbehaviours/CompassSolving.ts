@@ -31,6 +31,7 @@ import {SettingsModal} from "../../settings/SettingsEdit";
 import * as assert from "assert";
 import {Log} from "../../../../lib/util/Log";
 import {angleDifference} from "lib/math";
+import {async_lazy} from "../../../../lib/properties/Lazy";
 import span = C.span;
 import cls = C.cls;
 import TeleportGroup = Transportation.TeleportGroup;
@@ -46,6 +47,7 @@ import gielinor_compass = clue_data.gielinor_compass;
 import digSpotArea = Clues.digSpotArea;
 import vbox = C.vbox;
 import log = Log.log;
+import {RegionChainDistanceTable} from "../../../../lib/cluetheory/sliders/RegionChainDistanceTable";
 
 class CompassHandlingLayer extends GameLayer {
   private lines: {
@@ -1032,8 +1034,8 @@ export namespace CompassSolving {
       {expected: "Teleport Edgeville Lodestone", teleport_id: {group: "home", spot: "edgeville"}},
       {expected: "Quick teleport Falador Lodestone", teleport_id: {group: "home", spot: "falador"}},
       {expected: "Teleport Falador Lodestone", teleport_id: {group: "home", spot: "falador"}},
-      {expected: "Quick teleport Fremmenik Province Lodestone", teleport_id: {group: "home", spot: "fremmenik"}},
-      {expected: "Teleport Fremmenik Province Lodestone", teleport_id: {group: "home", spot: "fremmenik"}},
+      {expected: "Quick teleport Fremennik Lodestone", teleport_id: {group: "home", spot: "fremmenik"}},
+      {expected: "Teleport Fremennik Lodestone", teleport_id: {group: "home", spot: "fremmenik"}},
       {expected: "Quick teleport Karamja Lodestone", teleport_id: {group: "home", spot: "karamja"}},
       {expected: "Teleport Karamja Lodestone", teleport_id: {group: "home", spot: "karamja"}},
       {expected: "Quick teleport Lumbridge Lodestone", teleport_id: {group: "home", spot: "lumbridge"}},
@@ -1077,7 +1079,7 @@ export namespace CompassSolving {
       {expected: "Eagles` Peak lodestone", teleport_id: {group: "home", spot: "eaglespeak"}},
       {expected: "Edgeville lodestone", teleport_id: {group: "home", spot: "edgeville"}},
       {expected: "Falador lodestone", teleport_id: {group: "home", spot: "falador"}},
-      {expected: "Fremmenik Province lodestone", teleport_id: {group: "home", spot: "fremmenik"}},
+      {expected: "Fremennik Province lodestone", teleport_id: {group: "home", spot: "fremmenik"}},
       {expected: "Karamja lodestone", teleport_id: {group: "home", spot: "karamja"}},
       {expected: "Lumbridge lodestone", teleport_id: {group: "home", spot: "lumbridge"}},
       {expected: "Lunar Isle lodestone", teleport_id: {group: "home", spot: "lunarisle"}},

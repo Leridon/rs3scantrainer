@@ -62,6 +62,8 @@ export class AboutModal extends NisModal {
 
     layout.paragraph("<strong>Beau</strong> and the rest of the Clue Chasers team for supporting development by providing a space for open discussion around the tool and clue methods.")
 
+    layout.paragraph("<strong>Shao</strong> for their support with the updated slider solving algorithm.")
+
     layout.paragraph("In no particular order <strong>Pup</strong>, <strong>Xindrjayzda</strong>, <strong>Mr Cob</strong>, <strong>Dongus Bungholius</strong>, <strong>treborsmada</strong>, as well as everyone else who contributed by reporting issues, expressing thoughts, sharing clue methods and generally being part of this journey.")
 
     layout.header("Legal disclaimer")

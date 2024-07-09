@@ -11,13 +11,22 @@ import {ClueReader} from "../cluereader/ClueReader";
 import NeoSolvingBehaviour from "../NeoSolvingBehaviour";
 import {AbstractPuzzleSolving} from "./AbstractPuzzleSolving";
 import {AbstractPuzzleProcess} from "./AbstractPuzzleProcess";
+import {PDBSolver} from "../../../../lib/cluetheory/sliders/PDBSolver";
+import {RegionChainDistanceTable} from "../../../../lib/cluetheory/sliders/RegionChainDistanceTable";
+import {async_lazy, lazy} from "../../../../lib/properties/Lazy";
+import KeyValueStore from "../../../../lib/util/KeyValueStore";
+import {Observable, observe} from "../../../../lib/reactive";
+import {RandomSolver} from "../../../../lib/cluetheory/sliders/RandomSolver";
+import {ProgressBar} from "../../widgets/ProgressBar";
+import {RegionDistanceTable} from "../../../../lib/cluetheory/sliders/RegionDistanceTable";
 import over = OverlayGeometry.over;
 import SliderState = Sliders.SliderState;
 import SliderPuzzle = Sliders.SliderPuzzle;
-import SlideSolver = Sliders.SlideSolver;
+import SolvingProcess = Sliders.SolvingProcess;
 import AnnotatedMoveList = Sliders.AnnotatedMoveList;
 import MoveList = Sliders.MoveList;
 import Move = Sliders.Move;
+import profileAsync = util.profileAsync;
 
 class SliderGuideProcess extends AbstractPuzzleProcess {
   settings = deps().app.settings.settings.solving.puzzles.sliders
@@ -28,8 +37,8 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
   private puzzle: SliderPuzzle
 
   private initial_state: SliderState
-  private solver: {
-    solver: SlideSolver,
+  private active_solving_process: {
+    solver: SolvingProcess,
     solving_from: number
   } = null
 
@@ -51,7 +60,7 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
   private last_frame_state: SliderState = null
   private arrow_keys_inverted: boolean = false
 
-  constructor(private parent: SliderSolving) {
+  constructor(private parent: SliderSolving, public solver: Sliders.Solver) {
     super()
 
     this.puzzle = parent.puzzle.puzzle
@@ -63,6 +72,15 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
       {x: 25, y: 25},
       {x: (pos % 5) * 56, y: Math.floor(pos / 5) * 56}
     )
+  }
+
+  setSolver(solver: Sliders.Solver) {
+    this.solver = solver
+
+    if (this.active_solving_process) {
+      this.active_solving_process.solver.stop()
+      this.active_solving_process = null
+    }
   }
 
   private async read(): Promise<{
@@ -94,7 +112,7 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
 
     this.progress_overlay.clear()
 
-    const solution_length = this.solution?.length ?? this.solver?.solver?.getBest()?.length
+    const solution_length = this.solution?.length ?? this.active_solving_process?.solver?.getBest()?.length
 
     const center = Vector2.add(
       this.parent.puzzle.reader.ui.body.screenRectangle().origin,
@@ -355,7 +373,7 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
 
     this.solving_overlay.clear()
 
-    if (!this.solution && this.solver) {
+    if (!this.solution && this.active_solving_process) {
       this.solving_overlay
         .text("Solving",
           Vector2.add(
@@ -368,7 +386,7 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
       this.solving_overlay.progressbar(Vector2.add(
         this.parent.puzzle.reader.ui.body.screenRectangle().origin,
         BAR_POSITION,
-      ), 100, this.solver.solver.getProgress(), 5)
+      ), 100, this.active_solving_process.solver.getProgress(), 5)
     } else if (!this.solution) {
       this.solving_overlay
         .text("No solution found",
@@ -393,13 +411,11 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
 
     const frame_state = read_result.state
 
-    if (!this.solver && !this.solution) {
+    if (!this.active_solving_process && !this.solution) {
       this.initial_state = frame_state
 
-      this.solver = {
-        solver: SlideSolver.skillbertRandom(frame_state)
-          //new AStarSlideSolver(frame_state)
-          .setCombineStraights(this.settings.mode == "mouse" || this.settings.mode == "hybrid")
+      this.active_solving_process = {
+        solver: this.instantiateSolver(frame_state)
           .onUpdate(solver => {
             this.updateSolvingOverlay()
             this.updateProgressOverlay()
@@ -408,9 +424,9 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
         solving_from: 0
       }
 
-      const initial_solution = await this.solver.solver.run()
+      const initial_solution = await this.active_solving_process.solver.run()
 
-      this.solver = null
+      this.active_solving_process = null
       this.current_mainline_index = 0
       this.error_recovery_solution = {sequence: [], recovering_to_mainline_index: 0}
 
@@ -435,25 +451,24 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
 
     const LASOLVING = this.settings.max_lookahead + 7
     if (this.settings.continue_solving_after_initial_solve) {
-      if (this.solver && this.current_mainline_index + this.settings.max_lookahead + 2 >= this.solver.solving_from) {
+      if (this.active_solving_process && this.current_mainline_index + this.settings.max_lookahead + 2 >= this.active_solving_process.solving_from) {
         // Getting close to the current start of the solving, stop the solving process
-        this.solver.solver.stop()
-        this.solver = null
+        this.active_solving_process.solver.stop()
+        this.active_solving_process = null
       }
 
-      if (!this.solver && (this.current_mainline_index + LASOLVING < this.solution.length)) {
+      if (!this.active_solving_process && (this.current_mainline_index + LASOLVING < this.solution.length)) {
         const solving_start_index = this.current_mainline_index + LASOLVING
 
         const solving_start_state = this.solution[solving_start_index - 1].post_state
 
-        this.solver = {
-          solver: SlideSolver.skillbertRandom(solving_start_state)
+        this.active_solving_process = {
+          solver: this.instantiateSolver(solving_start_state)
             //new AStarSlideSolver(frame_state)
-            .setCombineStraights(this.settings.mode == "mouse" || this.settings.mode == "hybrid")
             .registerSolution(this.solution.slice(solving_start_index).map(m => m.move))
             .withInterrupt(20, 10) // Cooperative interrupt behaviour
             .onFound(better => {
-              if (solving_start_index == this.solver?.solving_from && this.current_mainline_index < solving_start_index) {
+              if (solving_start_index == this.active_solving_process?.solving_from && this.current_mainline_index < solving_start_index) {
                 const new_sequence = Sliders.MoveList.combine(
                   this.solution.slice(0, solving_start_index).map(m => m.move),
                   better,
@@ -463,14 +478,14 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
                 this.solution = MoveList.annotate(this.initial_state, new_sequence, this.settings.mode != "keyboard")
 
                 // Stop the solver in case the combination
-                this.solver.solver.stop()
-                this.solver = null
+                this.active_solving_process.solver.stop()
+                this.active_solving_process = null
               }
             }),
           solving_from: solving_start_index
         }
 
-        this.solver.solver.run()
+        this.active_solving_process.solver.run()
       }
     }
 
@@ -542,13 +557,18 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
     this.updateMoveOverlay()
   }
 
+  private instantiateSolver(state: SliderState): SolvingProcess {
+    return this.solver.instantiate(state)
+      .setCombineStraights(this.settings.mode == "mouse" || this.settings.mode == "hybrid")
+  }
+
   override async implementation(): Promise<void> {
     await super.implementation()
 
     this.move_overlay?.hide()
     this.solving_overlay?.hide()
     this.progress_overlay?.hide()
-    this.solver?.solver?.stop()
+    this.active_solving_process?.solver?.stop()
   }
 
   private getLastKnownMove() {
@@ -558,6 +578,160 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
   isDone(): boolean {
     return this.solution && this.current_mainline_index && this.current_mainline_index >= this.solution.length
   }
+}
+
+type PDBDesc = {
+  is_default: boolean,
+  id: string,
+  name: string,
+  version: number,
+  file_count: number,
+  description: RegionChainDistanceTable.Description
+}
+
+type StoredPDB = {
+  description: PDBDesc,
+  data: ArrayBuffer,
+}
+
+type PDBDownload = Observable<{
+  is_done: boolean,
+  progress: number,
+  data?: RegionChainDistanceTable
+}>
+
+export class PDBManager {
+  pdbs = async_lazy<PDBDesc[]>(async () => {
+    return (await fetch("data/sliderpdb/pdbs.json")).json()
+  })
+
+  private cache: {
+    description: PDBDesc,
+    table: RegionChainDistanceTable
+  } = null
+
+  private downloader: Record<string, PDBDownload> = {}
+
+  private constructor() {
+
+  }
+
+  public clearCache(): Promise<void> {
+    return this.db.clear()
+  }
+
+  private download(desc: PDBDesc): PDBDownload {
+
+    if (this.downloader[desc.id]) return this.downloader[desc.id]
+
+    const res: PDBDownload = this.downloader[desc.id] = observe({
+      is_done: false,
+      progress: 0
+    });
+
+    (async () => {
+
+      const buffer = new Uint8Array(RegionChainDistanceTable.Description.bytesize(desc.description))
+
+      let offset = 0
+
+      let loaded = 0
+
+      for (let i = 0; i < desc.file_count; i++) {
+
+        const response = await fetch(`data/sliderpdb/${desc.id}/v${desc.version}chunk${lodash.padStart(i.toString(), 2, "0")}`, {})
+
+        if (!response.ok) return null;
+
+        const chunk = new Uint8Array(await new Response(new ReadableStream({
+          async start(controller) {
+            const reader = response.body.getReader();
+            for (; ;) {
+              const {done, value} = await reader.read();
+              if (done) break;
+              loaded += value.byteLength;
+              res.update2(p => {
+                p.progress = loaded / buffer.length
+              })
+              controller.enqueue(value);
+            }
+            controller.close();
+          },
+        })).arrayBuffer())
+
+        buffer.set(chunk, offset)
+        offset += chunk.length
+
+        res.update2(p => {
+          p.progress = offset / buffer.length
+        })
+      }
+
+      this.cache = {description: desc, table: new RegionChainDistanceTable(buffer)}
+      await this.db.set(desc.id, {description: desc, data: buffer.buffer} satisfies StoredPDB)
+
+      res.update2(o => {
+        o.is_done = true
+        o.data = this.cache.table
+      })
+
+      this.downloader[desc.id] = null
+    })()
+
+    return res
+  }
+
+  private db = new KeyValueStore("slider-pdbs")
+
+  async find(multitile: boolean = undefined, id: string = undefined): Promise<PDBDesc> {
+    const matches = (desc: PDBDesc): boolean => {
+      return (multitile == undefined || desc.description.multitile == multitile)
+        && (id == undefined || desc.id == id)
+    }
+
+    const pdbs = await this.pdbs.get()
+    return pdbs.find(matches)
+  }
+
+  async findBest(multitile: boolean): Promise<PDBDesc> {
+    const pdbs = await this.pdbs.get()
+
+    return pdbs.find(d => d.description.multitile == multitile && d.is_default)
+      ?? pdbs.find(d => d.description.multitile == multitile)
+  }
+
+  async getSimple(desc: PDBDesc): Promise<RegionChainDistanceTable> {
+    const raw = await this.get(desc)
+
+    if (raw.table) return raw.table
+    else return new Promise(resolve => {
+      raw.download.subscribe(r => {
+        if (r.is_done) resolve(r.data)
+      })
+    })
+  }
+
+  async get(preferred: PDBDesc): Promise<{
+    table?: RegionChainDistanceTable,
+    download?: PDBDownload
+  }> {
+    if (this.cache?.description?.id != preferred.id || this.cache?.description?.version != preferred.version) {
+      const existing_in_indexeddb = await profileAsync(async () => await this.db.get(preferred.id) as StoredPDB, "retrieve")
+
+      if (existing_in_indexeddb && existing_in_indexeddb.description.version == preferred.version) {
+        this.cache = {description: preferred, table: new RegionChainDistanceTable(new Uint8Array(existing_in_indexeddb.data))}
+      } else {
+        return {
+          table: null,
+          download: this.download(preferred)
+        }
+      }
+    }
+
+    return {table: this.cache.table}
+  }
+
+  static instance = lazy(() => new PDBManager())
 }
 
 export class SliderSolving extends AbstractPuzzleSolving<
@@ -573,8 +747,44 @@ export class SliderSolving extends AbstractPuzzleSolving<
     )
   }
 
-  protected constructProcess(): SliderGuideProcess {
-    return new SliderGuideProcess(this)
+  protected async constructProcess(): Promise<SliderGuideProcess> {
+    const mngr = await PDBManager.instance.get()
+
+    const table = await mngr.get(await mngr.findBest(deps().app.settings.settings.solving.puzzles.sliders.mode != "keyboard"))
+
+    const solver = table.table
+      ? new PDBSolver(new RegionDistanceTable.RegionGraph(table.table.tables, true))
+      : RandomSolver
+
+    const process = new SliderGuideProcess(
+      this,
+      solver
+    )
+
+    if (table.download) {
+      const progressbar = new ProgressBar()
+        .setText("Downloading Database")
+
+      this.modal.setStatus(progressbar)
+
+      table.download.subscribe(p => {
+        progressbar.setProgress(p.progress)
+
+        if (p.is_done) {
+          process.setSolver(new PDBSolver(new RegionDistanceTable.RegionGraph(p.data.tables, true)))
+          progressbar.setText("Download finished")
+          progressbar.setProgress(1)
+        }
+      }, true)
+    }
+
+    return process
+  }
+
+  protected begin() {
+    super.begin();
+
+    this.modal.setImage(this.puzzle.reader.ui.body.getData())
   }
 
   pausesClueReader(): boolean {

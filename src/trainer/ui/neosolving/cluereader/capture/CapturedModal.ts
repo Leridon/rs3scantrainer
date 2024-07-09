@@ -29,7 +29,7 @@ export class CapturedModal {
         this._title = OCR.readSmallCapsBackwards(title_bar, CapturedModal.title_font, [[255, 152, 31]], 0, 13, title_bar.width, 1).text
       } else {
         const TITLE_BAR_OFFSET_FROM_BODY = {x: 0, y: -24}
-        const TITLE_BAR_SIZE = {x: 250, y: 20}
+        const TITLE_BAR_SIZE = {x: 150, y: 20}
 
         const title_bar = this.body.parent.getSubSection(
           ScreenRectangle.move(this.body.relativeRectangle(), TITLE_BAR_OFFSET_FROM_BODY, TITLE_BAR_SIZE)
@@ -47,8 +47,6 @@ export class CapturedModal {
   }
 
   static async findIn(img: CapturedImage): Promise<CapturedModal> {
-    // TODO: Support legacy interface mode
-
     for (let skin of await CapturedModal.anchors.get()) {
       const x = img.find(skin.close_x)[0]
 
@@ -106,8 +104,8 @@ export namespace CapturedModal {
       bot_left: await ImageDetect.imageDataFromUrl("alt1anchors/eocbotleft.png"),
 
       BODY_TL_OFFSET_FROM_TL: {x: 4, y: 29},
-      BODY_BL_OFFSET_FROM_BL: {x: 4, y: 7},
-      BODY_TR_OFFSET_FROM_X: {x: 20, y: 24},
+      BODY_BL_OFFSET_FROM_BL: {x: 3, y: 7},
+      BODY_TR_OFFSET_FROM_X: {x: 10, y: 24},
     }, {
       isLegacy: true,
       close_x: await ImageDetect.imageDataFromUrl("alt1anchors/legacyx.png"),

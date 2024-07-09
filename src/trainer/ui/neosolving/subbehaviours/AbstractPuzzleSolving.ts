@@ -22,7 +22,7 @@ export abstract class AbstractPuzzleSolving<
     super(parent, "clue");
   }
 
-  protected abstract constructProcess(): ProcessT
+  protected abstract constructProcess(): ProcessT | Promise<ProcessT>
 
   async resetProcess(start: boolean) {
     if (this.process) {
@@ -31,7 +31,7 @@ export abstract class AbstractPuzzleSolving<
     }
 
     if (start) {
-      this.process = this.constructProcess()
+      this.process = await this.constructProcess()
       this.process.puzzle_closed.on(() => this.endClue())
       this.process.run()
     }

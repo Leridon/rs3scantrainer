@@ -6,189 +6,11 @@ import {C} from "../lib/ui/constructors";
 import LightButton from "./ui/widgets/LightButton";
 import Widget from "../lib/ui/Widget";
 import SliderState = Sliders.SliderState;
-import MoveList = Sliders.MoveList;
+
 import hgrid = C.hgrid;
-import span = C.span;
-import skillbertRandom = Sliders.SlideSolver.skillbertRandom;
 import spacer = C.spacer;
 import hbox = C.hbox;
-import ExportStringModal from "./ui/widgets/modals/ExportStringModal";
-import {util} from "../lib/util/util";
-import cleanedJSON = util.cleanedJSON;
-import {clue_trainer_test_set} from "../test/tests";
-
-type DataEntry = {
-  id: number,
-  state: SliderState,
-  timestamp: number,
-  theme: string
-}
-
-async function crowdsourcedSliderData(): Promise<DataEntry[]> {
-  return await (await fetch("data/sliders.json")).json()
-}
-
-class SliderBenchmarkModal extends NisModal {
-  layout: Properties
-  run_button: LightButton
-
-  constructor() {
-    super();
-
-    this.title.set("Slider Solving Benchmark")
-  }
-
-  render() {
-    super.render()
-
-    this.layout = new Properties().appendTo(this.body)
-
-    this.run_button = new LightButton("Run").onClick(() => {
-      this.run()
-    }).appendTo(this.body)
-  }
-
-  private async run() {
-
-    this.run_button.setEnabled(false)
-
-    type Candidate = {
-      name: string,
-      construct: (state: SliderState) => Sliders.SlideSolver,
-      continuation_solving?: {
-        lookahead: number,
-        assumed_moves_per_second: number
-      } | null
-    }
-
-    type Result = {
-      candidate: Candidate,
-      tests: {
-        start: SliderState,
-        moves: MoveList | null,
-        moves_after_continuation: MoveList | null
-      }[],
-      success_count: number
-      average: number,
-      average_continuation: number
-    }
-
-    const candidates: Candidate[] = [
-      /* {name: "Skillbert Random", construct: s => skillbertRandom(s)},
-       {name: "Skillbert Random", construct: s => skillbertRandom(s), continuation_solving: {lookahead: 20, assumed_moves_per_second: 4}},
-       {name: "Skillbert Random", construct: s => skillbertRandom(s), continuation_solving: {lookahead: 20, assumed_moves_per_second: 5}},
-       {name: "Skillbert Random", construct: s => skillbertRandom(s), continuation_solving: {lookahead: 20, assumed_moves_per_second: 6}},
- */
-      //{name: "IDA* Default", construct: s => new AStarSlideSolver(s)},
-    ]
-
-    for (let mps = 4; mps <= 6; mps++) {
-      for (let la = 10; la <= 20; la += 2) {
-        candidates.push(
-          {name: "Skillbert Random", construct: s => skillbertRandom(s), continuation_solving: {lookahead: la, assumed_moves_per_second: mps}},
-        )
-      }
-    }
-
-    const test_set: SliderState[] = []
-
-    const TIMEOUT = 2000
-    const TEST_SIZE = 20
-
-    const data = await crowdsourcedSliderData()
-
-    while (test_set.length < TEST_SIZE) {
-      const shuffled = data[lodash.random(data.length - 1)]
-
-      if (SliderState.isSolveable(shuffled.state)) test_set.push(shuffled.state)
-    }
-
-    const results: Result[] = []
-
-    for (let candidate_i = 0; candidate_i < candidates.length; candidate_i++) {
-      const candidate = candidates[candidate_i]
-
-      const testsResult: Result["tests"] = []
-
-      for (let test_i = 0; test_i < test_set.length; test_i++) {
-        this.layout.empty().row(`Running Candidate ${candidate_i + 1}/${candidates.length}, test ${test_i + 1}/${test_set.length}`)
-
-        const test = test_set[test_i]
-        const solver = candidate.construct(test)
-          .setCombineStraights(true)
-
-        let best = await solver.withTimeout(TIMEOUT).run()
-
-        const best_before_continuation = [...best]
-
-        if (candidate.continuation_solving && best) {
-          const TIME_PER_STEP = (candidate.continuation_solving.lookahead / candidate.continuation_solving.assumed_moves_per_second) * 1000
-
-          for (let i = candidate.continuation_solving.lookahead; i < best.length; i += candidate.continuation_solving.lookahead) {
-            const better = await candidate.construct(SliderState.withMove(test, ...best.slice(0, i)))
-              .withTimeout(TIME_PER_STEP)
-              .withInterrupt(30, 10)
-              .setCombineStraights(true)
-              .registerSolution(best.slice(i))
-              .run()
-
-            best.splice(i, best.length, ...better)
-          }
-        }
-
-        if (best) {
-          let sanity = SliderState.withMove(test, ...best)
-
-          if (!SliderState.equals(sanity, SliderState.SOLVED)) {
-            best = null
-            debugger
-          }
-        }
-
-        testsResult.push({
-          start: test,
-          moves: best_before_continuation,
-          moves_after_continuation: best
-        })
-      }
-
-      const success = testsResult.filter(e => !!e.moves)
-
-      results.push({
-        candidate: candidate,
-        tests: testsResult,
-        success_count: success.length,
-        average: success.length >= 1 ? lodash.sumBy(success, e => e.moves.length) / success.length : -1,
-        average_continuation: success.length >= 1 ? lodash.sumBy(success, e => e.moves_after_continuation.length) / success.length : -1
-      })
-    }
-
-    const layout = this.layout.empty()
-
-    layout.header("Results")
-    layout.paragraph(`On a total of ${test_set.length} configurations with ${(TIMEOUT / 1000).toFixed(1)}s per configuration.`)
-
-    layout.named("", hgrid(span("Solved"), span("Average"), span("Performance"), span("Cont"), span("Average cont."), span("Performance cont.")))
-
-    const ref_average = results[0].average
-
-    for (let row of results) {
-
-      layout.named(row.candidate.name, hgrid(
-        c().text(row.success_count),
-        c().text(row.average.toFixed(1)),
-        c().text(`${(100 * (row.average / ref_average - 1)).toFixed(2)}%`),
-
-        row.candidate.continuation_solving ? c().text(`${row.candidate.continuation_solving.lookahead}LA@${row.candidate.continuation_solving.assumed_moves_per_second}mps`) : c(),
-        row.candidate.continuation_solving ? c().text(row.average_continuation.toFixed(1)) : c(),
-        row.candidate.continuation_solving ? c().text(`${(100 * (row.average_continuation / row.average - 1)).toFixed(2)}%`) : c(),
-      ))
-    }
-
-    this.run_button.setEnabled(false)
-  }
-
-}
+import {crowdsourcedSliderData, SliderBenchmarkModal, SliderDataEntry} from "../devtools/SliderBenchmarking";
 
 class SliderAnalysisModal extends NisModal {
   layout: Properties
@@ -217,12 +39,12 @@ class SliderAnalysisModal extends NisModal {
     type SliderAnalysis = {
       original: DataSet
       tile_frequency: number[][],
-      counts: [SliderState, DataEntry[]][]
+      counts: [SliderState, SliderDataEntry[]][]
     }
 
 
     type DataSet = {
-      states: DataEntry[],
+      states: SliderDataEntry[],
       name: string
     }
 
@@ -230,7 +52,7 @@ class SliderAnalysisModal extends NisModal {
 
     function analyse(dataset: DataSet): SliderAnalysis {
       const data = new Array(25).fill(0).map(() => new Array(25).fill(0))
-      const counts: [SliderState, DataEntry[]][] = []
+      const counts: [SliderState, SliderDataEntry[]][] = []
 
       for (let state of dataset.states) {
         if (!state) debugger
@@ -359,7 +181,7 @@ class SliderAnalysisModal extends NisModal {
       return container
     }
 
-    const crowdsourced_data: DataEntry[] = await (await fetch("data/sliders.json")).json()
+    const crowdsourced_data: SliderDataEntry[] = await crowdsourcedSliderData.get()
 
     const datasets: DataSet[] = [
       {
@@ -380,148 +202,5 @@ class SliderAnalysisModal extends NisModal {
 }
 
 export async function makeshift_main(): Promise<void> {
-  // await clue_trainer_test_set.run()
 
-  //new SliderAnalysisModal().show()
-
-  //new ExportStringModal(CompassReader.calibration_tables.off.getSampleTable().map(radiansToDegrees).join("\n")).show()
-
-  /*
-    const sample_size = 200
-    const start = 1231
-
-    const dataset: SliderState[] = (await crowdsourcedSliderData()).slice(start, start + sample_size).map(s => s.state)
-
-    const result: {
-      state: SliderState,
-      multitile_solution: MoveList,
-      smallstep_solution: MoveList
-    }[] = []
-
-    for (let i = 0; i < dataset.length; i++) {
-      const state = dataset[i]
-
-      console.log(`Running ${i + 1}/${dataset.length}`)
-
-      result.push({
-        state: state,
-        multitile_solution: await skillbertRandom(state).setCombineStraights(true).withTimeout(3000).run(),
-        smallstep_solution: await skillbertRandom(state).setCombineStraights(false).withTimeout(3000).run(),
-      })
-    }
-
-    await new ExportStringModal(result.map(r => {
-      return r.state.join("|") + "," + r.smallstep_solution.length + "," + r.multitile_solution.length
-    }).join("\n")).show()
-    */
-  //await new CompassReader.CalibrationTool().show()
-
-  //clue_trainer_test_set.run()
-
-  /*
-   const shape: CelticKnots.PuzzleShape = {
-     snake_lengths: [16, 16, 16],
-     locks: [
-       {first: {snake: 0, tile: 5}, second: {snake: 1, tile: 3}},
-       {first: {snake: 0, tile: 6}, second: {snake: 2, tile: 2}},
-       {first: {snake: 1, tile: 5}, second: {snake: 2, tile: 3}},
-
-       {first: {snake: 0, tile: 11}, second: {snake: 1, tile: 13}},
-       {first: {snake: 0, tile: 10}, second: {snake: 2, tile: 14}},
-       {first: {snake: 1, tile: 11}, second: {snake: 2, tile: 13}},
-     ]
-   }
-
-   const puzzles = new Array(10000).fill(0).map(() => CelticKnots.PuzzleState.shuffle(CelticKnots.PuzzleState.generashape)))
-
-   /*const solutions = timeSync("Solving", () =>
-     puzzles.map(p => CelticKnots.solve(p))
-   )
-
-   console.log(solutions.every(s => CelticKnots.PuzzleState.isSolved(s.end_state)))*/
-
-  /*
-  console.log(Towers.StreetLabel.candidateMap())
-
-  Towers.towers.forEach(left => towers.forEach(right => {
-    console.log(`${left}:${right} = ${Towers.StreetLabel.getCandidates([left, right]).length}`)
-  }))
-
-  const result = timeSync("solve", () => {
-    return Towers.Puzzle.solve({
-      rows: [[3, 2], [2, 3], [2, 1], [1, 3], [3, 2]],
-      columns: [[3, 2], [2, 2], [1, 4], [5, 1], [2, 3]],
-    })
-  })
-
-  console.log(result.rows.map(row => row.join("  ")).join("\n"));
-
-   */
-
-
-  // await test_slide_reader()
-
-  //await new SliderAnalysisModal().show()
-  //await new SliderBenchmarkModal().show()
-
-  /*
-  await (new class extends NisModal {
-    render() {
-      super.render()
-
-      new LightButton("Do")
-        .onClick(async () => {
-          const res = await SlideReader.read(new ImgRefData(await ImageDetect.imageDataFromUrl("assets/test.png")), {x: 0, y: 0}, "bridge")
-
-          const tiles = SliderPuzzle.getState(res)
-
-          for (let y = 0; y < 5; y++) {
-            console.log(tiles.slice(y * 5, (y + 1) * 5).join(", "));
-          }
-
-          console.log(res)
-        }).appendTo(this.body)
-    }
-  }).show()*/
-
-
-  /* let output = ""
-
-   for (let step of clue_data.all) {
-       if (step.solution?.type == "search") {
-           if ("x" in step.solution.spot) {
-               step.solution.spot = TileRectangle.fromTile(step.solution.spot as unknown as TileCoordinates)
-           }
-       }
-   }
-
-   new ExportStringModal(JSON.stringify(clue_data.all, (key, value) => {
-       if ((key == "range" || key == "area") && value["topleft"]) return TileArea.fromRect(value)
-
-       return value
-   }, 4)).show()*/
-
-
-  /*
-      let cmp = Order.chain(
-          Order.comap(Order.natural_order, (c: Clues.Step) => [null, "easy", "medium", "hard", "elite", "master"].indexOf(c.tier)),
-          Order.comap(Order.natural_order, (c: Clues.Step) => c.id),
-      )
-
-      for (let type of ClueType.all) {
-          let obj = clues.filter(c => c.type == type).sort(cmp)
-
-          const allKeys = ["id", "type", "tier"]
-          JSON.stringify(obj, (key, value) => {
-              allKeys.push(key)
-              return value
-          });
-
-          await ExportStringModal.do(JSON.stringify(obj, allKeys, 4))
-      }*/
-
-
-  //console.log(`Length: ${c["map"].length}`)
-
-  // return JSON.stringify(await Promise.all(old_methods.map(async m => await translate(m))), null, 4)
 }

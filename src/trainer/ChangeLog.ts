@@ -45,6 +45,7 @@ export namespace Changelog {
         layout.row(new List()
           .item("Added a new solving algorithm for slider puzzles.")
           .item("Fixed a bug that caused puzzles to not be read with lava in the background.")
+          .item("Fixed a bug that caused error recovery to display invalid moves.")
         )
       }
     },

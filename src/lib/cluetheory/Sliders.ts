@@ -229,6 +229,7 @@ export namespace Sliders {
   export namespace MoveList {
 
     import index = util.index;
+    import isVertical = Sliders.Move.isVertical;
 
     export function combine(first: MoveList, second: MoveList, multitile: boolean): MoveList {
 
@@ -281,18 +282,17 @@ export namespace Sliders {
       const combined_moves: Move[] = []
 
       while (i < moves.length) {
-        const move = moves[i]
+        let move = moves[i]
         i++
 
-        let n = 1
-
         while (i < moves.length) {
-          if (moves[i] != move) break
-          n++
+          if (isVertical(moves[i]) != isVertical(move)) break
+          move += moves[i]
+
           i++
         }
 
-        combined_moves.push(n * move)
+        if (move != 0) combined_moves.push(move)
       }
 
       return combined_moves
@@ -300,6 +300,17 @@ export namespace Sliders {
 
     export function expand(moves: MoveList): MoveList {
       return moves.flatMap(Move.split)
+    }
+
+    export function fromTileList(tiles: number[], blank: number): MoveList {
+      const moves: MoveList = []
+
+      for(let tile of tiles) {
+        moves.push(tile - blank)
+        blank = tile
+      }
+
+      return moves
     }
   }
 
@@ -334,7 +345,7 @@ export namespace Sliders {
     }
 
     registerSolution(moves: MoveList): this {
-      if(this.native_compression != this.compress_moves) {
+      if (this.native_compression != this.compress_moves) {
         if (this.compress_moves) moves = MoveList.compress(moves)
         else moves = MoveList.expand(moves)
       }

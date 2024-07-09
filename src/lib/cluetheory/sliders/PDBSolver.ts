@@ -69,7 +69,7 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
       const dostate = async (known_distance: number, remaining_slackness: number) => {
         iterations++
 
-        if (iterations % 10_000 == 0) await this.checkTime()
+        if (iterations % 1000 == 0) await this.checkTime()
 
         if (this.should_stop) return
 

@@ -44,6 +44,7 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
 
   private error_recovery_solution: {
     sequence: AnnotatedMoveList,
+    last_known_state: SliderState,
     recovering_to_mainline_index: number
   } = null
 
@@ -428,7 +429,7 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
 
       this.active_solving_process = null
       this.current_mainline_index = 0
-      this.error_recovery_solution = {sequence: [], recovering_to_mainline_index: 0}
+      this.error_recovery_solution = {sequence: [], recovering_to_mainline_index: 0, last_known_state: null}
 
       this.guiding_start_time = Date.now()
 
@@ -519,7 +520,7 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
       }*/
 
       this.current_mainline_index = mainline_index
-      this.error_recovery_solution = {sequence: [], recovering_to_mainline_index: mainline_index}
+      this.error_recovery_solution = {sequence: [], recovering_to_mainline_index: mainline_index, last_known_state: frame_state}
     } else {
       let recovery_index = this.error_recovery_solution.sequence.findIndex(a => a.pre_states.some(s => SliderState.equals(s, frame_state)))
 
@@ -527,21 +528,36 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
         // Prune the recovery sequence to just contain the remaining steps
         this.error_recovery_solution.sequence = this.error_recovery_solution.sequence.slice(recovery_index)
 
+        this.error_recovery_solution.last_known_state = frame_state
+
         this.current_mainline_index = this.error_recovery_solution.recovering_to_mainline_index
       } else {
         // The current state was not found in the recovery sequence
 
         let recovery_move: Move | null = null
 
-        for (let target of (this.getLastKnownMove()?.pre_states ?? [])) {
+        const target_state_candidates = this.error_recovery_solution?.last_known_state
+          ? [this.error_recovery_solution.last_known_state]
+          : this.solution[this.current_mainline_index].pre_states
+
+        for (let target of target_state_candidates) {
           recovery_move = SliderState.findMove(frame_state, target)
-          if (recovery_move) break
+          if (recovery_move) {
+            break
+          }
         }
 
         if (recovery_move != null) {
+          let recovery = [recovery_move, ...MoveList.fromTileList(this.error_recovery_solution.sequence.map(s => s.clicked_tile), SliderState.blank(frame_state) + recovery_move)]
+
+          if (this.settings.mode != "keyboard") recovery = MoveList.compress(recovery)
+          else recovery = MoveList.expand(recovery)
+
           // Add recovery move to sequence
-          this.error_recovery_solution.sequence.splice(0, 0,
-            ...MoveList.annotate(frame_state, [recovery_move], this.settings.mode != "keyboard"))
+          this.error_recovery_solution.sequence =
+            MoveList.annotate(frame_state, recovery, this.settings.mode != "keyboard")
+
+          this.error_recovery_solution.last_known_state = frame_state
 
           this.current_mainline_index = this.error_recovery_solution.recovering_to_mainline_index
         } else {

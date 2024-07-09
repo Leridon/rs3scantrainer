@@ -71,7 +71,11 @@ type BenchmarkSetup = {
   testcase_type: "crowdsourced" | "trueshuffle" | "osrsshuffle",
   candidates: (
     { type: "random" } |
-    { type: "pdb", db: string, reflect: boolean })[]
+    { type: "pdb", db: string, reflect: boolean })[],
+  continuation_solving?: {
+    lookahead: number,
+    assumed_moves_per_second: number
+  } | null
 }
 
 namespace BenchmarkSetup {
@@ -109,7 +113,7 @@ namespace BenchmarkSetup {
           const mngr = await PDBManager.instance.get()
 
           const name = `PDB ${c.db}${c.reflect ? " +R" : ""}`
-          const solver = new PDBSolver(new RegionDistanceTable.RegionGraph((await mngr.getSimple(await mngr.find(undefined,  c.db))).tables, c.reflect))
+          const solver = new PDBSolver(new RegionDistanceTable.RegionGraph((await mngr.getSimple(await mngr.find(undefined, c.db))).tables, c.reflect))
 
           return {
             solver: solver,
@@ -173,7 +177,19 @@ class BenchmarkProcess extends Process<Result[]> {
 
         let best = await solver.withTimeout(this.settings.setup.timeout).run()
 
-        const best_before_continuation = best ? [...best] : undefined
+        if (this.settings.setup.continuation_solving && best) {
+          const TIME_PER_STEP = (2/3) * (this.settings.setup.continuation_solving.lookahead / this.settings.setup.continuation_solving.assumed_moves_per_second) * 1000
+
+          for (let i = this.settings.setup.continuation_solving.lookahead; i < best.length; i += this.settings.setup.continuation_solving.lookahead) {
+            const better = await candidate.solver.instantiate(SliderState.withMove(test, ...best.slice(0, i)))
+              .withTimeout(TIME_PER_STEP)
+              .setCombineStraights(this.settings.setup.metric == "mtm")
+              .registerSolution(best.slice(i))
+              .run()
+
+            best.splice(i, best.length, ...better)
+          }
+        }
 
         if (best) {
           let sanity = SliderState.withMove(test, ...best)
@@ -186,7 +202,7 @@ class BenchmarkProcess extends Process<Result[]> {
 
         results[candidate_i].tests.push({
           start: test,
-          moves: best_before_continuation,
+          moves: best,
         })
 
         results[candidate_i].statistics = doStatistics(results[candidate_i].tests)
@@ -291,6 +307,20 @@ class BenchmarkConfigurator extends Widget {
         .setValue(this.settings.testcase_type)
         .onChange(m => this.settings.testcase_type = m)
         .checkboxes()))
+
+    layout.row(new Checkbox("Continuous solving", "checkbox")
+      .setValue(!!this.settings.continuation_solving)
+      .onCommit(v => {
+        if (v) {
+          this.settings.continuation_solving = {
+            assumed_moves_per_second: 5,
+            lookahead: 12,
+          }
+        } else {
+          this.settings.continuation_solving = undefined
+        }
+      })
+    )
 
     layout.header("Candidates")
 

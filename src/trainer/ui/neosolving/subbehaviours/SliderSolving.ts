@@ -478,7 +478,6 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
 
                 this.solution = MoveList.annotate(this.initial_state, new_sequence, this.settings.mode != "keyboard")
 
-                // Stop the solver in case the combination
                 this.active_solving_process.solver.stop()
                 this.active_solving_process = null
               }

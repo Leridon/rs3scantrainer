@@ -17,7 +17,8 @@ export async function test_slider_move_attachment(): Promise<void> {
     expected_result: Sliders.MoveList
   }[] = [
     {existing: [-2, -10], attachment: [-5, 2], expected_result: [-2, -15, 2]},
-    {existing: [1, 5, 1], attachment: [-1, 5], expected_result: [1, 10]}
+    {existing: [1, 5, 1], attachment: [-1, 5], expected_result: [1, 10]},
+    {existing: [5], attachment: [1], expected_result: [5, 1]},
   ]
 
   let success = true

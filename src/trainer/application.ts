@@ -344,9 +344,6 @@ export class Application extends Behaviour {
       log().log(`Active capture mode: ${alt1.captureMethod}`)
       log().log(`Permissions: Installed ${alt1.permissionInstalled}, GameState ${alt1.permissionGameState}, Pixel ${alt1.permissionPixel}, Overlay ${alt1.permissionOverlay}`)
     }
-
-    //ExportStringModal.do(await makeshift_main())
-    await makeshift_main()
   }
 
   protected end() {

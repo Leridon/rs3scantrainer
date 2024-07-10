@@ -6,6 +6,7 @@ import {PDBGeneratorModal, RegionIndexingModal, StateIndexBenchmarkWidget} from 
 import {CompassReader} from "../trainer/ui/neosolving/cluereader/CompassReader";
 import {clue_trainer_test_set} from "../test/tests";
 import {PDBManager} from "../trainer/ui/neosolving/subbehaviours/SliderSolving";
+import {makeshift_main} from "../trainer/main";
 
 
 export class DevelopmentModal extends NisModal {
@@ -62,6 +63,11 @@ export class DevelopmentModal extends NisModal {
     layout.row(new LightButton("Run Tests", "rectangle")
       .onClick(() => {
         clue_trainer_test_set.run()
+      })
+    )
+    layout.row(new LightButton("Run makeshift Main", "rectangle")
+      .onClick(() => {
+        makeshift_main()
       })
     )
 

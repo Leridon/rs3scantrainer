@@ -157,16 +157,14 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
     let slackness = this.completed_slackness + 1
 
     while (!this.should_stop) {
-      await profileAsync(async () => {
-        for (const start of this.chain.getEntryPoints()) {
-          state = OptimizedSliderState.fromState(this.start_state)
-          move_list = []
+      for (const start of this.chain.getEntryPoints()) {
+        state = OptimizedSliderState.fromState(this.start_state)
+        move_list = []
 
-          await doregion(false, start, slackness)
+        await doregion(false, start, slackness)
 
-          await this.checkTime()
-        }
-      }, `Slackness ${slackness}`)
+        await this.checkTime()
+      }
 
       if (!this.should_stop) this.completed_slackness = slackness
 

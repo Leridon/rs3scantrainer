@@ -110,7 +110,6 @@ Compass solver:
             - Share with Solver!
     - Collapsible method pack sections (default|imported|local)
     - [QOL] Improved Import Modal
-        - Paste or drop file
         - Show metadata before import
         - Confirm/Cancel
     - [Feature] Undo/Redo
@@ -119,14 +118,6 @@ Compass solver:
     - [Styling] ControlHeader title and X are not properly aligned
         - Check modal for how to do it
     - Clean up cursor on map
-    - Remove old Modals
-        - Patchnotes
-    - Add short summary sentence to update notifications
-
-- Data Model
-    - Skilling Clue locations
-    - Sandy clues
-        - Membership only
 
 - Content
     ✓ Fremmenik Isles

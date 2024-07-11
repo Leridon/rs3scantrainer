@@ -54,14 +54,7 @@ class KnotSolvingProcess extends AbstractPuzzleProcess {
       this.puzzle = CelticKnots.unify(puzzle, this.puzzle) ?? this.puzzle
       this.isSolved = CelticKnots.PuzzleState.isSolved(this.puzzle)
 
-      const buttons = KnotReader.getButtons(this.puzzle.shape)
-
-      if (!buttons) {
-        log().log(`Could not identity knot shape: ${cleanedJSON(this.puzzle.shape)}`, "Knot Solver")
-        log().log(`Hash: ${cleanedJSON(CelticKnots.PuzzleShape.hash(this.puzzle.shape))}`, "Knot Solver")
-
-        await reader.showDebugOverlay(true)
-      }
+      const buttons = await this.parent.knot.reader.getButtons()
 
       const solution = CelticKnots.solve(this.puzzle)
 

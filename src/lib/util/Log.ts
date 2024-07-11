@@ -1,7 +1,7 @@
 import {lazy} from "../properties/Lazy";
 import {util} from "./util";
 
-type Attachment = { type: "object", value: any } | { type: "image", value: ImageData }
+type Attachment = { type: "object", value: any } | { type: "image", value: string }
 
 type Message = {
   category: string,
@@ -32,10 +32,17 @@ export abstract class Log {
     this.clone_to?._log(message)
   }
 
-  log(msg: object | string | number, category: string = undefined, attachment: ImageData | any = undefined): this {
+  log(msg: object | string | number, category: string = undefined, attachment: ImageData | object | any[] = undefined): this {
 
+    const attach: Attachment = (() => {
+      if (attachment instanceof ImageData) {
+        return {type: "image", value: "data:image/png;base64," + attachment.toPngBase64()}
+      } else if(attachment != undefined) {
+        return {type: "object", value: attachment}
+      }
+    })()
 
-    this._log({body: msg, category: category ?? "", attachment: attachment})
+    this._log({body: msg, category: category ?? "", attachment: attach})
     return this
   }
 }

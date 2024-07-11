@@ -1579,6 +1579,7 @@ input[type=checkbox] + span {
     position: relative;
     flex: 1 1 auto;
     padding: 0.5rem;
+    overflow-y: scroll;
 }
 
 /* Big Nis Button */
@@ -2222,6 +2223,12 @@ input[type=checkbox] + span {
 
 .ctr-modal-fullscreen > .nisl-modal {
     min-height: 100%;
+    max-height: 100%;
+}
+
+.ctr-modal-fullscreen > .nisl-modal {
+    min-height: 100%;
+    max-height: 100%;
 }
 
 .nisl-color-input > input {

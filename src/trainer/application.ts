@@ -325,7 +325,7 @@ export class Application extends Behaviour {
 
     document.body.addEventListener("keydown", e => {
       if (e.key == "F6") {
-        log().log("Log exported", "", {type: "image", value: CapturedImage.capture().getData()})
+        log().log("Log exported", "", CapturedImage.capture().getData())
 
         LogViewer.do(log().get())
 

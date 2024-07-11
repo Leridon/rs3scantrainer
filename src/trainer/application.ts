@@ -1,5 +1,4 @@
 import {storage} from "lib/util/storage";
-import {Modal} from "trainer/ui/widgets/modal";
 import {TemplateResolver} from "lib/util/TemplateResolver";
 import {ClueTier, ClueType} from "lib/runescape/clues";
 import {GameMap, GameMapWidget} from "lib/gamemap/GameMap";
@@ -12,7 +11,6 @@ import {SolvingMethods} from "./model/methods";
 import {GameLayer} from "../lib/gamemap/GameLayer";
 import MainTabControl from "./ui/MainTabControl";
 import Widget from "../lib/ui/Widget";
-import {makeshift_main} from "./main";
 import {MethodPackManager} from "./model/MethodPackManager";
 import {C} from "../lib/ui/constructors";
 import {Observable, observe} from "../lib/reactive";
@@ -30,6 +28,11 @@ import {PathGraphics} from "./ui/path_graphics";
 import {CrowdSourcing} from "./CrowdSourcing";
 import {Notification, NotificationBar} from "./ui/NotificationBar";
 import {Alt1MainHotkeyEvent} from "../lib/alt1/Alt1MainHotkeyEvent";
+import {Alt1ContextMenuDetection} from "../lib/alt1/Alt1ContextMenuDetection";
+import {Log} from "../lib/util/Log";
+import {Changelog} from "./ChangeLog";
+import {DevelopmentModal} from "../devtools/DevelopmentMenu";
+import {LogViewer} from "../devtools/LogViewer";
 import ActiveTeleportCustomization = Transportation.TeleportGroup.ActiveTeleportCustomization;
 import TeleportSettings = Settings.TeleportSettings;
 import inlineimg = C.inlineimg;
@@ -40,15 +43,7 @@ import npc = C.npc;
 import staticentity = C.staticentity;
 import entity = C.entity;
 import notification = Notification.notification;
-import {Alt1Modal} from "./Alt1Modal";
-import {Alt1ContextMenuDetection} from "../lib/alt1/Alt1ContextMenuDetection";
-import ExportStringModal from "./ui/widgets/modals/ExportStringModal";
-import {Log} from "../lib/util/Log";
 import log = Log.log;
-import {Changelog} from "./ChangeLog";
-import {DevelopmentModal} from "../devtools/DevelopmentMenu";
-import {LogViewer} from "../devtools/LogViewer";
-import {CapturedImage} from "../lib/alt1/ImageCapture";
 
 export class SimpleLayerBehaviour extends Behaviour {
   constructor(private map: GameMap, private layer: GameLayer) {
@@ -325,7 +320,7 @@ export class Application extends Behaviour {
 
     document.body.addEventListener("keydown", e => {
       if (e.key == "F6") {
-        log().log("Log exported", "", CapturedImage.capture().getData())
+        log().log("Log exported")
 
         LogViewer.do(log().get())
 

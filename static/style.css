@@ -1579,7 +1579,7 @@ input[type=checkbox] + span {
     position: relative;
     flex: 1 1 auto;
     padding: 0.5rem;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 /* Big Nis Button */

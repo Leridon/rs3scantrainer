@@ -238,6 +238,25 @@ export namespace util {
     download(filename, window.URL.createObjectURL(new Blob([data])))
   }
 
+  export function selectFile(accept: string = undefined): Promise<File> {
+    return new Promise(resolve => {
+      // creating input on-the-fly
+      const input = document.createElement("input");
+      input.setAttribute("type", "file");
+
+      if (accept) {
+        input.setAttribute("accept", accept)
+      }
+
+      input.addEventListener("change", (e) => {
+        resolve((e.currentTarget as HTMLInputElement).files?.[0])
+      })
+
+      // add onchange handler if you wish to get the file :)
+      input.click(); // opening dialog
+    })
+  }
+
   export function stringSimilarity(string: string, reference: string): number {
     return 1 - levenshteinEditDistance(string, reference, true) / reference.length
   }

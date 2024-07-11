@@ -7,6 +7,9 @@ import {CompassReader} from "../trainer/ui/neosolving/cluereader/CompassReader";
 import {clue_trainer_test_set} from "../test/tests";
 import {PDBManager} from "../trainer/ui/neosolving/subbehaviours/SliderSolving";
 import {makeshift_main} from "../trainer/main";
+import {ImportModal} from "../trainer/ui/widgets/modals/ImportModal";
+import {LogViewer} from "./LogViewer";
+import {Log} from "../lib/util/Log";
 
 
 export class DevelopmentModal extends NisModal {
@@ -25,9 +28,18 @@ export class DevelopmentModal extends NisModal {
 
     layout.paragraph("Welcome to the super secret development menu! If you're not a developer, you probably won't find anything useful here, but feel free to take a look around. Important note: Some options may mess up your local data/settings without warning you about it before doing so!")
 
+    layout.header("General")
+    layout.row(new LightButton("Log Viewer", "rectangle")
+      .onClick(() => {
+        ImportModal.json<Log.Buffer>(txt => txt as Log.Buffer,
+          buffer => {new LogViewer(buffer).show()},
+        )
+      })
+    )
+
     layout.header("Slider Puzzles")
 
-    layout.row(new LightButton("Benchmark", "rectangle")
+    layout.row(new LightButton("Benchmark Solvers", "rectangle")
       .onClick(() => {
         new SliderBenchmarkModal().show()
       })

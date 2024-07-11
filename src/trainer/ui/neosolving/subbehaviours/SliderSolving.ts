@@ -19,6 +19,8 @@ import {Observable, observe} from "../../../../lib/reactive";
 import {RandomSolver} from "../../../../lib/cluetheory/sliders/RandomSolver";
 import {ProgressBar} from "../../widgets/ProgressBar";
 import {RegionDistanceTable} from "../../../../lib/cluetheory/sliders/RegionDistanceTable";
+import {Log} from "../../../../lib/util/Log";
+import {Clues} from "../../../../lib/runescape/clues";
 import over = OverlayGeometry.over;
 import SliderState = Sliders.SliderState;
 import SliderPuzzle = Sliders.SliderPuzzle;
@@ -27,8 +29,8 @@ import AnnotatedMoveList = Sliders.AnnotatedMoveList;
 import MoveList = Sliders.MoveList;
 import Move = Sliders.Move;
 import profileAsync = util.profileAsync;
-import {Log} from "../../../../lib/util/Log";
 import log = Log.log;
+import index = util.index;
 
 class SliderGuideProcess extends AbstractPuzzleProcess {
   settings = deps().app.settings.settings.solving.puzzles.sliders
@@ -478,7 +480,6 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
             .withInterrupt(20, 10) // Cooperative interrupt behaviour
             .onFound(better => {
               if (solving_start_index == this.active_solving_process?.solving_from && this.current_mainline_index < solving_start_index) {
-                log().log(`Continuous solving found better solution: ${better.join(",")}, attaching to ${this.solution.slice(0, solving_start_index).map(m => m.move)}`, "Slider Solving")
 
                 const new_sequence = Sliders.MoveList.combine(
                   this.solution.slice(0, solving_start_index).map(m => m.move),
@@ -486,11 +487,24 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
                   this.settings.mode != "keyboard"
                 )
 
-                const old_solution = this.solution.map(s => s.clicked_tile)
+                const old_solution = this.solution
 
                 this.solution = MoveList.annotate(this.initial_state, new_sequence, this.settings.mode != "keyboard")
 
-                log().log(`Continuous solving updated from ${old_solution.join(",")} to ${this.solution.map(s => s.clicked_tile).join(",")}`, "Slider Solving")
+                if (index(this.solution, -1).clicked_tile != 24) {
+                  log().log("Bug detected after updating solution!")
+
+                  log().log(`Continuous solving found better solution, combining results`, "Slider Solving", {
+                    better: better,
+                    attached_to: this.solution.slice(0, solving_start_index).map(m => m.move),
+                    combined: new_sequence
+                  })
+
+                  log().log(`Updated annotated move lists`, "Slider Solving", {
+                    old: old_solution,
+                    new: this.solution,
+                  })
+                }
 
                 this.active_solving_process.solver.stop()
                 this.active_solving_process = null

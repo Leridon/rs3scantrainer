@@ -1579,6 +1579,7 @@ input[type=checkbox] + span {
     position: relative;
     flex: 1 1 auto;
     padding: 0.5rem;
+    overflow-y: auto;
 }
 
 /* Big Nis Button */
@@ -2222,6 +2223,12 @@ input[type=checkbox] + span {
 
 .ctr-modal-fullscreen > .nisl-modal {
     min-height: 100%;
+    max-height: 100%;
+}
+
+.ctr-modal-fullscreen > .nisl-modal {
+    min-height: 100%;
+    max-height: 100%;
 }
 
 .nisl-color-input > input {
@@ -2368,4 +2375,33 @@ input[type=checkbox] + span {
     left: 0;
     top: 0;
     bottom: 0;
+}
+
+
+.ctr-log-viewer-message {
+    display: flex;
+    font-family: "Courier New", monospace;
+}
+
+.ctr-log-viewer-attachment {
+    background-color: #071015;
+    font-family: "Consolas", monospace;
+}
+
+.ctr-log-viewer-attachment > * {
+    max-width: 100%;
+}
+
+.ctr-log-viewer-attachment-indicator {
+    width:20px;
+    text-align: center;
+    min-width: 20px;
+}
+
+.ctr-log-viewer-message:hover {
+    background-color: #FFFFFF33;
+}
+
+.ctr-log-viewer-message > *:not(:last-child) {
+    margin-right: 6px;
 }

@@ -29,6 +29,9 @@ import ScanStep = Clues.ScanStep;
 import notification = Notification.notification;
 import findBestMatch = util.findBestMatch;
 import SliderState = Sliders.SliderState;
+import {CelticKnots} from "../../../../lib/cluetheory/CelticKnots";
+import log = Log.log;
+import cleanedJSON = util.cleanedJSON;
 
 const CLUEREADERDEBUG = false
 
@@ -172,23 +175,27 @@ export class ClueReader {
                 }
               case "knot": {
                 const reader = new KnotReader.KnotReader(modal)
+                const puzzle = await reader.getPuzzle()
+                const buttons = await reader.getButtons()
 
-                if (await reader.getPuzzle()) {
-                  return {
-                    type: "puzzle",
-                    puzzle: {
-                      type: "knot",
-                      reader: reader,
-                    },
-                  }
-                } else {
-
-                  console.error("Knot found, but not parsed properly")
-                  console.error(`Broken: ${reader.isBroken}, Reason: ${reader.brokenReason}`)
-
-                  //await (reader.showDebugOverlay())
+                if (!puzzle) {
+                  log().log("Knot found, but not parsed properly", "Clue Reader")
+                  log().log(`Broken: ${reader.isBroken}, Reason: ${reader.brokenReason}`, "Clue Reader")
 
                   return null
+                } else if (!buttons) {
+                  log().log(`Could not identity knot shape: ${cleanedJSON(puzzle.shape)}`, "Clue Reader")
+                  log().log(`Hash: ${cleanedJSON(CelticKnots.PuzzleShape.hash(puzzle.shape))}`, "Clue Reader")
+
+                  return null
+                }
+
+                return {
+                  type: "puzzle",
+                  puzzle: {
+                    type: "knot",
+                    reader: reader,
+                  },
                 }
               }
               case "lockbox": {

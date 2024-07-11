@@ -8,6 +8,7 @@ import * as lodash from "lodash";
 import {identity} from "lodash";
 import {CapturedImage} from "../../../../lib/alt1/ImageCapture";
 import {CapturedModal} from "./capture/CapturedModal";
+import {async_lazy} from "../../../../lib/properties/Lazy";
 
 
 export namespace KnotReader {
@@ -535,6 +536,16 @@ export namespace KnotReader {
           else return {value: t.rune.id, type: "is"}
         }))
       }
+    }
+
+    private _buttons = async_lazy(async () => {
+      const shape = (await this.getPuzzle())?.shape
+      if (!shape) return null
+      return getButtons(shape)
+    })
+
+    public async getButtons(): Promise<ButtonPositions> {
+      return this._buttons.get()
     }
 
     public async showDebugOverlay(

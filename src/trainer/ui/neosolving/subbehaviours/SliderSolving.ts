@@ -27,6 +27,8 @@ import AnnotatedMoveList = Sliders.AnnotatedMoveList;
 import MoveList = Sliders.MoveList;
 import Move = Sliders.Move;
 import profileAsync = util.profileAsync;
+import {Log} from "../../../../lib/util/Log";
+import log = Log.log;
 
 class SliderGuideProcess extends AbstractPuzzleProcess {
   settings = deps().app.settings.settings.solving.puzzles.sliders
@@ -214,7 +216,7 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
 
     const LOOKAHEAD = this.settings.max_lookahead
 
-    let moves = []
+    let moves: AnnotatedMoveList = []
 
     if (this.error_recovery_solution?.sequence) {
       moves.push(...this.error_recovery_solution.sequence)
@@ -326,6 +328,12 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
 
       const a = this.posToScreen(current_blank)
       const b = this.posToScreen(blank)
+
+      if (a.x != b.x && a.y != b.y) {
+        // This is not a straight line and therefore an error
+
+        log().log(`Invalid Move detected on overlay! From ${current_blank} to ${blank}. Full sequence: ${moves.map(m => m.clicked_tile).join(",")}`, "Slider Solving")
+      }
 
       const dir = Vector2.normalize(Vector2.sub(b, a))
 
@@ -476,7 +484,11 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
                   this.settings.mode != "keyboard"
                 )
 
+                const old_solution = this.solution.map(s => s.clicked_tile)
+
                 this.solution = MoveList.annotate(this.initial_state, new_sequence, this.settings.mode != "keyboard")
+
+                log().log(`Continuous solving updated from ${old_solution.join(",")} to ${this.solution.map(s => s.clicked_tile).join(",")}`, "Slider Solving")
 
                 this.active_solving_process.solver.stop()
                 this.active_solving_process = null

@@ -10,11 +10,7 @@ import {CapturedModal} from "../cluereader/capture/CapturedModal";
 import {AbstractPuzzleProcess} from "./AbstractPuzzleProcess";
 import {AbstractPuzzleSolving} from "./AbstractPuzzleSolving";
 import {deps} from "../../../dependencies";
-import {Log} from "../../../../lib/util/Log";
-import log = Log.log;
-import {util} from "../../../../lib/util/util";
-import cleanedJSON = util.cleanedJSON;
-import {read} from "@popperjs/core";
+
 
 const CENTER_TEXT_SIZE = 20
 const MOVE_FONT_SIZE = 24

@@ -31,7 +31,7 @@ export class LogViewer extends NisModal {
         cls("ctr-log-viewer-message")
           .append(
             c().css("width", "100px").text(formatTime(entry.timestamps[0])),
-            c().css("min-width", "70px").css("width", "70px").css("text-align", "center").text(entry.message.category),
+            c().css("min-width", "100px").css("width", "100px").css("text-align", "center").text(entry.message.category),
             c().text(entry.message.body.toString()),
           )
           .appendTo(container)

@@ -118,7 +118,10 @@ export class ImportModal<T, U> extends FormModal<{
 
   static json<U>(parser: (_: any) => U = lodash.identity, handler: (_: U) => Promise<boolean | void> | boolean | void = () => true): Promise<ImportModal<string, U>> {
     return new ImportModal<any, U>("application/json",
-      compose<any>(ImportModal.preprocess_to_string, s => JSON.parse(s)),
+      async data => {
+        const s = await ImportModal.preprocess_to_string(data)
+        return JSON.parse(s)
+      },
       parser,
       handler
     ).show()

@@ -478,6 +478,8 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
             .withInterrupt(20, 10) // Cooperative interrupt behaviour
             .onFound(better => {
               if (solving_start_index == this.active_solving_process?.solving_from && this.current_mainline_index < solving_start_index) {
+                log().log(`Continuous solving found better solution: ${better.join(",")}, attaching to ${this.solution.slice(0, solving_start_index).map(m => m.move)}`, "Slider Solving")
+
                 const new_sequence = Sliders.MoveList.combine(
                   this.solution.slice(0, solving_start_index).map(m => m.move),
                   better,

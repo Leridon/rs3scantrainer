@@ -10,6 +10,9 @@ import {CapturedModal} from "../cluereader/capture/CapturedModal";
 import {AbstractPuzzleProcess} from "./AbstractPuzzleProcess";
 import {AbstractPuzzleSolving} from "./AbstractPuzzleSolving";
 import {deps} from "../../../dependencies";
+import {Log} from "../../../../lib/util/Log";
+import PuzzleState = CelticKnots.PuzzleState;
+import log = Log.log;
 
 
 const CENTER_TEXT_SIZE = 20
@@ -19,7 +22,7 @@ const CENTRAL_TEXT_OFFSET = {x: 0, y: -150}
 
 class KnotSolvingProcess extends AbstractPuzzleProcess {
   last_successful_read: number
-  last_read_successful: boolean = true
+  last_read_puzzle: PuzzleState = null
 
   puzzle: CelticKnots.PuzzleState
   isSolved: boolean = false
@@ -43,12 +46,27 @@ class KnotSolvingProcess extends AbstractPuzzleProcess {
     const puzzle = await reader.getPuzzle()
     const now = Date.now()
 
-    this.last_read_successful = !!puzzle
-
-    if (puzzle) {
+    if (!!puzzle) {
       this.last_successful_read = now
+    }
 
-      this.puzzle = CelticKnots.unify(puzzle, this.puzzle) ?? this.puzzle
+    const matches_last_read = CelticKnots.PuzzleState.equal(puzzle, this.last_read_puzzle)
+
+    this.last_read_puzzle = puzzle
+
+    if (matches_last_read && puzzle) {
+      const unified = CelticKnots.unify(puzzle, this.puzzle)
+
+      if (!unified) {
+        log().log("Could not unify knot states!", "Knot Solving", {
+          existing: this.puzzle?.snakes?.map(s => CelticKnots.Snake.toString(s)),
+          new: puzzle?.snakes?.map(s => CelticKnots.Snake.toString(s))
+        })
+
+        log().log("Capture", "Knot Solving", reader.ui.body.getData())
+      }
+
+      this.puzzle = unified ?? this.puzzle
       this.isSolved = CelticKnots.PuzzleState.isSolved(this.puzzle)
 
       const buttons = await this.parent.knot.reader.getButtons()
@@ -147,7 +165,7 @@ class KnotSolvingProcess extends AbstractPuzzleProcess {
   }
 
   async implementation(): Promise<void> {
-    this.puzzle = await this.parent.knot.reader.getPuzzle() // This should already be cached
+    this.last_read_puzzle = this.puzzle = await this.parent.knot.reader.getPuzzle() // This should already be cached
 
     await super.implementation()
   }
@@ -187,7 +205,7 @@ export class KnotSolving extends AbstractPuzzleSolving<
   }
 
   pausesClueReader(): boolean {
-    return this.process && !this.process.isSolved && this.process.last_read_successful
+    return this.process && !this.process.isSolved && (Date.now() - this.process.last_successful_read) < 500
   }
 }
 

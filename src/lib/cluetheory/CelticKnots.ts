@@ -6,12 +6,21 @@ export namespace CelticKnots {
 
   export namespace Element {
     export function maybeEqual(a: Element, b: Element): boolean {
-      if(!a || !b) debugger
+      if (!a || !b) debugger
 
       if (a.type == "is" && b.type == "is") return a.value == b.value
       if (a.type == "is" && b.type == "isnot") return a.value != b.value
       if (a.type == "isnot" && b.type == "is") return a.value != b.value
       if (a.type == "isnot" && b.type == "isnot") return true
+    }
+
+    export function toString(e: Element) {
+      switch (e.type) {
+        case "is":
+          return e.value.toString()
+        case "isnot":
+          return `!${e.value}`
+      }
     }
   }
 
@@ -46,7 +55,7 @@ export namespace CelticKnots {
     }
 
     export function toString(snake: Snake): string {
-      return snake.map(e => (e.type == "isnot") ? -e.value : e.value).join(" ")
+      return snake.map(Element.toString).join(", ")
     }
   }
 
@@ -128,6 +137,10 @@ export namespace CelticKnots {
       const b = get(state, lock.second)
 
       return Element.maybeEqual(a, b)
+    }
+
+    export function equal(a: PuzzleState, b: PuzzleState): boolean {
+      return lodash.isEqual(a, b)
     }
   }
 

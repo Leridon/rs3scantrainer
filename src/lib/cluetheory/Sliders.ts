@@ -305,7 +305,7 @@ export namespace Sliders {
     export function fromTileList(tiles: number[], blank: number): MoveList {
       const moves: MoveList = []
 
-      for(let tile of tiles) {
+      for (let tile of tiles) {
         moves.push(tile - blank)
         blank = tile
       }

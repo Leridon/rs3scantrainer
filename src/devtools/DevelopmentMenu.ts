@@ -31,7 +31,7 @@ export class DevelopmentModal extends NisModal {
     layout.header("General")
     layout.row(new LightButton("Log Viewer", "rectangle")
       .onClick(() => {
-        ImportModal.json<Log.Buffer>(txt => txt as Log.Buffer,
+        ImportModal.json<Log.LogBuffer>(txt => txt as Log.LogBuffer,
           buffer => {new LogViewer(buffer).show()},
         )
       })

@@ -1,10 +1,8 @@
 import {Sliders} from "../Sliders";
 import {RegionDistanceTable} from "./RegionDistanceTable";
 import {OptimizedSliderState} from "./OptimizedSliderState";
-import {util} from "../../util/util";
 import SliderState = Sliders.SliderState;
 import MoveList = Sliders.MoveList;
-import profileAsync = util.profileAsync;
 import RegionGraph = RegionDistanceTable.RegionGraph;
 
 const move_translation_identity: number[] = [
@@ -27,26 +25,6 @@ const move_translation_identity: number[] = [
   20, // 20
 ]
 
-const move_translation_reflect: number[] = [
-  -4, undefined, undefined, undefined, undefined, // -20
-  -3, undefined, undefined, undefined, undefined, // -15
-  -2, undefined, undefined, undefined, undefined, // -10
-  -1, // -5
-  -20, // -4
-  -15, // -3
-  -10, // -2
-  -5,  // -1
-  0,    //  0
-  5,  // 1
-  10, // 2
-  15, // 3
-  20, // 4
-  1, undefined, undefined, undefined, undefined, // 5
-  2, undefined, undefined, undefined, undefined, // 10
-  3, undefined, undefined, undefined, undefined, // 15
-  4, // 20
-]
-
 export class PDBSolvingProcess extends Sliders.SolvingProcess {
 
   public completed_slackness: number = -1
@@ -64,7 +42,7 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
     let iterations = 0
 
     const doregion = async (coming_from_reflected_region: boolean, current_region: RegionGraph.Node, remaining_slackness: number): Promise<void> => {
-      const move_translation = current_region.reflected ? move_translation_reflect : move_translation_identity
+      const move_translation = current_region.reflected ? OptimizedSliderState.move_translation_reflect : move_translation_identity
 
       const dostate = async (known_distance: number, remaining_slackness: number) => {
         iterations++

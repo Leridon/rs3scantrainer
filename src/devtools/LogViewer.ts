@@ -11,7 +11,7 @@ import downloadTextFile = util.downloadTextFile;
 import ExportStringModal from "../trainer/ui/widgets/modals/ExportStringModal";
 
 export class LogViewer extends NisModal {
-  constructor(private buffer: Log.Buffer) {
+  constructor(private buffer: Log.LogBuffer) {
     super({size: "fullscreen"})
 
     this.setTitle("Log Viewer")
@@ -59,7 +59,7 @@ export class LogViewer extends NisModal {
         const asjson = cleanedJSON(this.buffer)
 
         try {
-          downloadTextFile(`cluetrainerlog-${Date.now()}.json`, asjson)
+          downloadTextFile(`cluetrainerlog-${Date.now()}.txt`, asjson)
         } catch (e) {
           ExportStringModal.do(asjson, "Your Alt1 version does not support downloading files. Please copy the contents below and save them to a file instead.")
         }
@@ -73,7 +73,7 @@ export class LogViewer extends NisModal {
     this.renderLog()
   }
 
-  static do(log: Log.Buffer): Promise<LogViewer> {
+  static do(log: Log.LogBuffer): Promise<LogViewer> {
     return new LogViewer(log).show()
   }
 }

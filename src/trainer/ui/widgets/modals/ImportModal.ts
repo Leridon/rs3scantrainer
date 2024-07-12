@@ -2,9 +2,8 @@ import TextArea from "../../../../lib/ui/controls/TextArea";
 import {BigNisButton} from "../BigNisButton";
 import {FormModal} from "../../../../lib/ui/controls/FormModal";
 import {util} from "../../../../lib/util/util";
-import selectFile = util.selectFile;
-import compose = util.compose;
 import * as lodash from "lodash";
+import selectFile = util.selectFile;
 
 export class ImportModal<T, U> extends FormModal<{
   imported: U
@@ -117,7 +116,7 @@ export class ImportModal<T, U> extends FormModal<{
   }
 
   static json<U>(parser: (_: any) => U = lodash.identity, handler: (_: U) => Promise<boolean | void> | boolean | void = () => true): Promise<ImportModal<string, U>> {
-    return new ImportModal<any, U>("application/json",
+    return new ImportModal<any, U>("application/json,.txt",
       async data => {
         const s = await ImportModal.preprocess_to_string(data)
         return JSON.parse(s)

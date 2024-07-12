@@ -20,7 +20,6 @@ import {RandomSolver} from "../../../../lib/cluetheory/sliders/RandomSolver";
 import {ProgressBar} from "../../widgets/ProgressBar";
 import {RegionDistanceTable} from "../../../../lib/cluetheory/sliders/RegionDistanceTable";
 import {Log} from "../../../../lib/util/Log";
-import {Clues} from "../../../../lib/runescape/clues";
 import over = OverlayGeometry.over;
 import SliderState = Sliders.SliderState;
 import SliderPuzzle = Sliders.SliderPuzzle;
@@ -473,43 +472,49 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
 
         const solving_start_state = this.solution[solving_start_index - 1].post_state
 
-        this.active_solving_process = {
-          solver: this.instantiateSolver(solving_start_state)
-            //new AStarSlideSolver(frame_state)
-            .registerSolution(this.solution.slice(solving_start_index).map(m => m.move))
-            .withInterrupt(20, 10) // Cooperative interrupt behaviour
-            .onFound(better => {
-              if (solving_start_index == this.active_solving_process?.solving_from && this.current_mainline_index < solving_start_index) {
+        const process = this.instantiateSolver(solving_start_state)
+          .registerSolution(this.solution.slice(solving_start_index).map(m => m.move))
+          .withInterrupt(20, 10) // Cooperative interrupt behaviour
+          .onFound(better => {
+            if (process == this.active_solving_process?.solver
+              && solving_start_index == this.active_solving_process?.solving_from
+              && this.current_mainline_index < solving_start_index) {
 
-                const new_sequence = Sliders.MoveList.combine(
-                  this.solution.slice(0, solving_start_index).map(m => m.move),
-                  better,
-                  this.settings.mode != "keyboard"
-                )
+              const new_sequence = Sliders.MoveList.combine(
+                this.solution.slice(0, solving_start_index).map(m => m.move),
+                better,
+                this.settings.mode != "keyboard"
+              )
 
-                const old_solution = this.solution
+              const old_solution = this.solution
 
-                this.solution = MoveList.annotate(this.initial_state, new_sequence, this.settings.mode != "keyboard")
+              this.solution = MoveList.annotate(this.initial_state, new_sequence, this.settings.mode != "keyboard")
 
-                if (index(this.solution, -1).clicked_tile != 24) {
-                  log().log("Bug detected after updating solution!")
+              if (index(this.solution, -1).clicked_tile != 24) {
+                log().log("Bug detected after updating solution!")
 
-                  log().log(`Continuous solving found better solution, combining results`, "Slider Solving", {
-                    better: better,
-                    attached_to: this.solution.slice(0, solving_start_index).map(m => m.move),
-                    combined: new_sequence
-                  })
+                log().log(`Continuous solving found better solution, combining results`, "Slider Solving", {
+                  better: better,
+                  attached_to: this.solution.slice(0, solving_start_index).map(m => m.move),
+                  combined: new_sequence
+                })
 
-                  log().log(`Updated annotated move lists`, "Slider Solving", {
-                    old: old_solution,
-                    new: this.solution,
-                  })
-                }
-
-                this.active_solving_process.solver.stop()
-                this.active_solving_process = null
+                log().log(`Updated annotated move lists`, "Slider Solving", {
+                  old: old_solution,
+                  new: this.solution,
+                })
               }
-            }),
+            }
+
+            process.stop()
+
+            if (process == this.active_solving_process?.solver) {
+              this.active_solving_process = null
+            }
+          })
+
+        this.active_solving_process = {
+          solver: process,
           solving_from: solving_start_index
         }
 

@@ -2,7 +2,6 @@ import {Sliders} from "../Sliders";
 import {MoveTable} from "./MoveTable";
 import {Region} from "./Region";
 import {util} from "../../util/util";
-import {Optimization} from "webpack-chain";
 
 export type OptimizedSliderState = Uint8Array
 
@@ -10,7 +9,6 @@ export type OptimizedSliderState = Uint8Array
 export namespace OptimizedSliderState {
   import Move = Sliders.Move;
   import SliderState = Sliders.SliderState;
-  import createRandom = Sliders.SliderState.createRandom;
   import chooseRandom = util.chooseRandom;
   export const SIZE = 27
 
@@ -25,7 +23,6 @@ export namespace OptimizedSliderState {
   export const reflection_pairs: [number, number][] = [
     [1, 5], [2, 10], [3, 15], [4, 20], [7, 11], [8, 16], [9, 21], [13, 17], [14, 22], [19, 23]
   ]
-
 
 
   export function copy(state: OptimizedSliderState): OptimizedSliderState {
@@ -113,6 +110,9 @@ export namespace OptimizedSliderState {
     for (let i = 0; i < 25; i++) {
       state[i] = tile_reflection_table[state[i]]
     }
+
+    state[BLANK_INDEX] = tile_reflection_table[state[BLANK_INDEX]]
+    state[LASTMOVE_INDEX] = move_translation_reflect[state[LASTMOVE_INDEX]] + 20
   }
 
   export function asState(state: OptimizedSliderState): SliderState {
@@ -133,4 +133,24 @@ export namespace OptimizedSliderState {
 
     return state
   }
+
+  export const move_translation_reflect: number[] = [
+    -4, undefined, undefined, undefined, undefined, // -20
+    -3, undefined, undefined, undefined, undefined, // -15
+    -2, undefined, undefined, undefined, undefined, // -10
+    -1, // -5
+    -20, // -4
+    -15, // -3
+    -10, // -2
+    -5,  // -1
+    0,    //  0
+    5,  // 1
+    10, // 2
+    15, // 3
+    20, // 4
+    1, undefined, undefined, undefined, undefined, // 5
+    2, undefined, undefined, undefined, undefined, // 10
+    3, undefined, undefined, undefined, undefined, // 15
+    4, // 20
+  ]
 }

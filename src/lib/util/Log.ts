@@ -20,7 +20,7 @@ namespace Message {
   }
 
   export function equals(a: Message, b: Message): boolean {
-    return a.body == b.body && a.category == b.category
+    return a.body == b.body && a.category == b.category && !a.attachment && !b.attachment
   }
 }
 
@@ -34,10 +34,10 @@ export abstract class Log {
 
   log(msg: object | string | number, category: string = undefined, attachment: ImageData | object | any[] = undefined): this {
 
-    const attach: Attachment = (() => {
+    const attach: Attachment = ((): Attachment => {
       if (attachment instanceof ImageData) {
         return {type: "image", value: "data:image/png;base64," + attachment.toPngBase64()}
-      } else if(attachment != undefined) {
+      } else if (attachment != undefined) {
         return {type: "object", value: attachment}
       }
     })()
@@ -64,7 +64,7 @@ export namespace Log {
     }
   }
 
-  export type Buffer = {
+  export type LogBuffer = {
     timestamps: number[],
     message: Message
   }[]
@@ -72,7 +72,7 @@ export namespace Log {
   namespace Buffer {
     import formatTime = util.formatTime;
 
-    export function toString(buffer: Buffer): string {
+    export function toString(buffer: LogBuffer): string {
       return buffer.map(entry => {
         if (entry.timestamps.length > 1) {
           return `${formatTime(entry.timestamps[0])} - ${Message.toString(entry.message)} (${entry.timestamps.length}x until ${formatTime(index(entry.timestamps, -1))})`
@@ -121,7 +121,7 @@ export namespace Log {
       }
     }
 
-    get(): Buffer {
+    get(): LogBuffer {
       return [...this.buffers[1].entries, ...this.buffers[0].entries]
     }
 

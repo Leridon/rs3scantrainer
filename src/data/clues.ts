@@ -3252,7 +3252,7 @@ export namespace clue_data {
       "solution": {
         "type": "talkto",
         "npc": "Wellington",
-        "spots": [{"range": {"origin": {"x": 3154, "y": 3239, "level": 0}, "size": {"x": 3, "y": 3}, "data": "ugA="}, "description": "at the fishing spots"}]
+        "spots": [{"range": {"origin": {"x": 3184, "y": 3231, "level": 0}, "size": {"x": 3, "y": 3}, "data": "ugA="}, "description": "at the fishing spots"}]
       }
     },
     {

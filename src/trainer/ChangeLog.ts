@@ -32,32 +32,32 @@ export namespace Changelog {
     render: (_: Layout) => void
   }
 
-  export const log: LogEntry[] = lodash.sortBy<LogEntry>([
-    {
-      version: 6,
-      date: new Date(Date.parse("2024-07-14")),
-      title: "Celtic Knot Bugfix",
-      render: layout => {
-        layout.row(new List()
-          .item("Fixed a bug that caused celtic knots to revert to the 'Not enough information' state mid-solve.")
-        )
+  export const log: LogEntry[] = lodash.sortBy<LogEntry>([{
+    version: 6,
+    date: new Date(Date.parse("2024-07-14")),
+    title: "Celtic Knot Bugfix",
+    render: layout => {
+      layout.row(new List()
+        .item("Fixed a bug that caused celtic knots to revert to the 'Not enough information' state mid-solve.")
+        .item("Fixed the position of Wellington for sandy clues.")
+      )
 
-        layout.header("What went wrong?", "left")
-        layout.paragraph("While solving celtic knots, there's a step called 'unification' of puzzle states. This joins the previously known state of the puzzle with the new state. It continuously updates what the solver knows about the puzzle and is required when there is not enough information initially, and to make updating the overlay continuously possible. There was a rare case where unification actually caused information to be lost, which in turn caused the solver to not find a solution anymore.")
-      }
-    }, {
-      version: 5,
-      date: new Date(Date.parse("2024-07-12")),
-      title: "Slider Bugfix",
-      render: layout => {
-        layout.row(new List()
-          .item("Fixed a bug that caused invalid moves for slider puzzles to be displayed.")
-        )
+      layout.header("What went wrong?", "left")
+      layout.paragraph("While solving celtic knots, there's a step called 'unification' of puzzle states. This joins the previously known state of the puzzle with the new state. It continuously updates what the solver knows about the puzzle and is required when there is not enough information initially, and to make updating the overlay continuously possible. There was a rare case where unification actually caused information to be lost, which in turn caused the solver to not find a solution anymore.")
+    }
+  }, {
+    version: 5,
+    date: new Date(Date.parse("2024-07-12")),
+    title: "Slider Bugfix",
+    render: layout => {
+      layout.row(new List()
+        .item("Fixed a bug that caused invalid moves for slider puzzles to be displayed.")
+      )
 
-        layout.header("What went wrong?", "left")
-        layout.paragraph("In the new solving algorithm there is a point where the slider state needs to be reflected along the main diagonal (top left to bottom right). The datastructure that describes the slider state contains the layout of the 25 tiles and for optimization reasons also the position of the blank tile and the last performed move. The latter two were not correctly updated when reflecting the state, causing invalid solutions to be produced.")
-      }
-    },
+      layout.header("What went wrong?", "left")
+      layout.paragraph("In the new solving algorithm there is a point where the slider state needs to be reflected along the main diagonal (top left to bottom right). The datastructure that describes the slider state contains the layout of the 25 tiles and for optimization reasons also the position of the blank tile and the last performed move. The latter two were not correctly updated when reflecting the state, causing invalid solutions to be produced.")
+    }
+  },
     {
       version: 4,
       date: new Date(Date.parse("2024-07-11")),
@@ -241,10 +241,10 @@ export namespace Changelog {
                 new List()
                   .item("If the previous clue step was a scan, this will only work if you followed the scan tree until the remaining spots are in a reasonably small rectangle.")
                   .item("If the previous clue was also a compass and multiple spots were in the intersection of the beams, the smallest rectangle containing all spots will be used.")
-                )
+              )
               .item("Your selected triangulation preset will load after this initial arrow. There's an option to invert the sequence if the previous solution is used in case you rely on ending the triangulation at a certain spot (for example south feldip hills for the spirit tree).")
               .item("There's an option to skip spots of the preset sequence if they are close to co-linear to an existing beam.")
-            )
+          )
           .item("The settings menu for compasses has been cleaned up. Detailed explanations of the individual settings have been moved into a tooltip of a small info-icon.")
           .item("You can now customize the color of the triangulation beams.")
           .item("The compass solver UI has been reverted to a horizontal header and now contains a reset button.")
@@ -282,7 +282,7 @@ export namespace Changelog {
           .item("The compass solver now supports showing paths from method packs.",
             new List()
               .item("The shown path defaults to the spot closest to all the triangulation lines. Click a marker to change the selection if necessary.")
-            )
+          )
           .item("A full set of compass methods is included. Huge thanks to @Dongus Bungholius, @Mr Cob , @treborsmada , @Xindrjayzda for starting these back in march and @Ngis for reviewing them all and compiling them in a single set.")
         )
 
@@ -294,7 +294,7 @@ export namespace Changelog {
           .item("Rendering for dives now uses distinct arrow shapes for far-clickable and precise dives.",
             new List()
               .item("This relies on a change in the dataformat, so you need to migrate any existing paths you have. You can find this option by right-clicking the method pack in the Methods tab.")
-            )
+          )
           .item("Errors and warnings in the path editor are now shown in a minimized format to save space. Hover over them to see the details.")
           .item("Fixed the base64 export for method packs that's apparently been broken for ages.")
           .item("Entity-Tooltips now behave much smoother when the entity is right-clicked.")

@@ -304,19 +304,23 @@ export class Application extends Behaviour {
 
     const is_first_visit = this.startup_settings.value().last_loaded_version == null
 
-    if (!is_first_visit && this.startup_settings.value().last_loaded_version != Changelog.last_patch.version) {
-      notification(Changelog.last_patch.notification ?? "There has been an update!")
+    if (!is_first_visit && this.startup_settings.value().last_loaded_version != Changelog.latest_patch.version) {
+      const notifyable_update = lodash.findLast(Changelog.log, e => {
+        return e.notification && e.version > this.startup_settings.value().last_loaded_version
+      })
+
+      notification(notifyable_update?.notification ?? "There has been an update.")
         .setDuration(30000)
-        .addButton("View patchnotes", (not) => {
+        .addButton("View patch notes", (not) => {
           new Changelog.Modal().show()
           not.dismiss()
         }).show()
     }
 
-    this.startup_settings.update(s => s.last_loaded_version = Changelog.last_patch.version)
+    this.startup_settings.update(s => s.last_loaded_version = Changelog.latest_patch.version)
 
-    let query_function = QueryLinks.get_from_params(ScanTrainerCommands.index, new URLSearchParams(window.location.search))
-    if (query_function) query_function(this)
+    //let query_function = QueryLinks.get_from_params(ScanTrainerCommands.index, new URLSearchParams(window.location.search))
+    //if (query_function) query_function(this)
 
     document.body.addEventListener("keydown", e => {
       if (e.key == "F6") {
@@ -336,7 +340,7 @@ export class Application extends Behaviour {
       }
     })
 
-    log().log(`Clue Trainer v${Changelog.last_patch.version} started`)
+    log().log(`Clue Trainer v${Changelog.latest_patch.version} started`)
 
     if (globalThis.alt1) {
       log().log(`Alt1 version detected: ${alt1.version}`)

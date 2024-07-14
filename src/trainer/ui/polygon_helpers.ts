@@ -3,11 +3,10 @@ import {Rectangle, Vector2} from "lib/math";
 import * as leaflet from "leaflet";
 import {LatLngExpression} from "leaflet";
 import {TileArea} from "../../lib/runescape/coordinates/TileArea";
-import {Area, TileCoordinates, TileRectangle} from "../../lib/runescape/coordinates";
-import activate = TileArea.activate;
-import {beforeWrite} from "@popperjs/core";
+import {TileCoordinates} from "../../lib/runescape/coordinates";
 import {direction} from "../../lib/runescape/movement";
 import {util} from "../../lib/util/util";
+import activate = TileArea.activate;
 import index = util.index;
 
 export function areaToPolygon<T>(raster: Raster<T>,
@@ -241,4 +240,8 @@ export function boxPolygon2(rect: Rectangle): LatLngExpression[] {
     rect.botright,
     {x: rect.topleft.x, y: rect.botright.y},
   ].map(Vector2.toLatLong)
+}
+
+export function linePolygon(...points: Vector2[]): leaflet.Polyline {
+  return leaflet.polyline(points.map(Vector2.toLatLong))
 }

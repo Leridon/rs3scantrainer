@@ -13,7 +13,7 @@ import * as leaflet from "leaflet";
 import {MapEntity} from "../../../../lib/gamemap/MapEntity";
 import {TileCoordinates} from "../../../../lib/runescape/coordinates";
 import {GameMapMouseEvent} from "../../../../lib/gamemap/MapEvents";
-import {tilePolygon} from "../../polygon_helpers";
+import {linePolygon, tilePolygon} from "../../polygon_helpers";
 import {Process} from "../../../../lib/Process";
 import {EwentHandler, observe} from "../../../../lib/reactive";
 import {ScreenRectangle} from "../../../../lib/alt1/ScreenRectangle";
@@ -398,6 +398,7 @@ export namespace CompassReader {
   import greatestCommonDivisor = util.greatestCommonDivisor;
   import cleanedJSON = util.cleanedJSON;
   import log = Log.log;
+  import getExpectedAngle = Compasses.getExpectedAngle;
   export const DEBUG_COMPASS_READER = false
   export const DISABLE_CALIBRATION = false
 
@@ -1138,7 +1139,7 @@ export namespace CompassReader {
   export type CalibrationMode = keyof typeof calibration_tables
 
   export class CalibrationTool extends NisModal {
-    private samples: AngularKeyframeFunction.Sample[] = []
+    samples: AngularKeyframeFunction.Sample[] = []
     private reader: Service
     private layer: CalibrationTool.Layer
 
@@ -1173,6 +1174,8 @@ export namespace CompassReader {
       const entry_index = this.samples.findIndex(s => Vector2.eq(s.position, this.layer.offset))
 
       this.samples.splice(entry_index, 1)
+
+      this.layer.updateTileOverlays()
     }
 
     commit() {
@@ -1186,6 +1189,8 @@ export namespace CompassReader {
           entry.is_angle_degrees = radiansToDegrees(state.angle)
         } else {
           this.samples.push({position: this.layer.offset, is_angle_degrees: radiansToDegrees(state.angle)})
+
+          lodash.sortBy(this.samples, s => getExpectedAngle(s.position, {x: 0, y: 0}))
         }
 
         this.autoNextSpot()
@@ -1207,15 +1212,17 @@ export namespace CompassReader {
         return true
       }
 
-      if (test({x: 0, y: 1})) return
       if (test({x: 1, y: 0})) return
-      if (test({x: 0, y: -1})) return
+      if (test({x: 0, y: 1})) return
       if (test({x: -1, y: 0})) return
+      if (test({x: 0, y: -1})) return
 
       for (let d = 3; d <= 15; d++) {
         const iterations = Math.pow(2, d)
 
-        for (let i = 1; i < iterations; i++) { // Only iterate odds to avoid duplication
+        const limit = Math.sqrt(iterations)
+
+        for (let i = 1; i < iterations; i++) {
           const angle = i * (Math.PI * 2) / iterations
 
           function farey(limit: number, R: number): Vector2 {
@@ -1246,22 +1253,17 @@ export namespace CompassReader {
             }
           }
 
-          const v = farey((d * d) / 10, Math.abs(Math.sin(angle)) / Math.abs(Math.cos(angle)))
+          const v = farey(limit, Math.abs(Math.sin(angle)) / Math.abs(Math.cos(angle)))
 
           if (angle > Math.PI / 2 && angle < 3 * Math.PI / 2) v.x *= -1
           if (angle > Math.PI) v.y *= -1
 
-          if (test(v)) return
+          if (test(v)) {
+            console.log(`D: ${d}`)
+            return
+          }
         }
       }
-
-      /*
-            for (let d = 1; d <= 100; d++) {
-              for (let x = -d; x < d; x++) if (test({x: x, y: d})) return
-              for (let y = d; y > -d; y--) if (test({x: d, y: y})) return
-              for (let x = d; x > -d; x--) if (test({x: x, y: -d})) return
-              for (let y = -d; y < d; y++) if (test({x: -d, y: y})) return
-            }*/
     }
 
     render() {
@@ -1318,6 +1320,8 @@ export namespace CompassReader {
 
   export namespace CalibrationTool {
     import gielinor_compass = clue_data.gielinor_compass;
+    import Sample = AngularKeyframeFunction.Sample;
+    import index = util.index;
 
     export class KnownMarker extends MapEntity {
       constructor(public spot: TileCoordinates) {
@@ -1362,6 +1366,7 @@ export namespace CompassReader {
 
       reference: TileCoordinates
       offset: Vector2 = {x: -1, y: 1}
+      existing_sample: Sample = null
 
       constructor(public tool: CalibrationTool) {
         super()
@@ -1378,7 +1383,13 @@ export namespace CompassReader {
           if (event.active_entity instanceof KnownMarker) {
             this.setReference(event.active_entity.spot)
           } else {
-            this.setOffset(Vector2.sub(event.tile(), this.reference))
+            const off = Vector2.sub(event.tile(), this.reference)
+
+            if (off.x == 0 && off.y == 0) return
+
+            const gcd = greatestCommonDivisor(Math.abs(off.x), Math.abs(off.y))
+
+            this.setOffset(Vector2.scale(1 / gcd, off))
           }
         })
       }
@@ -1386,7 +1397,13 @@ export namespace CompassReader {
       setOffset(offset: Vector2) {
         this.offset = offset
 
-        this.tool.expected.text(`Expected: ${radiansToDegrees(normalizeAngle(Math.atan2(-offset.y, -offset.x))).toFixed(3)}°`)
+        this.existing_sample = this.tool.samples.find(s => Vector2.eq(s.position, offset))
+
+        if (this.existing_sample) {
+          this.tool.expected.text(`Selected: ${offset.x}|${offset.y} Expected: ${radiansToDegrees(normalizeAngle(Math.atan2(-offset.y, -offset.x))).toFixed(3)}°, Sample: ${this.existing_sample.is_angle_degrees.toFixed(3)}°`)
+        } else {
+          this.tool.expected.text(`Selected: ${offset.x}|${offset.y} Expected: ${radiansToDegrees(normalizeAngle(Math.atan2(-offset.y, -offset.x))).toFixed(3)}°`)
+        }
 
         this.updateTileOverlays()
       }
@@ -1411,9 +1428,31 @@ export namespace CompassReader {
 
         this.overlay = leaflet.featureGroup().addTo(this)
 
+        this.tool.samples.forEach((sample, i) => {
+          const polygon = tilePolygon(Vector2.add(this.reference, sample.position)).setStyle({
+            color: "#06ffea",
+            fillOpacity: 0.4,
+            stroke: false
+          }).addTo(this.overlay)
+        })
+
+        leaflet.polygon(this.tool.samples.map(s => Vector2.toLatLong(Vector2.add(this.reference, s.position))))
+          .setStyle({
+            color: "blue"
+          })
+          .addTo(this.overlay)
+
         for (let i = 1; i <= 100; i++) {
-          tilePolygon(Vector2.add(this.reference, Vector2.scale(i, this.offset))).addTo(this.overlay)
+          const polygon = tilePolygon(Vector2.add(this.reference, Vector2.scale(i, this.offset))).addTo(this.overlay)
+
+          if (this.existing_sample) {
+            polygon.setStyle({
+              color: "orange"
+            })
+          }
         }
+
+        this.overlay.addTo(this)
       }
     }
   }

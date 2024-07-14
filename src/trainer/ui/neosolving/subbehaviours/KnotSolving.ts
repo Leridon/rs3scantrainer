@@ -62,7 +62,7 @@ class KnotSolvingProcess extends AbstractPuzzleProcess {
     if (matches_last_read && puzzle) {
       const old_state = this.puzzle
 
-      const unified = CelticKnots.unify(this.puzzle, puzzle)
+      const unified = CelticKnots.unify(puzzle, this.puzzle)
 
       if (!unified) {
         log().log("Could not unify knot states!", "Knot Solving", {

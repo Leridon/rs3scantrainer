@@ -186,7 +186,7 @@ export namespace CelticKnots {
       if (a.type == "is" && b.type == "is" && a.value == b.value) return a
       else if (a.type == "is" && b.type == "isnot" && a.value != b.value) return a
       else if (a.type == "isnot" && b.type == "is" && a.value != b.value) return b
-      else if (a.type == "isnot" && b.type == "isnot") return a
+      else if (a.type == "isnot" && b.type == "isnot") return b
       else return null
     }
 

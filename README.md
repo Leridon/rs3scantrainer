@@ -155,7 +155,7 @@ If you are serious about contributing a feature to Clue Trainer, please get into
 
 ## Support and Feedback
 
-You can get support, report issues, request features, or leave praise or criticism by  by joining the [Clue Chasers Discord](https://discord.gg/cluechasers) and entering the [#clue-trainer](https://discord.com/channels/332595657363685377/1103737270114209825) channel.
+You can get support, report issues, request features, or leave praise or criticism by joining the [Clue Chasers Discord](https://discord.gg/cluechasers) and entering the [#clue-trainer](https://discord.com/channels/332595657363685377/1103737270114209825) channel.
 For support, issues and feature requests you can also create an [issue][issues-url].
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

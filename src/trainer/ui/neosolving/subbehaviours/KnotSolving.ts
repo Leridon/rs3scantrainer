@@ -11,25 +11,22 @@ import {AbstractPuzzleProcess} from "./AbstractPuzzleProcess";
 import {AbstractPuzzleSolving} from "./AbstractPuzzleSolving";
 import {deps} from "../../../dependencies";
 import {Log} from "../../../../lib/util/Log";
-import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
 import PuzzleState = CelticKnots.PuzzleState;
 import log = Log.log;
-import over = OverlayGeometry.over;
-
 
 const CENTER_TEXT_SIZE = 20
 const MOVE_FONT_SIZE = 24
 const CENTRAL_TEXT_OFFSET = {x: 0, y: -150}
-
 
 class KnotSolvingProcess extends AbstractPuzzleProcess {
   last_successful_read: number
   last_read_puzzle: PuzzleState = null
 
   puzzle: CelticKnots.PuzzleState
+  solution: CelticKnots.Solution
+
   isSolved: boolean = false
 
-  found_solution: boolean = false
   bug_detected: boolean = false
 
   constructor(private parent: KnotSolving) {
@@ -60,34 +57,36 @@ class KnotSolvingProcess extends AbstractPuzzleProcess {
     this.last_read_puzzle = puzzle
 
     if (matches_last_read && puzzle) {
-      const old_state = this.puzzle
+      const new_puzzle = CelticKnots.unify(puzzle, this.puzzle)
+      const new_solution = CelticKnots.solve(new_puzzle)
 
-      const unified = CelticKnots.unify(puzzle, this.puzzle)
-
-      if (!unified) {
-        log().log("Could not unify knot states!", "Knot Solving", {
-          existing: old_state?.snakes?.map(s => CelticKnots.Snake.toString(s)),
+      if (!new_puzzle) {
+        log().log("Could not unify knot states! Discarding last read.", "Knot Solving", {
+          existing: this.puzzle?.snakes?.map(s => CelticKnots.Snake.toString(s)),
           new: puzzle?.snakes?.map(s => CelticKnots.Snake.toString(s)),
-          unified: unified?.snakes?.map(s => CelticKnots.Snake.toString(s)),
+          unified: new_puzzle?.snakes?.map(s => CelticKnots.Snake.toString(s)),
         })
 
-        // log().log("Capture", "Knot Solving", reader.ui.body.getData())
+        return
       }
 
-      this.puzzle = unified ?? this.puzzle
-      this.isSolved = CelticKnots.PuzzleState.isSolved(this.puzzle)
+      if (!new_solution && this.solution) {
+        log().log("Misread detected because of disappearing solution. Discarding last read.", "Knot Solving")
+        return
+      }
+
+      this.puzzle = new_puzzle
+      this.solution = new_solution
 
       const buttons = await this.parent.knot.reader.getButtons()
 
-      const solution = CelticKnots.solve(this.puzzle)
-
       this.solution_overlay.clear()
 
-      if (solution) {
-        this.found_solution = true
+      this.isSolved = CelticKnots.PuzzleState.isSolved(this.puzzle)
 
+      if (this.solution) {
         if (buttons) {
-          solution.moves.forEach(move => {
+          this.solution.moves.forEach(move => {
             if (move.offset == 0) return // Don't render 0 moves
 
             const button = buttons[move.snake_index]
@@ -115,35 +114,6 @@ class KnotSolvingProcess extends AbstractPuzzleProcess {
 
 
       } else {
-        if (this.found_solution && !this.bug_detected) {
-          // We found a solution previously, but can't find one now. Something must have gone wrong with unification or capturing.
-          this.bug_detected = true
-
-          log().log("Bug detected! Knot solution disappeared.", "Knot Solving", {
-            raw: {
-              existing: old_state,
-              new: puzzle,
-              unified: unified
-            },
-            asstring: {
-              existing: old_state?.snakes?.map(s => CelticKnots.Snake.toString(s)),
-              new: puzzle?.snakes?.map(s => CelticKnots.Snake.toString(s)),
-              unified: unified?.snakes?.map(s => CelticKnots.Snake.toString(s)),
-            },
-          })
-
-          log().log("Capture", "Knot Solving", reader.ui.body.getData())
-
-          over().text("BUG DETECTED! Please export the log file with F6 and report it.",
-            Vector2.add(reader.ui.body.screenRectangle().origin, {x: 0, y: -200}, Vector2.scale(0.5, reader.ui.body.screenRectangle().size)),
-            {
-              color: mixColor(255, 255, 255),
-              width: CENTER_TEXT_SIZE,
-            }
-          ).withTime(10000)
-            .render()
-        }
-
         this.solution_overlay.text("Not enough information",
           Vector2.add(reader.ui.body.screenRectangle().origin, CENTRAL_TEXT_OFFSET, Vector2.scale(0.5, reader.ui.body.screenRectangle().size)),
           {

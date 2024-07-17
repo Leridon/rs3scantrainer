@@ -231,7 +231,11 @@ export namespace CelticKnots {
     }
   }
 
-  export function solve(state: PuzzleState): Solution {
+  export function solveAll(state: PuzzleState): {
+    real: Solution[],
+    maybe: Solution[],
+    preferred: Solution | undefined
+  } {
 
     // Solve every lock individually.
     // Use backtracking to find a combination of moves that solves all locks
@@ -290,17 +294,26 @@ export namespace CelticKnots {
 
     const solutions = backtracking(0, state, state.snakes.map(() => null))
 
-    //console.log(`${solutions.length} solutions: ${solutions.map(Solution.toString).join(", and ")}`)
+    const real_solutions: Solution[] = []
+    const maybe_solutions: Solution[] = []
 
-    if (solutions.length == 1) {
-      return solutions[0]
-    } else {
-      const real_solutions = solutions.filter(s => s.end_state.shape.locks.every(lock =>
+    solutions.forEach(s => {
+      if(s.end_state.shape.locks.every(lock =>
         s.end_state.snakes[lock.first.snake][lock.first.tile].type != "isnot" &&
         s.end_state.snakes[lock.second.snake][lock.second.tile].type != "isnot"
-      ))
+      )) {
+        real_solutions.push(s)
+      } else {
+        maybe_solutions.push(s)
+      }
+    })
 
-      return lodash.minBy(real_solutions, s => s.moves.map(m => Math.abs(m.offset)))
-    }
+    const preferred = lodash.minBy(real_solutions, s => s.moves.map(m => Math.abs(m.offset))) ?? (maybe_solutions.length == 1 ? maybe_solutions[0] : undefined)
+
+    return {real: real_solutions, maybe: maybe_solutions, preferred: preferred}
+  }
+
+  export function solve(state: PuzzleState): Solution {
+    return solveAll(state).preferred
   }
 }

@@ -1,8 +1,6 @@
 import * as a1lib from "@alt1/base";
-import {ImageDetect, ImgRef, mixColor} from "@alt1/base";
+import {ImgRef, ImgRefData} from "@alt1/base";
 import {Vector2} from "../math";
-import {LazyAsync} from "../properties/Lazy";
-import * as OCR from "@alt1/ocr";
 import {ScreenRectangle} from "./ScreenRectangle";
 import {OverlayGeometry} from "./OverlayGeometry";
 import {util} from "../util/util";
@@ -61,7 +59,12 @@ export class CapturedImage {
   }
 
   find(needle: ImageData): CapturedImage[] {
-    return this.capture.img_ref.findSubimage(needle).map(position =>
+
+    const ref = alt1.bindFindSubImg
+      ? this.capture.img_ref
+      : new ImgRefData(this.getData())
+
+    return ref.findSubimage(needle).map(position =>
       this.getSubSection({origin: position, size: {x: needle.width, y: needle.height}})
     )
   }

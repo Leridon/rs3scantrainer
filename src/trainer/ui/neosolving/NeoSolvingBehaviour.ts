@@ -428,6 +428,10 @@ export default class NeoSolvingBehaviour extends Behaviour {
     this.path_control.section_selected.on(p => {
       if (this.active_method?.method?.type != "scantree") setTimeout(() => this.layer.fit(Path.bounds(p)), 20)
     })
+
+    app.main_hotkey.subscribe(1, () => {
+      this.screen_reading.solveManuallyTriggered()
+    })
   }
 
   private pushState(state: NeoSolving.ActiveState["step"]): NeoSolving.ActiveState {

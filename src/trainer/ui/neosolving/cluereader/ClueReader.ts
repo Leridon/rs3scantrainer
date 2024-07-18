@@ -24,13 +24,14 @@ import {TowersReader} from "./TowersReader";
 import {CapturedCompass} from "./capture/CapturedCompass";
 import {Log} from "../../../../lib/util/Log";
 import {CelticKnots} from "../../../../lib/cluetheory/CelticKnots";
+import {CapturedScan} from "./capture/CapturedScan";
 import stringSimilarity = util.stringSimilarity;
-import ScanStep = Clues.ScanStep;
 import notification = Notification.notification;
 import findBestMatch = util.findBestMatch;
 import SliderState = Sliders.SliderState;
 import log = Log.log;
 import cleanedJSON = util.cleanedJSON;
+import ScanStep = Clues.ScanStep;
 
 const CLUEREADERDEBUG = false
 
@@ -64,7 +65,6 @@ export class ClueReader {
     }
 
     if (!this.tetracompass_only) {
-
       // Check for modal interface
       {
         const modal = await CapturedModal.findIn(img)
@@ -286,6 +286,35 @@ export class ClueReader {
           return null
         }
       }
+
+      // Check for scan
+      {
+        const scan = await CapturedScan.find(img)
+
+        if (scan) {
+          console.log("New Log")
+          console.log(scan.text())
+
+          const scan_text = scan.scanArea()
+
+          if (CLUEREADERDEBUG)
+            notification(`Scan ${scan_text}`).show()
+
+          let bestscore = 0;
+          let best: ScanStep | null = null;
+
+          for (let clue of clue_data.scan) {
+            let score = stringSimilarity(scan_text, clue.scantext);
+
+            if (score > bestscore) {
+              best = clue;
+              bestscore = score;
+            }
+          }
+
+          return {type: "scan", step: best}
+        }
+      }
     }
 
     // Check for compass interface
@@ -324,110 +353,6 @@ export class ClueReader {
           type: "compass",
           step: is_arc ? clue_data.arc_compass : (this.tetracompass_only ? clue_data.tetracompass : clue_data.gielinor_compass),
           reader: reader
-        }
-      }
-    }
-
-    if (!this.tetracompass_only) {
-
-      const found_ui = await (async (): Promise<ClueReader.MatchedUI> => {
-        const ui_type_map: {
-          type: ClueReader.UIType,
-          anchors: {
-            img: ImageData,
-            origin_offset: Vector2
-          }[]
-        }[] =
-          [
-            {
-              type: "scan", anchors: [{
-                img: this.anchors.scanfartext,
-                origin_offset: {x: 20, y: -5 + 12 * 4}
-              }, {
-                img: this.anchors.orbglows,
-                origin_offset: {x: 20, y: -5 + 12 * 4}
-              }, {
-                img: this.anchors.scanleveltext,
-                origin_offset: {x: 20, y: -7 + 12 * 6}
-              }]
-            },
-          ]
-
-        for (let ui_type of ui_type_map) {
-          for (let anchor of ui_type.anchors) {
-            let locs = img.find(anchor.img)
-
-            if (locs.length > 0) {
-              switch (ui_type.type) {
-                case "scan":
-
-
-                  return {
-                    type: "scan",
-                    image: img.raw(),
-                    rect: Rectangle.fromOriginAndSize(
-                      Vector2.sub(locs[0].screenRectangle().origin, anchor.origin_offset),
-                      {x: 180, y: 190}
-                    )
-                  }
-              }
-            }
-          }
-        }
-      })()
-
-      if (found_ui) {
-
-        if (CLUEREADERDEBUG) {
-          alt1.overLayRect(a1lib.mixColor(255, 0, 0, 255),
-            found_ui.rect.topleft.x,
-            found_ui.rect.botright.y,
-            Rectangle.width(found_ui.rect),
-            Rectangle.height(found_ui.rect),
-            5000,
-            1
-          )
-
-          alt1.overLayText(
-            found_ui.type,
-            a1lib.mixColor(255, 0, 0, 255),
-            10,
-            found_ui.rect.topleft.x,
-            found_ui.rect.botright.y,
-            5000)
-        }
-
-        switch (found_ui.type) {
-          case "scan": {
-            const scan_text_full = ClueReader.readScanPanelText(
-              img.raw(),
-              Rectangle.screenOrigin(found_ui.rect)
-            )
-
-            console.log(scan_text_full)
-
-            if (CLUEREADERDEBUG) notification(`Scan ${scan_text_full}`).show()
-
-            const scan_text = scan_text_full.split("\n")[0]
-
-            if (CLUEREADERDEBUG)
-              notification(`Scan ${scan_text}`).show()
-
-            let bestscore = 0;
-            let best: ScanStep | null = null;
-
-            for (let clue of clue_data.scan) {
-              let score = stringSimilarity(scan_text, clue.scantext);
-
-              if (score > bestscore) {
-                best = clue;
-                bestscore = score;
-              }
-            }
-
-            return null
-            return {type: "scan", step: best}
-          }
         }
       }
     }
@@ -565,7 +490,7 @@ export namespace ClueReader {
   }
 
   export function readScanPanelText(img: ImgRef, pos: Vector2) {
-    import * as font from "@alt1/ocr/fonts/aa_8px_new.js"
+    const font = require("@alt1/ocr/fonts/aa_8px_new.js")
 
     //const font = require("@alt1/ocr/fonts/aa_8px_new.js");
     const lineheight = 12;

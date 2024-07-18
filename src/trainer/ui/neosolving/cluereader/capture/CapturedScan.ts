@@ -5,6 +5,7 @@ import {Lazy, lazy, LazyAsync} from "../../../../../lib/properties/Lazy";
 import {ScreenRectangle} from "../../../../../lib/alt1/ScreenRectangle";
 import * as OCR from "@alt1/ocr";
 import {util} from "../../../../../lib/util/util";
+import * as lodash from "lodash"
 import index = util.index;
 import stringSimilarity = util.stringSimilarity;
 
@@ -14,7 +15,7 @@ export class CapturedScan {
     body.setName("scan")
   }
 
-  private _lines: Lazy<string[]> = lazy(() => {
+  private _raw_lines: Lazy<string[]> = lazy(() => {
     /**
      * This function is originally by skillbert as part of the ScanTextReader class
      */
@@ -33,6 +34,15 @@ export class CapturedScan {
       const line = OCR.findReadLine(data, font, [[255, 255, 255], [239, 176, 99], [192, 192, 192], [255, 223, 0]], 70, y, 40, 1);
       lines.push(line.text);
     }
+
+    const from = lines.findIndex(l => l != "")
+    const to = lodash.findLastIndex(lines, l => l != "")
+
+    return lines.slice(from, to + 1)
+  })
+
+  private _lines: Lazy<string[]> = lazy(() => {
+    let lines: string[] = this._raw_lines.get()
 
     const cleaned_lines: string[] = []
 
@@ -99,18 +109,29 @@ export class CapturedScan {
     return this._triple.get()
   }
 
+  screenRectangle(): ScreenRectangle {
+    const lines = this._raw_lines.get().length
+
+    return ScreenRectangle.move(this.body.screenRectangle(),
+      {x: 0, y: 6 * lines - 74},
+      {x: 180, y: 253}
+    )
+  }
+
   static async find(screen: CapturedImage): Promise<CapturedScan> {
     const anchor_images = await CapturedScan.anchors.get()
 
     const anchors: {
       img: ImageData,
-      origin_offset: Vector2
-    }[] = [{
+      origin_offset
+        :
+        Vector2
+    }    [] = [{
       img: anchor_images.scanfartext,
       origin_offset: {x: -20, y: 5 - 12 * 4}
     }, {
       img: anchor_images.orbglows,
-      origin_offset: {x: -20, y: 5 - 12 * 4}
+      origin_offset: {x: -21, y: 5 - 12 * 4}
     }, {
       img: anchor_images.scanleveltext,
       origin_offset: {x: -20, y: 7 - 12 * 6}
@@ -138,11 +159,12 @@ export class CapturedScan {
 }
 
 export namespace CapturedScan {
-  export const anchors = new LazyAsync(async () => {
-    return {
-      scanleveltext: await ImageDetect.imageDataFromUrl("alt1anchors/differentlevel.png"),
-      scanfartext: await ImageDetect.imageDataFromUrl("alt1anchors/youaretofaraway.png"),
-      orbglows: await ImageDetect.imageDataFromUrl("alt1anchors/orbglows.png"),
-    }
-  })
+  export const
+    anchors = new LazyAsync(async () => {
+      return {
+        scanleveltext: await ImageDetect.imageDataFromUrl("alt1anchors/differentlevel.png"),
+        scanfartext: await ImageDetect.imageDataFromUrl("alt1anchors/youaretofaraway.png"),
+        orbglows: await ImageDetect.imageDataFromUrl("alt1anchors/orbglows.png"),
+      }
+    })
 }

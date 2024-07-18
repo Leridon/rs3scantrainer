@@ -149,7 +149,7 @@ export class CompassReader {
 
   }
 
-  private _angle: Lazy<CompassReader.AngleResult> = lazy(() => {
+  private _angle: Lazy<CompassReader.AngleResult> = lazy((): CompassReader.AngleResult => {
     const CENTER_SIZE = 2
     const OFFSET = CENTER_SIZE - 1
     const CENTER_OFFSET = {x: CapturedCompass.TOTAL_COMPASS_RADIUS, y: CapturedCompass.TOTAL_COMPASS_RADIUS}

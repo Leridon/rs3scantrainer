@@ -42,6 +42,7 @@ import {FormModal} from "../lib/ui/controls/FormModal";
 import {Alt1Modal} from "./Alt1Modal";
 import {List} from "../lib/ui/List";
 import {ClickToCopy} from "../lib/ui/ClickToCopy";
+import {ScanReader} from "./ui/neosolving/cluereader/ScanReader";
 import ActiveTeleportCustomization = Transportation.TeleportGroup.ActiveTeleportCustomization;
 import TeleportSettings = Settings.TeleportSettings;
 import inlineimg = C.inlineimg;
@@ -598,6 +599,10 @@ export class Application extends Behaviour {
         }
       }
     }
+
+    UpdateAlt1Modal.maybeRemind(this)
+
+    new ScanReader().run()
   }
 
   protected end() {

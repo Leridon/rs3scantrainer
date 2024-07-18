@@ -155,7 +155,6 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
 
     content.append(cls('ctr-neosolving-nextscanstep')
       .append(
-        "Next: ",
         ...this.parent.app.template_resolver.with(...ScanTreeSolving.scan_tree_template_resolvers(node))
           .resolve(ScanTree.getInstruction(node)))
     )
@@ -172,13 +171,14 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
           cls("ctr-neosolving-scantreeline")
             .append(
               PulseButton.forPulse(child.key, node.children.map(c => c.key))
-                .onClick(() => {
-                  this.setNode(child.value)
-                }),
+              ,
               c().append(...resolvers.resolve(
                 ScanTree.getInstruction(child.value)
               ))
-            ).appendTo(content)
+            )
+            .on("click", () => {
+              this.setNode(child.value)
+            }).appendTo(content)
         })
 
       if (triples.length > 1) {
@@ -201,6 +201,7 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
   }
 
   protected begin() {
+    this.parent.layer.scan_layer.setSpots(this.method.method.tree.ordered_spots)
     this.parent.layer.scan_layer.setSpotOrder(this.method.method.tree.ordered_spots)
     this.parent.layer.scan_layer.marker.setRadius(this.method.method.tree.assumed_range, this.method.method.assumptions.meerkats_active)
 

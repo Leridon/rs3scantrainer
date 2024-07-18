@@ -1910,7 +1910,8 @@ input[type=checkbox] + span {
 
 .ctr-neosolving-nextscanstep {
     font-weight: bold;
-    font-size: 18px
+    font-size: 18px;
+    border-bottom: 1px solid gray;
 }
 
 .ctr-neosolving-scantreeline {
@@ -1918,6 +1919,11 @@ input[type=checkbox] + span {
     justify-content: left;
     margin-top: 3px;
     margin-left: 4px;
+}
+
+.ctr-neosolving-scantreeline:hover {
+    background-color: rgb(40, 89, 112);
+    cursor: pointer;
 }
 
 .ctr-neosolving-scantreeline > * {
@@ -2393,7 +2399,7 @@ input[type=checkbox] + span {
 }
 
 .ctr-log-viewer-attachment-indicator {
-    width:20px;
+    width: 20px;
     text-align: center;
     min-width: 20px;
 }

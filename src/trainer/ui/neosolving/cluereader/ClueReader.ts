@@ -41,14 +41,9 @@ export class ClueReader {
   private initialized: Promise<void>
 
   anchors: {
-    slide: ImageData;
-    slidelegacy: ImageData;
-    legacyx: ImageData;
-    eocx: ImageData;
     scanleveltext: ImageData;
     scanfartext: ImageData;
-    scanfartext_pt: ImageData;
-    compassnorth: ImageData;
+    orbglows: ImageData;
   }
 
   constructor(public tetracompass_only: boolean) {
@@ -349,7 +344,7 @@ export class ClueReader {
                 img: this.anchors.scanfartext,
                 origin_offset: {x: 20, y: -5 + 12 * 4}
               }, {
-                img: this.anchors.scanfartext_pt,
+                img: this.anchors.orbglows,
                 origin_offset: {x: 20, y: -5 + 12 * 4}
               }, {
                 img: this.anchors.scanleveltext,
@@ -365,6 +360,8 @@ export class ClueReader {
             if (locs.length > 0) {
               switch (ui_type.type) {
                 case "scan":
+
+
                   return {
                     type: "scan",
                     image: img.raw(),
@@ -407,6 +404,8 @@ export class ClueReader {
               Rectangle.screenOrigin(found_ui.rect)
             )
 
+            console.log(scan_text_full)
+
             if (CLUEREADERDEBUG) notification(`Scan ${scan_text_full}`).show()
 
             const scan_text = scan_text_full.split("\n")[0]
@@ -426,6 +425,7 @@ export class ClueReader {
               }
             }
 
+            return null
             return {type: "scan", step: best}
           }
         }
@@ -565,7 +565,9 @@ export namespace ClueReader {
   }
 
   export function readScanPanelText(img: ImgRef, pos: Vector2) {
-    const font = require("@alt1/ocr/fonts/aa_8px_new.js");
+    import * as font from "@alt1/ocr/fonts/aa_8px_new.js"
+
+    //const font = require("@alt1/ocr/fonts/aa_8px_new.js");
     const lineheight = 12;
     let data = img.toData(pos.x, pos.y, 180, 190);
 

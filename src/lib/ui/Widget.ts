@@ -108,7 +108,7 @@ export default class Widget<T extends HTMLElement = HTMLElement> {
   }
 
   text(text: string | number): this {
-    this.raw().textContent = text.toString()
+    this.raw().textContent = text?.toString() ?? ""
 
     return this
   }

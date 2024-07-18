@@ -644,6 +644,8 @@ export default class ScanEditor extends MethodSubEditor {
   begin() {
     super.begin()
 
+    this.layer.setSpotOrder(this.value.method.tree.ordered_spots)
+
     new GameMapControl({
         position: "top-right",
         type: "floating"

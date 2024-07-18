@@ -12,6 +12,10 @@ export class ScantextReader {
     pos: a1lib.PointLike | null = null;
 
     read(img: ImgRef) {
+        return this.findByText(this.findText(img))
+    }
+
+    findText(img: ImgRef): string {
         if (!this.pos) {
             throw new Error("not found");
         }
@@ -38,7 +42,7 @@ export class ScantextReader {
             lastempty = !line && !!text;
         }
 
-        return this.findByText(text)
+        return text
     }
 
     private findByText(text: string) {

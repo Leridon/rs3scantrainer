@@ -33,6 +33,7 @@ import {Log} from "../lib/util/Log";
 import {Changelog} from "./ChangeLog";
 import {DevelopmentModal} from "../devtools/DevelopmentMenu";
 import {LogViewer} from "../devtools/LogViewer";
+import {ScanReader} from "./ui/neosolving/cluereader/ScanReader";
 import ActiveTeleportCustomization = Transportation.TeleportGroup.ActiveTeleportCustomization;
 import TeleportSettings = Settings.TeleportSettings;
 import inlineimg = C.inlineimg;
@@ -348,6 +349,8 @@ export class Application extends Behaviour {
       log().log(`Permissions: Installed ${alt1.permissionInstalled}, GameState ${alt1.permissionGameState}, Pixel ${alt1.permissionPixel}, Overlay ${alt1.permissionOverlay}`)
       log().log("Settings on startup", "Startup", {type: "object", value: lodash.cloneDeep(this.settings.settings)})
     }
+
+    new ScanReader().run()
   }
 
   protected end() {

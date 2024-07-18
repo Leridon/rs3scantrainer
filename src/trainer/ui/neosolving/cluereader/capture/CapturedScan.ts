@@ -134,7 +134,7 @@ export class CapturedScan {
       origin_offset: {x: -21, y: 5 - 12 * 4}
     }, {
       img: anchor_images.scanleveltext,
-      origin_offset: {x: -20, y: 7 - 12 * 6}
+      origin_offset: {x: -20, y: 7 - 12 * 4}
     }]
 
     const found_body = await (async (): Promise<CapturedImage> => {

@@ -1,9 +1,7 @@
 import {Clues} from "../../../../lib/runescape/clues";
 import * as a1lib from "@alt1/base";
-import {ImgRef} from "@alt1/base";
 import {AnchorImages} from "./AnchorImages";
 import {Rectangle, Vector2} from "../../../../lib/math";
-import {ModalUI} from "../../../../skillbertssolver/cluesolver/modeluireader";
 import {util} from "../../../../lib/util/util";
 import {coldiff} from "../../../../skillbertssolver/oldlib";
 import * as OCR from "@alt1/ocr";
@@ -295,6 +293,9 @@ export class ClueReader {
         if (scan) {
           console.log("New Log")
           console.log(scan.text())
+          console.log(`Meerkats: ${scan.hasMeerkats()}`)
+          console.log(`Different Level: ${scan.isDifferentLevel()}`)
+          console.log(`Triple: ${scan.isTriple()}`)
 
           const scan_text = scan.scanArea()
 
@@ -365,32 +366,6 @@ export class ClueReader {
 }
 
 export namespace ClueReader {
-  export type UIType = "modal" | "scan" | "slider" | "compass"
-
-  export type MatchedUI =
-    MatchedUI.Slider | MatchedUI.Modal | MatchedUI.Scan | MatchedUI.Compass
-
-  export namespace MatchedUI {
-    export type Type = "modal" | "scan" | "slider" | "compass"
-
-    export type base = {
-      type: Type,
-      image: ImgRef,
-      rect: Rectangle
-    }
-
-    export type Slider = base & {
-      type: "slider"
-    }
-
-    export type Scan = base & { type: "scan" }
-    export type Compass = base & { type: "compass" }
-    export type Modal = base & {
-      type: "modal",
-      modal: ModalUI
-    }
-  }
-
   export type ModalType = "towers" | "lockbox" | "textclue" | "knot" | "map"
 
   export namespace Result {
@@ -492,36 +467,5 @@ export namespace ClueReader {
     }
 
     return lines.join(" ");
-  }
-
-  export function readScanPanelText(img: ImgRef, pos: Vector2) {
-    const font = require("@alt1/ocr/fonts/aa_8px_new.js")
-
-    //const font = require("@alt1/ocr/fonts/aa_8px_new.js");
-    const lineheight = 12;
-    let data = img.toData(pos.x, pos.y, 180, 190);
-
-    let lines: string[] = [];
-    for (let lineindex = 0; lineindex < 13; lineindex++) {
-      const y = lineindex * lineheight;
-      const line = OCR.findReadLine(data, font, [[255, 255, 255]], 70, y, 40, 1);
-      lines.push(line.text);
-    }
-
-    let text = "";
-    let lastempty = false;
-    for (let line of lines) {
-      if (line) {
-        if (lastempty) {
-          text += "\n";
-        } else if (text) {
-          text += " ";
-        }
-        text += line;
-      }
-      lastempty = !line && !!text;
-    }
-
-    return text
   }
 }

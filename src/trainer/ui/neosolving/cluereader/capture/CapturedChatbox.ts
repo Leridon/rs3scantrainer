@@ -2,6 +2,8 @@ import {CapturedImage} from "../../../../../lib/alt1/ImageCapture";
 import {async_lazy} from "../../../../../lib/properties/Lazy";
 import {ImageDetect} from "@alt1/base";
 import {ScreenRectangle} from "../../../../../lib/alt1/ScreenRectangle";
+import {util} from "../../../../../lib/util/util";
+import index = util.index;
 
 
 export class CapturedChatbox {
@@ -22,11 +24,6 @@ export class CapturedChatbox {
     if (brackets.length == 0) return []
 
     // 1. Sort brackets by x coordinate.
-    // 2. Group brackets into consecutive lines
-    // 3. Match groups with the corresponding tr anchor
-    // 4. Discard groups that are exactly 61 (for 12pt) pixels right of another group (and share at least one y coord)
-
-
     const groups: {
       x: number,
       ys: number[]
@@ -39,6 +36,24 @@ export class CapturedChatbox {
 
       group.ys.push(brack.origin.y)
     }
+
+    // 2. Discard groups that are exactly 61 (for 12pt) pixels right of another group (and share at least one y coord)
+    const filtered_groups = groups.filter(g => !groups.some(g2 => g2.x == g.x - 61 && g.ys.some(y => g2.ys.some(y2 => y == y2))))
+
+    return filtered_groups.map(g => {
+      const min = g.ys[0]
+      const max = index(g.ys, -1)
+
+      return new CapturedChatbox(img.getSubSection({
+        origin: {x: g.x, y: min},
+        size: {x: 20, y: max - min}
+      }))
+    })
+
+
+    // 3. Group brackets into consecutive lines
+    // 4. Match groups with the corresponding tr anchor
+
 
     return [new CapturedChatbox(img.getSubSection(ScreenRectangle.union(...brackets)))]
   }

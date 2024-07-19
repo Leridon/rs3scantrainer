@@ -34,6 +34,7 @@ import {Changelog} from "./ChangeLog";
 import {DevelopmentModal} from "../devtools/DevelopmentMenu";
 import {LogViewer} from "../devtools/LogViewer";
 import {ScanReader} from "./ui/neosolving/cluereader/ScanReader";
+import {ChatReader} from "./ui/neosolving/cluereader/ChatReader";
 import ActiveTeleportCustomization = Transportation.TeleportGroup.ActiveTeleportCustomization;
 import TeleportSettings = Settings.TeleportSettings;
 import inlineimg = C.inlineimg;
@@ -351,6 +352,7 @@ export class Application extends Behaviour {
     }
 
     new ScanReader().run()
+    new ChatReader().run()
   }
 
   protected end() {

@@ -1,9 +1,8 @@
 import {CapturedImage} from "../../../../../lib/alt1/ImageCapture";
 import {async_lazy} from "../../../../../lib/properties/Lazy";
 import {ImageDetect} from "@alt1/base";
+import {Rectangle} from "../../../../../lib/math";
 import {ScreenRectangle} from "../../../../../lib/alt1/ScreenRectangle";
-import {util} from "../../../../../lib/util/util";
-import index = util.index;
 
 
 export class CapturedChatbox {
@@ -37,29 +36,87 @@ export class CapturedChatbox {
       group.ys.push(brack.origin.y)
     }
 
+    const font = CapturedChatbox.fonts[0]
+
     // 2. Discard groups that are exactly 61 (for 12pt) pixels right of another group (and share at least one y coord)
     const filtered_groups = groups.filter(g => !groups.some(g2 => g2.x == g.x - 61 && g.ys.some(y => g2.ys.some(y2 => y == y2))))
 
-    return filtered_groups.map(g => {
-      const min = g.ys[0]
-      const max = index(g.ys, -1)
+    // 3. Group brackets into consecutive lines
+    const split_groups = filtered_groups.flatMap<{
+      x: number,
+      y: [number, number],
+      used?: boolean
+    }>(g => {
+      let from = null
+      let to = null
 
-      return new CapturedChatbox(img.getSubSection({
-        origin: {x: g.x, y: min},
-        size: {x: 20, y: max - min}
+      const sections: [number, number][] = []
+
+      for (let y of g.ys) {
+        if (from == null) to = from = y
+        else {
+          if (y - to > 3 * font.lineheight) {
+            sections.push([from, to])
+            from = to = y
+          } else {
+            to = y
+          }
+        }
+      }
+
+      sections.push([from, to])
+
+      return sections.map((range) => ({
+        x: g.x, y: range
       }))
     })
 
+    // 4. TODO Match groups with the corresponding tr anchor
 
-    // 3. Group brackets into consecutive lines
-    // 4. Match groups with the corresponding tr anchor
+    return trs.flatMap<CapturedChatbox>(tr => {
+      const best_bracket_group = split_groups.find(g => g.y[0] > tr.origin.y && g.x < tr.origin.x && !g.used)
+
+      if (!best_bracket_group) return []
+
+      if (best_bracket_group) {
+        best_bracket_group.used = true
+
+        const [min, max] = best_bracket_group.y
+
+        ScreenRectangle.fromRectangle(Rectangle.from(
+          {x: best_bracket_group.x, y: max + font.lineheight},
+          tr.origin
+        ))
+
+        return new CapturedChatbox(img.getSubSection(ScreenRectangle.fromRectangle(Rectangle.from(
+          {x: best_bracket_group.x, y: max},
+          tr.origin
+        ))))
+      }
+    })
 
 
-    return [new CapturedChatbox(img.getSubSection(ScreenRectangle.union(...brackets)))]
+    return split_groups.map(g => {
+      const [min, max] = g.y
+
+      return new CapturedChatbox(img.getSubSection({
+        origin: {x: g.x, y: min},
+        size: {x: 20, y: max - min + font.lineheight}
+      }))
+    })
   }
 }
 
 export namespace CapturedChatbox {
+  export type font = {
+    fontsize: number,
+    lineheight: number
+  }
+
+  export const fonts: font[] = [
+    {fontsize: 12, lineheight: 16}
+  ]
+
 
   export const anchors = async_lazy(async () => {
     return {

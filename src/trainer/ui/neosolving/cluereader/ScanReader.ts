@@ -16,7 +16,6 @@ export class ScanReader extends Process {
   }
 
   async implementation(): Promise<void> {
-
     const modal = new PulseReaderModal()
 
     modal.show()

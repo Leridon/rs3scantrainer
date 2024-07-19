@@ -194,4 +194,8 @@ export namespace Rectangle {
   export function screenOrigin(rect: Rectangle): Vector2 {
     return Rectangle.bottomLeft(rect)
   }
+
+  export function union(...rects: Rectangle[]): Rectangle {
+    return Rectangle.from(...rects.flatMap(r => [r.topleft, r.botright]))
+  }
 }

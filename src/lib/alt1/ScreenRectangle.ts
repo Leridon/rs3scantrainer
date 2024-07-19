@@ -61,4 +61,12 @@ export namespace ScreenRectangle {
       size: {x: 2 * radius, y: 2 * radius}
     }
   }
+
+  export function union(...rects: ScreenRectangle[]): ScreenRectangle {
+    return ScreenRectangle.fromRectangle(
+      Rectangle.union(
+        ...rects.map(ScreenRectangle.toRectangle)
+      )
+    )
+  }
 }

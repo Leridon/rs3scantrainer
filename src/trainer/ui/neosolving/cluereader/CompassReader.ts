@@ -69,9 +69,17 @@ class AngularKeyframeFunction {
     if (this.keyframes.length == 0) return 0
     if (this.keyframes.length == 1) return this.keyframes[0].value
 
-    // TODO: Optimize with binary search instead
+    const binarySearch = (lower: number, upper: number): number => {
+      if (lower == upper) return lower
 
-    let index_a = lodash.findLastIndex(this.keyframes, e => e.angle < angle)
+      const pivot = ~~((lower + upper) / 2)
+      const element = this.keyframes[pivot]
+
+      if (angle < element.angle) return binarySearch(lower, pivot - 1)
+      else return binarySearch(pivot, upper)
+    }
+
+    let index_a = binarySearch(0, this.keyframes.length - 1)
     if (index_a < 0) index_a = this.keyframes.length - 1
 
     const index_b = (index_a + 1) % this.keyframes.length

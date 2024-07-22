@@ -24,12 +24,12 @@ import {CapturedSliderInterface} from "./capture/CapturedSlider";
 import {TowersReader} from "./TowersReader";
 import {CapturedCompass} from "./capture/CapturedCompass";
 import {Log} from "../../../../lib/util/Log";
+import {CelticKnots} from "../../../../lib/cluetheory/CelticKnots";
 import stringSimilarity = util.stringSimilarity;
 import ScanStep = Clues.ScanStep;
 import notification = Notification.notification;
 import findBestMatch = util.findBestMatch;
 import SliderState = Sliders.SliderState;
-import {CelticKnots} from "../../../../lib/cluetheory/CelticKnots";
 import log = Log.log;
 import cleanedJSON = util.cleanedJSON;
 
@@ -178,6 +178,7 @@ export class ClueReader {
                 const puzzle = await reader.getPuzzle()
                 const buttons = await reader.getButtons()
 
+
                 if (!puzzle) {
                   log().log("Knot found, but not parsed properly", "Clue Reader")
                   log().log(`Broken: ${reader.isBroken}, Reason: ${reader.brokenReason}`, "Clue Reader")
@@ -186,6 +187,14 @@ export class ClueReader {
                 } else if (!buttons) {
                   log().log(`Could not identity knot shape: ${cleanedJSON(puzzle.shape)}`, "Clue Reader")
                   log().log(`Hash: ${cleanedJSON(CelticKnots.PuzzleShape.hash(puzzle.shape))}`, "Clue Reader")
+
+                  return null
+                }
+
+                const solutions = CelticKnots.solveAll(puzzle)
+
+                if (solutions.real.length == 0 && solutions.maybe.length == 0) {
+                  log().log(`Read a not with no possible solution. Rejecting.`, "Clue Reader", puzzle)
 
                   return null
                 }

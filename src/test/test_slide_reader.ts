@@ -93,6 +93,12 @@ export async function test_slide_reader(): Promise<void> {
             22, 21, 23, 10, 12]
       }
     },
+    {
+      file: "test_assets/sliders/rax_solved.png", expected: {theme: "araxxor", state: SliderState.SOLVED}
+    },
+    {
+      file: "test_assets/sliders/rax_solved2.png", expected: {theme: "araxxor", state: SliderState.SOLVED}
+    }
   ]
 
   let correct = 0

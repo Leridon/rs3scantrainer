@@ -14,7 +14,7 @@ export namespace SlideReader {
   import Tile = Sliders.Tile;
   export const DETECTION_THRESHOLD_SCORE = 0.9
 
-  const DEBUG_SLIDE_READER = false
+  const DEBUG_SLIDE_READER = true
 
   export const SLIDER_SIZE = 5
 
@@ -134,6 +134,8 @@ export namespace SlideReader {
     for (let tile of tiles.tiles) {
       const best_blank_match = findBestMatch(blank_refs, (blank_ref) => ImageFingerprint.similarity(tile.signature, blank_ref))
 
+      console.log(best_blank_match.score)
+
       for (let slider of compare_to) {
         for (let ref_tile of slider.tiles) {
           tile_scores.push({
@@ -148,6 +150,8 @@ export namespace SlideReader {
         }
       }
     }
+
+    console.log(tile_scores.map(s => s.score))
 
     const grouped = lodash.groupBy(tile_scores, e => e.reference_tile.theme)
 
@@ -208,6 +212,8 @@ export namespace SlideReader {
 
     const greedy_best = lodash.maxBy(matches, m => m.preliminary_best_matching.score)
 
+    console.log(`Pairs: ${greedy_best.all_match_pairs.length}, ${(greedy_best.all_match_pairs.length / 25).toFixed(3)}`)
+
     if (DEBUG_SLIDE_READER) {
       const perfect_pairs = greedy_best.all_match_pairs.filter(e => e.score == 1)
       console.log(`Perfect score pairs ${perfect_pairs.length}`)
@@ -221,7 +227,10 @@ export namespace SlideReader {
       deps().app.settings.settings.solving.puzzles.sliders.improve_slider_matches_backtracking
       && greedy_best.preliminary_best_matching.score > DETECTION_THRESHOLD_SCORE
 
+    console.log(`DBI ${DO_BACKTRACKING_IMPROVEMENT}`)
+
     if (DO_BACKTRACKING_IMPROVEMENT) {
+
       let best: (typeof tile_scores)[number][] = greedy_best.preliminary_best_matching.match
       let best_score = greedy_best.preliminary_best_matching.score * 25
       const working_tiles = new Array(25).fill(null)
@@ -236,9 +245,14 @@ export namespace SlideReader {
 
       const reference_used = new Array(25).fill(false)
 
+      let seen = 0
+
       function backtracking(i: number, similarity_so_far: number) {
         if (i >= 25) {
+          seen++
           if (similarity_so_far > best_score) {
+            console.log("Improved")
+
             best = [...working_tiles]
             best_score = similarity_so_far
           }
@@ -263,7 +277,14 @@ export namespace SlideReader {
       if (DEBUG_SLIDE_READER) console.log(`Potential ${max_improvements[0]} vs. ${best_score}`)
 
       const better_match_max_exist = max_improvements[0] > best_score
-      if (better_match_max_exist) backtracking(0, 0)
+      console.log(`backtracking ${better_match_max_exist} ${max_improvements[0].toFixed(3)} vs ${best_score.toFixed(3)}`)
+
+      if (better_match_max_exist) {
+
+        backtracking(0, 0)
+
+        console.log(`Seen: ${seen}`)
+      }
 
       if (DEBUG_SLIDE_READER) console.log(`Before BT: ${greedy_best.preliminary_best_matching.score}, After BT: ${best_score / 25}`)
 

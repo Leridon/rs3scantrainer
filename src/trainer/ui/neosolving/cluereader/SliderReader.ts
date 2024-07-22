@@ -7,11 +7,13 @@ import {CapturedSliderInterface} from "./capture/CapturedSlider";
 import {Vector2} from "../../../../lib/math";
 import {async_lazy} from "../../../../lib/properties/Lazy";
 import {util} from "../../../../lib/util/util";
+import {Log} from "../../../../lib/util/Log";
 
 export namespace SlideReader {
   import findBestMatch = util.findBestMatch;
   import SliderPuzzle = Sliders.SliderPuzzle;
   import Tile = Sliders.Tile;
+  import log = Log.log;
   export const DETECTION_THRESHOLD_SCORE = 0.9
 
   const DEBUG_SLIDE_READER = false
@@ -236,7 +238,13 @@ export namespace SlideReader {
 
       const reference_used = new Array(25).fill(false)
 
+      let seen = 0
+
       function backtracking(i: number, similarity_so_far: number) {
+        seen++
+
+        if (seen > 10000) return
+
         if (i >= 25) {
           if (similarity_so_far > best_score) {
             best = [...working_tiles]
@@ -263,7 +271,11 @@ export namespace SlideReader {
       if (DEBUG_SLIDE_READER) console.log(`Potential ${max_improvements[0]} vs. ${best_score}`)
 
       const better_match_max_exist = max_improvements[0] > best_score
-      if (better_match_max_exist) backtracking(0, 0)
+      if (better_match_max_exist) {
+        backtracking(0, 0)
+
+        log().log(`Backtracking aborted after ${seen} steps.`, "Slide Reader", image)
+      }
 
       if (DEBUG_SLIDE_READER) console.log(`Before BT: ${greedy_best.preliminary_best_matching.score}, After BT: ${best_score / 25}`)
 

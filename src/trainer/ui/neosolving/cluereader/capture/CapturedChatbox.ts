@@ -83,26 +83,11 @@ export class CapturedChatbox {
 
         const [min, max] = best_bracket_group.y
 
-        ScreenRectangle.fromRectangle(Rectangle.from(
-          {x: best_bracket_group.x, y: max + font.lineheight},
-          tr.origin
-        ))
-
         return new CapturedChatbox(img.getSubSection(ScreenRectangle.fromRectangle(Rectangle.from(
-          {x: best_bracket_group.x, y: max},
+          {x: best_bracket_group.x, y: max + font.lineheight},
           tr.origin
         ))))
       }
-    })
-
-
-    return split_groups.map(g => {
-      const [min, max] = g.y
-
-      return new CapturedChatbox(img.getSubSection({
-        origin: {x: g.x, y: min},
-        size: {x: 20, y: max - min + font.lineheight}
-      }))
     })
   }
 }

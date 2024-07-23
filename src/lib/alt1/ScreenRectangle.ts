@@ -1,3 +1,4 @@
+import * as lodash from "lodash";
 import {Rectangle, Vector2} from "../math";
 
 export type ScreenRectangle = {
@@ -68,5 +69,9 @@ export namespace ScreenRectangle {
         ...rects.map(ScreenRectangle.toRectangle)
       )
     )
+  }
+
+  export function equals(a: ScreenRectangle, b: ScreenRectangle): boolean {
+    return lodash.isEqual(a, b)
   }
 }

@@ -5,6 +5,8 @@ import * as lodash from "lodash";
 import {ScreenRectangle} from "./ScreenRectangle";
 import todo = util.todo;
 import uuid = util.uuid;
+import {lazy} from "../properties/Lazy";
+import * as a1lib from "@alt1/base";
 
 export class OverlayGeometry {
   private is_frozen = false
@@ -85,6 +87,19 @@ export class OverlayGeometry {
     return this
   }
 
+  image(origin: Vector2, img: OverlayImage, width: number): this {
+
+    this.geometry.push({
+      type: "image",
+      image: img,
+      width: width,
+      position: origin
+    })
+
+
+    return this
+  }
+
   add(...other: OverlayGeometry[]): this {
     other.forEach(other => {
       this.geometry.push(...other.geometry)
@@ -131,6 +146,11 @@ export class OverlayGeometry {
             this.alive_time, undefined, element.options.centered ?? true, element.options.shadow ?? true
           )
           break
+        case "image":
+          alt1.overLayImage(element.position.x, element.position.y, element.image.encode(), element.width, this.alive_time);
+
+          break;
+
       }
     }
 
@@ -182,6 +202,24 @@ export class OverlayGeometry {
   }
 }
 
+export class OverlayImage {
+  constructor(public image: ImageData) {
+
+  }
+
+  size(): Vector2 {
+    return {x: this.image.width, y: this.image.height}
+  }
+
+  _encoded = lazy(() => {
+    return a1lib.encodeImageString(this.image)
+  })
+
+  encode(): string {
+    return this._encoded.get()
+  }
+}
+
 export namespace OverlayGeometry {
   export type Geometry = {
     type: "line",
@@ -197,6 +235,11 @@ export namespace OverlayGeometry {
     text: string,
     position: Vector2,
     options: TextOptions,
+  } | {
+    type: "image",
+    position: Vector2,
+    width: number,
+    image: OverlayImage,
   }
 
   export namespace Geometry {

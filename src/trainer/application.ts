@@ -44,6 +44,7 @@ import staticentity = C.staticentity;
 import entity = C.entity;
 import notification = Notification.notification;
 import log = Log.log;
+import {RotationModal} from "../rotationtraner";
 
 export class SimpleLayerBehaviour extends Behaviour {
   constructor(private map: GameMap, private layer: GameLayer) {
@@ -348,6 +349,8 @@ export class Application extends Behaviour {
       log().log(`Permissions: Installed ${alt1.permissionInstalled}, GameState ${alt1.permissionGameState}, Pixel ${alt1.permissionPixel}, Overlay ${alt1.permissionOverlay}`)
       log().log("Settings on startup", "Startup", {type: "object", value: lodash.cloneDeep(this.settings.settings)})
     }
+
+    new RotationModal().show()
   }
 
   protected end() {

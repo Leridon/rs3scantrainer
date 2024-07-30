@@ -80,8 +80,8 @@ export class Player extends Process {
     const overlay = over()
 
     const BASELINE = {x: 500, y: 500}
-    const TICK_HEIGHT = 30
-    const ACITON_WIDTH = 40
+    const TICK_HEIGHT = 20
+    const ACTION_WIDTH = 40
 
     while (!this.should_stop) {
       await this.checkTime()
@@ -92,6 +92,8 @@ export class Player extends Process {
 
       for (let i = 0; i < this.schedule._schedule.length; i++) {
         const action = this.schedule._schedule[i]
+
+        if (action.tick < this.currentTick()) continue
 
         if (action.tick > this.tick + 10) break
 
@@ -113,9 +115,9 @@ export class Player extends Process {
 
           overlay.image(Vector2.add(
             BASELINE,
-            Vector2.snap(Vector2.scale(action.tick - this.currentTick(), {y: TICK_HEIGHT, x: 0})),
-            //Vector2.snap(Vector2.scale((same_tick_actions.length - 1), {y: 0, x: ACITON_WIDTH / 2})),
-          ), img, 30)
+            Vector2.snap(Vector2.scale(action.tick - this.currentTick(), {y: -TICK_HEIGHT, x: 0})),
+            Vector2.snap(Vector2.scale(j - (same_tick_actions.length - 1) / 2, {y: 0, x: ACTION_WIDTH})),
+          ), img)
         }
       }
 
@@ -140,15 +142,15 @@ export class RotationModal extends NisModal {
       const player = new Player().withTimeout(20000);
 
       player.schedule.schedule(3, {type: "ability", ability: "conjureundeadarmy"})
-      //player.schedule.schedule(3, {type: "ability", ability: "livingdeath"})
+      player.schedule.schedule(3, {type: "ability", ability: "livingdeath"})
       player.schedule.schedule(6, {type: "ability", ability: "commandvengefulghost"})
       player.schedule.schedule(9, {type: "ability", ability: "splitsoul"})
-      // player.schedule.schedule(9, {type: "ability", ability: "surge"})
+      player.schedule.schedule(9, {type: "ability", ability: "surge"})
       player.schedule.schedule(12, {type: "ability", ability: "invokedeath"})
       player.schedule.schedule(15, {type: "ability", ability: "commandskeletonwarrior"})
       player.schedule.schedule(18, {type: "ability", ability: "undeadslayer"})
-      // player.schedule.schedule(18, {type: "item", item: "vulnerabilitybomb"})
-      //player.schedule.schedule(18, {type: "ability", ability: "deathskulls"})
+      player.schedule.schedule(18, {type: "item", item: "vulnerabilitybomb"})
+      player.schedule.schedule(18, {type: "ability", ability: "deathskulls"})
       player.schedule.schedule(21, {type: "ability", ability: "touchofdeath"})
       player.schedule.schedule(24, {type: "ability", ability: "fingerofdeath"})
       player.schedule.schedule(27, {type: "ability", ability: "specialattack"})

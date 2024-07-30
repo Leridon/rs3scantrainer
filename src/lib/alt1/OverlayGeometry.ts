@@ -87,12 +87,11 @@ export class OverlayGeometry {
     return this
   }
 
-  image(origin: Vector2, img: OverlayImage, width: number): this {
+  image(origin: Vector2, img: OverlayImage): this {
 
     this.geometry.push({
       type: "image",
       image: img,
-      width: width,
       position: origin
     })
 
@@ -147,7 +146,7 @@ export class OverlayGeometry {
           )
           break
         case "image":
-          alt1.overLayImage(element.position.x, element.position.y, element.image.encode(), element.width, this.alive_time);
+          alt1.overLayImage(element.position.x, element.position.y, element.image.encode(), element.image.image.width, this.alive_time);
 
           break;
 
@@ -238,7 +237,6 @@ export namespace OverlayGeometry {
   } | {
     type: "image",
     position: Vector2,
-    width: number,
     image: OverlayImage,
   }
 

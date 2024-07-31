@@ -10,6 +10,7 @@ import {makeshift_main} from "../trainer/main";
 import {ImportModal} from "../trainer/ui/widgets/modals/ImportModal";
 import {LogViewer} from "./LogViewer";
 import {Log} from "../lib/util/Log";
+import {deps} from "../trainer/dependencies";
 
 
 export class DevelopmentModal extends NisModal {
@@ -80,6 +81,14 @@ export class DevelopmentModal extends NisModal {
     layout.row(new LightButton("Run makeshift Main", "rectangle")
       .onClick(() => {
         makeshift_main()
+      })
+    )
+
+    layout.header("Other")
+
+    layout.row(new LightButton("Open Development Utility Layer", "rectangle")
+      .onClick(() => {
+        deps().app.menu_bar.switchToTab("utility")
       })
     )
 

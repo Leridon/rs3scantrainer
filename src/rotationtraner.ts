@@ -6,6 +6,8 @@ import {OverlayGeometry, OverlayImage} from "./lib/alt1/OverlayGeometry";
 import over = OverlayGeometry.over;
 import {Vector2} from "./lib/math";
 import {ImageDetect} from "@alt1/base";
+import {util} from "./lib/util/util";
+import A1Color = util.A1Color;
 
 export type Hotkey = {
   modifiers: ("shift" | "alt" | "ctrl")[],
@@ -80,8 +82,9 @@ export class Player extends Process {
     const overlay = over()
 
     const BASELINE = {x: 500, y: 500}
-    const TICK_HEIGHT = 20
+    const TICK_HEIGHT = 40
     const ACTION_WIDTH = 40
+    const LOOKAHEAD = 15
 
     while (!this.should_stop) {
       await this.checkTime()
@@ -90,12 +93,22 @@ export class Player extends Process {
 
       overlay.clear()
 
+      for (let t = 0; t < LOOKAHEAD; t++) {
+        const center = Vector2.add(BASELINE, Vector2.scale(t, {x: 0, y: -TICK_HEIGHT}))
+
+        overlay.line(
+          Vector2.add(center, {x: -100, y: 0}),
+          Vector2.add(center, {x: 100, y: 0}),
+          {color: A1Color.fromHex("#8888FF")}
+        )
+      }
+
       for (let i = 0; i < this.schedule._schedule.length; i++) {
         const action = this.schedule._schedule[i]
 
         if (action.tick < this.currentTick()) continue
 
-        if (action.tick > this.tick + 10) break
+        if (action.tick > this.tick + LOOKAHEAD) break
 
         const same_tick_actions = lodash.filter(this.schedule._schedule, a => a.tick == action.tick)
 
@@ -113,11 +126,15 @@ export class Player extends Process {
             }
           })()
 
-          overlay.image(Vector2.add(
+          const pos = Vector2.add(
             BASELINE,
             Vector2.snap(Vector2.scale(action.tick - this.currentTick(), {y: -TICK_HEIGHT, x: 0})),
             Vector2.snap(Vector2.scale(j - (same_tick_actions.length - 1) / 2, {y: 0, x: ACTION_WIDTH})),
-          ), img)
+          )
+
+          overlay.image(pos, img)
+
+          overlay.text("s+A", Vector2.add(pos, {x: 15, y: 15}), {width: 14, color: A1Color.fromHex("#FFFFFF")})
         }
       }
 
@@ -128,7 +145,7 @@ export class Player extends Process {
   }
 
   currentTick(): number {
-    return this.tick
+    return Math.floor(this.tick)
   }
 }
 

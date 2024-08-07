@@ -351,7 +351,7 @@ export class Application extends Behaviour {
       log().log("Settings on startup", "Startup", {type: "object", value: lodash.cloneDeep(this.settings.settings)})
     }
 
-    new ScanReader().run()
+    //new ScanReader().run()
     new ChatReader().run()
   }
 

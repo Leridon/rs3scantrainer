@@ -83,7 +83,7 @@ export class Player extends Process {
 
     const overlay = over()
 
-    const BASELINE = {x: 500, y: 500}
+    const BASELINE = {x: 800, y: 600}
     const TICK_HEIGHT = 40
     const ACTION_WIDTH = 40
     const LOOKAHEAD = 10
@@ -187,8 +187,6 @@ export class RotationScriptWorkerInterface {
           this.environment.schedule.schedule(e.data.tick, e.data.action)
       }
     }
-
-    this.worker.terminate()
   }
 
   send(msg: RotationScriptInterface.InMessage) {

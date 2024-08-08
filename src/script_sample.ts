@@ -23,6 +23,8 @@ namespace RotationScriptAPI {
 
 import schedule = RotationScriptAPI.schedule;
 
+console.log("hello from worker")
+
 schedule(3, {type: "ability", ability: "conjureundeadarmy"})
 schedule(3, {type: "ability", ability: "livingdeath"})
 schedule(6, {type: "ability", ability: "commandvengefulghost"})

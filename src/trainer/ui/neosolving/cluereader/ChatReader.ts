@@ -59,7 +59,7 @@ export class ChatReader extends Process.Interval {
         this.chatboxes.forEach(box => {
             this.overlay.rect2(box.chatbox.body.screenRectangle(), {
                 color: A1Color.fromHex("#FF0000"),
-                width: 2
+                width: 1
             })
         })
 
@@ -116,7 +116,7 @@ export namespace ChatReader {
                 modal.body.append(line.getData().toImage())
             }
 
-            const read = OCR.readLine(line.getData(), font_def, [[255, 255, 255]], 0, this.chatbox.font.lineheight, true).text
+            const read = OCR.readLine(line.getData(), font_def, [[255, 255, 255]], 0, 10, true).text
 
             console.log(`Read ${i}: '${read}'`)
 

@@ -87,12 +87,19 @@ export class OverlayGeometry {
     return this
   }
 
-  image(origin: Vector2, img: OverlayImage): this {
+  image(origin: Vector2, img: OverlayImage, anchor: "topleft" | "center" = "center"): this {
 
     this.geometry.push({
       type: "image",
       image: img,
-      position: origin
+      position: (() => {
+        switch (anchor) {
+          case "topleft":
+            return origin
+          case "center":
+            return Vector2.snap(Vector2.sub(origin, Vector2.scale(0.5, img.size())))
+        }
+      })()
     })
 
 

@@ -44,7 +44,7 @@ import staticentity = C.staticentity;
 import entity = C.entity;
 import notification = Notification.notification;
 import log = Log.log;
-import {RotationModal} from "../rotationtraner";
+import {createWorker, RotationModal} from "../rotationtraner";
 
 export class SimpleLayerBehaviour extends Behaviour {
   constructor(private map: GameMap, private layer: GameLayer) {

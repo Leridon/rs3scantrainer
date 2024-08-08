@@ -8,6 +8,8 @@ import {Vector2} from "./lib/math";
 import {ImageDetect} from "@alt1/base";
 import {util} from "./lib/util/util";
 import A1Color = util.A1Color;
+import {ewent} from "./lib/reactive";
+import todo = util.todo;
 
 export type Hotkey = {
   modifiers: ("shift" | "alt" | "ctrl")[],
@@ -84,7 +86,7 @@ export class Player extends Process {
     const BASELINE = {x: 500, y: 500}
     const TICK_HEIGHT = 40
     const ACTION_WIDTH = 40
-    const LOOKAHEAD = 15
+    const LOOKAHEAD = 10
 
     while (!this.should_stop) {
       await this.checkTime()
@@ -96,10 +98,12 @@ export class Player extends Process {
       for (let t = 0; t < LOOKAHEAD; t++) {
         const center = Vector2.add(BASELINE, Vector2.scale(t, {x: 0, y: -TICK_HEIGHT}))
 
+        const is_global_cooldown_border = (t % 3) == 0
+
         overlay.line(
-          Vector2.add(center, {x: -100, y: 0}),
-          Vector2.add(center, {x: 100, y: 0}),
-          {color: A1Color.fromHex("#8888FF")}
+          Vector2.add(center, {x: is_global_cooldown_border ? -100 : -80, y: 0}),
+          Vector2.add(center, {x: is_global_cooldown_border ? 100 : 80, y: 0}),
+          {color: A1Color.fromHex("#8888FF"), width: is_global_cooldown_border ? 3 : 1}
         )
       }
 
@@ -114,6 +118,8 @@ export class Player extends Process {
 
         i += same_tick_actions.length - 1
 
+        const in_future = action.tick - this.currentTick()
+
         for (let j = 0; j < same_tick_actions.length; j++) {
           const action = same_tick_actions[j]
 
@@ -126,15 +132,34 @@ export class Player extends Process {
             }
           })()
 
+
           const pos = Vector2.add(
             BASELINE,
-            Vector2.snap(Vector2.scale(action.tick - this.currentTick(), {y: -TICK_HEIGHT, x: 0})),
+            Vector2.snap(Vector2.scale(in_future, {y: -TICK_HEIGHT, x: 0})),
             Vector2.snap(Vector2.scale(j - (same_tick_actions.length - 1) / 2, {y: 0, x: ACTION_WIDTH})),
           )
 
           overlay.image(pos, img)
 
-          overlay.text("s+A", Vector2.add(pos, {x: 15, y: 15}), {width: 14, color: A1Color.fromHex("#FFFFFF")})
+
+          const hotkey = (() => {
+            switch ((action.action.type == "ability" ? action.action.ability.charCodeAt(5) : action.action.item.charCodeAt(5)) % 6) {
+              case 0:
+                return "A"
+              case 1:
+                return "F1"
+              case 2:
+                return "s+A"
+              case 3:
+                return "a+S"
+              case 5:
+                return "\\"
+              default:
+                return "."
+            }
+          })()
+
+          overlay.text(hotkey, pos, {width: in_future < 1 ? 14 : 12, color: A1Color.fromHex("#FFFFFF"), centered: true, shadow: true})
         }
       }
 
@@ -145,10 +170,56 @@ export class Player extends Process {
   }
 
   currentTick(): number {
-    return Math.floor(this.tick)
+    //return Math.floor(this.tick)
+    return this.tick
   }
 }
 
+export class RotationScriptWorkerInterface {
+  message_received = ewent<RotationScriptInterface.OutMessage>()
+
+  constructor(private worker: Worker, private environment: RotationScriptWorkerInterface.Environment) {
+    this.worker.onmessage = (e: MessageEvent<RotationScriptInterface.OutMessage>) => {
+      this.message_received.trigger(e.data)
+
+      switch (e.data.type) {
+        case "schedule":
+          this.environment.schedule.schedule(e.data.tick, e.data.action)
+      }
+    }
+
+    this.worker.terminate()
+  }
+
+  send(msg: RotationScriptInterface.InMessage) {
+    this.worker.postMessage(msg)
+  }
+
+  tick() {
+    todo()
+  }
+
+  static fromURL(url: string, environment: RotationScriptWorkerInterface.Environment): RotationScriptWorkerInterface {
+    return new RotationScriptWorkerInterface(new Worker(url), environment)
+  }
+}
+
+export namespace RotationScriptWorkerInterface {
+  export type Environment = {
+    schedule: Schedule
+  }
+}
+
+type GameState = {}
+
+export namespace RotationScriptInterface {
+  export type InMessage =
+    { type: "gamestate", data: GameState }
+    | { type: "schedule", data: ScheduledAction[] }
+
+  export type OutMessage =
+    { type: "schedule", tick: number, action: Action }
+}
 
 export class RotationModal extends NisModal {
 
@@ -158,19 +229,7 @@ export class RotationModal extends NisModal {
     new LightButton("Play").onClick(() => {
       const player = new Player().withTimeout(20000);
 
-      player.schedule.schedule(3, {type: "ability", ability: "conjureundeadarmy"})
-      player.schedule.schedule(3, {type: "ability", ability: "livingdeath"})
-      player.schedule.schedule(6, {type: "ability", ability: "commandvengefulghost"})
-      player.schedule.schedule(9, {type: "ability", ability: "splitsoul"})
-      player.schedule.schedule(9, {type: "ability", ability: "surge"})
-      player.schedule.schedule(12, {type: "ability", ability: "invokedeath"})
-      player.schedule.schedule(15, {type: "ability", ability: "commandskeletonwarrior"})
-      player.schedule.schedule(18, {type: "ability", ability: "undeadslayer"})
-      player.schedule.schedule(18, {type: "item", item: "vulnerabilitybomb"})
-      player.schedule.schedule(18, {type: "ability", ability: "deathskulls"})
-      player.schedule.schedule(21, {type: "ability", ability: "touchofdeath"})
-      player.schedule.schedule(24, {type: "ability", ability: "fingerofdeath"})
-      player.schedule.schedule(27, {type: "ability", ability: "specialattack"})
+      RotationScriptWorkerInterface.fromURL("script_sample.bundle.js", {schedule: player.schedule})
 
       player.run()
     }).appendTo(this.body)

@@ -261,6 +261,13 @@ export namespace util {
     return 1 - levenshteinEditDistance(string, reference, true) / reference.length
   }
 
+  export function scoreAll<T>(collection: T[], score_f: (_: T) => number): {
+    value: T,
+    score: number
+  }[] {
+    return collection.map(e => ({value: e, score: score_f(e)}))
+  }
+
   export function findBestMatch<T>(collection: T[], score_f: (_: T) => number, min_score: number = undefined, inverted: boolean = false): {
     value: T,
     score: number

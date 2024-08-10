@@ -3,6 +3,7 @@ import {async_lazy} from "../../../../../lib/properties/Lazy";
 import {ImageDetect} from "@alt1/base";
 import {Rectangle, Vector2} from "../../../../../lib/math";
 import {ScreenRectangle} from "../../../../../lib/alt1/ScreenRectangle";
+import {FontDefinition} from "@alt1/ocr";
 
 
 export class CapturedChatbox {
@@ -36,7 +37,7 @@ export class CapturedChatbox {
       group.ys.push(brack.origin.y)
     }
 
-    const font = CapturedChatbox.fonts[0]
+    const font = CapturedChatbox.fonts[1]
 
     // 2. Discard groups that are exactly 61 (for 12pt) pixels right of another group (and share at least one y coord)
     const filtered_groups = groups.filter(g => !groups.some(g2 => g2.x == g.x - 61 && g.ys.some(y => g2.ys.some(y2 => y == y2))))
@@ -86,7 +87,7 @@ export class CapturedChatbox {
         return new CapturedChatbox(img.getSubSection(ScreenRectangle.fromRectangle(Rectangle.from(
           {x: best_bracket_group.x - 1, y: max + font.lineheight - 1},
           Vector2.add(tr.origin, {x: 0, y: 20})
-        ))), CapturedChatbox.fonts[0])
+        ))), CapturedChatbox.fonts[1])
       }
     })
   }
@@ -111,13 +112,21 @@ export namespace CapturedChatbox {
   export type Font = {
     fontsize: number,
     baseline_y: number,
-    lineheight: number
+    lineheight: number,
+    icon_y: number,
+    dy: number,
+    def: FontDefinition
   }
 
   export const fonts: Font[] = [
-    {fontsize: 12, baseline_y: 10, lineheight: 16}
+    {fontsize: 10, lineheight: 14, icon_y: -9, baseline_y: null, dy: 2, def: require("@alt1/ocr/fonts/chatbox/10pt.js")},
+    {fontsize: 12, lineheight: 16, icon_y: -9, baseline_y: 10, dy: -1, def: require("@alt1/ocr/fonts/chatbox/12pt.js")},
+    {fontsize: 14, lineheight: 18, icon_y: -10, baseline_y: null, dy: -3, def: require("@alt1/ocr/fonts/chatbox/14pt.js")},
+    {fontsize: 16, lineheight: 21, icon_y: -10, baseline_y: null, dy: -6, def: require("@alt1/ocr/fonts/chatbox/16pt.js")},
+    {fontsize: 18, lineheight: 23, icon_y: -11, baseline_y: null, dy: -8, def: require("@alt1/ocr/fonts/chatbox/18pt.js")},
+    {fontsize: 20, lineheight: 25, icon_y: -11, baseline_y: null, dy: -11, def: require("@alt1/ocr/fonts/chatbox/20pt.js")},
+    {fontsize: 20, lineheight: 27, icon_y: -12, baseline_y: null, dy: -13, def: require("@alt1/ocr/fonts/chatbox/22pt.js")},
   ]
-
 
   export const anchors = async_lazy(async () => {
     return {

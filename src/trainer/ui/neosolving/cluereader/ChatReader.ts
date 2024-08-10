@@ -5,7 +5,7 @@ import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
 import {util} from "../../../../lib/util/util";
 import {ScreenRectangle} from "../../../../lib/alt1/ScreenRectangle";
 import {ewent} from "../../../../lib/reactive";
-import * as OCR from "@alt1/ocr";
+import {OCR} from "lib/alt1/OCR";
 import {ColortTriplet, FontDefinition} from "@alt1/ocr";
 import {async_lazy, lazy} from "../../../../lib/properties/Lazy";
 import {NisModal} from "../../../../lib/ui/NisModal";
@@ -62,7 +62,7 @@ export class ChatReader extends Process.Interval {
 
     await time("Read", async () => {
       for (const box of this.chatboxes) await box.read()
-    } )
+    })
 
     this.overlay.clear()
 

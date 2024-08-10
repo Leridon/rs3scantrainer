@@ -6,14 +6,15 @@ import {util} from "../../../../lib/util/util";
 import {ScreenRectangle} from "../../../../lib/alt1/ScreenRectangle";
 import {ewent} from "../../../../lib/reactive";
 import * as OCR from "@alt1/ocr";
-import {ColortTriplet} from "@alt1/ocr";
-import {lazy} from "../../../../lib/properties/Lazy";
+import {ColortTriplet, FontDefinition} from "@alt1/ocr";
+import {async_lazy, lazy} from "../../../../lib/properties/Lazy";
 import {NisModal} from "../../../../lib/ui/NisModal";
 import {defaultcolors} from "@alt1/chatbox";
+import {webpackImages} from "@alt1/base/dist/imagedetect";
 import over = OverlayGeometry.over;
 import A1Color = util.A1Color;
 
-const font_def = require("@alt1/ocr/fonts/chatbox/12pt.js")
+const font_def: FontDefinition = require("@alt1/ocr/fonts/chatbox/12pt.js")
 
 const mod = lazy(() => {
   const mod = new NisModal()
@@ -73,6 +74,40 @@ export class ChatReader extends Process.Interval {
   }
 }
 
+const chat_icons = webpackImages({
+  vip: require("@alt1/chatbox/src/imgs/badgevip.data.png"),
+  pmod: require("@alt1/chatbox/src/imgs/badgepmod.data.png"),
+  pmodvip: require("@alt1/chatbox/src/imgs/badgepmodvip.data.png"),
+  broadcast_gold: require("@alt1/chatbox/src/imgs/badge_broadcast_gold.data.png"),
+  broadcast_silver: require("@alt1/chatbox/src/imgs/badge_broadcast_silver.data.png"),
+  broadcast_bronze: require("@alt1/chatbox/src/imgs/badge_broadcast_bronze.data.png"),
+  ironman: require("@alt1/chatbox/src/imgs/badgeironman.data.png"),
+  hcim: require("@alt1/chatbox/src/imgs/badgehcim.data.png"),
+  chatlink: require("@alt1/chatbox/src/imgs/chat_link.data.png"),
+})
+
+const badgemap: { [key in keyof typeof chat_icons.raw]: string } = {
+  vip: "\u2730",//SHADOWED WHITE STAR
+  pmod: "\u2655",//WHITE CHESS QUEEN
+  pmodvip: "\u2655",//WHITE CHESS QUEEN
+  broadcast_gold: "\u2746",//HEAVY CHEVRON SNOWFLAKE
+  broadcast_silver: "\u2746",//HEAVY CHEVRON SNOWFLAKE
+  broadcast_bronze: "\u2746",//HEAVY CHEVRON SNOWFLAKE
+  ironman: "\u26AF",//UNMARRIED PARTNERSHIP SYMBOL
+  hcim: "\u{1F480}",//SKULL
+  chatlink: "\u{1F517}",//LINK SYMBOL
+}
+
+const all_chat_icons = async_lazy(async () => {
+  await chat_icons.promise
+
+  const icons: { icon: ImageData, character: string }[] = []
+
+  for (let icon_key in chat_icons.raw) icons.push({icon: chat_icons.raw[icon_key], character: badgemap[icon_key]})
+
+  return icons
+})
+
 export namespace ChatReader {
   import index = util.index;
 
@@ -115,11 +150,11 @@ export namespace ChatReader {
 
     }
 
-    private readLine(i: number): string {
+    private async readLine(i: number): Promise<string> {
       const line = this.chatbox.line(i)
       const line_img = line.getData()
 
-      const f = font_def
+      const fodef = font_def
 
       if (i == 0) {
         const modal = mod.get();
@@ -135,7 +170,7 @@ export namespace ChatReader {
       const baseline = this.chatbox.font.baseline_y
 
       const read_string = (colors: ColortTriplet[] = defaultcolors as ColortTriplet[]): boolean => {
-        const data = OCR.readLine(line_img, f, colors, scan_x, baseline, true, false);
+        const data = OCR.readLine(line_img, fodef, colors, scan_x, baseline, true, false);
 
         if (data.text) {
           fragments.push(data.text)
@@ -148,7 +183,29 @@ export namespace ChatReader {
         return false
       };
 
-      const timestamp_open = OCR.readChar(line_img, f, [255, 255, 255], scan_x, baseline, false, false);
+      const read_icon = async (): Promise<boolean> => {
+        const addspace = !index(fragments, -1)?.endsWith(" ")
+
+        const badgeleft = scan_x + (addspace ? fodef.spacewidth : 0)
+
+        const matched_icon = (await all_chat_icons.get()).find(icon =>
+          line_img.pixelCompare(icon.icon, badgeleft, baseline + this.chatbox.font.icon_y) < Number.POSITIVE_INFINITY
+        )
+
+        if (matched_icon) {
+          if (addspace) fragments.push(" ")
+
+          fragments.push(matched_icon.character)
+
+          scan_x = badgeleft + matched_icon.icon.width
+
+          return true;
+        }
+
+        return false
+      }
+
+      const timestamp_open = OCR.readChar(line_img, fodef, [255, 255, 255], scan_x, baseline, false, false);
 
       const has_timestamp = timestamp_open?.chr == "["
 
@@ -161,20 +218,10 @@ export namespace ChatReader {
       // Read start text or text after opening bracket
       read_string(ChatReader.all_colors)
 
-      // TODO: Optionally Read chat icon
-
-      // Read text again
-      read_string(ChatReader.all_colors)
-
-      // TODO: Optionally read quick chat icon
-
-      // Read text again
-      read_string(ChatReader.all_colors)
-
-      //if (timestampopen?.chr == "[") {
-      //ctx.addfrag({color: [255, 255, 255], index: -1, text: "[", xstart: ctx.rightx, xend: ctx.rightx + timestampopen.basechar.width});
-      //return true;
-      //}
+      while (true) {
+        if (!await read_icon()) break
+        if (!read_string()) break
+      }
 
       return fragments.join("")
     }
@@ -186,7 +233,7 @@ export namespace ChatReader {
       })
     }
 
-    read() {
+    async read() {
       let row = 0
 
       const max_rows = this.chatbox.visibleRows()
@@ -195,7 +242,7 @@ export namespace ChatReader {
         const components: string[] = []
 
         while (row < max_rows && !index(components, -1)?.startsWith("[")) {
-          components.push(this.readLine(row))
+          components.push(await this.readLine(row))
 
           row++
         }

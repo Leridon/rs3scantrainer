@@ -227,8 +227,14 @@ export namespace ChatReader {
     }
 
     private commit(message: string): void {
+      let m = message.match(/^\[(\d{2}):(\d{2}):(\d{2})]/);
+
+      if (!m) return // Reject messages without a timestamp
+
+      const timestamp = (+m[1]) * 60 * 60 + (+m[2]) * 60 + (+m[3]);
+
       this.buffer.add({
-        timestamp: 0,
+        timestamp: timestamp,
         text: message
       })
     }

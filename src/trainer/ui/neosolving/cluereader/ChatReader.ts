@@ -11,6 +11,7 @@ import {async_lazy, lazy} from "../../../../lib/properties/Lazy";
 import {NisModal} from "../../../../lib/ui/NisModal";
 import {defaultcolors} from "@alt1/chatbox";
 import {webpackImages} from "@alt1/base/dist/imagedetect";
+import {time} from "../../../../lib/gamemap/GameLayer";
 import over = OverlayGeometry.over;
 import A1Color = util.A1Color;
 
@@ -32,7 +33,7 @@ export class ChatReader extends Process.Interval {
   private last_search = Number.NEGATIVE_INFINITY
   private chatboxes: ChatReader.SingleChatboxReader[] = []
 
-  constructor(private read_interval: number = 100, private search_interval: number = 1000) {
+  constructor(private read_interval: number = 600, private search_interval: number = 3000) {
     super(read_interval);
 
     this.new_message.on(m => {
@@ -59,7 +60,9 @@ export class ChatReader extends Process.Interval {
       this.chatboxes.push(...new_readers)
     }
 
-    for (const box of this.chatboxes) box.read()
+    await time("Read", async () => {
+      for (const box of this.chatboxes) await box.read()
+    } )
 
     this.overlay.clear()
 

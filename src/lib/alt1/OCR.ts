@@ -1,8 +1,12 @@
 import {ImageData, Rect, RectLike} from "@alt1/base";
 import * as lodash from "lodash";
+import {util} from "../util/util";
 
 export namespace OCR {
 
+
+  import scoreAll = util.scoreAll;
+  import rgbSimilarity = util.rgbSimilarity;
   export type TextFragment = {
     text: string,
     color: ColortTriplet,
@@ -295,35 +299,55 @@ export namespace OCR {
   }
 
 
-  export function getChatColor(buf: ImageData, rect: RectLike, colors: ColortTriplet[]) {
-    var bestscore = -1.0;
-    var best: null | ColortTriplet = null;
-    var b2 = 0.0;
-    var data = buf.data;
-    for (let col of colors) {
-      var score = 0.0;
-      for (var y = rect.y; y < rect.y + rect.height; y++) {
-        for (var x = rect.x; x < rect.x + rect.width; x++) {
-          if (x < 0 || x + 1 >= buf.width) { continue; }
-          if (y < 0 || y + 1 >= buf.width) { continue; }
-          let i1 = buf.pixelOffset(x, y);
-          let i2 = buf.pixelOffset(x + 1, y + 1);
-          var pixel1 = unblend(data[i1 + 0], data[i1 + 1], data[i1 + 2], col[0], col[1], col[2]);
-          var pixel2 = unblend(data[i2 + 0], data[i2 + 1], data[i2 + 2], col[0], col[1], col[2]);
-          //TODO this is from c# can simplify a bit
-          var s = (pixel1[0] / 255 * pixel1[1] / 255) * (pixel2[0] / 255 * (255.0 - pixel2[1]) / 255);
-          score += s;
+  export function getChatColor(buf: ImageData, rect: RectLike, colors: ColortTriplet[]): ColortTriplet {
+
+    const scored_colors = scoreAll(colors, col => {
+      let score = 0
+
+      for (let y = rect.y; y < rect.y + rect.height; y++) {
+        if (y < 0 || y + 1 >= buf.height) continue
+
+        for (let x = rect.x; x < rect.x + rect.width; x++) {
+          if (x < 0 || x + 1 >= buf.width) continue
+
+          const similarity = rgbSimilarity(buf.getPixel(x, y) as any, col)
+
+          if (similarity > 0.9) score += similarity
         }
       }
-      if (score > bestscore) {
-        b2 = bestscore;
-        bestscore = score;
-        best = col;
-      } else if (score > b2) { b2 = score; }
-    }
-    //Console.WriteLine("color: " + bestcol + " - " + (bestscore - b2));
-    //bestscore /= rect.width * rect.height;
-    return best;
+
+      return score
+    })
+
+    const best = lodash.maxBy(scored_colors, c => c.score).value
+
+    console.log(`${best[0]}|${best[1]}|${best[2]}`)
+
+    return best
+    /*
+        for (let col of colors) {
+          let score = 0;
+
+          for (let y = rect.y; y < rect.y + rect.height; y++) {
+            for (let x = rect.x; x < rect.x + rect.width; x++) {
+              if (x < 0 || x + 1 >= buf.width) { continue; }
+              if (y < 0 || y + 1 >= buf.width) { continue; }
+              let i1 = buf.pixelOffset(x, y);
+              let i2 = buf.pixelOffset(x + 1, y + 1);
+              var pixel1 = unblend(data[i1 + 0], data[i1 + 1], data[i1 + 2], col[0], col[1], col[2]);
+              var pixel2 = unblend(data[i2 + 0], data[i2 + 1], data[i2 + 2], col[0], col[1], col[2]);
+              //TODO this is from c# can simplify a bit
+              var s = (pixel1[0] / 255 * pixel1[1] / 255) * (pixel2[0] / 255 * (255.0 - pixel2[1]) / 255);
+              score += s;
+            }
+          }
+          if (score > bestscore) {
+            bestscore = score;
+            best = col;
+          }
+        }
+        //bestscore /= rect.width * rect.height;
+        return best;*/
   }
 
   /**
@@ -335,7 +359,7 @@ export namespace OCR {
     var allcolors: ColortTriplet[] = multicol ? colors as ColortTriplet[] : [colors as ColortTriplet];
 
     var detectcolor = function (sx: number, sy: number, backward: boolean) {
-      var w = Math.floor(font.width * 1.5);
+      const w = font.width;
       if (backward) { sx -= w; }
       sy -= font.basey;
       return getChatColor(buffer, {x: sx, y: sy, width: w, height: font.height}, allcolors);

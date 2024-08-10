@@ -127,6 +127,8 @@ export namespace Process {
   export abstract class Interval extends Process<void> {
     constructor(interval: number) {
       super();
+
+      this.asInterval(interval)
     }
 
     abstract tick(): void | Promise<void>

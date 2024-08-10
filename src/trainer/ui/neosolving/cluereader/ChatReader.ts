@@ -33,7 +33,7 @@ export class ChatReader extends Process.Interval {
   private last_search = Number.NEGATIVE_INFINITY
   private chatboxes: ChatReader.SingleChatboxReader[] = []
 
-  constructor(private read_interval: number = 600, private search_interval: number = 3000) {
+  constructor(private read_interval: number = 3000, private search_interval: number = 3000) {
     super(read_interval);
 
     this.new_message.on(m => {
@@ -250,6 +250,8 @@ export namespace ChatReader {
       while (row < max_rows) {
         const components: string[] = []
 
+        console.log(`Row ${row}`)
+
         while (row < max_rows && !index(components, -1)?.startsWith("[")) {
           components.push(await this.readLine(row))
 
@@ -258,7 +260,10 @@ export namespace ChatReader {
 
         const line = components.reverse().join(" ")
 
+        console.log(`Row ${line}`)
+
         if (!line.startsWith("[")) return
+
 
         this.commit(line)
       }
@@ -281,6 +286,30 @@ export namespace ChatReader {
   export const all_colors: ColortTriplet[] = [
     [255, 176, 0], // orange, ex brooch of the gods
     [235, 47, 47], // weird red, ex divine blessing disappearing
-    ...defaultcolors as ColortTriplet[]
+    [0, 255, 0],
+    [0, 255, 255],
+    [0, 175, 255],
+    [0, 0, 255],
+    [255, 82, 86],
+    [159, 255, 159],
+    [0, 111, 0],
+    [255, 143, 143],
+    [255, 152, 31],
+    [255, 111, 0],
+    [255, 255, 0],
+    //[239, 0, 0],//messes up broadcast detection [255,0,0]
+    [239, 0, 175],
+    [255, 79, 255],
+    [175, 127, 255],
+    //[48, 48, 48],//fuck this color, its unlegible for computers and people alike
+    [127, 255, 255],
+    [128, 0, 0],
+    [255, 255, 255],
+    [127, 169, 255],
+    [255, 140, 56], //orange drop received text
+    [255, 0, 0], //red achievement world message
+    [69, 178, 71], //blueish green friend broadcast
+    [164, 153, 125], //brownish gray friends/fc/cc list name
+    [215, 195, 119] //interface preset color
   ]
 }

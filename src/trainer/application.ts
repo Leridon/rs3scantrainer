@@ -106,7 +106,6 @@ namespace PermissionChecker {
 
   export function check() {
     if (alt1.permissionInstalled && !arePermissionsFine()) new PermissionChecker().show()
-    else notification("Hihi").show()
   }
 }
 

@@ -1638,14 +1638,13 @@ input[type=checkbox] + span {
     background: linear-gradient(to bottom, #2cb5ec, #05649d);
 }
 
-
 /* Notification Bar */
 
 .ctr-notification-bar {
     position: fixed;
     top: 0;
     width: 100%;
-    z-index: 10000;
+    z-index: 100000;
     text-align: center;
 }
 

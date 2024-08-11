@@ -1,5 +1,5 @@
 {
-  "version": 1430,
+  "version": 1441,
   "custom_instances": [],
   "associations": [
     {
@@ -927,10 +927,6 @@
         [
           "loc",
           5170
-        ],
-        [
-          "loc",
-          5052
         ],
         [
           "loc",
@@ -12394,7 +12390,7 @@
               {
                 "action": {
                   "loc": {
-                    "id": 2
+                    "id": 1
                   }
                 },
                 "movements": [
@@ -12451,7 +12447,7 @@
               {
                 "action": {
                   "loc": {
-                    "id": 2
+                    "id": 1
                   }
                 },
                 "area": {
@@ -12943,7 +12939,7 @@
       ],
       "per_group_arg": {
         "action": {
-          "id": 1
+          "id": 0
         },
         "time": 3
       },
@@ -12988,7 +12984,7 @@
       ],
       "per_group_arg": {
         "action": {
-          "id": 1
+          "id": 0
         },
         "time": 3
       },
@@ -13081,7 +13077,7 @@
           {
             "action": {
               "loc": {
-                "id": 1
+                "id": 0
               }
             },
             "area": {
@@ -13489,9 +13485,6 @@
             "actions": [
               {
                 "action": {
-                  "loc": {
-                    "id": 0
-                  },
                   "custom": {
                     "name": "Enter (Quiver)",
                     "cursor": "generic"
@@ -13609,9 +13602,6 @@
             "actions": [
               {
                 "action": {
-                  "loc": {
-                    "id": 0
-                  },
                   "custom": {
                     "name": "Enter (Quiver)",
                     "cursor": "generic"
@@ -13670,9 +13660,6 @@
             "actions": [
               {
                 "action": {
-                  "loc": {
-                    "id": 0
-                  },
                   "custom": {
                     "name": "Enter (Quiver)",
                     "cursor": "generic"
@@ -13746,9 +13733,6 @@
             "actions": [
               {
                 "action": {
-                  "loc": {
-                    "id": 0
-                  },
                   "custom": {
                     "name": "Enter (Quiver)",
                     "cursor": "generic"
@@ -14542,11 +14526,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -14580,9 +14559,6 @@
         "actions": [
           {
             "action": {
-              "loc": {
-                "id": 0
-              },
               "custom": {
                 "name": "Use Rope",
                 "cursor": "generic"
@@ -14598,11 +14574,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -14636,9 +14607,6 @@
         "actions": [
           {
             "action": {
-              "loc": {
-                "id": 0
-              },
               "custom": {
                 "name": "Use Rope",
                 "cursor": "generic"
@@ -14887,7 +14855,7 @@
           {
             "action": {
               "loc": {
-                "id": 1
+                "id": 0
               }
             },
             "area": {
@@ -15209,11 +15177,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -15238,11 +15201,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -15335,11 +15293,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -15380,11 +15333,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -15425,11 +15373,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -15470,11 +15413,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -15522,11 +15460,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -15627,197 +15560,154 @@
     },
     {
       "group_id": 1369,
-      "loc_ids": [],
+      "loc_ids": [
+        [
+          "loc",
+          110951
+        ],
+        [
+          "loc",
+          110953
+        ],
+        [
+          "loc",
+          93017
+        ],
+        [
+          "loc",
+          124308
+        ]
+      ],
       "per_group_arg": {
-        "actions": []
-      },
-      "group_name": "ED Chests",
-      "instance_groups": [
-        {
-          "id": 1369,
-          "name": "Entrance Chests",
-          "instances": [
-            {
-              "loc": [
-                "loc",
-                5992
-              ],
-              "origin": {
-                "x": 3506,
-                "y": 3691,
-                "level": 0
+        "actions": [
+          {
+            "action": {
+              "custom": {
+                "name": "Teleport to Temple of Aminishi",
+                "cursor": "generic"
               }
             },
-            {
-              "loc": [
-                "loc",
-                111765
-              ],
-              "origin": {
-                "x": 3365,
-                "y": 3889,
-                "level": 0
+            "area": null,
+            "movements": [
+              {
+                "valid_from": null,
+                "orientation": {
+                  "orientation": "toentitybefore"
+                },
+                "movement": {
+                  "fixed_target": {
+                    "target": {
+                      "origin": {
+                        "x": 2094,
+                        "y": 11355,
+                        "level": 0
+                      }
+                    },
+                    "relative": false,
+                    "origin_only": false
+                  }
+                },
+                "time": 5
+              }
+            ]
+          },
+          {
+            "action": {
+              "custom": {
+                "name": "Teleport to Dragonkin Laboratory",
+                "cursor": "generic"
               }
             },
-            {
-              "loc": [
-                "loc",
-                111709
-              ],
-              "origin": {
-                "x": 2091,
-                "y": 11354,
-                "level": 0
+            "area": null,
+            "movements": [
+              {
+                "valid_from": null,
+                "orientation": {
+                  "orientation": "toentitybefore"
+                },
+                "movement": {
+                  "fixed_target": {
+                    "target": {
+                      "origin": {
+                        "x": 3369,
+                        "y": 3889,
+                        "level": 0
+                      }
+                    },
+                    "relative": false,
+                    "origin_only": false
+                  }
+                },
+                "time": 5
+              }
+            ]
+          },
+          {
+            "action": {
+              "custom": {
+                "name": "Teleport to Shadow Reef",
+                "cursor": "generic"
               }
             },
-            {
-              "loc": [
-                "loc",
-                124307
-              ],
-              "origin": {
-                "x": 1764,
-                "y": 1337,
-                "level": 0
+            "area": null,
+            "movements": [
+              {
+                "valid_from": null,
+                "orientation": {
+                  "orientation": "toentitybefore"
+                },
+                "movement": {
+                  "fixed_target": {
+                    "target": {
+                      "origin": {
+                        "x": 3511,
+                        "y": 3692,
+                        "level": 0
+                      }
+                    },
+                    "relative": false,
+                    "origin_only": false
+                  }
+                },
+                "time": 5
               }
-            }
-          ],
-          "per_instance_argument": {
-            "actions": [
+            ]
+          },
+          {
+            "action": {
+              "custom": {
+                "name": "Teleport to Zamorakian Undercity",
+                "cursor": "generic"
+              }
+            },
+            "area": null,
+            "movements": [
               {
-                "action": {
-                  "custom": {
-                    "name": "Teleport to Temple of Aminishi",
-                    "cursor": "generic"
-                  }
+                "valid_from": null,
+                "orientation": {
+                  "orientation": "toentitybefore"
                 },
-                "movements": [
-                  {
-                    "movement": {
-                      "offset": {
-                        "x": 0,
-                        "y": 0,
+                "movement": {
+                  "fixed_target": {
+                    "target": {
+                      "origin": {
+                        "x": 1759,
+                        "y": 1341,
                         "level": 0
-                      },
-                      "fixed": {
-                        "area": {
-                          "origin": {
-                            "x": -7664,
-                            "y": -1412,
-                            "level": 0
-                          }
-                        },
-                        "origin_only": false
                       }
                     },
-                    "time": 5
-                  }
-                ]
-              },
-              {
-                "action": {
-                  "loc": {
-                    "id": 0
-                  },
-                  "custom": {
-                    "name": "Teleport to Dragonkin Laboratory",
-                    "cursor": "generic"
+                    "relative": false,
+                    "origin_only": false
                   }
                 },
-                "movements": [
-                  {
-                    "movement": {
-                      "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 0
-                      },
-                      "fixed": {
-                        "area": {
-                          "origin": {
-                            "x": -198,
-                            "y": -137,
-                            "level": 0
-                          }
-                        },
-                        "origin_only": false
-                      }
-                    },
-                    "time": 5
-                  }
-                ]
-              },
-              {
-                "action": {
-                  "loc": {
-                    "id": 0
-                  },
-                  "custom": {
-                    "name": "Teleport to Shadow Reef",
-                    "cursor": "generic"
-                  }
-                },
-                "movements": [
-                  {
-                    "movement": {
-                      "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 0
-                      },
-                      "fixed": {
-                        "area": {
-                          "origin": {
-                            "x": -1,
-                            "y": 5,
-                            "level": 0
-                          }
-                        },
-                        "origin_only": false
-                      }
-                    },
-                    "time": 5
-                  }
-                ]
-              },
-              {
-                "action": {
-                  "loc": {
-                    "id": 0
-                  },
-                  "custom": {
-                    "name": "Teleport to Zamorakian Undercity",
-                    "cursor": "generic"
-                  }
-                },
-                "movements": [
-                  {
-                    "movement": {
-                      "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 0
-                      },
-                      "fixed": {
-                        "area": {
-                          "origin": {
-                            "x": 2350,
-                            "y": -1747,
-                            "level": 0
-                          }
-                        },
-                        "origin_only": false
-                      }
-                    },
-                    "time": 5
-                  }
-                ]
+                "time": 5
               }
             ]
           }
-        }
-      ],
-      "parser_id": "prototypecopyloc"
+        ]
+      },
+      "group_name": "ED Chests",
+      "parser_id": "prototypecopylocnew"
     },
     {
       "group_id": 1380,
@@ -15926,11 +15816,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -15966,11 +15851,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -16027,11 +15907,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -16068,11 +15943,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -16124,11 +15994,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -16164,11 +16029,6 @@
             "movements": [
               {
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -16307,11 +16167,6 @@
                   }
                 },
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {
@@ -16338,11 +16193,6 @@
                   }
                 },
                 "movement": {
-                  "offset": {
-                    "x": 0,
-                    "y": 0,
-                    "level": 0
-                  },
                   "fixed": {
                     "area": {
                       "origin": {

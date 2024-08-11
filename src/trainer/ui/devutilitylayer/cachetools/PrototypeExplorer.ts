@@ -5,12 +5,14 @@ import TextField from "../../../../lib/ui/controls/TextField";
 import Properties from "../../widgets/Properties";
 import {C} from "../../../../lib/ui/constructors";
 import {CursorType} from "../../../../lib/runescape/CursorType";
+import ContextMenu, {MenuEntry} from "../../widgets/ContextMenu";
+import {PrototypeFilter} from "./FilteredPrototypeLayer";
+import {TileCoordinates} from "../../../../lib/runescape/coordinates";
 import Prototype = ProcessedCacheTypes.Prototype;
 import vbox = C.vbox;
 import hboxl = C.hboxl;
 import inlineimg = C.inlineimg;
-import ContextMenu, {MenuEntry} from "../../widgets/ContextMenu";
-import {PrototypeFilter} from "./FilteredPrototypeLayer";
+import PrototypeInstance = ProcessedCacheTypes.PrototypeInstance;
 
 class PreparedSearch<T> {
 
@@ -68,6 +70,16 @@ export namespace PrototypeProperties {
   }
 }
 
+export class PrototypeInstanceProperties extends PrototypeProperties {
+  constructor(instance: PrototypeInstance) {
+    super(instance.prototype);
+
+    this.named("Origin", TileCoordinates.toString(instance.instance.position))
+    this.named("Rotation", instance.instance.rotation.toString())
+  }
+
+}
+
 export class PrototypeExplorer extends Widget {
 
   private index: PreparedSearch<Prototype>
@@ -77,7 +89,7 @@ export class PrototypeExplorer extends Widget {
   constructor(prototypes: Prototype[],
               private filter: PrototypeFilter,
               private click_options: (_: Prototype) => MenuEntry[]
-              ) {
+  ) {
     super();
 
     this.search_field = new TextField().setPlaceholder("Search...")

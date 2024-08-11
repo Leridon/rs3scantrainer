@@ -1,5 +1,4 @@
 import {TransportParser} from "./TransportParser";
-import {CacheTypes} from "./CacheTypes";
 import {Transportation} from "../../../../lib/runescape/transportation";
 import {TileRectangle} from "../../../../lib/runescape/coordinates";
 import {direction} from "../../../../lib/runescape/movement";
@@ -9,16 +8,17 @@ import {ParsingParameter} from "./ParsingParameters";
 import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
 import {EntityTransportationBuilder} from "./util/GeneralEntityTransportationBuilder";
 import {MovementBuilder} from "./util/MovementBuilder";
-import LocInstance = CacheTypes.LocInstance;
+import {C} from "../../../../lib/ui/constructors";
+import {ProcessedCacheTypes} from "./ProcessedCacheTypes";
+import {CursorType} from "../../../../lib/runescape/CursorType";
 import PP = ParsingParameter;
 import rec = ParsingParameter.rec;
 import offset = MovementBuilder.offset;
 import fixed = MovementBuilder.fixed;
 import EntityActionMovement = Transportation.EntityActionMovement;
-import {C} from "../../../../lib/ui/constructors";
 import span = C.span;
-import {ProcessedCacheTypes} from "./ProcessedCacheTypes";
 import PrototypeInstance = ProcessedCacheTypes.PrototypeInstance;
+import tileArea2 = ParsingParameter.tileArea2;
 
 const orientation_new: ParsingParameter<Pick<EntityActionMovement, "orientation" | "forced_orientation">> = PP.choose<Pick<EntityActionMovement, "orientation" | "forced_orientation">>(
   {
@@ -91,7 +91,22 @@ const actions_parameter = PP.list(PP.rec({
   }), 1))
 }), 1)
 
-const actions_parameter_new = PP.list(PP.rec({
+const actions_parameter_new: ParsingParameter<{
+  area?: { type: "relativetoloc" | "absolute"; area: TileArea },
+  action?: {
+    loc?: { id: number };
+    custom?: {
+      cursor: CursorType
+      name: string
+    }
+  },
+  movements?: {
+    orientation?: Pick<Transportation.EntityActionMovement, "orientation" | "forced_orientation">,
+    valid_from?: { type: "relativetoloc" | "absolute"; area: TileArea },
+    time?: number,
+    movement?: ParsingParameter.Movement,
+  }[]
+}[]> = PP.list(PP.rec({
   action: PP.element("Action", PP.action()),
   area: PP.element("Area", PP.tileArea2(true, false), false),
   movements: PP.element("Movements", PP.list(PP.rec({
@@ -101,6 +116,8 @@ const actions_parameter_new = PP.list(PP.rec({
     time: PP.element("Time", PP.time())
   }), 1))
 }), 1)
+
+type ParType<T> = T extends ParsingParameter<infer U> ? U : never
 
 function parse<GroupT, InstanceT>(id: string,
                                   name: string,
@@ -262,7 +279,60 @@ export const parsers: TransportParser[] = [
       actions: PP.element("Actions", actions_parameter_new)
     }), rec({
       actions: PP.element("Actions", actions_parameter_new)
-    }), false, async () => []),
+    }), false, async (instance, {per_loc, per_instance}: {
+      per_loc: { actions: ParType<typeof actions_parameter_new> },
+      per_instance: { actions: ParType<typeof actions_parameter_new> }
+    }) => {
+      const builder = EntityTransportationBuilder.from(instance)
+
+      for (const action of [...per_loc.actions, ...(per_instance?.actions ?? [])]) {
+
+        builder.action(
+          {
+            index:
+              action.action.custom
+                ? null
+                : action.action.loc.id,
+            name: action.action.custom
+              ? action.action.custom.name
+              : null,
+            cursor: action.action.custom
+              ? action.action.custom.cursor
+              : null,
+            interactive_area: tileArea2.translate(instance, action.area)
+          }, ...action.movements.map(m => {
+
+            let b: MovementBuilder
+
+            if (!m.movement) debugger
+
+            if (m.movement.fixed_target) {
+
+              const area = TileArea.transform(m.movement.fixed_target.target, m.movement.fixed_target.relative ? instance.getTransform() : TileTransform.identity())
+
+              b = fixed(
+                m.movement.fixed_target.origin_only ? TileArea.init(area.origin) : area,
+                m.movement.fixed_target.relative)
+
+            } else b = offset(m.movement.offset)
+
+            if (m.orientation) {
+              if (m.orientation.orientation != "forced") b.orientation(m.orientation.orientation)
+              else b.forcedOrientation(m.orientation.forced_orientation.dir, !!m.orientation.forced_orientation.relative)
+            }
+
+            b.time(m.time ?? 3)
+
+            if (m.valid_from) {
+              b.restrict(tileArea2.translate(instance, m.valid_from))
+            }
+
+            return b
+          }))
+      }
+
+      return [builder.finish()]
+    }),
   parse("prototypecopyloc", "Prototype",
     rec({
       actions: PP.element("Actions", actions_parameter)

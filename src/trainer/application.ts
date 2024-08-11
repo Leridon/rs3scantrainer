@@ -33,6 +33,9 @@ import {Log} from "../lib/util/Log";
 import {Changelog} from "./ChangeLog";
 import {DevelopmentModal} from "../devtools/DevelopmentMenu";
 import {LogViewer} from "../devtools/LogViewer";
+import {NisModal} from "../lib/ui/NisModal";
+import {BigNisButton} from "./ui/widgets/BigNisButton";
+import Properties from "./ui/widgets/Properties";
 import ActiveTeleportCustomization = Transportation.TeleportGroup.ActiveTeleportCustomization;
 import TeleportSettings = Settings.TeleportSettings;
 import inlineimg = C.inlineimg;
@@ -44,6 +47,67 @@ import staticentity = C.staticentity;
 import entity = C.entity;
 import notification = Notification.notification;
 import log = Log.log;
+import img = C.img;
+
+class PermissionChecker extends NisModal {
+  constructor() {
+    super({disable_close_button: true, fixed: true});
+
+    this.title.set("Missing Permissions")
+  }
+
+  render() {
+    super.render();
+
+    const props = new Properties().appendTo(this.body)
+
+    props.paragraph("Clue Trainer is missing permissions that are essential for it to function. Please grant the necessary permissions and then check again by clicking the button on the bottom of this modal.")
+
+    props.header("How to set permissions")
+
+    props.paragraph("Open Clue Trainer settings by clicking the small wrench on the top left, next to the buttons to minimize or close the window.")
+
+    props.row(img("media/how_to_set_permissions_1.png"))
+
+    props.paragraph("Make sure all permissions are checked.")
+
+    props.row(img("media/how_to_set_permissions_2.png"))
+
+    props.paragraph("Click 'Check' below to check if permissions have correctly been set.")
+  }
+
+  getButtons(): BigNisButton[] {
+    return [
+      new BigNisButton("Ignore", "cancel")
+        .onClick(() => {
+          notification("Please be aware that Clue Trainer will not work without granting the permissions.", "error").show()
+          this.remove()
+        }),
+      new BigNisButton("Check", "confirm")
+        .onClick(() => {
+          if (!alt1) this.remove()
+          else {
+            if (alt1.permissionPixel && alt1.permissionOverlay && alt1.permissionGameState) {
+              notification("Success! Permissions are fine now", "information").show()
+              this.remove()
+            } else {
+              notification("Clue Trainer is still missing permissions.", "error").show()
+            }
+          }
+        })
+    ]
+  }
+}
+
+namespace PermissionChecker {
+  export function arePermissionsFine(): boolean {
+    return alt1.permissionPixel && alt1.permissionOverlay && alt1.permissionGameState
+  }
+
+  export function check() {
+    if (alt1.permissionInstalled && !arePermissionsFine()) new PermissionChecker().show()
+  }
+}
 
 export class SimpleLayerBehaviour extends Behaviour {
   constructor(private map: GameMap, private layer: GameLayer) {
@@ -347,6 +411,8 @@ export class Application extends Behaviour {
       log().log(`Active capture mode: ${alt1.captureMethod}`)
       log().log(`Permissions: Installed ${alt1.permissionInstalled}, GameState ${alt1.permissionGameState}, Pixel ${alt1.permissionPixel}, Overlay ${alt1.permissionOverlay}`)
       log().log("Settings on startup", "Startup", {type: "object", value: lodash.cloneDeep(this.settings.settings)})
+
+      PermissionChecker.check()
     }
   }
 

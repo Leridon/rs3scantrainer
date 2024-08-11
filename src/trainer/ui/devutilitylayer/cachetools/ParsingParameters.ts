@@ -7,7 +7,6 @@ import {AbstractDropdownSelection} from "../../widgets/AbstractDropdownSelection
 import {DropdownSelection} from "../../widgets/DropdownSelection";
 import {direction} from "../../../../lib/runescape/movement";
 import Widget from "../../../../lib/ui/Widget";
-import {LocUtil} from "./util/LocUtil";
 import {CursorType} from "../../../../lib/runescape/CursorType";
 import NumberInput from "../../../../lib/ui/controls/NumberInput";
 import {floor_t, TileCoordinates} from "../../../../lib/runescape/coordinates";
@@ -169,33 +168,21 @@ export namespace ParsingParameter {
     }
   }
 
-  export function tileArea2(allow_relative: boolean = true, allow_absolute: boolean = true): ParsingParameter<{
-    type: "relativetoloc" | "absolute",
-    area: TileArea
-  }> {
+  export function tileArea2(allow_relative: boolean = true, allow_absolute: boolean = true): ParsingParameter<tileArea2.Area> {
 
-    return (new class extends ParsingParameter<{
-      type: "relativetoloc" | "absolute",
-      area: TileArea
-    }> {
+    return (new class extends ParsingParameter<tileArea2.Area> {
 
       constructor() {
         super(null);
       }
 
-      renderForm(depth: number, loc: PrototypeInstance, map: GameMapMiniWidget): Editor<{
-        type: "relativetoloc" | "absolute",
-        area: TileArea
-      }> {
+      renderForm(depth: number, loc: PrototypeInstance, map: GameMapMiniWidget): Editor<tileArea2.Area> {
         const self = this
 
         const transform = loc.getTransform()
         const inverse_transform = loc.getInverseTransform()
 
-        return new class extends ParsingParameter.Editor<{
-          type: "relativetoloc" | "absolute",
-          area: TileArea
-        }> {
+        return new class extends ParsingParameter.Editor<tileArea2.Area> {
 
           private wip_value: {
             type: "relativetoloc" | "absolute",
@@ -204,10 +191,7 @@ export namespace ParsingParameter {
 
           interaction: ValueInteraction<any> = null
 
-          render_implementation(value: {
-            type: "relativetoloc" | "absolute",
-            area: TileArea
-          }): void {
+          render_implementation(value: tileArea2.Area): void {
             this.wip_value = value ? {
               type: value.type,
               tiles: TileArea.activate(value.area).getTiles()
@@ -331,6 +315,24 @@ export namespace ParsingParameter {
         }(self)
       }
     })
+  }
+
+  export namespace tileArea2 {
+    export type Area = {
+      type: "relativetoloc" | "absolute",
+      area: TileArea
+    }
+
+    export function translate(instance: PrototypeInstance, area: Area): TileArea {
+      if(!area) return null
+
+      switch (area.type) {
+        case "absolute":
+          return area.area
+        case "relativetoloc":
+          return TileArea.transform(area.area, instance.getTransform())
+      }
+    }
   }
 
   export type Movement = {
@@ -755,7 +757,7 @@ export namespace ParsingParameter {
     }
 
     export namespace Element {
-      export type extr<T> = T extends Element<infer Q> ? Q : unknown
+      export type extr<T> = T extends Element<infer Q> ? Q : never
     }
 
 
@@ -916,7 +918,7 @@ export namespace ParsingParameter {
                     })
                   }
 
-                  this.commit(copyUpdate2(this.get(), e => e[id] = v))
+                  this.commit({[id]: v})
                 })
             )
 

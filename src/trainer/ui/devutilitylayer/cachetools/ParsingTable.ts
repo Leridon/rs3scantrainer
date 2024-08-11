@@ -1,6 +1,5 @@
 import {Observable, observe} from "../../../../lib/reactive";
 import {TileCoordinates} from "../../../../lib/runescape/coordinates";
-import {CacheTypes} from "./CacheTypes";
 import {TransportParser} from "./TransportParser";
 import {parsers} from "./parsers";
 import {ProcessedCacheTypes} from "./ProcessedCacheTypes";
@@ -137,7 +136,7 @@ export class LocParsingTable {
       currently_in_group.per_group_arg = pairing.group.argument
       currently_in_group.group_name = pairing.group.name
 
-      let currently_in_igroup = currently_in_group.instance_groups.find(igroup =>
+      let currently_in_igroup = currently_in_group.instance_groups?.find(igroup =>
         igroup.instances.some(i => PrototypeID.equals(i.loc, loc.protoId()) && TileCoordinates.eq(i.origin, loc.box.origin))
       )
 
@@ -156,12 +155,14 @@ export class LocParsingTable {
       if (!pairing.instance_group) return
 
       if (!currently_in_igroup) {
-        const correct_group = currently_in_group.instance_groups.find(igroup => igroup.id == pairing.instance_group.id)
+        const correct_group = currently_in_group.instance_groups?.find(igroup => igroup.id == pairing.instance_group.id)
 
         if (correct_group) {
           correct_group.instances.push({loc: loc.protoId(), origin: loc.box.origin})
           currently_in_igroup = correct_group
         } else {
+          if (!currently_in_group.instance_groups) currently_in_group.instance_groups = []
+
           currently_in_group.instance_groups.push(currently_in_igroup = {
             id: this.data.version,
             name: "",

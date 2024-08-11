@@ -33,6 +33,15 @@ export namespace Changelog {
   }
 
   export const log: LogEntry[] = lodash.sortBy<LogEntry>([{
+    version: 7,
+    date: new Date(Date.parse("2024-08-11")),
+    title: "Transport Fixes and Permission Checking",
+    render: layout => {
+      layout.row(new List()
+        .item("Fixed issues with various transports missing in the path editor and many actions being named 'Unnamed Action'.")
+        .item("Clue Trainer now checks if all required permissions are granted on startup and opens and explanation how to grant them if they are not.")
+      ) }
+  },{
     version: 6,
     date: new Date(Date.parse("2024-07-14")),
     title: "Celtic Knot Bugfix",
@@ -328,6 +337,8 @@ export namespace Changelog {
 
       layout.paragraph('You can support continuous development of Clue Trainer at <a href="https://ko-fi.com/I2I4XY829" target="_blank"><img class="ctr-clickable" height="12px" src="assets/icons/kofi.webp"> KoFi</a>.')
       layout.paragraph('Join the <a href="https://discord.gg/cluechasers" target="_blank"><img src="assets/icons/cluechasers.png" height="12px">Clue Chasers discord</a> to leave praise and criticism, report issues, request features, get support or just come by and say hi in the <a href="https://discord.com/channels/332595657363685377/1103737270114209825" target="_blank">#clue-trainer</a> channel.')
+
+      layout.divider()
 
       log.forEach(entry => {
         layout.header(c().text(`${entry.date.toLocaleDateString("en-gb")} - ${entry.title}`))

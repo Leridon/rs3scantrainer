@@ -9,15 +9,14 @@ import {ParsingParameter} from "./ParsingParameters";
 import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
 import {EntityTransportationBuilder} from "./util/GeneralEntityTransportationBuilder";
 import {MovementBuilder} from "./util/MovementBuilder";
-import LocInstance = CacheTypes.LocInstance;
+import {C} from "../../../../lib/ui/constructors";
+import {ProcessedCacheTypes} from "./ProcessedCacheTypes";
 import PP = ParsingParameter;
 import rec = ParsingParameter.rec;
 import offset = MovementBuilder.offset;
 import fixed = MovementBuilder.fixed;
 import EntityActionMovement = Transportation.EntityActionMovement;
-import {C} from "../../../../lib/ui/constructors";
 import span = C.span;
-import {ProcessedCacheTypes} from "./ProcessedCacheTypes";
 import PrototypeInstance = ProcessedCacheTypes.PrototypeInstance;
 
 const orientation_new: ParsingParameter<Pick<EntityActionMovement, "orientation" | "forced_orientation">> = PP.choose<Pick<EntityActionMovement, "orientation" | "forced_orientation">>(

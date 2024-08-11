@@ -930,10 +930,6 @@
         ],
         [
           "loc",
-          5052
-        ],
-        [
-          "loc",
           22435
         ],
         [
@@ -13489,9 +13485,6 @@
             "actions": [
               {
                 "action": {
-                  "loc": {
-                    "id": 0
-                  },
                   "custom": {
                     "name": "Enter (Quiver)",
                     "cursor": "generic"
@@ -13609,9 +13602,6 @@
             "actions": [
               {
                 "action": {
-                  "loc": {
-                    "id": 0
-                  },
                   "custom": {
                     "name": "Enter (Quiver)",
                     "cursor": "generic"
@@ -13670,9 +13660,6 @@
             "actions": [
               {
                 "action": {
-                  "loc": {
-                    "id": 0
-                  },
                   "custom": {
                     "name": "Enter (Quiver)",
                     "cursor": "generic"
@@ -13746,9 +13733,6 @@
             "actions": [
               {
                 "action": {
-                  "loc": {
-                    "id": 0
-                  },
                   "custom": {
                     "name": "Enter (Quiver)",
                     "cursor": "generic"
@@ -14580,9 +14564,6 @@
         "actions": [
           {
             "action": {
-              "loc": {
-                "id": 0
-              },
               "custom": {
                 "name": "Use Rope",
                 "cursor": "generic"
@@ -14636,9 +14617,6 @@
         "actions": [
           {
             "action": {
-              "loc": {
-                "id": 0
-              },
               "custom": {
                 "name": "Use Rope",
                 "cursor": "generic"
@@ -15716,9 +15694,6 @@
               },
               {
                 "action": {
-                  "loc": {
-                    "id": 0
-                  },
                   "custom": {
                     "name": "Teleport to Dragonkin Laboratory",
                     "cursor": "generic"
@@ -15749,9 +15724,6 @@
               },
               {
                 "action": {
-                  "loc": {
-                    "id": 0
-                  },
                   "custom": {
                     "name": "Teleport to Shadow Reef",
                     "cursor": "generic"
@@ -15782,9 +15754,6 @@
               },
               {
                 "action": {
-                  "loc": {
-                    "id": 0
-                  },
                   "custom": {
                     "name": "Teleport to Zamorakian Undercity",
                     "cursor": "generic"

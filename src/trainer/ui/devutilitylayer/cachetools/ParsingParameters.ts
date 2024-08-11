@@ -916,7 +916,7 @@ export namespace ParsingParameter {
                     })
                   }
 
-                  this.commit(copyUpdate2(this.get(), e => e[id] = v))
+                  this.commit({[id]: v})
                 })
             )
 

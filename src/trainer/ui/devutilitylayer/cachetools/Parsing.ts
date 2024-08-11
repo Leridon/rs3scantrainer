@@ -1,7 +1,6 @@
 import {TransportParser} from "./TransportParser";
 import {LocParsingTable} from "./ParsingTable";
 import {Transportation} from "../../../../lib/runescape/transportation";
-import {parsers} from "./parsers";
 import {TileCoordinates} from "../../../../lib/runescape/coordinates";
 import {PrototypeInstanceDataSource} from "./FilteredPrototypeLayer";
 import {ProcessedCacheTypes} from "./ProcessedCacheTypes";
@@ -11,6 +10,7 @@ export namespace Parsing {
   import PrototypeIndex = ProcessedCacheTypes.PrototypeIndex;
   import PrototypeInstance = ProcessedCacheTypes.PrototypeInstance;
   import Prototype = ProcessedCacheTypes.Prototype;
+  import PrototypeID = ProcessedCacheTypes.PrototypeID;
 
   export async function applyParsing(parsers: TransportParser[],
                                      prototypes: Prototype[],
@@ -44,7 +44,7 @@ export namespace Parsing {
           const per_instance_arg =
             parser.per_instance_parameter
               ? loc_group.instance_groups?.find(igroup =>
-                igroup.instances.some(i => i.loc == loc_id && TileCoordinates.eq(i.origin, instance.box.origin))
+                igroup.instances.some(i => PrototypeID.equals(i.loc, loc_id) && TileCoordinates.eq(i.origin, instance.box.origin))
               )?.per_instance_argument
               : undefined
 

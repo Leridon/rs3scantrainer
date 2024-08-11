@@ -1,19 +1,15 @@
 import {Transportation} from "../../../../../lib/runescape/transportation";
 import {MovementBuilder} from "./MovementBuilder";
 import {LocUtil} from "./LocUtil";
-import {CacheTypes} from "../CacheTypes";
 import {Transform, Vector2} from "../../../../../lib/math";
 import {TileTransform} from "../../../../../lib/runescape/coordinates/TileTransform";
 import {TileCoordinates, TileRectangle} from "../../../../../lib/runescape/coordinates";
 import {CursorType} from "../../../../../lib/runescape/CursorType";
 import {TileArea} from "../../../../../lib/runescape/coordinates/TileArea";
+import {ProcessedCacheTypes} from "../ProcessedCacheTypes";
 import EntityAction = Transportation.EntityAction;
 import EntityTransportation = Transportation.EntityTransportation;
 import GeneralEntityTransportation = Transportation.GeneralEntityTransportation;
-import getAction = LocUtil.getAction;
-import LocInstance = CacheTypes.LocInstance;
-import getNthAction = LocUtil.getNthAction;
-import {ProcessedCacheTypes} from "../ProcessedCacheTypes";
 import PrototypeInstance = ProcessedCacheTypes.PrototypeInstance;
 
 export class EntityActionBuilder {
@@ -78,17 +74,16 @@ export class GeneralEntityTransportationBuilder extends EntityTransportationBuil
     interactive_area?: TileArea,
   } = {}, ...movements: MovementBuilder[]) {
 
-    const action =
-      override.index != null
-        ? getAction(this.underlying.prototype, override.index)!
-        : getNthAction(this.underlying.prototype, 0)
+    const action = this.underlying.prototype.actions[override.index ?? 0]
 
     const a = new EntityActionBuilder({
-      name: override.name ?? action?.name ?? "Unnamed Action",
-      cursor: override.cursor ?? action?.cursor ?? "generic",
+      name: override.name ?? action?.[0] ?? "Unnamed Action",
+      cursor: override.cursor ?? action?.[1] ?? "generic",
       interactive_area: override.interactive_area ?? undefined,
       movement: [],
     })
+
+    if (a.value.name == "Unnamed Action") debugger
 
     a.movement(...movements)
 

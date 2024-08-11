@@ -5,7 +5,7 @@ import {MapEntity} from "../../../../lib/gamemap/MapEntity";
 import {areaPolygon} from "../../polygon_helpers";
 import {Rectangle, Vector2} from "../../../../lib/math";
 import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
-import {PrototypeProperties} from "./PrototypeExplorer";
+import {PrototypeInstanceProperties, PrototypeProperties} from "./PrototypeExplorer";
 import {FloorLevels, ZoomLevels} from "../../../../lib/gamemap/ZoomLevels";
 import {GameMapContextMenuEvent} from "../../../../lib/gamemap/MapEvents";
 import {Menu} from "../../widgets/ContextMenu";
@@ -183,7 +183,7 @@ export class PrototypeInstanceEntity extends MapEntity {
 
     this.floor_sensitivity_layers = FloorLevels.single(instance.box.origin.level)
 
-    this.setTooltip(() => new PrototypeProperties(this.instance.prototype))
+    this.setTooltip(() => new PrototypeInstanceProperties(this.instance))
   }
 
   private rendered_with_parser: boolean

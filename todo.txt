@@ -16,7 +16,6 @@ Transport Backlog:
     (and the fishing platform and entrana connections as mentioned above)
     Kag Ship transports
     Wildy volcano stepping stone and cliff climb
-    ED Chests
     Dorgesh Khaan: Grapple hooks
                    Stairs up to the agility arena
                    Stairs down to both the north east and south west buildings

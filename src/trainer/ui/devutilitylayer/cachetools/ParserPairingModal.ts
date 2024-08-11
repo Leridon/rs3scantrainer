@@ -253,7 +253,9 @@ export class ParserPairingModal extends FormModal<{
 
   constructor(private loc: PrototypeInstance, private parsing_table: LocParsingTable, private existing_pairing: ParserPairing) {
     super({
-      size: "large"
+      size: "large",
+      fixed: true,
+      disable_close_button: true
     });
 
     this.title.set("Edit Parser Pairing")

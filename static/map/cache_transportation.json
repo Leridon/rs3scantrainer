@@ -83511,7 +83511,7 @@
       },
       {
         "cursor": "generic",
-        "name": "Unnamed Action",
+        "name": "Quick travel",
         "movement": [
           {
             "time": 5,
@@ -83690,7 +83690,7 @@
             "level": 0
           }
         },
-        "name": "Unnamed Action",
+        "name": "Quick travel",
         "movement": [
           {
             "time": 5,
@@ -84236,7 +84236,7 @@
     "actions": [
       {
         "cursor": "generic",
-        "name": "Unnamed Action",
+        "name": "Operate",
         "movement": [
           {
             "time": 3,
@@ -84278,7 +84278,7 @@
     "actions": [
       {
         "cursor": "generic",
-        "name": "Unnamed Action",
+        "name": "Operate",
         "movement": [
           {
             "time": 3,
@@ -84361,7 +84361,7 @@
     },
     "actions": [
       {
-        "cursor": "generic",
+        "cursor": "agility",
         "interactive_area": {
           "origin": {
             "x": 3086,
@@ -84369,7 +84369,7 @@
             "level": 0
           }
         },
-        "name": "Unnamed Action",
+        "name": "Climb",
         "movement": [
           {
             "time": 6,
@@ -84406,7 +84406,7 @@
     },
     "actions": [
       {
-        "cursor": "generic",
+        "cursor": "agility",
         "interactive_area": {
           "origin": {
             "x": 3086,
@@ -84414,7 +84414,7 @@
             "level": 0
           }
         },
-        "name": "Unnamed Action",
+        "name": "Climb",
         "movement": [
           {
             "time": 6,
@@ -88781,7 +88781,7 @@
     },
     "actions": [
       {
-        "cursor": "generic",
+        "cursor": "agility",
         "interactive_area": {
           "origin": {
             "x": 3193,
@@ -88794,7 +88794,7 @@
           },
           "data": "Eg=="
         },
-        "name": "Unnamed Action",
+        "name": "Cross",
         "movement": [
           {
             "time": 3,
@@ -90296,6 +90296,2306 @@
               "level": 0
             },
             "orientation": "bymovement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": [
+      "loc",
+      110951
+    ],
+    "entity": {
+      "name": "Treasure chest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3505.5,
+        "y": 3688.5
+      },
+      "botright": {
+        "x": 3506.5,
+        "y": 3687.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Teleport to Temple of Aminishi",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2094,
+                  "y": 11355,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Dragonkin Laboratory",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3369,
+                  "y": 3889,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Shadow Reef",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3511,
+                  "y": 3692,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Zamorakian Undercity",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 1759,
+                  "y": 1341,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": [
+      "loc",
+      110951
+    ],
+    "entity": {
+      "name": "Treasure chest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 5288.5,
+        "y": 9084.5
+      },
+      "botright": {
+        "x": 5289.5,
+        "y": 9083.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Teleport to Temple of Aminishi",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2094,
+                  "y": 11355,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Dragonkin Laboratory",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3369,
+                  "y": 3889,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Shadow Reef",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3511,
+                  "y": 3692,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Zamorakian Undercity",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 1759,
+                  "y": 1341,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": [
+      "loc",
+      110951
+    ],
+    "entity": {
+      "name": "Treasure chest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 5315.5,
+        "y": 8976.5
+      },
+      "botright": {
+        "x": 5316.5,
+        "y": 8975.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Teleport to Temple of Aminishi",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2094,
+                  "y": 11355,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Dragonkin Laboratory",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3369,
+                  "y": 3889,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Shadow Reef",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3511,
+                  "y": 3692,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Zamorakian Undercity",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 1759,
+                  "y": 1341,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": [
+      "loc",
+      110951
+    ],
+    "entity": {
+      "name": "Treasure chest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 5495.5,
+        "y": 9090.5
+      },
+      "botright": {
+        "x": 5496.5,
+        "y": 9089.5
+      },
+      "level": 2
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Teleport to Temple of Aminishi",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2094,
+                  "y": 11355,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Dragonkin Laboratory",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3369,
+                  "y": 3889,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Shadow Reef",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3511,
+                  "y": 3692,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Zamorakian Undercity",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 1759,
+                  "y": 1341,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": [
+      "loc",
+      110951
+    ],
+    "entity": {
+      "name": "Treasure chest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 5458.5,
+        "y": 9180.5
+      },
+      "botright": {
+        "x": 5459.5,
+        "y": 9179.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Teleport to Temple of Aminishi",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2094,
+                  "y": 11355,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Dragonkin Laboratory",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3369,
+                  "y": 3889,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Shadow Reef",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3511,
+                  "y": 3692,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Zamorakian Undercity",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 1759,
+                  "y": 1341,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": [
+      "loc",
+      110951
+    ],
+    "entity": {
+      "name": "Treasure chest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 5542.5,
+        "y": 9114.5
+      },
+      "botright": {
+        "x": 5543.5,
+        "y": 9113.5
+      },
+      "level": 3
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Teleport to Temple of Aminishi",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2094,
+                  "y": 11355,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Dragonkin Laboratory",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3369,
+                  "y": 3889,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Shadow Reef",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3511,
+                  "y": 3692,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Zamorakian Undercity",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 1759,
+                  "y": 1341,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": [
+      "loc",
+      110951
+    ],
+    "entity": {
+      "name": "Treasure chest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 5547.5,
+        "y": 9243.5
+      },
+      "botright": {
+        "x": 5548.5,
+        "y": 9242.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Teleport to Temple of Aminishi",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2094,
+                  "y": 11355,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Dragonkin Laboratory",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3369,
+                  "y": 3889,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Shadow Reef",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3511,
+                  "y": 3692,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Zamorakian Undercity",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 1759,
+                  "y": 1341,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": [
+      "loc",
+      110953
+    ],
+    "entity": {
+      "name": "Treasure chest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 3364.5,
+        "y": 3889.5
+      },
+      "botright": {
+        "x": 3365.5,
+        "y": 3888.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Teleport to Temple of Aminishi",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2094,
+                  "y": 11355,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Dragonkin Laboratory",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3369,
+                  "y": 3889,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Shadow Reef",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3511,
+                  "y": 3692,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Zamorakian Undercity",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 1759,
+                  "y": 1341,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": [
+      "loc",
+      110953
+    ],
+    "entity": {
+      "name": "Treasure chest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 4950.5,
+        "y": 9020.5
+      },
+      "botright": {
+        "x": 4951.5,
+        "y": 9019.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Teleport to Temple of Aminishi",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2094,
+                  "y": 11355,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Dragonkin Laboratory",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3369,
+                  "y": 3889,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Shadow Reef",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3511,
+                  "y": 3692,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Zamorakian Undercity",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 1759,
+                  "y": 1341,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": [
+      "loc",
+      110953
+    ],
+    "entity": {
+      "name": "Treasure chest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 4985.5,
+        "y": 9155.5
+      },
+      "botright": {
+        "x": 4986.5,
+        "y": 9154.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Teleport to Temple of Aminishi",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2094,
+                  "y": 11355,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Dragonkin Laboratory",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3369,
+                  "y": 3889,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Shadow Reef",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3511,
+                  "y": 3692,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Zamorakian Undercity",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 1759,
+                  "y": 1341,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": [
+      "loc",
+      110953
+    ],
+    "entity": {
+      "name": "Treasure chest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 5032.5,
+        "y": 9050.5
+      },
+      "botright": {
+        "x": 5033.5,
+        "y": 9049.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Teleport to Temple of Aminishi",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2094,
+                  "y": 11355,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Dragonkin Laboratory",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3369,
+                  "y": 3889,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Shadow Reef",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3511,
+                  "y": 3692,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Zamorakian Undercity",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 1759,
+                  "y": 1341,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": [
+      "loc",
+      110953
+    ],
+    "entity": {
+      "name": "Treasure chest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 5023.5,
+        "y": 9263.5
+      },
+      "botright": {
+        "x": 5024.5,
+        "y": 9262.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Teleport to Temple of Aminishi",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2094,
+                  "y": 11355,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Dragonkin Laboratory",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3369,
+                  "y": 3889,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Shadow Reef",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3511,
+                  "y": 3692,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Zamorakian Undercity",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 1759,
+                  "y": 1341,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": [
+      "loc",
+      110953
+    ],
+    "entity": {
+      "name": "Treasure chest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 5079.5,
+        "y": 9043.5
+      },
+      "botright": {
+        "x": 5080.5,
+        "y": 9042.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Teleport to Temple of Aminishi",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2094,
+                  "y": 11355,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Dragonkin Laboratory",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3369,
+                  "y": 3889,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Shadow Reef",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3511,
+                  "y": 3692,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Zamorakian Undercity",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 1759,
+                  "y": 1341,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": [
+      "loc",
+      93017
+    ],
+    "entity": {
+      "name": "Treasure chest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2090.5,
+        "y": 11354.5
+      },
+      "botright": {
+        "x": 2091.5,
+        "y": 11353.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Teleport to Temple of Aminishi",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2094,
+                  "y": 11355,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Dragonkin Laboratory",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3369,
+                  "y": 3889,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Shadow Reef",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3511,
+                  "y": 3692,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Zamorakian Undercity",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 1759,
+                  "y": 1341,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": [
+      "loc",
+      93017
+    ],
+    "entity": {
+      "name": "Treasure chest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 4538.5,
+        "y": 9012.5
+      },
+      "botright": {
+        "x": 4539.5,
+        "y": 9011.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Teleport to Temple of Aminishi",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2094,
+                  "y": 11355,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Dragonkin Laboratory",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3369,
+                  "y": 3889,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Shadow Reef",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3511,
+                  "y": 3692,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Zamorakian Undercity",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 1759,
+                  "y": 1341,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": [
+      "loc",
+      93017
+    ],
+    "entity": {
+      "name": "Treasure chest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 4480.5,
+        "y": 9182.5
+      },
+      "botright": {
+        "x": 4481.5,
+        "y": 9181.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Teleport to Temple of Aminishi",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2094,
+                  "y": 11355,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Dragonkin Laboratory",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3369,
+                  "y": 3889,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Shadow Reef",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3511,
+                  "y": 3692,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Zamorakian Undercity",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 1759,
+                  "y": 1341,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": [
+      "loc",
+      93017
+    ],
+    "entity": {
+      "name": "Treasure chest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 4620.5,
+        "y": 9242.5
+      },
+      "botright": {
+        "x": 4621.5,
+        "y": 9241.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Teleport to Temple of Aminishi",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2094,
+                  "y": 11355,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Dragonkin Laboratory",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3369,
+                  "y": 3889,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Shadow Reef",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3511,
+                  "y": 3692,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Zamorakian Undercity",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 1759,
+                  "y": 1341,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": [
+      "loc",
+      93017
+    ],
+    "entity": {
+      "name": "Treasure chest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 4742.5,
+        "y": 9036.5
+      },
+      "botright": {
+        "x": 4743.5,
+        "y": 9035.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Teleport to Temple of Aminishi",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2094,
+                  "y": 11355,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Dragonkin Laboratory",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3369,
+                  "y": 3889,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Shadow Reef",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3511,
+                  "y": 3692,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Zamorakian Undercity",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 1759,
+                  "y": 1341,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": [
+      "loc",
+      93017
+    ],
+    "entity": {
+      "name": "Treasure chest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 4742.5,
+        "y": 9166.5
+      },
+      "botright": {
+        "x": 4743.5,
+        "y": 9165.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Teleport to Temple of Aminishi",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2094,
+                  "y": 11355,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Dragonkin Laboratory",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3369,
+                  "y": 3889,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Shadow Reef",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3511,
+                  "y": 3692,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Zamorakian Undercity",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 1759,
+                  "y": 1341,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": [
+      "loc",
+      124308
+    ],
+    "entity": {
+      "name": "Treasure chest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 1655.5,
+        "y": 1691.5
+      },
+      "botright": {
+        "x": 1656.5,
+        "y": 1690.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Teleport to Temple of Aminishi",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2094,
+                  "y": 11355,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Dragonkin Laboratory",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3369,
+                  "y": 3889,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Shadow Reef",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3511,
+                  "y": 3692,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Zamorakian Undercity",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 1759,
+                  "y": 1341,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": [
+      "loc",
+      124308
+    ],
+    "entity": {
+      "name": "Treasure chest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 1670.5,
+        "y": 1573.5
+      },
+      "botright": {
+        "x": 1671.5,
+        "y": 1572.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Teleport to Temple of Aminishi",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2094,
+                  "y": 11355,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Dragonkin Laboratory",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3369,
+                  "y": 3889,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Shadow Reef",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3511,
+                  "y": 3692,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Zamorakian Undercity",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 1759,
+                  "y": 1341,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": [
+      "loc",
+      124308
+    ],
+    "entity": {
+      "name": "Treasure chest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 1671.5,
+        "y": 1638.5
+      },
+      "botright": {
+        "x": 1672.5,
+        "y": 1637.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Teleport to Temple of Aminishi",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2094,
+                  "y": 11355,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Dragonkin Laboratory",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3369,
+                  "y": 3889,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Shadow Reef",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3511,
+                  "y": 3692,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Zamorakian Undercity",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 1759,
+                  "y": 1341,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "entity",
+    "source_loc": [
+      "loc",
+      124308
+    ],
+    "entity": {
+      "name": "Treasure chest",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 1763.5,
+        "y": 1337.5
+      },
+      "botright": {
+        "x": 1764.5,
+        "y": 1336.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Teleport to Temple of Aminishi",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 2094,
+                  "y": 11355,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Dragonkin Laboratory",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3369,
+                  "y": 3889,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Shadow Reef",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 3511,
+                  "y": 3692,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      },
+      {
+        "cursor": "generic",
+        "name": "Teleport to Zamorakian Undercity",
+        "movement": [
+          {
+            "time": 5,
+            "fixed_target": {
+              "target": {
+                "origin": {
+                  "x": 1759,
+                  "y": 1341,
+                  "level": 0
+                }
+              }
+            },
+            "orientation": "toentitybefore"
           }
         ]
       }

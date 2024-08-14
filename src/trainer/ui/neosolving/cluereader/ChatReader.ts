@@ -15,8 +15,6 @@ import {time} from "../../../../lib/gamemap/GameLayer";
 import over = OverlayGeometry.over;
 import A1Color = util.A1Color;
 
-const font_def: FontDefinition = require("@alt1/ocr/fonts/chatbox/12pt.js")
-
 const mod = lazy(() => {
   const mod = new NisModal()
 
@@ -157,7 +155,7 @@ export namespace ChatReader {
       const line = this.chatbox.line(i)
       const line_img = line.getData()
 
-      const fodef = font_def
+      const fodef = this.chatbox.font.def
 
       if (i == 0) {
         const modal = mod.get();

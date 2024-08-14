@@ -6,12 +6,13 @@ import {util} from "../../../../lib/util/util";
 import {ScreenRectangle} from "../../../../lib/alt1/ScreenRectangle";
 import {ewent} from "../../../../lib/reactive";
 import {OCR} from "lib/alt1/OCR";
-import {ColortTriplet, FontDefinition} from "@alt1/ocr";
+import {ColortTriplet} from "@alt1/ocr";
 import {async_lazy, lazy} from "../../../../lib/properties/Lazy";
 import {NisModal} from "../../../../lib/ui/NisModal";
 import {defaultcolors} from "@alt1/chatbox";
 import {webpackImages} from "@alt1/base/dist/imagedetect";
 import {time} from "../../../../lib/gamemap/GameLayer";
+import * as a1lib from "@alt1/base";
 import over = OverlayGeometry.over;
 import A1Color = util.A1Color;
 
@@ -42,36 +43,41 @@ export class ChatReader extends Process.Interval {
   private overlay: OverlayGeometry = over()
 
   async tick() {
-    const capture = CapturedImage.capture()
+    try {
+      const capture = CapturedImage.capture()
 
-    if (Date.now() - this.search_interval > this.last_search) {
-      const current_boxes = await CapturedChatbox.findAll(capture)
+      if (Date.now() - this.search_interval > this.last_search) {
+        const current_boxes = await CapturedChatbox.findAll(capture)
 
-      // Remove readers that weren't found anymore
-      this.chatboxes = this.chatboxes.filter(box => current_boxes.some(box2 => ScreenRectangle.equals(box.chatbox.body.screenRectangle(), box2.body.screenRectangle())))
+        // Remove readers that weren't found anymore
+        this.chatboxes = this.chatboxes.filter(box => current_boxes.some(box2 => ScreenRectangle.equals(box.chatbox.body.screenRectangle(), box2.body.screenRectangle())))
 
-      const new_readers = current_boxes.filter(box => !this.chatboxes.some(box2 => ScreenRectangle.equals(box.body.screenRectangle(), box2.chatbox.body.screenRectangle())))
-        .map(c => new ChatReader.SingleChatboxReader(c))
+        const new_readers = current_boxes.filter(box => !this.chatboxes.some(box2 => ScreenRectangle.equals(box.body.screenRectangle(), box2.chatbox.body.screenRectangle())))
+          .map(c => new ChatReader.SingleChatboxReader(c))
 
-      new_readers.forEach(reader => reader.new_message.on(m => this.buffer.add(m)))
+        new_readers.forEach(reader => reader.new_message.on(m => this.buffer.add(m)))
 
-      this.chatboxes.push(...new_readers)
-    }
+        this.chatboxes.push(...new_readers)
+      }
 
-    await time("Read", async () => {
-      for (const box of this.chatboxes) await box.read()
-    })
+      this.overlay.clear()
 
-    this.overlay.clear()
-
-    this.chatboxes.forEach(box => {
-      this.overlay.rect2(box.chatbox.body.screenRectangle(), {
-        color: A1Color.fromHex("#FF0000"),
-        width: 1
+      this.chatboxes.forEach(box => {
+        this.overlay.rect2(box.chatbox.body.screenRectangle(), {
+          color: A1Color.fromHex("#FF0000"),
+          width: 1
+        })
       })
-    })
 
-    this.overlay.render()
+      this.overlay.render()
+
+      await time("Read", async () => {
+        for (const box of this.chatboxes) await box.read()
+      })
+
+    } catch (e) {
+      console.log(e)
+    }
   }
 }
 
@@ -189,8 +195,18 @@ export namespace ChatReader {
 
         const badgeleft = scan_x + (addspace ? fodef.spacewidth : 0)
 
-        const matched_icon = (await all_chat_icons.get()).find(icon =>
-          line_img.pixelCompare(icon.icon, badgeleft, baseline + this.chatbox.font.icon_y) < Number.POSITIVE_INFINITY
+        const matched_icon = (await all_chat_icons.get()).find(icon => {
+            const x = badgeleft
+            const y = baseline + this.chatbox.font.icon_y
+
+            const bigbuf = line_img
+            const checkbuf = icon.icon
+
+            //if (x < 0 || y < 0) { debugger}
+            //if (x + checkbuf.width > bigbuf.width || y + checkbuf.height > bigbuf.height) { debugger}
+
+            return a1lib.ImageDetect.simpleCompare(line_img, icon.icon, badgeleft, baseline + this.chatbox.font.icon_y) < Number.POSITIVE_INFINITY
+          }
         )
 
         if (matched_icon) {
@@ -219,7 +235,7 @@ export namespace ChatReader {
       // Read start text or text after opening bracket
       read_string(ChatReader.all_colors)
 
-      while (true) {
+      while (scan_x < this.chatbox.body.screen_rectangle.origin.x + this.chatbox.body.screen_rectangle.size.x - this.chatbox.font.def.width) {
         if (!await read_icon()) break
         if (!read_string()) break
       }
@@ -227,14 +243,14 @@ export namespace ChatReader {
       return fragments.join("")
     }
 
-    private commit(message: string): void {
+    private commit(message: string): boolean {
       let m = message.match(/^\[(\d{2}):(\d{2}):(\d{2})]/);
 
-      if (!m) return // Reject messages without a timestamp
+      if (!m) return false // Reject messages without a timestamp
 
       const timestamp = (+m[1]) * 60 * 60 + (+m[2]) * 60 + (+m[3]);
 
-      this.buffer.add({
+      return this.buffer.add({
         timestamp: timestamp,
         text: message
       })
@@ -262,8 +278,9 @@ export namespace ChatReader {
 
         if (!line.startsWith("[")) return
 
+        const actually_new_message = this.commit(line)
 
-        this.commit(line)
+        if (!actually_new_message) break
       }
     }
   }

@@ -1,3 +1,9 @@
+/**
+ * This file is a fork of the OCR module of the Alt1 libraries by Skillbert.
+ * Licensing from LICENSE.md does not apply to this.
+ * */
+
+
 import {ImageData, Rect, RectLike} from "@alt1/base";
 import * as lodash from "lodash";
 import {util} from "../util/util";

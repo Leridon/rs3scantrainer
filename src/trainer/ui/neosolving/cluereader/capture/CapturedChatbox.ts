@@ -4,7 +4,6 @@ import {ImageDetect} from "@alt1/base";
 import {Rectangle, Vector2} from "../../../../../lib/math";
 import {ScreenRectangle} from "../../../../../lib/alt1/ScreenRectangle";
 import {FontDefinition} from "@alt1/ocr";
-import {CapturedCompass} from "./CapturedCompass";
 
 
 export class CapturedChatbox {
@@ -20,10 +19,14 @@ export class CapturedChatbox {
 
     if (trs.length == 0) return []
 
+    const bubbles = img.find(anchors.chatbubble).map(b => b.screen_rectangle)
+
+    if (bubbles.length == 0) return []
+
     for (const bracket_anchor of await CapturedChatbox.bracket_anchors.get()) {
       const brackets = img.find(bracket_anchor.img).map(b => b.screenRectangle())
 
-      if (brackets.length == 0) return []
+      if (brackets.length == 0) continue
 
       // 1. Sort brackets by x coordinate.
       const groups: {
@@ -74,6 +77,21 @@ export class CapturedChatbox {
         }))
       })
 
+      /*const viable: ScreenRectangle[] = []
+
+      for (const tr of trs) {
+        for (const bubble of bubbles) {
+          if (bubble.origin.x > tr.origin.x) continue
+          if (bubble.origin.y < tr.origin.x) continue
+
+          const rect = ScreenRectangle.union(tr, bubble)
+
+          if (trs.some(tr => ScreenRectangle.contains(rect, tr.origin))) continue
+
+          viable.push(rect)
+        }
+      }*/
+
       // 4. TODO Match groups with the corresponding tr anchor
 
       return trs.flatMap<CapturedChatbox>(tr => {
@@ -82,14 +100,18 @@ export class CapturedChatbox {
         if (!best_bracket_group) return []
 
         if (best_bracket_group) {
-          best_bracket_group.used = true
-
           const [min, max] = best_bracket_group.y
 
-          return new CapturedChatbox(img.getSubSection(ScreenRectangle.fromRectangle(Rectangle.from(
+          const rect = ScreenRectangle.fromRectangle(Rectangle.from(
             {x: best_bracket_group.x - 1, y: max + font.lineheight - 1},
             Vector2.add(tr.origin, {x: 0, y: 20})
-          ))), bracket_anchor.font)
+          ))
+
+          if (trs.some(other_tr => other_tr != tr && ScreenRectangle.contains(rect, other_tr.origin))) return []
+
+          best_bracket_group.used = true
+
+          return new CapturedChatbox(img.getSubSection(rect), font)
         }
       })
     }
@@ -118,15 +140,15 @@ export namespace CapturedChatbox {
   }
 
   export const fonts: Font[] = [
-    {fontsize: 10, lineheight: 14, icon_y: -9, baseline_y: null, dy: 2, def: require("@alt1/ocr/fonts/chatbox/10pt.js")},
+    {fontsize: 10, lineheight: 14, icon_y: -9, baseline_y: 7, dy: 2, def: require("@alt1/ocr/fonts/chatbox/10pt.js")},
     {fontsize: 12, lineheight: 16, icon_y: -9, baseline_y: 10, dy: -1, def: require("@alt1/ocr/fonts/chatbox/12pt.js")},
-    {fontsize: 14, lineheight: 18, icon_y: -10, baseline_y: null, dy: -3, def: require("@alt1/ocr/fonts/chatbox/14pt.js")},
-    {fontsize: 16, lineheight: 21, icon_y: -10, baseline_y: null, dy: -6, def: require("@alt1/ocr/fonts/chatbox/16pt.js")},
-    {fontsize: 18, lineheight: 23, icon_y: -11, baseline_y: null, dy: -8, def: require("@alt1/ocr/fonts/chatbox/18pt.js")},
-    {fontsize: 20, lineheight: 25, icon_y: -11, baseline_y: null, dy: -11, def: require("@alt1/ocr/fonts/chatbox/20pt.js")},
-    {fontsize: 20, lineheight: 27, icon_y: -12, baseline_y: null, dy: -13, def: require("@alt1/ocr/fonts/chatbox/22pt.js")},
+    {fontsize: 14, lineheight: 18, icon_y: -10, baseline_y: 12, dy: -3, def: require("@alt1/ocr/fonts/chatbox/14pt.js")},
+    {fontsize: 16, lineheight: 21, icon_y: -10, baseline_y: 12, dy: -6, def: require("@alt1/ocr/fonts/chatbox/16pt.js")},
+    {fontsize: 18, lineheight: 23, icon_y: -11, baseline_y: 14, dy: -8, def: require("@alt1/ocr/fonts/chatbox/18pt.js")},
+    {fontsize: 20, lineheight: 25, icon_y: -11, baseline_y: 16, dy: -11, def: require("@alt1/ocr/fonts/chatbox/20pt.js")},
+    {fontsize: 22, lineheight: 27, icon_y: -12, baseline_y: 17, dy: -13, def: require("@alt1/ocr/fonts/chatbox/22pt.js")},
   ]
-  
+
   export function getFont(size: number): Font {
     return fonts.find(f => f.fontsize == size)
   }
@@ -142,6 +164,7 @@ export namespace CapturedChatbox {
       lbracket22pt: await ImageDetect.imageDataFromUrl("alt1anchors/chat/lbracket_22pt.png"),
       tr_minus: await ImageDetect.imageDataFromUrl("alt1anchors/chat/tr_minus.png"),
       tr_plus: await ImageDetect.imageDataFromUrl("alt1anchors/chat/tr_plus.png"),
+      chatbubble: await ImageDetect.imageDataFromUrl("alt1anchors/chat/chatbubble.png"),
     }
   })
 

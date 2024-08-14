@@ -16,8 +16,8 @@ export class CapturedImage {
 
   public readonly size: Vector2
 
-  constructor(private readonly capture: { timestamp: number, img_ref: ImgRef },
-              private readonly screen_rectangle: ScreenRectangle = null,
+  constructor(public readonly capture: { timestamp: number, img_ref: ImgRef },
+              public readonly screen_rectangle: ScreenRectangle = null,
               public readonly parent: CapturedImage = null
   ) {
     this._fullCapturedRectangle = {

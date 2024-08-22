@@ -170,6 +170,8 @@ export namespace ChatReader {
     }
 
     private async readLine(i: number): Promise<string> {
+
+
       const line = this.chatbox.line(i)
       const line_img = line.getData()
 
@@ -260,6 +262,8 @@ export namespace ChatReader {
     }
 
     async read() {
+      if (!this.chatbox.font) return
+
       let row = 0
 
       const max_rows = this.chatbox.visibleRows()

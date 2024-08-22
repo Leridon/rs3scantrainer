@@ -208,15 +208,6 @@ export namespace ChatReader {
         const badgeleft = scan_x + (addspace ? fodef.spacewidth : 0)
 
         const matched_icon = (await all_chat_icons.get()).find(icon => {
-            const x = badgeleft
-            const y = baseline + this.chatbox.font.icon_y
-
-            const bigbuf = line_img
-            const checkbuf = icon.icon
-
-            //if (x < 0 || y < 0) { debugger}
-            //if (x + checkbuf.width > bigbuf.width || y + checkbuf.height > bigbuf.height) { debugger}
-
             return a1lib.ImageDetect.simpleCompare(line_img, icon.icon, badgeleft, baseline + this.chatbox.font.icon_y) < Number.POSITIVE_INFINITY
           }
         )

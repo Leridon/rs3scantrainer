@@ -32,7 +32,7 @@ export class ChatReader extends Process.Interval {
   private last_search = Number.NEGATIVE_INFINITY
   private chatboxes: ChatReader.SingleChatboxReader[] = []
 
-  constructor(private read_interval: number = 3000, private search_interval: number = 3000) {
+  constructor(private read_interval: number = 6000, private search_interval: number = 600) {
     super(read_interval);
 
     this.new_message.on(m => {

@@ -233,11 +233,11 @@ export class CapturedChatbox {
     this.body = capture.getSubSection(this.body.screen_rectangle)
   }
 
-  public async identifyFontAndOffset() {
+  public async identifyFontAndOffset(): Promise<boolean> {
 
     const height = Math.min(this.body.screen_rectangle.size.y, 60)
 
-    const section = this.body.getSubSection({origin: {x: 0, y: this.body.screen_rectangle.size.y - height}, size: {x: 3, y: height}})
+    const section = this.body.getSubSection({origin: {x: 1, y: this.body.screen_rectangle.size.y - height}, size: {x: 3, y: height}})
 
     for (const font of await CapturedChatbox.bracket_anchors.get()) {
       const pos = section.findNeedle(font.img)
@@ -252,14 +252,10 @@ export class CapturedChatbox {
 
       this.offset = delta % font.font.lineheight
 
-      console.log(`Offset: ${this.offset}, Font: ${this.font.fontsize}`)
-
-      return
+      return true
     }
 
-    return (await CapturedChatbox.bracket_anchors.get()).find(font => {
-
-    })
+    return false
   }
 
   public identifyOffset(): void {
@@ -282,7 +278,7 @@ export namespace CapturedChatbox {
   export const fonts: Font[] = [
     {fontsize: 12, lineheight: 16, icon_y: -9, baseline_y: 10, dy: -1, def: require("@alt1/ocr/fonts/chatbox/12pt.js")},
     {fontsize: 14, lineheight: 18, icon_y: -10, baseline_y: 12, dy: -3, def: require("@alt1/ocr/fonts/chatbox/14pt.js")},
-    {fontsize: 10, lineheight: 14, icon_y: -9, baseline_y: 7, dy: 2, def: require("@alt1/ocr/fonts/chatbox/10pt.js")},
+    {fontsize: 10, lineheight: 14, icon_y: -8, baseline_y: 8, dy: 2, def: require("@alt1/ocr/fonts/chatbox/10pt.js")},
     {fontsize: 16, lineheight: 21, icon_y: -10, baseline_y: 12, dy: -6, def: require("@alt1/ocr/fonts/chatbox/16pt.js")},
     {fontsize: 18, lineheight: 23, icon_y: -11, baseline_y: 14, dy: -8, def: require("@alt1/ocr/fonts/chatbox/18pt.js")},
     {fontsize: 20, lineheight: 25, icon_y: -11, baseline_y: 16, dy: -11, def: require("@alt1/ocr/fonts/chatbox/20pt.js")},

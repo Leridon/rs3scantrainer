@@ -64,7 +64,7 @@ export class ChatReader extends Process.Interval {
 
           this.chatboxes.push(...new_readers)
 
-          this.chatboxes.forEach(box => box.chatbox.identifyFontAndOffset())
+          await Promise.all(this.chatboxes.map(async box => await box.chatbox.identifyFontAndOffset()))
         })
       } else {
         this.chatboxes.forEach(box => {
@@ -337,6 +337,8 @@ export namespace ChatReader {
     [255, 0, 0], //red achievement world message
     [69, 178, 71], //blueish green friend broadcast
     [164, 153, 125], //brownish gray friends/fc/cc list name
-    [215, 195, 119] //interface preset color
+    [215, 195, 119], //interface preset color
+    [45, 185, 20], // Green in "Completion time" for bosses
+    [254, 128, 0]
   ]
 }

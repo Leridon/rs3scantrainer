@@ -1,9 +1,10 @@
 import {CapturedImage, NeedleImage} from "../../../../../lib/alt1/ImageCapture";
-import {async_lazy} from "../../../../../lib/properties/Lazy";
+import {async_lazy, lazy} from "../../../../../lib/properties/Lazy";
 import {Rectangle, Vector2} from "../../../../../lib/math";
 import {ScreenRectangle} from "../../../../../lib/alt1/ScreenRectangle";
 import {FontDefinition} from "@alt1/ocr";
 import {OCR} from "../../../../../lib/alt1/OCR";
+import * as lodash from "lodash";
 
 
 export class CapturedChatbox {
@@ -118,9 +119,33 @@ export class CapturedChatbox {
           Vector2.add(pair.top_right.position, {x: 13, y: 20}),
           Vector2.add(pair.bubble.position, {x: -kind.offset, y: -10}),
         )), kind.type)]
-      } else {
-        return []
       }
+
+
+      const width = Math.max(pair.bubble.position.x, 250)
+
+      const area = img.getSubSection(
+        {
+          origin: {x: pair.bubble.position.x - width, y: pair.top_right.position.y - 2},
+          size: {x: width, y: 16}
+        }
+      );
+
+      const positions = [anchors.gamefiltered, anchors.gameall, anchors.gameoff].map(anchor => lazy(() => area.findNeedle(anchor)))
+        .find(r => r.get().length > 0)?.get()
+
+      if (positions) {
+        const left = lodash.maxBy(positions, pos => pos.screen_rectangle.origin.x)
+
+        return [new CapturedChatbox(img.getSubSection(ScreenRectangle.fromPixels(
+          Vector2.add(pair.top_right.position, {x: 13, y: 20}),
+          Vector2.add(pair.bubble.position, {x: 0, y: -10}),
+          Vector2.add(left.screen_rectangle.origin, {x: 0, y: 22}),
+        )), "main")]
+      }
+
+      
+      return []
     })
 
 
@@ -212,7 +237,7 @@ export class CapturedChatbox {
 
           best_bracket_group.used = true
 
-          return new CapturedChatbox(img.getSubSection(rect), font, "main")
+          return new CapturedChatbox(img.getSubSection(rect), "main")
         }
       })
     }
@@ -307,6 +332,9 @@ export namespace CapturedChatbox {
       tr_plus: await NeedleImage.fromURL("alt1anchors/chat/tr_plus.png"),
       chatbubble: await NeedleImage.fromURL("alt1anchors/chat/chatbubble.png"),
       entertochat: await NeedleImage.fromURL("alt1anchors/chat/entertochat.png"),
+      gameall: await NeedleImage.fromURL("alt1anchors/chat/gameall.png"),
+      gamefiltered: await NeedleImage.fromURL("alt1anchors/chat/gamefilter.png"),
+      gameoff: await NeedleImage.fromURL("alt1anchors/chat/gameoff.png"),
     }
   })
 

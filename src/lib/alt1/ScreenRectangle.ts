@@ -35,6 +35,10 @@ export namespace ScreenRectangle {
     }
   }
 
+  export function fromPixels(...pixels: Vector2[]) {
+    return fromRectangle(Rectangle.from(...pixels))
+  }
+
   export function toRectangle(rect: ScreenRectangle): Rectangle {
     return Rectangle.fromOriginAndSize(rect.origin, rect.size)
   }

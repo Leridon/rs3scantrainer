@@ -336,11 +336,13 @@ export async function time<T>(name: string, f: () => T, start_message: boolean =
   let timeStart = new Date().getTime()
 
   if (start_message) console.log(`Starting task ${name}: `)
-  let res = await f()
-  const ms = (new Date().getTime() - timeStart)
-  console.log(`Task ${name} took ${ms}ms\n`)
 
-  return res
+  try{
+    return await f()
+  } finally {
+    const ms = (new Date().getTime() - timeStart)
+    console.log(`Task ${name} took ${ms}ms\n`)
+  }
 }
 
 export function timeSync<T>(name: string, f: () => T): T {

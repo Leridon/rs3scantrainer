@@ -1,11 +1,11 @@
 import * as a1lib from "@alt1/base";
-import {ImageDetect, ImgRef, mixColor} from "@alt1/base";
+import {ImageDetect, ImgRef, ImgRefData} from "@alt1/base";
 import {Vector2} from "../math";
-import {LazyAsync} from "../properties/Lazy";
-import * as OCR from "@alt1/ocr";
 import {ScreenRectangle} from "./ScreenRectangle";
 import {OverlayGeometry} from "./OverlayGeometry";
 import {util} from "../util/util";
+import * as wapper from "@alt1/base/src/wrapper";
+import {findSubbuffer} from "@alt1/base/src/imagedetect";
 import A1Color = util.A1Color;
 
 export class CapturedImage {
@@ -17,7 +17,7 @@ export class CapturedImage {
   public readonly size: Vector2
 
   constructor(public readonly capture: { timestamp: number, img_ref: ImgRef },
-              public readonly screen_rectangle: ScreenRectangle = null,
+              public readonly screen_rectangle: ScreenRectangle,
               public readonly parent: CapturedImage = null
   ) {
     this._fullCapturedRectangle = {
@@ -37,6 +37,13 @@ export class CapturedImage {
     }
 
     this.size = this.screen_rectangle.size
+  }
+
+  private ensure_current() {
+    if (this.root() != CapturedImage.latest_capture) {
+      debugger
+      throw new Error("Tried to perform an operation on an expired ImgRefBind")
+    }
   }
 
   setName(name: string): this {
@@ -61,13 +68,54 @@ export class CapturedImage {
   }
 
   find(needle: ImageData): CapturedImage[] {
-    return this.capture.img_ref.findSubimage(needle).map(position =>
+    const ref = alt1.bindFindSubImg
+      ? this.capture.img_ref
+      : new ImgRefData(this.getData())
+
+    this.ensure_current()
+
+    return ref.findSubimage(needle,
+      this.screen_rectangle.origin.x, this.screen_rectangle.origin.y,
+      this.screen_rectangle.size.x, this.screen_rectangle.size.y
+    ).map(position =>
       this.getSubSection({origin: position, size: {x: needle.width, y: needle.height}})
     )
   }
 
+  findNeedle(needle: NeedleImage): CapturedImage[] {
+
+    const find = ((): Vector2[] => {
+      if (this.capture.img_ref instanceof a1lib.ImgRefBind && alt1.bindFindSubImg) {
+
+        this.ensure_current()
+
+        // Happy path: Accelerated image lookup via Alt1 is available
+
+        const r = alt1.bindFindSubImg(this.capture.img_ref.handle, needle.encoded(), needle.underlying.width,
+          this.screen_rectangle.origin.x, this.screen_rectangle.origin.y,
+          this.screen_rectangle.size.x, this.screen_rectangle.size.y
+        )
+
+        if (!r) { throw new wapper.Alt1Error(); }
+
+        return JSON.parse(r) as Vector2[]
+      } else {
+        // Fallback:
+
+        return findSubbuffer(this.getData(), needle.underlying,
+          this.screen_rectangle.origin.x, this.screen_rectangle.origin.y,
+          this.screen_rectangle.size.x, this.screen_rectangle.size.y)
+      }
+    })
+
+    return find().map(pos => {
+
+      return this.getSubSection(ScreenRectangle.relativeTo(this.screen_rectangle, {origin: pos, size: {x: needle.underlying.width, y: needle.underlying.height}}))
+    });
+  }
+
   root(): CapturedImage {
-    if (this.parent) return this.parent
+    if (this.parent) return this.parent.root()
     else return this
   }
 
@@ -84,6 +132,8 @@ export class CapturedImage {
 
   getData(): ImageData {
     if (!this._data) {
+      this.ensure_current()
+
       this._data = this.capture.img_ref.toData(
         this.screen_rectangle.origin.x,
         this.screen_rectangle.origin.y,
@@ -99,6 +149,8 @@ export class CapturedImage {
     return CapturedImage.capture(this.screenRectangle())
   }
 
+  private static latest_capture: CapturedImage = null
+
   static capture(section: ScreenRectangle = null): CapturedImage | null {
     try {
       // TODO: This should respect a1.captureInterval in some way
@@ -108,7 +160,7 @@ export class CapturedImage {
         ? a1lib.captureHold(section.origin.x, section.origin.y, section.size.x, section.size.y)
         : a1lib.captureHoldFullRs()
 
-      return new CapturedImage({img_ref: img, timestamp: timestamp})
+      return this.latest_capture = new CapturedImage({img_ref: img, timestamp: timestamp}, {origin: {x: 0, y: 0}, size: {x: img.width, y: img.height}})
     } catch (e: any) {
       console.error(`Capture failed: ${e.message}`)
       console.error(e.stack)
@@ -127,5 +179,21 @@ export class CapturedImage {
     }
 
     return overlay
+  }
+}
+
+export class NeedleImage {
+  private _encoded: string
+
+  constructor(public underlying: ImageData) {
+    this._encoded = wapper.encodeImageString(underlying)
+  }
+
+  public encoded(): string {
+    return this._encoded
+  }
+
+  static async fromURL(url: string): Promise<NeedleImage> {
+    return new NeedleImage(await ImageDetect.imageDataFromUrl(url))
   }
 }

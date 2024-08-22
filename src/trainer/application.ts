@@ -17,7 +17,6 @@ import {Observable, observe} from "../lib/reactive";
 import {FavoriteIndex} from "./favorites";
 import Dependencies from "./dependencies";
 import {Transportation} from "../lib/runescape/transportation";
-import * as process from "process";
 import * as jquery from "jquery";
 import * as lodash from "lodash";
 import {Settings} from "./ui/settings/Settings";

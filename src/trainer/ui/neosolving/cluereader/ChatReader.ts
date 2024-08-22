@@ -47,17 +47,29 @@ export class ChatReader extends Process.Interval {
       const capture = CapturedImage.capture()
 
       if (Date.now() - this.search_interval > this.last_search) {
-        const current_boxes = await CapturedChatbox.findAll(capture)
+        await time("Find", async () => {
+          const current_boxes = await CapturedChatbox.findAll(capture)
 
-        // Remove readers that weren't found anymore
-        this.chatboxes = this.chatboxes.filter(box => current_boxes.some(box2 => ScreenRectangle.equals(box.chatbox.body.screenRectangle(), box2.body.screenRectangle())))
+          // Remove readers that weren't found anymore
+          this.chatboxes = this.chatboxes.filter(box => current_boxes.some(box2 => ScreenRectangle.equals(box.chatbox.body.screenRectangle(), box2.body.screenRectangle())))
 
-        const new_readers = current_boxes.filter(box => !this.chatboxes.some(box2 => ScreenRectangle.equals(box.body.screenRectangle(), box2.chatbox.body.screenRectangle())))
-          .map(c => new ChatReader.SingleChatboxReader(c))
+          this.chatboxes.forEach(box => {
+            box.chatbox.update(capture)
+          })
 
-        new_readers.forEach(reader => reader.new_message.on(m => this.buffer.add(m)))
+          const new_readers = current_boxes.filter(box => !this.chatboxes.some(box2 => ScreenRectangle.equals(box.body.screenRectangle(), box2.chatbox.body.screenRectangle())))
+            .map(c => new ChatReader.SingleChatboxReader(c))
 
-        this.chatboxes.push(...new_readers)
+          new_readers.forEach(reader => reader.new_message.on(m => this.buffer.add(m)))
+
+          this.chatboxes.push(...new_readers)
+
+          this.chatboxes.forEach(box => box.chatbox.identifyFontAndOffset())
+        })
+      } else {
+        this.chatboxes.forEach(box => {
+          box.chatbox.update(capture)
+        })
       }
 
       this.overlay.clear()

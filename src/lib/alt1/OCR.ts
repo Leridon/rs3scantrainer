@@ -325,11 +325,7 @@ export namespace OCR {
       return score
     })
 
-    const best = lodash.maxBy(scored_colors, c => c.score).value
-
-    console.log(`${best[0]}|${best[1]}|${best[2]}`)
-
-    return best
+    return lodash.maxBy(scored_colors, c => c.score).value
     /*
         for (let col of colors) {
           let score = 0;

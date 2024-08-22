@@ -271,8 +271,6 @@ export namespace ChatReader {
       while (row < max_rows) {
         const components: string[] = []
 
-        console.log(`Row ${row}`)
-
         while (row < max_rows && !index(components, -1)?.startsWith("[")) {
           components.push(await this.readLine(row))
 

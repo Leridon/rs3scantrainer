@@ -2,7 +2,7 @@ import {CapturedImage, NeedleImage} from "../../../../../lib/alt1/ImageCapture";
 import {async_lazy} from "../../../../../lib/properties/Lazy";
 import {Rectangle, Vector2} from "../../../../../lib/math";
 import {ScreenRectangle} from "../../../../../lib/alt1/ScreenRectangle";
-import {debug, FontDefinition} from "@alt1/ocr";
+import {FontDefinition} from "@alt1/ocr";
 import {OCR} from "../../../../../lib/alt1/OCR";
 
 
@@ -223,6 +223,8 @@ export class CapturedChatbox {
   }
 
   public line(i: number): CapturedImage {
+    if (this.font == null || this.offset == null) return null
+
     return this.body.getSubSection({
       origin: {x: 0, y: this.body.size.y - (i + 1) * this.font.lineheight - this.offset},
       size: {x: this.body.size.x, y: this.font.lineheight}
@@ -254,6 +256,9 @@ export class CapturedChatbox {
 
       return true
     }
+
+    this.font = null
+    this.offset = null
 
     return false
   }

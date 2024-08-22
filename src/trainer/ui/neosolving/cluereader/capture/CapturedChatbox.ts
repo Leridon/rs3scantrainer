@@ -17,10 +17,10 @@ export class CapturedChatbox {
   static async findAll(img: CapturedImage): Promise<CapturedChatbox[]> {
     const anchors = await CapturedChatbox.anchors.get()
 
-    const trs = [
-      ...img.findNeedle(anchors.tr_minus),
-      ...img.findNeedle(anchors.tr_plus),
-    ].map(cpt => cpt.screenRectangle())
+    const trs: { capture: ScreenRectangle, expanded: boolean }[] = [
+      ...img.findNeedle(anchors.tr_minus).map(img => ({capture: img.screen_rectangle, expanded: true})),
+      ...img.findNeedle(anchors.tr_plus).map(img => ({capture: img.screen_rectangle, expanded: false})),
+    ]
 
     if (trs.length == 0) return []
 
@@ -62,28 +62,28 @@ export class CapturedChatbox {
 
     type PositionCandidate = { taken: boolean, position: Vector2 }
 
-    const bubble_map: PositionCandidate[] = bubbles.map(b => ({taken: false, position: b.origin}))
-    const tr_map: PositionCandidate[] = trs.map(b => ({taken: false, position: b.origin}))
+    const bubble_map: { taken: boolean, position: Vector2 }[] = bubbles.map(b => ({taken: false, position: b.origin}))
+    const tr_map: { taken: boolean, position: { capture: ScreenRectangle, expanded: boolean } }[] = trs.map(b => ({taken: false, position: b}))
 
     const viable_pairs: {
       bubble: PositionCandidate,
-      top_right: PositionCandidate
+      top_right: { taken: boolean, position: { capture: ScreenRectangle, expanded: boolean } }
     }[] = []
 
     for (const top_right of tr_map) {
       for (const bubble of bubble_map) {
-        if (bubble.position.x + 120 > top_right.position.x) continue
-        if (bubble.position.y < top_right.position.y + 80) continue
+        if (bubble.position.x + 120 > top_right.position.capture.origin.x) continue
+        if (bubble.position.y < top_right.position.capture.origin.y + 80) continue
 
-        const area = ScreenRectangle.fromPixels(top_right.position, bubble.position)
+        const area = ScreenRectangle.fromPixels(top_right.position.capture.origin, bubble.position)
 
-        if (tr_map.some(tr => tr != top_right && ScreenRectangle.contains(area, tr.position))) continue
+        if (tr_map.some(tr => tr != top_right && ScreenRectangle.contains(area, tr.position.capture.origin))) continue
 
         viable_pairs.push({bubble: bubble, top_right: top_right})
       }
     }
 
-    return viable_pairs.flatMap(pair => {
+    return (await Promise.all(viable_pairs.map(async pair => {
 
       if (pair.bubble.taken || pair.top_right.taken) return []
 
@@ -116,131 +116,69 @@ export class CapturedChatbox {
         pair.top_right.taken = true
 
         return [new CapturedChatbox(img.getSubSection(ScreenRectangle.fromPixels(
-          Vector2.add(pair.top_right.position, {x: 13, y: 20}),
+          Vector2.add(pair.top_right.position.capture.origin, {x: 13, y: 20}),
           Vector2.add(pair.bubble.position, {x: -kind.offset, y: -10}),
         )), kind.type)]
       }
 
+      // Check for left boundary by looking for the game chat filter
+      if (pair.top_right.position.expanded) {
+        const width = Math.max(pair.bubble.position.x, 250)
 
-      const width = Math.max(pair.bubble.position.x, 250)
-
-      const area = img.getSubSection(
-        {
-          origin: {x: pair.bubble.position.x - width, y: pair.top_right.position.y - 2},
-          size: {x: width, y: 16}
-        }
-      );
-
-      const positions = [anchors.gamefiltered, anchors.gameall, anchors.gameoff].map(anchor => lazy(() => area.findNeedle(anchor)))
-        .find(r => r.get().length > 0)?.get()
-
-      if (positions) {
-        const left = lodash.maxBy(positions, pos => pos.screen_rectangle.origin.x)
-
-        return [new CapturedChatbox(img.getSubSection(ScreenRectangle.fromPixels(
-          Vector2.add(pair.top_right.position, {x: 13, y: 20}),
-          Vector2.add(pair.bubble.position, {x: 0, y: -10}),
-          Vector2.add(left.screen_rectangle.origin, {x: 0, y: 22}),
-        )), "main")]
-      }
-
-      
-      return []
-    })
-
-
-    for (const bracket_anchor of await CapturedChatbox.bracket_anchors.get()) {
-      const brackets = img.findNeedle(bracket_anchor.img).map(b => b.screenRectangle())
-
-      if (brackets.length == 0) continue
-
-      // 1. Sort brackets by x coordinate.
-      const groups: {
-        x: number,
-        ys: number[]
-      }[] = []
-
-      for (const brack of brackets) {
-        let group = groups.find(g => g.x == brack.origin.x)
-
-        if (!group) groups.push(group = {x: brack.origin.x, ys: []})
-
-        group.ys.push(brack.origin.y)
-      }
-
-      const font = bracket_anchor.font
-
-      // 2. Discard groups that are exactly 61 (for 12pt) pixels right of another group (and share at least one y coord)
-      const filtered_groups = groups.filter(g => !groups.some(g2 => g2.x == g.x - 61 && g.ys.some(y => g2.ys.some(y2 => y == y2))))
-
-      // 3. Group brackets into consecutive lines
-      const split_groups = filtered_groups.flatMap<{
-        x: number,
-        y: [number, number],
-        used?: boolean
-      }>(g => {
-        let from = null
-        let to = null
-
-        const sections: [number, number][] = []
-
-        for (let y of g.ys) {
-          if (from == null) to = from = y
-          else {
-            if (y - to > 3 * font.lineheight) {
-              sections.push([from, to])
-              from = to = y
-            } else {
-              to = y
-            }
+        const area = img.getSubSection(
+          {
+            origin: {x: pair.bubble.position.x - width, y: pair.top_right.position.capture.origin.y - 2},
+            size: {x: width, y: 16}
           }
+        );
+
+        const positions = [anchors.gamefiltered, anchors.gameall, anchors.gameoff].map(anchor => lazy(() => area.findNeedle(anchor)))
+          .find(r => r.get().length > 0)?.get()
+
+        if (positions) {
+          const left = lodash.maxBy(positions, pos => pos.screen_rectangle.origin.x)
+
+          return [new CapturedChatbox(img.getSubSection(ScreenRectangle.fromPixels(
+            Vector2.add(pair.top_right.position.capture.origin, {x: 13, y: 20}),
+            Vector2.add(pair.bubble.position, {x: 0, y: -10}),
+            Vector2.add(left.screen_rectangle.origin, {x: 0, y: 22}),
+          )), "main")]
         }
+      }
 
-        sections.push([from, to])
+      // Last resort: Check for left boundary by looking for a timestamp
+      {
+        const width = Math.max(pair.bubble.position.x, 250)
+        const height = pair.bubble.position.y - pair.top_right.position.capture.origin.y - 30
 
-        return sections.map((range) => ({
-          x: g.x, y: range
-        }))
-      })
+        const area = img.getSubSection(
+          {
+            origin: {x: pair.bubble.position.x - width, y: pair.top_right.position.capture.origin.y + 20},
+            size: {x: width, y: Math.min(60, height)}
+          }
+        );
 
-      /*const viable: ScreenRectangle[] = []
+        const anchor = await (async () => {
+          for (const anchor of await CapturedChatbox.bracket_anchors.get()) {
+            const positions = area.findNeedle(anchor.img)
 
-      for (const tr of trs) {
-        for (const bubble of bubbles) {
-          if (bubble.origin.x > tr.origin.x) continue
-          if (bubble.origin.y < tr.origin.x) continue
+            if (positions.length > 0) return lodash.minBy(positions, p => p.screen_rectangle.origin.x)
+          }
 
-          const rect = ScreenRectangle.union(tr, bubble)
+          return null
+        })()
 
-          if (trs.some(tr => ScreenRectangle.contains(rect, tr.origin))) continue
-
-          viable.push(rect)
+        if (anchor) {
+          return [new CapturedChatbox(img.getSubSection(ScreenRectangle.fromPixels(
+            Vector2.add(pair.top_right.position.capture.origin, {x: 13, y: 20}),
+            Vector2.add(pair.bubble.position, {x: 0, y: -10}),
+            Vector2.add(anchor.screen_rectangle.origin, {x: -1, y: 0}),
+          )), "main")]
         }
-      }*/
+      }
 
-      // 4. TODO Match groups with the corresponding tr anchor
-
-      return trs.flatMap<CapturedChatbox>(tr => {
-        const best_bracket_group = split_groups.find(g => g.y[0] > tr.origin.y && g.x < tr.origin.x && !g.used)
-
-        if (!best_bracket_group) return []
-
-        if (best_bracket_group) {
-          const [min, max] = best_bracket_group.y
-
-          const rect = ScreenRectangle.fromRectangle(Rectangle.from(
-            {x: best_bracket_group.x - 1, y: max + font.lineheight - 1},
-            Vector2.add(tr.origin, {x: 0, y: 20})
-          ))
-
-          if (trs.some(other_tr => other_tr != tr && ScreenRectangle.contains(rect, other_tr.origin))) return []
-
-          best_bracket_group.used = true
-
-          return new CapturedChatbox(img.getSubSection(rect), "main")
-        }
-      })
-    }
+      return []
+    }))).flat()
   }
 
   public visibleRows(): number {

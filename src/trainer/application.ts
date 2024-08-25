@@ -249,6 +249,7 @@ export class Application extends Behaviour {
   startup_settings = observe(this.startup_settings_storage.get())
 
   notifications: NotificationBar
+  chatreader: ChatReader = new ChatReader()
 
   constructor() {
     super()
@@ -258,6 +259,8 @@ export class Application extends Behaviour {
     if (this.in_dev_mode) {
       log().log("In development mode")
     }
+
+    this.chatreader.run()
   }
 
   protected async begin() {

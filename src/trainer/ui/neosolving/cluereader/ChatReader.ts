@@ -4,45 +4,52 @@ import {CapturedImage} from "../../../../lib/alt1/ImageCapture";
 import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
 import {util} from "../../../../lib/util/util";
 import {ScreenRectangle} from "../../../../lib/alt1/ScreenRectangle";
-import {ewent} from "../../../../lib/reactive";
+import {ewent, EwentHandler} from "../../../../lib/reactive";
 import {OCR} from "lib/alt1/OCR";
 import {ColortTriplet} from "@alt1/ocr";
-import {async_lazy, lazy} from "../../../../lib/properties/Lazy";
-import {NisModal} from "../../../../lib/ui/NisModal";
+import {async_lazy} from "../../../../lib/properties/Lazy";
 import {defaultcolors} from "@alt1/chatbox";
 import {webpackImages} from "@alt1/base/dist/imagedetect";
 import {time} from "../../../../lib/gamemap/GameLayer";
 import * as a1lib from "@alt1/base";
+import {Log} from "../../../../lib/util/Log";
 import over = OverlayGeometry.over;
 import A1Color = util.A1Color;
+import log = Log.log;
 
-const mod = lazy(() => {
-  const mod = new NisModal()
-
-  mod.show()
-
-  return mod
-})
-
+/**
+ * A service class to read chat messages. It will search for chat boxes periodically, so it will find the chat
+ * again even if it is moved or font sizes change. To read messages, timestamps need to be turned on in game.
+ * This is a hard requirement because the reader uses timestamps to differentiate repeated identical messages
+ * and also to buffer messages so that scrolling the chat up and down does not cause messages to be read again.
+ */
 export class ChatReader extends Process.Interval {
-  buffer = new ChatReader.MessageBuffer()
+  private debug_mode: boolean = false
+
+  private active_interest_tokens = 0
+
+  private buffer = new ChatReader.MessageBuffer()
 
   new_message = this.buffer.new_message
 
   private last_search = Number.NEGATIVE_INFINITY
   private chatboxes: ChatReader.SingleChatboxReader[] = []
 
-  constructor(private read_interval: number = 6000, private search_interval: number = 600) {
+  constructor(private read_interval: number = 600, private search_interval: number = 6000) {
     super(read_interval);
 
-    this.new_message.on(m => {
-      console.log(m.text)
+    this.new_message.on(msg => {
+      if (!this.debug_mode) return
+
+      console.log(msg.text)
     })
   }
 
-  private overlay: OverlayGeometry = over()
+  private debug_overlay: OverlayGeometry = over()
 
   async tick() {
+    if (!this.debug_mode && this.active_interest_tokens <= 0) return // If no interest token is active, just go back to sleep
+
     try {
       const capture = CapturedImage.capture()
 
@@ -72,62 +79,95 @@ export class ChatReader extends Process.Interval {
         })
       }
 
-      this.overlay.clear()
+      if (this.debug_mode) {
+        this.debug_overlay.clear()
 
-      this.chatboxes.forEach(box => {
-        this.overlay.rect2(box.chatbox.body.screenRectangle(), {
-          color: A1Color.fromHex("#FF0000"),
-          width: 1
+        this.chatboxes.forEach(box => {
+          this.debug_overlay.rect2(box.chatbox.body.screenRectangle(), {
+            color: A1Color.fromHex("#FF0000"),
+            width: 1
+          })
         })
-      })
 
-      this.overlay.render()
+        this.debug_overlay.render()
+      }
 
       await time("Read", async () => {
         for (const box of this.chatboxes) await box.read()
       })
 
     } catch (e) {
-      console.log(e)
+      log().log(e)
     }
+  }
+
+  setDebugEnabled(debug: boolean = true): this {
+    this.debug_mode = debug
+
+    return this
+  }
+
+  registerInterest(f: (_: ChatReader.Message) => void = () => {}): ChatReader.InterestToken {
+    this.active_interest_tokens++
+    return new ChatReader.InterestToken(() => this.active_interest_tokens--,
+      this.new_message.on(f)
+    )
   }
 }
 
-const chat_icons = webpackImages({
-  vip: require("@alt1/chatbox/src/imgs/badgevip.data.png"),
-  pmod: require("@alt1/chatbox/src/imgs/badgepmod.data.png"),
-  pmodvip: require("@alt1/chatbox/src/imgs/badgepmodvip.data.png"),
-  broadcast_gold: require("@alt1/chatbox/src/imgs/badge_broadcast_gold.data.png"),
-  broadcast_silver: require("@alt1/chatbox/src/imgs/badge_broadcast_silver.data.png"),
-  broadcast_bronze: require("@alt1/chatbox/src/imgs/badge_broadcast_bronze.data.png"),
-  ironman: require("@alt1/chatbox/src/imgs/badgeironman.data.png"),
-  hcim: require("@alt1/chatbox/src/imgs/badgehcim.data.png"),
-  chatlink: require("@alt1/chatbox/src/imgs/chat_link.data.png"),
-})
-
-const badgemap: { [key in keyof typeof chat_icons.raw]: string } = {
-  vip: "\u2730",//SHADOWED WHITE STAR
-  pmod: "\u2655",//WHITE CHESS QUEEN
-  pmodvip: "\u2655",//WHITE CHESS QUEEN
-  broadcast_gold: "\u2746",//HEAVY CHEVRON SNOWFLAKE
-  broadcast_silver: "\u2746",//HEAVY CHEVRON SNOWFLAKE
-  broadcast_bronze: "\u2746",//HEAVY CHEVRON SNOWFLAKE
-  ironman: "\u26AF",//UNMARRIED PARTNERSHIP SYMBOL
-  hcim: "\u{1F480}",//SKULL
-  chatlink: "\u{1F517}",//LINK SYMBOL
-}
-
-const all_chat_icons = async_lazy(async () => {
-  await chat_icons.promise
-
-  const icons: { icon: ImageData, character: string }[] = []
-
-  for (let icon_key in chat_icons.raw) icons.push({icon: chat_icons.raw[icon_key], character: badgemap[icon_key]})
-
-  return icons
-})
-
 export namespace ChatReader {
+
+  export class InterestToken {
+
+    private active: boolean = true
+
+    constructor(private readonly kill: () => void,
+                private readonly handler: EwentHandler<Message>
+    ) { }
+
+    unregister() {
+      if (!this.active) return
+
+      this.active = false
+      this.handler.remove()
+      this.kill()
+    }
+  }
+
+  const chat_icons = webpackImages({
+    vip: require("@alt1/chatbox/src/imgs/badgevip.data.png"),
+    pmod: require("@alt1/chatbox/src/imgs/badgepmod.data.png"),
+    pmodvip: require("@alt1/chatbox/src/imgs/badgepmodvip.data.png"),
+    broadcast_gold: require("@alt1/chatbox/src/imgs/badge_broadcast_gold.data.png"),
+    broadcast_silver: require("@alt1/chatbox/src/imgs/badge_broadcast_silver.data.png"),
+    broadcast_bronze: require("@alt1/chatbox/src/imgs/badge_broadcast_bronze.data.png"),
+    ironman: require("@alt1/chatbox/src/imgs/badgeironman.data.png"),
+    hcim: require("@alt1/chatbox/src/imgs/badgehcim.data.png"),
+    chatlink: require("@alt1/chatbox/src/imgs/chat_link.data.png"),
+  })
+
+  const badgemap: { [key in keyof typeof chat_icons.raw]: string } = {
+    vip: "\u2730",//SHADOWED WHITE STAR
+    pmod: "\u2655",//WHITE CHESS QUEEN
+    pmodvip: "\u2655",//WHITE CHESS QUEEN
+    broadcast_gold: "\u2746",//HEAVY CHEVRON SNOWFLAKE
+    broadcast_silver: "\u2746",//HEAVY CHEVRON SNOWFLAKE
+    broadcast_bronze: "\u2746",//HEAVY CHEVRON SNOWFLAKE
+    ironman: "\u26AF",//UNMARRIED PARTNERSHIP SYMBOL
+    hcim: "\u{1F480}",//SKULL
+    chatlink: "\u{1F517}",//LINK SYMBOL
+  }
+
+  const all_chat_icons = async_lazy(async () => {
+    await chat_icons.promise
+
+    const icons: { icon: ImageData, character: string }[] = []
+
+    for (let icon_key in chat_icons.raw) icons.push({icon: chat_icons.raw[icon_key], character: badgemap[icon_key]})
+
+    return icons
+  })
+
   import index = util.index;
 
   export class MessageBuffer {
@@ -170,20 +210,10 @@ export namespace ChatReader {
     }
 
     private async readLine(i: number): Promise<string> {
-
-
       const line = this.chatbox.line(i)
       const line_img = line.getData()
 
       const fodef = this.chatbox.font.def
-
-      if (i == 0) {
-        const modal = mod.get();
-
-        modal.body.empty()
-
-        modal.body.append(line_img.toImage())
-      }
 
       const fragments: string[] = []
 
@@ -278,8 +308,6 @@ export namespace ChatReader {
         }
 
         const line = components.reverse().join(" ")
-
-        console.log(`Row ${line}`)
 
         if (!line.startsWith("[")) return
 

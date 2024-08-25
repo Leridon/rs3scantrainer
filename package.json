@@ -7,10 +7,8 @@
     "runlocal": "electron dist/electron.bundle.js"
   },
   "dependencies": {
-    "@alt1/base": "^1.0.0-alpha.7",
     "@alt1/chatbox": "^1.0.0-alpha.7",
     "@alt1/font-loader": "^1.0.0-alpha.6",
-    "@alt1/ocr": "^1.0.0-alpha.7",
     "@popperjs/core": "^2.11.8",
     "alt1": "^0.0.7",
     "assert": "^2.1.0",

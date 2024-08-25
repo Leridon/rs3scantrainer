@@ -4,7 +4,6 @@ import {Vector2} from "../math";
 import {ScreenRectangle} from "./ScreenRectangle";
 import {OverlayGeometry} from "./OverlayGeometry";
 import {util} from "../util/util";
-import * as wapper from "@alt1/base/src/wrapper";
 import {findSubbuffer} from "@alt1/base/src/imagedetect";
 import A1Color = util.A1Color;
 
@@ -96,7 +95,7 @@ export class CapturedImage {
           this.screen_rectangle.size.x, this.screen_rectangle.size.y
         )
 
-        if (!r) { throw new wapper.Alt1Error(); }
+        if (!r) { throw new a1lib.Alt1Error(); }
 
         return JSON.parse(r) as Vector2[]
       } else {
@@ -186,7 +185,7 @@ export class NeedleImage {
   private _encoded: string
 
   constructor(public underlying: ImageData) {
-    this._encoded = wapper.encodeImageString(underlying)
+    this._encoded = a1lib.encodeImageString(underlying)
   }
 
   public encoded(): string {

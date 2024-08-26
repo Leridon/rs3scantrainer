@@ -2,10 +2,10 @@ import {CapturedImage, NeedleImage} from "../ImageCapture";
 import {async_lazy} from "../../properties/Lazy";
 import {Process} from "../../Process";
 import {OverlayGeometry} from "../OverlayGeometry";
-import {angleDifference, circularMean, normalizeAngle, radiansToDegrees, Vector2} from "../../math";
+import {degreesToRadians, normalizeAngle, radiansToDegrees, Vector2} from "../../math";
 import {ScreenRectangle} from "../ScreenRectangle";
-import over = OverlayGeometry.over;
 import * as lodash from "lodash";
+import over = OverlayGeometry.over;
 
 const overlay = over()
 
@@ -131,81 +131,37 @@ export namespace MinimapReader {
     readCompass(): number {
       const buf = this.compass.getData()
 
-      const angle_samples: {
-        angle: number,
-        weight: number
-      }[]
-
-        /*= rectangle_samples.flatMap(v => {
-
-        const vector = Vector2.sub(v, center_of_area)
-
-        let angle = angleof(vector)
-
-        if (Number.isNaN(angle)) return []
-
-        if (angleDifference(angle, initial_angle) > Math.PI / 2)
-          angle = normalizeAngle(angle - Math.PI)
-
-        return {
-          angle: angle,
-          weight: Vector2.lengthSquared(vector)
-        }
-      })*/
-
-
-
+      const angle_samples: number[] = []
 
       const r = 11;
 
-      const center: Vector2 = {x: 18, y: 17}
+      const center: Vector2 = {x: 17, y: 17}
+      const real_center: Vector2 = {x: 16.5, y: 16.5}
 
-      let sx1 = 0, sy1 = 0, m1 = 0;
-      let sx2 = 0, sy2 = 0, m2 = 0;
+      for (let x = center.x - r; x <= center.x + r; x++) {
+        for (let y = center.y - r; y <= center.y + r; y++) {
+          const v = Vector2.sub({x, y}, real_center)
 
+          const length_squared = Vector2.lengthSquared(v)
 
-      for (let x = Math.round(center.x) - r; x <= Math.round(center.x) + r; x++) {
-        for (let y = Math.round(center.y) - r; y <= Math.round(center.y) + r; y++) {
+          if (length_squared > r * r || length_squared < 8 * 8) continue;
+
           const i = 4 * x + 4 * buf.width * y;
-          const dx = x - center.x;
-          const dy = y - center.y;
 
-          if (dx * dx + dy * dy > r * r) {
-            buf.data[i] = buf.data[i + 1] = buf.data[i + 2] = 0;
-            continue;
+          if (buf.data[i] > (buf.data[i + 1] + buf.data[i + 2])) {
+            angle_samples.push(Vector2.angle({x: 1, y: 0}, Vector2.mul({x: 1, y: -1}, Vector2.normalize(v))))
           }
-
-          const rating1 = buf.data[i] - buf.data[i + 1];
-          sx1 += dx * rating1;
-          sy1 += dy * rating1;
-          m1 += rating1;
-          const rating2 = Math.max(0, buf.data[i] + buf.data[i + 1] + buf.data[i + 2] - 300);
-          sx2 += dx * rating2;
-          sy2 += dy * rating2;
-          m2 += rating2;
-          if (isNaN(m2)) { debugger; }
-          if (isNaN(m1)) { debugger; }
-
-          buf.data[i] = buf.data[i + 1] = buf.data[i + 2] = rating1;
         }
       }
 
-      const angle_after_rectangle_sample = normalizeAngle(Math.atan2(
-        lodash.sum(angle_samples.map(a => a.weight * Math.sin(a.angle))),
-        lodash.sum(angle_samples.map(a => a.weight * Math.cos(a.angle))),
+      const CALIBRATION = degreesToRadians(1.544740919)
+
+      const average_angle = normalizeAngle(Math.atan2(
+        lodash.sum(angle_samples.map(a => Math.sin(a))),
+        lodash.sum(angle_samples.map(a => Math.cos(a))),
       ))
 
-      if (m1 == 0 || m2 == 0) { return null; }
-
-      const mx1 = sx1 / m1;
-      const my1 = sy1 / m1;
-      const mx2 = sx2 / m2;
-      const my2 = sy2 / m2;
-
-      let dir = Math.atan2((my2 - my1), (mx2 - mx1));
-      dir += -1 / 180 * Math.PI;
-      dir = (Math.PI + dir) % (Math.PI * 2);
-      return dir;
+      return average_angle + CALIBRATION
     }
   }
 

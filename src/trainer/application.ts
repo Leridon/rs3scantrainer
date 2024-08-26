@@ -250,7 +250,7 @@ export class Application extends Behaviour {
   startup_settings = observe(this.startup_settings_storage.get())
 
   notifications: NotificationBar
-  chatreader: ChatReader = new ChatReader()
+  chatreader: ChatReader = new ChatReader().setDebugEnabled()
   minimapreader: MinimapReader = new MinimapReader()
 
   constructor() {
@@ -263,6 +263,7 @@ export class Application extends Behaviour {
     }
 
     this.chatreader.run()
+    this.chatreader.registerInterest()
     this.minimapreader.run()
   }
 

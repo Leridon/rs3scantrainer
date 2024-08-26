@@ -42,7 +42,7 @@ import {Alt1Modal} from "./Alt1Modal";
 import {List} from "../lib/ui/List";
 import {ClickToCopy} from "../lib/ui/ClickToCopy";
 import {ScanReader} from "./ui/neosolving/cluereader/ScanReader";
-import {ChatReader} from "./ui/neosolving/cluereader/ChatReader";
+import {ChatReader} from "../lib/alt1/readers/ChatReader";
 import ActiveTeleportCustomization = Transportation.TeleportGroup.ActiveTeleportCustomization;
 import TeleportSettings = Settings.TeleportSettings;
 import inlineimg = C.inlineimg;

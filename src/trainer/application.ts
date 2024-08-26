@@ -32,7 +32,7 @@ import {Log} from "../lib/util/Log";
 import {Changelog} from "./ChangeLog";
 import {DevelopmentModal} from "../devtools/DevelopmentMenu";
 import {LogViewer} from "../devtools/LogViewer";
-import {ChatReader} from "./ui/neosolving/cluereader/ChatReader";
+import {ChatReader} from "../lib/alt1/readers/ChatReader";
 import ActiveTeleportCustomization = Transportation.TeleportGroup.ActiveTeleportCustomization;
 import TeleportSettings = Settings.TeleportSettings;
 import inlineimg = C.inlineimg;

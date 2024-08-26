@@ -54,6 +54,7 @@ import staticentity = C.staticentity;
 import entity = C.entity;
 import notification = Notification.notification;
 import log = Log.log;
+import {MinimapReader} from "../lib/alt1/readers/MinimapReader";
 import img = C.img;
 import {SectionMemory} from "./ui/neosolving/PathControl";
 
@@ -473,6 +474,7 @@ export class Application extends Behaviour {
 
   notifications: NotificationBar
   chatreader: ChatReader = new ChatReader()
+  minimapreader: MinimapReader = new MinimapReader()
 
   constructor() {
     super()
@@ -492,6 +494,7 @@ export class Application extends Behaviour {
     }
 
     this.chatreader.run()
+    this.minimapreader.run()
   }
 
   protected async begin() {

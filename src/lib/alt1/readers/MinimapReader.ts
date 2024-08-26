@@ -81,6 +81,10 @@ export namespace MinimapReader {
       return Vector2.snap(ScreenRectangle.center(this.body.screen_rectangle))
     }
 
+    refind(capture: CapturedImage): CapturedMinimap {
+      return new CapturedMinimap(capture.getSubSection(this.body.screen_rectangle))
+    }
+
     static async find(img: CapturedImage): Promise<CapturedMinimap> {
       const imgs = await CapturedMinimap.anchors.get()
 

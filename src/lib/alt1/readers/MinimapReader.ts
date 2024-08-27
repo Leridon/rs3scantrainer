@@ -4,8 +4,9 @@ import {OverlayGeometry} from "../OverlayGeometry";
 import {degreesToRadians, normalizeAngle, radiansToDegrees, Vector2} from "../../math";
 import {ScreenRectangle} from "../ScreenRectangle";
 import * as lodash from "lodash";
-import over = OverlayGeometry.over;
 import {Log} from "../../util/Log";
+import {ewent} from "../../reactive";
+import over = OverlayGeometry.over;
 import log = Log.log;
 
 export class MinimapReader {
@@ -20,7 +21,7 @@ export class MinimapReader {
   private _initialized: Promise<any>
 
   constructor(private capture_service: CaptureService) {
-    this.capture_interest = capture_service.registerInterest(300, null)
+    this.capture_interest = capture_service.registerInterest(20, null)
 
     this._initialized = (async () => {
       this.finder = await MinimapReader.CapturedMinimap.finder.get()
@@ -42,6 +43,10 @@ export class MinimapReader {
             this.debug_overlay.render()
           }
 
+          if (this.capture) {
+            this.active_interest_tokens.forEach(i => i.read.trigger(this.capture))
+          }
+
         } catch (e) {
           log().log(e)
         }
@@ -53,36 +58,10 @@ export class MinimapReader {
     return this._initialized
   }
 
-  /*async tick(): Promise<void> {
-    if (this.active_interest_tokens.length == 0) return
-
-    try {
-      const capture = CapturedImage.capture();
-
-      this.capture = await MinimapReader.CapturedMinimap.find(capture)
-
-      if (this.debug_mode) {
-        this.debug_overlay.clear()
-
-        if (this.capture) {
-          this.capture.debugOverlay(this.debug_overlay)
-
-          console.log(`Camera yaw: ${radiansToDegrees(this.capture.readCompass())}°`)
-        }
-
-        this.debug_overlay.render()
-      }
-
-    } catch (e) {
-      log().log(e)
-    }
-  }
-*/
-
-  private active_interest_tokens: MinimapReader.InterestToken[] = []
+  private active_interest_tokens: MinimapReader.RealInterestToken[] = []
 
   registerInterest(compass_angle: boolean = false): MinimapReader.InterestToken {
-    const token = new MinimapReader.InterestToken((self) => {
+    const token = new MinimapReader.RealInterestToken((self) => {
         const id = this.active_interest_tokens.indexOf(self)
         if (id >= 0) {
           this.active_interest_tokens.splice(id, 1)
@@ -104,14 +83,27 @@ export class MinimapReader {
 
 export namespace MinimapReader {
 
-  export class InterestToken {
+  export interface InterestToken {
+    revoke(): void
+
+    onRead(f: (_: CapturedMinimap) => void): this
+  }
+
+  export class RealInterestToken implements InterestToken {
+
+    public read = ewent<CapturedMinimap>()
 
     private active: boolean = true
 
-    constructor(private readonly kill: (token: InterestToken) => void,
-    ) { }
+    constructor(private readonly kill: (token: RealInterestToken) => void) { }
 
-    revoke() {
+    onRead(f: (_: CapturedMinimap) => void): this {
+      this.read.on(f)
+
+      return this
+    }
+
+    revoke(): void {
       if (!this.active) return
 
       this.active = false
@@ -158,7 +150,7 @@ export namespace MinimapReader {
     }
 
     center(): Vector2 {
-      return Vector2.snap(ScreenRectangle.center(this.body.screen_rectangle))
+      return ScreenRectangle.center(this.body.screen_rectangle)
     }
 
     refind(capture: CapturedImage): CapturedMinimap {

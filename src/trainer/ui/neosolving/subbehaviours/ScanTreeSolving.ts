@@ -6,7 +6,7 @@ import {Clues} from "../../../../lib/runescape/clues";
 import BoundsBuilder from "../../../../lib/gamemap/BoundsBuilder";
 import {Path} from "../../../../lib/runescape/pathing";
 import {floor_t, TileRectangle} from "../../../../lib/runescape/coordinates";
-import {Rectangle} from "../../../../lib/math";
+import {Rectangle, Transform, Vector2} from "../../../../lib/math";
 import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
 import {ScanRegionPolygon} from "../ScanLayer";
 import {PathStepEntity} from "../../map/entities/PathStepEntity";
@@ -20,6 +20,8 @@ import {SolvingMethods} from "../../../model/methods";
 import {NeoSolvingSubBehaviour} from "../NeoSolvingSubBehaviour";
 import {C} from "../../../../lib/ui/constructors";
 import {TextRendering} from "../../TextRendering";
+import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
+import {ScreenRectangle} from "../../../../lib/alt1/ScreenRectangle";
 import * as assert from "assert";
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import activate = TileArea.activate;
@@ -28,6 +30,7 @@ import cls = C.cls;
 import Order = util.Order;
 import span = C.span;
 import spotNumber = ScanTree.spotNumber;
+import over = OverlayGeometry.over;
 import index = util.index;
 
 export class ScanTreeSolving extends NeoSolvingSubBehaviour {
@@ -37,8 +40,42 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
 
   tree_widget: Widget
 
-  constructor(parent: NeoSolvingBehaviour, public method: AugmentedMethod<ScanTreeMethod, Clues.Scan>) {
+  private minimap_overlay: OverlayGeometry = over()
+
+  constructor(parent: NeoSolvingBehaviour,
+              public method: AugmentedMethod<ScanTreeMethod, Clues.Scan>) {
     super(parent, "method")
+
+    const interest = this.parent.app.minimapreader.registerInterest(true)
+
+    interest.onRead(minimap => {
+      console.log("Read minimap")
+
+      this.minimap_overlay.clear()
+
+      const transform =
+        Transform.chain(
+          Transform.translation(minimap.center()),
+          Transform.rotationRadians(-minimap.readCompass()),
+          Transform.scale({x: 50, y: 50}),
+        )
+
+      console.log(`Center: ${Vector2.toString(minimap.center())}`)
+
+      const unit_square: Vector2[] = [
+        {x: 1, y: 1},
+        {x: 1, y: -1},
+        {x: -1, y: -1},
+        {x: -1, y: 1},
+      ]
+
+      this.minimap_overlay.polyline(
+        unit_square.map(v => Vector2.transform_point(v, transform)),
+        true
+      )
+
+      this.minimap_overlay.render()
+    })
 
     this.augmented = ScanTree.Augmentation.basic_augmentation(method.method.tree, method.clue)
   }

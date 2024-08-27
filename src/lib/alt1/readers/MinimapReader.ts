@@ -1,44 +1,124 @@
-import {CapturedImage, NeedleImage} from "../ImageCapture";
+import {CapturedImage, CaptureService, NeedleImage} from "../ImageCapture";
 import {async_lazy} from "../../properties/Lazy";
-import {Process} from "../../Process";
 import {OverlayGeometry} from "../OverlayGeometry";
 import {degreesToRadians, normalizeAngle, radiansToDegrees, Vector2} from "../../math";
 import {ScreenRectangle} from "../ScreenRectangle";
 import * as lodash from "lodash";
 import over = OverlayGeometry.over;
+import {Log} from "../../util/Log";
+import log = Log.log;
 
-const overlay = over()
-
-export class MinimapReader extends Process.Interval {
+export class MinimapReader {
   private capture: MinimapReader.CapturedMinimap = null
 
   private debug_overlay = over()
+  private debug_mode: boolean = false
 
-  constructor(private debug_mode: boolean = true) {
-    super(300);
+  private capture_interest: CaptureService.InterestToken
+  private finder: MinimapReader.CapturedMinimap.Finder
+
+  private _initialized: Promise<any>
+
+  constructor(private capture_service: CaptureService) {
+    this.capture_interest = capture_service.registerInterest(300, null)
+
+    this._initialized = (async () => {
+      this.finder = await MinimapReader.CapturedMinimap.finder.get()
+
+      this.capture_interest.onCapture(capture => {
+        try {
+
+          this.capture = this.finder.find(capture)
+
+          if (this.debug_mode) {
+            this.debug_overlay.clear()
+
+            if (this.capture) {
+              this.capture.debugOverlay(this.debug_overlay)
+
+              console.log(`Camera yaw: ${radiansToDegrees(this.capture.readCompass())}°`)
+            }
+
+            this.debug_overlay.render()
+          }
+
+        } catch (e) {
+          log().log(e)
+        }
+      })
+    })()
   }
 
-  async tick(): Promise<void> {
+  public initialized(): Promise<any> {
+    return this._initialized
+  }
 
-    const capture = CapturedImage.capture();
+  /*async tick(): Promise<void> {
+    if (this.active_interest_tokens.length == 0) return
 
-    this.capture = await MinimapReader.CapturedMinimap.find(capture)
+    try {
+      const capture = CapturedImage.capture();
 
-    this.debug_overlay.clear()
+      this.capture = await MinimapReader.CapturedMinimap.find(capture)
 
-    if (this.capture) {
-      this.capture.debugOverlay(this.debug_overlay)
+      if (this.debug_mode) {
+        this.debug_overlay.clear()
 
-      console.log(`Camera yaw: ${radiansToDegrees(this.capture.readCompass())}°`)
+        if (this.capture) {
+          this.capture.debugOverlay(this.debug_overlay)
+
+          console.log(`Camera yaw: ${radiansToDegrees(this.capture.readCompass())}°`)
+        }
+
+        this.debug_overlay.render()
+      }
+
+    } catch (e) {
+      log().log(e)
     }
+  }
+*/
 
-    this.debug_overlay.render()
+  private active_interest_tokens: MinimapReader.InterestToken[] = []
 
-    return undefined;
+  registerInterest(compass_angle: boolean = false): MinimapReader.InterestToken {
+    const token = new MinimapReader.InterestToken((self) => {
+        const id = this.active_interest_tokens.indexOf(self)
+        if (id >= 0) {
+          this.active_interest_tokens.splice(id, 1)
+        }
+      }
+    )
+
+    this.active_interest_tokens.push(token)
+
+    return token
+  }
+
+  setDebugEnabled(debug: boolean = true): this {
+    this.debug_mode = debug
+
+    return this
   }
 }
 
 export namespace MinimapReader {
+
+  export class InterestToken {
+
+    private active: boolean = true
+
+    constructor(private readonly kill: (token: InterestToken) => void,
+    ) { }
+
+    revoke() {
+      if (!this.active) return
+
+      this.active = false
+      this.kill(this)
+    }
+  }
+
   export class CapturedMinimap {
     private compass: CapturedImage
     private energy: CapturedImage
@@ -85,53 +165,6 @@ export namespace MinimapReader {
       return new CapturedMinimap(capture.getSubSection(this.body.screen_rectangle))
     }
 
-    static async find(img: CapturedImage): Promise<CapturedMinimap> {
-      const imgs = await CapturedMinimap.anchors.get()
-
-      const homeport = img.findNeedle(imgs.homeport)[0];
-
-      if (!homeport) return null
-
-      const bottom_left = Vector2.add(homeport.screen_rectangle.origin, {x: -17, y: 32})
-
-      const MINIMAL_DISTANCE = {x: 73, y: 45}
-
-      const energy_search_area = img.getSubSection(
-        {
-          origin: {x: homeport.screen_rectangle.origin.x + MINIMAL_DISTANCE.x, y: 0},
-          size: {x: img.size.x - (homeport.screen_rectangle.origin.x + MINIMAL_DISTANCE.x), y: homeport.screen_rectangle.origin.y - MINIMAL_DISTANCE.y},
-        }
-      )
-
-      const top_right = (() => {
-        const energies: { needle: NeedleImage, offset: Vector2 }[] = [
-          {needle: imgs.botrun, offset: {x: 34, y: -29}},
-          //{needle: imgs.toprun, offset: {x: 34, y: -9}},
-          {needle: imgs.botwalk, offset: {x: 34, y: -29}},
-          //{needle: imgs.topwalk, offset: {x: 34, y: -9}},
-        ];
-
-        for (const energy of energies) {
-          const results = energy_search_area.findNeedle(energy.needle)
-
-          if (results.length > 0) return Vector2.add(results[0].screen_rectangle.origin, energy.offset)
-        }
-
-        return null
-      })()
-
-      if (!top_right) {
-        console.log("Could not find top right")
-        return null
-      }
-
-      return new CapturedMinimap(img.getSubSection(
-        ScreenRectangle.fromPixels(
-          bottom_left,
-          top_right,
-        )).setName("Minimap"))
-    }
-
     readCompass(): number {
       const buf = this.compass.getData()
 
@@ -170,6 +203,63 @@ export namespace MinimapReader {
   }
 
   export namespace CapturedMinimap {
+    export interface Finder {
+      find(img: CapturedImage): CapturedMinimap
+    }
+
+    export const finder = async_lazy<Finder>(async () => {
+      const imgs = await CapturedMinimap.anchors.get()
+
+      return new class implements Finder {
+
+        find(img: CapturedImage): CapturedMinimap {
+
+          const homeport = img.findNeedle(imgs.homeport)[0];
+
+          if (!homeport) return null
+
+          const bottom_left = Vector2.add(homeport.screen_rectangle.origin, {x: -17, y: 32})
+
+          const MINIMAL_DISTANCE = {x: 73, y: 45}
+
+          const energy_search_area = img.getSubSection(
+            {
+              origin: {x: homeport.screen_rectangle.origin.x + MINIMAL_DISTANCE.x, y: 0},
+              size: {x: img.size.x - (homeport.screen_rectangle.origin.x + MINIMAL_DISTANCE.x), y: homeport.screen_rectangle.origin.y - MINIMAL_DISTANCE.y},
+            }
+          )
+
+          const top_right = (() => {
+            const energies: { needle: NeedleImage, offset: Vector2 }[] = [
+              {needle: imgs.botrun, offset: {x: 34, y: -29}},
+              //{needle: imgs.toprun, offset: {x: 34, y: -9}},
+              {needle: imgs.botwalk, offset: {x: 34, y: -29}},
+              //{needle: imgs.topwalk, offset: {x: 34, y: -9}},
+            ];
+
+            for (const energy of energies) {
+              const results = energy_search_area.findNeedle(energy.needle)
+
+              if (results.length > 0) return Vector2.add(results[0].screen_rectangle.origin, energy.offset)
+            }
+
+            return null
+          })()
+
+          if (!top_right) {
+            console.log("Could not find top right")
+            return null
+          }
+
+          return new CapturedMinimap(img.getSubSection(
+            ScreenRectangle.fromPixels(
+              bottom_left,
+              top_right,
+            )).setName("Minimap"))
+        }
+      }
+    })
+
     export const anchors = async_lazy(async () => {
       return {
         botrun: await NeedleImage.fromURL("alt1anchors/minimap/botrun.png"),

@@ -288,7 +288,7 @@ export namespace ChatReader {
 
       return this.buffer.add({
         timestamp: timestamp,
-        text: message
+        text: message.substring(11) // Strip timestamp from message itself
       })
     }
 

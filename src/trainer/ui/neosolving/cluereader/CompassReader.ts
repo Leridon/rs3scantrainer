@@ -17,7 +17,7 @@ import {tilePolygon} from "../../polygon_helpers";
 import {Process} from "../../../../lib/Process";
 import {EwentHandler, observe} from "../../../../lib/reactive";
 import {ScreenRectangle} from "../../../../lib/alt1/ScreenRectangle";
-import {CapturedImage} from "../../../../lib/alt1/ImageCapture";
+import {CapturedImage} from "../../../../lib/alt1/capture";
 import {deps} from "../../../dependencies";
 import {util} from "../../../../lib/util/util";
 import LightButton from "../../widgets/LightButton";

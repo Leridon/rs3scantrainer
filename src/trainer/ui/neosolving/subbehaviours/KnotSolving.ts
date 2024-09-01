@@ -1,6 +1,6 @@
 import NeoSolvingBehaviour from "../NeoSolvingBehaviour";
 import {ClueReader} from "../cluereader/ClueReader";
-import {CapturedImage} from "../../../../lib/alt1/ImageCapture";
+import {CapturedImage} from "../../../../lib/alt1/capture";
 import {KnotReader} from "../cluereader/KnotReader";
 import {CelticKnots} from "../../../../lib/cluetheory/CelticKnots";
 import {Vector2} from "../../../../lib/math";

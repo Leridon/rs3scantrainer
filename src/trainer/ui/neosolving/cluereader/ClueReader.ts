@@ -13,7 +13,7 @@ import {SlideReader} from "./SliderReader";
 import {Notification} from "../../NotificationBar";
 import {CompassReader} from "./CompassReader";
 import {KnotReader} from "./KnotReader";
-import {CapturedImage} from "../../../../lib/alt1/ImageCapture";
+import {CapturedImage} from "../../../../lib/alt1/capture";
 import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
 import {Sliders} from "../../../../lib/cluetheory/Sliders";
 import {LockBoxReader} from "./LockBoxReader";

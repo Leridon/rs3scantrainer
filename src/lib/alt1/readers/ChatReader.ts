@@ -1,5 +1,5 @@
 import {Process} from "../../Process";
-import {CapturedImage, NeedleImage} from "../ImageCapture";
+import {CapturedImage, NeedleImage} from "../capture";
 import {OverlayGeometry} from "../OverlayGeometry";
 import {util} from "../../util/util";
 import {ScreenRectangle} from "../ScreenRectangle";

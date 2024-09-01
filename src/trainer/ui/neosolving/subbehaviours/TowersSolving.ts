@@ -1,6 +1,6 @@
 import NeoSolvingBehaviour from "../NeoSolvingBehaviour";
 import {ClueReader} from "../cluereader/ClueReader";
-import {CapturedImage} from "../../../../lib/alt1/ImageCapture";
+import {CapturedImage} from "../../../../lib/alt1/capture";
 import {CapturedModal} from "../cluereader/capture/CapturedModal";
 import {TowersReader} from "../cluereader/TowersReader";
 import {Towers} from "../../../../lib/cluetheory/Towers";

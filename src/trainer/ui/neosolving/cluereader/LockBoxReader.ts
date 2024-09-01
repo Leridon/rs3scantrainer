@@ -1,4 +1,4 @@
-import {CapturedImage} from "../../../../lib/alt1/ImageCapture";
+import {CapturedImage} from "../../../../lib/alt1/capture";
 import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
 import {Lockboxes} from "../../../../lib/cluetheory/Lockboxes";
 import {ImageFingerprint} from "../../../../lib/util/ImageFingerprint";

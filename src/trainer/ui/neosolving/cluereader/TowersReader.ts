@@ -1,4 +1,4 @@
-import {CapturedImage} from "../../../../lib/alt1/ImageCapture";
+import {CapturedImage} from "../../../../lib/alt1/capture";
 import {Vector2} from "../../../../lib/math";
 import {CapturedModal} from "./capture/CapturedModal";
 import {Towers} from "../../../../lib/cluetheory/Towers";

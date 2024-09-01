@@ -1,4 +1,4 @@
-import {CapturedImage, CaptureService, NeedleImage} from "../ImageCapture";
+import {CapturedImage, CaptureService, NeedleImage} from "../capture";
 import {async_lazy} from "../../properties/Lazy";
 import {OverlayGeometry} from "../OverlayGeometry";
 import {degreesToRadians, normalizeAngle, radiansToDegrees, Vector2} from "../../math";

@@ -1,5 +1,5 @@
 import {Process} from "../../../../lib/Process";
-import {CapturedImage} from "../../../../lib/alt1/ImageCapture";
+import {CapturedImage} from "../../../../lib/alt1/capture";
 import {PulseReaderModal} from "../../../pulse_reader/pulsereader";
 import {ScreenRectangle} from "../../../../lib/alt1/ScreenRectangle";
 import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";

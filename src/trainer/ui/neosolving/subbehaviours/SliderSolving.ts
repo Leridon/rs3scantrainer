@@ -30,6 +30,7 @@ import Move = Sliders.Move;
 import profileAsync = util.profileAsync;
 import log = Log.log;
 import index = util.index;
+import {timeSync} from "../../../../lib/gamemap/GameLayer";
 
 class SliderGuideProcess extends AbstractPuzzleProcess {
   settings = deps().app.settings.settings.solving.puzzles.sliders

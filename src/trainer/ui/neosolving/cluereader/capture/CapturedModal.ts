@@ -3,7 +3,7 @@ import * as OCR from "@alt1/ocr";
 import {Vector2} from "../../../../../lib/math";
 import {LazyAsync} from "../../../../../lib/properties/Lazy";
 import {ImageDetect} from "@alt1/base";
-import {CapturedImage} from "../../../../../lib/alt1/ImageCapture";
+import {CapturedImage} from "../../../../../lib/alt1/capture";
 
 export class CapturedModal {
   private _title: string = null

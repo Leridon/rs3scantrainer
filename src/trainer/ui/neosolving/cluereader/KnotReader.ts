@@ -6,7 +6,7 @@ import {ImageDetect, mixColor} from "@alt1/base";
 import {ImageFingerprint} from "../../../../lib/util/ImageFingerprint";
 import * as lodash from "lodash";
 import {identity} from "lodash";
-import {CapturedImage} from "../../../../lib/alt1/ImageCapture";
+import {CapturedImage} from "../../../../lib/alt1/capture";
 import {CapturedModal} from "./capture/CapturedModal";
 import {async_lazy} from "../../../../lib/properties/Lazy";
 

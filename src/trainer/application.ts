@@ -58,6 +58,7 @@ import {MinimapReader} from "../lib/alt1/readers/MinimapReader";
 import img = C.img;
 import {SectionMemory} from "./ui/neosolving/PathControl";
 import {CaptureService} from "../lib/alt1/ImageCapture";
+import {CaptureService} from "../lib/alt1/capture";
 
 class PermissionChecker extends NisModal {
   constructor() {
@@ -496,10 +497,10 @@ export class Application extends Behaviour {
       log().log("In development mode")
     }
 
-    this.capture_service.run()
-    this.chatreader.run()
-    this.chatreader.registerInterest()
-    this.minimapreader.registerInterest(true)
+    //this.capture_service.run()
+    //this.chatreader.run()
+    this.chatreader//.registerInterest()
+    this.minimapreader//.registerInterest(true)
   }
 
   protected async begin() {

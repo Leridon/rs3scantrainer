@@ -93,7 +93,9 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
     state: SliderState,
     inverted_checkmark: boolean
   }> {
-    const capt = this.parent.puzzle.reader.ui.recapture(true)
+    debugger
+
+    const capt = timeSync("Small capture",() => this.parent.puzzle.reader.ui.recapture(true))
 
     const read = await new SlideReader.SlideReader(capt).getPuzzle(this.puzzle.theme)
 

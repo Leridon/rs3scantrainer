@@ -51,11 +51,15 @@ export class CapturedSliderInterface {
       body_rect.origin.x += CapturedSliderInterface.INVERTED_CHECKBOX_OFFSET_FROM_TL.x
       body_rect.size.x += -CapturedSliderInterface.INVERTED_CHECKBOX_OFFSET_FROM_TL.x
 
-      return new CapturedSliderInterface(
+      const res =  new CapturedSliderInterface(
         CapturedImage.capture(body_rect),
         true,
         this.isLegacy
       )
+
+      debugger
+
+      return res
     } else {
       return new CapturedSliderInterface(
         CapturedImage.capture(this.body.screenRectangle()),

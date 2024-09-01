@@ -3,6 +3,93 @@ import {CapturedImage} from "./CapturedImage";
 import {timeSync} from "../../gamemap/GameLayer";
 import {ScreenRectangle} from "../ScreenRectangle";
 import {Ewent, ewent} from "../../reactive";
+import {util} from "../../util/util";
+import todo = util.todo;
+
+class AbstractCaptureService<
+  InterestOptionsT,
+  ValueT
+> {
+  private last_capture: ValueT = null
+
+  constructor(private data_sources: AbstractCaptureService<any, any>[]) {
+    
+  }
+
+  registerInterest(desired_interval: number,
+                   rectangle: ScreenRectangle
+  ): CaptureService.InterestToken {
+    const event = ewent<CapturedImage>()
+
+    const token = new CaptureService.InterestToken(self => {
+      const i = this.interests.findIndex(i => i.token == self);
+
+      if (i >= 0) this.interests.splice(i, 1)
+    }, event)
+      .setInterval(desired_interval)
+      .setArea(rectangle)
+
+
+    this.interests.push({
+      last_capture: null,
+      token: token,
+      ewent: event
+    })
+
+    return token
+  }
+
+  captureOnce(options: {
+    newer_than?: number | CapturedImage,
+    options: InterestOptionsT
+  }): Promise<ValueT> {
+
+    todo()
+  }
+}
+
+namespace AbstractCaptureService {
+  export abstract class InterestToken<OptionsT, ValueT> {
+    private killed_event = ewent<this>()
+    private alive: boolean = true
+    private paused: boolean = false
+
+    constructor() {}
+
+    pause(): this {
+      this.paused = true
+      return this
+    }
+
+    unpause(): this {
+      this.paused = false
+      return this
+    }
+
+    isPaused(): boolean {
+      return this.paused
+    }
+
+    unregister() {
+      if (!this.alive) return
+
+      this.alive = false
+      this.killed_event.trigger(this)
+    }
+
+    onKilled(f: (_: this) => void): this {
+      this.killed_event.on(f)
+
+      return this
+    }
+
+    abstract isOneTime(): boolean
+
+    abstract handle(value: ValueT): void
+
+    abstract options(): OptionsT
+  }
+}
 
 export class CaptureService extends Process.Interval {
   private last_capture: CapturedImage = null
@@ -69,6 +156,18 @@ export class CaptureService extends Process.Interval {
     })
 
     return token
+  }
+
+  /**
+   * Will
+   * @param options
+   */
+  captureOnce(options: {
+    newer_than?: number | CapturedImage,
+    area: ScreenRectangle
+  }): Promise<CapturedImage> {
+
+    todo()
   }
 
   private interests: {

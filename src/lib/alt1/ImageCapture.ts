@@ -5,10 +5,10 @@ import {ScreenRectangle} from "./ScreenRectangle";
 import {OverlayGeometry} from "./OverlayGeometry";
 import {util} from "../util/util";
 import {findSubbuffer} from "@alt1/base/src/imagedetect";
-import A1Color = util.A1Color;
 import {Process} from "../Process";
 import {ewent, Ewent} from "../reactive";
 import {timeSync} from "../gamemap/GameLayer";
+import A1Color = util.A1Color;
 
 export class CapturedImage {
   private _name: string = undefined
@@ -158,11 +158,13 @@ export class CapturedImage {
       // TODO: This should respect a1.captureInterval in some way
       const timestamp = Date.now()
 
-      const img = section
-        ? a1lib.captureHold(section.origin.x, section.origin.y, section.size.x, section.size.y)
-        : a1lib.captureHoldFullRs()
+      // Default to the full rs game window if no specific section was specified
+      const area = section ?? {origin: {x: 0, y: 0}, size: {x: alt1.rsWidth, y: alt1.rsHeight}}
 
-      return this.latest_capture = new CapturedImage({img_ref: img, timestamp: timestamp}, {origin: {x: 0, y: 0}, size: {x: img.width, y: img.height}})
+      const img = a1lib.captureHold(area.origin.x, area.origin.y, area.size.x, area.size.y)
+
+      return this.latest_capture = new CapturedImage({img_ref: img, timestamp: timestamp}, area)
+        .setName(section ? "Partial Capture" : "Full Capture")
     } catch (e: any) {
       console.error(`Capture failed: ${e.message}`)
       console.error(e.stack)

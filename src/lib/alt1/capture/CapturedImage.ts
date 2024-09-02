@@ -7,6 +7,7 @@ import {OverlayGeometry} from "../OverlayGeometry";
 import {NeedleImage} from "./NeedleImage";
 import {util} from "../../util/util";
 import A1Color = util.A1Color;
+import * as lodash from "lodash";
 
 export class CapturedImage {
   private _name: string = undefined
@@ -117,6 +118,14 @@ export class CapturedImage {
   root(): CapturedImage {
     if (this.parent) return this.parent.root()
     else return this
+  }
+
+  getScreenSection(absolute_area: ScreenRectangle): CapturedImage {
+    return new CapturedImage(
+      this.root().capture,
+      lodash.cloneDeep(absolute_area),
+      this.root()
+    )
   }
 
   getSubSection(relative_rectangle: ScreenRectangle): CapturedImage {

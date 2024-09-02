@@ -1,77 +1,64 @@
-import {CapturedImage, CaptureService, NeedleImage} from "../capture";
+import {AbstractCaptureService, CapturedImage, DerivedCaptureService, NeedleImage, ScreenCaptureService} from "../capture";
 import {async_lazy} from "../../properties/Lazy";
 import {OverlayGeometry} from "../OverlayGeometry";
 import {degreesToRadians, normalizeAngle, radiansToDegrees, Vector2} from "../../math";
 import {ScreenRectangle} from "../ScreenRectangle";
 import * as lodash from "lodash";
 import {Log} from "../../util/Log";
-import {ewent} from "../../reactive";
 import over = OverlayGeometry.over;
 import log = Log.log;
 
-export class MinimapReader {
-  private capture: MinimapReader.CapturedMinimap = null
+export class MinimapReader extends DerivedCaptureService<{}, MinimapReader.CapturedMinimap> {
 
   private debug_overlay = over()
   private debug_mode: boolean = false
 
-  private capture_interest: CaptureService.InterestToken
+  private capture_interest: AbstractCaptureService.InterestToken<any, CapturedImage>
   private finder: MinimapReader.CapturedMinimap.Finder
 
   private _initialized: Promise<any>
 
-  constructor(private capture_service: CaptureService) {
-    this.capture_interest = capture_service.registerInterest(20, null)
+  constructor(private capture_service: ScreenCaptureService) {
+    super()
 
     this._initialized = (async () => {
       this.finder = await MinimapReader.CapturedMinimap.finder.get()
 
-      this.capture_interest.onCapture(capture => {
-        try {
-
-          this.capture = this.finder.find(capture)
-
-          if (this.debug_mode) {
-            this.debug_overlay.clear()
-
-            if (this.capture) {
-              this.capture.debugOverlay(this.debug_overlay)
-
-              console.log(`Camera yaw: ${radiansToDegrees(this.capture.readCompass())}°`)
-            }
-
-            this.debug_overlay.render()
-          }
-
-          if (this.capture) {
-            this.active_interest_tokens.forEach(i => i.read.trigger(this.capture))
-          }
-
-        } catch (e) {
-          log().log(e)
-        }
-      })
+      this.capture_interest = this.addDataSource(capture_service, () => null)
     })()
+  }
+
+  process(interested_tokens: {}[]): MinimapReader.CapturedMinimap  {
+    const capture = this.capture_interest.lastNotification().value
+
+    try {
+      const capturedMinimap = this.finder.find(capture)
+
+      if (this.debug_mode) {
+        this.debug_overlay.clear()
+
+        if (capturedMinimap) {
+          capturedMinimap.debugOverlay(this.debug_overlay)
+
+          console.log(`Camera yaw: ${radiansToDegrees(capturedMinimap.readCompass())}°`)
+        }
+
+        this.debug_overlay.render()
+      }
+
+      return capturedMinimap
+    } catch (e) {
+      log().log(e)
+    }
+
   }
 
   public initialized(): Promise<any> {
     return this._initialized
   }
 
-  private active_interest_tokens: MinimapReader.RealInterestToken[] = []
-
-  registerInterest(compass_angle: boolean = false): MinimapReader.InterestToken {
-    const token = new MinimapReader.RealInterestToken((self) => {
-        const id = this.active_interest_tokens.indexOf(self)
-        if (id >= 0) {
-          this.active_interest_tokens.splice(id, 1)
-        }
-      }
-    )
-
-    this.active_interest_tokens.push(token)
-
-    return token
+  stop() {
+    this.capture_interest.revoke()
   }
 
   setDebugEnabled(debug: boolean = true): this {
@@ -82,35 +69,6 @@ export class MinimapReader {
 }
 
 export namespace MinimapReader {
-
-  export interface InterestToken {
-    revoke(): void
-
-    onRead(f: (_: CapturedMinimap) => void): this
-  }
-
-  export class RealInterestToken implements InterestToken {
-
-    public read = ewent<CapturedMinimap>()
-
-    private active: boolean = true
-
-    constructor(private readonly kill: (token: RealInterestToken) => void) { }
-
-    onRead(f: (_: CapturedMinimap) => void): this {
-      this.read.on(f)
-
-      return this
-    }
-
-    revoke(): void {
-      if (!this.active) return
-
-      this.active = false
-      this.kill(this)
-    }
-  }
-
   export class CapturedMinimap {
     private compass: CapturedImage
     private energy: CapturedImage

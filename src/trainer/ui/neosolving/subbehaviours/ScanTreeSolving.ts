@@ -42,13 +42,60 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
 
   private minimap_overlay: OverlayGeometry = over()
 
+  private minimap_interest: AbstractCaptureService.InterestToken
+
   constructor(parent: NeoSolvingBehaviour,
               public method: AugmentedMethod<ScanTreeMethod, Clues.Scan>) {
     super(parent, "method")
 
-    const interest = this.parent.app.minimapreader.registerInterest(true)
+    const self = this
 
-    interest.onRead(minimap => {
+    this.minimap_interest = this.parent.app.minimapreader.subscribe(new class extends AbstractCaptureService.InterestToken<{}, MinimapReader.CapturedMinimap> {
+      protected handle(value: AbstractCaptureService.TimedValue<MinimapReader.CapturedMinimap>): void {
+        console.log("Read minimap")
+
+        const minimap = value.value
+
+        self.minimap_overlay.clear()
+
+        const transform =
+          Transform.chain(
+            Transform.translation(minimap.center()),
+            Transform.rotationRadians(-minimap.readCompass()),
+            Transform.scale({x: 50, y: 50}),
+          )
+
+        console.log(`Center: ${Vector2.toString(minimap.center())}`)
+
+        const unit_square: Vector2[] = [
+          {x: 1, y: 1},
+          {x: 1, y: -1},
+          {x: -1, y: -1},
+          {x: -1, y: 1},
+        ]
+
+        self.minimap_overlay.polyline(
+          unit_square.map(v => Vector2.transform_point(v, transform)),
+          true
+        )
+
+        self.minimap_overlay.render()
+      }
+
+      isPaused(): boolean {
+        return false;
+      }
+
+      options(): {} {
+        return {};
+      }
+
+      tickModulo(): number {
+        return 3;
+      }
+    })
+
+    /*interest.onRead(minimap => {
       console.log("Read minimap")
 
       this.minimap_overlay.clear()
@@ -75,7 +122,7 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
       )
 
       this.minimap_overlay.render()
-    })
+    })*/
 
     this.augmented = ScanTree.Augmentation.basic_augmentation(method.method.tree, method.clue)
   }
@@ -263,6 +310,8 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
       this.layer.remove()
       this.layer = null
     }
+
+    this.minimap_interest.revoke()
   }
 }
 

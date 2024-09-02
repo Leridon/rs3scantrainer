@@ -55,6 +55,7 @@ import entity = C.entity;
 import notification = Notification.notification;
 import log = Log.log;
 import {MinimapReader} from "../lib/alt1/readers/MinimapReader";
+import {CaptureService, ScreenCaptureService} from "../lib/alt1/capture";
 import img = C.img;
 import {SectionMemory} from "./ui/neosolving/PathControl";
 import {CaptureService} from "../lib/alt1/ImageCapture";
@@ -477,8 +478,9 @@ export class Application extends Behaviour {
   notifications: NotificationBar
 
   capture_service: CaptureService = new CaptureService()
+  capture_service2: ScreenCaptureService = new ScreenCaptureService()
   chatreader: ChatReader = new ChatReader().setDebugEnabled()
-  minimapreader: MinimapReader = new MinimapReader(this.capture_service).setDebugEnabled()
+  minimapreader: MinimapReader = new MinimapReader(this.capture_service2).setDebugEnabled()
 
   constructor() {
     super()

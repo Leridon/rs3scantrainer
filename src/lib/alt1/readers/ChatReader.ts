@@ -1,5 +1,4 @@
-import {Process} from "../../Process";
-import {CapturedImage, NeedleImage} from "../capture";
+import {AbstractCaptureService, CapturedImage, DerivedCaptureService, NeedleImage, ScreenCaptureService} from "../capture";
 import {OverlayGeometry} from "../OverlayGeometry";
 import {util} from "../../util/util";
 import {ScreenRectangle} from "../ScreenRectangle";
@@ -12,11 +11,12 @@ import {webpackImages} from "@alt1/base/dist/imagedetect";
 import {time} from "../../gamemap/GameLayer";
 import * as a1lib from "@alt1/base";
 import {Log} from "../../util/Log";
-import over = OverlayGeometry.over;
-import A1Color = util.A1Color;
-import log = Log.log;
 import {Vector2} from "../../math";
 import * as lodash from "lodash";
+import over = OverlayGeometry.over;
+import log = Log.log;
+import * as console from "console";
+import A1Color = util.A1Color;
 
 /**
  * A service class to read chat messages. It will search for chat boxes periodically, so it will find the chat
@@ -24,7 +24,7 @@ import * as lodash from "lodash";
  * This is a hard requirement because the reader uses timestamps to differentiate repeated identical messages
  * and also to buffer messages so that scrolling the chat up and down does not cause messages to be read again.
  */
-export class ChatReader extends Process.Interval {
+export class ChatReader extends DerivedCaptureService<{}, {}> {
   private debug_mode: boolean = false
 
   private active_interest_tokens = 0
@@ -36,8 +36,12 @@ export class ChatReader extends Process.Interval {
   private last_search = Number.NEGATIVE_INFINITY
   private chatboxes: ChatReader.SingleChatboxReader[] = []
 
-  constructor(private read_interval: number = 600, private search_interval: number = 6000) {
-    super(read_interval);
+  private capture_interest: AbstractCaptureService.InterestToken<{ area: ScreenRectangle } | null, CapturedImage>
+
+  constructor(private capturing: ScreenCaptureService, private search_interval: number = 6000) {
+    super();
+
+    this.capture_interest = this.addDataSource(capturing, () => null)
 
     this.new_message.on(msg => {
       if (!this.debug_mode) return
@@ -46,10 +50,8 @@ export class ChatReader extends Process.Interval {
     })
   }
 
-  private debug_overlay: OverlayGeometry = over()
-
-  async tick() {
-    if (!this.debug_mode && this.active_interest_tokens <= 0) return // If no interest token is active, just go back to sleep
+  process(interested_tokens: {}[]): {} {
+    const capture = this.capture_interest.lastNotification()
 
     try {
       const capture = CapturedImage.capture()
@@ -100,41 +102,20 @@ export class ChatReader extends Process.Interval {
     } catch (e) {
       log().log(e)
     }
+
+    return {}
   }
+
+  private debug_overlay: OverlayGeometry = over()
 
   setDebugEnabled(debug: boolean = true): this {
     this.debug_mode = debug
 
     return this
   }
-
-  registerInterest(f: (_: ChatReader.Message) => void = () => {}): ChatReader.InterestToken {
-    this.active_interest_tokens++
-    return new ChatReader.InterestToken(() => this.active_interest_tokens--,
-      this.new_message.on(f)
-    )
-  }
 }
 
 export namespace ChatReader {
-
-  export class InterestToken {
-
-    private active: boolean = true
-
-    constructor(private readonly kill: () => void,
-                private readonly handler: EwentHandler<Message>
-    ) { }
-
-    unregister() {
-      if (!this.active) return
-
-      this.active = false
-      this.handler.remove()
-      this.kill()
-    }
-  }
-
   const chat_icons = webpackImages({
     vip: require("@alt1/chatbox/src/imgs/badgevip.data.png"),
     pmod: require("@alt1/chatbox/src/imgs/badgepmod.data.png"),
@@ -292,7 +273,7 @@ export namespace ChatReader {
       })
     }
 
-    async read() {
+    async read(): void {
       if (!this.chatbox.font) return
 
       let row = 0

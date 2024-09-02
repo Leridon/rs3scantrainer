@@ -3,9 +3,9 @@ import {EwentHandler} from "./EwentHandler";
 export class EwentHandlerPool {
   private handlers: EwentHandler<any>[] = []
 
-  bind(h: EwentHandler<any>): this {
-    this.handlers.push(h)
-
+  bind(...h: EwentHandler<any>[]): this {
+    h.forEach(h => this.handlers.push(h))
+    
     return this
   }
 

@@ -2,8 +2,9 @@ import {Process} from "../../Process";
 import {CapturedImage} from "./CapturedImage";
 import {timeSync} from "../../gamemap/GameLayer";
 import {ScreenRectangle} from "../ScreenRectangle";
-import {Ewent, ewent} from "../../reactive";
+import {Ewent, ewent, EwentHandler} from "../../reactive";
 import {util} from "../../util/util";
+import {EwentHandlerPool} from "../../reactive/EwentHandlerPool";
 import todo = util.todo;
 import TimedValue = AbstractCaptureService.TimedValue;
 
@@ -15,7 +16,9 @@ export abstract class AbstractCaptureService<
   protected interests: AbstractCaptureService.InterestToken<InterestOptionsT, ValueT>[] = []
   protected raw_last_capture: TimedValue<ValueT> = undefined
 
-  subscribe(token: AbstractCaptureService.InterestToken<InterestOptionsT, ValueT>): AbstractCaptureService.InterestToken<InterestOptionsT, ValueT> {
+  subscribe(token: AbstractCaptureService.InterestToken<InterestOptionsT, ValueT>,
+            f: (_: this) => EwentHandler<any>[] = () => []
+  ): AbstractCaptureService.InterestToken<InterestOptionsT, ValueT> {
 
     this.interests.push(token)
 
@@ -23,6 +26,8 @@ export abstract class AbstractCaptureService<
       const i = this.interests.indexOf(token)
       if (i >= 0) this.interests.splice(i, 1)
     })
+
+    token.handler_pool.bind(...f(this))
 
     return token
   }
@@ -73,6 +78,8 @@ export abstract class AbstractCaptureService<
 
 export namespace AbstractCaptureService {
   export abstract class InterestToken<OptionsT = any, ValueT = any> {
+    public handler_pool: EwentHandlerPool = new EwentHandlerPool()
+
     private killed_event = ewent<this>()
     private alive: boolean = true
     private _last_notification: TimedValue<ValueT>
@@ -86,6 +93,8 @@ export namespace AbstractCaptureService {
 
       this.alive = false
       this.killed_event.trigger(this)
+
+      this.handler_pool.kill()
     }
 
     onKilled(f: (_: this) => void): this {
@@ -129,7 +138,7 @@ export abstract class DerivedCaptureService<
   ValueT
 > extends AbstractCaptureService<InterestOptionsT, ValueT> {
   private sources: {
-    token: AbstractCaptureService.InterestToken<any, any>,
+    token: AbstractCaptureService.InterestToken,
     service: AbstractCaptureService<any, any>
   }[] = []
 

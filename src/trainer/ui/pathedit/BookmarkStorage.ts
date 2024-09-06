@@ -9,13 +9,12 @@ import TextField from "../../../lib/ui/controls/TextField";
 import {Checkbox} from "../../../lib/ui/controls/Checkbox";
 
 export class BookmarkStorage {
-  private persistance = new storage.Variable<BookmarkStorage.Bookmark[]>("patheditor/bookmarks", () => [])
   temporary_bookmarks: BookmarkStorage.Bookmark[] = []
 
   create(bookmark: BookmarkStorage.Bookmark) {
     switch (bookmark.type) {
       case "persistent":
-        this.persistance.map(v => {
+        BookmarkStorage.persistance.map(v => {
           v.push(bookmark)
         })
         break
@@ -28,7 +27,7 @@ export class BookmarkStorage {
   delete(bookmark: BookmarkStorage.Bookmark) {
     switch (bookmark.type) {
       case "persistent":
-        this.persistance.map(v => {
+        BookmarkStorage.persistance.map(v => {
           v.splice(v.indexOf(bookmark), 1)
         })
         break
@@ -39,11 +38,13 @@ export class BookmarkStorage {
   }
 
   getAll(): BookmarkStorage.Bookmark[] {
-    return [].concat(this.persistance.get(), this.temporary_bookmarks)
+    return [].concat(BookmarkStorage.persistance.get(), this.temporary_bookmarks)
   }
 }
 
 export namespace BookmarkStorage {
+  export const persistance = new storage.Variable<BookmarkStorage.Bookmark[]>("patheditor/bookmarks", () => [])
+
   export type Bookmark = {
     name: string,
     value: PathBuilder.SavedState,

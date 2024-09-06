@@ -49,6 +49,7 @@ import notification = Notification.notification;
 import log = Log.log;
 import img = C.img;
 import {DataExport} from "./DataExport";
+import {BookmarkStorage} from "./ui/pathedit/BookmarkStorage";
 
 class PermissionChecker extends NisModal {
   constructor() {
@@ -327,7 +328,8 @@ export class Application extends Behaviour {
     this.data_dump = new DataExport("cluetrainer", this.version, DataExport.createSpec(
       this.settings.storage,
       MethodPackManager.instance().local_pack_store,
-      this.favourites.data
+      this.favourites.data,
+      BookmarkStorage.persistance
     ))
 
     if (this.in_dev_mode) {

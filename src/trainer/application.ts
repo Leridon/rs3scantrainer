@@ -50,6 +50,10 @@ import log = Log.log;
 import img = C.img;
 import {DataExport} from "./DataExport";
 import {BookmarkStorage} from "./ui/pathedit/BookmarkStorage";
+import {FormModal} from "../lib/ui/controls/FormModal";
+import {direction} from "../lib/runescape/movement";
+import east = direction.east;
+import {Alt1Modal} from "./Alt1Modal";
 
 class PermissionChecker extends NisModal {
   constructor() {
@@ -232,6 +236,59 @@ export class SettingsManagement {
   }
 
   settings: Settings.Settings
+}
+
+class MigrateToCluetrainerAppDomain extends FormModal<boolean> {
+  constructor(private app: Application) {super();}
+
+  render() {
+    super.render();
+
+    this.setTitle("Please Migrate")
+
+    const layout = new Properties().appendTo(this.body)
+
+    if (this.app.in_alt1) {
+      layout
+        .paragraph(
+          `Your installation of Clue Trainer is still on 'leridon.github.io/rs3scantrainer'. This version of Clue Trainer is hosted using GitHub pages on the Clue Trainer repository. The repository will be renamed in the future, causing this URL to no longer work.`,
+        )
+        .paragraph(
+          `The official new URL for Clue Trainer is <a href="https://cluetrainer.app">cluetrainer.app</a>, which will continue to work indefinitely. Click the button below to install that version.`
+        )
+        .row(
+          new BigNisButton("Install cluetrainer.app", "confirm").onClick(() => new Alt1Modal("https://cluetrainer.app").show())
+        )
+    } else {
+      layout
+        .paragraph(
+          `You are currently on leridon.github.io/rs3scantrainer. This version of Clue Trainer is hosted using GitHub pages on the Clue Trainer repository. The repository will be renamed in the future, causing this URL to no longer work.`,
+        )
+        .paragraph(
+          `The official new URL for Clue Trainer is <a href="https://cluetrainer.app">cluetrainer.app</a>, which will continue to work indefinitely. `
+        )
+    }
+
+    layout.paragraph("'leridon.github.io/rs3scantrainer' will become unavailable at any point after 2024-10-31.")
+
+    layout.divider()
+
+    layout.paragraph("If you have any relevant local data or settings on this URL, you can export all of your data using the button below. On the new version, please visit the 'Data' page in settings to restore your data.")
+
+    layout.row(new BigNisButton("Export Data", "confirm").onClick(() => this.app.data_dump.dump()))
+  }
+
+  protected getValueForCancel(): boolean {
+    return false
+  }
+
+  getButtons(): BigNisButton[] {
+    return [
+      new BigNisButton("Remind me in a week", "confirm")
+        .onClick(() => this.confirm(true))
+    ]
+  }
+
 }
 
 export class Application extends Behaviour {
@@ -427,6 +484,18 @@ export class Application extends Behaviour {
 
       PermissionChecker.check()
     }
+
+    if (window.location.host == "leridon.github.io" && window.location.pathname.startsWith("/rs3scantrainer")) {
+      const next_notice = this.startup_settings.value().earliest_next_cluetrainer_dot_app_migration_notice
+
+      if (!next_notice || next_notice < Date.now()) {
+        const remind_later = await new MigrateToCluetrainerAppDomain(this).do()
+
+        if (remind_later) {
+          this.startup_settings.update(s => s.earliest_next_cluetrainer_dot_app_migration_notice = Date.now() + (6 * 24 * 60 * 60 * 1000))
+        }
+      }
+    }
   }
 
   protected end() {
@@ -446,15 +515,12 @@ export class Application extends Behaviour {
 
     return "development"
   }*/
-
-  addToAlt1Link(): string {
-    return `alt1://addapp/${window.location.protocol}//${window.location.host}${window.location.pathname.slice(0, window.location.pathname.lastIndexOf("/") + 1)}appconfig.json`
-  }
 }
 
 namespace Application {
   export type Preferences = {
     last_loaded_version?: number,
+    earliest_next_cluetrainer_dot_app_migration_notice?: number
   }
 }
 

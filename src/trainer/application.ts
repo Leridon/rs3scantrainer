@@ -48,6 +48,7 @@ import entity = C.entity;
 import notification = Notification.notification;
 import log = Log.log;
 import img = C.img;
+import {DataExport} from "./DataExport";
 
 class PermissionChecker extends NisModal {
   constructor() {
@@ -206,7 +207,7 @@ export namespace ScanTrainerCommands {
 const DEBUG_SIMULATE_INALT1 = false
 
 export class SettingsManagement {
-  private storage = new storage.Variable<Settings.Settings>("preferences/settings", () => null)
+  public readonly storage = new storage.Variable<Settings.Settings>("preferences/settings", () => null)
 
   active_teleport_customization: Observable<ActiveTeleportCustomization> = observe(null).equality(lodash.isEqual)
 
@@ -237,7 +238,7 @@ export class Application extends Behaviour {
 
   settings = new SettingsManagement()
 
-  in_alt1: boolean = !!window.alt1 || DEBUG_SIMULATE_INALT1
+  in_alt1: boolean = !!window.alt1?.permissionInstalled || DEBUG_SIMULATE_INALT1
   in_dev_mode = !!process.env.DEV_MODE
 
   menu_bar: MainTabControl
@@ -309,6 +310,10 @@ export class Application extends Behaviour {
     }
   )
 
+  readonly version: number = Changelog.latest_patch.version
+
+  data_dump: DataExport
+
   private startup_settings_storage = new storage.Variable<Application.Preferences>("preferences/startupsettings", () => ({}))
   startup_settings = observe(this.startup_settings_storage.get())
 
@@ -318,6 +323,12 @@ export class Application extends Behaviour {
     super()
 
     this.favourites = new FavoriteIndex(MethodPackManager.instance())
+
+    this.data_dump = new DataExport("cluetrainer", this.version, DataExport.createSpec(
+      this.settings.storage,
+      MethodPackManager.instance().local_pack_store,
+      this.favourites.data
+    ))
 
     if (this.in_dev_mode) {
       log().log("In development mode")
@@ -442,8 +453,6 @@ export class Application extends Behaviour {
 namespace Application {
   export type Preferences = {
     last_loaded_version?: number,
-    dont_recommend_alt1?: boolean,
-    hide_preview_notice?: boolean
   }
 }
 

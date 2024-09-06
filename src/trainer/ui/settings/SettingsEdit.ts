@@ -53,6 +53,10 @@ import TeleportGroup = Transportation.TeleportGroup;
 import span = C.span;
 import greatestCommonDivisor = util.greatestCommonDivisor;
 import Appendable = C.Appendable;
+import ExportStringModal from "../widgets/modals/ExportStringModal";
+import {DataExport} from "../../DataExport";
+import {ExportImport} from "../../../lib/util/exportString";
+import exp = ExportImport.exp;
 
 class SettingsLayout extends Properties {
   constructor() {super();}
@@ -1240,6 +1244,35 @@ class CompassSettingsEdit extends Widget {
   }
 }
 
+class DataManagementEdit extends Widget {
+
+  private layout = new Properties().appendTo(this)
+
+  constructor() {
+    super();
+
+    this.layout.header("Export")
+
+    this.layout.paragraph("Exported data includes all settings and preferences, as well as imported and local methods.")
+
+    this.layout.row(new LightButton("Export", "rectangle")
+      .onClick(() => {
+        deps().app.data_dump.dump()
+      })
+    )
+
+    this.layout.header("Import")
+
+    this.layout.paragraph("Importing a data dump will replace all of your local data with the data from the data dump.")
+
+    this.layout.row(new LightButton("Import", "rectangle")
+      .onClick(() => {
+        deps().app.data_dump.restore()
+      })
+    )
+  }
+}
+
 export class SettingsEdit extends Widget {
   value: Settings.Settings
 
@@ -1296,6 +1329,11 @@ export class SettingsEdit extends Widget {
           name: "Crowdsourcing",
           short_name: "Crowdsourcing",
           renderer: () => new CrowdSourcingSettingsEdit(this.value.crowdsourcing)
+        }, {
+          id: "dataexport",
+          name: "Data Export",
+          short_name: "Data",
+          renderer: () => new DataManagementEdit()
         }
         ]
       },

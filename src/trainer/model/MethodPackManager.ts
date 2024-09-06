@@ -76,7 +76,7 @@ export namespace LocalMethodId {
 export class MethodPackManager {
   public initialized: Promise<void>
 
-  private local_pack_store = KeyValueStore.instance().variable<Pack[]>("data/local_methods")
+  public readonly local_pack_store = KeyValueStore.instance().variable<Pack[]>("data/local_methods")
 
   private default_packs: Pack[]
   private local_packs: Pack[] = []

@@ -1,5 +1,5 @@
 export class KeyValueStoreVariable<T> {
-  constructor(private store: KeyValueStore, private key: string) { }
+  constructor(public readonly store: KeyValueStore, public readonly key: string) { }
 
   get(): Promise<T> {
     return this.store.get(this.key)
@@ -14,7 +14,7 @@ export default class KeyValueStore {
 
   db: Promise<IDBDatabase>
 
-  constructor(private name: string) {
+  constructor(public readonly name: string) {
     this.db = new Promise<IDBDatabase>((resolve, reject) => {
       if (!window?.indexedDB) {
         reject("indexedDB not supported")
@@ -65,10 +65,14 @@ export default class KeyValueStore {
     s.clear()
   }
 
-  static _instance: KeyValueStore = null
+  private static _instances: Record<string, KeyValueStore> = {}
+
+  static get(name: string): KeyValueStore {
+    if (!KeyValueStore._instances[name]) KeyValueStore._instances[name] = new KeyValueStore(name)
+    return KeyValueStore._instances[name]
+  }
 
   static instance(): KeyValueStore {
-    if (!KeyValueStore._instance) KeyValueStore._instance = new KeyValueStore("key-value-store")
-    return KeyValueStore._instance
+    return this.get("key-value-store")
   }
 }

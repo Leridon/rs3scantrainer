@@ -36,6 +36,10 @@ import {LogViewer} from "../devtools/LogViewer";
 import {NisModal} from "../lib/ui/NisModal";
 import {BigNisButton} from "./ui/widgets/BigNisButton";
 import Properties from "./ui/widgets/Properties";
+import {DataExport} from "./DataExport";
+import {BookmarkStorage} from "./ui/pathedit/BookmarkStorage";
+import {FormModal} from "../lib/ui/controls/FormModal";
+import {Alt1Modal} from "./Alt1Modal";
 import ActiveTeleportCustomization = Transportation.TeleportGroup.ActiveTeleportCustomization;
 import TeleportSettings = Settings.TeleportSettings;
 import inlineimg = C.inlineimg;
@@ -48,12 +52,6 @@ import entity = C.entity;
 import notification = Notification.notification;
 import log = Log.log;
 import img = C.img;
-import {DataExport} from "./DataExport";
-import {BookmarkStorage} from "./ui/pathedit/BookmarkStorage";
-import {FormModal} from "../lib/ui/controls/FormModal";
-import {direction} from "../lib/runescape/movement";
-import east = direction.east;
-import {Alt1Modal} from "./Alt1Modal";
 
 class PermissionChecker extends NisModal {
   constructor() {
@@ -238,7 +236,7 @@ export class SettingsManagement {
   settings: Settings.Settings
 }
 
-class MigrateToCluetrainerAppDomain extends FormModal<boolean> {
+class MigrateToCluetrainerAppDomain extends FormModal<number> {
   constructor(private app: Application) {super();}
 
   render() {
@@ -248,28 +246,29 @@ class MigrateToCluetrainerAppDomain extends FormModal<boolean> {
 
     const layout = new Properties().appendTo(this.body)
 
+    let first_paragraph = ""
+
     if (this.app.in_alt1) {
-      layout
-        .paragraph(
-          `Your installation of Clue Trainer is still on 'leridon.github.io/rs3scantrainer'. This version of Clue Trainer is hosted using GitHub pages on the Clue Trainer repository. The repository will be renamed in the future, causing this URL to no longer work.`,
-        )
-        .paragraph(
-          `The official new URL for Clue Trainer is <a href="https://cluetrainer.app">cluetrainer.app</a>, which will continue to work indefinitely. Click the button below to install that version.`
-        )
-        .row(
-          new BigNisButton("Install cluetrainer.app", "confirm").onClick(() => new Alt1Modal("https://cluetrainer.app").show())
-        )
+      first_paragraph += "Your installation of Clue Trainer is still using 'leridon.github.io/rs3scantrainer'. "
     } else {
-      layout
-        .paragraph(
-          `You are currently on leridon.github.io/rs3scantrainer. This version of Clue Trainer is hosted using GitHub pages on the Clue Trainer repository. The repository will be renamed in the future, causing this URL to no longer work.`,
-        )
-        .paragraph(
-          `The official new URL for Clue Trainer is <a href="https://cluetrainer.app">cluetrainer.app</a>, which will continue to work indefinitely. `
-        )
+      first_paragraph += "You are currently on leridon.github.io/rs3scantrainer. "
     }
 
-    layout.paragraph("'leridon.github.io/rs3scantrainer' will become unavailable at any point after 2024-10-31.")
+    first_paragraph += "This version of Clue Trainer is hosted using GitHub pages on the Clue Trainer repository, which is currently blocking me from renaming the repository to something more fitting of the current state. When the rename happens, your current installation of Clue Trainer will stop to work."
+
+    layout.paragraph(first_paragraph)
+
+    layout.paragraph(
+      `Clue Trainer has been available on the custom domain <a href="https://cluetrainer.app">cluetrainer.app</a> since June 6th. Please migrate to that URL before 2024-10-31, at which point the repository will be renamed and Clue Trainer becoming unavailable on the 'leridon.github.io/rs3scantrainer' URL without further notice. Please also take note of the option to export your current data/settings to make migration less painful.`
+    )
+
+    layout.paragraph(C.bold(`You have ${MigrateToCluetrainerAppDomain.daysLeft()} days left to migrate.`))
+
+    if (this.app.in_alt1) {
+      layout.row(
+        new BigNisButton("Install cluetrainer.app", "confirm").onClick(() => new Alt1Modal("https://cluetrainer.app").show())
+      )
+    }
 
     layout.divider()
 
@@ -278,17 +277,40 @@ class MigrateToCluetrainerAppDomain extends FormModal<boolean> {
     layout.row(new BigNisButton("Export Data", "confirm").onClick(() => this.app.data_dump.dump()))
   }
 
-  protected getValueForCancel(): boolean {
-    return false
+  protected getValueForCancel(): number {
+    return null
   }
 
   getButtons(): BigNisButton[] {
-    return [
-      new BigNisButton("Remind me in a week", "confirm")
-        .onClick(() => this.confirm(true))
-    ]
+    const daysleft = MigrateToCluetrainerAppDomain.daysLeft()
+
+    if (daysleft >= 14) {
+      return [
+        new BigNisButton("Remind me in a week", "confirm")
+          .onClick(() => this.confirm(6 * 24 * 60 * 60 * 1000))
+      ]
+    } else {
+      return [
+        new BigNisButton("Remind me tomorrow", "confirm")
+          .onClick(() => this.confirm(1 * 24 * 60 * 60 * 1000))
+      ]
+    }
+
+
   }
 
+}
+
+namespace MigrateToCluetrainerAppDomain {
+  export const deadline = new Date(2024, 9, 31)
+
+  export function daysLeft(): number {
+    const now = Date.now()
+
+    const DAY = 24 * 60 * 60 * 1000
+
+    return Math.max(0, Math.floor((deadline.getTime() - now) / DAY))
+  }
 }
 
 export class Application extends Behaviour {
@@ -491,8 +513,8 @@ export class Application extends Behaviour {
       if (!next_notice || next_notice < Date.now()) {
         const remind_later = await new MigrateToCluetrainerAppDomain(this).do()
 
-        if (remind_later) {
-          this.startup_settings.update(s => s.earliest_next_cluetrainer_dot_app_migration_notice = Date.now() + (6 * 24 * 60 * 60 * 1000))
+        if (remind_later != null) {
+          this.startup_settings.update(s => s.earliest_next_cluetrainer_dot_app_migration_notice = Date.now() + remind_later)
         }
       }
     }

@@ -7,32 +7,7 @@ import Widget from "../lib/ui/Widget";
 import * as jquery from "jquery";
 import hbox = C.hbox;
 import inlineimg = C.inlineimg;
-
-class ClickToCopy extends Widget {
-  constructor(text: string) {
-    super(jquery("<span>"));
-
-    this.text(text).addClass("nisl-click-to-copy")
-
-    this.tooltip("Click to copy")
-
-    this.on("click", async () => {
-      await navigator.clipboard.writeText(text)
-
-      this.css("min-width", this._raw.offsetWidth + "px")
-
-      this.toggleClass("copied-recently", true)
-
-      this.text("Copied!")
-
-      setTimeout(() => {
-        this.text(text)
-        this.css("width", null)
-        this.toggleClass("copied-recently", false)
-      }, 3000)
-    })
-  }
-}
+import {ClickToCopy} from "../lib/ui/ClickToCopy";
 
 export class Alt1Modal extends NisModal {
 

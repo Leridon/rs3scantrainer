@@ -41,6 +41,7 @@ import {BookmarkStorage} from "./ui/pathedit/BookmarkStorage";
 import {FormModal} from "../lib/ui/controls/FormModal";
 import {Alt1Modal} from "./Alt1Modal";
 import {List} from "../lib/ui/List";
+import {ClickToCopy} from "../lib/ui/ClickToCopy";
 import ActiveTeleportCustomization = Transportation.TeleportGroup.ActiveTeleportCustomization;
 import TeleportSettings = Settings.TeleportSettings;
 import inlineimg = C.inlineimg;
@@ -249,11 +250,21 @@ class UpdateAlt1Modal extends FormModal<number> {
 
     layout.paragraph("You are currently on the outdated Alt 1 version 1.5.6. The newest version is 1.6.0. This can potentially lead to issues while using Clue Trainer and other plugins. For example, you will notice that Clue Trainer will re-download databases for slider puzzles on every session instead of caching them locally. Other possible issues include performance problems or crashes.")
 
-    layout.paragraph("Usually, Alt 1 has an option to automatically update itself. Unfortunately, auto update is one of the things that is broken in 1.5.6. To update, you will need to follow these steps:")
+    layout.paragraph("Unfortunately, at the current time you can not automatically update from 1.5.6 to 1.6.0. To update manually, you will need to follow these steps:")
 
     layout.row(
       new List(true)
-        .item("Backup any important data. Unfortunately you will lose all of your local data and settings, as well as all installed third party plugins such as Clue Trainer. Make a backup of everything that's possible to backup. See below to export Clue Trainer data and also remember to save your custom AfkWarden presets!")
+        .item("Backup any important data. Unfortunately you will lose all of your local data and settings, as well as all installed third party plugins such as Clue Trainer. Make a backup of everything that's possible to backup. See below to export Clue Trainer data and also remember to save your custom AfkWarden presets!",
+          new List(false)
+            .item("Alt 1 stores installed apps and their data in ",
+              new ClickToCopy("%localappdata%/alt1toolkit"),
+              ". Backup the ",
+              new ClickToCopy("config.json"),
+              " file and the ",
+              new ClickToCopy("chromecache"),
+              " folder to easily save all of your data."
+            )
+        )
         .item("Uninstall your current Alt 1 version.")
         .item("Download the current Alt 1 installer from <a href='https://runeapps.org/alt1'>https://runeapps.org</a>. This is the only official source of Alt 1!")
         .item("Install the downloaded version of Alt 1. Make sure that your game is closed while you do it or the setup will fail!")

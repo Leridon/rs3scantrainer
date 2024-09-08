@@ -256,7 +256,7 @@ class UpdateAlt1Modal extends FormModal<number> {
         .item("Backup any important data. Unfortunately you will lose all of your local data and settings, as well as all installed third party plugins such as Clue Trainer. Make a backup of everything that's possible to backup. See below to export Clue Trainer data and also remember to save your custom AfkWarden presets!")
         .item("Uninstall your current Alt 1 version.")
         .item("Download the current Alt 1 installer from <a href='https://runeapps.org/alt1'>https://runeapps.org</a>. This is the only official source of Alt 1!")
-        .item("Install the downloaded version of Alt 1.")
+        .item("Install the downloaded version of Alt 1. Make sure that your game is closed while you do it or the setup will fail!")
         .item("Install any required third party plugins such as Clue Trainer and restore your data backups.")
     )
 

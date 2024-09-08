@@ -40,6 +40,7 @@ import {DataExport} from "./DataExport";
 import {BookmarkStorage} from "./ui/pathedit/BookmarkStorage";
 import {FormModal} from "../lib/ui/controls/FormModal";
 import {Alt1Modal} from "./Alt1Modal";
+import {List} from "../lib/ui/List";
 import ActiveTeleportCustomization = Transportation.TeleportGroup.ActiveTeleportCustomization;
 import TeleportSettings = Settings.TeleportSettings;
 import inlineimg = C.inlineimg;
@@ -234,6 +235,66 @@ export class SettingsManagement {
   }
 
   settings: Settings.Settings
+}
+
+class UpdateAlt1Modal extends FormModal<number> {
+  constructor(private app: Application) {super();}
+
+  render() {
+    super.render();
+
+    this.setTitle("You should update your Alt 1")
+
+    const layout = new Properties().appendTo(this.body)
+
+    layout.paragraph("You are currently on the outdated Alt 1 version 1.5.6. The newest version is 1.6.0. This can potentially lead to issues while using Clue Trainer and other plugins. For example, you will notice that Clue Trainer will re-download databases for slider puzzles on every session instead of caching them locally. Other possible issues include performance problems or crashes.")
+
+    layout.paragraph("Usually, Alt 1 has an option to automatically update itself. Unfortunately, auto update is one of the things that is broken in 1.5.6. To update, you will need to follow these steps:")
+
+    layout.row(
+      new List(true)
+        .item("Backup any important data. Unfortunately you will lose all of your local data and settings, as well as all installed third party plugins such as Clue Trainer. Make a backup of everything that's possible to backup. See below to export Clue Trainer data and also remember to save your custom AfkWarden presets!")
+        .item("Uninstall your current Alt 1 version.")
+        .item("Download the current Alt 1 installer from <a href='https://runeapps.org/alt1'>https://runeapps.org</a>. This is the only official source of Alt 1!")
+        .item("Install the downloaded version of Alt 1.")
+        .item("Install any required third party plugins such as Clue Trainer and restore your data backups.")
+    )
+
+    layout.divider()
+
+    layout.paragraph("You can save your Clue Trainer data before you update by clicking the button below. On the new version, please visit the 'Data' page in settings to restore your data.")
+
+    layout.row(new BigNisButton("Export Data", "confirm").onClick(() => this.app.data_dump.dump()))
+  }
+
+  protected getValueForCancel(): number {
+    return null
+  }
+
+  getButtons(): BigNisButton[] {
+    return [
+      new BigNisButton("Remind me another time", "confirm")
+        .onClick(() => this.confirm(21 * 24 * 60 * 60 * 1000))
+    ]
+  }
+
+}
+
+namespace UpdateAlt1Modal {
+  const earliest_reminder_time = new storage.Variable<number>("preferences/dontremindtoupdatealt1until", () => null)
+
+  export async function maybeRemind(app: Application) {
+    if (alt1?.permissionInstalled && alt1.version == "1.5.6") {
+
+      if (earliest_reminder_time.get() < Date.now()) {
+        const reminder = await new UpdateAlt1Modal(app).do()
+
+        if (reminder != null) {
+          earliest_reminder_time.set(Date.now() + reminder)
+        }
+      }
+    }
+  }
 }
 
 class MigrateToCluetrainerAppDomain extends FormModal<number> {
@@ -499,7 +560,7 @@ export class Application extends Behaviour {
     log().log(`Clue Trainer v${Changelog.latest_patch.version} started`)
 
     if (globalThis.alt1) {
-      log().log(`Alt1 version detected: ${alt1.version}`)
+      log().log(`Alt 1 version detected: ${alt1.version}`)
       log().log(`Active capture mode: ${alt1.captureMethod}`)
       log().log(`Permissions: Installed ${alt1.permissionInstalled}, GameState ${alt1.permissionGameState}, Pixel ${alt1.permissionPixel}, Overlay ${alt1.permissionOverlay}`)
       log().log("Settings on startup", "Startup", {type: "object", value: lodash.cloneDeep(this.settings.settings)})
@@ -518,6 +579,8 @@ export class Application extends Behaviour {
         }
       }
     }
+
+    UpdateAlt1Modal.maybeRemind(this)
   }
 
   protected end() {

@@ -53,21 +53,22 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
     const self = this
 
     this.minimap_interest = this.parent.app.minimapreader.subscribe(new class extends AbstractCaptureService.InterestToken<{}, MinimapReader.CapturedMinimap> {
-      protected handle(value: AbstractCaptureService.TimedValue<MinimapReader.CapturedMinimap>): void {
+
+      protected handle(value: AbstractCaptureService.TimedValue<MinimapReader.CapturedMinimap, {}>): void {
         console.log("Read minimap")
 
         const minimap = value.value
 
         self.minimap_overlay.clear()
 
+        const scale = (self.method.method.tree.assumed_range * 2 + 1) * value.value.pixelPerTile() / 2
+
         const transform =
           Transform.chain(
             Transform.translation(minimap.center()),
             Transform.rotationRadians(-minimap.readCompass()),
-            Transform.scale({x: 50, y: 50}),
+            Transform.scale({x: scale, y: scale}),
           )
-
-        console.log(`Center: ${Vector2.toString(minimap.center())}`)
 
         const unit_square: Vector2[] = [
           {x: 1, y: 1},
@@ -314,6 +315,9 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
     }
 
     this.minimap_interest.revoke()
+
+    this.minimap_overlay?.clear()
+    this.minimap_overlay?.render()
   }
 }
 

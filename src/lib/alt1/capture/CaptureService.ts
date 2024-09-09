@@ -12,12 +12,12 @@ export abstract class AbstractCaptureService<
   InterestOptionsT,
   ValueT
 > {
-  protected last_checked_tick: number = undefined
+  protected last_checked_tick: AbstractCaptureService.CaptureTime = undefined
   protected interests: AbstractCaptureService.InterestToken<InterestOptionsT, ValueT>[] = []
-  protected raw_last_capture: TimedValue<ValueT> = undefined
+  protected raw_last_capture: TimedValue<ValueT, InterestOptionsT> = undefined
 
-  subscribe(token: AbstractCaptureService.InterestToken<InterestOptionsT, ValueT>,
-            f: (_: this) => EwentHandler<any>[] = () => []
+  subscribe<ActualInterestOptionsT extends InterestOptionsT>(token: AbstractCaptureService.InterestToken<ActualInterestOptionsT, ValueT>,
+                                                             f: (_: this) => EwentHandler<any>[] = () => []
   ): AbstractCaptureService.InterestToken<InterestOptionsT, ValueT> {
 
     this.interests.push(token)
@@ -38,15 +38,15 @@ export abstract class AbstractCaptureService<
     return raw_value
   }
 
-  protected doIfAnyInterest(tick: number, f: (interest_options: InterestOptionsT[]) => ValueT | undefined) {
-    if (tick == this.last_checked_tick) return // Skip if the tick was already done
+  protected doIfAnyInterest(time: AbstractCaptureService.CaptureTime, f: (interest_options: InterestOptionsT[]) => ValueT | undefined) {
+    if (time.tick == this.last_checked_tick?.tick) return // Skip if the tick was already done
 
-    this.last_checked_tick = tick
+    this.last_checked_tick = time
 
     const interested_in_this_tick = this.interests
-      .filter(t => !t.isPaused())
-      .filter(t => tick % t.tickModulo() == 0)
-      .map(t => ({options: t.options(), token: t}))
+      .filter(t => !t.isPaused() && (time.tick % t.tickModulo() == 0))
+      .map(t => ({options: t.options(time), token: t}))
+      //.filter(t => t.options != null)
 
     if (interested_in_this_tick.length > 0) {
       const raw_value = f(interested_in_this_tick.map(t => t.options))
@@ -54,14 +54,16 @@ export abstract class AbstractCaptureService<
       if (raw_value === undefined) return
 
       this.raw_last_capture = {
-        tick: tick,
-        value: raw_value
+        time: time,
+        value: raw_value,
+        options: null
       }
 
       interested_in_this_tick.forEach(interest => {
         interest.token.notify({
-          tick: tick,
-          value: this.transformValueForNotification(interest.options, raw_value)
+          time: time,
+          value: this.transformValueForNotification(interest.options, raw_value),
+          options: interest.options
         })
       })
     }
@@ -82,7 +84,7 @@ export namespace AbstractCaptureService {
 
     private killed_event = ewent<this>()
     private alive: boolean = true
-    private _last_notification: TimedValue<ValueT>
+    private _last_notification: TimedValue<ValueT, OptionsT>
 
     constructor() {}
 
@@ -107,28 +109,32 @@ export namespace AbstractCaptureService {
       return false
     }
 
-    protected abstract handle(value: AbstractCaptureService.TimedValue<ValueT>): void
+    protected abstract handle(value: AbstractCaptureService.TimedValue<ValueT, OptionsT>): void
 
-    abstract options(): OptionsT
+    abstract options(options: CaptureTime): OptionsT | null
 
-    tickModulo(): number {
-      return 1
-    }
+    abstract tickModulo(): number
 
-    notify(value: TimedValue<ValueT>): void {
+    notify(value: TimedValue<ValueT, OptionsT>): void {
       this._last_notification = value
       this.handle(value)
 
       if (this.isOneTime()) this.revoke()
     }
 
-    lastNotification(): TimedValue<ValueT> {
+    lastNotification(): TimedValue<ValueT, OptionsT> {
       return this._last_notification
     }
   }
 
-  export type TimedValue<T> = {
+  export type CaptureTime = {
     tick: number,
+    time: number
+  }
+
+  export type TimedValue<T, OptionsT = any> = {
+    time: CaptureTime,
+    options: OptionsT,
     value: T
   }
 }
@@ -150,21 +156,21 @@ export abstract class DerivedCaptureService<
     const self = this
 
     const token = s.subscribe(new class extends AbstractCaptureService.InterestToken<SourceOptionsT, SourceValueT> {
-      protected handle(value: AbstractCaptureService.TimedValue<SourceValueT>): void {
+      protected handle(value: AbstractCaptureService.TimedValue<SourceValueT, SourceOptionsT>): void {
 
-        if (self.sources.every(s => s.token.lastNotification()?.tick == value.tick)) {
-          self.doIfAnyInterest(value.tick, interest_options => {
+        if (self.sources.every(s => s.token.lastNotification()?.time?.tick == value.time.tick)) {
+          self.doIfAnyInterest(value.time, interest_options => {
             return self.process(interest_options)
           })
         }
       }
 
-      options(): SourceOptionsT {
-        return options()
-      }
-
       tickModulo(): number {
         return Math.min(200, ...self.interests.map(t => t.tickModulo()));
+      }
+
+      options(time: AbstractCaptureService.CaptureTime): SourceOptionsT {
+        return options()
       }
 
       isPaused(): boolean {
@@ -204,9 +210,12 @@ export class ScreenCaptureService extends AbstractCaptureService<
 
         this.start_time ??= now
 
-        const tick = ~~((now - this.start_time) / CaptureService.MIN_CAPTURE_INTERVAL)
+        const time: AbstractCaptureService.CaptureTime = {
+          tick: ~~((now - this.start_time) / CaptureService.MIN_CAPTURE_INTERVAL),
+          time: now
+        }
 
-        self.doIfAnyInterest(tick, interested_in_this_tick => {
+        self.doIfAnyInterest(time, interested_in_this_tick => {
           const required_area = ScreenRectangle.union(
             ...interested_in_this_tick.map(t => t?.area ?? {origin: {x: 0, y: 0}, size: {x: alt1.rsWidth, y: alt1.rsHeight}})
           )
@@ -319,7 +328,6 @@ export namespace CaptureService {
 
   export const MAX_FPS = 60
   export const MIN_CAPTURE_INTERVAL = 1000 / MAX_FPS
-
 
   export function getTickModulo(interval: number): number {
     const tier = Math.round(Math.log2(interval / CaptureService.MIN_CAPTURE_INTERVAL))

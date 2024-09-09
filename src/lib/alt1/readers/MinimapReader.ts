@@ -24,11 +24,11 @@ export class MinimapReader extends DerivedCaptureService<{}, MinimapReader.Captu
     this._initialized = (async () => {
       this.finder = await MinimapReader.CapturedMinimap.finder.get()
 
-      this.capture_interest = this.addDataSource(capture_service, () => null)
+      this.capture_interest = this.addDataSource(capture_service, () => ({}))
     })()
   }
 
-  process(interested_tokens: {}[]): MinimapReader.CapturedMinimap  {
+  process(interested_tokens: {}[]): MinimapReader.CapturedMinimap {
     const capture = this.capture_interest.lastNotification().value
 
     try {
@@ -149,6 +149,10 @@ export namespace MinimapReader {
       ))
 
       return average_angle + CALIBRATION
+    }
+
+    pixelPerTile(): number {
+      return 4 // TODO: Try to read zoom
     }
   }
 

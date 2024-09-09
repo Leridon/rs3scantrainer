@@ -613,8 +613,6 @@ export class Application extends Behaviour {
     }
 
     UpdateAlt1Modal.maybeRemind(this)
-
-    new ScanReader().run()
   }
 
   protected end() {

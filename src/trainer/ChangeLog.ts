@@ -27,6 +27,7 @@ export namespace Changelog {
           .item("Reduced the default setting for slider solve time to 1 second down from 2 seconds.")
           .item("Fixed a bug that caused the map to zoom very far out on certain steps.", new List()
             .item("This still isn't optimal, but it's an improvement over the previous situation."))
+          .item("Enabled the option to automatically draw the first compass arrow for back to back arc compasses.")
         )
         .paragraph("The legacy URL 'leridon.github.io/rs3scantrainer' will stop being available after 2024-10-31.")
     }

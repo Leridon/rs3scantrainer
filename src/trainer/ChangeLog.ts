@@ -21,15 +21,17 @@ export namespace Changelog {
     title: "Migration and update notices",
     render: layout => {
       layout.row(new List()
-          .item("Added a data export/import feature. Data exports will include local/imported method packs, method preferences, and all of your settings.")
-          .item("Added a migration notice to remind users that are still on the old 'leridon.github.io/rs3scantrainer' URL to migrate to 'cluetrainer.app'.")
-          .item("Added an update reminder for users that are on Alt 1 1.5.6.")
-          .item("Reduced the default setting for slider solve time to 1 second down from 2 seconds.")
-          .item("Fixed a bug that caused the map to zoom very far out on certain steps.", new List()
-            .item("This still isn't optimal, but it's an improvement over the previous situation."))
-          .item("Enabled the option to automatically draw the first compass arrow for back to back arc compasses.")
+        .item("Added a data export/import feature. Data exports will include local/imported method packs, method preferences, and all of your settings.")
+        .item("Added a migration notice to remind users that are still on the old 'leridon.github.io/rs3scantrainer' URL to migrate to 'cluetrainer.app'.",
+          new List()
+            .item("The legacy URL 'leridon.github.io/rs3scantrainer' will stop being available after 2024-10-31.")
         )
-        .paragraph("The legacy URL 'leridon.github.io/rs3scantrainer' will stop being available after 2024-10-31.")
+        .item("Added an update reminder for users that are on Alt 1 1.5.6.")
+        .item("Reduced the default setting for slider solve time to 1 second down from 2 seconds.")
+        .item("Fixed a bug that caused the map to zoom very far out on certain steps.", new List()
+          .item("This still isn't optimal, but it's an improvement over the previous situation."))
+        .item("Enabled the option to automatically draw the first compass arrow for back to back arc compasses.")
+      )
     }
   }, {
     version: 7,

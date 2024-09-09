@@ -1,4 +1,4 @@
-import {direction, HostedMapData, MovementAbilities, PathFinder, PlayerPosition} from "./movement";
+import {direction, MovementAbilities, PathFinder, PlayerPosition} from "./movement";
 import {util} from "../util/util";
 import * as lodash from "lodash"
 import {Rectangle, Vector2} from "../math";
@@ -24,7 +24,6 @@ export namespace Path {
   import EntityTransportation = Transportation.GeneralEntityTransportation;
   import activate = TileArea.activate;
   import defaultInteractiveArea = Transportation.EntityTransportation.defaultInteractiveArea;
-  import dive_far_internal = MovementAbilities.dive_far_internal;
   export type PathAssumptions = {
     double_surge?: boolean,
     double_escape?: boolean,
@@ -745,7 +744,11 @@ export namespace Path {
   }
 
   export function bounds(path: Path.raw, prune_far_transports: boolean = true): TileRectangle {
-    return TileRectangle.lift(Rectangle.combine(...path.map(s => Step.bounds(s, prune_far_transports))), level(path))
+    return TileRectangle.lift(Rectangle.combine(...path.map((s, i) => {
+      const prune = prune_far_transports ? (i == 0 ? "start" : "end") : false
+
+      return Step.bounds(s, prune)
+    })), level(path))
   }
 
   export function level(path: Path): floor_t {
@@ -753,7 +756,7 @@ export namespace Path {
   }
 
   export namespace Step {
-    export function bounds(step: Step, prune_far_transports: boolean = true): Rectangle {
+    export function bounds(step: Step, prune_far_transports: "start" | "end" | false = false): Rectangle {
       switch (step.type) {
         case "ability":
           return Rectangle.from(step.from, step.to)
@@ -769,7 +772,8 @@ export namespace Path {
           if (!step.assumed_start) return Rectangle.from(step.target)
 
           if (prune_far_transports && Vector2.max_axis(Vector2.sub(step.target, step.assumed_start)) > 64) {
-            return Rectangle.from(step.assumed_start)
+            if (prune_far_transports == "start") return Rectangle.from(step.target)
+            else return Rectangle.from(step.assumed_start)
           } else {
             return Rectangle.from(step.assumed_start, step.target)
           }
@@ -777,12 +781,17 @@ export namespace Path {
         case "transport":
           let bounds: Rectangle = step.internal.clickable_area
 
-          if (step.assumed_start) bounds = Rectangle.extendTo(bounds, step.assumed_start)
-
           const ends_up = Path.ends_up([step])
 
-          if (!prune_far_transports && (!step.assumed_start || Vector2.max_axis(Vector2.sub(ends_up, step.assumed_start)) <= 64)) {
+          if (prune_far_transports && (!step.assumed_start || Vector2.max_axis(Vector2.sub(ends_up, step.assumed_start)) >= 64)) {
+            if (prune_far_transports == "start") {
+              bounds = Rectangle.extendTo(bounds, ends_up)
+            } else {
+              if (step.assumed_start) bounds = Rectangle.extendTo(bounds, step.assumed_start)
+            }
+          } else {
             bounds = Rectangle.extendTo(bounds, ends_up)
+            if (step.assumed_start) bounds = Rectangle.extendTo(bounds, step.assumed_start)
           }
 
           return bounds

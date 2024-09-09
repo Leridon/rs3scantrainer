@@ -134,15 +134,15 @@ export namespace Rectangle {
     return rect.topleft.y - rect.botright.y
   }
 
-  export function extendTo(rect: Rectangle, tile: Vector2): Rectangle {
+  export function extendTo(rect: Rectangle, ...tile: Vector2[]): Rectangle {
     return {
       topleft: {
-        x: Math.min(rect.topleft.x, tile.x),
-        y: Math.max(rect.topleft.y, tile.y)
+        x: Math.min(rect.topleft.x, ...tile.map(t => t.x)),
+        y: Math.max(rect.topleft.y, ...tile.map(t => t.y))
       },
       botright: {
-        x: Math.max(rect.botright.x, tile.x),
-        y: Math.min(rect.botright.y, tile.y)
+        x: Math.max(rect.botright.x, ...tile.map(t => t.x)),
+        y: Math.min(rect.botright.y, ...tile.map(t => t.y))
       }
     }
   }

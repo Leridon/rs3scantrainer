@@ -15,7 +15,6 @@ import {Vector2} from "../../math";
 import * as lodash from "lodash";
 import over = OverlayGeometry.over;
 import log = Log.log;
-import * as console from "console";
 import A1Color = util.A1Color;
 
 /**
@@ -50,7 +49,7 @@ export class ChatReader extends DerivedCaptureService<{}, {}> {
     })
   }
 
-  process(interested_tokens: {}[]): {} {
+  async process(interested_tokens: {}[]): Promise<void> {
     const capture = this.capture_interest.lastNotification()
 
     try {
@@ -102,8 +101,6 @@ export class ChatReader extends DerivedCaptureService<{}, {}> {
     } catch (e) {
       log().log(e)
     }
-
-    return {}
   }
 
   private debug_overlay: OverlayGeometry = over()
@@ -273,7 +270,7 @@ export namespace ChatReader {
       })
     }
 
-    async read(): void {
+    async read(): Promise<void> {
       if (!this.chatbox.font) return
 
       let row = 0

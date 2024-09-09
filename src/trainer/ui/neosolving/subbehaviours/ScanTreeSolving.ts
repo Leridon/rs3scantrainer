@@ -32,6 +32,8 @@ import span = C.span;
 import spotNumber = ScanTree.spotNumber;
 import over = OverlayGeometry.over;
 import index = util.index;
+import {AbstractCaptureService} from "../../../../lib/alt1/capture";
+import {MinimapReader} from "../../../../lib/alt1/readers/MinimapReader";
 
 export class ScanTreeSolving extends NeoSolvingSubBehaviour {
   node: ScanTree.Augmentation.AugmentedScanTreeNode = null

@@ -58,8 +58,6 @@ import {MinimapReader} from "../lib/alt1/readers/MinimapReader";
 import {CaptureService, ScreenCaptureService} from "../lib/alt1/capture";
 import img = C.img;
 import {SectionMemory} from "./ui/neosolving/PathControl";
-import {CaptureService} from "../lib/alt1/ImageCapture";
-import {CaptureService} from "../lib/alt1/capture";
 
 class PermissionChecker extends NisModal {
   constructor() {
@@ -479,7 +477,7 @@ export class Application extends Behaviour {
 
   capture_service: CaptureService = new CaptureService()
   capture_service2: ScreenCaptureService = new ScreenCaptureService()
-  chatreader: ChatReader = new ChatReader().setDebugEnabled()
+  chatreader: ChatReader = new ChatReader(this.capture_service2).setDebugEnabled()
   minimapreader: MinimapReader = new MinimapReader(this.capture_service2).setDebugEnabled()
 
   constructor() {
@@ -617,7 +615,6 @@ export class Application extends Behaviour {
     UpdateAlt1Modal.maybeRemind(this)
 
     new ScanReader().run()
-    new ChatReader().run()
   }
 
   protected end() {

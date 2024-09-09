@@ -1,14 +1,9 @@
 import Properties from "./ui/widgets/Properties";
 import * as lodash from "lodash";
 import {NisModal} from "../lib/ui/NisModal";
-import Widget from "../lib/ui/Widget";
-import {C} from "../lib/ui/constructors";
-import * as jquery from "jquery";
 import {List} from "../lib/ui/List";
 
 export namespace Changelog {
-
-  import Appendable = C.Appendable;
 
   type Layout = Properties
 
@@ -21,6 +16,19 @@ export namespace Changelog {
   }
 
   export const log: LogEntry[] = lodash.sortBy<LogEntry>([{
+    version: 8,
+    date: new Date(Date.parse("2024-09-09")),
+    title: "Migration and update notices",
+    render: layout => {
+      layout.row(new List()
+        .item("Added a data export/import feature. Data exports will include local/imported method packs, method preferences, and all of your settings.")
+        .item("Added a migration notice to remind users that are still on the old 'leridon.github.io/rs3scantrainer' URL to migrate to 'cluetrainer.app'.")
+        .item("Added an update reminder for users that are on Alt 1 1.5.6.")
+        .item("Reduced the default setting for slider solve time to 1 second down from 2 seconds.")
+      )
+        .paragraph("The legacy URL 'leridon.github.io/rs3scantrainer' will stop being available after 2024-10-31.")
+    }
+  }, {
     version: 7,
     date: new Date(Date.parse("2024-08-11")),
     title: "Transport Fixes and Permission Checking",
@@ -28,8 +36,9 @@ export namespace Changelog {
       layout.row(new List()
         .item("Fixed issues with various transports missing in the path editor and many actions being named 'Unnamed Action'.")
         .item("Clue Trainer now checks if all required permissions are granted on startup and opens and explanation how to grant them if they are not.")
-      ) }
-  },{
+      )
+    }
+  }, {
     version: 6,
     date: new Date(Date.parse("2024-07-14")),
     title: "Celtic Knot Bugfix",

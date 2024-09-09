@@ -68,6 +68,8 @@ export class PathStepProperties extends Properties {
 
     if (this.step.description) {
       this.paragraph(...this.template_resolver.resolve(this.step.description))
+    } else if (this.step.type == "cosmetic") {
+      this.paragraph(C.italic("The author of this path has not added any further explanation."))
     }
   }
 }

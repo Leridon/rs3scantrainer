@@ -4,21 +4,17 @@ import {TileCoordinates} from "../../runescape/coordinates";
 import InteractionTopControl from "../../../trainer/ui/map/InteractionTopControl";
 
 export class SelectTileInteraction extends ValueInteraction<TileCoordinates> {
-  constructor(public config: ValueInteraction.option_t<TileCoordinates> = {}, protected off_tile: SelectTileInteraction.OffTileMode = "never") {
+  constructor(public config: ValueInteraction.option_t<TileCoordinates> = {}, protected conf: {
+    snap?: number,
+    shift_snap?: number
+  } = {snap: 1, shift_snap: 1}) {
     super(config)
   }
 
   protected coordinatesOfEvent(event: GameMapMouseEvent): TileCoordinates {
-    switch (this.off_tile) {
-      case "never":
-        return event.tile()
-      case "always":
-        return event.coordinates
-      case "optional":
-        if (event.original.shiftKey) return event.coordinates
-        else return event.tile()
+    const granularity = event.original.shiftKey ? (this.conf.shift_snap ?? 1) : (this.conf.snap ?? 1)
 
-    }
+    return TileCoordinates.snap(event.coordinates, granularity)
   }
 
   eventHover(event: GameMapMouseEvent) {
@@ -42,8 +38,12 @@ export namespace SelectTileInteraction {
   export type OffTileMode = "always" | "never" | "optional"
 
   export class Standalone extends SelectTileInteraction {
-    constructor(config: ValueInteraction.option_t<TileCoordinates> = {}, off_tile: SelectTileInteraction.OffTileMode = "never") {
-      super(config, off_tile)
+    constructor(config: ValueInteraction.option_t<TileCoordinates> = {}, private off_tile: SelectTileInteraction.OffTileMode = "never") {
+      super(config, {
+        "always": {snap: 0, shift_snap: 0},
+        "never": {snap: 1, shift_snap: 1},
+        "optional": {snap: 1, shift_snap: 0},
+      }[off_tile])
 
       switch (this.off_tile) {
         case "never":

@@ -13,7 +13,7 @@ export default class PlaceRedClickInteraction extends ValueInteraction<Path.step
       preview_render: (s) => new PathStepEntity(s).setInteractive(false)
     });
 
-    new SelectTileInteraction()
+    new SelectTileInteraction({}, {snap: 0.5, shift_snap: 0})
       .onCommit((t) => {
           if (this.interaction_type != null) {
             this.commit(({

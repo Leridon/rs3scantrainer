@@ -38,10 +38,11 @@ export namespace TileCoordinates {
     return `${coordinate.x} | ${coordinate.y} | ${coordinate.level}`
   }
 
-  export function snap(coordinate: TileCoordinates): TileCoordinates {
+  export function snap(coordinate: TileCoordinates, granularity: number = 1): TileCoordinates {
+    if (granularity == 0) return coordinate
     return {
-      x: Math.round(coordinate.x),
-      y: Math.round(coordinate.y),
+      x: Math.round(coordinate.x / granularity) * granularity,
+      y: Math.round(coordinate.y / granularity) * granularity,
       level: coordinate.level
     }
   }

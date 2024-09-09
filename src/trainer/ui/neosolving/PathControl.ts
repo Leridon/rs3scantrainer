@@ -25,12 +25,13 @@ import hboxl = C.hboxl;
 import SectionedPath = Path.SectionedPath;
 import index = util.index;
 import {TileRectangle} from "../../../lib/runescape/coordinates";
+import {lazy} from "../../../lib/properties/Lazy";
 
-class SectionMemory {
+export class SectionMemory {
 
-  private data = KeyValueStore.instance().variable<Record<string, number[]>>("preferences/pathsectionmemory")
+  public readonly data = KeyValueStore.instance().variable<Record<string, number[]>>("preferences/pathsectionmemory")
 
-  constructor() {
+  private constructor() {
     if (!this.data.get()) {
       this.data.set({})
     }
@@ -50,6 +51,12 @@ class SectionMemory {
     value[this.hash(method)] = section
 
     await this.data.set(value)
+  }
+
+  private static _instance = lazy(() => new SectionMemory())
+
+  static instance(): SectionMemory {
+    return SectionMemory._instance.get()
   }
 }
 
@@ -153,7 +160,6 @@ export class PathSectionControl extends Widget {
 }
 
 export namespace PathSectionControl {
-  import tr = TileRectangle.tr;
 
   export class StepRow extends Widget {
     highlighted: Observable<boolean> = observe(false)
@@ -206,7 +212,7 @@ export namespace PathSectionControl {
 }
 
 export default class PathControl extends Behaviour {
-  private section_memory = new SectionMemory()
+  private section_memory = SectionMemory.instance()
 
   private method: AugmentedMethod<GenericPathMethod> = null
   private sectioned_path: SectionedPath = null

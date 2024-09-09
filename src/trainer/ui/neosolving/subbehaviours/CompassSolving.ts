@@ -31,7 +31,6 @@ import {SettingsModal} from "../../settings/SettingsEdit";
 import * as assert from "assert";
 import {Log} from "../../../../lib/util/Log";
 import {angleDifference} from "lib/math";
-import {async_lazy} from "../../../../lib/properties/Lazy";
 import span = C.span;
 import cls = C.cls;
 import TeleportGroup = Transportation.TeleportGroup;
@@ -43,11 +42,9 @@ import notification = Notification.notification;
 import DigSolutionEntity = ClueEntities.DigSolutionEntity;
 import inlineimg = C.inlineimg;
 import count = util.count;
-import gielinor_compass = clue_data.gielinor_compass;
 import digSpotArea = Clues.digSpotArea;
 import vbox = C.vbox;
 import log = Log.log;
-import {RegionChainDistanceTable} from "../../../../lib/cluetheory/sliders/RegionChainDistanceTable";
 
 class CompassHandlingLayer extends GameLayer {
   private lines: {
@@ -794,8 +791,6 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     if (this.settings.use_previous_solution_as_start && (had_previous_solution || !only_use_previous_solution_if_existed_previously)) {
       (() => {
-        if (this.clue.id != gielinor_compass.id) return
-
         const assumed_position_from_previous_clue = DEBUG_LAST_SOLUTION_OVERRIDE ?? this.parent.getAssumedPlayerPositionByLastClueSolution()
 
         if (!assumed_position_from_previous_clue) return
@@ -803,7 +798,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
         const size = activate(assumed_position_from_previous_clue).size
 
         // Only use positions that are reasonably small
-        if (Vector2.max_axis(size) > 128) {
+        if (Vector2.max_axis(size) > 192) {
           Log.log().log(`Not using previous solution because solution area is too large (${size.x} x ${size.y})`, "Compass Solving")
 
           return

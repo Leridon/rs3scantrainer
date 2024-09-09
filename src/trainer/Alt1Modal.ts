@@ -7,39 +7,23 @@ import Widget from "../lib/ui/Widget";
 import * as jquery from "jquery";
 import hbox = C.hbox;
 import inlineimg = C.inlineimg;
-
-class ClickToCopy extends Widget {
-  constructor(text: string) {
-    super(jquery("<span>"));
-
-    this.text(text).addClass("nisl-click-to-copy")
-
-    this.tooltip("Click to copy")
-
-    this.on("click", async () => {
-      await navigator.clipboard.writeText(text)
-
-      this.css("min-width", this._raw.offsetWidth + "px")
-
-      this.toggleClass("copied-recently", true)
-
-      this.text("Copied!")
-
-      setTimeout(() => {
-        this.text(text)
-        this.css("width", null)
-        this.toggleClass("copied-recently", false)
-      }, 3000)
-    })
-  }
-}
+import {ClickToCopy} from "../lib/ui/ClickToCopy";
 
 export class Alt1Modal extends NisModal {
 
-  constructor() {
+  constructor(private url_override?: string) {
     super();
 
     this.title.set("Alt1 Toolkit")
+  }
+
+  private addToAlt1Link(): string {
+    if (this.url_override) {
+      return `alt1://addapp/${this.url_override}/appconfig.json`
+
+    } else {
+      return `alt1://addapp/${window.location.protocol}//${window.location.host}${window.location.pathname.slice(0, window.location.pathname.lastIndexOf("/") + 1)}appconfig.json`
+    }
   }
 
   render() {
@@ -50,7 +34,7 @@ export class Alt1Modal extends NisModal {
     layout.paragraph("Clue trainer is a fully featured clue solver for the Alt1 Toolkit. It can automatically read clues and puzzles and show their solutions. Click below to install Clue Trainer into Alt1.")
 
     layout.row(
-      c(`<a href='${deps().app.addToAlt1Link()}'></a>`)
+      c(`<a href='${this.addToAlt1Link()}'></a>`)
         .append(new BigNisButton("", "confirm")
           .setContent(hbox(
             inlineimg("assets/icons/Alt1.png"),
@@ -59,7 +43,7 @@ export class Alt1Modal extends NisModal {
     )
 
     layout.paragraph("Alternatively, visit ",
-      new ClickToCopy(window.location.toString()),
+      new ClickToCopy(this.url_override ?? window.location.toString()),
       " in Alt1's builtin browser to get an installation prompt.")
 
     layout.header("About Alt1")

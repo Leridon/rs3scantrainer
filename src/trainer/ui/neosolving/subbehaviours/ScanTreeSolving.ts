@@ -20,6 +20,7 @@ import {SolvingMethods} from "../../../model/methods";
 import {NeoSolvingSubBehaviour} from "../NeoSolvingSubBehaviour";
 import {C} from "../../../../lib/ui/constructors";
 import {TextRendering} from "../../TextRendering";
+import * as assert from "assert";
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import activate = TileArea.activate;
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
@@ -27,6 +28,7 @@ import cls = C.cls;
 import Order = util.Order;
 import span = C.span;
 import spotNumber = ScanTree.spotNumber;
+import index = util.index;
 
 export class ScanTreeSolving extends NeoSolvingSubBehaviour {
   node: ScanTree.Augmentation.AugmentedScanTreeNode = null
@@ -50,22 +52,23 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
     if (node.children.length == 0)
       node.remaining_candidates.forEach((c) => bounds.addTile(c))
 
-    //2. All children that are leafs in the augmented tree (i.e. spots directly reached from here)
-    /* //TODO: Rethink this, disabled to get the build working again
-    this.node.get().children.filter(c => c.value.is_leaf)
-        .map(c => c.value.remaining_candidates.map(Vector2.toPoint).forEach(spot => bounds.extend(spot)))
+    // 2. The path
+    if (node.raw.path.length > 0) {
+      const last_section = index(Path.Section.split_into_sections(node.raw.path).children, -1)
 
-     */
+      assert(last_section.type == "inner")
 
-    //4. "Where"
-    if (node.region?.area) {
-      bounds.addArea(node.region.area)
-      bounds.addArea(node.region.area)
+      const path = last_section.children.map(c => {
+        assert(c.type == "leaf")
+        return c.value
+      })
+
+      bounds.addRectangle(Path.bounds(path, true))
+    } else {
+      if (node.region?.area) {
+        bounds.addArea(node.region.area)
+      }
     }
-
-    // 6. The path
-
-    if (node.raw.path.length > 0) bounds.addRectangle(Path.bounds(node.raw.path))
 
     this.parent.layer.fit(bounds.get())
   }

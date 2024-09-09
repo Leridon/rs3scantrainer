@@ -16,7 +16,7 @@ export class DrawCosmeticInteraction extends ValueInteraction<Path.step_cosmetic
         .append(c().text(`Hold [Shift] to disable tile-snapping`))
     ))
 
-    new SelectTileInteraction({}, "optional").addTo(this)
+    new SelectTileInteraction({}, {snap: 0.5, shift_snap: 0}).addTo(this)
       .onChange(v => {
         const t: Path.step_cosmetic = {
           ...this.prototype,

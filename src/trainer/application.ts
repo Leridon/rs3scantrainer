@@ -36,6 +36,12 @@ import {LogViewer} from "../devtools/LogViewer";
 import {NisModal} from "../lib/ui/NisModal";
 import {BigNisButton} from "./ui/widgets/BigNisButton";
 import Properties from "./ui/widgets/Properties";
+import {DataExport} from "./DataExport";
+import {BookmarkStorage} from "./ui/pathedit/BookmarkStorage";
+import {FormModal} from "../lib/ui/controls/FormModal";
+import {Alt1Modal} from "./Alt1Modal";
+import {List} from "../lib/ui/List";
+import {ClickToCopy} from "../lib/ui/ClickToCopy";
 import ActiveTeleportCustomization = Transportation.TeleportGroup.ActiveTeleportCustomization;
 import TeleportSettings = Settings.TeleportSettings;
 import inlineimg = C.inlineimg;
@@ -48,6 +54,7 @@ import entity = C.entity;
 import notification = Notification.notification;
 import log = Log.log;
 import img = C.img;
+import {SectionMemory} from "./ui/neosolving/PathControl";
 
 class PermissionChecker extends NisModal {
   constructor() {
@@ -206,7 +213,7 @@ export namespace ScanTrainerCommands {
 const DEBUG_SIMULATE_INALT1 = false
 
 export class SettingsManagement {
-  private storage = new storage.Variable<Settings.Settings>("preferences/settings", () => null)
+  public readonly storage = new storage.Variable<Settings.Settings>("preferences/settings", () => null)
 
   active_teleport_customization: Observable<ActiveTeleportCustomization> = observe(null).equality(lodash.isEqual)
 
@@ -232,12 +239,159 @@ export class SettingsManagement {
   settings: Settings.Settings
 }
 
+class UpdateAlt1Modal extends FormModal<number> {
+  constructor(private app: Application) {super();}
+
+  render() {
+    super.render();
+
+    this.setTitle("You should update your Alt 1")
+
+    const layout = new Properties().appendTo(this.body)
+
+    layout.paragraph("You are currently on the outdated Alt 1 version 1.5.6. The newest version is 1.6.0. This can potentially lead to issues while using Clue Trainer and other plugins. For example, you will notice that Clue Trainer will re-download databases for slider puzzles on every session instead of caching them locally. Other possible issues include performance problems or crashes.")
+
+    layout.paragraph("Unfortunately, at the current time you can not automatically update from 1.5.6 to 1.6.0. To update manually, you will need to follow these steps:")
+
+    layout.row(
+      new List(true)
+        .item("Backup any important data. Unfortunately you will lose all of your local data and settings, as well as all installed third party plugins such as Clue Trainer. Make a backup of everything that's possible to backup. See below to export Clue Trainer data and also remember to save your custom AfkWarden presets!",
+          new List(false)
+            .item("Alt 1 stores installed apps and their data in ",
+              new ClickToCopy("%localappdata%/alt1toolkit"),
+              ". Backup the ",
+              new ClickToCopy("config.json"),
+              " file and the ",
+              new ClickToCopy("chromecache"),
+              " folder to easily save all of your data."
+            )
+        )
+        .item("Uninstall your current Alt 1 version.")
+        .item("Download the current Alt 1 installer from <a href='https://runeapps.org/alt1'>https://runeapps.org</a>. This is the only official source of Alt 1!")
+        .item("Install the downloaded version of Alt 1. Make sure that your game is closed while you do it or the setup will fail!")
+        .item("Install any required third party plugins such as Clue Trainer and restore your data backups.")
+    )
+
+    layout.divider()
+
+    layout.paragraph("You can save your Clue Trainer data before you update by clicking the button below. On the new version, please visit the 'Data' page in settings to restore your data.")
+
+    layout.row(new BigNisButton("Export Data", "confirm").onClick(() => this.app.data_dump.dump()))
+  }
+
+  protected getValueForCancel(): number {
+    return null
+  }
+
+  getButtons(): BigNisButton[] {
+    return [
+      new BigNisButton("Remind me another time", "confirm")
+        .onClick(() => this.confirm(21 * 24 * 60 * 60 * 1000))
+    ]
+  }
+
+}
+
+namespace UpdateAlt1Modal {
+  const earliest_reminder_time = new storage.Variable<number>("preferences/dontremindtoupdatealt1until", () => null)
+
+  export async function maybeRemind(app: Application) {
+    if (alt1?.permissionInstalled && alt1.version == "1.5.6") {
+
+      if (earliest_reminder_time.get() < Date.now()) {
+        const reminder = await new UpdateAlt1Modal(app).do()
+
+        if (reminder != null) {
+          earliest_reminder_time.set(Date.now() + reminder)
+        }
+      }
+    }
+  }
+}
+
+class MigrateToCluetrainerAppDomain extends FormModal<number> {
+  constructor(private app: Application) {super();}
+
+  render() {
+    super.render();
+
+    this.setTitle("Please Migrate")
+
+    const layout = new Properties().appendTo(this.body)
+
+    let first_paragraph = ""
+
+    if (this.app.in_alt1) {
+      first_paragraph += "Your installation of Clue Trainer is still using 'leridon.github.io/rs3scantrainer'. "
+    } else {
+      first_paragraph += "You are currently on leridon.github.io/rs3scantrainer. "
+    }
+
+    first_paragraph += "This version of Clue Trainer is hosted using GitHub pages on the Clue Trainer repository, which is currently blocking me from renaming the repository to something more fitting of the current state. When the rename happens, your current installation of Clue Trainer will stop to work."
+
+    layout.paragraph(first_paragraph)
+
+    layout.paragraph(
+      `Clue Trainer has been available on the custom domain <a href="https://cluetrainer.app">cluetrainer.app</a> since June 6th. Please migrate to that URL before 2024-10-31, at which point the repository will be renamed and Clue Trainer becoming unavailable on the 'leridon.github.io/rs3scantrainer' URL without further notice. Please also take note of the option to export your current data/settings to make migration less painful.`
+    )
+
+    layout.paragraph(C.bold(`You have ${MigrateToCluetrainerAppDomain.daysLeft()} days left to migrate.`))
+
+    if (this.app.in_alt1) {
+      layout.row(
+        new BigNisButton("Install cluetrainer.app", "confirm").onClick(() => new Alt1Modal("https://cluetrainer.app").show())
+      )
+    }
+
+    layout.divider()
+
+    layout.paragraph("If you have any relevant local data or settings on this URL, you can export all of your data using the button below. On the new version, please visit the 'Data' page in settings to restore your data.")
+
+    layout.row(new BigNisButton("Export Data", "confirm").onClick(() => this.app.data_dump.dump()))
+  }
+
+  protected getValueForCancel(): number {
+    return null
+  }
+
+  getButtons(): BigNisButton[] {
+    const daysleft = MigrateToCluetrainerAppDomain.daysLeft()
+
+    if (daysleft >= 14) {
+      return [
+        new BigNisButton("Remind me in a week", "confirm")
+          .onClick(() => this.confirm(6 * 24 * 60 * 60 * 1000))
+      ]
+    } else {
+      return [
+        new BigNisButton("Remind me tomorrow", "confirm")
+          .onClick(() => this.confirm(1 * 24 * 60 * 60 * 1000))
+      ]
+    }
+
+
+  }
+
+}
+
+namespace MigrateToCluetrainerAppDomain {
+  export const deadline = new Date(2024, 9, 31)
+
+  export function daysLeft(): number {
+    const now = Date.now()
+
+    const DAY = 24 * 60 * 60 * 1000
+
+    return Math.max(0, Math.floor((deadline.getTime() - now) / DAY))
+  }
+}
+
 export class Application extends Behaviour {
   crowdsourcing: CrowdSourcing = new CrowdSourcing(this, "https://api.cluetrainer.app")
 
   settings = new SettingsManagement()
 
-  in_alt1: boolean = !!window.alt1 || DEBUG_SIMULATE_INALT1
+  in_alt1: boolean = !!window.alt1?.permissionInstalled || DEBUG_SIMULATE_INALT1
   in_dev_mode = !!process.env.DEV_MODE
 
   menu_bar: MainTabControl
@@ -309,6 +463,10 @@ export class Application extends Behaviour {
     }
   )
 
+  readonly version: number = Changelog.latest_patch.version
+
+  data_dump: DataExport
+
   private startup_settings_storage = new storage.Variable<Application.Preferences>("preferences/startupsettings", () => ({}))
   startup_settings = observe(this.startup_settings_storage.get())
 
@@ -318,6 +476,14 @@ export class Application extends Behaviour {
     super()
 
     this.favourites = new FavoriteIndex(MethodPackManager.instance())
+
+    this.data_dump = new DataExport("cluetrainer", this.version, DataExport.createSpec(
+      this.settings.storage,
+      MethodPackManager.instance().local_pack_store,
+      this.favourites.data,
+      BookmarkStorage.persistance,
+      SectionMemory.instance().data
+    ))
 
     if (this.in_dev_mode) {
       log().log("In development mode")
@@ -407,13 +573,27 @@ export class Application extends Behaviour {
     log().log(`Clue Trainer v${Changelog.latest_patch.version} started`)
 
     if (globalThis.alt1) {
-      log().log(`Alt1 version detected: ${alt1.version}`)
+      log().log(`Alt 1 version detected: ${alt1.version}`)
       log().log(`Active capture mode: ${alt1.captureMethod}`)
       log().log(`Permissions: Installed ${alt1.permissionInstalled}, GameState ${alt1.permissionGameState}, Pixel ${alt1.permissionPixel}, Overlay ${alt1.permissionOverlay}`)
       log().log("Settings on startup", "Startup", {type: "object", value: lodash.cloneDeep(this.settings.settings)})
 
       PermissionChecker.check()
     }
+
+    if (window.location.host == "leridon.github.io" && window.location.pathname.startsWith("/rs3scantrainer")) {
+      const next_notice = this.startup_settings.value().earliest_next_cluetrainer_dot_app_migration_notice
+
+      if (!next_notice || next_notice < Date.now()) {
+        const remind_later = await new MigrateToCluetrainerAppDomain(this).do()
+
+        if (remind_later != null) {
+          this.startup_settings.update(s => s.earliest_next_cluetrainer_dot_app_migration_notice = Date.now() + remind_later)
+        }
+      }
+    }
+
+    UpdateAlt1Modal.maybeRemind(this)
   }
 
   protected end() {
@@ -433,17 +613,12 @@ export class Application extends Behaviour {
 
     return "development"
   }*/
-
-  addToAlt1Link(): string {
-    return `alt1://addapp/${window.location.protocol}//${window.location.host}${window.location.pathname.slice(0, window.location.pathname.lastIndexOf("/") + 1)}appconfig.json`
-  }
 }
 
 namespace Application {
   export type Preferences = {
     last_loaded_version?: number,
-    dont_recommend_alt1?: boolean,
-    hide_preview_notice?: boolean
+    earliest_next_cluetrainer_dot_app_migration_notice?: number
   }
 }
 

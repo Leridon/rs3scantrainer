@@ -7,7 +7,7 @@ import todo = util.todo;
 import ClueSpot = Clues.ClueSpot;
 
 export class FavoriteIndex {
-  private data = new storage.Variable<{
+  public readonly data = new storage.Variable<{
     methods: {
       spot: ClueSpot.Id,
       method: LocalMethodId | null,

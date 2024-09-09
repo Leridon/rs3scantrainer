@@ -4,23 +4,11 @@ import {NisModal} from "../lib/ui/NisModal";
 import Widget from "../lib/ui/Widget";
 import {C} from "../lib/ui/constructors";
 import * as jquery from "jquery";
+import {List} from "../lib/ui/List";
 
 export namespace Changelog {
 
   import Appendable = C.Appendable;
-
-  class List extends Widget {
-
-    constructor() {
-      super(jquery("<ul>"));
-    }
-
-    item(...appendable: Appendable[]): this {
-      this.append(c("<li></li>").append(...appendable))
-
-      return this
-    }
-  }
 
   type Layout = Properties
 

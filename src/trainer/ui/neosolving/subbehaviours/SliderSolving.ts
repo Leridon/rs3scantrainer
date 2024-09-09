@@ -869,7 +869,7 @@ export namespace SlideGuider {
       color_mainline_line: A1Color.fromHex("#41740e"),
       color_recovery_move: A1Color.fromHex("#FF0000"),
       color_recovery_line: A1Color.fromHex("#ff6600"),
-      solve_time_ms: 2000,
+      solve_time_ms: 1000,
       estimate_slider_speed: false,
       improve_slider_matches_backtracking: true,
       continue_solving_after_initial_solve: true

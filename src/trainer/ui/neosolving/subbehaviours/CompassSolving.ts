@@ -798,7 +798,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
         const size = activate(assumed_position_from_previous_clue).size
 
         // Only use positions that are reasonably small
-        if (Vector2.max_axis(size) > 128) {
+        if (Vector2.max_axis(size) > 192) {
           Log.log().log(`Not using previous solution because solution area is too large (${size.x} x ${size.y})`, "Compass Solving")
 
           return

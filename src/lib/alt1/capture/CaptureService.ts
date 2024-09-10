@@ -7,9 +7,15 @@ import {util} from "../../util/util";
 import {EwentHandlerPool} from "../../reactive/EwentHandlerPool";
 import todo = util.todo;
 import TimedValue = AbstractCaptureService.TimedValue;
+import {now} from "lodash";
+
+export type InterestedToken<InterestOptionsT extends AbstractCaptureService.Options = AbstractCaptureService.Options, ValueT = any> = {
+  token: AbstractCaptureService.InterestToken<InterestOptionsT, ValueT>,
+  options: InterestOptionsT
+}
 
 export abstract class AbstractCaptureService<
-  InterestOptionsT,
+  InterestOptionsT extends AbstractCaptureService.Options,
   ValueT
 > {
   protected last_checked_tick: AbstractCaptureService.CaptureTime = undefined
@@ -43,10 +49,7 @@ export abstract class AbstractCaptureService<
 
     this.last_checked_tick = time
 
-    const interested_in_this_tick = this.interests
-      .filter(t => !t.isPaused() && (time.tick % t.tickModulo() == 0))
-      .map(t => ({options: t.options(time), token: t}))
-      //.filter(t => t.options != null)
+    const interested_in_this_tick = this.getInterests(time)
 
     if (interested_in_this_tick.length > 0) {
       const raw_value = f(interested_in_this_tick.map(t => t.options))
@@ -69,6 +72,25 @@ export abstract class AbstractCaptureService<
     }
   }
 
+  private _currentInterest: {
+    time: AbstractCaptureService.CaptureTime,
+    interests: InterestedToken<InterestOptionsT, ValueT>[]
+  } = null
+
+  protected getInterests(time: AbstractCaptureService.CaptureTime): InterestedToken<InterestOptionsT, ValueT>[] {
+    if (!this._currentInterest || this._currentInterest.time.tick != time.tick) {
+      this._currentInterest = {
+        time: time,
+        interests: this.interests
+          .filter(t => !t.isPaused())
+          .map(t => ({options: t.options(time), token: t}))
+          .filter(t => t.options && (time.tick % Math.pow(2, t.options.tick_modulo) == 0))
+      }
+    }
+
+    return this._currentInterest.interests
+  }
+
   captureOnce(options: {
     newer_than?: number | CapturedImage,
     options: InterestOptionsT
@@ -79,7 +101,7 @@ export abstract class AbstractCaptureService<
 }
 
 export namespace AbstractCaptureService {
-  export abstract class InterestToken<OptionsT = any, ValueT = any> {
+  export abstract class InterestToken<OptionsT extends Options = Options, ValueT = any> {
     public handler_pool: EwentHandlerPool = new EwentHandlerPool()
 
     private killed_event = ewent<this>()
@@ -111,9 +133,7 @@ export namespace AbstractCaptureService {
 
     protected abstract handle(value: AbstractCaptureService.TimedValue<ValueT, OptionsT>): void
 
-    abstract options(options: CaptureTime): OptionsT | null
-
-    abstract tickModulo(): number
+    abstract options(time: CaptureTime): OptionsT | null
 
     notify(value: TimedValue<ValueT, OptionsT>): void {
       this._last_notification = value
@@ -127,12 +147,16 @@ export namespace AbstractCaptureService {
     }
   }
 
+  export type Options = {
+    tick_modulo: number
+  }
+
   export type CaptureTime = {
     tick: number,
     time: number
   }
 
-  export type TimedValue<T, OptionsT = any> = {
+  export type TimedValue<T, OptionsT extends Options = Options> = {
     time: CaptureTime,
     options: OptionsT,
     value: T
@@ -140,8 +164,8 @@ export namespace AbstractCaptureService {
 }
 
 export abstract class DerivedCaptureService<
-  InterestOptionsT,
-  ValueT
+  InterestOptionsT extends AbstractCaptureService.Options = AbstractCaptureService.Options,
+  ValueT = null
 > extends AbstractCaptureService<InterestOptionsT, ValueT> {
   private sources: {
     token: AbstractCaptureService.InterestToken,
@@ -152,26 +176,40 @@ export abstract class DerivedCaptureService<
     super()
   }
 
-  protected addDataSource<SourceOptionsT, SourceValueT>(s: AbstractCaptureService<SourceOptionsT, SourceValueT>, options: () => SourceOptionsT): AbstractCaptureService.InterestToken<SourceOptionsT, SourceValueT> {
+  protected addDataSource<SourceOptionsT extends AbstractCaptureService.Options, SourceValueT>(
+    s: AbstractCaptureService<SourceOptionsT, SourceValueT>,
+    options: (child_options: InterestOptionsT[]) => SourceOptionsT
+  ): AbstractCaptureService.InterestToken<SourceOptionsT, SourceValueT> {
     const self = this
 
-    const token = s.subscribe(new class extends AbstractCaptureService.InterestToken<SourceOptionsT, SourceValueT> {
-      protected handle(value: AbstractCaptureService.TimedValue<SourceValueT, SourceOptionsT>): void {
+    const token = s.subscribe(new class extends AbstractCaptureService.InterestToken<DerivedCaptureService.Options<SourceOptionsT, InterestOptionsT, ValueT>, SourceValueT> {
+      protected handle(value: AbstractCaptureService.TimedValue<SourceValueT, DerivedCaptureService.Options<SourceOptionsT, InterestOptionsT, ValueT>>): void {
 
         if (self.sources.every(s => s.token.lastNotification()?.time?.tick == value.time.tick)) {
-          self.doIfAnyInterest(value.time, interest_options => {
-            return self.process(interest_options)
-          })
+          self.process(self.getInterests(value.time))
         }
       }
 
-      tickModulo(): number {
-        return Math.min(200, ...self.interests.map(t => t.tickModulo()));
+      options(time: AbstractCaptureService.CaptureTime): DerivedCaptureService.Options<SourceOptionsT, InterestOptionsT, ValueT> {
+        const interested_in_this_tick: InterestedToken<any, ValueT>[] = self.getInterests(time)
+
+        const compound_options = options(interested_in_this_tick.map(t => t.options))
+
+        return {
+          ...compound_options,
+          tick_modulo: Math.min(200, ...interested_in_this_tick.map(t => t.options.tick_modulo)),
+          original_interests: interested_in_this_tick
+        }
       }
 
-      options(time: AbstractCaptureService.CaptureTime): SourceOptionsT {
-        return options()
-      }
+
+      /*options(time: AbstractCaptureService.CaptureTime): SourceOptionsT {
+        const interested_in_this_tick = self.interests
+          .filter(t => !t.isPaused() && (time.tick % t.tickModulo() == 0))
+          .map(t => t.options(time))
+
+        return options(interested_in_this_tick)
+      }*/
 
       isPaused(): boolean {
         return self.interests.every(t => t.isPaused());
@@ -186,11 +224,17 @@ export abstract class DerivedCaptureService<
     return token
   }
 
-  abstract process(interested_tokens: InterestOptionsT[]): ValueT
+  abstract process(interested_tokens: InterestedToken<InterestOptionsT, ValueT>[]): ValueT
+}
+
+export namespace DerivedCaptureService {
+  export type Options<SourceOptionsT extends AbstractCaptureService.Options, InterestOptionsT extends AbstractCaptureService.Options, ValueT> = SourceOptionsT & {
+    original_interests: InterestedToken<InterestOptionsT, ValueT>[]
+  }
 }
 
 export class ScreenCaptureService extends AbstractCaptureService<
-  { area: ScreenRectangle },
+  { area: ScreenRectangle, tick_modulo: number },
   CapturedImage
 > {
   private ticker: Process
@@ -232,8 +276,7 @@ export class ScreenCaptureService extends AbstractCaptureService<
     this.ticker.run()
   }
 
-
-  protected transformValueForNotification(options: { area: ScreenRectangle }, raw_value: CapturedImage): CapturedImage {
+  protected transformValueForNotification(options: { area: ScreenRectangle; tick_modulo: number }, raw_value: CapturedImage): CapturedImage {
     return options?.area ? raw_value.getScreenSection(options.area) : raw_value
   }
 }

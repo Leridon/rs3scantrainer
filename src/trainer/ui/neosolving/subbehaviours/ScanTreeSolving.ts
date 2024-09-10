@@ -21,8 +21,9 @@ import {NeoSolvingSubBehaviour} from "../NeoSolvingSubBehaviour";
 import {C} from "../../../../lib/ui/constructors";
 import {TextRendering} from "../../TextRendering";
 import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
-import {ScreenRectangle} from "../../../../lib/alt1/ScreenRectangle";
 import * as assert from "assert";
+import {AbstractCaptureService} from "../../../../lib/alt1/capture";
+import {MinimapReader} from "../../../../lib/alt1/readers/MinimapReader";
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import activate = TileArea.activate;
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
@@ -32,8 +33,6 @@ import span = C.span;
 import spotNumber = ScanTree.spotNumber;
 import over = OverlayGeometry.over;
 import index = util.index;
-import {AbstractCaptureService} from "../../../../lib/alt1/capture";
-import {MinimapReader} from "../../../../lib/alt1/readers/MinimapReader";
 
 export class ScanTreeSolving extends NeoSolvingSubBehaviour {
   node: ScanTree.Augmentation.AugmentedScanTreeNode = null
@@ -52,9 +51,9 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
 
     const self = this
 
-    this.minimap_interest = this.parent.app.minimapreader.subscribe(new class extends AbstractCaptureService.InterestToken<{}, MinimapReader.CapturedMinimap> {
+    const t: AbstractCaptureService.InterestToken<AbstractCaptureService.Options, MinimapReader.CapturedMinimap> = this.parent.app.minimapreader.subscribe(new class extends AbstractCaptureService.InterestToken<AbstractCaptureService.Options, MinimapReader.CapturedMinimap> {
 
-      protected handle(value: AbstractCaptureService.TimedValue<MinimapReader.CapturedMinimap, {}>): void {
+      protected handle(value: AbstractCaptureService.TimedValue<MinimapReader.CapturedMinimap>): void {
         console.log("Read minimap")
 
         const minimap = value.value
@@ -89,12 +88,8 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
         return false;
       }
 
-      options(): {} {
-        return {};
-      }
-
-      tickModulo(): number {
-        return 3;
+      options(): { tick_modulo: number } {
+        return {tick_modulo: 3};
       }
     })
 

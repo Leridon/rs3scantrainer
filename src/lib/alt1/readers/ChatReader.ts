@@ -1,8 +1,8 @@
-import {AbstractCaptureService, CapturedImage, DerivedCaptureService, NeedleImage, ScreenCaptureService} from "../capture";
+import {AbstractCaptureService, CapturedImage, DerivedCaptureService, InterestedToken, NeedleImage, ScreenCaptureService} from "../capture";
 import {OverlayGeometry} from "../OverlayGeometry";
 import {util} from "../../util/util";
 import {ScreenRectangle} from "../ScreenRectangle";
-import {ewent, EwentHandler} from "../../reactive";
+import {ewent} from "../../reactive";
 import {OCR} from "../OCR";
 import {ColortTriplet, FontDefinition} from "@alt1/ocr";
 import {async_lazy, lazy} from "../../properties/Lazy";
@@ -23,7 +23,7 @@ import A1Color = util.A1Color;
  * This is a hard requirement because the reader uses timestamps to differentiate repeated identical messages
  * and also to buffer messages so that scrolling the chat up and down does not cause messages to be read again.
  */
-export class ChatReader extends DerivedCaptureService<{}, {}> {
+export class ChatReader extends DerivedCaptureService {
   private debug_mode: boolean = false
 
   private active_interest_tokens = 0
@@ -35,7 +35,7 @@ export class ChatReader extends DerivedCaptureService<{}, {}> {
   private last_search = Number.NEGATIVE_INFINITY
   private chatboxes: ChatReader.SingleChatboxReader[] = []
 
-  private capture_interest: AbstractCaptureService.InterestToken<{ area: ScreenRectangle } | null, CapturedImage>
+  private capture_interest: AbstractCaptureService.InterestToken<{ area: ScreenRectangle, tick_modulo: number } | null, CapturedImage>
 
   constructor(private capturing: ScreenCaptureService, private search_interval: number = 6000) {
     super();
@@ -49,7 +49,7 @@ export class ChatReader extends DerivedCaptureService<{}, {}> {
     })
   }
 
-  async process(interested_tokens: {}[]): Promise<void> {
+  async process(interested_tokens: InterestedToken[]): Promise<void> {
     const capture = this.capture_interest.lastNotification()
 
     try {

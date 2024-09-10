@@ -8,7 +8,7 @@ import {Log} from "../../util/Log";
 import over = OverlayGeometry.over;
 import log = Log.log;
 
-export class MinimapReader extends DerivedCaptureService<{}, MinimapReader.CapturedMinimap> {
+export class MinimapReader extends DerivedCaptureService<AbstractCaptureService.Options, MinimapReader.CapturedMinimap> {
 
   private debug_overlay = over()
   private debug_mode: boolean = false
@@ -24,7 +24,7 @@ export class MinimapReader extends DerivedCaptureService<{}, MinimapReader.Captu
     this._initialized = (async () => {
       this.finder = await MinimapReader.CapturedMinimap.finder.get()
 
-      this.capture_interest = this.addDataSource(capture_service, () => ({}))
+      this.capture_interest = this.addDataSource(capture_service, () => ({tick_modulo: 1}))
     })()
   }
 

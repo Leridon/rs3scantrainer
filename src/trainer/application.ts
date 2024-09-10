@@ -581,6 +581,8 @@ export class Application extends Behaviour {
       PermissionChecker.check()
     }
 
+    UpdateAlt1Modal.maybeRemind(this)
+
     if (window.location.host == "leridon.github.io" && window.location.pathname.startsWith("/rs3scantrainer")) {
       const next_notice = this.startup_settings.value().earliest_next_cluetrainer_dot_app_migration_notice
 
@@ -592,8 +594,6 @@ export class Application extends Behaviour {
         }
       }
     }
-
-    UpdateAlt1Modal.maybeRemind(this)
   }
 
   protected end() {

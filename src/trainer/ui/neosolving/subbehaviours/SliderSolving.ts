@@ -97,7 +97,9 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
     const read = await new SlideReader.SlideReader(capt).getPuzzle(this.puzzle.theme)
 
     if (read.match_score >= SlideReader.DETECTION_THRESHOLD_SCORE) {
-      this.parent.modal.setImage(capt.body.getData())
+      this.parent.modal.setImage(capt.image.getData())
+    } else {
+      log().log("What Clue Trainer is seeing when the puzzle closed:", "Slider", capt.body.getData())
     }
 
     const checkmark_found = capt.isInvertedArrowKeyCheckboxEnabled()
@@ -416,6 +418,7 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
 
     if (read_result.result.match_score < SlideReader.DETECTION_THRESHOLD_SCORE) {
       this.puzzleClosed()
+
       return
     }
 

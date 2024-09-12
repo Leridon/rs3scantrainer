@@ -1,4 +1,4 @@
-import {AbstractCaptureService, CapturedImage, DerivedCaptureService, NeedleImage, ScreenCaptureService} from "../capture";
+import {AbstractCaptureService, CapturedImage, DerivedCaptureService, InterestedToken, NeedleImage, ScreenCaptureService} from "../capture";
 import {async_lazy} from "../../properties/Lazy";
 import {OverlayGeometry} from "../OverlayGeometry";
 import {degreesToRadians, normalizeAngle, radiansToDegrees, Vector2} from "../../math";
@@ -28,7 +28,8 @@ export class MinimapReader extends DerivedCaptureService<AbstractCaptureService.
     })()
   }
 
-  process(interested_tokens: {}[]): MinimapReader.CapturedMinimap {
+
+  processNotifications(interested_tokens: InterestedToken<AbstractCaptureService.Options, MinimapReader.CapturedMinimap>[]): MinimapReader.CapturedMinimap {
     const capture = this.capture_interest.lastNotification().value
 
     try {

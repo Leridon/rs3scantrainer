@@ -39,9 +39,9 @@ export abstract class AbstractCaptureService<
   }
 
   protected transformValueForNotification(options: InterestOptionsT,
-                                          raw_value: ValueT
+                                          raw_value: TimedValue<ValueT, InterestOptionsT>
   ): ValueT {
-    return raw_value
+    return raw_value.value
   }
 
   protected doIfAnyInterest(time: AbstractCaptureService.CaptureTime, f: (interest_options: InterestOptionsT[]) => ValueT | undefined) {
@@ -56,7 +56,7 @@ export abstract class AbstractCaptureService<
 
       if (raw_value === undefined) return
 
-      this.raw_last_capture = {
+      const value = this.raw_last_capture = {
         time: time,
         value: raw_value,
         options: null
@@ -65,7 +65,7 @@ export abstract class AbstractCaptureService<
       interested_in_this_tick.forEach(interest => {
         interest.token.notify({
           time: time,
-          value: this.transformValueForNotification(interest.options, raw_value),
+          value: this.transformValueForNotification(interest.options, value),
           options: interest.options
         })
       })
@@ -183,10 +183,26 @@ export abstract class DerivedCaptureService<
     const self = this
 
     const token = s.subscribe(new class extends AbstractCaptureService.InterestToken<DerivedCaptureService.Options<SourceOptionsT, InterestOptionsT, ValueT>, SourceValueT> {
-      protected handle(value: AbstractCaptureService.TimedValue<SourceValueT, DerivedCaptureService.Options<SourceOptionsT, InterestOptionsT, ValueT>>): void {
+      protected handle(source_value: AbstractCaptureService.TimedValue<SourceValueT, DerivedCaptureService.Options<SourceOptionsT, InterestOptionsT, ValueT>>): void {
 
-        if (self.sources.every(s => s.token.lastNotification()?.time?.tick == value.time.tick)) {
-          self.process(self.getInterests(value.time))
+        if (self.sources.every(s => s.token.lastNotification()?.time?.tick == source_value.time.tick)) {
+          const interests = self.getInterests(source_value.time) // This looks like a recalculation, but getInterests caches the results for each tick
+
+          const value = self.raw_last_capture = {
+            time: source_value.time,
+            options: null,
+            value: self.processNotifications(interests)
+          }
+
+          interests.forEach(token => {
+            token.token.notify(
+              {
+                time: value.time,
+                options: token.options,
+                value: self.transformValueForNotification(token.options, value)
+              }
+            )
+          })
         }
       }
 
@@ -224,7 +240,7 @@ export abstract class DerivedCaptureService<
     return token
   }
 
-  abstract process(interested_tokens: InterestedToken<InterestOptionsT, ValueT>[]): ValueT
+  abstract processNotifications(interested_tokens: InterestedToken<InterestOptionsT, ValueT>[]): ValueT
 }
 
 export namespace DerivedCaptureService {
@@ -276,8 +292,12 @@ export class ScreenCaptureService extends AbstractCaptureService<
     this.ticker.run()
   }
 
-  protected transformValueForNotification(options: { area: ScreenRectangle; tick_modulo: number }, raw_value: CapturedImage): CapturedImage {
-    return options?.area ? raw_value.getScreenSection(options.area) : raw_value
+
+  protected transformValueForNotification(options: { area: ScreenRectangle; tick_modulo: number }, raw_value: AbstractCaptureService.TimedValue<CapturedImage, {
+    area: ScreenRectangle;
+    tick_modulo: number
+  }>): CapturedImage {
+    return options?.area ? raw_value.value.getScreenSection(options.area) : raw_value.value
   }
 }
 

@@ -43,7 +43,7 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
 
   private minimap_overlay: OverlayGeometry = over()
 
-  private minimap_interest: AbstractCaptureService.InterestToken
+  private minimap_interest: AbstractCaptureService.InterestToken<AbstractCaptureService.Options, MinimapReader.CapturedMinimap>
 
   constructor(parent: NeoSolvingBehaviour,
               public method: AugmentedMethod<ScanTreeMethod, Clues.Scan>) {
@@ -51,8 +51,7 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
 
     const self = this
 
-    const t: AbstractCaptureService.InterestToken<AbstractCaptureService.Options, MinimapReader.CapturedMinimap> = this.parent.app.minimapreader.subscribe(new class extends AbstractCaptureService.InterestToken<AbstractCaptureService.Options, MinimapReader.CapturedMinimap> {
-
+    this.minimap_interest = this.parent.app.minimapreader.subscribe(new class extends AbstractCaptureService.InterestToken<AbstractCaptureService.Options, MinimapReader.CapturedMinimap> {
       protected handle(value: AbstractCaptureService.TimedValue<MinimapReader.CapturedMinimap>): void {
         console.log("Read minimap")
 

@@ -49,7 +49,7 @@ export class ChatReader extends DerivedCaptureService {
     })
   }
 
-  async process(interested_tokens: InterestedToken[]): Promise<void> {
+  async processNotifications(interested_tokens: InterestedToken[]): Promise<void> {
     const capture = this.capture_interest.lastNotification()
 
     try {

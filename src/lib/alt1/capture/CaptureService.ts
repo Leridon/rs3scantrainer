@@ -1,13 +1,14 @@
 import {Process} from "../../Process";
 import {CapturedImage} from "./CapturedImage";
-import {timeSync} from "../../gamemap/GameLayer";
 import {ScreenRectangle} from "../ScreenRectangle";
 import {Ewent, ewent, EwentHandler} from "../../reactive";
 import {util} from "../../util/util";
 import {EwentHandlerPool} from "../../reactive/EwentHandlerPool";
 import {Log} from "../../util/Log";
+import * as lodash from "lodash";
 import todo = util.todo;
 import TimedValue = AbstractCaptureService.TimedValue;
+import CaptureTime = AbstractCaptureService.CaptureTime;
 
 export type InterestedToken<InterestOptionsT extends AbstractCaptureService.Options = AbstractCaptureService.Options, ValueT = any> = {
   token: AbstractCaptureService.InterestToken<InterestOptionsT, ValueT>,
@@ -84,7 +85,7 @@ export abstract class AbstractCaptureService<
         interests: this.interests
           .filter(t => !t.isPaused())
           .map(t => ({options: t.options(time), token: t}))
-          .filter(t => t.options && (time.tick % Math.pow(2, t.options.tick_modulo) == 0))
+          .filter(t => t.options && t.options.interval.matches(time))
       }
     }
 
@@ -157,7 +158,7 @@ export namespace AbstractCaptureService {
   }
 
   export type Options = {
-    tick_modulo: number
+    interval: CaptureInterval
   }
 
   export type CaptureTime = {
@@ -187,7 +188,7 @@ export abstract class DerivedCaptureService<
 
   protected addDataSource<SourceOptionsT extends AbstractCaptureService.Options, SourceValueT>(
     s: AbstractCaptureService<SourceOptionsT, SourceValueT>,
-    options: (child_options: InterestOptionsT[]) => SourceOptionsT
+    options: (time: AbstractCaptureService.CaptureTime, child_options: InterestOptionsT[]) => SourceOptionsT
   ): AbstractCaptureService.InterestToken<SourceOptionsT, SourceValueT> {
     const self = this
 
@@ -218,11 +219,13 @@ export abstract class DerivedCaptureService<
       options(time: AbstractCaptureService.CaptureTime): DerivedCaptureService.Options<SourceOptionsT, InterestOptionsT, ValueT> {
         const interested_in_this_tick: InterestedToken<any, ValueT>[] = self.getInterests(time)
 
-        const compound_options = options(interested_in_this_tick.map(t => t.options))
+        if (interested_in_this_tick.length == 0) return null
+
+        const compound_options = options(time, interested_in_this_tick.map(t => t.options))
 
         return {
           ...compound_options,
-          tick_modulo: Math.min(200, ...interested_in_this_tick.map(t => t.options.tick_modulo)),
+          interval: lodash.minBy([CaptureInterval.level(200), ...interested_in_this_tick.map(t => t.options.interval)], t => t.tick_modulo),
           original_interests: interested_in_this_tick
         }
       }
@@ -259,7 +262,7 @@ export namespace DerivedCaptureService {
 }
 
 export class ScreenCaptureService extends AbstractCaptureService<
-  { area: ScreenRectangle, tick_modulo: number },
+  { area: ScreenRectangle, interval: CaptureInterval },
   CapturedImage
 > {
   private ticker: Process
@@ -289,24 +292,62 @@ export class ScreenCaptureService extends AbstractCaptureService<
             ...interested_in_this_tick.map(t => t?.area ?? {origin: {x: 0, y: 0}, size: {x: alt1.rsWidth, y: alt1.rsHeight}})
           )
 
-          const capture = timeSync("Capture", () => CapturedImage.capture(required_area))
+          console.log(`Tick ${time.tick}`)
+
+          const capture = CapturedImage.capture(required_area)
 
           if (!capture) return undefined
 
           return capture
         })
       }
-    }(1000 / CaptureService.MAX_FPS / 2)
+    }(1000 / CaptureInterval.globalCapturingFps() / 2)
 
     this.ticker.run()
   }
 
 
-  protected transformValueForNotification(options: { area: ScreenRectangle; tick_modulo: number }, raw_value: AbstractCaptureService.TimedValue<CapturedImage, {
+  protected transformValueForNotification(options: { area: ScreenRectangle, interval: CaptureInterval }, raw_value: AbstractCaptureService.TimedValue<CapturedImage, {
     area: ScreenRectangle;
-    tick_modulo: number
+    interval: CaptureInterval
   }>): CapturedImage {
     return options?.area ? raw_value.value.getScreenSection(options.area) : raw_value.value
+  }
+}
+
+export class CaptureInterval {
+  public readonly tick_modulo: number
+
+  private constructor(private level: number) {
+    this.tick_modulo = Math.pow(2, level)
+  }
+
+  interval(): number {
+    return this.tick_modulo * (1000 / CaptureInterval.global_capturing_fps)
+  }
+
+  matches(time: CaptureTime): boolean {
+    return (time.tick % this.tick_modulo) == 0
+  }
+
+  public static level(level: number): CaptureInterval {
+    return new CaptureInterval(level)
+  }
+
+  public static fromApproximateInterval(interval: number): CaptureInterval {
+    const tier = Math.max(0, Math.round(Math.log2(interval / (1000 / CaptureInterval.global_capturing_fps))))
+
+    return new CaptureInterval(tier)
+  }
+
+  private static global_capturing_fps = 60
+
+  static setGlobalCapturingFps(fps: number) {
+    this.global_capturing_fps = fps
+  }
+
+  static globalCapturingFps(): number {
+    return this.global_capturing_fps
   }
 }
 
@@ -330,7 +371,7 @@ export class CaptureService extends Process.Interval {
 
     if (this.last_capture && this.last_capture.capture.timestamp + min_interval > now) return
 
-    const capture = timeSync("Capture", () => CapturedImage.capture())
+    const capture = CapturedImage.capture()
 
     if (!capture) return
 

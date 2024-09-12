@@ -1,4 +1,4 @@
-import {AbstractCaptureService, CapturedImage, DerivedCaptureService, InterestedToken, NeedleImage, ScreenCaptureService} from "../capture";
+import {AbstractCaptureService, CapturedImage, CaptureInterval, DerivedCaptureService, InterestedToken, NeedleImage, ScreenCaptureService} from "../capture";
 import {OverlayGeometry} from "../OverlayGeometry";
 import {util} from "../../util/util";
 import {ScreenRectangle} from "../ScreenRectangle";
@@ -35,7 +35,7 @@ export class ChatReader extends DerivedCaptureService {
   private last_search = Number.NEGATIVE_INFINITY
   private chatboxes: ChatReader.SingleChatboxReader[] = []
 
-  private capture_interest: AbstractCaptureService.InterestToken<{ area: ScreenRectangle, tick_modulo: number } | null, CapturedImage>
+  private capture_interest: AbstractCaptureService.InterestToken<{ area: ScreenRectangle, interval: CaptureInterval } | null, CapturedImage>
 
   constructor(private capturing: ScreenCaptureService, private search_interval: number = 6000) {
     super();

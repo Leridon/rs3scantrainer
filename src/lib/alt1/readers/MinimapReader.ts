@@ -1,4 +1,4 @@
-import {AbstractCaptureService, CapturedImage, DerivedCaptureService, InterestedToken, NeedleImage, ScreenCaptureService} from "../capture";
+import {AbstractCaptureService, CapturedImage, CaptureInterval, DerivedCaptureService, InterestedToken, NeedleImage, ScreenCaptureService} from "../capture";
 import {async_lazy, lazy} from "../../properties/Lazy";
 import {OverlayGeometry} from "../OverlayGeometry";
 import {degreesToRadians, normalizeAngle, radiansToDegrees, Vector2} from "../../math";
@@ -8,13 +8,15 @@ import {Log} from "../../util/Log";
 import over = OverlayGeometry.over;
 import log = Log.log;
 
-export class MinimapReader extends DerivedCaptureService<AbstractCaptureService.Options, MinimapReader.CapturedMinimap> {
+export class MinimapReader extends DerivedCaptureService<MinimapReader.Options, MinimapReader.CapturedMinimap> {
 
   private debug_overlay = over()
   private debug_mode: boolean = false
 
   private capture_interest: AbstractCaptureService.InterestToken<any, CapturedImage>
   private finder: MinimapReader.CapturedMinimap.Finder
+
+  private minimum_refind_interval: CaptureInterval = CaptureInterval.fromApproximateInterval(10_000)
 
   private _initialized: Promise<any>
 
@@ -24,30 +26,48 @@ export class MinimapReader extends DerivedCaptureService<AbstractCaptureService.
     this._initialized = (async () => {
       this.finder = await MinimapReader.CapturedMinimap.finder.get()
 
-      this.capture_interest = this.addDataSource(capture_service, () => ({tick_modulo: 1}))
+      this.capture_interest = this.addDataSource(capture_service, (time, child_options) => {
+
+        if(child_options.length > 0) debugger
+
+        if (!this.raw_last_capture?.value || child_options.some(o => o.refind_interval?.matches(time)) || this.minimum_refind_interval.matches(time)) {
+          // Do a full capture to refind
+
+          console.log("Should refind now")
+
+          return {interval: null, area: null}
+        } else {
+          return {interval: null, area: this.raw_last_capture?.value.body.screen_rectangle}
+        }
+      })
     })()
   }
-
 
   processNotifications(interested_tokens: InterestedToken<AbstractCaptureService.Options, MinimapReader.CapturedMinimap>[]): MinimapReader.CapturedMinimap {
     const capture = this.capture_interest.lastNotification().value
 
     try {
-      const capturedMinimap = this.finder.find(capture)
 
-      if (this.debug_mode) {
-        this.debug_overlay.clear()
+      if (capture.isFullScreen()) {
+        const capturedMinimap = this.finder.find(capture)
 
-        if (capturedMinimap) {
-          capturedMinimap.debugOverlay(this.debug_overlay)
+        if (this.debug_mode) {
+          this.debug_overlay.clear()
 
-          console.log(`Camera yaw: ${radiansToDegrees(capturedMinimap.compassAngle.get())}°`)
+          if (capturedMinimap) {
+            capturedMinimap.debugOverlay(this.debug_overlay)
+
+            console.log(`Camera yaw: ${radiansToDegrees(capturedMinimap.compassAngle.get())}°`)
+          }
+
+          this.debug_overlay.render()
         }
 
-        this.debug_overlay.render()
+        return capturedMinimap
+      } else {
+        return this.raw_last_capture.value.refind(capture)
       }
 
-      return capturedMinimap
     } catch (e) {
       log().log(e)
     }
@@ -69,6 +89,10 @@ export class MinimapReader extends DerivedCaptureService<AbstractCaptureService.
 }
 
 export namespace MinimapReader {
+  export type Options = AbstractCaptureService.Options & {
+    refind_interval: CaptureInterval
+  }
+
   export class CapturedMinimap {
     private compass: CapturedImage
     private energy: CapturedImage

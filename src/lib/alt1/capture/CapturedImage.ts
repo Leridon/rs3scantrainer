@@ -1,13 +1,13 @@
 import {ScreenRectangle} from "../ScreenRectangle";
 import {Vector2} from "../../math";
-import {ImgRef, ImgRefData} from "@alt1/base";
 import * as a1lib from "@alt1/base";
+import {ImgRef, ImgRefData} from "@alt1/base";
 import {findSubbuffer} from "@alt1/base/src/imagedetect";
 import {OverlayGeometry} from "../OverlayGeometry";
 import {NeedleImage} from "./NeedleImage";
 import {util} from "../../util/util";
-import A1Color = util.A1Color;
 import * as lodash from "lodash";
+import A1Color = util.A1Color;
 
 export class CapturedImage {
   private _name: string = undefined
@@ -118,6 +118,10 @@ export class CapturedImage {
   root(): CapturedImage {
     if (this.parent) return this.parent.root()
     else return this
+  }
+
+  isFullScreen(): boolean {
+    return this.root() == this
   }
 
   getScreenSection(absolute_area: ScreenRectangle): CapturedImage {

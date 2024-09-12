@@ -22,7 +22,7 @@ import {C} from "../../../../lib/ui/constructors";
 import {TextRendering} from "../../TextRendering";
 import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
 import * as assert from "assert";
-import {AbstractCaptureService} from "../../../../lib/alt1/capture";
+import {AbstractCaptureService, CaptureInterval} from "../../../../lib/alt1/capture";
 import {MinimapReader} from "../../../../lib/alt1/readers/MinimapReader";
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import activate = TileArea.activate;
@@ -51,10 +51,8 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
 
     const self = this
 
-    this.minimap_interest = this.parent.app.minimapreader.subscribe(new class extends AbstractCaptureService.InterestToken<AbstractCaptureService.Options, MinimapReader.CapturedMinimap> {
+    this.minimap_interest = this.parent.app.minimapreader.subscribe(new class extends AbstractCaptureService.InterestToken<MinimapReader.Options, MinimapReader.CapturedMinimap> {
       protected handle(value: AbstractCaptureService.TimedValue<MinimapReader.CapturedMinimap>): void {
-        console.log("Read minimap")
-
         const minimap = value.value
 
         self.minimap_overlay.clear()
@@ -87,8 +85,8 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
         return false;
       }
 
-      options(): { tick_modulo: number } {
-        return {tick_modulo: 3};
+      options(): MinimapReader.Options {
+        return {interval: CaptureInterval.fromApproximateInterval(10), refind_interval: CaptureInterval.fromApproximateInterval(10_000)};
       }
     })
 

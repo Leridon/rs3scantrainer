@@ -5,9 +5,9 @@ import {ScreenRectangle} from "../ScreenRectangle";
 import {Ewent, ewent, EwentHandler} from "../../reactive";
 import {util} from "../../util/util";
 import {EwentHandlerPool} from "../../reactive/EwentHandlerPool";
+import {Log} from "../../util/Log";
 import todo = util.todo;
 import TimedValue = AbstractCaptureService.TimedValue;
-import {now} from "lodash";
 
 export type InterestedToken<InterestOptionsT extends AbstractCaptureService.Options = AbstractCaptureService.Options, ValueT = any> = {
   token: AbstractCaptureService.InterestToken<InterestOptionsT, ValueT>,
@@ -101,6 +101,8 @@ export abstract class AbstractCaptureService<
 }
 
 export namespace AbstractCaptureService {
+  import log = Log.log;
+
   export abstract class InterestToken<OptionsT extends Options = Options, ValueT = any> {
     public handler_pool: EwentHandlerPool = new EwentHandlerPool()
 
@@ -137,7 +139,14 @@ export namespace AbstractCaptureService {
 
     notify(value: TimedValue<ValueT, OptionsT>): void {
       this._last_notification = value
-      this.handle(value)
+
+      try {
+        this.handle(value)
+      } catch (e) {
+        if (e instanceof Error) {
+          log().log(e.toString(), "Capturing")
+        }
+      }
 
       if (this.isOneTime()) this.revoke()
     }

@@ -64,7 +64,7 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
         const transform =
           Transform.chain(
             Transform.translation(minimap.center()),
-            Transform.rotationRadians(-minimap.readCompass()),
+            Transform.rotationRadians(-minimap.compassAngle.get()),
             Transform.scale({x: scale, y: scale}),
           )
 

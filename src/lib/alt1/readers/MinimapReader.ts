@@ -1,5 +1,5 @@
 import {AbstractCaptureService, CapturedImage, DerivedCaptureService, InterestedToken, NeedleImage, ScreenCaptureService} from "../capture";
-import {async_lazy} from "../../properties/Lazy";
+import {async_lazy, lazy} from "../../properties/Lazy";
 import {OverlayGeometry} from "../OverlayGeometry";
 import {degreesToRadians, normalizeAngle, radiansToDegrees, Vector2} from "../../math";
 import {ScreenRectangle} from "../ScreenRectangle";
@@ -41,7 +41,7 @@ export class MinimapReader extends DerivedCaptureService<AbstractCaptureService.
         if (capturedMinimap) {
           capturedMinimap.debugOverlay(this.debug_overlay)
 
-          console.log(`Camera yaw: ${radiansToDegrees(capturedMinimap.readCompass())}°`)
+          console.log(`Camera yaw: ${radiansToDegrees(capturedMinimap.compassAngle.get())}°`)
         }
 
         this.debug_overlay.render()
@@ -51,7 +51,6 @@ export class MinimapReader extends DerivedCaptureService<AbstractCaptureService.
     } catch (e) {
       log().log(e)
     }
-
   }
 
   public initialized(): Promise<any> {
@@ -75,6 +74,7 @@ export namespace MinimapReader {
     private energy: CapturedImage
     private lodestone: CapturedImage
     private worldmap: CapturedImage
+    private midpoint: CapturedImage
 
     constructor(public readonly body: CapturedImage) {
       this.compass = body.getSubSection({
@@ -96,6 +96,11 @@ export namespace MinimapReader {
         origin: {x: body.size.x - 36, y: body.size.y - 37},
         size: {x: 26, y: 26}
       }).setName("Map")
+
+      this.midpoint = body.getSubSection({
+        origin: {x: ~~(body.size.x / 2) - 8, y: ~~(body.size.y / 2)},
+        size: {x: 16, y: 1}
+      }).setName("Map")
     }
 
     debugOverlay(overlay: OverlayGeometry = new OverlayGeometry()): OverlayGeometry {
@@ -113,10 +118,10 @@ export namespace MinimapReader {
     }
 
     refind(capture: CapturedImage): CapturedMinimap {
-      return new CapturedMinimap(capture.getSubSection(this.body.screen_rectangle))
+      return new CapturedMinimap(capture.getScreenSection(this.body.screen_rectangle))
     }
 
-    readCompass(): number {
+    public readonly compassAngle = lazy(() => {
       const buf = this.compass.getData()
 
       const angle_samples: number[] = []
@@ -150,10 +155,32 @@ export namespace MinimapReader {
       ))
 
       return average_angle + CALIBRATION
-    }
+    })
+
+    public readonly scale = lazy(() => {
+      const scan = this.midpoint.getData()
+
+      let count = 0
+
+      for (let x = ~~(scan.width / 2); x >= 0; x--) {
+        const pixel = (scan.getPixel(x, 0))
+
+        if (pixel[0] == 255 && pixel[1] == 255 && pixel[2] == 255) count++
+        else break
+      }
+
+      for (let x = ~~(scan.width / 2) + 1; x < scan.width; x++) {
+        const pixel = (scan.getPixel(x, 0))
+
+        if (pixel[0] == 255 && pixel[1] == 255 && pixel[2] == 255) count++
+        else break
+      }
+
+      return count / 3
+    })
 
     pixelPerTile(): number {
-      return 4 // TODO: Try to read zoom
+      return this.scale.get() * 4
     }
   }
 

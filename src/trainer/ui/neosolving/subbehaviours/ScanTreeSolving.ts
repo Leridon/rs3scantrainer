@@ -208,12 +208,6 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
       )
     )
 
-    {
-      new MethodSelector(this.parent, this.method.method.for)
-        .addClass("ctr-neosolving-solution-row")
-        .appendTo(this.tree_widget)
-    }
-
     let content = cls("ctr-neosolving-solution-row").appendTo(this.tree_widget)
 
     {

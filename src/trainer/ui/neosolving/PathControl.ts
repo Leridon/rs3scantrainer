@@ -313,12 +313,6 @@ export default class PathControl extends Behaviour {
 
     let w = c()
 
-    if (this.method) {
-      new MethodSelector(this.parent, this.method.method.for)
-        .addClass("ctr-neosolving-solution-row")
-        .appendTo(w)
-    }
-
     if (this.sectioned_path) {
       const section_control = new PathSectionControl(
         this.sectioned_path,

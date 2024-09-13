@@ -28,8 +28,6 @@ export class MinimapReader extends DerivedCaptureService<MinimapReader.Options, 
 
       this.capture_interest = this.addDataSource(capture_service, (time, child_options) => {
 
-        if(child_options.length > 0) debugger
-
         if (!this.raw_last_capture?.value || child_options.some(o => o.refind_interval?.matches(time)) || this.minimum_refind_interval.matches(time)) {
           // Do a full capture to refind
 

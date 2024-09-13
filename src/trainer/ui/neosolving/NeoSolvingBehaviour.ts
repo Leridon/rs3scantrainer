@@ -89,10 +89,10 @@ class NeoSolvingLayer extends GameLayer {
       new NeoSolvingLayer.MainControlBar(behaviour),
       this.clue_container = c(),
       this.solution_container = c(),
-      this.scantree_container = c(),
       this.compass_container = c(),
-      this.path_container = c(),
       this.method_selection_container = c(),
+      this.scantree_container = c(),
+      this.path_container = c(),
     )
 
     this.scan_layer = new ScanEditLayer([]).addTo(this)
@@ -861,7 +861,9 @@ export default class NeoSolvingBehaviour extends Behaviour {
       } else if (method.method.type == "general_path") {
         this.path_control.setMethod(method as AugmentedMethod<GenericPathMethod>)
       }
-    } else if ((this.state.step?.clue?.step?.type != "compass") || (active_behaviour instanceof CompassSolving && active_behaviour.selected_spot.value())) {
+    }
+
+    if ((this.state.step?.clue?.step?.type != "compass") || (active_behaviour instanceof CompassSolving && active_behaviour.selected_spot.value())) {
 
       const clue: ClueSpot.Id = active_behaviour instanceof CompassSolving
         ? {clue: this.state.step.clue.step.id, spot: active_behaviour.selected_spot.value().spot}

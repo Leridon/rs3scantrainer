@@ -1793,7 +1793,7 @@ input[type=checkbox] + span {
 }
 
 .ctr-neosolving-sidebar > *:not(:empty) {
-    margin-bottom: 5px;
+    margin-bottom: 3px;
     border-radius: 5px;
     background-color: rgba(10, 31, 41, 0.85);
     border: 1px solid rgba(5, 56, 66, 0.6);

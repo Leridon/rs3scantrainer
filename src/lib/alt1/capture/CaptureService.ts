@@ -1,11 +1,12 @@
 import {Process} from "../../Process";
 import {CapturedImage} from "./CapturedImage";
 import {ScreenRectangle} from "../ScreenRectangle";
-import {Ewent, ewent, EwentHandler} from "../../reactive";
+import {Ewent, ewent} from "../../reactive";
 import {util} from "../../util/util";
-import {EwentHandlerPool} from "../../reactive/EwentHandlerPool";
 import {Log} from "../../util/Log";
 import * as lodash from "lodash";
+import {LifetimeManager} from "../../lifetime/LifetimeManager";
+import {LifetimeManaged} from "../../lifetime/LifetimeManaged";
 import todo = util.todo;
 import TimedValue = AbstractCaptureService.TimedValue;
 import CaptureTime = AbstractCaptureService.CaptureTime;
@@ -23,20 +24,38 @@ export abstract class AbstractCaptureService<
   protected interests: AbstractCaptureService.InterestToken<InterestOptionsT, ValueT>[] = []
   protected raw_last_capture: TimedValue<ValueT, InterestOptionsT> = undefined
 
-  subscribe<ActualInterestOptionsT extends InterestOptionsT>(token: AbstractCaptureService.InterestToken<ActualInterestOptionsT, ValueT>,
-                                                             f: (_: this) => EwentHandler<any>[] = () => []
+  subscribe<ActualInterestOptionsT extends InterestOptionsT>(
+    token: AbstractCaptureService.InterestToken<ActualInterestOptionsT, ValueT> | AbstractCaptureService.ExportTokenExpression<InterestOptionsT, ActualInterestOptionsT, ValueT, this>
   ): AbstractCaptureService.InterestToken<InterestOptionsT, ValueT> {
 
-    this.interests.push(token)
+    const real_token: AbstractCaptureService.InterestToken<InterestOptionsT, ValueT> = (() => {
+      if (token instanceof AbstractCaptureService.InterestToken) return token
 
-    token.onKilled(() => {
-      const i = this.interests.indexOf(token)
+      return new class extends AbstractCaptureService.InterestToken<ActualInterestOptionsT, ValueT> {
+        protected handle(value: AbstractCaptureService.TimedValue<ValueT, ActualInterestOptionsT>): void {
+          token.handle?.(value)
+        }
+
+        isPaused(): boolean {
+          return token.paused?.() ?? false
+        }
+
+        options(time: AbstractCaptureService.CaptureTime): ActualInterestOptionsT | null {
+          return token.options(time);
+        }
+      }
+    })()
+
+    this.interests.push(real_token)
+
+    real_token.onKilled(() => {
+      const i = this.interests.indexOf(real_token)
       if (i >= 0) this.interests.splice(i, 1)
     })
 
-    token.handler_pool.bind(...f(this))
+    real_token.lifetime_manager.bind(...real_token.setupHandlers(this))
 
-    return token
+    return real_token
   }
 
   protected transformValueForNotification(options: InterestOptionsT,
@@ -104,8 +123,12 @@ export abstract class AbstractCaptureService<
 export namespace AbstractCaptureService {
   import log = Log.log;
 
-  export abstract class InterestToken<OptionsT extends Options = Options, ValueT = any> {
-    public handler_pool: EwentHandlerPool = new EwentHandlerPool()
+  export abstract class InterestToken<
+    OptionsT extends Options = Options,
+    ValueT = any,
+    ServiceT extends AbstractCaptureService<OptionsT, ValueT> = AbstractCaptureService<OptionsT, ValueT>> implements LifetimeManaged {
+
+    public lifetime_manager: LifetimeManager = new LifetimeManager()
 
     private killed_event = ewent<this>()
     private alive: boolean = true
@@ -113,7 +136,9 @@ export namespace AbstractCaptureService {
 
     constructor() {}
 
-    abstract isPaused(): boolean
+    isPaused(): boolean {
+      return false
+    }
 
     revoke() {
       if (!this.alive) return
@@ -121,7 +146,7 @@ export namespace AbstractCaptureService {
       this.alive = false
       this.killed_event.trigger(this)
 
-      this.handler_pool.kill()
+      this.lifetime_manager.kill()
     }
 
     onKilled(f: (_: this) => void): this {
@@ -155,6 +180,26 @@ export namespace AbstractCaptureService {
     lastNotification(): TimedValue<ValueT, OptionsT> {
       return this._last_notification
     }
+
+    setupHandlers(service: ServiceT): LifetimeManaged[] {
+      return []
+    }
+
+    endLifetime(): void {
+      this.revoke()
+    }
+  }
+
+  export type ExportTokenExpression<
+    OptionsT extends AbstractCaptureService.Options,
+    ActualOptionsT extends OptionsT,
+    ValueT,
+    ServiceT extends AbstractCaptureService<OptionsT, ValueT>
+  > = {
+    paused?: () => boolean,
+    handle?: (value: AbstractCaptureService.TimedValue<ValueT, ActualOptionsT>) => void,
+    options: (time: CaptureTime) => ActualOptionsT | null,
+    setup_handlers?: (service: ServiceT) => LifetimeManaged[]
   }
 
   export type Options = {
@@ -176,7 +221,7 @@ export namespace AbstractCaptureService {
 export abstract class DerivedCaptureService<
   InterestOptionsT extends AbstractCaptureService.Options = AbstractCaptureService.Options,
   ValueT = null
-> extends AbstractCaptureService<InterestOptionsT, ValueT> {
+> extends AbstractCaptureService<InterestOptionsT, ValueT> implements LifetimeManaged {
   private sources: {
     token: AbstractCaptureService.InterestToken,
     service: AbstractCaptureService<any, any>
@@ -253,6 +298,10 @@ export abstract class DerivedCaptureService<
   }
 
   abstract processNotifications(interested_tokens: InterestedToken<InterestOptionsT, ValueT>[]): ValueT
+
+  endLifetime(): void {
+    this.sources.forEach(t => t.token.revoke())
+  }
 }
 
 export namespace DerivedCaptureService {
@@ -262,7 +311,7 @@ export namespace DerivedCaptureService {
 }
 
 export class ScreenCaptureService extends AbstractCaptureService<
-  { area: ScreenRectangle, interval: CaptureInterval },
+  ScreenCaptureService.Options,
   CapturedImage
 > {
   private ticker: Process
@@ -292,8 +341,6 @@ export class ScreenCaptureService extends AbstractCaptureService<
             ...interested_in_this_tick.map(t => t?.area ?? {origin: {x: 0, y: 0}, size: {x: alt1.rsWidth, y: alt1.rsHeight}})
           )
 
-          console.log(`Tick ${time.tick}`)
-
           const capture = CapturedImage.capture(required_area)
 
           if (!capture) return undefined
@@ -313,6 +360,10 @@ export class ScreenCaptureService extends AbstractCaptureService<
   }>): CapturedImage {
     return options?.area ? raw_value.value.getScreenSection(options.area) : raw_value.value
   }
+}
+
+export namespace ScreenCaptureService {
+  export type Options = { area: ScreenRectangle, interval: CaptureInterval }
 }
 
 export class CaptureInterval {

@@ -1,7 +1,7 @@
 import Widget from "../Widget";
 import {ewent, observe} from "../../reactive";
-import {EwentHandlerPool} from "../../reactive/EwentHandlerPool";
 import * as jquery from "jquery";
+import {LifetimeManager} from "../../lifetime/LifetimeManager";
 
 export default class Button extends Widget {
   clicked = ewent<JQuery.ClickEvent>()
@@ -48,7 +48,7 @@ export default class Button extends Widget {
     return this
   }
 
-  onClick(handler: (_: JQuery.ClickEvent) => any, pool: EwentHandlerPool = null): this {
+  onClick(handler: (_: JQuery.ClickEvent) => any, pool: LifetimeManager = null): this {
     let h = this.clicked.on(handler)
     pool?.bind(h)
 

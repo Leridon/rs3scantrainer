@@ -356,7 +356,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
             this.entries.forEach(e => e.widget.setPreviewAngle(is_state?.state == "normal" ? is_state.angle : null))
           }
         }
-      }, h => h.bindTo(this.handler_pool))
+      }, h => h.bindTo(this.lifetime_manager))
     }
   }
 
@@ -886,7 +886,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       } else {
         this.commit(undefined, true)
       }
-    }).bindTo(this.handler_pool)
+    }).bindTo(this.lifetime_manager)
 
     this.renderWidget()
 

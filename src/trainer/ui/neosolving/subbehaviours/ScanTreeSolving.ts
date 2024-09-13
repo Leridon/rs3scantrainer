@@ -10,7 +10,6 @@ import {Rectangle, Transform, Vector2} from "../../../../lib/math";
 import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
 import {ScanRegionPolygon} from "../ScanLayer";
 import {PathStepEntity} from "../../map/entities/PathStepEntity";
-import MethodSelector from "../MethodSelector";
 import {Scans} from "../../../../lib/runescape/clues/scans";
 import PulseButton, {PulseIcon} from "../PulseButton";
 import NeoSolvingBehaviour from "../NeoSolvingBehaviour";
@@ -22,8 +21,9 @@ import {C} from "../../../../lib/ui/constructors";
 import {TextRendering} from "../../TextRendering";
 import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
 import * as assert from "assert";
-import {AbstractCaptureService, CaptureInterval} from "../../../../lib/alt1/capture";
+import {AbstractCaptureService, CapturedImage, CaptureInterval, DerivedCaptureService, InterestedToken, ScreenCaptureService} from "../../../../lib/alt1/capture";
 import {MinimapReader} from "../../../../lib/alt1/readers/MinimapReader";
+import {CapturedScan} from "../cluereader/capture/CapturedScan";
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import activate = TileArea.activate;
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
@@ -33,6 +33,44 @@ import span = C.span;
 import spotNumber = ScanTree.spotNumber;
 import over = OverlayGeometry.over;
 import index = util.index;
+
+class ScanCaptureService extends DerivedCaptureService<ScanCaptureService.Options, CapturedScan> {
+
+  private capture_interest: AbstractCaptureService.InterestToken<ScreenCaptureService.Options, CapturedImage>
+
+  constructor(private capture_service: ScreenCaptureService, private original_captured_interface: CapturedScan | null) {
+    super()
+
+    this.capture_interest = this.addDataSource(capture_service, () => {
+      return {
+        area: this.original_captured_interface.body.screen_rectangle,
+        interval: null
+      }
+    })
+  }
+
+  processNotifications(interested_tokens: InterestedToken<ScanCaptureService.Options, CapturedScan>[]): CapturedScan {
+    const capture = this.capture_interest.lastNotification()
+
+    if (this.original_captured_interface) {
+      const updated = this.original_captured_interface.updated(capture.value)
+
+      if (interested_tokens.some(t => t.options.show_overlay)) {
+
+      }
+
+      return updated
+    } else {
+      return null
+    }
+  }
+}
+
+namespace ScanCaptureService {
+  export type Options = AbstractCaptureService.Options & {
+    show_overlay?: boolean
+  }
+}
 
 export class ScanTreeSolving extends NeoSolvingSubBehaviour {
   node: ScanTree.Augmentation.AugmentedScanTreeNode = null
@@ -50,45 +88,6 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
     super(parent, "method")
 
     const self = this
-
-    this.minimap_interest = this.parent.app.minimapreader.subscribe(new class extends AbstractCaptureService.InterestToken<MinimapReader.Options, MinimapReader.CapturedMinimap> {
-      protected handle(value: AbstractCaptureService.TimedValue<MinimapReader.CapturedMinimap>): void {
-        const minimap = value.value
-
-        self.minimap_overlay.clear()
-
-        const scale = (self.method.method.tree.assumed_range * 2 + 1) * value.value.pixelPerTile() / 2
-
-        const transform =
-          Transform.chain(
-            Transform.translation(minimap.center()),
-            Transform.rotationRadians(-minimap.compassAngle.get()),
-            Transform.scale({x: scale, y: scale}),
-          )
-
-        const unit_square: Vector2[] = [
-          {x: 1, y: 1},
-          {x: 1, y: -1},
-          {x: -1, y: -1},
-          {x: -1, y: 1},
-        ]
-
-        self.minimap_overlay.polyline(
-          unit_square.map(v => Vector2.transform_point(v, transform)),
-          true
-        )
-
-        self.minimap_overlay.render()
-      }
-
-      isPaused(): boolean {
-        return false;
-      }
-
-      options(): MinimapReader.Options {
-        return {interval: CaptureInterval.fromApproximateInterval(10), refind_interval: CaptureInterval.fromApproximateInterval(10_000)};
-      }
-    })
 
     /*interest.onRead(minimap => {
       console.log("Read minimap")
@@ -284,6 +283,48 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
     this.tree_widget = c().appendTo(this.parent.layer.scantree_container)
     this.layer = leaflet.featureGroup().addTo(this.parent.layer.scan_layer)
 
+    const self = this
+
+    this.lifetime_manager.bind(
+      this.minimap_interest = this.parent.app.minimapreader.subscribe({
+        options: (time: AbstractCaptureService.CaptureTime) => ({
+          interval: CaptureInterval.fromApproximateInterval(10),
+          refind_interval: CaptureInterval.fromApproximateInterval(10_000)
+        }),
+        handle: (value: AbstractCaptureService.TimedValue<MinimapReader.CapturedMinimap>) => {
+          const minimap = value.value
+
+          self.minimap_overlay.clear()
+
+          const scale = (self.method.method.tree.assumed_range * 2 + 1) * value.value.pixelPerTile() / 2
+
+          const transform =
+            Transform.chain(
+              Transform.translation(minimap.center()),
+              Transform.rotationRadians(-minimap.compassAngle.get()),
+              Transform.scale({x: scale, y: scale}),
+            )
+
+          const unit_square: Vector2[] = [
+            {x: 1, y: 1},
+            {x: 1, y: -1},
+            {x: -1, y: -1},
+            {x: -1, y: 1},
+          ]
+
+          self.minimap_overlay.polyline(
+            unit_square.map(v => Vector2.transform_point(v, transform)),
+            true
+          )
+
+          self.minimap_overlay.render()
+        }
+      }),
+      new ScanCaptureService(this.parent.app.capture_service2, null).subscribe({
+        options: () => ({interval: CaptureInterval.fromApproximateInterval(100)})
+      })
+    )
+
     this.setNode(this.augmented.root_node)
   }
 
@@ -299,8 +340,6 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
       this.layer.remove()
       this.layer = null
     }
-
-    this.minimap_interest.revoke()
 
     this.minimap_overlay?.clear()
     this.minimap_overlay?.render()

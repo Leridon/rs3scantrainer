@@ -118,6 +118,10 @@ export class CapturedScan {
     )
   }
 
+  updated(capture: CapturedImage): CapturedScan {
+    return new CapturedScan(capture.getScreenSection(this.body.screen_rectangle))
+  }
+
   static async find(screen: CapturedImage): Promise<CapturedScan> {
     const anchor_images = await CapturedScan.anchors.get()
 

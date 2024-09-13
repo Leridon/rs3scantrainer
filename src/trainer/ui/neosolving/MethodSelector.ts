@@ -6,11 +6,11 @@ import {AugmentedMethod, MethodPackManager} from "../../model/MethodPackManager"
 import {C} from "../../../lib/ui/constructors";
 import {AbstractDropdownSelection} from "../widgets/AbstractDropdownSelection";
 import {Clues} from "../../../lib/runescape/clues";
+import {MethodProperties} from "../MethodProperties";
 import spacer = C.spacer;
 import span = C.span;
 import hbox = C.hbox;
 import ClueSpot = Clues.ClueSpot;
-import {MethodProperties} from "../MethodProperties";
 
 export default class MethodSelector extends Widget {
   public method: Observable<AugmentedMethod>
@@ -77,18 +77,20 @@ export default class MethodSelector extends Widget {
 
   private async openMethodSelection() {
     if (!this.dropdown) {
+      const favourite = await this.parent.app.favourites.getMethod(this.clue)
+
       this.dropdown = new AbstractDropdownSelection.DropDown<AugmentedMethod>({
         dropdownClass: "ctr-neosolving-favourite-dropdown",
         renderItem: m => {
           if (!m) {
             return hbox(
-              new FavouriteIcon().set(m == this.parent.active_method),
+              new FavouriteIcon().set(!favourite),
               span("None"),
               spacer()
             )
           } else {
             return hbox(
-              new FavouriteIcon().set(m == this.parent.active_method),
+              new FavouriteIcon().set(favourite && m.method.id == favourite.method.id),
               this.renderName(m),
               spacer()
             ).addTippy(new MethodProperties(m))

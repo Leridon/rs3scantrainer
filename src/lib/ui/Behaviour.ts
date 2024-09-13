@@ -3,14 +3,14 @@
     - Does every Behaviour connect to the application in some way? YES, via its parents.
     - Ressources used by the behaviour must be available via its constructor OR via its parent
     - Is the parent set on construction or on start()? Construction
-
  */
 
-import {EwentHandlerPool} from "../reactive/EwentHandlerPool";
 import {ewent, Observable, observe} from "../reactive";
+import {LifetimeManager} from "../lifetime/LifetimeManager";
+import {LifetimeManaged} from "../lifetime/LifetimeManaged";
 
-export default abstract class Behaviour {
-  public handler_pool: EwentHandlerPool = new EwentHandlerPool()
+export default abstract class Behaviour implements LifetimeManaged{
+  public lifetime_manager: LifetimeManager = new LifetimeManager()
   private _subBehaviours: Behaviour[] = []
 
   public started = ewent<null>()
@@ -46,7 +46,7 @@ export default abstract class Behaviour {
   stop() {
     this._subBehaviours.forEach(c => c.stop())
 
-    this.handler_pool.kill()
+    this.lifetime_manager.kill()
 
     if (this._started) {
       this._started = false
@@ -66,6 +66,10 @@ export default abstract class Behaviour {
   public onStop(f: () => any): this {
     this.stopped.on(f)
     return this
+  }
+
+  endLifetime(): void {
+    this.stop()
   }
 }
 

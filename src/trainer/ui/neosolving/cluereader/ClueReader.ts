@@ -291,12 +291,6 @@ export class ClueReader {
         const scan = await CapturedScan.find(img)
 
         if (scan) {
-          console.log("New Log")
-          console.log(scan.text())
-          console.log(`Meerkats: ${scan.hasMeerkats()}`)
-          console.log(`Different Level: ${scan.isDifferentLevel()}`)
-          console.log(`Triple: ${scan.isTriple()}`)
-
           const scan_text = scan.scanArea()
 
           if (CLUEREADERDEBUG)

@@ -122,43 +122,6 @@ export class CapturedScan {
   updated(capture: CapturedImage): CapturedScan {
     return new CapturedScan(capture.getScreenSection(this.body.screen_rectangle))
   }
-
-  static async find(screen: CapturedImage): Promise<CapturedScan> {
-    const anchor_images = await CapturedScan.anchors.get()
-
-    const anchors: {
-      img: ImageData,
-      origin_offset: Vector2
-    }[] = [{
-      img: anchor_images.scanfartext,
-      origin_offset: {x: -20, y: 5 - 12 * 4}
-    }, {
-      img: anchor_images.orbglows,
-      origin_offset: {x: -21, y: 5 - 12 * 4}
-    }, {
-      img: anchor_images.scanleveltext,
-      origin_offset: {x: -20, y: 7 - 12 * 4}
-    }]
-
-    const found_body = await (async (): Promise<CapturedImage> => {
-      for (let anchor of anchors) {
-        let locs = screen.find(anchor.img)
-
-        if (locs.length > 0) {
-          return screen.getSubSection(
-            ScreenRectangle.move(locs[0].screenRectangle(),
-              anchor.origin_offset,
-              {x: 180, y: 190}
-            )
-          )
-        }
-      }
-    })()
-
-    if (!found_body) return
-
-    return new CapturedScan(found_body)
-  }
 }
 
 export namespace CapturedScan {

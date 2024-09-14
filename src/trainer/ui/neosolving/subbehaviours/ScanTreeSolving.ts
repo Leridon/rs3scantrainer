@@ -40,8 +40,6 @@ import async_init = util.async_init;
 import A1Color = util.A1Color;
 
 class ScanCaptureService extends DerivedCaptureService<ScanCaptureService.Options, CapturedScan> {
-  private debug_overlay = over()
-
   private capture_interest: AbstractCaptureService.InterestToken<ScreenCaptureService.Options, CapturedImage>
   private interface_finder: Finder<CapturedScan>
   public readonly initialization: AsyncInitialization
@@ -66,6 +64,7 @@ class ScanCaptureService extends DerivedCaptureService<ScanCaptureService.Option
     const capture = this.capture_interest.lastNotification()
 
     if (this.original_captured_interface) {
+      // TODO: This does not work because the text can shift vertically and needs to be realigned after recapturing
       const updated = this.original_captured_interface.updated(capture.value)
 
       return updated

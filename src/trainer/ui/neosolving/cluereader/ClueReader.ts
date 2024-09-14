@@ -24,6 +24,7 @@ import {CapturedCompass} from "./capture/CapturedCompass";
 import {Log} from "../../../../lib/util/Log";
 import {CelticKnots} from "../../../../lib/cluetheory/CelticKnots";
 import {CapturedScan} from "./capture/CapturedScan";
+import {Finder} from "../../../../lib/alt1/capture/Finder";
 import stringSimilarity = util.stringSimilarity;
 import notification = Notification.notification;
 import findBestMatch = util.findBestMatch;
@@ -31,6 +32,8 @@ import SliderState = Sliders.SliderState;
 import log = Log.log;
 import cleanedJSON = util.cleanedJSON;
 import ScanStep = Clues.ScanStep;
+import async_init = util.async_init;
+import AsyncInitialization = util.AsyncInitialization;
 
 const CLUEREADERDEBUG = false
 
@@ -38,24 +41,19 @@ let CLUEREADER_DEBUG_OVERLAY: OverlayGeometry = null
 
 export class ClueReader {
 
-  private initialized: Promise<void>
+  public readonly initialization: AsyncInitialization
 
-  anchors: {
-    scanleveltext: ImageData;
-    scanfartext: ImageData;
-    orbglows: ImageData;
-  }
+  private scan_finder: Finder<CapturedScan>
 
   constructor(public tetracompass_only: boolean) {
-    this.initialized = this.init()
-  }
 
-  async init() {
-    this.anchors = await AnchorImages.getAnchorImages()
+    this.initialization = async_init(async () => {
+      this.scan_finder = await CapturedScan.finder.get()
+    })
   }
 
   async read(img: CapturedImage): Promise<ClueReader.Result> {
-    await this.initialized
+    await this.initialization.wait()
 
     if (CLUEREADERDEBUG) {
       if (!CLUEREADER_DEBUG_OVERLAY) CLUEREADER_DEBUG_OVERLAY = new OverlayGeometry().withTime(5000)
@@ -288,7 +286,7 @@ export class ClueReader {
 
       // Check for scan
       {
-        const scan = await CapturedScan.find(img)
+        const scan = this.scan_finder.find(img)
 
         if (scan) {
           const scan_text = scan.scanArea()

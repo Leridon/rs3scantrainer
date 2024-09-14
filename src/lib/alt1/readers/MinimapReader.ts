@@ -5,6 +5,7 @@ import {degreesToRadians, normalizeAngle, radiansToDegrees, Vector2} from "../..
 import {ScreenRectangle} from "../ScreenRectangle";
 import * as lodash from "lodash";
 import {Log} from "../../util/Log";
+import {Finder} from "../capture/Finder";
 import over = OverlayGeometry.over;
 import log = Log.log;
 
@@ -14,7 +15,7 @@ export class MinimapReader extends DerivedCaptureService<MinimapReader.Options, 
   private debug_mode: boolean = false
 
   private capture_interest: AbstractCaptureService.InterestToken<any, CapturedImage>
-  private finder: MinimapReader.CapturedMinimap.Finder
+  private finder: Finder<MinimapReader.CapturedMinimap>
 
   private minimum_refind_interval: CaptureInterval = CaptureInterval.fromApproximateInterval(10_000)
 
@@ -207,14 +208,10 @@ export namespace MinimapReader {
   }
 
   export namespace CapturedMinimap {
-    export interface Finder {
-      find(img: CapturedImage): CapturedMinimap
-    }
-
-    export const finder = async_lazy<Finder>(async () => {
+    export const finder = async_lazy<Finder<CapturedMinimap>>(async () => {
       const imgs = await CapturedMinimap.anchors.get()
 
-      return new class implements Finder {
+      return new class implements Finder<CapturedMinimap> {
 
         find(img: CapturedImage): CapturedMinimap {
 

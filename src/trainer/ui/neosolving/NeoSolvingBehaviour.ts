@@ -42,6 +42,7 @@ import {LockboxSolving} from "./subbehaviours/LockboxSolving";
 import {TowersSolving} from "./subbehaviours/TowersSolving";
 import {Log} from "../../../lib/util/Log";
 import * as assert from "assert";
+import {CapturedScan} from "./cluereader/capture/CapturedScan";
 import span = C.span;
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import interactionMarker = RenderingUtility.interactionMarker;
@@ -809,8 +810,10 @@ export default class NeoSolvingBehaviour extends Behaviour {
    * Builds the necessary ui elements and potentially zooms to the start point.
    *
    * @param method
+   * @param read_result
    */
-  setMethod(method: AugmentedMethod): void {
+  setMethod(method: AugmentedMethod, read_result: ClueReader.Result = null): void {
+    log().log(`Setting method ${method ? method.method.name : "null"}`)
 
     if (method) {
       log().log(`Setting method to ${method.method.name} (${method.method.id.substring(0, 8)})`, "Solving")
@@ -855,8 +858,16 @@ export default class NeoSolvingBehaviour extends Behaviour {
       this.active_method = method
 
       if (method.method.type == "scantree") {
+        const scan_interface: CapturedScan = (() => {
+          if (read_result) {
+            assert(read_result.type == "scan")
+
+            return read_result.scan_interface
+          } else return null
+        })()
+
         this.activateSubBehaviour(
-          new ScanTreeSolving(this, method as AugmentedMethod<ScanTreeMethod, Clues.Scan>)
+          new ScanTreeSolving(this, method as AugmentedMethod<ScanTreeMethod, Clues.Scan>, scan_interface)
         )
       } else if (method.method.type == "general_path") {
         this.path_control.setMethod(method as AugmentedMethod<GenericPathMethod>)
@@ -894,7 +905,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
     let m = await this.getAutomaticMethod({clue: step.step.id})
 
     this.setClue(step, !m, read_result)
-    this.setMethod(m)
+    this.setMethod(m, read_result)
   }
 
   /**

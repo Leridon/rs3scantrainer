@@ -24,6 +24,7 @@ import * as assert from "assert";
 import {AbstractCaptureService, CapturedImage, CaptureInterval, DerivedCaptureService, InterestedToken, ScreenCaptureService} from "../../../../lib/alt1/capture";
 import {MinimapReader} from "../../../../lib/alt1/readers/MinimapReader";
 import {CapturedScan} from "../cluereader/capture/CapturedScan";
+import {Finder} from "../../../../lib/alt1/capture/Finder";
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import activate = TileArea.activate;
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
@@ -33,19 +34,29 @@ import span = C.span;
 import spotNumber = ScanTree.spotNumber;
 import over = OverlayGeometry.over;
 import index = util.index;
+import AsyncInitialization = util.AsyncInitialization;
+import async_init = util.async_init;
 
 class ScanCaptureService extends DerivedCaptureService<ScanCaptureService.Options, CapturedScan> {
+  private debug_overlay = over()
 
   private capture_interest: AbstractCaptureService.InterestToken<ScreenCaptureService.Options, CapturedImage>
+  private interface_finder: Finder<CapturedScan>
+  public readonly initialization: AsyncInitialization
 
   constructor(private capture_service: ScreenCaptureService, private original_captured_interface: CapturedScan | null) {
     super()
 
+
     this.capture_interest = this.addDataSource(capture_service, () => {
       return {
         area: this.original_captured_interface.body.screen_rectangle,
-        interval: null
+        interval: null,
       }
+    })
+
+    this.initialization = async_init(async () => {
+      this.interface_finder = await CapturedScan.finder.get()
     })
   }
 
@@ -55,13 +66,19 @@ class ScanCaptureService extends DerivedCaptureService<ScanCaptureService.Option
     if (this.original_captured_interface) {
       const updated = this.original_captured_interface.updated(capture.value)
 
-      if (interested_tokens.some(t => t.options.show_overlay)) {
+      this.debug_overlay.clear()
 
-      }
+      updated.body.setName("Scan").debugOverlay(this.debug_overlay)
+
+      this.debug_overlay.render()
 
       return updated
-    } else {
-      return null
+    } else if (this.initialization.isInitialized()) {
+      const ui = this.interface_finder.find(capture.value)
+
+      if (ui) this.original_captured_interface = ui
+
+      return ui
     }
   }
 }
@@ -82,9 +99,13 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
   private minimap_overlay: OverlayGeometry = over()
 
   private minimap_interest: AbstractCaptureService.InterestToken<AbstractCaptureService.Options, MinimapReader.CapturedMinimap>
+  private scan_capture_service: ScanCaptureService
+  private scan_capture_interest: AbstractCaptureService.InterestToken<ScanCaptureService.Options, CapturedScan>
 
   constructor(parent: NeoSolvingBehaviour,
-              public method: AugmentedMethod<ScanTreeMethod, Clues.Scan>) {
+              public method: AugmentedMethod<ScanTreeMethod, Clues.Scan>,
+              private original_interface_capture: CapturedScan
+  ) {
     super(parent, "method")
 
     const self = this
@@ -288,7 +309,7 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
     this.lifetime_manager.bind(
       this.minimap_interest = this.parent.app.minimapreader.subscribe({
         options: (time: AbstractCaptureService.CaptureTime) => ({
-          interval: CaptureInterval.fromApproximateInterval(10),
+          interval: CaptureInterval.fromApproximateInterval(100),
           refind_interval: CaptureInterval.fromApproximateInterval(10_000)
         }),
         handle: (value: AbstractCaptureService.TimedValue<MinimapReader.CapturedMinimap>) => {
@@ -320,7 +341,8 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
           self.minimap_overlay.render()
         }
       }),
-      new ScanCaptureService(this.parent.app.capture_service2, null).subscribe({
+      this.scan_capture_service = new ScanCaptureService(this.parent.app.capture_service2, this.original_interface_capture),
+      this.scan_capture_interest = this.scan_capture_service.subscribe({
         options: () => ({interval: CaptureInterval.fromApproximateInterval(100)})
       })
     )

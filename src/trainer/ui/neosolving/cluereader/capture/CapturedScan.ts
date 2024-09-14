@@ -1,13 +1,14 @@
-import {CapturedImage} from "../../../../../lib/alt1/capture";
+import {CapturedImage, NeedleImage} from "../../../../../lib/alt1/capture";
 import {Vector2} from "../../../../../lib/math";
 import {ImageDetect} from "@alt1/base";
-import {Lazy, lazy, LazyAsync} from "../../../../../lib/properties/Lazy";
+import {async_lazy, Lazy, lazy, LazyAsync} from "../../../../../lib/properties/Lazy";
 import {ScreenRectangle} from "../../../../../lib/alt1/ScreenRectangle";
 import * as OCR from "@alt1/ocr";
 import {util} from "../../../../../lib/util/util";
 import * as lodash from "lodash"
 import index = util.index;
 import stringSimilarity = util.stringSimilarity;
+import {Finder} from "../../../../../lib/alt1/capture/Finder";
 
 export class CapturedScan {
 
@@ -127,10 +128,8 @@ export class CapturedScan {
 
     const anchors: {
       img: ImageData,
-      origin_offset
-        :
-        Vector2
-    }    [] = [{
+      origin_offset: Vector2
+    }[] = [{
       img: anchor_images.scanfartext,
       origin_offset: {x: -20, y: 5 - 12 * 4}
     }, {
@@ -163,12 +162,52 @@ export class CapturedScan {
 }
 
 export namespace CapturedScan {
-  export const
-    anchors = new LazyAsync(async () => {
-      return {
-        scanleveltext: await ImageDetect.imageDataFromUrl("alt1anchors/differentlevel.png"),
-        scanfartext: await ImageDetect.imageDataFromUrl("alt1anchors/youaretofaraway.png"),
-        orbglows: await ImageDetect.imageDataFromUrl("alt1anchors/orbglows.png"),
+  export const finder = async_lazy<Finder<CapturedScan>>(async () => {
+    const anchor_images = await CapturedScan.anchors.get()
+
+    return new class implements Finder<CapturedScan> {
+      find(screen: CapturedImage): CapturedScan {
+        const anchors: {
+          img: ImageData,
+          origin_offset: Vector2
+        }[] = [{
+          img: anchor_images.scanfartext,
+          origin_offset: {x: -20, y: 5 - 12 * 4}
+        }, {
+          img: anchor_images.orbglows,
+          origin_offset: {x: -21, y: 5 - 12 * 4}
+        }, {
+          img: anchor_images.scanleveltext,
+          origin_offset: {x: -20, y: 7 - 12 * 4}
+        }]
+
+        const found_body = ((): CapturedImage => {
+          for (let anchor of anchors) {
+            let locs = screen.find(anchor.img)
+
+            if (locs.length > 0) {
+              return screen.getSubSection(
+                ScreenRectangle.move(locs[0].screenRectangle(),
+                  anchor.origin_offset,
+                  {x: 180, y: 190}
+                )
+              )
+            }
+          }
+        })()
+
+        if (!found_body) return
+
+        return new CapturedScan(found_body)
       }
-    })
+    }
+  })
+
+  export const anchors = new LazyAsync(async () => {
+    return {
+      scanleveltext: await ImageDetect.imageDataFromUrl("alt1anchors/differentlevel.png"),
+      scanfartext: await ImageDetect.imageDataFromUrl("alt1anchors/youaretofaraway.png"),
+      orbglows: await ImageDetect.imageDataFromUrl("alt1anchors/orbglows.png"),
+    }
+  })
 }

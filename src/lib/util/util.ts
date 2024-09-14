@@ -6,6 +6,7 @@ import {levenshteinEditDistance} from "levenshtein-edit-distance";
 import {mixColor, unmixColor} from "@alt1/base";
 import {Vector2} from "../math";
 
+
 export namespace util {
 
   export function natural_join(a: any[], connector: string = "and"): string {
@@ -373,6 +374,29 @@ export namespace util {
     const date = new Date(timestamp)
 
     return `${padInteger(date.getHours(), 2)}:${padInteger(date.getMinutes(), 2)}:${padInteger(date.getSeconds(), 2)}.${padInteger(date.getMilliseconds(), 4)}`
+  }
+
+  export class AsyncInitialization {
+    private _is_initialized: boolean = false
+    private promise: Promise<any>
+
+    constructor(f: () => Promise<any>) {
+      this.promise = f().then(() => {
+        this._is_initialized = true
+      })
+    }
+
+    isInitialized(): boolean {
+      return this._is_initialized
+    }
+
+    wait(): Promise<any> {
+      return this.promise
+    }
+  }
+
+  export function async_init(f: () => Promise<any>) {
+    return new AsyncInitialization(f)
   }
 
   export async function delay(t: number): Promise<void> {

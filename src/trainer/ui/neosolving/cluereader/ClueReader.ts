@@ -308,7 +308,7 @@ export class ClueReader {
             }
           }
 
-          return {type: "scan", step: best}
+          return {type: "scan", step: best, scan_interface: scan}
         }
       }
     }
@@ -407,6 +407,7 @@ export namespace ClueReader {
 
     export type ScanClue = base & {
       type: "scan",
+      scan_interface: CapturedScan | null,
       step: Clues.Scan,
     }
 

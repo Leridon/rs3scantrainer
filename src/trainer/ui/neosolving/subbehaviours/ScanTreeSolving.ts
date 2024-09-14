@@ -25,6 +25,7 @@ import {AbstractCaptureService, CapturedImage, CaptureInterval, DerivedCaptureSe
 import {MinimapReader} from "../../../../lib/alt1/readers/MinimapReader";
 import {CapturedScan} from "../cluereader/capture/CapturedScan";
 import {Finder} from "../../../../lib/alt1/capture/Finder";
+import {ScreenRectangle} from "../../../../lib/alt1/ScreenRectangle";
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import activate = TileArea.activate;
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
@@ -36,6 +37,7 @@ import over = OverlayGeometry.over;
 import index = util.index;
 import AsyncInitialization = util.AsyncInitialization;
 import async_init = util.async_init;
+import A1Color = util.A1Color;
 
 class ScanCaptureService extends DerivedCaptureService<ScanCaptureService.Options, CapturedScan> {
   private debug_overlay = over()
@@ -66,12 +68,6 @@ class ScanCaptureService extends DerivedCaptureService<ScanCaptureService.Option
     if (this.original_captured_interface) {
       const updated = this.original_captured_interface.updated(capture.value)
 
-      this.debug_overlay.clear()
-
-      updated.body.setName("Scan").debugOverlay(this.debug_overlay)
-
-      this.debug_overlay.render()
-
       return updated
     } else if (this.initialization.isInitialized()) {
       const ui = this.interface_finder.find(capture.value)
@@ -95,6 +91,7 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
   layer: leaflet.FeatureGroup = null
 
   tree_widget: Widget
+  private scan_interface_overlay = over()
 
   private minimap_overlay: OverlayGeometry = over()
 
@@ -343,7 +340,45 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
       }),
       this.scan_capture_service = new ScanCaptureService(this.parent.app.capture_service2, this.original_interface_capture),
       this.scan_capture_interest = this.scan_capture_service.subscribe({
-        options: () => ({interval: CaptureInterval.fromApproximateInterval(100)})
+        options: () => ({interval: CaptureInterval.fromApproximateInterval(100)}),
+        handle: (scan2) => {
+          const scan = scan2.value
+          const rect = scan.screenRectangle()
+
+          this.scan_interface_overlay.clear()
+
+          this.scan_interface_overlay.rect2(rect, {
+            width: 1,
+            color: A1Color.fromHex("#FF0000"),
+          })
+
+          if (scan.isDifferentLevel()) {
+            this.scan_interface_overlay.rect2(ScreenRectangle.move(rect,
+              {x: 50, y: 220}, {x: 20, y: 20}
+            ), {
+              color: A1Color.fromHex("#8adc13"),
+              width: 2
+            })
+          }
+
+          this.scan_interface_overlay.rect2(ScreenRectangle.move(rect,
+            {x: 80, y: 220}, {x: 20, y: 20}
+          ), {
+            color: scan.isTriple() ? A1Color.fromHex("#FF0000") : A1Color.fromHex("#0000FF"),
+            width: 2
+          })
+
+          if (scan.hasMeerkats()) {
+            this.scan_interface_overlay.rect2(ScreenRectangle.move(rect,
+              {x: 110, y: 220}, {x: 20, y: 20}
+            ), {
+              color: A1Color.fromHex("#00ffff"),
+              width: 2
+            })
+          }
+
+          this.scan_interface_overlay.render()
+        }
       })
     )
 

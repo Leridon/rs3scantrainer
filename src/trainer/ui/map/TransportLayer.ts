@@ -17,7 +17,7 @@ export default class TransportLayer extends GameLayer {
   }) {
     super();
 
-    if (config.teleport_policy == "all") {
+    if (config.teleport_policy != "none") {
       deps().app.settings.active_teleport_customization.subscribe(customization => {
         this.eachEntity(e => {
           if (e instanceof TeleportSpotEntity) {

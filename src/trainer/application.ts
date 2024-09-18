@@ -296,7 +296,7 @@ namespace UpdateAlt1Modal {
   const earliest_reminder_time = new storage.Variable<number>("preferences/dontremindtoupdatealt1until", () => null)
 
   export async function maybeRemind(app: Application) {
-    if (alt1?.permissionInstalled && alt1.version == "1.5.6") {
+    if (window.alt1?.permissionInstalled && alt1.version == "1.5.6") {
 
       if (earliest_reminder_time.get() < Date.now()) {
         const reminder = await new UpdateAlt1Modal(app).do()

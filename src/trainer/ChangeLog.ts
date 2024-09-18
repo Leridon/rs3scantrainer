@@ -16,6 +16,16 @@ export namespace Changelog {
   }
 
   export const log: LogEntry[] = lodash.sortBy<LogEntry>([{
+    version: 9,
+    date: new Date(Date.parse("2024-09-18")),
+    title: "Bugfixes",
+    render: layout => {
+      layout.row(new List()
+        .item("Fixed a minor bug that caused an exception when outside of Alt 1.")
+        .item("Fixed a bug that caused teleport icons on the map to not update on changes to the settings, requiring a reload.")
+      )
+    }
+  }, {
     version: 8,
     date: new Date(Date.parse("2024-09-09")),
     title: "Migration and update notices",
@@ -269,10 +279,8 @@ export namespace Changelog {
     {
       version: -9,
       date: new Date(Date.parse("2024-06-02")),
-      title: "More compass improvements and a new URL",
+      title: "Small compass improvements",
       render: layout => {
-        layout.paragraph("Clue Trainer has a new URL. You can now access it at <a href='https://cluetrainer.app'>cluetrainer.app</a>. The links in the channel description, guide page, bot command etc. have been updated and any new installations should use that URL. Existing users can switch over if they want to, but should be aware that you will need to restore your settings, as well as local and imported method packs manually. The current URL will continue to work for the time being. When it's time for it to go offline (so I can finally rename the GitHub repository) there will be plenty of notice and a way to carry over your data.")
-
         layout.row(new List()
           .item("Tweaked pixel-count thresholds for concealed compasses to be less strict.")
           .item("Added some debug logging for the compass reader.")
@@ -337,8 +345,14 @@ export namespace Changelog {
         timeStyle: "short"
       })
 
-      layout.paragraph('You can support continuous development of Clue Trainer at <a href="https://ko-fi.com/I2I4XY829" target="_blank"><img class="ctr-clickable" height="12px" src="assets/icons/kofi.webp"> KoFi</a>.')
-      layout.paragraph('Join the <a href="https://discord.gg/cluechasers" target="_blank"><img src="assets/icons/cluechasers.png" height="12px">Clue Chasers discord</a> to leave praise and criticism, report issues, request features, get support or just come by and say hi in the <a href="https://discord.com/channels/332595657363685377/1103737270114209825" target="_blank">#clue-trainer</a> channel.')
+      layout.row(
+        "<div style='text-align: center'><a href='https://ko-fi.com/I2I4XY829' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi3.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a></div>"
+      )
+
+      layout.paragraph('If you enjoy Clue Trainer, please consider supporting continuous development of Clue Trainer at <a href="https://ko-fi.com/I2I4XY829" target="_blank"><img class="ctr-clickable" height="12px" src="assets/icons/kofi.webp"> KoFi</a>.')
+
+
+      layout.paragraph('You can also join the <a href="https://discord.gg/cluechasers" target="_blank"><img src="assets/icons/cluechasers.png" height="12px">Clue Chasers discord</a> to leave praise and criticism, report issues, request features, get support or just come by and say hi in the <a href="https://discord.com/channels/332595657363685377/1103737270114209825" target="_blank">#clue-trainer</a> channel.')
 
       layout.divider()
 

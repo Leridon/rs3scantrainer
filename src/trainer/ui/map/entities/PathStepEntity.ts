@@ -129,6 +129,7 @@ export class PathStepEntity extends MapEntity {
           const marker = leaflet.marker(Vector2.toLatLong(step.spot ?? teleport.centerOfTarget()), {
             icon: new TeleportSpotEntity.TeleportMapIcon(teleport, scale, w => w.addClass(cls)),
             riseOnHover: true,
+            zIndexOffset: 1,
             opacity
           }).addTo(this)
 

@@ -1,8 +1,8 @@
 import {NisModal} from "../lib/ui/NisModal";
 import Properties from "../trainer/ui/widgets/Properties";
 import LightButton from "../trainer/ui/widgets/LightButton";
-import {SliderBenchmarkModal} from "./SliderBenchmarking";
-import {PDBGeneratorModal, RegionIndexingModal, StateIndexBenchmarkWidget} from "./sliderdb/RegionEditor";
+import {SliderBenchmarkModal, SliderDataEntry} from "./SliderBenchmarking";
+import {PDBGeneratorModal, RegionIndexingModal} from "./sliderdb/RegionEditor";
 import {CompassReader} from "../trainer/ui/neosolving/cluereader/CompassReader";
 import {clue_trainer_test_set} from "../test/tests";
 import {PDBManager} from "../trainer/ui/neosolving/subbehaviours/SliderSolving";
@@ -11,6 +11,7 @@ import {ImportModal} from "../trainer/ui/widgets/modals/ImportModal";
 import {LogViewer} from "./LogViewer";
 import {Log} from "../lib/util/Log";
 import {deps} from "../trainer/dependencies";
+import {SliderShuffleAnalysis} from "./SliderShuffleAnalysis";
 
 
 export class DevelopmentModal extends NisModal {
@@ -61,6 +62,16 @@ export class DevelopmentModal extends NisModal {
     layout.row(new LightButton("Delete local pdbs", "rectangle")
       .onClick(() => {
         PDBManager.instance.get().clearCache()
+      })
+    )
+
+    layout.row(new LightButton("Analyze sliders", "rectangle")
+      .onClick(() => {
+        ImportModal.json(p => p as SliderDataEntry[],
+          data => {
+            new SliderShuffleAnalysis(data).show()
+          }
+        )
       })
     )
 

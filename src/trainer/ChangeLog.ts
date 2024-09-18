@@ -345,8 +345,14 @@ export namespace Changelog {
         timeStyle: "short"
       })
 
-      layout.paragraph('You can support continuous development of Clue Trainer at <a href="https://ko-fi.com/I2I4XY829" target="_blank"><img class="ctr-clickable" height="12px" src="assets/icons/kofi.webp"> KoFi</a>.')
-      layout.paragraph('Join the <a href="https://discord.gg/cluechasers" target="_blank"><img src="assets/icons/cluechasers.png" height="12px">Clue Chasers discord</a> to leave praise and criticism, report issues, request features, get support or just come by and say hi in the <a href="https://discord.com/channels/332595657363685377/1103737270114209825" target="_blank">#clue-trainer</a> channel.')
+      layout.row(
+        "<div style='text-align: center'><a href='https://ko-fi.com/I2I4XY829' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi3.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a></div>"
+      )
+
+      layout.paragraph('If you enjoy Clue Trainer, please consider supporting continuous development of Clue Trainer at <a href="https://ko-fi.com/I2I4XY829" target="_blank"><img class="ctr-clickable" height="12px" src="assets/icons/kofi.webp"> KoFi</a>.')
+
+
+      layout.paragraph('You can also join the <a href="https://discord.gg/cluechasers" target="_blank"><img src="assets/icons/cluechasers.png" height="12px">Clue Chasers discord</a> to leave praise and criticism, report issues, request features, get support or just come by and say hi in the <a href="https://discord.com/channels/332595657363685377/1103737270114209825" target="_blank">#clue-trainer</a> channel.')
 
       layout.divider()
 

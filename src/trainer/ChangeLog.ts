@@ -16,6 +16,16 @@ export namespace Changelog {
   }
 
   export const log: LogEntry[] = lodash.sortBy<LogEntry>([{
+    version: 9,
+    date: new Date(Date.parse("2024-09-18")),
+    title: "Bugfixes",
+    render: layout => {
+      layout.row(new List()
+        .item("Fixed a minor bug that caused an exception when outside of Alt 1.")
+        .item("Fixed a bug that caused teleport icons on the map to not update on changes to the settings, requiring a reload.")
+      )
+    }
+  },{
     version: 8,
     date: new Date(Date.parse("2024-09-09")),
     title: "Migration and update notices",

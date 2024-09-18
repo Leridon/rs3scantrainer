@@ -25,7 +25,7 @@ export namespace Changelog {
         .item("Fixed a bug that caused teleport icons on the map to not update on changes to the settings, requiring a reload.")
       )
     }
-  },{
+  }, {
     version: 8,
     date: new Date(Date.parse("2024-09-09")),
     title: "Migration and update notices",
@@ -279,10 +279,8 @@ export namespace Changelog {
     {
       version: -9,
       date: new Date(Date.parse("2024-06-02")),
-      title: "More compass improvements and a new URL",
+      title: "Small compass improvements",
       render: layout => {
-        layout.paragraph("Clue Trainer has a new URL. You can now access it at <a href='https://cluetrainer.app'>cluetrainer.app</a>. The links in the channel description, guide page, bot command etc. have been updated and any new installations should use that URL. Existing users can switch over if they want to, but should be aware that you will need to restore your settings, as well as local and imported method packs manually. The current URL will continue to work for the time being. When it's time for it to go offline (so I can finally rename the GitHub repository) there will be plenty of notice and a way to carry over your data.")
-
         layout.row(new List()
           .item("Tweaked pixel-count thresholds for concealed compasses to be less strict.")
           .item("Added some debug logging for the compass reader.")

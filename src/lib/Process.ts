@@ -1,5 +1,6 @@
 import {ewent} from "./reactive";
-import {delay} from "../skillbertssolver/oldlib";
+import {util} from "./util/util";
+import delay = util.delay;
 
 export abstract class Process<Result = void> {
   private finished_event = ewent<this>()

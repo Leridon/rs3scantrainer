@@ -340,12 +340,6 @@ class ClueSolvingReadingBehaviour extends Behaviour {
           }
 
           break;
-        case "legacy":
-          if (res?.step) {
-            this.parent.setClueWithAutomaticMethod(res.step, res)
-          }
-
-          break;
       }
     }
 

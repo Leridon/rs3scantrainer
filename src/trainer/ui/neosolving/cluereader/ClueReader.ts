@@ -3,9 +3,8 @@ import * as a1lib from "@alt1/base";
 import {ImgRef} from "@alt1/base";
 import {AnchorImages} from "./AnchorImages";
 import {Rectangle, Vector2} from "../../../../lib/math";
-import {ModalUI} from "../../../../skillbertssolver/cluesolver/modeluireader";
 import {util} from "../../../../lib/util/util";
-import {coldiff} from "../../../../skillbertssolver/oldlib";
+import {coldiff} from "../../../../skillbertssolver/cluesolver/oldlib";
 import * as OCR from "@alt1/ocr";
 import ClueFont from "./ClueFont";
 import * as oldlib from "../../../../skillbertssolver/cluesolver/oldlib";
@@ -443,7 +442,7 @@ export namespace ClueReader {
   export type UIType = "modal" | "scan" | "slider" | "compass"
 
   export type MatchedUI =
-    MatchedUI.Slider | MatchedUI.Modal | MatchedUI.Scan | MatchedUI.Compass
+    MatchedUI.Slider | MatchedUI.Scan | MatchedUI.Compass
 
   export namespace MatchedUI {
     export type Type = "modal" | "scan" | "slider" | "compass"
@@ -460,16 +459,12 @@ export namespace ClueReader {
 
     export type Scan = base & { type: "scan" }
     export type Compass = base & { type: "compass" }
-    export type Modal = base & {
-      type: "modal",
-      modal: ModalUI
-    }
   }
 
   export type ModalType = "towers" | "lockbox" | "textclue" | "knot" | "map"
 
   export namespace Result {
-    export type Kind = "textclue" | "legacy" | "scan" | "compass" | "puzzle"
+    export type Kind = "textclue" | "scan" | "compass" | "puzzle"
 
     export namespace Puzzle {
       export type Type = "slider" | "knot" | "tower" | "lockbox"
@@ -526,17 +521,9 @@ export namespace ClueReader {
       type: "puzzle",
       puzzle: Puzzle.Puzzle,
     }
-
-    export type Legacy = base & {
-      type: "legacy",
-      found_ui: MatchedUI,
-      puzzle?: Puzzle.Puzzle,
-      knot?: KnotReader.Result,
-      step?: Clues.StepWithTextIndex,
-    }
   }
 
-  export type Result = Result.TextClue | Result.Legacy | Result.ScanClue | Result.CompassClue | Result.Puzzle
+  export type Result = Result.TextClue | Result.ScanClue | Result.CompassClue | Result.Puzzle
 
 
   /**
@@ -575,17 +562,6 @@ export namespace ClueReader {
     }
 
     return lines.join(" ");
-  }
-
-  /**
-   * Get the image of an image clue from the modal as tiled data.
-   * Taken pretty much verbatim from skillbert's solver.
-   * @param modal The read modal
-   */
-  export function getImageClueImage(modal: CapturedModal): number[] {
-    let buf = modal.body.getData();
-
-    return oldlib.computeImageFingerprint(buf, 20, 20, 90, 25, 300, 240);
   }
 
   export function readScanPanelText(img: ImgRef, pos: Vector2) {

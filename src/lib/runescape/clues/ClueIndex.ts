@@ -1,4 +1,4 @@
-import {Clues} from "../clues";
+import {Clues, ClueTier, ClueType} from "../clues";
 import {TileCoordinates} from "../coordinates";
 import {Vector2} from "../../math";
 import ClueSpot = Clues.ClueSpot;
@@ -30,6 +30,10 @@ export class ClueIndex<T extends object = {}> {
       return v ? {...v, ...init()} : null
     }))
   }
+}
+
+export namespace ClueIndex {
+  export type TypeTierIndex<T> = Record<ClueTier, Record<ClueType, { clue: Clues.Step } & T>>
 }
 
 export class ClueSpotIndex<T> {

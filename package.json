@@ -1,6 +1,7 @@
 {
   "name": "cluetrainer",
   "scripts": {
+    "cloc": "cloc src/devtools src/lib src/test src/trainer",
     "build": "node -r ts-node/register ./node_modules/webpack/bin/webpack.js --node-env development",
     "build-production": "node -r ts-node/register ./node_modules/webpack/bin/webpack.js",
     "watch": "npm run build -- --watch",

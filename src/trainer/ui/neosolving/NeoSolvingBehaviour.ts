@@ -8,7 +8,7 @@ import Button from "../../../lib/ui/controls/Button";
 import TextField from "../../../lib/ui/controls/TextField";
 import {ExpansionBehaviour} from "../../../lib/ui/ExpansionBehaviour";
 import {AbstractDropdownSelection} from "../widgets/AbstractDropdownSelection";
-import {Clues} from "../../../lib/runescape/clues";
+import {Clues, ClueTier, ClueType} from "../../../lib/runescape/clues";
 import {clue_data} from "../../../data/clues";
 import PreparedSearchIndex from "../../../lib/util/PreparedSearchIndex";
 import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
@@ -924,6 +924,7 @@ export namespace NeoSolving {
   }
 
   export type Settings = {
+    general: Settings.General,
     info_panel: Settings.InfoPanel,
     puzzles: Settings.Puzzles,
     compass: CompassSolving.Settings
@@ -1047,7 +1048,22 @@ export namespace NeoSolving {
       }
     }
 
+    export type General = {
+      autopick_settings: [[ClueTier, ClueType], boolean][]
+    }
+
+    export namespace General {
+      export const DEFAULT: General = {}
+
+      export function normalize(settings: General): General {
+        if (!settings) return lodash.cloneDeep(DEFAULT)
+
+        return settings
+      }
+    }
+
     export const DEFAULT: Settings = {
+      general: General.DEFAULT,
       info_panel: InfoPanel.REDUCED,
       puzzles: Puzzles.DEFAULT,
       compass: CompassSolving.Settings.DEFAULT
@@ -1056,6 +1072,7 @@ export namespace NeoSolving {
     export function normalize(settings: Settings): Settings {
       if (!settings) settings = lodash.cloneDeep(DEFAULT)
 
+      settings.general = General.normalize(settings.general)
       settings.info_panel = InfoPanel.normalize(settings.info_panel)
       settings.puzzles = Puzzles.normalize(settings.puzzles)
       settings.compass = CompassSolving.Settings.normalize(settings.compass)

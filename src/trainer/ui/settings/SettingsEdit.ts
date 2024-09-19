@@ -57,6 +57,7 @@ import ExportStringModal from "../widgets/modals/ExportStringModal";
 import {DataExport} from "../../DataExport";
 import {ExportImport} from "../../../lib/util/exportString";
 import exp = ExportImport.exp;
+import img = C.img;
 
 class SettingsLayout extends Properties {
   constructor() {super();}
@@ -711,7 +712,7 @@ class TowersSettingsEdit extends Widget {
   }
 }
 
-class SolvingSettingsEdit extends Widget {
+class SolvingUISettingsEdit extends Widget {
 
   private layout: SettingsLayout
 
@@ -890,6 +891,52 @@ class SolvingSettingsEdit extends Widget {
     this.layout.paragraph("Choose which components of a clue step are displayed as interactive elements on the map while solving.")
     
      */
+  }
+}
+
+class SolvingGeneralSettingsEdit extends Widget {
+
+  private layout: SettingsLayout
+
+  constructor(private value: NeoSolving.Settings.General) {
+    super()
+
+    this.layout = new SettingsLayout().appendTo(this)
+
+    this.render()
+  }
+
+  render() {
+    this.layout.empty()
+
+    this.layout.header("Method Auto Selection")
+
+    this.layout.paragraph("Select which clue types a method (specific pathing) should be selected for automatically. If you are not interested in seeing paths on the map, deselect the respective intersection of clue type and clue tier, or disable all of them below.")
+
+    this.layout.row(hgrid(spacer(), c(), ...ClueTier.values.map(tier => inlineimg(ClueType.meta(tier).icon_url)), spacer()))
+    for (const type of ClueType.all) {
+      this.layout.row(hgrid(
+        spacer(),
+        inlineimg(ClueType.meta(type).icon_url),
+        ...ClueTier.values.map(tier => new Checkbox().setValue(true)),
+        spacer()
+      ))
+    }
+
+    this.layout.row(
+      hgrid(
+        new LightButton("Enable All"),
+        new LightButton("Disable All")
+      )
+    )
+
+    this.layout.divider()
+
+    this.layout.header("Reset Method Preferences")
+
+    this.layout.paragraph("This remove all of your manually selected method preferences for clue steps and revert back to the default according to the settings above.")
+
+    this.layout.row(new BigNisButton("Reset all custom method preferences", "cancel"))
   }
 }
 
@@ -1284,10 +1331,15 @@ export class SettingsEdit extends Widget {
     new SectionControl<SettingsEdit.section_id>([
       {
         name: "Solving", entries: [{
+          id: "general",
+          name: "General",
+          short_name: "General",
+          renderer: () => new SolvingGeneralSettingsEdit(this.value.solving.general)
+        }, {
           id: "info_panels",
           name: "Interface Customization",
           short_name: "Interface",
-          renderer: () => new SolvingSettingsEdit(this.value.solving.info_panel)
+          renderer: () => new SolvingUISettingsEdit(this.value.solving.info_panel)
         }, {
           id: "sliders",
           name: "Slider Puzzle Solving",

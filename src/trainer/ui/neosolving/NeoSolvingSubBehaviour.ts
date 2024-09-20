@@ -24,7 +24,7 @@ export abstract class NeoSolvingSubBehaviour<State extends NeoSolving.ActiveStat
   }
 
   endClue() {
-    this.parent?.reset()
+    this.parent?.reset(this._state)
     this.stop()
   }
 

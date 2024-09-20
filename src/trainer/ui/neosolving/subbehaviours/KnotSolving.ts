@@ -193,21 +193,6 @@ export class KnotSolving extends AbstractPuzzleSolving<
     return new KnotSolvingProcess(this)
   }
 
-  async resetProcess(start: boolean) {
-    if (this.process) {
-      this.process.stop()
-      this.process = null
-    }
-
-    if (start) {
-      this.process = new KnotSolvingProcess(this)
-      this.process.puzzle_closed.on(() => this.endClue())
-      this.process.run()
-    }
-
-    this.modal.update()
-  }
-
   protected begin() {
     super.begin()
     this.modal.setImage(this.knot.reader.relevant_body.getData())

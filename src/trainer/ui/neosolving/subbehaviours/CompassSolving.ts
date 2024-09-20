@@ -343,7 +343,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
       this.process.onChange((is_state, was_state) => {
         if (is_state?.state == "closed") {
-          this.endClue()
+          this.endClue("Compass Reader reported a closed compass")
         } else {
           if (was_state && this.settings.auto_commit_on_angle_change && is_state.state == "normal") {
             if (was_state.state == "spinning" ||

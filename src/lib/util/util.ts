@@ -367,4 +367,8 @@ export namespace util {
 
     return `${padInteger(date.getHours(), 2)}:${padInteger(date.getMinutes(), 2)}:${padInteger(date.getSeconds(), 2)}.${padInteger(date.getMilliseconds(), 4)}`
   }
+
+  export async function delay(t: number): Promise<void> {
+    return new Promise(done => setTimeout(done, t));
+  }
 }

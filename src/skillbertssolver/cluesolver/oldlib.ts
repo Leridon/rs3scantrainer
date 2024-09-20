@@ -4,9 +4,6 @@
  * Forked by Zyklop Marco with permission.
  */
 
-
-export {addzeros, spacednr} from "../oldlib";
-
 //calculates the average color of an area in a imagedata object
 //used in a1lib.tiledata
 export function coloravg(buf: ImageData, x: number, y: number, w: number, h: number) {
@@ -135,49 +132,9 @@ export function rgbtohsl(r: number | number[], g?: number, b?: number) {
   return [Math.round(h / 6 * 255), Math.round(s * 255), Math.round(l * 255)];
 }
 
-
-function strcompare(first: string, second: string) {
-  // Calculates the similarity between two strings
-  // discuss at: http://phpjs.org/functions/similar_text
-  first += '';
-  second += '';
-
-  var pos1 = 0,
-    pos2 = 0,
-    max = 0,
-    firstLength = first.length,
-    secondLength = second.length,
-    p, q, l, sum;
-
-  max = 0;
-
-  for (p = 0; p < firstLength; p++) {
-    for (q = 0; q < secondLength; q++) {
-      for (l = 0;
-           (p + l < firstLength) && (q + l < secondLength) && (first.charAt(p + l) === second.charAt(q + l)); l++) ;
-      if (l > max) {
-        max = l;
-        pos1 = p;
-        pos2 = q;
-      }
-    }
-  }
-
-  sum = max;
-
-  if (sum) {
-    if (pos1 && pos2) {
-      sum += strcompare(first.substr(0, pos2), second.substr(0, pos2));
-    }
-
-    if ((pos1 + max < firstLength) && (pos2 + max < secondLength)) {
-      sum += strcompare(first.substr(pos1 + max, firstLength - pos1 - max), second.substr(pos2 + max, secondLength - pos2 - max));
-    }
-  }
-
-  return sum;
-}
-
-export function strcomparescore(foundstring: string, templatestr: string) {
-  return (strcompare(foundstring.toLowerCase(), templatestr.toLowerCase()) - Math.abs(foundstring.length - templatestr.length) / 2) / foundstring.length;
+export function coldiff(r1: number, g1: number, b1: number, r2: number, g2: number, b2: number) {
+  var r3 = Math.abs(r1 - r2);
+  var g3 = Math.abs(g1 - g2);
+  var b3 = Math.abs(b1 - b2);
+  return r3 + g3 + b3;
 }

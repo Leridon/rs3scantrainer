@@ -23,8 +23,11 @@ export abstract class NeoSolvingSubBehaviour<State extends NeoSolving.ActiveStat
     this._state = state
   }
 
-  endClue() {
-    this.parent?.reset()
+  endClue(reason: string) {
+    if (this.parent?.reset(this._state)) {
+      log().log(`Ended clue from subbehaviour: ${reason}`, "NeoSolving")
+    }
+
     this.stop()
   }
 

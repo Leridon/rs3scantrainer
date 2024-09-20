@@ -193,12 +193,12 @@ namespace SectionControl {
 }
 
 class TeleportSettingsEdit extends Widget {
-  private layout: Properties
+  private layout: SettingsLayout
 
   constructor(private value: Settings.TeleportSettings) {
     super();
 
-    this.layout = new Properties().appendTo(this)
+    this.layout = new SettingsLayout().appendTo(this)
 
     this.render()
   }
@@ -206,9 +206,9 @@ class TeleportSettingsEdit extends Widget {
   render() {
     this.layout.empty()
 
-    this.layout.header("Owned Passages of the Abyss", "left")
+    this.layout.section("Owned Passages of the Abyss")
 
-    this.layout.paragraph("Save your owned passages of the abyss. You also need to select them in the loadout preset below for it to take effect.")
+    this.layout.paragraph("Setup your owned passages of the abyss. You also need to select them in the profile below for it to take effect.")
 
     for (let color of PotaColor.values) {
       const definition = this.value.potas.find(pota => pota.color == color)
@@ -251,15 +251,11 @@ class TeleportSettingsEdit extends Widget {
       }
     }
 
-    this.layout.divider()
-
-    this.layout.header("Presets", "left")
-
-    this.layout.paragraph("Setup presets to easily switch between.")
+    this.layout.section("Profiles", "Setup profiles to easily switch between.")
 
     const active_preset = this.value.presets.find(p => p.id == this.value.active_preset)
 
-    this.layout.header("Active Preset", "center", 1)
+    this.layout.setting("Active Profile", "Select the active profile to use and edit it.")
 
     this.layout.row(
       new DropdownSelection<any>({
@@ -383,14 +379,14 @@ class TeleportSettingsEdit extends Widget {
         )
     )
 
-    this.layout.named("POTAs",
+    this.layout.named("Passages",
       vbox(
         hgrid(pota_checks[0], pota_checks[1]),
         hgrid(pota_checks[2], pota_checks[3])
       )
     )
 
-    this.layout.header("Fairy Ring Favourites", "left", 1)
+    this.layout.setting("Fairy Ring Favourites", "Enter your favourite fairy rings to see their hotkey instead of their code on the map.")
 
     this.layout.row(new SlotLayout(active_preset.fairy_ring_favourites.map((e, i) => {
       return {
@@ -966,7 +962,7 @@ class CompassSettingsEdit extends Widget {
 
     this.layout.section("Smart Triangulation", "Configure advanced triangulation behaviour that reduces the need for manual input.")
 
-    this.layout.setting("Triangulation Presets", "Triangulation presets are used to automatically load triangulation spots whenever you receive a compass clue. This skips the need to manually select your teleports repeatedly.")
+    this.layout.setting("Active Triangulation Strategies", "Triangulation presets are used to automatically load triangulation spots whenever you receive a compass clue. This skips the need to manually select your teleports repeatedly.")
 
     for (const compass of clue_data.compass) {
       let binding = this.value.active_triangulation_presets.find(p => p.compass_id == compass.id)
@@ -999,7 +995,7 @@ class CompassSettingsEdit extends Widget {
       this.layout.named(hboxl(inlineimg(ClueType.meta(compass.tier).icon_url), lodash.capitalize(compass.tier)), preset_selector)
     }
 
-    this.layout.setting("Custom Presets", "You can create your own triangulation presets if none of the builtin presets fit your needs.")
+    this.layout.setting("Custom Strategies", "You can create your own triangulation presets if none of the builtin presets fit your needs. Don't forget to activate your custom preset in the section above.")
 
     type T = CompassSolving.TriangulationPreset | "create"
 

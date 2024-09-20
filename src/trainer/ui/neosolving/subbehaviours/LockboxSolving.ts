@@ -90,21 +90,6 @@ export class LockboxSolving extends AbstractPuzzleSolving<ClueReader.Result.Puzz
     return new LockboxSolvingProcess(this)
   }
 
-  async resetProcess(start: boolean) {
-    if (this.process) {
-      this.process.stop()
-      this.process = null
-    }
-
-    if (start) {
-      this.process = new LockboxSolvingProcess(this)
-      this.process.puzzle_closed.on(() => this.endClue())
-      this.process.run()
-    }
-
-    this.modal.update()
-  }
-
   protected begin() {
     super.begin();
 

@@ -535,16 +535,20 @@ export class Application extends Behaviour {
     const is_first_visit = this.startup_settings.value().last_loaded_version == null
 
     if (!is_first_visit && this.startup_settings.value().last_loaded_version != Changelog.latest_patch.version) {
-      const notifyable_update = lodash.findLast(Changelog.log, e => {
-        return e.notification && e.version > this.startup_settings.value().last_loaded_version
-      })
+      const unseen_updates = Changelog.log.filter(e => e.version > this.startup_settings.value().last_loaded_version)
 
-      notification(notifyable_update?.notification ?? "There has been an update.")
-        .setDuration(30000)
-        .addButton("View patch notes", (not) => {
-          new Changelog.Modal().show()
-          not.dismiss()
-        }).show()
+      const notify_at_all = lodash.some(unseen_updates, e => !e.silent)
+
+      if (notify_at_all) {
+        const notifyable_update = lodash.findLast(unseen_updates, e => !e.notification)
+
+        notification(notifyable_update?.notification ?? "There has been an update.")
+          .setDuration(30000)
+          .addButton("View patch notes", (not) => {
+            new Changelog.Modal().show()
+            not.dismiss()
+          }).show()
+      }
     }
 
     this.startup_settings.update(s => s.last_loaded_version = Changelog.latest_patch.version)

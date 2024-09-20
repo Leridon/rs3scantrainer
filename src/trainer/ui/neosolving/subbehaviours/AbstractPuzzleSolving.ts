@@ -32,7 +32,7 @@ export abstract class AbstractPuzzleSolving<
 
     if (start) {
       this.process = await this.constructProcess()
-      this.process.puzzle_closed.on(() => this.endClue())
+      this.process.puzzle_closed.on(() => this.endClue("Puzzle Process reported a closed puzzle"))
       this.process.run()
     }
 
@@ -44,7 +44,7 @@ export abstract class AbstractPuzzleSolving<
 
     this.modal.title.set(this.modal_title)
 
-    this.modal.hidden.on(() => this.endClue())
+    this.modal.hidden.on(() => this.endClue("Puzzle Modal hidden"))
 
     this.modal.show()
 

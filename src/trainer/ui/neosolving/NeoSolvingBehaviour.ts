@@ -888,8 +888,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
   /**
    * Resets both the active clue and method, resets all displayed pathing.
    */
-  reset(state: NeoSolving.ActiveState) {
-    if (state != this.state) return // The caller needs to provide the active state as a token to prevent potential timing issues
+  reset(state: NeoSolving.ActiveState): boolean {
+    if (state != this.state) return false // The caller needs to provide the active state as a token to prevent potential timing issues
 
     this.layer.reset()
 
@@ -900,6 +900,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
     this.active_method = null
 
     log().log("Reset state", "Solving")
+
+    return true
   }
 
   protected begin() {

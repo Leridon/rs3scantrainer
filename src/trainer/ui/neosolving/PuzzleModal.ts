@@ -16,10 +16,6 @@ export class PuzzleModal extends NisModal {
 
   constructor(public readonly parent: AbstractPuzzleSolving<any, any>) {
     super({size: "medium", fixed: true});
-
-    this.hidden.on(() => {
-      this.parent.endClue()
-    })
   }
 
   setStatus(a: Appendable): this {

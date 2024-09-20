@@ -1,6 +1,5 @@
 import {Clues} from "../../../../lib/runescape/clues";
 import * as a1lib from "@alt1/base";
-import {AnchorImages} from "./AnchorImages";
 import {Rectangle, Vector2} from "../../../../lib/math";
 import {util} from "../../../../lib/util/util";
 import {coldiff} from "../../../../skillbertssolver/cluesolver/oldlib";

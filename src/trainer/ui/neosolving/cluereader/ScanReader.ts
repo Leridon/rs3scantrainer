@@ -7,18 +7,31 @@ import {CapturedScan} from "./capture/CapturedScan";
 import {util} from "../../../../lib/util/util";
 import over = OverlayGeometry.over;
 import A1Color = util.A1Color;
+import async_init = util.async_init;
+import AsyncInitialization = util.AsyncInitialization;
+import {Finder} from "../../../../lib/alt1/capture/Finder";
 
 export class ScanReader extends Process {
+  finder: Finder<CapturedScan>
+
+  private initialization: AsyncInitialization
+
   constructor() {
     super();
 
     this.asInterval(50)
+
+    this.initialization = async_init(async () => {
+      this.finder = await CapturedScan.finder.get()
+    })
   }
 
   async implementation(): Promise<void> {
     const modal = new PulseReaderModal()
 
     modal.show()
+
+    await this.initialization.wait()
 
     const overlay = over()
 
@@ -28,7 +41,8 @@ export class ScanReader extends Process {
       overlay.clear()
 
       const capture = CapturedImage.capture()
-      const scan = await CapturedScan.find(capture)
+
+      const scan = this.finder.find(capture)
 
       if (scan) {
         const rect = scan.screenRectangle()

@@ -23,10 +23,10 @@ export namespace Changelog {
     title: "Timing Bugfix",
     render: layout => {
       layout.row(new List()
-          .item("Fixed a rare timing bug where a completed puzzle could abort the following clue.")
+          .item("Fixed a rare timing bug where a completed puzzle could abort the following clue. This was noticeable for compasses following a celtic knot.")
           .item("Reduced the size of log files.")
         )
-        .paragraph("This is a bit of an")
+        .paragraph("This is a bit of a speculative fix, because the source of the reported issue is not 100% confirmed.")
     }
   }, {
     version: 9,

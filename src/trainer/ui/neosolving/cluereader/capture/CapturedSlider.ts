@@ -38,35 +38,27 @@ export class CapturedSliderInterface {
     ) > 0.8
   }
 
-  recapture(include_checkbox: boolean): CapturedSliderInterface {
+  screenRectangle(include_checkbox: boolean): ScreenRectangle {
     if (include_checkbox == this.image_includes_checkbox) {
-      return new CapturedSliderInterface(
-        CapturedImage.capture(this.image.screenRectangle()),
-        this.image_includes_checkbox,
-        this.isLegacy
-      )
+      return this.image.screenRectangle()
     } else if (include_checkbox) {
       const body_rect: ScreenRectangle = lodash.cloneDeep(this.body.screenRectangle())
 
       body_rect.origin.x += CapturedSliderInterface.INVERTED_CHECKBOX_OFFSET_FROM_TL.x
       body_rect.size.x += -CapturedSliderInterface.INVERTED_CHECKBOX_OFFSET_FROM_TL.x
 
-      const res =  new CapturedSliderInterface(
-        CapturedImage.capture(body_rect),
-        true,
-        this.isLegacy
-      )
-
-      debugger
-
-      return res
+      return body_rect
     } else {
-      return new CapturedSliderInterface(
-        CapturedImage.capture(this.body.screenRectangle()),
-        false,
-        this.isLegacy
-      )
+      return this.body.screenRectangle()
     }
+  }
+
+  recapture(include_checkbox: boolean, image: CapturedImage): CapturedSliderInterface {
+    return new CapturedSliderInterface(
+      image.getScreenSection(this.screenRectangle(include_checkbox)),
+      include_checkbox,
+      this.isLegacy
+    )
   }
 
   static async findIn(img: CapturedImage, include_inverted_arrow_checkmark: boolean): Promise<CapturedSliderInterface> {

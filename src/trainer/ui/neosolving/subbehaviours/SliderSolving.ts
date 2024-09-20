@@ -31,6 +31,7 @@ import profileAsync = util.profileAsync;
 import log = Log.log;
 import index = util.index;
 import {timeSync} from "../../../../lib/gamemap/GameLayer";
+import {CapturedImage} from "../../../../lib/alt1/capture";
 
 class SliderGuideProcess extends AbstractPuzzleProcess {
   settings = deps().app.settings.settings.solving.puzzles.sliders
@@ -95,7 +96,9 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
   }> {
     debugger
 
-    const capt = timeSync("Small capture",() => this.parent.puzzle.reader.ui.recapture(true))
+    const capture = CapturedImage.capture(this.parent.puzzle.reader.ui.screenRectangle(true))
+
+    const capt = timeSync("Small capture", () => this.parent.puzzle.reader.ui.recapture(true, capture))
 
     const read = await new SlideReader.SlideReader(capt).getPuzzle(this.puzzle.theme)
 

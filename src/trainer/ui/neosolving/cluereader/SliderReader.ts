@@ -247,6 +247,8 @@ export namespace SlideReader {
 
         if (i >= 25) {
           if (similarity_so_far > best_score) {
+            log().log(`Backtracking found a better match from ${best_score} to ${similarity_so_far}`, "Slide Reader")
+
             best = [...working_tiles]
             best_score = similarity_so_far
           }
@@ -274,7 +276,7 @@ export namespace SlideReader {
       if (better_match_max_exist) {
         backtracking(0, 0)
 
-        log().log(`Backtracking aborted after ${seen} steps.`, "Slide Reader", image)
+        //log().log(`Backtracking aborted after ${seen} steps.`, "Slide Reader", image)
       }
 
       if (DEBUG_SLIDE_READER) console.log(`Before BT: ${greedy_best.preliminary_best_matching.score}, After BT: ${best_score / 25}`)

@@ -34,7 +34,7 @@ const raw_data: Transportation.TeleportGroup[] = [
         code: "Alt+A",
         target: {origin: {x: 2634, y: 3348, level: 0}},
         facing: direction.south,
-        name: "Ardounge",
+        name: "Ardougne",
       },
       {
         id: "ashdale",
@@ -2309,7 +2309,7 @@ name: "Harmony Island",
         id: "ardougne",
         target: {origin: {x: 2538, y: 3306, level: 0}},
         code: "4",
-        name: "Ardounge",
+        name: "Ardougne",
       },
       {
         id: "lumbridge",

@@ -5414,7 +5414,7 @@ export namespace clue_data {
           "note": "Before Carnillean Rising"
         }, {
           "id": "50qp",
-          "description": "at the entrance of Ardounge Combat Training Camp",
+          "description": "at the entrance of Ardougne Combat Training Camp",
           "range": {"origin": {"x": 2514, "y": 3354, "level": 0}, "size": {"x": 8, "y": 4}},
           "note": "50 qp."
         }, {

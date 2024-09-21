@@ -179,7 +179,7 @@ namespace NeoSolvingLayer {
   }
 
   export class MainControlBar extends Widget {
-    fullscreen_preference = new storage.Variable<boolean>("preferences/solve/fullscreen", () => deps().app.in_alt1)
+    fullscreen_preference = new storage.Variable<boolean>("preferences/solve/fullscreen", () => false)
     autosolve_preference = new storage.Variable<boolean>("preferences/solve/autosolve", () => deps().app.in_alt1)
 
     search_bar: TextField

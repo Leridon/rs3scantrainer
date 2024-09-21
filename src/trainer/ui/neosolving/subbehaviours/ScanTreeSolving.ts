@@ -104,37 +104,6 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
   ) {
     super(parent, "method")
 
-    const self = this
-
-    /*interest.onRead(minimap => {
-      console.log("Read minimap")
-
-      this.minimap_overlay.clear()
-
-      const transform =
-        Transform.chain(
-          Transform.translation(minimap.center()),
-          Transform.rotationRadians(-minimap.readCompass()),
-          Transform.scale({x: 50, y: 50}),
-        )
-
-      console.log(`Center: ${Vector2.toString(minimap.center())}`)
-
-      const unit_square: Vector2[] = [
-        {x: 1, y: 1},
-        {x: 1, y: -1},
-        {x: -1, y: -1},
-        {x: -1, y: 1},
-      ]
-
-      this.minimap_overlay.polyline(
-        unit_square.map(v => Vector2.transform_point(v, transform)),
-        true
-      )
-
-      this.minimap_overlay.render()
-    })*/
-
     this.augmented = ScanTree.Augmentation.basic_augmentation(method.method.tree, method.clue)
   }
 

@@ -720,6 +720,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
             let answer_span: Widget = null
 
             w.append(row = cls("ctr-neosolving-solution-row")
+              .toggleClass("ctr-clickable", challenge.answers.length > 1)
               .append(
                 hboxl(
                   inlineimg("assets/icons/activeclue.png"),

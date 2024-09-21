@@ -443,7 +443,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
       solution_area: undefined
     }
 
-    log().log(`Changed state to ${NeoSolving.ActiveState.title(this.state)}`)
+    log().log(`Changed state to ${NeoSolving.ActiveState.title(this.state)}`, "Solving")
 
     this.history.push(this.state)
 
@@ -804,7 +804,12 @@ export default class NeoSolvingBehaviour extends Behaviour {
    * @param method
    */
   setMethod(method: AugmentedMethod): void {
-    log().log(`Setting method ${method ? method.method.name : "null"}`, "Solving")
+
+    if (method) {
+      log().log(`Setting method to ${method.method.name} (${method.method.id.substring(0, 8)})`, "Solving")
+    } else {
+      log().log(`Setting method to null`, "Solving")
+    }
 
     if (this.state?.step?.type != "clue") {
       log().log(`Aborting set method because active state is not a clue step: '${this.state?.step?.type}'.`, "Solving")

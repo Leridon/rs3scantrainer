@@ -149,7 +149,7 @@ export class ParserManagementLayer extends GameLayer {
             new LightButton("Export")
               .onClick(() => {
                 //download("parsingtable.json", cleanedJSON(this.parsing_table.data))
-                new ExportStringModal(cleanedJSON(this.parsing_table.data, 4)).show()
+                new ExportStringModal(cleanedJSON(this.parsing_table.data)).show()
               }),
             new LightButton("Delete local table")
               .onClick(async () => {
@@ -173,7 +173,7 @@ export class ParserManagementLayer extends GameLayer {
 
                 results.push(...hardcoded_transports())
 
-                new ExportStringModal(cleanedJSON(results, 4), `Parsed ${results.length} transports.`).show()
+                new ExportStringModal(cleanedJSON(results), `Parsed ${results.length} transports.`).show()
               }),
           )
       ).addTo(this)

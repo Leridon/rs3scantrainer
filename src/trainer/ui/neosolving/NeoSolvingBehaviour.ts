@@ -58,6 +58,7 @@ import notification = Notification.notification;
 import activate = TileArea.activate;
 import ClueSpot = Clues.ClueSpot;
 import log = Log.log;
+import {capitalize} from "lodash";
 
 class NeoSolvingLayer extends GameLayer {
   public control_bar: NeoSolvingLayer.MainControlBar
@@ -178,7 +179,7 @@ namespace NeoSolvingLayer {
   }
 
   export class MainControlBar extends Widget {
-    fullscreen_preference = new storage.Variable<boolean>("preferences/solve/fullscreen", () => deps().app.in_alt1)
+    fullscreen_preference = new storage.Variable<boolean>("preferences/solve/fullscreen", () => false)
     autosolve_preference = new storage.Variable<boolean>("preferences/solve/autosolve", () => deps().app.in_alt1)
 
     search_bar: TextField
@@ -381,7 +382,11 @@ export default class NeoSolvingBehaviour extends Behaviour {
   active_behaviour: SingleBehaviour<NeoSolvingSubBehaviour> = this.withSub(new SingleBehaviour<NeoSolvingSubBehaviour>())
 
   private activateSubBehaviour(behaviour: NeoSolvingSubBehaviour) {
-    if (behaviour) behaviour.setRelatedState(this.state)
+    if (behaviour) {
+      behaviour.setRelatedState(this.state)
+      log().log(`Activating subbehaviour: ${behaviour.constructor.name}`, "Solving")
+    }
+
 
     this.active_behaviour.set(behaviour)
   }
@@ -438,14 +443,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
       solution_area: undefined
     }
 
-    switch (state.type) {
-      case "puzzle":
-        log().log(`Changed state to ${state.puzzle.type}`, "Solving")
-        break;
-      case "clue":
-        log().log(`Changed state to ${state.clue.step.type}`, "Solving")
-        break;
-    }
+    log().log(`Changed state to ${NeoSolving.ActiveState.title(this.state)}`, "Solving")
 
     this.history.push(this.state)
 
@@ -806,21 +804,26 @@ export default class NeoSolvingBehaviour extends Behaviour {
    * @param method
    */
   setMethod(method: AugmentedMethod): void {
-    log().log(`Setting method ${method ? method.method.name : "null"}`)
+
+    if (method) {
+      log().log(`Setting method to ${method.method.name} (${method.method.id.substring(0, 8)})`, "Solving")
+    } else {
+      log().log(`Setting method to null`, "Solving")
+    }
 
     if (this.state?.step?.type != "clue") {
-      log().log(`Aborting set method because active state is not a clue step: '${this.state?.step?.type}'.`)
+      log().log(`Aborting set method because active state is not a clue step: '${this.state?.step?.type}'.`, "Solving")
 
       return;
     }
 
     if (method && (method.clue.id != this.state?.step?.clue?.step?.id)) {
-      log().log(`Aborting set method because method does not match clue.`)
+      log().log(`Aborting set method because method does not match clue.`, "Solving")
 
       return;
     }
     if (method && method == this.active_method) {
-      log().log(`Aborting set method because same method is already active.`)
+      log().log(`Aborting set method because same method is already active.`, "Solving")
 
       return;
     }
@@ -925,6 +928,29 @@ export namespace NeoSolving {
     start_time: number,
     end_time: number,
     solution_area: TileArea,
+  }
+
+  export namespace ActiveState {
+    export function title(state: ActiveState): string {
+      switch (state.step.type) {
+        case "puzzle":
+          switch (state.step.puzzle.type) {
+            case "slider":
+              return `Slider (${state.step.puzzle.puzzle.theme})`
+            case "knot":
+              return "Knot"
+            case "tower":
+              return "Tower"
+            case "lockbox":
+              return "Lockbox"
+            default:
+              return "Unknown Puzzle"
+          }
+        case "clue":
+          return `${capitalize(state.step.clue.step.type)} (${state.step.clue.step.id})`
+
+      }
+    }
   }
 
   export type Settings = {

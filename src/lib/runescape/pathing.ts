@@ -863,7 +863,7 @@ export namespace Path {
           }
         }
 
-        pos = new_pos
+        if (new_pos) pos = new_pos
       }
 
       division(path.length)

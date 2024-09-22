@@ -22,10 +22,11 @@ export namespace Changelog {
     title: "Zoom Bugfix",
     render: layout => {
       layout.row(new List()
-          .item("Fixed a bug that caused certain paths to not be correctly split into sections, sometimes resulting in the 'zoom to space' symptom (for example at the Edmond medium clue).")
-        )
+        .item("Fixed a bug that caused certain paths to not be correctly split into sections, sometimes resulting in the 'zoom to space' symptom (for example at the Edmond medium clue).")
+        .item("Added a workaround for a rare issue where a master compass would reset and be redetected as an elite compass.")
+      )
     }
-  },{
+  }, {
     version: 10,
     silent: true,
     date: new Date(Date.parse("2024-09-20")),

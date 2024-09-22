@@ -487,6 +487,13 @@ export default class NeoSolvingBehaviour extends Behaviour {
       return
     }
 
+    if (this.state?.step?.type == "clue" && this.state.step.clue.step.type == "compass" && step.step.type == "compass") {
+      // This is a workaround fix for a rare issue where a master compass is reset and reloaded as an elite compass because of interface interference.
+      // Changing from an active compass to another compass is disallowed.
+      return
+    }
+
+
     this.reset(this.state)
 
     const state = this.pushState({type: "clue", clue: step})

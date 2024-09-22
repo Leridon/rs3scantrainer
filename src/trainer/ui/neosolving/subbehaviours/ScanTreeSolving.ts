@@ -38,6 +38,9 @@ import index = util.index;
 import AsyncInitialization = util.AsyncInitialization;
 import async_init = util.async_init;
 import A1Color = util.A1Color;
+import hbox = C.hbox;
+import hgrid = C.hgrid;
+import LightButton from "../../widgets/LightButton";
 
 class ScanCaptureService extends DerivedCaptureService<ScanCaptureService.Options, CapturedScan> {
   private debug_overlay = over()
@@ -238,11 +241,15 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
 
           cls("ctr-neosolving-scantreeline")
             .append(
-              PulseButton.forPulse(child.key, node.children.map(c => c.key))
-              ,
-              c().append(...resolvers.resolve(
-                ScanTree.getInstruction(child.value)
-              ))
+              new LightButton("", "rectangle")
+                .css("flex-grow", 1)
+                .append(hbox(
+                  new PulseIcon(child.key, node.children.map(c => c.key))
+                  ,
+                  c().append(...resolvers.resolve(
+                    ScanTree.getInstruction(child.value)
+                  ))
+                ))
             )
             .on("click", () => {
               this.setNode(child.value)
@@ -250,20 +257,14 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
         })
 
       if (triples.length > 1) {
-        cls("ctr-neosolving-scantreeline")
-          .append(
-            c().append( // Wrap in another div to allow another margin
-              new PulseIcon({different_level: false, pulse: 3}, null)
-                .css("margin", "1px")
-            ),
-            span("at"),
-            ...triples
-              .sort(Order.comap(Order.natural_order, (c) => spotNumber(node.root.raw, c.value.remaining_candidates[0])))
-              .map((child) =>
-                PulseButton.forSpot(spotNumber(node.root.raw, child.value.remaining_candidates[0]))
-                  .onClick(() => this.setNode(child.value))
-              )
-          ).appendTo(content)
+        hgrid(
+          ...triples
+            .sort(Order.comap(Order.natural_order, (c) => spotNumber(node.root.raw, c.value.remaining_candidates[0])))
+            .map((child) =>
+              PulseButton.forSpot(spotNumber(node.root.raw, child.value.remaining_candidates[0]))
+                .onClick(() => this.setNode(child.value))
+            )
+        ).appendTo(content)
       }
     }
   }

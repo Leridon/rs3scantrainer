@@ -7,6 +7,7 @@ import render_digspot = TextRendering.render_digspot;
 import simplify_with_context = Scans.Pulse.simplify_with_context;
 import cls = C.cls;
 import Widget from "../../../lib/ui/Widget";
+import hbox = C.hbox;
 
 export class PulseIcon extends Widget {
   constructor(pulse: Pulse, context: Pulse[] | null) {
@@ -51,7 +52,7 @@ export default class PulseButton extends LightButton {
 
         break;
       case "spot":
-        this.empty().append(render_digspot(value.value))
+        this.empty().append(hbox(new PulseIcon({pulse: 3, different_level: false}, null), render_digspot(value.value)))
         break;
     }
   }

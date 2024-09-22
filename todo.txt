@@ -46,6 +46,8 @@ Issues
     - [Bug, 2] Clue Reader Pausing for knots is bad because it unpauses while the animation is happening.
     - Zoom for long distance transports is still very bad
     - [Bug, 4] Selecting another method while a scan tree method is active glitches
+    - [Bug] Master Compasses reset sometimes to the elite compass (https://discord.com/channels/332595657363685377/1103737270114209825/1287161070645149818)
+    - [Bug] Text inputs with the legacy skin are rarely detected as puzzles
 
 Path Editor:
     Custom sized square (to help map distances), purely for theorycrafting

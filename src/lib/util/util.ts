@@ -376,13 +376,16 @@ export namespace util {
     return `${padInteger(date.getHours(), 2)}:${padInteger(date.getMinutes(), 2)}:${padInteger(date.getSeconds(), 2)}.${padInteger(date.getMilliseconds(), 4)}`
   }
 
-  export class AsyncInitialization {
+  export class AsyncInitialization<T = any> {
     private _is_initialized: boolean = false
-    private promise: Promise<any>
+    private _value: T = undefined
+    private promise: Promise<T>
 
-    constructor(f: () => Promise<any>) {
-      this.promise = f().then(() => {
+    constructor(f: () => Promise<T>) {
+      this.promise = f().then(v => {
         this._is_initialized = true
+        this._value = v
+        return v
       })
     }
 
@@ -392,6 +395,10 @@ export namespace util {
 
     wait(): Promise<any> {
       return this.promise
+    }
+
+    get(): T {
+      return this._value
     }
   }
 

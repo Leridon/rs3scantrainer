@@ -54,7 +54,7 @@ import entity = C.entity;
 import notification = Notification.notification;
 import log = Log.log;
 import {MinimapReader} from "../lib/alt1/readers/MinimapReader";
-import {CaptureService, ScreenCaptureService} from "../lib/alt1/capture";
+import {CaptureInterval, CaptureService, ScreenCaptureService} from "../lib/alt1/capture";
 import img = C.img;
 import {SectionMemory} from "./ui/neosolving/PathControl";
 
@@ -498,7 +498,9 @@ export class Application extends Behaviour {
 
     //this.capture_service.run()
     //this.chatreader.run()
-    this.chatreader//.registerInterest()
+    this.chatreader.subscribe({
+      options: () => ({interval: CaptureInterval.fromApproximateInterval(300)})
+    })
     this.minimapreader//.registerInterest(true)
   }
 

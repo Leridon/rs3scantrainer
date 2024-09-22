@@ -26,7 +26,7 @@ export abstract class AbstractCaptureService<
   protected raw_last_capture: TimedValue<ValueT, InterestOptionsT> = undefined
 
   subscribe<ActualInterestOptionsT extends InterestOptionsT>(
-    token: AbstractCaptureService.InterestToken<ActualInterestOptionsT, ValueT> | AbstractCaptureService.ExportTokenExpression<InterestOptionsT, ActualInterestOptionsT, ValueT, this>
+    token: AbstractCaptureService.InterestToken<ActualInterestOptionsT, ValueT> | AbstractCaptureService.InterestTokenExpression<InterestOptionsT, ActualInterestOptionsT, ValueT, this>
   ): AbstractCaptureService.InterestToken<InterestOptionsT, ValueT> {
 
     const real_token: AbstractCaptureService.InterestToken<InterestOptionsT, ValueT> = (() => {
@@ -191,7 +191,7 @@ export namespace AbstractCaptureService {
     }
   }
 
-  export type ExportTokenExpression<
+  export type InterestTokenExpression<
     OptionsT extends AbstractCaptureService.Options,
     ActualOptionsT extends OptionsT,
     ValueT,
@@ -341,8 +341,6 @@ export class ScreenCaptureService extends AbstractCaptureService<
           const required_area = ScreenRectangle.union(
             ...interested_in_this_tick.map(t => t?.area ?? {origin: {x: 0, y: 0}, size: {x: alt1.rsWidth, y: alt1.rsHeight}})
           )
-
-          console.log(`Capturing ${required_area.size.x}x${required_area.size.y}`)
 
           const capture = CapturedImage.capture(required_area)
 

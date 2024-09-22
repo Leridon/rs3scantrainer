@@ -19,11 +19,13 @@ export namespace Changelog {
   export const log: LogEntry[] = lodash.sortBy<LogEntry>([{
     version: 11,
     date: new Date(Date.parse("2024-09-22")),
-    title: "Zoom Bugfix",
+    title: "Bugfixes",
     render: layout => {
       layout.row(new List()
         .item("Fixed a bug that caused certain paths to not be correctly split into sections, sometimes resulting in the 'zoom to space' symptom (for example at the Edmond medium clue).")
         .item("Added a workaround for a rare issue where a master compass would reset and be redetected as an elite compass.")
+        .item("Added 2 missing tiles to the landing area for the turtle island teleport, which sometimes caused problems with master compasses.")
+        .item("Slightly increased the time required for a stationary compass to be counted to mitigate lag spikes.")
       )
     }
   }, {

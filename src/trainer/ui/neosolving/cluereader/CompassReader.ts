@@ -1063,7 +1063,11 @@ export namespace CompassReader {
         if (state_active_time > 0.1) {
           this.last_stationary_tick = tick
 
-          if (state_active_time > 100) {
+          // When coming from a spinning compass, we require a longer stationary period.
+          // The reasoning is to mitigate certain kinds of lag spikes, for example when coming from dorgesh khaan
+          const required_stationary_time = this.committed_state.value()?.state == "spinning" ? 200 : 100
+
+          if (state_active_time > required_stationary_time) {
             this.committed_state.set({
               angle: state.angle,
               state: "normal",

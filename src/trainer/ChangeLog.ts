@@ -17,6 +17,15 @@ export namespace Changelog {
   }
 
   export const log: LogEntry[] = lodash.sortBy<LogEntry>([{
+    version: 12,
+    date: new Date(Date.parse("WIP")),
+    title: "Bugfixes",
+    render: layout => {
+      layout.row(new List()
+        .item("Fixed some right click options for lodestone not being detected when hovering it and pressing Alt+1 on compasses.")
+      )
+    }
+  }, {
     version: 11,
     date: new Date(Date.parse("2024-09-22")),
     title: "Bugfixes",

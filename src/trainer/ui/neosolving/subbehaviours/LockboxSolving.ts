@@ -15,7 +15,7 @@ class LockboxSolvingProcess extends AbstractPuzzleProcess {
 
   settings = deps().app.settings.settings.solving.puzzles.lockboxes
 
-  public cost_function: (_: Lockboxes.MoveMap) => number = Lockboxes.MoveMap.score([0, 1, this.settings.two_click_factor])
+  public cost_function: (_: Lockboxes.MoveMap) => number = Lockboxes.MoveMap.scoring([0, 1, this.settings.two_click_factor])
 
   last_successful_read: number
 
@@ -52,6 +52,8 @@ class LockboxSolvingProcess extends AbstractPuzzleProcess {
     this.solution_overlay.render()
   }
 
+  private last_solution: Lockboxes.MoveMap = null
+
   async tick() {
     const capt = CapturedImage.capture(this.parent.lockbox.reader.modal.body.screenRectangle())
 
@@ -65,7 +67,9 @@ class LockboxSolvingProcess extends AbstractPuzzleProcess {
     if (await reader.getState() == "likelyclosed") this.puzzleClosed()
 
     if (puzzle) {
-      let solution = Lockboxes.solve(puzzle, true, true, this.cost_function)
+      const solution = Lockboxes.solve(puzzle, true, true, this.cost_function, this.last_solution)
+
+      this.last_solution = solution
 
       this.overlay(solution, reader)
     }

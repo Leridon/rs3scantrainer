@@ -19,13 +19,16 @@ export namespace Changelog {
   export const log: LogEntry[] = lodash.sortBy<LogEntry>([{
     version: 12,
     date: new Date(Date.parse("WIP")),
-    title: "Bugfixes",
+    title: "Lockbox Changes",
     render: layout => {
       layout.row(new List()
         .item("Fixed some right click options for lodestone not being detected when hovering it and pressing Alt+1 on compasses.")
         .item("Tweaked the lockbox solver so it does not switch to another solution when clicking on a 2-tile at some occasions.")
         .item(new List()
           .item("This was caused by the minimization of solutions with a cost multiplier for 2-click tiles of less than 2. Subsequent solutions now have a penalty added to their score based on the number of differences from the previously known solution."))
+        .item("The optimization mode for lockboxes can now be turned up to 5. Values above 2 encourage the solver to avoid tiles that need to be clicked 2 times.")
+        .item(new List()
+          .item("If you're now thinking 'this is dumb, why would I ever do this?': You're right, please go and try to convince Ngis."))
       )
     }
   }, {

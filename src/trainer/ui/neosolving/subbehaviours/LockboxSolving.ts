@@ -17,18 +17,14 @@ class LockboxSolvingProcess extends AbstractPuzzleProcess {
 
   public cost_function: (_: Lockboxes.MoveMap) => number = Lockboxes.MoveMap.scoring([0, 1, this.settings.two_click_factor])
 
-  last_successful_read: number
-
   puzzle: Lockboxes.State
   isSolved: boolean = false
 
   constructor(private parent: LockboxSolving) {
     super();
-
-    this.last_successful_read = Date.now()
   }
 
-  private overlay(solution: Lockboxes.MoveMap, reader: LockBoxReader.LockBoxReader) {
+  private overlay(solution: Lockboxes.MoveMap, reader: LockBoxReader.LockBoxReader, is_desynced: boolean) {
     this.solution_overlay.clear()
 
     for (let y = 0; y < solution.length; y++) {
@@ -49,10 +45,18 @@ class LockboxSolvingProcess extends AbstractPuzzleProcess {
       }
     }
 
+    if (is_desynced) {
+      this.solution_overlay.text("Detected Client Desync - Overlay paused", reader.tileOrigin({x: 2, y: -1}, true))
+    }
+
     this.solution_overlay.render()
   }
 
-  private last_solution: Lockboxes.MoveMap = null
+  private last_solution: {
+    moves: Lockboxes.MoveMap,
+    timestamp: number,
+    visually_desynced?: boolean
+  } = null
 
   async tick() {
     const capt = CapturedImage.capture(this.parent.lockbox.reader.modal.body.screenRectangle())
@@ -67,11 +71,47 @@ class LockboxSolvingProcess extends AbstractPuzzleProcess {
     if (await reader.getState() == "likelyclosed") this.puzzleClosed()
 
     if (puzzle) {
-      const solution = Lockboxes.solve(puzzle, true, true, this.cost_function, this.last_solution)
 
-      this.last_solution = solution
+      if (this.last_solution) {
+        // If there is already a previous solution, find the most similar solution
+        const solution = Lockboxes.solve(puzzle, true, true, s => Lockboxes.MoveMap.difference(s, this.last_solution.moves))
 
-      this.overlay(solution, reader)
+        const is_visually_desynced = (() => {
+            // Assumes a maximum click rate of 20/s
+            const max_plausible_moves = (capt.capture.timestamp - this.last_solution.timestamp) / 50
+
+            return Lockboxes.MoveMap.difference(solution, this.last_solution?.moves) > max_plausible_moves
+          }
+        )()
+
+        if (!is_visually_desynced) {
+          this.last_solution = {
+            moves: solution,
+            timestamp: capt.capture.timestamp
+          }
+        } else {
+          this.last_solution.visually_desynced = true
+
+          const DESYNC_TIMEOUT = 3000
+
+          if ((capt.capture.timestamp - this.last_solution.timestamp) > DESYNC_TIMEOUT) {
+            this.last_solution = null
+          }
+        }
+      }
+
+      // This is intentionally not an else because the previous conditional can set the last_solution back to null
+      if (!this.last_solution) {
+        // If there is no solution, do an initial solve with the cost function
+        const solution = Lockboxes.solve(puzzle, true, true, this.cost_function, null)
+
+        this.last_solution = {
+          moves: solution,
+          timestamp: capt.capture.timestamp
+        }
+      }
+
+      this.overlay(this.last_solution.moves, reader, this.last_solution.visually_desynced)
     }
   }
 

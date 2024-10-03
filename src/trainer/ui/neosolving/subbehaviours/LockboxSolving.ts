@@ -78,7 +78,7 @@ class LockboxSolvingProcess extends AbstractPuzzleProcess {
 
         const is_visually_desynced = (() => {
             // Assumes a maximum click rate of 20/s
-            const max_plausible_moves = (capt.capture.timestamp - this.last_solution.timestamp) / 50
+            const max_plausible_moves = Math.ceil((capt.capture.timestamp - this.last_solution.timestamp) / 50) + 1
 
             return Lockboxes.MoveMap.difference(solution, this.last_solution?.moves) > max_plausible_moves
           }

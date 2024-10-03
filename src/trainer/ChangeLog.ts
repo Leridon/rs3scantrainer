@@ -17,6 +17,17 @@ export namespace Changelog {
   }
 
   export const log: LogEntry[] = lodash.sortBy<LogEntry>([{
+    version: 13,
+    date: new Date(Date.parse("2024-10-03")),
+    silent: true,
+    title: "Lockbox Hotfix",
+    render: layout => {
+      layout
+        .row(new List()
+          .item("Changed the desync detection for lockboxes for a much more stable and reliable implementation.")
+        )
+    }
+  }, {
     version: 12,
     date: new Date(Date.parse("2024-10-03")),
     title: "Lockbox Changes",

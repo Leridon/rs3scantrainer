@@ -48,14 +48,20 @@ class LockboxSolvingProcess extends AbstractPuzzleProcess {
     }
 
     if (is_desynced) {
-      this.solution_overlay.text("Detected Client Desync - Overlay paused", reader.tileOrigin({x: 2, y: -1}, true))
+      this.solution_overlay.text("Detected Client Desync - Overlay paused", reader.tileOrigin({x: 2, y: -2}, true), {
+        width: 16,
+        color: mixColor(200, 0, 0),
+        centered: true,
+        shadow: true
+      })
     }
 
     this.solution_overlay.render()
   }
 
-  private last_solution: {
-    moves: Lockboxes.MoveMap,
+  private last_state: {
+    state: Lockboxes.State,
+    solution: Lockboxes.Solution,
     timestamp: number,
     visually_desynced?: boolean
   } = null
@@ -74,52 +80,73 @@ class LockboxSolvingProcess extends AbstractPuzzleProcess {
 
     if (puzzle) {
 
-      if (this.last_solution) {
+      if (this.last_state) {
         // If there is already a previous solution, find the most similar solution
-        const solution = Lockboxes.solve(puzzle, true, true, s => Lockboxes.MoveMap.difference(s, this.last_solution.moves))
 
         const is_visually_desynced = (() => {
-            // Assumes a maximum click rate of 20/s
-            const max_plausible_moves = Math.ceil((capt.capture.timestamp - this.last_solution.timestamp) / 80) + 1
+            const required_moves_from_last_accepted_state = Lockboxes.solve(puzzle, {
+              target_override: this.last_state.state,
+              modulo_targets_allowed: false,
+              minimize: true,
+              minimize_by: Lockboxes.MoveMap.clickScore
+            })
 
-            return Lockboxes.MoveMap.difference(solution, this.last_solution?.moves) > max_plausible_moves
+            const moves_required = Lockboxes.MoveMap.clickScore(required_moves_from_last_accepted_state.moves)
+
+            // Assumes a maximum click rate of 20/s
+            const max_plausible_moves = Math.ceil((capt.capture.timestamp - this.last_state.timestamp) / 80) + 1
+
+            return moves_required > max_plausible_moves
           }
         )()
 
         if (!is_visually_desynced) {
-          if (this.last_solution.visually_desynced) log().log("Visual desync ended", "Lockboxes")
+          if (this.last_state.visually_desynced) log().log("Visual desync ended", "Lockboxes")
 
-          this.last_solution = {
-            moves: solution,
+          const solution = Lockboxes.solve(puzzle, {
+            target_override: this.last_state.solution.target,
+            minimize: true,
+            modulo_targets_allowed: true,
+            minimize_by: s => Lockboxes.MoveMap.difference(s, this.last_state.solution.moves)
+          })
+
+          this.last_state = {
+            state: puzzle,
+            solution: solution,
             timestamp: capt.capture.timestamp
           }
         } else {
-          if (!this.last_solution.visually_desynced) log().log("Visual desync detected", "Lockboxes")
+          if (!this.last_state.visually_desynced) log().log("Visual desync detected", "Lockboxes")
 
-          this.last_solution.visually_desynced = true
+          this.last_state.visually_desynced = true
 
           const DESYNC_TIMEOUT = 3000
 
-          if ((capt.capture.timestamp - this.last_solution.timestamp) > DESYNC_TIMEOUT) {
+          if ((capt.capture.timestamp - this.last_state.timestamp) > DESYNC_TIMEOUT) {
             log().log("Desync timed out, Resolving", "Lockboxes")
 
-            this.last_solution = null
+            this.last_state = null
           }
         }
       }
 
       // This is intentionally not an else because the previous conditional can set the last_solution back to null
-      if (!this.last_solution) {
+      if (!this.last_state) {
         // If there is no solution, do an initial solve with the cost function
-        const solution = Lockboxes.solve(puzzle, true, true, this.cost_function, null)
+        const solution = Lockboxes.solve(puzzle, {
+          modulo_targets_allowed: true,
+          minimize: true,
+          minimize_by: this.cost_function
+        })
 
-        this.last_solution = {
-          moves: solution,
+        this.last_state = {
+          state: puzzle,
+          solution: solution,
           timestamp: capt.capture.timestamp
         }
       }
 
-      this.overlay(this.last_solution.moves, reader, this.last_solution.visually_desynced)
+      this.overlay(this.last_state.solution.moves, reader, this.last_state.visually_desynced)
     }
   }
 

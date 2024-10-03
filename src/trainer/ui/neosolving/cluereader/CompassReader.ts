@@ -203,7 +203,7 @@ export class CompassReader {
 
       const res = red >= 70 && red <= 110
 
-      if (!res) console.log(`${red} at ${coords.x}|${coords.y}`)
+      //if (!res) console.log(`${red} at ${coords.x}|${coords.y}`)
 
       return res
     })) return {type: "likely_solved"}

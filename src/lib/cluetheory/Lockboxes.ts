@@ -1,8 +1,6 @@
 import * as lodash from "lodash";
-import {util} from "../util/util";
 
 export namespace Lockboxes {
-
   export type Tile = 0 // Sword
     | 1 // Bow
     | 2 // Mage
@@ -18,7 +16,6 @@ export namespace Lockboxes {
   export type State = {
     tile_rows: Tile[][]
   }
-
   export type MoveMap = Tile[][]
 
   export namespace MoveMap {
@@ -142,6 +139,26 @@ export namespace Lockboxes {
       ]
     }
 
+    export const SOLVED_1: State = {
+      tile_rows: [
+        [1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1],
+      ]
+    }
+
+    export const SOLVED_2: State = {
+      tile_rows: [
+        [2, 2, 2, 2, 2],
+        [2, 2, 2, 2, 2],
+        [2, 2, 2, 2, 2],
+        [2, 2, 2, 2, 2],
+        [2, 2, 2, 2, 2],
+      ]
+    }
+
     /**
      * A lockbox is solved if all tiles have the same value
      */
@@ -185,6 +202,26 @@ export namespace Lockboxes {
         tile_rows: SOLVED.tile_rows.map(r => r.map(() => lodash.random(0, 2) as Tile))
       }
     }
+
+    export function add(a: State, b: State): State {
+      return {
+        tile_rows: a.tile_rows.map((row, row_i) =>
+          row.map((tile, col_i) =>
+            (tile + b.tile_rows[row_i][col_i]) % 3 as Tile
+          )
+        )
+      }
+    }
+
+    export function sub(a: State, b: State): State {
+      return {
+        tile_rows: a.tile_rows.map((row, row_i) =>
+          row.map((tile, col_i) =>
+            (tile - b.tile_rows[row_i][col_i] + 3) % 3 as Tile
+          )
+        )
+      }
+    }
   }
 
   function basicSolve(state: State): MoveMap {
@@ -226,29 +263,31 @@ export namespace Lockboxes {
     return MoveMap.chain(first_chasing_moves, magic_solve, second_chasing_moves)
   }
 
-  export function solve(state: State,
-                        anytarget: boolean = true,
-                        minimize: boolean = true,
-                        cost: (_: MoveMap) => number = MoveMap.clickScore,
-                        penalty_by_known_solution: MoveMap = null): MoveMap {
-    const candidate_starts = [state]
+  export type Solution = { moves: MoveMap, target: State }
 
-    if (anytarget) {
-      candidate_starts.push(...[1, 2].map(o => ({
-        tile_rows: state.tile_rows.map(row => row.map(t => (t + o) % 3 as Tile))
-      })))
+  export function solve(state: State,
+                        options: {
+                          target_override?: State,
+                          modulo_targets_allowed?: boolean,
+                          minimize?: boolean,
+                          minimize_by?: (_: MoveMap) => number
+                        } = {}): Solution {
+
+    let targets: State[] = options?.modulo_targets_allowed ? [State.SOLVED, State.SOLVED_1, State.SOLVED_2] : [State.SOLVED]
+
+    if (options.target_override) {
+      targets = targets.map(start => State.add(start, options.target_override))
     }
 
-    let candidate_solutions = candidate_starts.map(basicSolve)
+    let candidate_solutions: Solution[] = targets.map(target => ({
+      target: target,
+      moves: basicSolve(State.sub(state, target))
+    }))
 
-    if (minimize) candidate_solutions = candidate_solutions.flatMap(MoveMap.getEquivalents)
+    if (options.minimize) candidate_solutions = candidate_solutions.flatMap(s => MoveMap.getEquivalents(s.moves).map(sol => ({target: s.target, moves: sol})))
 
-    const PENALTY_MULTIPLIER = 0.1
+    const cost = options.minimize ? (options.minimize_by ?? MoveMap.clickScore) : () => 0
 
-    const penalty_f = penalty_by_known_solution
-      ? (s: MoveMap) => PENALTY_MULTIPLIER * MoveMap.difference(s, penalty_by_known_solution)
-      : () => 0
-
-    return lodash.minBy(candidate_solutions, s => cost(s) + penalty_f(s))
+    return lodash.minBy(candidate_solutions, s => cost(s.moves))
   }
 }

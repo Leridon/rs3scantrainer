@@ -7,7 +7,7 @@ import {coldiff, comparetiledata} from "../../../../skillbertssolver/cluesolver/
 import * as OCR from "@alt1/ocr";
 import ClueFont from "./ClueFont";
 import {clue_data} from "../../../../data/clues";
-import {SlideReader} from "./SliderReader";
+import {SlideReader, SliderReader} from "./SliderReader";
 import {Notification} from "../../NotificationBar";
 import {CompassReader} from "./CompassReader";
 import {KnotReader} from "./KnotReader";
@@ -43,7 +43,8 @@ export class ClueReader {
     scan_finder: Finder<CapturedScan>,
     lockbox_reader: LockBoxReader,
     tower_reader: TowersReader,
-    knot_reader: KnotReader
+    knot_reader: KnotReader,
+    slider_reader: SliderReader
   }>
 
   constructor(public tetracompass_only: boolean) {
@@ -53,7 +54,8 @@ export class ClueReader {
         scan_finder: await CapturedScan.finder.get(),
         lockbox_reader: await LockBoxReader.instance(),
         tower_reader: await TowersReader.instance(),
-        knot_reader: await KnotReader.instance()
+        knot_reader: await KnotReader.instance(),
+        slider_reader: await SlideReader.instance()
       }
     })
   }
@@ -248,16 +250,15 @@ export class ClueReader {
 
       // Check for slider interface
       {
-        const slider = await CapturedSliderInterface.findIn(img, false)
+        const slider = await CapturedSliderInterface.findIn(img, false, readers.slider_reader)
 
         if (slider) {
-          const reader = new SlideReader.SlideReader(slider)
-          const res = await reader.getPuzzle()
+          const res = slider.getPuzzle()
 
           if (CLUEREADERDEBUG) {
             res.tiles.forEach((tile, i) => {
               const pos = Vector2.add(
-                reader.ui.body.screenRectangle().origin,
+                slider.body.screenRectangle().origin,
                 {x: Math.floor(i % 5) * 56, y: Math.floor(i / 5) * 56}
               )
 
@@ -283,7 +284,7 @@ export class ClueReader {
 
             return {
               type: "puzzle",
-              puzzle: {type: "slider", reader: reader, puzzle: res},
+              puzzle: {type: "slider", reader: slider, puzzle: res},
             }
           }
 
@@ -376,7 +377,7 @@ export namespace ClueReader {
 
       export type Slider = puzzle_base & {
         type: "slider",
-        reader: SlideReader.SlideReader,
+        reader: CapturedSliderInterface,
         puzzle: SliderPuzzle
       }
 

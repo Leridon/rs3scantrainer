@@ -4,16 +4,22 @@ import {CapturedImage} from "../../../../../lib/alt1/capture";
 import {Vector2} from "../../../../../lib/math";
 import {ScreenRectangle} from "../../../../../lib/alt1/ScreenRectangle";
 import {util} from "../../../../../lib/util/util";
-import rgbSimilarity = util.rgbSimilarity;
 import * as lodash from "lodash";
+import {SliderReader} from "../SliderReader";
+import {Sliders} from "../../../../../lib/cluetheory/Sliders";
+import rgbSimilarity = util.rgbSimilarity;
+import SliderPuzzle = Sliders.SliderPuzzle;
 
 export class CapturedSliderInterface {
   public readonly body: CapturedImage
+  private _puzzle: SliderPuzzle = null
 
   constructor(
     public readonly image: CapturedImage,
     private readonly image_includes_checkbox: boolean,
-    public readonly isLegacy: boolean) {
+    public readonly isLegacy: boolean,
+    private readonly reader: SliderReader
+  ) {
 
     if (image_includes_checkbox) {
       this.body = image.getSubSection({
@@ -57,11 +63,21 @@ export class CapturedSliderInterface {
     return new CapturedSliderInterface(
       image.getScreenSection(this.screenRectangle(include_checkbox)),
       include_checkbox,
-      this.isLegacy
+      this.isLegacy,
+      this.reader
     )
   }
 
-  static async findIn(img: CapturedImage, include_inverted_arrow_checkmark: boolean): Promise<CapturedSliderInterface> {
+  public getPuzzle(known_theme: string = undefined): SliderPuzzle {
+
+    if (!this._puzzle && this.reader) {
+      this._puzzle = this.reader.identify(this.body.getData(), known_theme)
+    }
+
+    return this._puzzle
+  }
+
+  static async findIn(img: CapturedImage, include_inverted_arrow_checkmark: boolean, reader: SliderReader): Promise<CapturedSliderInterface> {
     const anchors: {
       isLegacy: boolean,
       anchor: ImageData
@@ -87,7 +103,8 @@ export class CapturedSliderInterface {
         return new CapturedSliderInterface(
           positions[0].parent.getSubSection(body_rect),
           include_inverted_arrow_checkmark,
-          anchor.isLegacy
+          anchor.isLegacy,
+          reader
         )
       }
     }

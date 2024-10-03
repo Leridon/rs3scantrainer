@@ -8,7 +8,7 @@ import assert = ScuffedTesting.assert;
 
 export async function test_slide_reader(): Promise<void> {
 
-  await SlideReader.getReferenceSliders()
+  const reader = await SlideReader.instance()
 
   const data: {
     file: string, expected: {
@@ -86,10 +86,10 @@ export async function test_slide_reader(): Promise<void> {
     {
       file: "test_assets/sliders/tree_scrambled4.png", expected: {
         theme: "tree", state:
-          [ 0,  3,  4, 19, 2,
-            24, 18, 16,  6, 11,
-            7, 20, 17,  1, 14,
-            8,  9, 15, 13,  5,
+          [0, 3, 4, 19, 2,
+            24, 18, 16, 6, 11,
+            7, 20, 17, 1, 14,
+            8, 9, 15, 13, 5,
             22, 21, 23, 10, 12]
       }
     },
@@ -106,7 +106,7 @@ export async function test_slide_reader(): Promise<void> {
   for (let test_case of data) {
     const img = await ImageDetect.imageDataFromUrl(test_case.file)
 
-    const res = await SlideReader.identify(img,
+    const res = reader.identify(img,
       //test_case.expected.theme
     )
 

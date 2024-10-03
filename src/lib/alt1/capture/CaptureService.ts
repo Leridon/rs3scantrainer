@@ -7,7 +7,6 @@ import {Log} from "../../util/Log";
 import * as lodash from "lodash";
 import {LifetimeManager} from "../../lifetime/LifetimeManager";
 import {LifetimeManaged} from "../../lifetime/LifetimeManaged";
-import todo = util.todo;
 import TimedValue = AbstractCaptureService.TimedValue;
 import CaptureTime = AbstractCaptureService.CaptureTime;
 
@@ -114,9 +113,18 @@ export abstract class AbstractCaptureService<
   captureOnce(options: {
     newer_than?: number | CapturedImage,
     options: InterestOptionsT
-  }): ValueT {
+  }): Promise<TimedValue<ValueT>> {
+    return new Promise(resolve => {
 
-    todo()
+      this.subscribe({
+        options: () => ({
+          ...options.options,
+          interval: CaptureInterval.level(0)
+        }),
+        handle: (value) => resolve(value),
+        isOneTime: () => true
+      })
+    })
   }
 }
 

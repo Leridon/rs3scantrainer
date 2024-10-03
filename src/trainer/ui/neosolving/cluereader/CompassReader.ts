@@ -13,7 +13,7 @@ import * as leaflet from "leaflet";
 import {MapEntity} from "../../../../lib/gamemap/MapEntity";
 import {TileCoordinates} from "../../../../lib/runescape/coordinates";
 import {GameMapMouseEvent} from "../../../../lib/gamemap/MapEvents";
-import {linePolygon, tilePolygon} from "../../polygon_helpers";
+import {tilePolygon} from "../../polygon_helpers";
 import {Process} from "../../../../lib/Process";
 import {EwentHandler, observe} from "../../../../lib/reactive";
 import {ScreenRectangle} from "../../../../lib/alt1/ScreenRectangle";
@@ -201,9 +201,9 @@ export class CompassReader {
     if (TARGET_X_SAMPLE_OFFSETS.every(coords => {
       const red = getRed(coords.x, coords.y)
 
-      const res = red >= 75 && red <= 110
+      const res = red >= 70 && red <= 110
 
-      // console.log(`${red} at ${coords.x}|${coords.y}`)
+      //if (!res) console.log(`${red} at ${coords.x}|${coords.y}`)
 
       return res
     })) return {type: "likely_solved"}
@@ -1325,7 +1325,6 @@ export namespace CompassReader {
   export namespace CalibrationTool {
     import gielinor_compass = clue_data.gielinor_compass;
     import Sample = AngularKeyframeFunction.Sample;
-    import index = util.index;
 
     export class KnownMarker extends MapEntity {
       constructor(public spot: TileCoordinates) {

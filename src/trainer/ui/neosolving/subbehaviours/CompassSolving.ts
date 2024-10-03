@@ -876,10 +876,10 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     this.parent.app.main_hotkey.subscribe(0, e => {
       if (e.text) {
-        const matched_teleport = findBestMatch(CompassSolving.teleport_hovers, ref => stringSimilarity(e.text, ref.expected), 0.9)
+        const matched_teleport = CompassSolving.teleport_hovers.findBest(e.text)
 
         if (matched_teleport) {
-          const tele = TransportData.resolveTeleport(matched_teleport.value.teleport_id)
+          const tele = TransportData.resolveTeleport(matched_teleport)
           if (!tele) return
           this.registerSpot(tele, false)
         }
@@ -928,172 +928,240 @@ export namespace CompassSolving {
       else return spot
     }
   }
-  export const teleport_hovers: {
-    expected: string,
-    teleport_id: TeleportGroup.SpotId
-  }[] =
-    [
-      {
-        expected: "Cast South Feldip Hills Teleport",
-        teleport_id: {group: "normalspellbook", spot: "southfeldiphills"}
+
+
+  export namespace teleport_hovers {
+    export const teleport_hovers: {
+      expected: string,
+      teleport_id: TeleportGroup.SpotId
+    }[] =
+      [
+        {
+          expected: "Cast South Feldip Hills Teleport",
+          teleport_id: {group: "normalspellbook", spot: "southfeldiphills"}
+        }, {
+        expected: "Cast Taverley Teleport",
+        teleport_id: {group: "normalspellbook", spot: "taverley"}
       }, {
-      expected: "Cast Taverley Teleport",
-      teleport_id: {group: "normalspellbook", spot: "taverley"}
-    }, {
-      expected: "Cast Varrock Teleport",
-      teleport_id: {group: "normalspellbook", spot: "varrock"}
-    }, {
-      expected: "Cast Lumbridge Teleport",
-      teleport_id: {group: "normalspellbook", spot: "lumbridge"}
-    }, {
-      expected: "Cast Falador Teleport",
-      teleport_id: {group: "normalspellbook", spot: "falador"}
-    }, {
-      expected: "Cast Camelot Teleport",
-      teleport_id: {group: "normalspellbook", spot: "camelot"}
-    }, {
-      expected: "Cast Ardougne Teleport",
-      teleport_id: {group: "normalspellbook", spot: "ardougne"}
-    }, {
-      expected: "Cast Watchtower Teleport",
-      teleport_id: {group: "normalspellbook", spot: "watchtower-yanille"}
-    }, {
-      expected: "Cast Trollheim Teleport",
-      teleport_id: {group: "normalspellbook", spot: "trollheim"}
-    }, {
-      expected: "Cast God Wars Dungeon Teleport",
-      teleport_id: {group: "normalspellbook", spot: "godwars"}
-    }, {
-      expected: "Cast Paddewwa Teleport",
-      teleport_id: {group: "ancientspellook", spot: "paddewwa"}
-    }, {
-      expected: "Cast Senntisten Teleport",
-      teleport_id: {group: "ancientspellook", spot: "senntisten"}
-    }, {
-      expected: "Cast Kharyll Teleport",
-      teleport_id: {group: "ancientspellook", spot: "kharyll"}
-    }, {
-      expected: "Cast Lassar Teleport",
-      teleport_id: {group: "ancientspellook", spot: "lassar"}
-    }, {
-      expected: "Cast Dareeyak Teleport",
-      teleport_id: {group: "ancientspellook", spot: "dareeyak"}
-    }, {
-      expected: "Cast Carrallanger Teleport",
-      teleport_id: {group: "ancientspellook", spot: "carallaner"}
-    }, {
-      expected: "Cast Annakarl Teleport",
-      teleport_id: {group: "ancientspellook", spot: "annakarl"}
-    }, {
-      expected: "Cast Ghorrock Teleport",
-      teleport_id: {group: "ancientspellook", spot: "ghorrock"}
-    },
+        expected: "Cast Varrock Teleport",
+        teleport_id: {group: "normalspellbook", spot: "varrock"}
+      }, {
+        expected: "Cast Lumbridge Teleport",
+        teleport_id: {group: "normalspellbook", spot: "lumbridge"}
+      }, {
+        expected: "Cast Falador Teleport",
+        teleport_id: {group: "normalspellbook", spot: "falador"}
+      }, {
+        expected: "Cast Camelot Teleport",
+        teleport_id: {group: "normalspellbook", spot: "camelot"}
+      }, {
+        expected: "Cast Ardougne Teleport",
+        teleport_id: {group: "normalspellbook", spot: "ardougne"}
+      }, {
+        expected: "Cast Watchtower Teleport",
+        teleport_id: {group: "normalspellbook", spot: "watchtower-yanille"}
+      }, {
+        expected: "Cast Trollheim Teleport",
+        teleport_id: {group: "normalspellbook", spot: "trollheim"}
+      }, {
+        expected: "Cast God Wars Dungeon Teleport",
+        teleport_id: {group: "normalspellbook", spot: "godwars"}
+      }, {
+        expected: "Cast Paddewwa Teleport",
+        teleport_id: {group: "ancientspellook", spot: "paddewwa"}
+      }, {
+        expected: "Cast Senntisten Teleport",
+        teleport_id: {group: "ancientspellook", spot: "senntisten"}
+      }, {
+        expected: "Cast Kharyll Teleport",
+        teleport_id: {group: "ancientspellook", spot: "kharyll"}
+      }, {
+        expected: "Cast Lassar Teleport",
+        teleport_id: {group: "ancientspellook", spot: "lassar"}
+      }, {
+        expected: "Cast Dareeyak Teleport",
+        teleport_id: {group: "ancientspellook", spot: "dareeyak"}
+      }, {
+        expected: "Cast Carrallanger Teleport",
+        teleport_id: {group: "ancientspellook", spot: "carallaner"}
+      }, {
+        expected: "Cast Annakarl Teleport",
+        teleport_id: {group: "ancientspellook", spot: "annakarl"}
+      }, {
+        expected: "Cast Ghorrock Teleport",
+        teleport_id: {group: "ancientspellook", spot: "ghorrock"}
+      },
 
-      {expected: "Cast Kandarin monastery Teleport", teleport_id: {group: "greenteleport", spot: "monastery"}},
-      {expected: "Cast Manor farm Teleport", teleport_id: {group: "greenteleport", spot: "manorfarm"}},
-      {expected: "Cast Skeletal horror Teleport", teleport_id: {group: "greenteleport", spot: "skelettalhorror"}},
+        {expected: "Cast Kandarin monastery Teleport", teleport_id: {group: "greenteleport", spot: "monastery"}},
+        {expected: "Cast Manor farm Teleport", teleport_id: {group: "greenteleport", spot: "manorfarm"}},
+        {expected: "Cast Skeletal horror Teleport", teleport_id: {group: "greenteleport", spot: "skelettalhorror"}},
 
-      {expected: "Cast Moonclan Teleport", teleport_id: {group: "lunarspellbook", spot: "moonclan"}},
-      {expected: "Cast Ourania Teleport", teleport_id: {group: "lunarspellbook", spot: "ourania"}},
-      {expected: "Cast South Falador Teleport", teleport_id: {group: "lunarspellbook", spot: "southfalador"}},
-      {expected: "Cast Waterbirth Teleport", teleport_id: {group: "lunarspellbook", spot: "waterbirth"}},
-      {expected: "Cast Barbarian Teleport", teleport_id: {group: "lunarspellbook", spot: "barbarian"}},
-      {expected: "Cast North Ardougne Teleport", teleport_id: {group: "lunarspellbook", spot: "northardougne"}},
-      {expected: "Cast Khazard Teleport", teleport_id: {group: "lunarspellbook", spot: "khazard"}},
-      {expected: "Cast Fishing Guild Teleport", teleport_id: {group: "lunarspellbook", spot: "fishing"}},
-      {expected: "Cast Catherby Teleport", teleport_id: {group: "lunarspellbook", spot: "catherby"}},
-      {expected: "Cast Ice Plateau Teleport", teleport_id: {group: "lunarspellbook", spot: "iceplateu"}},
-      {expected: "Cast Trollheim Farm Teleport", teleport_id: {group: "lunarspellbook", spot: "trollheim"}},
+        {expected: "Cast Moonclan Teleport", teleport_id: {group: "lunarspellbook", spot: "moonclan"}},
+        {expected: "Cast Ourania Teleport", teleport_id: {group: "lunarspellbook", spot: "ourania"}},
+        {expected: "Cast South Falador Teleport", teleport_id: {group: "lunarspellbook", spot: "southfalador"}},
+        {expected: "Cast Waterbirth Teleport", teleport_id: {group: "lunarspellbook", spot: "waterbirth"}},
+        {expected: "Cast Barbarian Teleport", teleport_id: {group: "lunarspellbook", spot: "barbarian"}},
+        {expected: "Cast North Ardougne Teleport", teleport_id: {group: "lunarspellbook", spot: "northardougne"}},
+        {expected: "Cast Khazard Teleport", teleport_id: {group: "lunarspellbook", spot: "khazard"}},
+        {expected: "Cast Fishing Guild Teleport", teleport_id: {group: "lunarspellbook", spot: "fishing"}},
+        {expected: "Cast Catherby Teleport", teleport_id: {group: "lunarspellbook", spot: "catherby"}},
+        {expected: "Cast Ice Plateau Teleport", teleport_id: {group: "lunarspellbook", spot: "iceplateu"}},
+        {expected: "Cast Trollheim Farm Teleport", teleport_id: {group: "lunarspellbook", spot: "trollheim"}},
 
-      {expected: "Quick teleport Al Kharid Lodestone", teleport_id: {group: "home", spot: "alkharid"}},
-      {expected: "Teleport Al Kharid Lodestone", teleport_id: {group: "home", spot: "alkharid"}},
-      {expected: "Quick teleport Anachronia Lodestone", teleport_id: {group: "home", spot: "anachronia"}},
-      {expected: "Teleport Anachronia Lodestone", teleport_id: {group: "home", spot: "anachronia"}},
-      {expected: "Quick teleport Ardougne Lodestone", teleport_id: {group: "home", spot: "ardougne"}},
-      {expected: "Teleport Ardougne Lodestone", teleport_id: {group: "home", spot: "ardougne"}},
-      {expected: "Quick teleport Ashdale Lodestone", teleport_id: {group: "home", spot: "ashdale"}},
-      {expected: "Teleport Ashdale Lodestone", teleport_id: {group: "home", spot: "ashdale"}},
-      {expected: "Quick teleport Bandit Camp Lodestone", teleport_id: {group: "home", spot: "banditcamp"}},
-      {expected: "Teleport Bandit Camp Lodestone", teleport_id: {group: "home", spot: "banditcamp"}},
-      {expected: "Quick teleport Burthorpe Lodestone", teleport_id: {group: "home", spot: "burthorpe"}},
-      {expected: "Teleport Burthorpe Lodestone", teleport_id: {group: "home", spot: "burthorpe"}},
-      {expected: "Quick teleport Canifis Lodestone", teleport_id: {group: "home", spot: "canifis"}},
-      {expected: "Teleport Canifis Lodestone", teleport_id: {group: "home", spot: "canifis"}},
-      {expected: "Quick teleport Catherby Lodestone", teleport_id: {group: "home", spot: "catherby"}},
-      {expected: "Teleport Catherby Lodestone", teleport_id: {group: "home", spot: "catherby"}},
-      {expected: "Quick teleport Draynor Lodestone", teleport_id: {group: "home", spot: "draynor"}},
-      {expected: "Teleport Draynor Lodestone", teleport_id: {group: "home", spot: "draynor"}},
-      {expected: "Quick teleport Eagles` Peak Lodestone", teleport_id: {group: "home", spot: "eaglespeak"}},
-      {expected: "Teleport Eagles` Peak Lodestone", teleport_id: {group: "home", spot: "eaglespeak"}},
-      {expected: "Quick teleport Edgeville Lodestone", teleport_id: {group: "home", spot: "edgeville"}},
-      {expected: "Teleport Edgeville Lodestone", teleport_id: {group: "home", spot: "edgeville"}},
-      {expected: "Quick teleport Falador Lodestone", teleport_id: {group: "home", spot: "falador"}},
-      {expected: "Teleport Falador Lodestone", teleport_id: {group: "home", spot: "falador"}},
-      {expected: "Quick teleport Fremennik Lodestone", teleport_id: {group: "home", spot: "fremmenik"}},
-      {expected: "Teleport Fremennik Lodestone", teleport_id: {group: "home", spot: "fremmenik"}},
-      {expected: "Quick teleport Karamja Lodestone", teleport_id: {group: "home", spot: "karamja"}},
-      {expected: "Teleport Karamja Lodestone", teleport_id: {group: "home", spot: "karamja"}},
-      {expected: "Quick teleport Lumbridge Lodestone", teleport_id: {group: "home", spot: "lumbridge"}},
-      {expected: "Teleport Lumbridge Lodestone", teleport_id: {group: "home", spot: "lumbridge"}},
-      {expected: "Quick teleport Lunar Isle Lodestone", teleport_id: {group: "home", spot: "lunarisle"}},
-      {expected: "Teleport Lunar Isle Lodestone", teleport_id: {group: "home", spot: "lunarisle"}},
-      {expected: "Quick teleport Oo´glog Lodestone", teleport_id: {group: "home", spot: "ooglog"}},
-      {expected: "Teleport Oo´glog Lodestone", teleport_id: {group: "home", spot: "ooglog"}},
-      {expected: "Quick teleport Port Sarim Lodestone", teleport_id: {group: "home", spot: "portsarim"}},
-      {expected: "Teleport Port Sarim Lodestone", teleport_id: {group: "home", spot: "portsarim"}},
-      {expected: "Quick teleport Prifddinas Lodestone", teleport_id: {group: "home", spot: "prifddinas"}},
-      {expected: "Teleport Prifddinas Lodestone", teleport_id: {group: "home", spot: "prifddinas"}},
-      {expected: "Quick teleport Seers´ Village Lodestone", teleport_id: {group: "home", spot: "seersvillage"}},
-      {expected: "Teleport Seers´ Village Lodestone", teleport_id: {group: "home", spot: "seersvillage"}},
-      {expected: "Quick teleport Taverley Lodestone", teleport_id: {group: "home", spot: "taverley"}},
-      {expected: "Teleport Taverley Lodestone", teleport_id: {group: "home", spot: "taverley"}},
-      {expected: "Quick teleport Tirannwn Lodestone", teleport_id: {group: "home", spot: "tirannwn"}},
-      {expected: "Teleport Tirannwn Lodestone", teleport_id: {group: "home", spot: "tirannwn"}},
-      {expected: "Quick teleport Varrock Lodestone", teleport_id: {group: "home", spot: "varrock"}},
-      {expected: "Teleport Varrock Lodestone", teleport_id: {group: "home", spot: "varrock"}},
-      {expected: "Quick teleport Wilderness Lodestone", teleport_id: {group: "home", spot: "wilderness"}},
-      {expected: "Teleport Wilderness Lodestone", teleport_id: {group: "home", spot: "wilderness"}},
-      {expected: "Quick teleport Yanille Lodestone", teleport_id: {group: "home", spot: "yanille"}},
-      {expected: "Teleport Yanille Lodestone", teleport_id: {group: "home", spot: "yanille"}},
-      {expected: "Quick teleport Menaphos Lodestone", teleport_id: {group: "home", spot: "menaphos"}},
-      {expected: "Teleport Menaphos Lodestone", teleport_id: {group: "home", spot: "menaphos"}},
-      {expected: "Quick teleport Fort Forinthry Lodestone", teleport_id: {group: "home", spot: "fortforinthry"}},
-      {expected: "Teleport Fort Forinthry Lodestone", teleport_id: {group: "home", spot: "fortforinthry"}},
-      {expected: "Quick teleport City of Um Lodestone", teleport_id: {group: "home", spot: "cityofum"}},
-      {expected: "Teleport City of Um Lodestone", teleport_id: {group: "home", spot: "cityofum"}},
+        // Lodestone Network Map
+        {expected: "Quick teleport Al Kharid", teleport_id: {group: "home", spot: "alkharid"}},
+        {expected: "Teleport Al Kharid", teleport_id: {group: "home", spot: "alkharid"}},
+        {expected: "Quick teleport Anachronia", teleport_id: {group: "home", spot: "anachronia"}},
+        {expected: "Teleport Anachronia", teleport_id: {group: "home", spot: "anachronia"}},
+        {expected: "Quick teleport Ardougne", teleport_id: {group: "home", spot: "ardougne"}},
+        {expected: "Teleport Ardougne", teleport_id: {group: "home", spot: "ardougne"}},
+        {expected: "Quick teleport Ashdale", teleport_id: {group: "home", spot: "ashdale"}},
+        {expected: "Teleport Ashdale", teleport_id: {group: "home", spot: "ashdale"}},
+        {expected: "Quick teleport Bandit Camp", teleport_id: {group: "home", spot: "banditcamp"}},
+        {expected: "Teleport Bandit Camp", teleport_id: {group: "home", spot: "banditcamp"}},
+        {expected: "Quick teleport Burthorpe", teleport_id: {group: "home", spot: "burthorpe"}},
+        {expected: "Teleport Burthorpe", teleport_id: {group: "home", spot: "burthorpe"}},
+        {expected: "Quick teleport Canifis", teleport_id: {group: "home", spot: "canifis"}},
+        {expected: "Teleport Canifis", teleport_id: {group: "home", spot: "canifis"}},
+        {expected: "Quick teleport Catherby", teleport_id: {group: "home", spot: "catherby"}},
+        {expected: "Teleport Catherby", teleport_id: {group: "home", spot: "catherby"}},
+        {expected: "Quick teleport Draynor Village", teleport_id: {group: "home", spot: "draynor"}},
+        {expected: "Teleport Draynor Village", teleport_id: {group: "home", spot: "draynor"}},
+        {expected: "Quick teleport Eagles' Peak", teleport_id: {group: "home", spot: "eaglespeak"}},
+        {expected: "Teleport Eagles' Peak", teleport_id: {group: "home", spot: "eaglespeak"}},
+        {expected: "Quick teleport Edgeville", teleport_id: {group: "home", spot: "edgeville"}},
+        {expected: "Teleport Edgeville", teleport_id: {group: "home", spot: "edgeville"}},
+        {expected: "Quick teleport Falador", teleport_id: {group: "home", spot: "falador"}},
+        {expected: "Teleport Falador", teleport_id: {group: "home", spot: "falador"}},
+        {expected: "Quick teleport Fremennik Province", teleport_id: {group: "home", spot: "fremmenik"}},
+        {expected: "Teleport Fremennik Province", teleport_id: {group: "home", spot: "fremmenik"}},
+        {expected: "Quick teleport Karamja", teleport_id: {group: "home", spot: "karamja"}},
+        {expected: "Teleport Karamja", teleport_id: {group: "home", spot: "karamja"}},
+        {expected: "Quick teleport Lumbridge", teleport_id: {group: "home", spot: "lumbridge"}},
+        {expected: "Teleport Lumbridge", teleport_id: {group: "home", spot: "lumbridge"}},
+        {expected: "Quick teleport Lunar Isle", teleport_id: {group: "home", spot: "lunarisle"}},
+        {expected: "Teleport Lunar Isle", teleport_id: {group: "home", spot: "lunarisle"}},
+        {expected: "Quick teleport Oo'glog", teleport_id: {group: "home", spot: "ooglog"}},
+        {expected: "Teleport Oo'glog", teleport_id: {group: "home", spot: "ooglog"}},
+        {expected: "Quick teleport Port Sarim", teleport_id: {group: "home", spot: "portsarim"}},
+        {expected: "Teleport Port Sarim", teleport_id: {group: "home", spot: "portsarim"}},
+        {expected: "Quick teleport Prifddinas", teleport_id: {group: "home", spot: "prifddinas"}},
+        {expected: "Teleport Prifddinas", teleport_id: {group: "home", spot: "prifddinas"}},
+        {expected: "Quick teleport Seers' Village", teleport_id: {group: "home", spot: "seersvillage"}},
+        {expected: "Teleport Seers' Village", teleport_id: {group: "home", spot: "seersvillage"}},
+        {expected: "Quick teleport Taverley", teleport_id: {group: "home", spot: "taverley"}},
+        {expected: "Teleport Taverley", teleport_id: {group: "home", spot: "taverley"}},
+        {expected: "Quick teleport Tirannwn", teleport_id: {group: "home", spot: "tirannwn"}},
+        {expected: "Teleport Tirannwn", teleport_id: {group: "home", spot: "tirannwn"}},
+        {expected: "Quick teleport Varrock", teleport_id: {group: "home", spot: "varrock"}},
+        {expected: "Teleport Varrock", teleport_id: {group: "home", spot: "varrock"}},
+        {expected: "Quick teleport Wilderness Crater", teleport_id: {group: "home", spot: "wilderness"}},
+        {expected: "Teleport Wilderness Crater", teleport_id: {group: "home", spot: "wilderness"}},
+        {expected: "Quick teleport Yanille", teleport_id: {group: "home", spot: "yanille"}},
+        {expected: "Teleport Yanille", teleport_id: {group: "home", spot: "yanille"}},
+        {expected: "Quick teleport Menaphos", teleport_id: {group: "home", spot: "menaphos"}},
+        {expected: "Teleport Menaphos", teleport_id: {group: "home", spot: "menaphos"}},
+        {expected: "Quick teleport Fort Forinthry", teleport_id: {group: "home", spot: "fortforinthry"}},
+        {expected: "Teleport Fort Forinthry", teleport_id: {group: "home", spot: "fortforinthry"}},
+        {expected: "Quick teleport City of Um", teleport_id: {group: "home", spot: "cityofum"}},
+        {expected: "Teleport City of Um", teleport_id: {group: "home", spot: "cityofum"}},
 
-      {expected: "Al Kharid lodestone", teleport_id: {group: "home", spot: "alkharid"}},
-      {expected: "Anachronia lodestone", teleport_id: {group: "home", spot: "anachronia"}},
-      {expected: "Ardougne lodestone", teleport_id: {group: "home", spot: "ardougne"}},
-      {expected: "Ashdale lodestone", teleport_id: {group: "home", spot: "ashdale"}},
-      {expected: "Bandit Camp lodestone", teleport_id: {group: "home", spot: "banditcamp"}},
-      {expected: "Burthorpe lodestone", teleport_id: {group: "home", spot: "burthorpe"}},
-      {expected: "Canifis lodestone", teleport_id: {group: "home", spot: "canifis"}},
-      {expected: "Catherby lodestone", teleport_id: {group: "home", spot: "catherby"}},
-      {expected: "Draynor lodestone", teleport_id: {group: "home", spot: "draynor"}},
-      {expected: "Eagles` Peak lodestone", teleport_id: {group: "home", spot: "eaglespeak"}},
-      {expected: "Edgeville lodestone", teleport_id: {group: "home", spot: "edgeville"}},
-      {expected: "Falador lodestone", teleport_id: {group: "home", spot: "falador"}},
-      {expected: "Fremennik Province lodestone", teleport_id: {group: "home", spot: "fremmenik"}},
-      {expected: "Karamja lodestone", teleport_id: {group: "home", spot: "karamja"}},
-      {expected: "Lumbridge lodestone", teleport_id: {group: "home", spot: "lumbridge"}},
-      {expected: "Lunar Isle lodestone", teleport_id: {group: "home", spot: "lunarisle"}},
-      {expected: "Oo´glog lodestone", teleport_id: {group: "home", spot: "ooglog"}},
-      {expected: "Port Sarim lodestone", teleport_id: {group: "home", spot: "portsarim"}},
-      {expected: "Prifddinas lodestone", teleport_id: {group: "home", spot: "prifddinas"}},
-      {expected: "Seers´ Village lodestone", teleport_id: {group: "home", spot: "seersvillage"}},
-      {expected: "Taverley lodestone", teleport_id: {group: "home", spot: "taverley"}},
-      {expected: "Tirannwn lodestone", teleport_id: {group: "home", spot: "tirannwn"}},
-      {expected: "Varrock lodestone", teleport_id: {group: "home", spot: "varrock"}},
-      {expected: "Wilderness lodestone", teleport_id: {group: "home", spot: "wilderness"}},
-      {expected: "Yanille lodestone", teleport_id: {group: "home", spot: "yanille"}},
-      {expected: "Menaphos lodestone", teleport_id: {group: "home", spot: "menaphos"}},
-      {expected: "Fort Forinthry lodestone", teleport_id: {group: "home", spot: "fortforinthry"}},
-      {expected: "City of Um lodestone", teleport_id: {group: "home", spot: "cityofum"}},
+        //Spellbook Lodestones
+        {expected: "Quick teleport Al Kharid Lodestone", teleport_id: {group: "home", spot: "alkharid"}},
+        {expected: "Teleport Al Kharid Lodestone", teleport_id: {group: "home", spot: "alkharid"}},
+        {expected: "Quick teleport Anachronia Lodestone", teleport_id: {group: "home", spot: "anachronia"}},
+        {expected: "Teleport Anachronia Lodestone", teleport_id: {group: "home", spot: "anachronia"}},
+        {expected: "Quick teleport Ardougne Lodestone", teleport_id: {group: "home", spot: "ardougne"}},
+        {expected: "Teleport Ardougne Lodestone", teleport_id: {group: "home", spot: "ardougne"}},
+        {expected: "Quick teleport Ashdale Lodestone", teleport_id: {group: "home", spot: "ashdale"}},
+        {expected: "Teleport Ashdale Lodestone", teleport_id: {group: "home", spot: "ashdale"}},
+        {expected: "Quick teleport Bandit Camp Lodestone", teleport_id: {group: "home", spot: "banditcamp"}},
+        {expected: "Teleport Bandit Camp Lodestone", teleport_id: {group: "home", spot: "banditcamp"}},
+        {expected: "Quick teleport Burthorpe Lodestone", teleport_id: {group: "home", spot: "burthorpe"}},
+        {expected: "Teleport Burthorpe Lodestone", teleport_id: {group: "home", spot: "burthorpe"}},
+        {expected: "Quick teleport Canifis Lodestone", teleport_id: {group: "home", spot: "canifis"}},
+        {expected: "Teleport Canifis Lodestone", teleport_id: {group: "home", spot: "canifis"}},
+        {expected: "Quick teleport Catherby Lodestone", teleport_id: {group: "home", spot: "catherby"}},
+        {expected: "Teleport Catherby Lodestone", teleport_id: {group: "home", spot: "catherby"}},
+        {expected: "Quick teleport Draynor Lodestone", teleport_id: {group: "home", spot: "draynor"}},
+        {expected: "Teleport Draynor Lodestone", teleport_id: {group: "home", spot: "draynor"}},
+        {expected: "Quick teleport Eagles' Peak Lodestone", teleport_id: {group: "home", spot: "eaglespeak"}},
+        {expected: "Teleport Eagles' Peak Lodestone", teleport_id: {group: "home", spot: "eaglespeak"}},
+        {expected: "Quick teleport Edgeville Lodestone", teleport_id: {group: "home", spot: "edgeville"}},
+        {expected: "Teleport Edgeville Lodestone", teleport_id: {group: "home", spot: "edgeville"}},
+        {expected: "Quick teleport Falador Lodestone", teleport_id: {group: "home", spot: "falador"}},
+        {expected: "Teleport Falador Lodestone", teleport_id: {group: "home", spot: "falador"}},
+        {expected: "Quick teleport Fremennik Lodestone", teleport_id: {group: "home", spot: "fremmenik"}},
+        {expected: "Teleport Fremennik Lodestone", teleport_id: {group: "home", spot: "fremmenik"}},
+        {expected: "Quick teleport Karamja Lodestone", teleport_id: {group: "home", spot: "karamja"}},
+        {expected: "Teleport Karamja Lodestone", teleport_id: {group: "home", spot: "karamja"}},
+        {expected: "Quick teleport Lumbridge Lodestone", teleport_id: {group: "home", spot: "lumbridge"}},
+        {expected: "Teleport Lumbridge Lodestone", teleport_id: {group: "home", spot: "lumbridge"}},
+        {expected: "Quick teleport Lunar Isle Lodestone", teleport_id: {group: "home", spot: "lunarisle"}},
+        {expected: "Teleport Lunar Isle Lodestone", teleport_id: {group: "home", spot: "lunarisle"}},
+        {expected: "Quick teleport Oo'glog Lodestone", teleport_id: {group: "home", spot: "ooglog"}},
+        {expected: "Teleport Oo'glog Lodestone", teleport_id: {group: "home", spot: "ooglog"}},
+        {expected: "Quick teleport Port Sarim Lodestone", teleport_id: {group: "home", spot: "portsarim"}},
+        {expected: "Teleport Port Sarim Lodestone", teleport_id: {group: "home", spot: "portsarim"}},
+        {expected: "Quick teleport Prifddinas Lodestone", teleport_id: {group: "home", spot: "prifddinas"}},
+        {expected: "Teleport Prifddinas Lodestone", teleport_id: {group: "home", spot: "prifddinas"}},
+        {expected: "Quick teleport Seers' Village Lodestone", teleport_id: {group: "home", spot: "seersvillage"}},
+        {expected: "Teleport Seers' Village Lodestone", teleport_id: {group: "home", spot: "seersvillage"}},
+        {expected: "Quick teleport Taverley Lodestone", teleport_id: {group: "home", spot: "taverley"}},
+        {expected: "Teleport Taverley Lodestone", teleport_id: {group: "home", spot: "taverley"}},
+        {expected: "Quick teleport Tirannwn Lodestone", teleport_id: {group: "home", spot: "tirannwn"}},
+        {expected: "Teleport Tirannwn Lodestone", teleport_id: {group: "home", spot: "tirannwn"}},
+        {expected: "Quick teleport Varrock Lodestone", teleport_id: {group: "home", spot: "varrock"}},
+        {expected: "Teleport Varrock Lodestone", teleport_id: {group: "home", spot: "varrock"}},
+        {expected: "Quick teleport Wilderness Lodestone", teleport_id: {group: "home", spot: "wilderness"}},
+        {expected: "Teleport Wilderness Lodestone", teleport_id: {group: "home", spot: "wilderness"}},
+        {expected: "Quick teleport Yanille Lodestone", teleport_id: {group: "home", spot: "yanille"}},
+        {expected: "Teleport Yanille Lodestone", teleport_id: {group: "home", spot: "yanille"}},
+        {expected: "Quick teleport Menaphos Lodestone", teleport_id: {group: "home", spot: "menaphos"}},
+        {expected: "Teleport Menaphos Lodestone", teleport_id: {group: "home", spot: "menaphos"}},
+        {expected: "Quick teleport Fort Forinthry Lodestone", teleport_id: {group: "home", spot: "fortforinthry"}},
+        {expected: "Teleport Fort Forinthry Lodestone", teleport_id: {group: "home", spot: "fortforinthry"}},
+        {expected: "Quick teleport City of Um Lodestone", teleport_id: {group: "home", spot: "cityofum"}},
+        {expected: "Teleport City of Um Lodestone", teleport_id: {group: "home", spot: "cityofum"}},
 
-      {expected: "Grand Exchange Luck of the Dwarves", teleport_id: {group: "ringofwealth", spot: "grandexchange"}},
-      {expected: "Dwarven Outpost Luck of the Dwarves", teleport_id: {group: "luckofthedwarves", spot: "outpost"}},
-    ]
+        // Last used lodestone
+        {expected: "Al Kharid lodestone", teleport_id: {group: "home", spot: "alkharid"}},
+        {expected: "Anachronia lodestone", teleport_id: {group: "home", spot: "anachronia"}},
+        {expected: "Ardougne lodestone", teleport_id: {group: "home", spot: "ardougne"}},
+        {expected: "Ashdale lodestone", teleport_id: {group: "home", spot: "ashdale"}},
+        {expected: "Bandit Camp lodestone", teleport_id: {group: "home", spot: "banditcamp"}},
+        {expected: "Burthorpe lodestone", teleport_id: {group: "home", spot: "burthorpe"}},
+        {expected: "Canifis lodestone", teleport_id: {group: "home", spot: "canifis"}},
+        {expected: "Catherby lodestone", teleport_id: {group: "home", spot: "catherby"}},
+        {expected: "Draynor lodestone", teleport_id: {group: "home", spot: "draynor"}},
+        {expected: "Eagles' Peak lodestone", teleport_id: {group: "home", spot: "eaglespeak"}},
+        {expected: "Edgeville lodestone", teleport_id: {group: "home", spot: "edgeville"}},
+        {expected: "Falador lodestone", teleport_id: {group: "home", spot: "falador"}},
+        {expected: "Fremennik Province lodestone", teleport_id: {group: "home", spot: "fremmenik"}},
+        {expected: "Karamja lodestone", teleport_id: {group: "home", spot: "karamja"}},
+        {expected: "Lumbridge lodestone", teleport_id: {group: "home", spot: "lumbridge"}},
+        {expected: "Lunar Isle lodestone", teleport_id: {group: "home", spot: "lunarisle"}},
+        {expected: "Oo'glog lodestone", teleport_id: {group: "home", spot: "ooglog"}},
+        {expected: "Port Sarim lodestone", teleport_id: {group: "home", spot: "portsarim"}},
+        {expected: "Prifddinas lodestone", teleport_id: {group: "home", spot: "prifddinas"}},
+        {expected: "Seers' Village lodestone", teleport_id: {group: "home", spot: "seersvillage"}},
+        {expected: "Taverley lodestone", teleport_id: {group: "home", spot: "taverley"}},
+        {expected: "Tirannwn lodestone", teleport_id: {group: "home", spot: "tirannwn"}},
+        {expected: "Varrock lodestone", teleport_id: {group: "home", spot: "varrock"}},
+        {expected: "Wilderness Crater lodestone", teleport_id: {group: "home", spot: "wilderness"}},
+        {expected: "Yanille lodestone", teleport_id: {group: "home", spot: "yanille"}},
+        {expected: "Menaphos lodestone", teleport_id: {group: "home", spot: "menaphos"}},
+        {expected: "Fort Forinthry lodestone", teleport_id: {group: "home", spot: "fortforinthry"}},
+        {expected: "City of Um lodestone", teleport_id: {group: "home", spot: "cityofum"}},
+
+        {expected: "Grand Exchange Luck of the Dwarves", teleport_id: {group: "ringofwealth", spot: "grandexchange"}},
+        {expected: "Dwarven Outpost Luck of the Dwarves", teleport_id: {group: "luckofthedwarves", spot: "outpost"}},
+      ]
+
+    export function findBest(right_click_string: string): TeleportGroup.SpotId {
+      return findBestMatch(teleport_hovers, ref => stringSimilarity(right_click_string, ref.expected), 0.9)?.value?.teleport_id
+    }
+  }
 
   export const ANGLE_CHANGE_COMMIT_THRESHOLD = degreesToRadians(4)
 

@@ -306,7 +306,7 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
           self.minimap_overlay.render()
         }
       }),
-      this.scan_capture_service = new ScanCaptureService(this.parent.app.capture_service2, this.original_interface_capture),
+      this.scan_capture_service = new ScanCaptureService(this.parent.app.capture_service, this.original_interface_capture),
       this.scan_capture_interest = this.scan_capture_service.subscribe({
         options: () => ({interval: CaptureInterval.fromApproximateInterval(100)}),
         handle: (scan2) => {

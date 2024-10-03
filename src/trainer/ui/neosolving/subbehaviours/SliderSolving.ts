@@ -68,7 +68,7 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
   private arrow_keys_inverted: boolean = false
 
   constructor(private parent: SliderSolving, public solver: Sliders.Solver) {
-    super(parent.parent.app.capture_service2)
+    super(parent.parent.app.capture_service)
 
     this.puzzle = parent.puzzle.puzzle
   }

@@ -319,7 +319,7 @@ class ClueSolvingReadingBehaviour extends Behaviour {
   protected begin() {
     const interval = CaptureInterval.fromApproximateInterval(300)
 
-    this.lifetime_manager.bind(this.parent.app.capture_service2.subscribe({
+    this.lifetime_manager.bind(this.parent.app.capture_service.subscribe({
       options: (time: AbstractCaptureService.CaptureTime) => ({interval: interval, area: null}),
       isPaused: () => (!this.autoSolve || this.parent.active_behaviour.get()?.pausesClueReader()),
       handle: (img) => this.solve(img.value, true)
@@ -361,7 +361,7 @@ class ClueSolvingReadingBehaviour extends Behaviour {
   }
 
   async solveManuallyTriggered() {
-    const img = this.parent.app.capture_service2.captureOnce({options: {area: null, interval: null}})
+    const img = this.parent.app.capture_service.captureOnce({options: {area: null, interval: null}})
 
     const found = await this.solve(img, false)
 

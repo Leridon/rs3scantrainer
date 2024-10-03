@@ -42,6 +42,9 @@ import {Alt1Modal} from "./Alt1Modal";
 import {List} from "../lib/ui/List";
 import {ClickToCopy} from "../lib/ui/ClickToCopy";
 import {ChatReader} from "../lib/alt1/readers/ChatReader";
+import {MinimapReader} from "../lib/alt1/readers/MinimapReader";
+import {CaptureInterval, ScreenCaptureService} from "../lib/alt1/capture";
+import {SectionMemory} from "./ui/neosolving/PathControl";
 import ActiveTeleportCustomization = Transportation.TeleportGroup.ActiveTeleportCustomization;
 import TeleportSettings = Settings.TeleportSettings;
 import inlineimg = C.inlineimg;
@@ -53,10 +56,7 @@ import staticentity = C.staticentity;
 import entity = C.entity;
 import notification = Notification.notification;
 import log = Log.log;
-import {MinimapReader} from "../lib/alt1/readers/MinimapReader";
-import {CaptureInterval, CaptureService, ScreenCaptureService} from "../lib/alt1/capture";
 import img = C.img;
-import {SectionMemory} from "./ui/neosolving/PathControl";
 
 class PermissionChecker extends NisModal {
   constructor() {
@@ -474,10 +474,9 @@ export class Application extends Behaviour {
 
   notifications: NotificationBar
 
-  capture_service: CaptureService = new CaptureService()
-  capture_service2: ScreenCaptureService = new ScreenCaptureService()
-  chatreader: ChatReader = new ChatReader(this.capture_service2).setDebugEnabled()
-  minimapreader: MinimapReader = new MinimapReader(this.capture_service2).setDebugEnabled()
+  capture_service: ScreenCaptureService = new ScreenCaptureService()
+  chatreader: ChatReader = new ChatReader(this.capture_service).setDebugEnabled()
+  minimapreader: MinimapReader = new MinimapReader(this.capture_service).setDebugEnabled()
 
   constructor() {
     super()

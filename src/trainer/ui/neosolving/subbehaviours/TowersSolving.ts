@@ -251,7 +251,7 @@ export class TowersSolving extends AbstractPuzzleSolving<ClueReader.Result.Puzzl
   }
 
   protected constructProcess(): TowersSolvingProcess {
-    return new TowersSolvingProcess(this, this.parent.app.capture_service2)
+    return new TowersSolvingProcess(this, this.parent.app.capture_service)
   }
 
   pausesClueReader(): boolean {

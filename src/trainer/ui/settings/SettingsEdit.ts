@@ -620,9 +620,9 @@ class LockboxSettingsEdit extends Widget {
 
     this.layout.header("Optimization Mode")
 
-    this.layout.paragraph("Control how to optimize the solution. The configured value determines how much a 2-click tile is weighted compared to a 1-click tile. A value of '2' will optimize for the lowest total amount of clicks. A value of '1' will optimize for the lowest number of unique tiles that need to be clicked. Setting this to 1.3 is a good compromise for most people.")
+    this.layout.paragraph("Control how to optimize the solution. The configured value determines how much a 2-click tile is weighted compared to a 1-click tile. A value of '2' will optimize for the lowest total amount of clicks. A value of '1' will optimize for the lowest number of unique tiles that need to be clicked. Setting this to 1.3 is a good compromise for most people. Values above 2 try to avoid 2-click tiles.")
 
-    this.layout.row(new NumberSlider(1, 2, 0.1)
+    this.layout.row(new NumberSlider(1, 5, 0.1)
       .setValue(this.value.two_click_factor)
       .onCommit(v => {
         this.value.two_click_factor = v

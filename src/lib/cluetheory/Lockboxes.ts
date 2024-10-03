@@ -3,7 +3,6 @@ import {util} from "../util/util";
 
 export namespace Lockboxes {
 
-
   export type Tile = 0 // Sword
     | 1 // Bow
     | 2 // Mage
@@ -23,7 +22,7 @@ export namespace Lockboxes {
   export type MoveMap = Tile[][]
 
   export namespace MoveMap {
-    import count = util.count;
+
     export const None: MoveMap = [
       [0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0],
@@ -73,13 +72,13 @@ export namespace Lockboxes {
       })
     }
 
-    export function score(profile: [number, number, number]): (_: MoveMap) => number {
+    export function scoring(profile: [number, number, number]): (_: MoveMap) => number {
       return m => lodash.sum(m.flat().map(m => profile[m]))
     }
 
-    export const clickScore = score([0, 1, 2])
-    export const tileScore = score([0, 1, 1])
-    export const hybridScore = score([0, 1, 1.3])
+    export const clickScore = scoring([0, 1, 2])
+    export const tileScore = scoring([0, 1, 1])
+    export const hybridScore = scoring([0, 1, 1.3])
 
     export function isQuiet(map: MoveMap): boolean {
       return State.equals(State.applyMoves(State.SOLVED, map), State.SOLVED)
@@ -103,11 +102,32 @@ export namespace Lockboxes {
         )
       }
 
+
       return all_quiet_patterns
     }
 
+    export function getEquivalents(map: MoveMap): MoveMap[] {
+      return allQuietPatterns().map(quiet => chain(map, quiet))
+    }
+
     export function minimize(map: MoveMap, by: (_: MoveMap) => number = MoveMap.clickScore): MoveMap {
-      return lodash.minBy(allQuietPatterns().map(quiet => chain(map, quiet)), by)
+      return lodash.minBy(getEquivalents(map), by)
+    }
+
+    export function fromClick(row: number, column: number): MoveMap {
+      return MoveMap.None.map((r, y) => r.map((_, x) => (x == column && y == row) ? 1 : 0))
+    }
+
+    export function difference(a: MoveMap, b: MoveMap): number {
+      let d = 0
+
+      for (let y = 0; y < 5; y++) {
+        for (let x = 0; x < 5; x++) {
+          if (a[x][y] != b[x][y]) d++
+        }
+      }
+
+      return d
     }
   }
 
@@ -159,6 +179,12 @@ export namespace Lockboxes {
     export function toString(state: State): string {
       return state.tile_rows.map(r => r.join("  ")).join("\n")
     }
+
+    export function generate(): State {
+      return {
+        tile_rows: SOLVED.tile_rows.map(r => r.map(() => lodash.random(0, 2) as Tile))
+      }
+    }
   }
 
   function basicSolve(state: State): MoveMap {
@@ -200,7 +226,11 @@ export namespace Lockboxes {
     return MoveMap.chain(first_chasing_moves, magic_solve, second_chasing_moves)
   }
 
-  export function solve(state: State, anytarget: boolean = true, minimize: boolean = true, cost: (_: MoveMap) => number = MoveMap.clickScore): MoveMap {
+  export function solve(state: State,
+                        anytarget: boolean = true,
+                        minimize: boolean = true,
+                        cost: (_: MoveMap) => number = MoveMap.clickScore,
+                        penalty_by_known_solution: MoveMap = null): MoveMap {
     const candidate_starts = [state]
 
     if (anytarget) {
@@ -209,10 +239,16 @@ export namespace Lockboxes {
       })))
     }
 
-    let solutions = candidate_starts.map(basicSolve)
+    let candidate_solutions = candidate_starts.map(basicSolve)
 
-    if (minimize) solutions = solutions.map(s => MoveMap.minimize(s, cost))
+    if (minimize) candidate_solutions = candidate_solutions.flatMap(MoveMap.getEquivalents)
 
-    return lodash.minBy(solutions, cost)
+    const PENALTY_MULTIPLIER = 0.1
+
+    const penalty_f = penalty_by_known_solution
+      ? (s: MoveMap) => PENALTY_MULTIPLIER * MoveMap.difference(s, penalty_by_known_solution)
+      : () => 0
+
+    return lodash.minBy(candidate_solutions, s => cost(s) + penalty_f(s))
   }
 }

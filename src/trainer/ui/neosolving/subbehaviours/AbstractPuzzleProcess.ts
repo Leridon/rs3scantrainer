@@ -21,16 +21,18 @@ export abstract class AbstractPuzzleProcess extends Behaviour {
   protected begin() {
     this.start_time = Date.now();
 
-    this.token = this.capture_service.subscribe({
-      options: (time: AbstractCaptureService.CaptureTime) => ({interval: CaptureInterval.fromApproximateInterval(20), area: this.area()}),
-      handle: async (value: AbstractCaptureService.TimedValue<CapturedImage, ScreenCaptureService.Options>) => {
-        try {
-          await this.tick(value.value)
-        } catch (e) {
-          console.error(e.toString())
+    this.lifetime_manager.bind(
+      this.token = this.capture_service.subscribe({
+        options: (time: AbstractCaptureService.CaptureTime) => ({interval: CaptureInterval.fromApproximateInterval(20), area: this.area()}),
+        handle: async (value: AbstractCaptureService.TimedValue<CapturedImage, ScreenCaptureService.Options>) => {
+          try {
+            this.tick(value.value)
+          } catch (e) {
+            console.error(e.toString())
+          }
         }
-      }
-    })
+      })
+    )
   }
 
   protected end() {

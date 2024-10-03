@@ -5,7 +5,7 @@ import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
 import {SlideReader} from "../cluereader/SliderReader";
 import {deps} from "../../../dependencies";
 import * as lodash from "lodash";
-import {findLastIndex, now} from "lodash";
+import {findLastIndex} from "lodash";
 import {util} from "../../../../lib/util/util";
 import {ClueReader} from "../cluereader/ClueReader";
 import NeoSolvingBehaviour from "../NeoSolvingBehaviour";

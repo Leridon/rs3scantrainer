@@ -178,6 +178,7 @@ class KnotSolvingProcess extends AbstractPuzzleProcess {
 
   protected begin() {
     this.last_read_puzzle = this.puzzle = this.parent.knot.reader.readPuzzle() // This should already be cached
+    super.begin()
   }
 }
 

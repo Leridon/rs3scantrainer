@@ -11,10 +11,9 @@ import {AbstractPuzzleProcess} from "./AbstractPuzzleProcess";
 import {AbstractPuzzleSolving} from "./AbstractPuzzleSolving";
 import {deps} from "../../../dependencies";
 import {Log} from "../../../../lib/util/Log";
-import log = Log.log;
 import {ScreenRectangle} from "../../../../lib/alt1/ScreenRectangle";
 import {util} from "../../../../lib/util/util";
-import {TowersReader} from "../cluereader/TowersReader";
+import log = Log.log;
 import async_init = util.async_init;
 
 class LockboxSolvingProcess extends AbstractPuzzleProcess {
@@ -79,14 +78,14 @@ class LockboxSolvingProcess extends AbstractPuzzleProcess {
 
   async tick(capt: CapturedImage) {
     if (!capt) return
-    if(!this.initialization.isInitialized()) return
+    if (!this.initialization.isInitialized()) return
 
     const capture = CapturedModal.assumeBody(capt)
     const reader = new LockBoxReader.CapturedLockbox(capture, this.initialization.get().reader)
 
-    const puzzle = await reader.getPuzzle()
+    const puzzle = reader.getPuzzle()
 
-    if (await reader.getState() == "likelyclosed") this.puzzleClosed()
+    if (reader.getState() == "likelyclosed") this.puzzleClosed()
 
     if (puzzle) {
 
@@ -141,11 +140,12 @@ class LockboxSolvingProcess extends AbstractPuzzleProcess {
 
   protected begin() {
     this.puzzle = this.parent.lockbox.reader.getPuzzle() // This should already be cached
+
+    super.begin()
   }
 }
 
 export class LockboxSolving extends AbstractPuzzleSolving<ClueReader.Result.Puzzle.Lockbox, LockboxSolvingProcess> {
-
 
   constructor(parent: NeoSolvingBehaviour,
               public lockbox: ClueReader.Result.Puzzle.Lockbox) {

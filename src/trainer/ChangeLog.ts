@@ -21,15 +21,21 @@ export namespace Changelog {
     date: new Date(Date.parse("WIP")),
     title: "Lockbox Changes",
     render: layout => {
-      layout.row(new List()
-        .item("Fixed some right click options for lodestone not being detected when hovering it and pressing Alt+1 on compasses.")
-        .item("Tweaked the lockbox solver so it does not switch to another solution when clicking on a 2-tile at some occasions.")
-        .item(new List()
-          .item("This was caused by the minimization of solutions with a cost multiplier for 2-click tiles of less than 2. Subsequent solutions now have a penalty added to their score based on the number of differences from the previously known solution."))
-        .item("The optimization mode for lockboxes can now be turned up to 5. Values above 2 encourage the solver to avoid tiles that need to be clicked 2 times.")
-        .item(new List()
-          .item("If you're now thinking 'this is dumb, why would I ever do this?': You're right, please go and try to convince Ngis."))
-      )
+      layout
+        .row(new List()
+          .item("Tweaked the lockbox solver so it does not switch to a different solution in the middle of solving.",
+            new List()
+              .item("Instead of independently solving the puzzle on each tick, the solver now prefers the solution closest to the previously known solution. Solution minimization is only applied on the initial solve.")
+          )
+          .item("Extended the lockbox reader to try to detect client desyncs and pause the overlay so that it does not display a wrong solution.",
+            new List()
+              .item("Occasionally, the puzzle state shown by the game client desyncs from the actual server state. The reader now tries to detect this based on the number of clicks you would need to have done to get to this state and unplausible states are discarded. This is considered experimental, so let me know if you encounter issues.")
+          )
+          .item("The optimization mode for lockboxes can now be turned up to 5. Values above 2 encourage the solver to avoid tiles that need to be clicked 2 times.",
+            new List()
+              .item("If you're thinking 'this is dumb, why would I ever do this?': You're right, please go and try to convince Ngis."))
+          .item("Fixed some right click options for lodestones not being detected when hovering it and pressing Alt+1 on compasses.")
+        )
     }
   }, {
     version: 11,

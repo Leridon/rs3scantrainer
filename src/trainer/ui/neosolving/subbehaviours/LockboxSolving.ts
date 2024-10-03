@@ -10,6 +10,8 @@ import {CapturedModal} from "../cluereader/capture/CapturedModal";
 import {AbstractPuzzleProcess} from "./AbstractPuzzleProcess";
 import {AbstractPuzzleSolving} from "./AbstractPuzzleSolving";
 import {deps} from "../../../dependencies";
+import {Log} from "../../../../lib/util/Log";
+import log = Log.log;
 
 class LockboxSolvingProcess extends AbstractPuzzleProcess {
 
@@ -78,23 +80,29 @@ class LockboxSolvingProcess extends AbstractPuzzleProcess {
 
         const is_visually_desynced = (() => {
             // Assumes a maximum click rate of 20/s
-            const max_plausible_moves = Math.ceil((capt.capture.timestamp - this.last_solution.timestamp) / 50) + 1
+            const max_plausible_moves = Math.ceil((capt.capture.timestamp - this.last_solution.timestamp) / 80) + 1
 
             return Lockboxes.MoveMap.difference(solution, this.last_solution?.moves) > max_plausible_moves
           }
         )()
 
         if (!is_visually_desynced) {
+          if (this.last_solution.visually_desynced) log().log("Visual desync ended", "Lockboxes")
+
           this.last_solution = {
             moves: solution,
             timestamp: capt.capture.timestamp
           }
         } else {
+          if (!this.last_solution.visually_desynced) log().log("Visual desync detected", "Lockboxes")
+
           this.last_solution.visually_desynced = true
 
           const DESYNC_TIMEOUT = 3000
 
           if ((capt.capture.timestamp - this.last_solution.timestamp) > DESYNC_TIMEOUT) {
+            log().log("Desync timed out, Resolving", "Lockboxes")
+
             this.last_solution = null
           }
         }

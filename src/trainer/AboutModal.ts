@@ -4,6 +4,7 @@ import {C} from "../lib/ui/constructors";
 import {deps} from "./dependencies";
 import {Alt1Modal} from "./Alt1Modal";
 import {Changelog} from "./ChangeLog";
+import LightButton from "./ui/widgets/LightButton";
 
 export class AboutModal extends NisModal {
   constructor() {
@@ -34,14 +35,11 @@ export class AboutModal extends NisModal {
       )
     }
 
-    layout.paragraph("Click",
-      C.space(),
-      C.text_link("here", () => new Changelog.Modal().show()),
-      C.space(),
-      "to view patch notes."
-    )
+    layout.header("Patch Notes")
 
-    layout.header("Support")
+    layout.row(new LightButton("View Patch Notes", "rectangle").onClick(() => new Changelog.Modal().show()))
+
+    layout.header("Donations")
 
     layout.paragraph("You can support development of Clue Trainer by donating at <a href='https://ko-fi.com/I2I4XY829' target=”_blank”>KoFi</a>. Donations contribute to covering the costs associated with hosting Clue Trainer and are a great way to show appreciation for the time and effort that goes into development.")
 
@@ -64,7 +62,7 @@ export class AboutModal extends NisModal {
 
     layout.paragraph("<strong>Shao</strong> for their support with the updated slider solving algorithm.")
 
-    layout.paragraph("In no particular order <strong>Pup</strong>, <strong>Xindrjayzda</strong>, <strong>Mr Cob</strong>, <strong>Dongus Bungholius</strong>, <strong>treborsmada</strong>, as well as everyone else who contributed by reporting issues, expressing thoughts, sharing clue methods and generally being part of this journey.")
+    layout.paragraph("In no particular order <strong>Pup</strong>, <strong>Xindrjayzda</strong>, <strong>Mr Cob</strong>, <strong>Dongus Bungholius</strong>, <strong>treborsmada</strong>, <strong>Intercal</strong>, <strong>xaj</strong>, as well as everyone else who contributed by reporting issues, expressing thoughts, sharing clue methods and generally being part of this journey.")
 
     layout.header("Legal disclaimer")
     layout.paragraph("Icons and other assets used are owned by Jagex Ltd. and their use is intended to fall under fair dealing as a fan project.")

@@ -18,7 +18,7 @@ export namespace Changelog {
 
   export const log: LogEntry[] = lodash.sortBy<LogEntry>([{
     version: 12,
-    date: new Date(Date.parse("WIP")),
+    date: new Date(Date.parse("2024-10-03")),
     title: "Lockbox Changes",
     render: layout => {
       layout

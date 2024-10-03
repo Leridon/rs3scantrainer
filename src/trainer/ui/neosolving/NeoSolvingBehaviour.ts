@@ -321,7 +321,7 @@ class ClueSolvingReadingBehaviour extends Behaviour {
 
     this.lifetime_manager.bind(this.parent.app.capture_service.subscribe({
       options: (time: AbstractCaptureService.CaptureTime) => ({interval: interval, area: null}),
-      isPaused: () => (!this.autoSolve || this.parent.active_behaviour.get()?.pausesClueReader()),
+      paused: () => (!this.autoSolve || this.parent.active_behaviour.get()?.pausesClueReader()),
       handle: (img) => this.solve(img.value, true)
     }))
   }

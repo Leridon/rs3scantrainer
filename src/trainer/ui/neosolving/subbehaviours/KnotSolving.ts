@@ -11,8 +11,10 @@ import {AbstractPuzzleProcess} from "./AbstractPuzzleProcess";
 import {AbstractPuzzleSolving} from "./AbstractPuzzleSolving";
 import {deps} from "../../../dependencies";
 import {Log} from "../../../../lib/util/Log";
+import {util} from "../../../../lib/util/util";
 import PuzzleState = CelticKnots.PuzzleState;
 import log = Log.log;
+import async_init = util.async_init;
 
 const CENTER_TEXT_SIZE = 20
 const MOVE_FONT_SIZE = 24
@@ -29,23 +31,33 @@ class KnotSolvingProcess extends AbstractPuzzleProcess {
 
   bug_detected: boolean = false
 
+  private initialization: util.AsyncInitialization<{ reader: KnotReader }>
+
   constructor(private parent: KnotSolving) {
-    super();
+    super(parent.parent.app.capture_service2);
 
     this.last_successful_read = Date.now()
 
-    this.asInterval(1000 / 50)
+    this.initialization = async_init(async () => {
+      const finder = await KnotReader.instance()
+
+      return {
+        reader: finder
+      }
+    })
   }
 
-  async tick() {
-    const capt = CapturedImage.capture(this.parent.knot.reader.ui.body.screenRectangle())
+  area(): ScreenRectangle {
+    return this.parent.knot.reader.ui.body.screenRectangle();
+  }
 
-    if (!capt) return
+  tick(capt: CapturedImage) {
+    if (!this.initialization.isInitialized()) return
 
     const capture = CapturedModal.assumeBody(capt)
-    const reader = new KnotReader.KnotReader(capture)
+    const reader = new KnotReader.CapturedKnot(capture, this.initialization.get().reader)
 
-    const puzzle = await reader.getPuzzle()
+    const puzzle = reader.readPuzzle()
     const now = Date.now()
 
     if (!!puzzle) {
@@ -78,7 +90,7 @@ class KnotSolvingProcess extends AbstractPuzzleProcess {
       this.puzzle = new_puzzle
       this.solution = new_solution
 
-      const buttons = await this.parent.knot.reader.getButtons()
+      const buttons = this.parent.knot.reader.getButtons()
 
       this.solution_overlay.clear()
 
@@ -162,21 +174,10 @@ class KnotSolvingProcess extends AbstractPuzzleProcess {
       // Or immediately if state is solved
       this.puzzleClosed()
     }
-
-    /*this.parent.modal.body.empty().append(
-      vbox(
-        ...reader.elements.map(row => hboxl(...row.map(e => e.css2({
-          "width": "12px",
-          "height": "12px",
-        }))))
-      )
-    )*/
   }
 
-  async implementation(): Promise<void> {
-    this.last_read_puzzle = this.puzzle = await this.parent.knot.reader.getPuzzle() // This should already be cached
-
-    await super.implementation()
+  protected begin() {
+    this.last_read_puzzle = this.puzzle = this.parent.knot.reader.readPuzzle() // This should already be cached
   }
 }
 

@@ -5,7 +5,7 @@ import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
 import {SlideReader} from "../cluereader/SliderReader";
 import {deps} from "../../../dependencies";
 import * as lodash from "lodash";
-import {findLastIndex} from "lodash";
+import {findLastIndex, now} from "lodash";
 import {util} from "../../../../lib/util/util";
 import {ClueReader} from "../cluereader/ClueReader";
 import NeoSolvingBehaviour from "../NeoSolvingBehaviour";
@@ -20,18 +20,19 @@ import {RandomSolver} from "../../../../lib/cluetheory/sliders/RandomSolver";
 import {ProgressBar} from "../../widgets/ProgressBar";
 import {RegionDistanceTable} from "../../../../lib/cluetheory/sliders/RegionDistanceTable";
 import {Log} from "../../../../lib/util/Log";
-import over = OverlayGeometry.over;
-import SliderState = Sliders.SliderState;
-import SliderPuzzle = Sliders.SliderPuzzle;
-import SolvingProcess = Sliders.SolvingProcess;
-import AnnotatedMoveList = Sliders.AnnotatedMoveList;
-import MoveList = Sliders.MoveList;
-import Move = Sliders.Move;
+import {CapturedImage} from "../../../../lib/alt1/capture";
+import {ScreenRectangle} from "../../../../lib/alt1/ScreenRectangle";
 import profileAsync = util.profileAsync;
 import log = Log.log;
 import index = util.index;
-import {timeSync} from "../../../../lib/gamemap/GameLayer";
-import {CapturedImage} from "../../../../lib/alt1/capture";
+import SliderPuzzle = Sliders.SliderPuzzle;
+import SliderState = Sliders.SliderState;
+import SolvingProcess = Sliders.SolvingProcess;
+import AnnotatedMoveList = Sliders.AnnotatedMoveList;
+import over = OverlayGeometry.over;
+import Move = Sliders.Move;
+import MoveList = Sliders.MoveList;
+
 
 class SliderGuideProcess extends AbstractPuzzleProcess {
   settings = deps().app.settings.settings.solving.puzzles.sliders
@@ -67,7 +68,7 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
   private arrow_keys_inverted: boolean = false
 
   constructor(private parent: SliderSolving, public solver: Sliders.Solver) {
-    super()
+    super(parent.parent.app.capture_service2)
 
     this.puzzle = parent.puzzle.puzzle
   }
@@ -89,16 +90,16 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
     }
   }
 
-  private async read(): Promise<{
+  area(): ScreenRectangle {
+    return this.parent.puzzle.reader.ui.screenRectangle(true);
+  }
+
+  private async read(capture: CapturedImage): Promise<{
     result: Sliders.SliderPuzzle,
     state: SliderState,
     inverted_checkmark: boolean
   }> {
-    debugger
-
-    const capture = CapturedImage.capture(this.parent.puzzle.reader.ui.screenRectangle(true))
-
-    const capt = timeSync("Small capture", () => this.parent.puzzle.reader.ui.recapture(true, capture))
+    const capt = this.parent.puzzle.reader.ui.recapture(true, capture)
 
     const read = await new SlideReader.SlideReader(capt).getPuzzle(this.puzzle.theme)
 
@@ -417,8 +418,8 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
     this.solving_overlay.render()
   }
 
-  async tick(): Promise<void> {
-    const read_result = await this.read()
+  async tick(capture: CapturedImage): Promise<void> {
+    const read_result = await this.read(capture)
 
     if (read_result.result.match_score < SlideReader.DETECTION_THRESHOLD_SCORE) {
       this.puzzleClosed()
@@ -460,8 +461,6 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
 
       return
     }
-
-    await this.checkTime()
 
     if (!this.solution) return
 
@@ -616,8 +615,8 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
       .setCombineStraights(this.settings.mode == "mouse" || this.settings.mode == "hybrid")
   }
 
-  override async implementation(): Promise<void> {
-    await super.implementation()
+  protected end() {
+    super.end();
 
     this.move_overlay?.hide()
     this.solving_overlay?.hide()

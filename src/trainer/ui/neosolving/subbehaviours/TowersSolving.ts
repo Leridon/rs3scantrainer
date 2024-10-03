@@ -1,6 +1,6 @@
 import NeoSolvingBehaviour from "../NeoSolvingBehaviour";
 import {ClueReader} from "../cluereader/ClueReader";
-import {CapturedImage} from "../../../../lib/alt1/capture";
+import {CapturedImage, ScreenCaptureService} from "../../../../lib/alt1/capture";
 import {CapturedModal} from "../cluereader/capture/CapturedModal";
 import {TowersReader} from "../cluereader/TowersReader";
 import {Towers} from "../../../../lib/cluetheory/Towers";
@@ -10,6 +10,8 @@ import {ScreenRectangle} from "../../../../lib/alt1/ScreenRectangle";
 import {AbstractPuzzleSolving} from "./AbstractPuzzleSolving";
 import {AbstractPuzzleProcess} from "./AbstractPuzzleProcess";
 import {deps} from "../../../dependencies";
+import {util} from "../../../../lib/util/util";
+import async_init = util.async_init;
 
 class TowersSolvingProcess extends AbstractPuzzleProcess {
   settings = deps().app.settings.settings.solving.puzzles.towers
@@ -21,13 +23,21 @@ class TowersSolvingProcess extends AbstractPuzzleProcess {
 
   private was_solved_data: boolean[][] = Towers.Blocks.empty().rows.map(r => r.map(() => false))
 
-  constructor(private parent: TowersSolving) {
-    super();
+  private initialization: util.AsyncInitialization<{ reader: TowersReader }>
+
+  constructor(private parent: TowersSolving, capturing: ScreenCaptureService) {
+    super(capturing);
 
     this.last_successful_read = Date.now()
+
+    this.initialization = async_init(async () => {
+      return {
+        reader: await TowersReader.instance()
+      }
+    })
   }
 
-  private debugOverlay(reader: TowersReader.TowersReader) {
+  private debugOverlay(reader: TowersReader.CapturedTowers) {
 
     this.solution_overlay.clear()
 
@@ -62,7 +72,7 @@ class TowersSolvingProcess extends AbstractPuzzleProcess {
     this.solution_overlay.render()
   }
 
-  async showSolutionOverlay(reader: TowersReader.TowersReader, currentState: Towers.PuzzleState, solution: Towers.PuzzleState, hidden_by_context_menu: ScreenRectangle = null) {
+  showSolutionOverlay(reader: TowersReader.CapturedTowers, currentState: Towers.PuzzleState, solution: Towers.PuzzleState, hidden_by_context_menu: ScreenRectangle = null) {
     this.solution_overlay.clear()
 
     const blocked_area = hidden_by_context_menu
@@ -184,18 +194,22 @@ class TowersSolvingProcess extends AbstractPuzzleProcess {
     this.solution_overlay.render()
   }
 
-  async tick() {
+  area(): ScreenRectangle {
+    return this.parent.lockbox.reader.modal.body.screenRectangle();
+  }
+
+  tick(capt: CapturedImage) {
     try {
-      const capt = CapturedImage.capture(this.parent.lockbox.reader.modal.body.screenRectangle())
+      if (!this.initialization.isInitialized()) return
 
       if (!capt) return
 
       const capture = CapturedModal.assumeBody(capt)
-      const reader = new TowersReader.TowersReader(capture)
+      const reader = new TowersReader.CapturedTowers(capture, this.initialization.get().reader)
 
-      let puzzle = await reader.getPuzzle()
+      let puzzle = reader.getPuzzle()
 
-      const context_menu_area = await reader.findContextMenu()
+      const context_menu_area = reader.findContextMenu()
 
       if (puzzle) {
         if (this.puzzle && context_menu_area) puzzle.blocks = Towers.Blocks.combine(puzzle.blocks, this.puzzle.blocks)
@@ -206,20 +220,20 @@ class TowersSolvingProcess extends AbstractPuzzleProcess {
       if (this.puzzle) {
         const solution = Towers.solve(this.puzzle.hints)
 
-        await this.showSolutionOverlay(reader, this.puzzle, solution, context_menu_area)
+        this.showSolutionOverlay(reader, this.puzzle, solution, context_menu_area)
       }
 
-      if (await reader.getState() == "likelyclosed") this.puzzleClosed()
+      if (reader.getState() == "likelyclosed") this.puzzleClosed()
 
     } catch (e) {
       console.error(e.toString())
     }
   }
 
-  async implementation(): Promise<void> {
-    this.puzzle = await this.parent.lockbox.reader.getPuzzle() // This should already be cached
+  protected begin() {
+    this.puzzle = this.parent.lockbox.reader.getPuzzle() // This should already be cached
 
-    await super.implementation()
+    super.begin();
   }
 }
 
@@ -237,7 +251,7 @@ export class TowersSolving extends AbstractPuzzleSolving<ClueReader.Result.Puzzl
   }
 
   protected constructProcess(): TowersSolvingProcess {
-    return new TowersSolvingProcess(this)
+    return new TowersSolvingProcess(this, this.parent.app.capture_service2)
   }
 
   pausesClueReader(): boolean {

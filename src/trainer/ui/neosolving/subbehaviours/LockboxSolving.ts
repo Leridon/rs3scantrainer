@@ -12,6 +12,10 @@ import {AbstractPuzzleSolving} from "./AbstractPuzzleSolving";
 import {deps} from "../../../dependencies";
 import {Log} from "../../../../lib/util/Log";
 import log = Log.log;
+import {ScreenRectangle} from "../../../../lib/alt1/ScreenRectangle";
+import {util} from "../../../../lib/util/util";
+import {TowersReader} from "../cluereader/TowersReader";
+import async_init = util.async_init;
 
 class LockboxSolvingProcess extends AbstractPuzzleProcess {
 
@@ -22,11 +26,20 @@ class LockboxSolvingProcess extends AbstractPuzzleProcess {
   puzzle: Lockboxes.State
   isSolved: boolean = false
 
+  private initialization: util.AsyncInitialization<{ reader: LockBoxReader }>
+
   constructor(private parent: LockboxSolving) {
-    super();
+    super(parent.parent.app.capture_service2);
+
+
+    this.initialization = async_init(async () => {
+      return {
+        reader: await LockBoxReader.instance()
+      }
+    })
   }
 
-  private overlay(solution: Lockboxes.MoveMap, reader: LockBoxReader.LockBoxReader, is_desynced: boolean) {
+  private overlay(solution: Lockboxes.MoveMap, reader: LockBoxReader.CapturedLockbox, is_desynced: boolean) {
     this.solution_overlay.clear()
 
     for (let y = 0; y < solution.length; y++) {
@@ -60,13 +73,16 @@ class LockboxSolvingProcess extends AbstractPuzzleProcess {
     visually_desynced?: boolean
   } = null
 
-  async tick() {
-    const capt = CapturedImage.capture(this.parent.lockbox.reader.modal.body.screenRectangle())
+  area(): ScreenRectangle {
+    return this.parent.lockbox.reader.modal.body.screenRectangle();
+  }
 
+  async tick(capt: CapturedImage) {
     if (!capt) return
+    if(!this.initialization.isInitialized()) return
 
     const capture = CapturedModal.assumeBody(capt)
-    const reader = new LockBoxReader.LockBoxReader(capture)
+    const reader = new LockBoxReader.CapturedLockbox(capture, this.initialization.get().reader)
 
     const puzzle = await reader.getPuzzle()
 
@@ -123,10 +139,8 @@ class LockboxSolvingProcess extends AbstractPuzzleProcess {
     }
   }
 
-  async implementation(): Promise<void> {
-    this.puzzle = await this.parent.lockbox.reader.getPuzzle() // This should already be cached
-
-    await super.implementation()
+  protected begin() {
+    this.puzzle = this.parent.lockbox.reader.getPuzzle() // This should already be cached
   }
 }
 

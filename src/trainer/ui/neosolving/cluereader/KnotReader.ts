@@ -8,10 +8,43 @@ import * as lodash from "lodash";
 import {identity} from "lodash";
 import {CapturedImage} from "../../../../lib/alt1/capture";
 import {CapturedModal} from "./capture/CapturedModal";
-import {async_lazy} from "../../../../lib/properties/Lazy";
+import {async_lazy, lazy} from "../../../../lib/properties/Lazy";
 
+export class KnotReader {
+  constructor(private rune_references: ImageFingerprint[]) {}
+
+  public identifyRune(img: ImageFingerprint): number {
+    const similarities = this.rune_references.map((r, i) => {
+      return {id: i, certainty: ImageFingerprint.similarity(img, r)}
+    })
+
+    const best = lodash.maxBy(similarities, e => e.certainty)
+
+    if (best && best.certainty > 0.9) {
+      return best.id
+    } else {
+      return null
+    }
+  }
+}
 
 export namespace KnotReader {
+  const _instance = async_lazy<KnotReader>(async () => {
+    const atlas = await ImageDetect.imageDataFromUrl("alt1anchors/knot_runes/atlas.png")
+
+    const fingerprints: ImageFingerprint[] = []
+
+    for (let i = 0; i < Math.floor(atlas.width / 12); i++) {
+      fingerprints.push(ImageFingerprint.get(atlas, {x: i * 12, y: 0}, KnotReader.RUNE_REFERENCE_SIZE, KnotReader.RUNE_KERNEL_SIZE, ImageFingerprint.TypeRGB))
+    }
+
+    return new KnotReader(fingerprints)
+  })
+
+  export async function instance(): Promise<KnotReader> {
+    return _instance.get()
+  }
+
   import rgbSimilarity = util.rgbSimilarity;
   import count = util.count;
   const TILE_SIZE = {x: 24, y: 24}
@@ -20,8 +53,8 @@ export namespace KnotReader {
   const FROM_ANCHOR_TO_TILE = {x: -11, y: 9}
   const MAX_GRID_SIZE = {x: 15, y: 13}
 
-  const RUNE_REFERENCE_SIZE = {x: 12, y: 12}
-  const RUNE_KERNEL_SIZE = {x: 3, y: 3}
+  export const RUNE_REFERENCE_SIZE = {x: 12, y: 12}
+  export const RUNE_KERNEL_SIZE = {x: 3, y: 3}
 
   const SCANNING_X = 107
 
@@ -236,7 +269,7 @@ export namespace KnotReader {
 
   const DEADZONE = {x: 70, y: 13}
 
-  export class KnotReader {
+  export class CapturedKnot {
     private img_data: ImageData
     private border_anchor: Vector2
     private anchor_grid_origin: Vector2
@@ -252,7 +285,7 @@ export namespace KnotReader {
 
     public relevant_body: CapturedImage
 
-    constructor(public ui: CapturedModal) {
+    constructor(public ui: CapturedModal, private reader: KnotReader) {
       this.relevant_body = ui.body.getSubSection({
         origin: DEADZONE,
         size: {
@@ -262,20 +295,6 @@ export namespace KnotReader {
       })
 
       this.img_data = this.relevant_body.getData()
-    }
-
-    private async identifyRune(img: ImageFingerprint): Promise<number> {
-      const similarities = (await getRuneReferences()).map((r, i) => {
-        return {id: i, certainty: ImageFingerprint.similarity(img, r)}
-      })
-
-      const best = lodash.maxBy(similarities, e => e.certainty)
-
-      if (best && best.certainty > 0.9) {
-        return best.id
-      } else {
-        return null
-      }
     }
 
     private findOrigin() {
@@ -358,7 +377,7 @@ export namespace KnotReader {
       return this.img_data.getPixel(coords.x, coords.y) as unknown as [number, number, number]
     }
 
-    private async readGrid() {
+    private readGrid(): void {
       if (this.grid) return
 
       this.findOrigin()
@@ -373,7 +392,7 @@ export namespace KnotReader {
         for (let x = 0; x < this.grid_size.x; x++) {
           if (((x + y) % 2 == 1) != this.runes_on_odd_tiles) continue
 
-          this.grid[y][x] = await this.readTile({x, y})
+          this.grid[y][x] = this.readTile({x, y})
         }
       }
 
@@ -385,7 +404,7 @@ export namespace KnotReader {
       }
     }
 
-    private async readTile(pos: Vector2): Promise<Tile> {
+    private readTile(pos: Vector2): Tile {
       const tile_origin = this.tileOrigin(pos)
 
       const background = directions.map(pos => isBackground(this.sample(Vector2.add(tile_origin, pos.background_sample_position)))) as [boolean, boolean, boolean, boolean]
@@ -408,7 +427,7 @@ export namespace KnotReader {
 
       const rune_fingerprint = ImageFingerprint.get(this.img_data, Vector2.add(tile_origin, {x: 7, y: 7}), RUNE_REFERENCE_SIZE, RUNE_KERNEL_SIZE, ImageFingerprint.TypeRGB)
 
-      const rune = await this.identifyRune(rune_fingerprint)
+      const rune = this.reader.identifyRune(rune_fingerprint)
 
       if (rune == null) {
         return {pos: pos, rune: null}
@@ -417,7 +436,7 @@ export namespace KnotReader {
       return {
         pos: pos,
         rune: {
-          id: await this.identifyRune(rune_fingerprint),
+          id: rune,
           strip_color: track_color?.lane_id ?? 5,
           neighbours_exist: background.map(e => !e),
           intersection: is_intersection ? {matches: intersection_matches} : null
@@ -425,10 +444,10 @@ export namespace KnotReader {
       }
     }
 
-    private async findLanes() {
+    private findLanes() {
       if (this.lanes) return
 
-      await (this.readGrid())
+      this.readGrid()
 
       this.lanes = []
 
@@ -479,10 +498,10 @@ export namespace KnotReader {
       }
     }
 
-    public async getPuzzle(): Promise<CelticKnots.PuzzleState> {
+    public readPuzzle(): CelticKnots.PuzzleState {
       if (this.puzzle) return this.puzzle
 
-      await (this.findLanes())
+      this.findLanes()
 
       if (this.isBroken) return null
 
@@ -538,13 +557,13 @@ export namespace KnotReader {
       }
     }
 
-    private _buttons = async_lazy(async () => {
-      const shape = (await this.getPuzzle())?.shape
+    private _buttons = lazy(() => {
+      const shape = this.readPuzzle()?.shape
       if (!shape) return null
       return getButtons(shape)
     })
 
-    public async getButtons(): Promise<ButtonPositions> {
+    public getButtons(): ButtonPositions {
       return this._buttons.get()
     }
 
@@ -552,7 +571,7 @@ export namespace KnotReader {
       show_grid: boolean = false,
       text_mode: "runeid" | "neighbour_count" | "neighbour_array" = "runeid"
     ) {
-      await (this.getPuzzle())
+      this.readPuzzle()
 
       const colors = [
         mixColor(0, 0, 255), // blue

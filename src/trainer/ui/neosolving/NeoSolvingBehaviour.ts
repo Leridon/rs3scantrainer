@@ -13,6 +13,7 @@ import {clue_data} from "../../../data/clues";
 import PreparedSearchIndex from "../../../lib/util/PreparedSearchIndex";
 import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 import * as lodash from "lodash";
+import {capitalize} from "lodash";
 import {Path} from "../../../lib/runescape/pathing";
 import {AugmentedMethod, MethodPackManager} from "../../model/MethodPackManager";
 import {SolvingMethods} from "../../model/methods";
@@ -43,6 +44,7 @@ import {TowersSolving} from "./subbehaviours/TowersSolving";
 import {Log} from "../../../lib/util/Log";
 import * as assert from "assert";
 import {CapturedScan} from "./cluereader/capture/CapturedScan";
+import {AbstractCaptureService, CapturedImage, CaptureInterval} from "../../../lib/alt1/capture";
 import span = C.span;
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import interactionMarker = RenderingUtility.interactionMarker;
@@ -59,7 +61,6 @@ import notification = Notification.notification;
 import activate = TileArea.activate;
 import ClueSpot = Clues.ClueSpot;
 import log = Log.log;
-import {capitalize} from "lodash";
 
 class NeoSolvingLayer extends GameLayer {
   public control_bar: NeoSolvingLayer.MainControlBar
@@ -307,7 +308,7 @@ namespace NeoSolvingLayer {
 class ClueSolvingReadingBehaviour extends Behaviour {
   reader: ClueReader
 
-  private activeInterval: number = null
+  private autoSolve: boolean = false
 
   constructor(private parent: NeoSolvingBehaviour) {
     super();
@@ -316,14 +317,21 @@ class ClueSolvingReadingBehaviour extends Behaviour {
   }
 
   protected begin() {
+    const interval = CaptureInterval.fromApproximateInterval(300)
+
+    this.lifetime_manager.bind(this.parent.app.capture_service2.subscribe({
+      options: (time: AbstractCaptureService.CaptureTime) => ({interval: interval, area: null}),
+      isPaused: () => (!this.autoSolve || this.parent.active_behaviour.get()?.pausesClueReader()),
+      handle: (img) => this.solve(img.value, true)
+    }))
   }
 
   protected end() {
     this.setAutoSolve(false)
   }
 
-  private async solve(is_autosolve: boolean = false): Promise<ClueReader.Result> {
-    const res = await this.reader.readScreen()
+  private async solve(img: CapturedImage, is_autosolve: boolean): Promise<ClueReader.Result> {
+    const res = await this.reader.read(img)
 
     if (res) {
       switch (res.type) {
@@ -349,23 +357,13 @@ class ClueSolvingReadingBehaviour extends Behaviour {
   }
 
   setAutoSolve(v: boolean) {
-    if (this.activeInterval != null) {
-      clearInterval(this.activeInterval)
-      this.activeInterval = null
-    }
-
-    if (this.parent.app.in_alt1 && v) {
-      // TODO: Adaptive timing to avoid running all the time?
-
-      this.activeInterval = window.setInterval(() => {
-        if (!this.parent.active_behaviour.get()?.pausesClueReader())
-          this.solve(true)
-      }, 300)
-    }
+    this.autoSolve = v
   }
 
   async solveManuallyTriggered() {
-    const found = await this.solve()
+    const img = this.parent.app.capture_service2.captureOnce({options: {area: null, interval: null}})
+
+    const found = await this.solve(img, false)
 
     if (!found) {
       notification("No clue found on screen.", "error").show()

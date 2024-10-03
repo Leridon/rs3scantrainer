@@ -402,7 +402,7 @@ export namespace util {
     }
   }
 
-  export function async_init(f: () => Promise<any>) {
+  export function async_init<T>(f: () => Promise<T>) {
     return new AsyncInitialization(f)
   }
 

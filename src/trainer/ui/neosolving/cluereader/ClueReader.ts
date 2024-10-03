@@ -2,11 +2,10 @@ import {Clues} from "../../../../lib/runescape/clues";
 import * as a1lib from "@alt1/base";
 import {Rectangle, Vector2} from "../../../../lib/math";
 import {util} from "../../../../lib/util/util";
-import {coldiff} from "../../../../skillbertssolver/cluesolver/oldlib";
+import * as oldlib from "../../../../skillbertssolver/cluesolver/oldlib";
+import {coldiff, comparetiledata} from "../../../../skillbertssolver/cluesolver/oldlib";
 import * as OCR from "@alt1/ocr";
 import ClueFont from "./ClueFont";
-import * as oldlib from "../../../../skillbertssolver/cluesolver/oldlib";
-import {comparetiledata} from "../../../../skillbertssolver/cluesolver/oldlib";
 import {clue_data} from "../../../../data/clues";
 import {SlideReader} from "./SliderReader";
 import {Notification} from "../../NotificationBar";
@@ -40,19 +39,29 @@ let CLUEREADER_DEBUG_OVERLAY: OverlayGeometry = null
 
 export class ClueReader {
 
-  public readonly initialization: AsyncInitialization
-
-  private scan_finder: Finder<CapturedScan>
+  public readonly initialization: AsyncInitialization<{
+    scan_finder: Finder<CapturedScan>,
+    lockbox_reader: LockBoxReader,
+    tower_reader: TowersReader,
+    knot_reader: KnotReader
+  }>
 
   constructor(public tetracompass_only: boolean) {
 
     this.initialization = async_init(async () => {
-      this.scan_finder = await CapturedScan.finder.get()
+      return {
+        scan_finder: await CapturedScan.finder.get(),
+        lockbox_reader: await LockBoxReader.instance(),
+        tower_reader: await TowersReader.instance(),
+        knot_reader: await KnotReader.instance()
+      }
     })
   }
 
   async read(img: CapturedImage): Promise<ClueReader.Result> {
-    await this.initialization.wait()
+    if (!this.initialization.isInitialized()) return null
+
+    const readers = this.initialization.get()
 
     if (CLUEREADERDEBUG) {
       if (!CLUEREADER_DEBUG_OVERLAY) CLUEREADER_DEBUG_OVERLAY = new OverlayGeometry().withTime(5000)
@@ -164,10 +173,9 @@ export class ClueReader {
                   step: {step: best.value, text_index: 0}
                 }
               case "knot": {
-                const reader = new KnotReader.KnotReader(modal)
-                const puzzle = await reader.getPuzzle()
-                const buttons = await reader.getButtons()
-
+                const reader = new KnotReader.CapturedKnot(modal, readers.knot_reader)
+                const puzzle = reader.readPuzzle()
+                const buttons = reader.getButtons()
 
                 if (!puzzle) {
                   log().log("Knot found, but not parsed properly", "Clue Reader")
@@ -198,9 +206,9 @@ export class ClueReader {
                 }
               }
               case "lockbox": {
-                const reader = new LockBoxReader.LockBoxReader(modal)
+                const reader = new LockBoxReader.CapturedLockbox(modal, readers.lockbox_reader)
 
-                if (await reader.getPuzzle()) {
+                if (reader.getPuzzle()) {
                   return {
                     type: "puzzle",
                     puzzle: {
@@ -215,9 +223,9 @@ export class ClueReader {
                 }
               }
               case "towers": {
-                const reader = new TowersReader.TowersReader(modal)
+                const reader = new TowersReader.CapturedTowers(modal, readers.tower_reader)
 
-                if (true || await reader.getPuzzle()) {
+                if (reader.getPuzzle()) {
                   return {
                     type: "puzzle",
                     puzzle: {
@@ -285,7 +293,7 @@ export class ClueReader {
 
       // Check for scan
       {
-        const scan = this.scan_finder.find(img)
+        const scan = readers.scan_finder.find(img)
 
         if (scan) {
           const scan_text = scan.scanArea()
@@ -350,10 +358,6 @@ export class ClueReader {
       }
     }
   }
-
-  async readScreen(): Promise<ClueReader.Result> {
-    return this.read(CapturedImage.capture())
-  }
 }
 
 export namespace ClueReader {
@@ -378,17 +382,17 @@ export namespace ClueReader {
 
       export type Knot = puzzle_base & {
         type: "knot",
-        reader: KnotReader.KnotReader,
+        reader: KnotReader.CapturedKnot,
       }
 
       export type Lockbox = puzzle_base & {
         type: "lockbox",
-        reader: LockBoxReader.LockBoxReader,
+        reader: LockBoxReader.CapturedLockbox,
       }
 
       export type Towers = puzzle_base & {
         type: "tower",
-        reader: TowersReader.TowersReader,
+        reader: TowersReader.CapturedTowers,
       }
 
       export type Puzzle = Slider | Knot | Lockbox | Towers

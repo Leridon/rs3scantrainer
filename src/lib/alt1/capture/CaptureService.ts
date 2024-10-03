@@ -115,7 +115,7 @@ export abstract class AbstractCaptureService<
   captureOnce(options: {
     newer_than?: number | CapturedImage,
     options: InterestOptionsT
-  }): Promise<ValueT> {
+  }): ValueT {
 
     todo()
   }

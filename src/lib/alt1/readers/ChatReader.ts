@@ -69,11 +69,9 @@ export class ChatReader extends DerivedCaptureService {
   }
 
   processNotifications(interested_tokens: InterestedToken<AbstractCaptureService.Options, null>[]): null {
-    const capture = this.capture_interest.lastNotification()
+    const capture = this.capture_interest.lastNotification().value
 
     try {
-      const capture = CapturedImage.capture()
-
       if (Date.now() - this.search_interval > this.last_search) {
         const current_boxes = this.initialization.get().finder.find(capture)
 

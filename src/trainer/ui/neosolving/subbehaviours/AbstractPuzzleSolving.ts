@@ -33,7 +33,7 @@ export abstract class AbstractPuzzleSolving<
     if (start) {
       this.process = await this.constructProcess()
       this.process.puzzle_closed.on(() => this.endClue("Puzzle Process reported a closed puzzle"))
-      this.process.run()
+      this.process.start()
     }
 
     this.modal.update()

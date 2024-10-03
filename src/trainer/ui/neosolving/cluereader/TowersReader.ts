@@ -4,12 +4,36 @@ import {CapturedModal} from "./capture/CapturedModal";
 import {Towers} from "../../../../lib/cluetheory/Towers";
 import * as OCR from "@alt1/ocr";
 import {util} from "../../../../lib/util/util";
-import {Lazy} from "../../../../lib/properties/Lazy";
+import {async_lazy, Lazy} from "../../../../lib/properties/Lazy";
 import {ImageDetect} from "@alt1/base";
 import {ScreenRectangle} from "../../../../lib/alt1/ScreenRectangle";
-import {deps} from "../../../dependencies";
+
+export class TowersReader {
+  constructor(private context_menu_anchor: ImageData) {
+
+  }
+
+  findContextMenu(image: CapturedImage): ScreenRectangle {
+    const context_menu = image.root().find(this.context_menu_anchor)
+
+    if (context_menu.length > 0) {
+
+      return ScreenRectangle.move(context_menu[0].screenRectangle(),
+        {x: -4, y: -2},
+        {x: 113, y: 149}
+      )
+    }
+
+    return null
+  }
+}
 
 export namespace TowersReader {
+  export const _instance = async_lazy<TowersReader>(async () => new TowersReader(await context_menu_anchor.get()))
+
+  export async function instance(): Promise<TowersReader> {
+    return _instance.get()
+  }
 
   const context_menu_anchor = new Lazy(() => ImageDetect.imageDataFromUrl("alt1anchors/contextborder.png"))
 
@@ -24,7 +48,7 @@ export namespace TowersReader {
 
   const MODAL_BODY_TO_TL_TILE_OFFSET = {x: 41, y: 38}
 
-  export class TowersReader {
+  export class CapturedTowers {
 
     tile_area: CapturedImage
     puzzle_area: CapturedImage
@@ -37,7 +61,7 @@ export namespace TowersReader {
     private _hint_cache: Towers.Hints = null
     private _tile_cache: Towers.Blocks = null
 
-    constructor(public modal: CapturedModal) {
+    constructor(public modal: CapturedModal, private reader: TowersReader) {
 
       this.tile_area = modal.body.getSubSection(
         {
@@ -142,21 +166,11 @@ export namespace TowersReader {
       return this._tile_cache
     }
 
-    async findContextMenu(): Promise<ScreenRectangle> {
-      const context_menu = this.modal.body.root().find(await context_menu_anchor.get())
-
-      if (context_menu.length > 0) {
-
-        return ScreenRectangle.move(context_menu[0].screenRectangle(),
-          {x: -4, y: -2},
-          {x: 113, y: 149}
-        )
-      }
-
-      return null
+    findContextMenu(): ScreenRectangle {
+      return this.reader.findContextMenu(this.modal.body)
     }
 
-    async getState(): Promise<"okay" | "likelyconcealed" | "likelyclosed"> {
+    getState(): "okay" | "likelyconcealed" | "likelyclosed" {
       this.getHints()
 
       if (this.broken_hint_count == 20) return "likelyclosed"
@@ -164,7 +178,7 @@ export namespace TowersReader {
       else return "okay"
     }
 
-    async getPuzzle(): Promise<Towers.PuzzleState> {
+    getPuzzle(): Towers.PuzzleState {
       if (!this.puzzle_computed) {
         const hints = this.getHints()
         const blocks = this.getBlocks()

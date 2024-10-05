@@ -497,9 +497,9 @@ export class Application extends Behaviour {
 
     //this.capture_service.run()
     //this.chatreader.run()
-    this.chatreader.subscribe({
+    this.chatreader/*.subscribe({
       options: () => ({interval: CaptureInterval.fromApproximateInterval(300)})
-    })
+    })*/
     this.minimapreader//.registerInterest(true)
   }
 

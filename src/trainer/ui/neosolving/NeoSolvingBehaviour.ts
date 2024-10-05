@@ -330,8 +330,8 @@ class ClueSolvingReadingBehaviour extends Behaviour {
     this.setAutoSolve(false)
   }
 
-  private async solve(img: CapturedImage, is_autosolve: boolean): Promise<ClueReader.Result> {
-    const res = await this.reader.read(img)
+  private solve(img: CapturedImage, is_autosolve: boolean): ClueReader.Result {
+    const res = this.reader.read(img)
 
     if (res) {
       switch (res.type) {

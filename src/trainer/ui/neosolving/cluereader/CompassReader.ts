@@ -992,7 +992,7 @@ export namespace CompassReader {
       const tick = this.tick_counter++
 
       if (this.refind_after_close && !this.matched_ui) {
-        this.matched_ui = await CapturedCompass.find(CapturedImage.capture())
+        this.matched_ui = (await CapturedCompass.finder.get()).find(CapturedImage.capture())
       }
 
       if (!this.matched_ui) return

@@ -44,7 +44,10 @@ export class ClueReader {
     lockbox_reader: LockBoxReader,
     tower_reader: TowersReader,
     knot_reader: KnotReader,
-    slider_reader: SliderReader
+    slider_reader: SliderReader,
+    modal_finder: Finder<CapturedModal>
+    slider_finder: CapturedSliderInterface.Finder,
+    compass_finder: Finder<CapturedCompass>
   }>
 
   constructor(public tetracompass_only: boolean) {
@@ -55,12 +58,15 @@ export class ClueReader {
         lockbox_reader: await LockBoxReader.instance(),
         tower_reader: await TowersReader.instance(),
         knot_reader: await KnotReader.instance(),
-        slider_reader: await SlideReader.instance()
+        slider_reader: await SlideReader.instance(),
+        modal_finder: await CapturedModal.finder.get(),
+        slider_finder: await CapturedSliderInterface.Finder.instance.get(),
+        compass_finder: await CapturedCompass.finder.get()
       }
     })
   }
 
-  async read(img: CapturedImage): Promise<ClueReader.Result> {
+  read(img: CapturedImage): ClueReader.Result {
     if (!this.initialization.isInitialized()) return null
 
     const readers = this.initialization.get()
@@ -74,7 +80,7 @@ export class ClueReader {
     if (!this.tetracompass_only) {
       // Check for modal interface
       {
-        const modal = await CapturedModal.findIn(img)
+        const modal = readers.modal_finder.find(img)
 
         if (modal) {
           if (CLUEREADERDEBUG) {
@@ -250,7 +256,7 @@ export class ClueReader {
 
       // Check for slider interface
       {
-        const slider = await CapturedSliderInterface.findIn(img, false, readers.slider_reader)
+        const slider = readers.slider_finder.find(img, false, readers.slider_reader)
 
         if (slider) {
           const res = slider.getPuzzle()
@@ -321,7 +327,7 @@ export class ClueReader {
 
     // Check for compass interface
     {
-      const compass = await CapturedCompass.find(img)
+      const compass = readers.compass_finder.find(img)
 
       if (compass) {
         if (CLUEREADERDEBUG) {

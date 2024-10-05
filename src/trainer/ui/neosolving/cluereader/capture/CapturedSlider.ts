@@ -1,4 +1,4 @@
-import {LazyAsync} from "../../../../../lib/properties/Lazy";
+import {async_lazy, LazyAsync} from "../../../../../lib/properties/Lazy";
 import {ImageDetect} from "@alt1/base";
 import {CapturedImage} from "../../../../../lib/alt1/capture";
 import {Vector2} from "../../../../../lib/math";
@@ -76,44 +76,55 @@ export class CapturedSliderInterface {
 
     return this._puzzle
   }
-
-  static async findIn(img: CapturedImage, include_inverted_arrow_checkmark: boolean, reader: SliderReader): Promise<CapturedSliderInterface> {
-    const anchors: {
-      isLegacy: boolean,
-      anchor: ImageData
-    }[] = [
-      {isLegacy: false, anchor: (await CapturedSliderInterface.anchors.get()).eoc_x},
-      {isLegacy: true, anchor: (await CapturedSliderInterface.anchors.get()).legacy_x},
-    ]
-
-    for (const anchor of anchors) {
-      const positions = img.find(anchor.anchor)
-
-      if (positions.length > 0) {
-        const body_rect: ScreenRectangle = {
-          origin: Vector2.add(positions[0].relativeRectangle().origin, CapturedSliderInterface.TL_TILE_FROM_X_OFFSET),
-          size: {...CapturedSliderInterface.PUZZLE_SIZE}
-        }
-
-        if (include_inverted_arrow_checkmark) {
-          body_rect.origin.x += CapturedSliderInterface.INVERTED_CHECKBOX_OFFSET_FROM_TL.x
-          body_rect.size.x += -CapturedSliderInterface.INVERTED_CHECKBOX_OFFSET_FROM_TL.x
-        }
-
-        return new CapturedSliderInterface(
-          positions[0].parent.getSubSection(body_rect),
-          include_inverted_arrow_checkmark,
-          anchor.isLegacy,
-          reader
-        )
-      }
-    }
-
-    return null
-  }
 }
 
 export namespace CapturedSliderInterface {
+  export interface Finder {
+    find(img: CapturedImage, include_inverted_arrow_checkmark: boolean, reader: SliderReader): CapturedSliderInterface
+  }
+
+  export namespace Finder {
+    export const instance = async_lazy(async () => {
+      const anchors: {
+        isLegacy: boolean,
+        anchor: ImageData
+      }[] = [
+        {isLegacy: false, anchor: (await CapturedSliderInterface.anchors.get()).eoc_x},
+        {isLegacy: true, anchor: (await CapturedSliderInterface.anchors.get()).legacy_x},
+      ]
+
+      return new class implements Finder {
+        find(img: CapturedImage, include_inverted_arrow_checkmark: boolean, reader: SliderReader): CapturedSliderInterface {
+          for (const anchor of anchors) {
+            const positions = img.find(anchor.anchor)
+
+            if (positions.length > 0) {
+              const body_rect: ScreenRectangle = {
+                origin: Vector2.add(positions[0].relativeRectangle().origin, CapturedSliderInterface.TL_TILE_FROM_X_OFFSET),
+                size: {...CapturedSliderInterface.PUZZLE_SIZE}
+              }
+
+              if (include_inverted_arrow_checkmark) {
+                body_rect.origin.x += CapturedSliderInterface.INVERTED_CHECKBOX_OFFSET_FROM_TL.x
+                body_rect.size.x += -CapturedSliderInterface.INVERTED_CHECKBOX_OFFSET_FROM_TL.x
+              }
+
+              return new CapturedSliderInterface(
+                positions[0].parent.getSubSection(body_rect),
+                include_inverted_arrow_checkmark,
+                anchor.isLegacy,
+                reader
+              )
+            }
+          }
+
+          return null
+        }
+
+      }
+    })
+  }
+
   export const TL_TILE_FROM_X_OFFSET = {x: -297, y: 15}
   export const INVERTED_CHECKBOX_OFFSET_FROM_TL = {x: -169, y: 222}
   export const PUZZLE_SIZE = {x: 273, y: 273}

@@ -9,7 +9,7 @@ import {ewent, Observable, observe} from "../reactive";
 import {LifetimeManager} from "../lifetime/LifetimeManager";
 import {LifetimeManaged} from "../lifetime/LifetimeManaged";
 
-export default abstract class Behaviour implements LifetimeManaged{
+export default abstract class Behaviour implements LifetimeManaged {
   public lifetime_manager: LifetimeManager = new LifetimeManager()
   private _subBehaviours: Behaviour[] = []
 

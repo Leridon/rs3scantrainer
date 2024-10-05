@@ -30,9 +30,14 @@ export abstract class AbstractPuzzleProcess extends Behaviour {
           } catch (e) {
             console.error(e.toString())
           }
-        }
+        },
+        paused: () => this.capturingPaused()
       })
     )
+  }
+
+  capturingPaused(): boolean {
+    return false
   }
 
   protected end() {

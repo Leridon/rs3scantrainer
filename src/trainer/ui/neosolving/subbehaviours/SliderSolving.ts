@@ -81,6 +81,10 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
     )
   }
 
+  capturingPaused(): boolean {
+    return !this.solution && this.active_solving_process != null
+  }
+
   setSolver(solver: Sliders.Solver) {
     this.solver = solver
 
@@ -419,6 +423,7 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
   }
 
   tick(capture: CapturedImage): Promise<void> {
+    console.log(`tick${capture.capture.timestamp}`)
     const read_result = this.read(capture)
 
     if (read_result.result.match_score < SlideReader.DETECTION_THRESHOLD_SCORE) {
@@ -441,23 +446,23 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
         solving_from: 0
       }
 
-      const initial_solution = await this.active_solving_process.solver.run()
+      this.active_solving_process.solver.run().then(initial_solution => {
+        this.active_solving_process = null
+        this.current_mainline_index = 0
+        this.error_recovery_solution = {sequence: [], recovering_to_mainline_index: 0, last_known_state: null}
 
-      this.active_solving_process = null
-      this.current_mainline_index = 0
-      this.error_recovery_solution = {sequence: [], recovering_to_mainline_index: 0, last_known_state: null}
+        this.guiding_start_time = Date.now()
 
-      this.guiding_start_time = Date.now()
+        this.updateSolvingOverlay()
 
-      this.updateSolvingOverlay()
+        if (initial_solution) {
+          this.solution = Sliders.MoveList.annotate(frame_state, initial_solution, this.settings.mode != "keyboard")
+        } else {
+          this.stop()
+        }
 
-      if (initial_solution) {
-        this.solution = Sliders.MoveList.annotate(frame_state, initial_solution, this.settings.mode != "keyboard")
-      } else {
-        this.stop()
-      }
-
-      this.updateSolvingOverlay()
+        this.updateSolvingOverlay()
+      })
 
       return
     }

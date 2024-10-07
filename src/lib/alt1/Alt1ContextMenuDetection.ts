@@ -3,7 +3,7 @@ import {Alt1EventType} from "@alt1/base";
 import {Vector2} from "../math";
 import {ewent, EwentHandler} from "../reactive";
 import {ScreenRectangle} from "./ScreenRectangle";
-import {CapturedImage} from "./ImageCapture";
+import {CapturedImage} from "./capture";
 import {util} from "../util/util";
 import sampleImage = util.sampleImage;
 import rgbSimilarity = util.rgbSimilarity;

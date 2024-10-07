@@ -6,7 +6,7 @@ import ButtonRow from "./ButtonRow";
 import {C} from "./constructors";
 import cls = C.cls;
 
-export abstract class NisModal extends Modal2 {
+export class NisModal extends Modal2 {
   public header: Widget
   public body: Widget
   public footer: Widget

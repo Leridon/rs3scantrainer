@@ -17,7 +17,6 @@ import {Observable, observe} from "../lib/reactive";
 import {FavoriteIndex} from "./favorites";
 import Dependencies from "./dependencies";
 import {Transportation} from "../lib/runescape/transportation";
-import * as process from "process";
 import * as jquery from "jquery";
 import * as lodash from "lodash";
 import {Settings} from "./ui/settings/Settings";
@@ -42,6 +41,10 @@ import {FormModal} from "../lib/ui/controls/FormModal";
 import {Alt1Modal} from "./Alt1Modal";
 import {List} from "../lib/ui/List";
 import {ClickToCopy} from "../lib/ui/ClickToCopy";
+import {ChatReader} from "../lib/alt1/readers/ChatReader";
+import {MinimapReader} from "../lib/alt1/readers/MinimapReader";
+import {CaptureInterval, ScreenCaptureService} from "../lib/alt1/capture";
+import {SectionMemory} from "./ui/neosolving/PathControl";
 import ActiveTeleportCustomization = Transportation.TeleportGroup.ActiveTeleportCustomization;
 import TeleportSettings = Settings.TeleportSettings;
 import inlineimg = C.inlineimg;
@@ -54,7 +57,6 @@ import entity = C.entity;
 import notification = Notification.notification;
 import log = Log.log;
 import img = C.img;
-import {SectionMemory} from "./ui/neosolving/PathControl";
 
 class PermissionChecker extends NisModal {
   constructor() {
@@ -472,6 +474,10 @@ export class Application extends Behaviour {
 
   notifications: NotificationBar
 
+  capture_service: ScreenCaptureService = new ScreenCaptureService()
+  chatreader: ChatReader = new ChatReader(this.capture_service)
+  minimapreader: MinimapReader = new MinimapReader(this.capture_service)
+
   constructor() {
     super()
 
@@ -488,6 +494,13 @@ export class Application extends Behaviour {
     if (this.in_dev_mode) {
       log().log("In development mode")
     }
+
+    //this.capture_service.run()
+    //this.chatreader.run()
+    this.chatreader/*.subscribe({
+      options: () => ({interval: CaptureInterval.fromApproximateInterval(300)})
+    })*/
+    this.minimapreader//.registerInterest(true)
   }
 
   protected async begin() {
@@ -598,6 +611,8 @@ export class Application extends Behaviour {
         }
       }
     }
+
+    UpdateAlt1Modal.maybeRemind(this)
   }
 
   protected end() {

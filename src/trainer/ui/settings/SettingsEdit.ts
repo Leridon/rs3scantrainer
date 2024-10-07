@@ -38,6 +38,7 @@ import TransportLayer from "../map/TransportLayer";
 import {KnotSolving} from "../neosolving/subbehaviours/KnotSolving";
 import {LockboxSolving} from "../neosolving/subbehaviours/LockboxSolving";
 import {TowersSolving} from "../neosolving/subbehaviours/TowersSolving";
+import {ExportImport} from "../../../lib/util/exportString";
 import cls = C.cls;
 import PotaColor = Settings.PotaColor;
 import hbox = C.hbox;
@@ -53,10 +54,6 @@ import TeleportGroup = Transportation.TeleportGroup;
 import span = C.span;
 import greatestCommonDivisor = util.greatestCommonDivisor;
 import Appendable = C.Appendable;
-import ExportStringModal from "../widgets/modals/ExportStringModal";
-import {DataExport} from "../../DataExport";
-import {ExportImport} from "../../../lib/util/exportString";
-import exp = ExportImport.exp;
 
 class SettingsLayout extends Properties {
   constructor() {super();}
@@ -1280,9 +1277,9 @@ export class SettingsEdit extends Widget {
     new SectionControl<SettingsEdit.section_id>([
       {
         name: "Solving", entries: [{
-          id: "info_panels",
-          name: "Interface Customization",
-          short_name: "Interface",
+          id: "solving_general",
+          name: "Solving",
+          short_name: "General",
           renderer: () => new SolvingSettingsEdit(this.value.solving.info_panel)
         }, {
           id: "sliders",
@@ -1340,7 +1337,7 @@ export class SettingsEdit extends Widget {
 }
 
 export namespace SettingsEdit {
-  export type section_id = "info_panels" | "sliders" | "knots" | "lockboxes" | "towers" | "compass" | "teleports" | "crowdsourcing"
+  export type section_id = "solving_general" | "sliders" | "knots" | "lockboxes" | "towers" | "compass" | "teleports" | "crowdsourcing"
 }
 
 export class SettingsModal extends FormModal<{

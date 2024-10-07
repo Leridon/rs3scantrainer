@@ -1,14 +1,32 @@
-import {CapturedImage} from "../../../../lib/alt1/ImageCapture";
+import {CapturedImage} from "../../../../lib/alt1/capture";
 import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
 import {Lockboxes} from "../../../../lib/cluetheory/Lockboxes";
 import {ImageFingerprint} from "../../../../lib/util/ImageFingerprint";
 import {ImageDetect} from "@alt1/base";
-import {LazyAsync} from "../../../../lib/properties/Lazy";
+import {async_lazy, LazyAsync} from "../../../../lib/properties/Lazy";
 import {Vector2} from "../../../../lib/math";
 import {util} from "../../../../lib/util/util";
 import {CapturedModal} from "./capture/CapturedModal";
+import findBestMatch = util.findBestMatch;
+
+export class LockBoxReader {
+  constructor(private tile_reference: {
+    value: Lockboxes.Tile,
+    reference_fingerprint: ImageFingerprint
+  }[]) {}
+
+  identifyTile(fingerprint: ImageFingerprint) {
+    return findBestMatch(this.tile_reference, ref => ImageFingerprint.similarity(ref.reference_fingerprint, fingerprint))
+  }
+}
 
 export namespace LockBoxReader {
+
+  export const _instance = async_lazy(async () => new LockBoxReader(await tile_reference.get()))
+
+  export async function instance(): Promise<LockBoxReader> {
+    return _instance.get()
+  }
 
   import findBestMatch = util.findBestMatch;
   import count = util.count;
@@ -58,7 +76,7 @@ export namespace LockBoxReader {
     image: ImageFingerprint
   }
 
-  export class LockBoxReader {
+  export class CapturedLockbox {
 
     private debug_overlay: OverlayGeometry
 
@@ -71,7 +89,7 @@ export namespace LockBoxReader {
     public isBroken = false
     public brokenReason: string = ""
 
-    constructor(public modal: CapturedModal) {
+    constructor(public modal: CapturedModal, private reader: LockBoxReader) {
 
       this.tile_area = modal.body.getSubSection(
         {
@@ -91,7 +109,7 @@ export namespace LockBoxReader {
       }
     }
 
-    public async getTile(index: Vector2): Promise<ReadTile> {
+    public getTile(index: Vector2): ReadTile {
       if (!this.tiles[index.y][index.x]) {
         const o = this.tileOrigin(index)
 
@@ -103,7 +121,7 @@ export namespace LockBoxReader {
           FINGERPRINT_TYPE
         )
 
-        const best = findBestMatch(await tile_reference.get(), ref => ImageFingerprint.similarity(ref.reference_fingerprint, fingerprint))
+        const best = this.reader.identifyTile(fingerprint)
 
         this.tiles[index.y][index.x] = {
           image: fingerprint,
@@ -114,18 +132,18 @@ export namespace LockBoxReader {
       return this.tiles[index.y][index.x]
     }
 
-    public async readGrid(): Promise<ReadTile[][]> {
+    public readGrid(): ReadTile[][] {
       for (let x = 0; x < SIZE; x++) {
         for (let y = 0; y < SIZE; y++) {
-          await this.getTile({x, y})
+          this.getTile({x, y})
         }
       }
 
       return this.tiles
     }
 
-    async getState(): Promise<"okay" | "likelyconcealed" | "likelyclosed"> {
-      const grid = await this.readGrid()
+    getState(): "okay" | "likelyconcealed" | "likelyclosed" {
+      const grid = this.readGrid()
 
       const broken_count = count(grid.flat(), t => t.value == null)
 
@@ -134,9 +152,9 @@ export namespace LockBoxReader {
       else return "okay"
     }
 
-    async getPuzzle(): Promise<Lockboxes.State> {
+    getPuzzle(): Lockboxes.State {
       if (!this.puzzle_computed) {
-        const grid = await this.readGrid()
+        const grid = this.readGrid()
 
         const is_broken = grid.some(row => row.some(t => t.value == null))
 

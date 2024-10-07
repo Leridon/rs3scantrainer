@@ -26,7 +26,7 @@ export default class TransportLayer extends GameLayer {
             e.render(true)
           }
         })
-      }, false, e => this.handler_pool.bind(e))
+      }, false, e => this.lifetime_manager.bind(e))
     }
 
     TransportData.getAll().then(transports => transports.forEach(trans => {

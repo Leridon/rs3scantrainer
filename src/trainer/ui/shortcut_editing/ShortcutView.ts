@@ -25,7 +25,7 @@ export class ShortcutViewLayer extends GameLayer {
       this.eachLayer((l: ShortcutViewLayer.ShortcutPolygon) => {
         l.style.update2(s => s.viewed_floor = floor)
       })
-    }, false, (h) => this.handler_pool.bind(h))
+    }, false, (h) => this.lifetime_manager.bind(h))
 
     super.onAdd(map);
 

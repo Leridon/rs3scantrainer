@@ -14,10 +14,9 @@ import {MapEntity} from "../../../../lib/gamemap/MapEntity";
 import {TileCoordinates} from "../../../../lib/runescape/coordinates";
 import {GameMapMouseEvent} from "../../../../lib/gamemap/MapEvents";
 import {tilePolygon} from "../../polygon_helpers";
-import {Process} from "../../../../lib/Process";
 import {EwentHandler, observe} from "../../../../lib/reactive";
 import {ScreenRectangle} from "../../../../lib/alt1/ScreenRectangle";
-import {CapturedImage} from "../../../../lib/alt1/ImageCapture";
+import {CapturedImage, CaptureInterval, ScreenCaptureService} from "../../../../lib/alt1/capture";
 import {deps} from "../../../dependencies";
 import {util} from "../../../../lib/util/util";
 import LightButton from "../../widgets/LightButton";
@@ -27,6 +26,8 @@ import ImportStringModal from "../../widgets/modals/ImportStringModal";
 import {Alt1MainHotkeyEvent} from "../../../../lib/alt1/Alt1MainHotkeyEvent";
 import Widget from "../../../../lib/ui/Widget";
 import {Log} from "../../../../lib/util/Log";
+import Behaviour from "../../../../lib/ui/Behaviour";
+import {Finder} from "../../../../lib/alt1/capture/Finder";
 import ANGLE_REFERENCE_VECTOR = Compasses.ANGLE_REFERENCE_VECTOR;
 import log = Log.log;
 
@@ -149,7 +150,7 @@ export class CompassReader {
 
   }
 
-  private _angle: Lazy<CompassReader.AngleResult> = lazy(() => {
+  private _angle: Lazy<CompassReader.AngleResult> = lazy((): CompassReader.AngleResult => {
     const CENTER_SIZE = 2
     const OFFSET = CENTER_SIZE - 1
     const CENTER_OFFSET = {x: CapturedCompass.TOTAL_COMPASS_RADIUS, y: CapturedCompass.TOTAL_COMPASS_RADIUS}
@@ -399,6 +400,8 @@ export namespace CompassReader {
   import cleanedJSON = util.cleanedJSON;
   import log = Log.log;
   import getExpectedAngle = Compasses.getExpectedAngle;
+  import async_init = util.async_init;
+  import AsyncInitialization = util.AsyncInitialization;
   export const DEBUG_COMPASS_READER = false
   export const DISABLE_CALIBRATION = false
 
@@ -941,20 +944,27 @@ export namespace CompassReader {
     )
   }
 
-  export class Service extends Process<void> {
+  export class Service extends Behaviour {
     private committed_state = observe<Service.State>(null).equality((a, b) => a?.angle == b?.angle && a?.state == b?.state)
 
     last_read: CompassReader.AngleResult = null
 
+    initialization: AsyncInitialization<{ finder: Finder<CapturedCompass> }>
 
-    constructor(private matched_ui: CapturedCompass,
-                private show_overlay: boolean,
-                private disable_calibration: boolean = false,
-                private refind_after_close: boolean = false
+    constructor(
+      private capturing_service: ScreenCaptureService,
+      private matched_ui: CapturedCompass,
+      private show_overlay: boolean,
+      private disable_calibration: boolean = false,
+      private refind_after_close: boolean = false
     ) {
       super();
 
-      this.asInterval(100)
+      this.initialization = async_init(async () => {
+        return {
+          finder: await CapturedCompass.finder.get()
+        }
+      })
     }
 
     private overlay: OverlayGeometry = new OverlayGeometry()
@@ -967,11 +977,30 @@ export namespace CompassReader {
       likely_concealed: -2,
     }
 
+    protected begin() {
+
+      this.lifetime_manager.bind(
+        this.capturing_service.subscribe({
+          options: time => {
+            return {
+              interval: CaptureInterval.fromApproximateInterval(50),
+              area: this.matched_ui ? this.matched_ui.body.screen_rectangle : null
+            }
+          },
+          handle: value => {
+            this.tick(value.value)
+          }
+        }))
+    }
+
+    protected end() {
+      this.overlay?.clear()?.render()
+    }
+
     private closed() {
       this.committed_state.set({angle: null, state: "closed"})
 
       if (this.refind_after_close) this.matched_ui = null
-
     }
 
     private previous_state: {
@@ -988,16 +1017,22 @@ export namespace CompassReader {
 
     private last_stationary_tick: number = -1
 
-    async tick(): Promise<void> {
+    tick(img: CapturedImage): void {
+      console.log(`Tick ${img.capture.timestamp % 10000}`)
+
+      if (!this.initialization.isInitialized()) return
+
+      const finder = this.initialization.get().finder
+
       const tick = this.tick_counter++
 
       if (this.refind_after_close && !this.matched_ui) {
-        this.matched_ui = await CapturedCompass.find(CapturedImage.capture())
+        this.matched_ui = finder.find(img)
       }
 
       if (!this.matched_ui) return
 
-      const reader = new CompassReader(this.matched_ui.recapture(), this.disable_calibration)
+      const reader = new CompassReader(this.matched_ui.recapture(img), this.disable_calibration)
 
       this.overlay.clear()
 
@@ -1108,20 +1143,6 @@ export namespace CompassReader {
       if (this.show_overlay) this.overlay.render()
     }
 
-    async implementation(): Promise<void> {
-
-      while (!this.should_stop) {
-        try {
-          await this.tick()
-        } catch (e) {
-          // Catch errors to avoid crashing on rare errors.
-        }
-        await this.checkTime()
-      }
-
-      this.overlay?.clear()?.render()
-    }
-
     onChange(handler: (new_value: Service.State, old: Service.State) => any, handler_f?: (_: EwentHandler<any>) => void): this {
       this.committed_state.subscribe(handler, false, handler_f)
 
@@ -1169,9 +1190,7 @@ export namespace CompassReader {
         this.handler.remove()
       })
 
-      this.reader = new Service(null, true, true, true)
-
-      this.reader.run()
+      this.reader = new Service(deps().app.capture_service, null, true, true, true).start()
     }
 
     delete() {

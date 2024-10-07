@@ -10,7 +10,6 @@ import {Rectangle} from "../../../../lib/math";
 import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
 import {ScanRegionPolygon} from "../ScanLayer";
 import {PathStepEntity} from "../../map/entities/PathStepEntity";
-import MethodSelector from "../MethodSelector";
 import {Scans} from "../../../../lib/runescape/clues/scans";
 import PulseButton, {PulseIcon} from "../PulseButton";
 import NeoSolvingBehaviour from "../NeoSolvingBehaviour";
@@ -20,7 +19,12 @@ import {SolvingMethods} from "../../../model/methods";
 import {NeoSolvingSubBehaviour} from "../NeoSolvingSubBehaviour";
 import {C} from "../../../../lib/ui/constructors";
 import {TextRendering} from "../../TextRendering";
+import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
 import * as assert from "assert";
+import {AbstractCaptureService, CapturedImage, DerivedCaptureService, InterestedToken, ScreenCaptureService} from "../../../../lib/alt1/capture";
+import {MinimapReader} from "../../../../lib/alt1/readers/MinimapReader";
+import {CapturedScan} from "../cluereader/capture/CapturedScan";
+import {Finder} from "../../../../lib/alt1/capture/Finder";
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import activate = TileArea.activate;
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
@@ -28,7 +32,55 @@ import cls = C.cls;
 import Order = util.Order;
 import span = C.span;
 import spotNumber = ScanTree.spotNumber;
+import over = OverlayGeometry.over;
 import index = util.index;
+import AsyncInitialization = util.AsyncInitialization;
+import async_init = util.async_init;
+
+class ScanCaptureService extends DerivedCaptureService<ScanCaptureService.Options, CapturedScan> {
+  private capture_interest: AbstractCaptureService.InterestToken<ScreenCaptureService.Options, CapturedImage>
+  private interface_finder: Finder<CapturedScan>
+  public readonly initialization: AsyncInitialization
+
+  constructor(private capture_service: ScreenCaptureService, private original_captured_interface: CapturedScan | null) {
+    super()
+
+
+    this.capture_interest = this.addDataSource(capture_service, () => {
+      return {
+        area: this.original_captured_interface.body.screen_rectangle,
+        interval: null,
+      }
+    })
+
+    this.initialization = async_init(async () => {
+      this.interface_finder = await CapturedScan.finder.get()
+    })
+  }
+
+  processNotifications(interested_tokens: InterestedToken<ScanCaptureService.Options, CapturedScan>[]): CapturedScan {
+    const capture = this.capture_interest.lastNotification()
+
+    if (this.original_captured_interface) {
+      // TODO: This does not work because the text can shift vertically and needs to be realigned after recapturing
+      const updated = this.original_captured_interface.updated(capture.value)
+
+      return updated
+    } else if (this.initialization.isInitialized()) {
+      const ui = this.interface_finder.find(capture.value)
+
+      if (ui) this.original_captured_interface = ui
+
+      return ui
+    }
+  }
+}
+
+namespace ScanCaptureService {
+  export type Options = AbstractCaptureService.Options & {
+    show_overlay?: boolean
+  }
+}
 
 export class ScanTreeSolving extends NeoSolvingSubBehaviour {
   node: ScanTree.Augmentation.AugmentedScanTreeNode = null
@@ -36,8 +88,18 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
   layer: leaflet.FeatureGroup = null
 
   tree_widget: Widget
+  private scan_interface_overlay = over()
 
-  constructor(parent: NeoSolvingBehaviour, public method: AugmentedMethod<ScanTreeMethod, Clues.Scan>) {
+  private minimap_overlay: OverlayGeometry = over()
+
+  private minimap_interest: AbstractCaptureService.InterestToken<AbstractCaptureService.Options, MinimapReader.CapturedMinimap>
+  private scan_capture_service: ScanCaptureService
+  private scan_capture_interest: AbstractCaptureService.InterestToken<ScanCaptureService.Options, CapturedScan>
+
+  constructor(parent: NeoSolvingBehaviour,
+              public method: AugmentedMethod<ScanTreeMethod, Clues.Scan>,
+              private original_interface_capture: CapturedScan
+  ) {
     super(parent, "method")
 
     this.augmented = ScanTree.Augmentation.basic_augmentation(method.method.tree, method.clue)
@@ -129,12 +191,6 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
       )
     )
 
-    {
-      new MethodSelector(this.parent, this.method.method.for)
-        .addClass("ctr-neosolving-solution-row")
-        .appendTo(this.tree_widget)
-    }
-
     let content = cls("ctr-neosolving-solution-row").appendTo(this.tree_widget)
 
     {
@@ -158,7 +214,6 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
 
     content.append(cls('ctr-neosolving-nextscanstep')
       .append(
-        "Next: ",
         ...this.parent.app.template_resolver.with(...ScanTreeSolving.scan_tree_template_resolvers(node))
           .resolve(ScanTree.getInstruction(node)))
     )
@@ -177,11 +232,15 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
               PulseButton.forPulse(child.key, node.children.map(c => c.key))
                 .onClick(() => {
                   this.setNode(child.value)
-                }),
+                })
+              ,
               c().append(...resolvers.resolve(
                 ScanTree.getInstruction(child.value)
               ))
-            ).appendTo(content)
+            )
+            .on("click", () => {
+              this.setNode(child.value)
+            }).appendTo(content)
         })
 
       if (triples.length > 1) {
@@ -204,11 +263,96 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
   }
 
   protected begin() {
+    this.parent.layer.scan_layer.setSpots(this.method.method.tree.ordered_spots)
     this.parent.layer.scan_layer.setSpotOrder(this.method.method.tree.ordered_spots)
     this.parent.layer.scan_layer.marker.setRadius(this.method.method.tree.assumed_range, this.method.method.assumptions.meerkats_active)
 
     this.tree_widget = c().appendTo(this.parent.layer.scantree_container)
     this.layer = leaflet.featureGroup().addTo(this.parent.layer.scan_layer)
+
+    const self = this
+
+    this.lifetime_manager.bind(
+      /*this.minimap_interest = this.parent.app.minimapreader.subscribe({
+        options: (time: AbstractCaptureService.CaptureTime) => ({
+          interval: CaptureInterval.fromApproximateInterval(100),
+          refind_interval: CaptureInterval.fromApproximateInterval(10_000)
+        }),
+        handle: (value: AbstractCaptureService.TimedValue<MinimapReader.CapturedMinimap>) => {
+          const minimap = value.value
+
+          self.minimap_overlay.clear()
+
+          if (value.value) {
+
+            const scale = (self.method.method.tree.assumed_range * 2 + 1) * value.value.pixelPerTile() / 2
+
+            const transform =
+              Transform.chain(
+                Transform.translation(minimap.center()),
+                Transform.rotationRadians(-minimap.compassAngle.get()),
+                Transform.scale({x: scale, y: scale}),
+              )
+
+            const unit_square: Vector2[] = [
+              {x: 1, y: 1},
+              {x: 1, y: -1},
+              {x: -1, y: -1},
+              {x: -1, y: 1},
+            ]
+
+            self.minimap_overlay.polyline(
+              unit_square.map(v => Vector2.transform_point(v, transform)),
+              true
+            )
+          }
+
+          self.minimap_overlay.render()
+        }
+      }),
+      /*this.scan_capture_service = new ScanCaptureService(this.parent.app.capture_service, this.original_interface_capture),
+      this.scan_capture_interest = this.scan_capture_service.subscribe({
+        options: () => ({interval: CaptureInterval.fromApproximateInterval(100)}),
+        handle: (scan2) => {
+          const scan = scan2.value
+          const rect = scan.screenRectangle()
+
+          this.scan_interface_overlay.clear()
+
+          this.scan_interface_overlay.rect2(rect, {
+            width: 1,
+            color: A1Color.fromHex("#FF0000"),
+          })
+
+          if (scan.isDifferentLevel()) {
+            this.scan_interface_overlay.rect2(ScreenRectangle.move(rect,
+              {x: 50, y: 220}, {x: 20, y: 20}
+            ), {
+              color: A1Color.fromHex("#8adc13"),
+              width: 2
+            })
+          }
+
+          this.scan_interface_overlay.rect2(ScreenRectangle.move(rect,
+            {x: 80, y: 220}, {x: 20, y: 20}
+          ), {
+            color: scan.isTriple() ? A1Color.fromHex("#FF0000") : A1Color.fromHex("#0000FF"),
+            width: 2
+          })
+
+          if (scan.hasMeerkats()) {
+            this.scan_interface_overlay.rect2(ScreenRectangle.move(rect,
+              {x: 110, y: 220}, {x: 20, y: 20}
+            ), {
+              color: A1Color.fromHex("#00ffff"),
+              width: 2
+            })
+          }
+
+          this.scan_interface_overlay.render()
+        }
+      })*/
+    )
 
     this.setNode(this.augmented.root_node)
   }
@@ -225,6 +369,9 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
       this.layer.remove()
       this.layer = null
     }
+
+    this.minimap_overlay?.clear()
+    this.minimap_overlay?.render()
   }
 }
 

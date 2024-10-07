@@ -2,12 +2,12 @@ import * as leaflet from "leaflet"
 import {LayerGroup} from "leaflet"
 import {GameMap} from "./GameMap";
 import {GameMapContextMenuEvent, GameMapKeyboardEvent, GameMapMouseEvent, GameMapViewChangedEvent} from "./MapEvents";
-import {EwentHandlerPool} from "../reactive/EwentHandlerPool";
 import {MapEntity} from "./MapEntity";
 import * as tippy from "tippy.js";
 import {followCursor} from "tippy.js";
 import {QuadTree} from "../QuadTree";
 import {boxPolygon} from "../../trainer/ui/polygon_helpers";
+import {LifetimeManager} from "../lifetime/LifetimeManager";
 
 function childLike(l: leaflet.Layer): l is GameLayer | MapEntity {
   return l instanceof GameLayer || l instanceof MapEntity
@@ -16,7 +16,7 @@ function childLike(l: leaflet.Layer): l is GameLayer | MapEntity {
 export class GameLayer extends leaflet.FeatureGroup {
   protected entity_quadtree: QuadTree<MapEntity>
 
-  public handler_pool: EwentHandlerPool = new EwentHandlerPool()
+  public lifetime_manager: LifetimeManager = new LifetimeManager()
 
   public parent: GameLayer | null = null
   protected map: GameMap | null = null
@@ -123,7 +123,7 @@ export class GameLayer extends leaflet.FeatureGroup {
   onRemove(map: GameMap): this {
     this.map = null
 
-    this.handler_pool.kill()
+    this.lifetime_manager.kill()
 
     return super.onRemove(map);
   }
@@ -336,11 +336,13 @@ export async function time<T>(name: string, f: () => T, start_message: boolean =
   let timeStart = new Date().getTime()
 
   if (start_message) console.log(`Starting task ${name}: `)
-  let res = await f()
-  const ms = (new Date().getTime() - timeStart)
-  console.log(`Task ${name} took ${ms}ms\n`)
 
-  return res
+  try{
+    return await f()
+  } finally {
+    const ms = (new Date().getTime() - timeStart)
+    console.log(`Task ${name} took ${ms}ms\n`)
+  }
 }
 
 export function timeSync<T>(name: string, f: () => T): T {

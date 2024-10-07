@@ -1,6 +1,7 @@
-import {EwentHandlerPool} from "./EwentHandlerPool";
+import {LifetimeManaged} from "../lifetime/LifetimeManaged";
+import {LifetimeManager} from "../lifetime/LifetimeManager";
 
-export class EwentHandler<T> {
+export class EwentHandler<T> implements LifetimeManaged {
   private alive: boolean = true
 
   constructor(private handler: (_: T) => void | Promise<void>) { }
@@ -18,10 +19,14 @@ export class EwentHandler<T> {
     return this.alive
   }
 
-  bindTo(pool: EwentHandlerPool): this {
+  bindTo(pool: LifetimeManager): this {
     pool.bind(this)
 
     return this
+  }
+
+  endLifetime(): void {
+    this.remove()
   }
 }
 

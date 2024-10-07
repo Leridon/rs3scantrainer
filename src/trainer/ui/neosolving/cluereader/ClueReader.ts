@@ -1,20 +1,17 @@
 import {Clues} from "../../../../lib/runescape/clues";
 import * as a1lib from "@alt1/base";
-import {ImgRef} from "@alt1/base";
-import {AnchorImages} from "./AnchorImages";
 import {Rectangle, Vector2} from "../../../../lib/math";
 import {util} from "../../../../lib/util/util";
-import {coldiff} from "../../../../skillbertssolver/cluesolver/oldlib";
+import * as oldlib from "../../../../skillbertssolver/cluesolver/oldlib";
+import {coldiff, comparetiledata} from "../../../../skillbertssolver/cluesolver/oldlib";
 import * as OCR from "@alt1/ocr";
 import ClueFont from "./ClueFont";
-import * as oldlib from "../../../../skillbertssolver/cluesolver/oldlib";
-import {comparetiledata} from "../../../../skillbertssolver/cluesolver/oldlib";
 import {clue_data} from "../../../../data/clues";
-import {SlideReader} from "./SliderReader";
+import {SlideReader, SliderReader} from "./SliderReader";
 import {Notification} from "../../NotificationBar";
 import {CompassReader} from "./CompassReader";
 import {KnotReader} from "./KnotReader";
-import {CapturedImage} from "../../../../lib/alt1/ImageCapture";
+import {CapturedImage} from "../../../../lib/alt1/capture";
 import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
 import {Sliders} from "../../../../lib/cluetheory/Sliders";
 import {LockBoxReader} from "./LockBoxReader";
@@ -24,13 +21,17 @@ import {TowersReader} from "./TowersReader";
 import {CapturedCompass} from "./capture/CapturedCompass";
 import {Log} from "../../../../lib/util/Log";
 import {CelticKnots} from "../../../../lib/cluetheory/CelticKnots";
+import {CapturedScan} from "./capture/CapturedScan";
+import {Finder} from "../../../../lib/alt1/capture/Finder";
 import stringSimilarity = util.stringSimilarity;
-import ScanStep = Clues.ScanStep;
 import notification = Notification.notification;
 import findBestMatch = util.findBestMatch;
 import SliderState = Sliders.SliderState;
 import log = Log.log;
 import cleanedJSON = util.cleanedJSON;
+import ScanStep = Clues.ScanStep;
+import async_init = util.async_init;
+import AsyncInitialization = util.AsyncInitialization;
 
 const CLUEREADERDEBUG = false
 
@@ -38,29 +39,37 @@ let CLUEREADER_DEBUG_OVERLAY: OverlayGeometry = null
 
 export class ClueReader {
 
-  private initialized: Promise<void>
-
-  anchors: {
-    slide: ImageData;
-    slidelegacy: ImageData;
-    legacyx: ImageData;
-    eocx: ImageData;
-    scanleveltext: ImageData;
-    scanfartext: ImageData;
-    scanfartext_pt: ImageData;
-    compassnorth: ImageData;
-  }
+  public readonly initialization: AsyncInitialization<{
+    scan_finder: Finder<CapturedScan>,
+    lockbox_reader: LockBoxReader,
+    tower_reader: TowersReader,
+    knot_reader: KnotReader,
+    slider_reader: SliderReader,
+    modal_finder: Finder<CapturedModal>
+    slider_finder: CapturedSliderInterface.Finder,
+    compass_finder: Finder<CapturedCompass>
+  }>
 
   constructor(public tetracompass_only: boolean) {
-    this.initialized = this.init()
+
+    this.initialization = async_init(async () => {
+      return {
+        scan_finder: await CapturedScan.finder.get(),
+        lockbox_reader: await LockBoxReader.instance(),
+        tower_reader: await TowersReader.instance(),
+        knot_reader: await KnotReader.instance(),
+        slider_reader: await SlideReader.instance(),
+        modal_finder: await CapturedModal.finder.get(),
+        slider_finder: await CapturedSliderInterface.Finder.instance.get(),
+        compass_finder: await CapturedCompass.finder.get()
+      }
+    })
   }
 
-  async init() {
-    this.anchors = await AnchorImages.getAnchorImages()
-  }
+  read(img: CapturedImage): ClueReader.Result {
+    if (!this.initialization.isInitialized()) return null
 
-  async read(img: CapturedImage): Promise<ClueReader.Result> {
-    await this.initialized
+    const readers = this.initialization.get()
 
     if (CLUEREADERDEBUG) {
       if (!CLUEREADER_DEBUG_OVERLAY) CLUEREADER_DEBUG_OVERLAY = new OverlayGeometry().withTime(5000)
@@ -69,10 +78,9 @@ export class ClueReader {
     }
 
     if (!this.tetracompass_only) {
-
       // Check for modal interface
       {
-        const modal = await CapturedModal.findIn(img)
+        const modal = readers.modal_finder.find(img)
 
         if (modal) {
           if (CLUEREADERDEBUG) {
@@ -173,10 +181,9 @@ export class ClueReader {
                   step: {step: best.value, text_index: 0}
                 }
               case "knot": {
-                const reader = new KnotReader.KnotReader(modal)
-                const puzzle = await reader.getPuzzle()
-                const buttons = await reader.getButtons()
-
+                const reader = new KnotReader.CapturedKnot(modal, readers.knot_reader)
+                const puzzle = reader.readPuzzle()
+                const buttons = reader.getButtons()
 
                 if (!puzzle) {
                   log().log("Knot found, but not parsed properly", "Clue Reader")
@@ -207,9 +214,9 @@ export class ClueReader {
                 }
               }
               case "lockbox": {
-                const reader = new LockBoxReader.LockBoxReader(modal)
+                const reader = new LockBoxReader.CapturedLockbox(modal, readers.lockbox_reader)
 
-                if (await reader.getPuzzle()) {
+                if (reader.getPuzzle()) {
                   return {
                     type: "puzzle",
                     puzzle: {
@@ -224,9 +231,9 @@ export class ClueReader {
                 }
               }
               case "towers": {
-                const reader = new TowersReader.TowersReader(modal)
+                const reader = new TowersReader.CapturedTowers(modal, readers.tower_reader)
 
-                if (true || await reader.getPuzzle()) {
+                if (reader.getPuzzle()) {
                   return {
                     type: "puzzle",
                     puzzle: {
@@ -249,16 +256,15 @@ export class ClueReader {
 
       // Check for slider interface
       {
-        const slider = await CapturedSliderInterface.findIn(img, false)
+        const slider = readers.slider_finder.find(img, false, readers.slider_reader)
 
         if (slider) {
-          const reader = new SlideReader.SlideReader(slider)
-          const res = await reader.getPuzzle()
+          const res = slider.getPuzzle()
 
           if (CLUEREADERDEBUG) {
             res.tiles.forEach((tile, i) => {
               const pos = Vector2.add(
-                reader.ui.body.screenRectangle().origin,
+                slider.body.screenRectangle().origin,
                 {x: Math.floor(i % 5) * 56, y: Math.floor(i / 5) * 56}
               )
 
@@ -284,18 +290,44 @@ export class ClueReader {
 
             return {
               type: "puzzle",
-              puzzle: {type: "slider", reader: reader, puzzle: res},
+              puzzle: {type: "slider", reader: slider, puzzle: res},
             }
           }
 
           return null
         }
       }
+
+      // Check for scan
+      {
+        const scan = readers.scan_finder.find(img)
+
+        if (scan) {
+          const scan_text = scan.scanArea()
+
+          if (CLUEREADERDEBUG)
+            notification(`Scan ${scan_text}`).show()
+
+          let bestscore = 0;
+          let best: ScanStep | null = null;
+
+          for (let clue of clue_data.scan) {
+            let score = stringSimilarity(scan_text, clue.scantext);
+
+            if (score > bestscore) {
+              best = clue;
+              bestscore = score;
+            }
+          }
+
+          return {type: "scan", step: best, scan_interface: scan}
+        }
+      }
     }
 
     // Check for compass interface
     {
-      const compass = await CapturedCompass.find(img)
+      const compass = readers.compass_finder.find(img)
 
       if (compass) {
         if (CLUEREADERDEBUG) {
@@ -332,135 +364,10 @@ export class ClueReader {
         }
       }
     }
-
-    if (!this.tetracompass_only) {
-
-      const found_ui = await (async (): Promise<ClueReader.MatchedUI> => {
-        const ui_type_map: {
-          type: ClueReader.UIType,
-          anchors: {
-            img: ImageData,
-            origin_offset: Vector2
-          }[]
-        }[] =
-          [
-            {
-              type: "scan", anchors: [{
-                img: this.anchors.scanfartext,
-                origin_offset: {x: 20, y: -5 + 12 * 4}
-              }, {
-                img: this.anchors.scanfartext_pt,
-                origin_offset: {x: 20, y: -5 + 12 * 4}
-              }, {
-                img: this.anchors.scanleveltext,
-                origin_offset: {x: 20, y: -7 + 12 * 6}
-              }]
-            },
-          ]
-
-        for (let ui_type of ui_type_map) {
-          for (let anchor of ui_type.anchors) {
-            let locs = img.find(anchor.img)
-
-            if (locs.length > 0) {
-              switch (ui_type.type) {
-                case "scan":
-                  return {
-                    type: "scan",
-                    image: img.raw(),
-                    rect: Rectangle.fromOriginAndSize(
-                      Vector2.sub(locs[0].screenRectangle().origin, anchor.origin_offset),
-                      {x: 180, y: 190}
-                    )
-                  }
-              }
-            }
-          }
-        }
-      })()
-
-      if (found_ui) {
-
-        if (CLUEREADERDEBUG) {
-          alt1.overLayRect(a1lib.mixColor(255, 0, 0, 255),
-            found_ui.rect.topleft.x,
-            found_ui.rect.botright.y,
-            Rectangle.width(found_ui.rect),
-            Rectangle.height(found_ui.rect),
-            5000,
-            1
-          )
-
-          alt1.overLayText(
-            found_ui.type,
-            a1lib.mixColor(255, 0, 0, 255),
-            10,
-            found_ui.rect.topleft.x,
-            found_ui.rect.botright.y,
-            5000)
-        }
-
-        switch (found_ui.type) {
-          case "scan": {
-            const scan_text_full = ClueReader.readScanPanelText(
-              img.raw(),
-              Rectangle.screenOrigin(found_ui.rect)
-            )
-
-            if (CLUEREADERDEBUG) notification(`Scan ${scan_text_full}`).show()
-
-            const scan_text = scan_text_full.split("\n")[0]
-
-            if (CLUEREADERDEBUG)
-              notification(`Scan ${scan_text}`).show()
-
-            let bestscore = 0;
-            let best: ScanStep | null = null;
-
-            for (let clue of clue_data.scan) {
-              let score = stringSimilarity(scan_text, clue.scantext);
-
-              if (score > bestscore) {
-                best = clue;
-                bestscore = score;
-              }
-            }
-
-            return {type: "scan", step: best}
-          }
-        }
-      }
-    }
-  }
-
-  async readScreen(): Promise<ClueReader.Result> {
-    return this.read(CapturedImage.capture())
   }
 }
 
 export namespace ClueReader {
-  export type UIType = "modal" | "scan" | "slider" | "compass"
-
-  export type MatchedUI =
-    MatchedUI.Slider | MatchedUI.Scan | MatchedUI.Compass
-
-  export namespace MatchedUI {
-    export type Type = "modal" | "scan" | "slider" | "compass"
-
-    export type base = {
-      type: Type,
-      image: ImgRef,
-      rect: Rectangle
-    }
-
-    export type Slider = base & {
-      type: "slider"
-    }
-
-    export type Scan = base & { type: "scan" }
-    export type Compass = base & { type: "compass" }
-  }
-
   export type ModalType = "towers" | "lockbox" | "textclue" | "knot" | "map"
 
   export namespace Result {
@@ -476,23 +383,23 @@ export namespace ClueReader {
 
       export type Slider = puzzle_base & {
         type: "slider",
-        reader: SlideReader.SlideReader,
+        reader: CapturedSliderInterface,
         puzzle: SliderPuzzle
       }
 
       export type Knot = puzzle_base & {
         type: "knot",
-        reader: KnotReader.KnotReader,
+        reader: KnotReader.CapturedKnot,
       }
 
       export type Lockbox = puzzle_base & {
         type: "lockbox",
-        reader: LockBoxReader.LockBoxReader,
+        reader: LockBoxReader.CapturedLockbox,
       }
 
       export type Towers = puzzle_base & {
         type: "tower",
-        reader: TowersReader.TowersReader,
+        reader: TowersReader.CapturedTowers,
       }
 
       export type Puzzle = Slider | Knot | Lockbox | Towers
@@ -508,6 +415,7 @@ export namespace ClueReader {
 
     export type ScanClue = base & {
       type: "scan",
+      scan_interface: CapturedScan | null,
       step: Clues.Scan,
     }
 
@@ -562,34 +470,5 @@ export namespace ClueReader {
     }
 
     return lines.join(" ");
-  }
-
-  export function readScanPanelText(img: ImgRef, pos: Vector2) {
-    const font = require("@alt1/ocr/fonts/aa_8px_new.js");
-    const lineheight = 12;
-    let data = img.toData(pos.x, pos.y, 180, 190);
-
-    let lines: string[] = [];
-    for (let lineindex = 0; lineindex < 13; lineindex++) {
-      const y = lineindex * lineheight;
-      const line = OCR.findReadLine(data, font, [[255, 255, 255]], 70, y, 40, 1);
-      lines.push(line.text);
-    }
-
-    let text = "";
-    let lastempty = false;
-    for (let line of lines) {
-      if (line) {
-        if (lastempty) {
-          text += "\n";
-        } else if (text) {
-          text += " ";
-        }
-        text += line;
-      }
-      lastempty = !line && !!text;
-    }
-
-    return text
   }
 }

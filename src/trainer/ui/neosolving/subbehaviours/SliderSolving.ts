@@ -20,16 +20,19 @@ import {RandomSolver} from "../../../../lib/cluetheory/sliders/RandomSolver";
 import {ProgressBar} from "../../widgets/ProgressBar";
 import {RegionDistanceTable} from "../../../../lib/cluetheory/sliders/RegionDistanceTable";
 import {Log} from "../../../../lib/util/Log";
-import over = OverlayGeometry.over;
-import SliderState = Sliders.SliderState;
-import SliderPuzzle = Sliders.SliderPuzzle;
-import SolvingProcess = Sliders.SolvingProcess;
-import AnnotatedMoveList = Sliders.AnnotatedMoveList;
-import MoveList = Sliders.MoveList;
-import Move = Sliders.Move;
+import {CapturedImage} from "../../../../lib/alt1/capture";
+import {ScreenRectangle} from "../../../../lib/alt1/ScreenRectangle";
 import profileAsync = util.profileAsync;
 import log = Log.log;
 import index = util.index;
+import SliderPuzzle = Sliders.SliderPuzzle;
+import SliderState = Sliders.SliderState;
+import SolvingProcess = Sliders.SolvingProcess;
+import AnnotatedMoveList = Sliders.AnnotatedMoveList;
+import over = OverlayGeometry.over;
+import Move = Sliders.Move;
+import MoveList = Sliders.MoveList;
+
 
 class SliderGuideProcess extends AbstractPuzzleProcess {
   settings = deps().app.settings.settings.solving.puzzles.sliders
@@ -65,17 +68,21 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
   private arrow_keys_inverted: boolean = false
 
   constructor(private parent: SliderSolving, public solver: Sliders.Solver) {
-    super()
+    super(parent.parent.app.capture_service)
 
     this.puzzle = parent.puzzle.puzzle
   }
 
   private posToScreen(pos: number): Vector2 {
     return Vector2.add(
-      this.parent.puzzle.reader.ui.body.screenRectangle().origin,
+      this.parent.puzzle.reader.body.screenRectangle().origin,
       {x: 25, y: 25},
       {x: (pos % 5) * 56, y: Math.floor(pos / 5) * 56}
     )
+  }
+
+  capturingPaused(): boolean {
+    return !this.solution && this.active_solving_process != null
   }
 
   setSolver(solver: Sliders.Solver) {
@@ -87,14 +94,18 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
     }
   }
 
-  private async read(): Promise<{
+  area(): ScreenRectangle {
+    return this.parent.puzzle.reader.screenRectangle(true);
+  }
+
+  private read(capture: CapturedImage): {
     result: Sliders.SliderPuzzle,
     state: SliderState,
     inverted_checkmark: boolean
-  }> {
-    const capt = this.parent.puzzle.reader.ui.recapture(true)
+  } {
+    const capt = this.parent.puzzle.reader.recapture(true, capture)
 
-    const read = await new SlideReader.SlideReader(capt).getPuzzle(this.puzzle.theme)
+    const read = capt.getPuzzle(this.puzzle.theme)
 
     if (read.match_score >= SlideReader.DETECTION_THRESHOLD_SCORE) {
       this.parent.modal.setImage(capt.body.getData())
@@ -119,7 +130,7 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
     const solution_length = this.solution?.length ?? this.active_solving_process?.solver?.getBest()?.length
 
     const center = Vector2.add(
-      this.parent.puzzle.reader.ui.body.screenRectangle().origin,
+      this.parent.puzzle.reader.body.screenRectangle().origin,
       {x: 137, y: -9}
     )
 
@@ -387,21 +398,21 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
       this.solving_overlay
         .text("Solving",
           Vector2.add(
-            this.parent.puzzle.reader.ui.body.screenRectangle().origin,
+            this.parent.puzzle.reader.body.screenRectangle().origin,
             TEXT_POSITION
           ),
           {color: mixColor(255, 255, 255), width: 20, centered: true, shadow: true}
         )
 
       this.solving_overlay.progressbar(Vector2.add(
-        this.parent.puzzle.reader.ui.body.screenRectangle().origin,
+        this.parent.puzzle.reader.body.screenRectangle().origin,
         BAR_POSITION,
       ), 100, this.active_solving_process.solver.getProgress(), 5)
     } else if (!this.solution) {
       this.solving_overlay
         .text("No solution found",
           Vector2.add(
-            this.parent.puzzle.reader.ui.body.screenRectangle().origin,
+            this.parent.puzzle.reader.body.screenRectangle().origin,
             TEXT_POSITION
           ),
           {color: mixColor(255, 0, 0), width: 20, centered: true, shadow: true}
@@ -411,8 +422,9 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
     this.solving_overlay.render()
   }
 
-  async tick(): Promise<void> {
-    const read_result = await this.read()
+  tick(capture: CapturedImage): Promise<void> {
+    console.log(`tick${capture.capture.timestamp}`)
+    const read_result = this.read(capture)
 
     if (read_result.result.match_score < SlideReader.DETECTION_THRESHOLD_SCORE) {
       this.puzzleClosed()
@@ -434,28 +446,26 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
         solving_from: 0
       }
 
-      const initial_solution = await this.active_solving_process.solver.run()
+      this.active_solving_process.solver.run().then(initial_solution => {
+        this.active_solving_process = null
+        this.current_mainline_index = 0
+        this.error_recovery_solution = {sequence: [], recovering_to_mainline_index: 0, last_known_state: null}
 
-      this.active_solving_process = null
-      this.current_mainline_index = 0
-      this.error_recovery_solution = {sequence: [], recovering_to_mainline_index: 0, last_known_state: null}
+        this.guiding_start_time = Date.now()
 
-      this.guiding_start_time = Date.now()
+        this.updateSolvingOverlay()
 
-      this.updateSolvingOverlay()
+        if (initial_solution) {
+          this.solution = Sliders.MoveList.annotate(frame_state, initial_solution, this.settings.mode != "keyboard")
+        } else {
+          this.stop()
+        }
 
-      if (initial_solution) {
-        this.solution = Sliders.MoveList.annotate(frame_state, initial_solution, this.settings.mode != "keyboard")
-      } else {
-        this.stop()
-      }
-
-      this.updateSolvingOverlay()
+        this.updateSolvingOverlay()
+      })
 
       return
     }
-
-    await this.checkTime()
 
     if (!this.solution) return
 
@@ -610,8 +620,8 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
       .setCombineStraights(this.settings.mode == "mouse" || this.settings.mode == "hybrid")
   }
 
-  override async implementation(): Promise<void> {
-    await super.implementation()
+  protected end() {
+    super.end();
 
     this.move_overlay?.hide()
     this.solving_overlay?.hide()
@@ -796,7 +806,7 @@ export class SliderSolving extends AbstractPuzzleSolving<
   }
 
   protected async constructProcess(): Promise<SliderGuideProcess> {
-    const mngr = await PDBManager.instance.get()
+    const mngr = PDBManager.instance.get()
 
     const table = await mngr.get(await mngr.findBest(deps().app.settings.settings.solving.puzzles.sliders.mode != "keyboard"))
 
@@ -832,7 +842,7 @@ export class SliderSolving extends AbstractPuzzleSolving<
   protected begin() {
     super.begin();
 
-    this.modal.setImage(this.puzzle.reader.ui.body.getData())
+    this.modal.setImage(this.puzzle.reader.body.getData())
   }
 
   pausesClueReader(): boolean {

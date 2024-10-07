@@ -287,7 +287,7 @@ export class FilteredPrototypeLayer extends GameLayer {
 
       source.created.on(i => {
         this.create(i)
-      }).bindTo(this.handler_pool)
+      }).bindTo(this.lifetime_manager)
 
       source.removed.on(i => {
         this.delete(i)

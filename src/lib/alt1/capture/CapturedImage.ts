@@ -158,8 +158,8 @@ export class CapturedImage {
     return this._data
   }
 
-  recapture(): CapturedImage {
-    return CapturedImage.capture(this.screenRectangle())
+  recapture(img: CapturedImage): CapturedImage {
+    return img.getScreenSection(this.screenRectangle())
   }
 
   private static latest_capture: CapturedImage = null

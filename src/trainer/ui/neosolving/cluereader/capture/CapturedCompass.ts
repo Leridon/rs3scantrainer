@@ -24,8 +24,8 @@ export class CapturedCompass {
     this.compass_area = body.getSubSection(CapturedCompass.ARROW_RECT_FROM_BODY).setName("compass body")
   }
 
-  recapture(): CapturedCompass {
-    return new CapturedCompass(this.body.recapture())
+  recapture(img: CapturedImage): CapturedCompass {
+    return new CapturedCompass(this.body.recapture(img))
   }
 
   private _is_arc_lines = lazy(() => {

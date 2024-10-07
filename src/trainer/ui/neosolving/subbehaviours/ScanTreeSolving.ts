@@ -230,6 +230,9 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
           cls("ctr-neosolving-scantreeline")
             .append(
               PulseButton.forPulse(child.key, node.children.map(c => c.key))
+                .onClick(() => {
+                  this.setNode(child.value)
+                })
               ,
               c().append(...resolvers.resolve(
                 ScanTree.getInstruction(child.value)

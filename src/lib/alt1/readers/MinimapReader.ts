@@ -1,7 +1,7 @@
 import {AbstractCaptureService, CapturedImage, CaptureInterval, DerivedCaptureService, InterestedToken, NeedleImage, ScreenCaptureService} from "../capture";
 import {async_lazy, lazy} from "../../properties/Lazy";
 import {OverlayGeometry} from "../OverlayGeometry";
-import {degreesToRadians, normalizeAngle, radiansToDegrees, Vector2} from "../../math";
+import {degreesToRadians, normalizeAngle, Vector2} from "../../math";
 import {ScreenRectangle} from "../ScreenRectangle";
 import * as lodash from "lodash";
 import {Log} from "../../util/Log";
@@ -31,9 +31,6 @@ export class MinimapReader extends DerivedCaptureService<MinimapReader.Options, 
 
         if (!this.raw_last_capture?.value || child_options.some(o => o.refind_interval?.matches(time)) || this.minimum_refind_interval.matches(time)) {
           // Do a full capture to refind
-
-          console.log("Should refind now")
-
           return {interval: null, area: null}
         } else {
           return {interval: null, area: this.raw_last_capture?.value.body.screen_rectangle}
@@ -55,8 +52,6 @@ export class MinimapReader extends DerivedCaptureService<MinimapReader.Options, 
 
           if (capturedMinimap) {
             capturedMinimap.debugOverlay(this.debug_overlay)
-
-            console.log(`Camera yaw: ${radiansToDegrees(capturedMinimap.compassAngle.get())}°`)
           }
 
           this.debug_overlay.render()
@@ -199,7 +194,16 @@ export namespace MinimapReader {
         else break
       }
 
-      return count / 3
+      // Scaling is nonlinear.
+      // Count = 10 -> 26 ppt   (scale = 6.5)
+      // Count = 5 -> 9 ppt     (scale = 1.375)
+      // Count = 4 -> 5.5 ppt     (scale = 1.375)
+      // Count = 3 -> 4 ppt     (scale = 1)
+
+      if (count >= 10) return count / 3 + (count - 3) * 0.75
+      else return [
+        1, 1, 1, 1, 1.375, 2.25, 3, 3.875, 4.375, 5.25
+      ][count]
     })
 
     pixelPerTile(): number {
@@ -248,7 +252,6 @@ export namespace MinimapReader {
           })()
 
           if (!top_right) {
-            console.log("Could not find top right")
             return null
           }
 

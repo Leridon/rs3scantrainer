@@ -983,7 +983,7 @@ export namespace CompassReader {
         this.capturing_service.subscribe({
           options: time => {
             return {
-              interval: CaptureInterval.fromApproximateInterval(100),
+              interval: CaptureInterval.fromApproximateInterval(50),
               area: this.matched_ui ? this.matched_ui.body.screen_rectangle : null
             }
           },
@@ -1018,7 +1018,9 @@ export namespace CompassReader {
     private last_stationary_tick: number = -1
 
     tick(img: CapturedImage): void {
-      if(!this.initialization.isInitialized()) return
+      console.log(`Tick ${img.capture.timestamp % 10000}`)
+
+      if (!this.initialization.isInitialized()) return
 
       const finder = this.initialization.get().finder
 

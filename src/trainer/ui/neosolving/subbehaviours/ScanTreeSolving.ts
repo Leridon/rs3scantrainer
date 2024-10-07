@@ -25,7 +25,6 @@ import {AbstractCaptureService, CapturedImage, CaptureInterval, DerivedCaptureSe
 import {MinimapReader} from "../../../../lib/alt1/readers/MinimapReader";
 import {CapturedScan} from "../cluereader/capture/CapturedScan";
 import {Finder} from "../../../../lib/alt1/capture/Finder";
-import {ScreenRectangle} from "../../../../lib/alt1/ScreenRectangle";
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import activate = TileArea.activate;
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
@@ -37,7 +36,6 @@ import over = OverlayGeometry.over;
 import index = util.index;
 import AsyncInitialization = util.AsyncInitialization;
 import async_init = util.async_init;
-import A1Color = util.A1Color;
 
 class ScanCaptureService extends DerivedCaptureService<ScanCaptureService.Options, CapturedScan> {
   private capture_interest: AbstractCaptureService.InterestToken<ScreenCaptureService.Options, CapturedImage>
@@ -282,31 +280,34 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
 
           self.minimap_overlay.clear()
 
-          const scale = (self.method.method.tree.assumed_range * 2 + 1) * value.value.pixelPerTile() / 2
+          if (value.value) {
 
-          const transform =
-            Transform.chain(
-              Transform.translation(minimap.center()),
-              Transform.rotationRadians(-minimap.compassAngle.get()),
-              Transform.scale({x: scale, y: scale}),
+            const scale = (self.method.method.tree.assumed_range * 2 + 1) * value.value.pixelPerTile() / 2
+
+            const transform =
+              Transform.chain(
+                Transform.translation(minimap.center()),
+                Transform.rotationRadians(-minimap.compassAngle.get()),
+                Transform.scale({x: scale, y: scale}),
+              )
+
+            const unit_square: Vector2[] = [
+              {x: 1, y: 1},
+              {x: 1, y: -1},
+              {x: -1, y: -1},
+              {x: -1, y: 1},
+            ]
+
+            self.minimap_overlay.polyline(
+              unit_square.map(v => Vector2.transform_point(v, transform)),
+              true
             )
-
-          const unit_square: Vector2[] = [
-            {x: 1, y: 1},
-            {x: 1, y: -1},
-            {x: -1, y: -1},
-            {x: -1, y: 1},
-          ]
-
-          self.minimap_overlay.polyline(
-            unit_square.map(v => Vector2.transform_point(v, transform)),
-            true
-          )
+          }
 
           self.minimap_overlay.render()
         }
       }),
-      this.scan_capture_service = new ScanCaptureService(this.parent.app.capture_service, this.original_interface_capture),
+      /*this.scan_capture_service = new ScanCaptureService(this.parent.app.capture_service, this.original_interface_capture),
       this.scan_capture_interest = this.scan_capture_service.subscribe({
         options: () => ({interval: CaptureInterval.fromApproximateInterval(100)}),
         handle: (scan2) => {
@@ -347,7 +348,7 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
 
           this.scan_interface_overlay.render()
         }
-      })
+      })*/
     )
 
     this.setNode(this.augmented.root_node)

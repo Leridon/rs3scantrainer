@@ -475,8 +475,8 @@ export class Application extends Behaviour {
   notifications: NotificationBar
 
   capture_service: ScreenCaptureService = new ScreenCaptureService()
-  chatreader: ChatReader = new ChatReader(this.capture_service).setDebugEnabled()
-  minimapreader: MinimapReader = new MinimapReader(this.capture_service).setDebugEnabled()
+  chatreader: ChatReader = new ChatReader(this.capture_service)
+  minimapreader: MinimapReader = new MinimapReader(this.capture_service)
 
   constructor() {
     super()

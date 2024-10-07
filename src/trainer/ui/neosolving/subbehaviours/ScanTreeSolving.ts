@@ -6,7 +6,7 @@ import {Clues} from "../../../../lib/runescape/clues";
 import BoundsBuilder from "../../../../lib/gamemap/BoundsBuilder";
 import {Path} from "../../../../lib/runescape/pathing";
 import {floor_t, TileRectangle} from "../../../../lib/runescape/coordinates";
-import {Rectangle, Transform, Vector2} from "../../../../lib/math";
+import {Rectangle} from "../../../../lib/math";
 import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
 import {ScanRegionPolygon} from "../ScanLayer";
 import {PathStepEntity} from "../../map/entities/PathStepEntity";
@@ -21,7 +21,7 @@ import {C} from "../../../../lib/ui/constructors";
 import {TextRendering} from "../../TextRendering";
 import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
 import * as assert from "assert";
-import {AbstractCaptureService, CapturedImage, CaptureInterval, DerivedCaptureService, InterestedToken, ScreenCaptureService} from "../../../../lib/alt1/capture";
+import {AbstractCaptureService, CapturedImage, DerivedCaptureService, InterestedToken, ScreenCaptureService} from "../../../../lib/alt1/capture";
 import {MinimapReader} from "../../../../lib/alt1/readers/MinimapReader";
 import {CapturedScan} from "../cluereader/capture/CapturedScan";
 import {Finder} from "../../../../lib/alt1/capture/Finder";
@@ -273,7 +273,7 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
     const self = this
 
     this.lifetime_manager.bind(
-      this.minimap_interest = this.parent.app.minimapreader.subscribe({
+      /*this.minimap_interest = this.parent.app.minimapreader.subscribe({
         options: (time: AbstractCaptureService.CaptureTime) => ({
           interval: CaptureInterval.fromApproximateInterval(100),
           refind_interval: CaptureInterval.fromApproximateInterval(10_000)

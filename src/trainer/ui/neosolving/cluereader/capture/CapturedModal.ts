@@ -1,9 +1,10 @@
 import {ScreenRectangle} from "../../../../../lib/alt1/ScreenRectangle";
 import * as OCR from "@alt1/ocr";
 import {Vector2} from "../../../../../lib/math";
-import {LazyAsync} from "../../../../../lib/properties/Lazy";
+import {async_lazy, LazyAsync} from "../../../../../lib/properties/Lazy";
 import {ImageDetect} from "@alt1/base";
-import {CapturedImage} from "../../../../../lib/alt1/ImageCapture";
+import {CapturedImage} from "../../../../../lib/alt1/capture";
+import {Finder} from "../../../../../lib/alt1/capture/Finder";
 
 export class CapturedModal {
   private _title: string = null
@@ -45,45 +46,51 @@ export class CapturedModal {
   static assumeBody(image: CapturedImage): CapturedModal {
     return new CapturedModal(image, false)
   }
-
-  static async findIn(img: CapturedImage): Promise<CapturedModal> {
-    for (let skin of await CapturedModal.anchors.get()) {
-      const x = img.find(skin.close_x)[0]
-
-      if (!x) continue
-
-      const top_left = img.find(skin.top_left)[0]
-      if (!top_left) {
-        return null;
-      }
-
-      const bot_left = img.find(skin.bot_left)[0]
-      if (!bot_left) {
-        return null;
-      }
-
-      const body_tl = Vector2.add(top_left.relativeRectangle().origin, skin.BODY_TL_OFFSET_FROM_TL)
-      const body_bl = Vector2.add(bot_left.relativeRectangle().origin, skin.BODY_BL_OFFSET_FROM_BL)
-      const body_tr = Vector2.add(x.relativeRectangle().origin, skin.BODY_TR_OFFSET_FROM_X)
-
-      const body_height = body_bl.y - body_tl.y + 1
-      const body_width = body_tr.x - body_tl.x + 1
-
-      const BODY_SIZE: Vector2 = {x: body_width, y: body_height}
-
-      const body = img.getSubSection(
-        ScreenRectangle.move(top_left.relativeRectangle(),
-          skin.BODY_TL_OFFSET_FROM_TL,
-          BODY_SIZE))
-
-      return new CapturedModal(body, skin.isLegacy)
-    }
-
-    return null
-  }
 }
 
 export namespace CapturedModal {
+  export const finder = async_lazy(async () => {
+    const anchor = await anchors.get()
+
+    return new class implements Finder<CapturedModal> {
+      find(img: CapturedImage): CapturedModal {
+        for (let skin of anchor) {
+          const x = img.find(skin.close_x)[0]
+
+          if (!x) continue
+
+          const top_left = img.find(skin.top_left)[0]
+          if (!top_left) {
+            return null;
+          }
+
+          const bot_left = img.find(skin.bot_left)[0]
+          if (!bot_left) {
+            return null;
+          }
+
+          const body_tl = Vector2.add(top_left.relativeRectangle().origin, skin.BODY_TL_OFFSET_FROM_TL)
+          const body_bl = Vector2.add(bot_left.relativeRectangle().origin, skin.BODY_BL_OFFSET_FROM_BL)
+          const body_tr = Vector2.add(x.relativeRectangle().origin, skin.BODY_TR_OFFSET_FROM_X)
+
+          const body_height = body_bl.y - body_tl.y + 1
+          const body_width = body_tr.x - body_tl.x + 1
+
+          const BODY_SIZE: Vector2 = {x: body_width, y: body_height}
+
+          const body = img.getSubSection(
+            ScreenRectangle.move(top_left.relativeRectangle(),
+              skin.BODY_TL_OFFSET_FROM_TL,
+              BODY_SIZE))
+
+          return new CapturedModal(body, skin.isLegacy)
+        }
+
+        return null
+      }
+    }
+  })
+
   export const title_font = require("@alt1/ocr/fonts/aa_9px_mono_allcaps.js");
 
   type SkinAnchors = {

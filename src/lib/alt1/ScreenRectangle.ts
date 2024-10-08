@@ -1,3 +1,4 @@
+import * as lodash from "lodash";
 import {Rectangle, Vector2} from "../math";
 
 export type ScreenRectangle = {
@@ -34,6 +35,10 @@ export namespace ScreenRectangle {
     }
   }
 
+  export function fromPixels(...pixels: Vector2[]) {
+    return fromRectangle(Rectangle.from(...pixels))
+  }
+
   export function toRectangle(rect: ScreenRectangle): Rectangle {
     return Rectangle.fromOriginAndSize(rect.origin, rect.size)
   }
@@ -53,5 +58,24 @@ export namespace ScreenRectangle {
 
   export function center(rect: ScreenRectangle): Vector2 {
     return Vector2.snap(Vector2.add(rect.origin, Vector2.scale(0.5, rect.size)))
+  }
+
+  export function centeredOn(center: Vector2, radius: number): ScreenRectangle {
+    return {
+      origin: Vector2.sub(center, {x: radius, y: radius}),
+      size: {x: 2 * radius, y: 2 * radius}
+    }
+  }
+
+  export function union(...rects: ScreenRectangle[]): ScreenRectangle {
+    return ScreenRectangle.fromRectangle(
+      Rectangle.union(
+        ...rects.map(ScreenRectangle.toRectangle)
+      )
+    )
+  }
+
+  export function equals(a: ScreenRectangle, b: ScreenRectangle): boolean {
+    return lodash.isEqual(a, b)
   }
 }

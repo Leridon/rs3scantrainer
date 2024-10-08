@@ -1,9 +1,10 @@
-import {CapturedImage} from "../../../../../lib/alt1/ImageCapture";
+import {CapturedImage} from "../../../../../lib/alt1/capture";
 import {async_lazy, lazy} from "../../../../../lib/properties/Lazy";
 import {ImageDetect} from "@alt1/base";
 import {ScreenRectangle} from "../../../../../lib/alt1/ScreenRectangle";
 import {util} from "../../../../../lib/util/util";
 import {Vector2} from "../../../../../lib/math";
+import {Finder} from "../../../../../lib/alt1/capture/Finder";
 import rgbSimilarity = util.rgbSimilarity;
 import sampleImage = util.sampleImage;
 
@@ -23,8 +24,8 @@ export class CapturedCompass {
     this.compass_area = body.getSubSection(CapturedCompass.ARROW_RECT_FROM_BODY).setName("compass body")
   }
 
-  recapture(): CapturedCompass {
-    return new CapturedCompass(this.body.recapture())
+  recapture(img: CapturedImage): CapturedCompass {
+    return new CapturedCompass(this.body.recapture(img))
   }
 
   private _is_arc_lines = lazy(() => {
@@ -45,29 +46,36 @@ export class CapturedCompass {
   isArcCompass(): boolean {
     return this._is_arc_lines.get()
   }
-
-  /**
-   * Looks for a compass in the given {@link CapturedImage} by looking for the north-indicator.
-   * @param screen The image to search for a compass interface.
-   */
-  static async find(screen: CapturedImage): Promise<CapturedCompass> {
-    const position = screen.find(await CapturedCompass.anchor.get())[0]
-
-    if (position) {
-      const section = screen.getSubSection(
-        ScreenRectangle.move(position.relativeRectangle(),
-          CapturedCompass.origin_offset_from_anchor,
-          CapturedCompass.UI_SIZE),
-      )
-
-      return new CapturedCompass(section)
-    }
-
-    return null
-  }
 }
 
 export namespace CapturedCompass {
+  export const finder = async_lazy(async () => {
+    const anchor = await CapturedCompass.anchor.get()
+
+    return new class implements Finder<CapturedCompass> {
+      /**
+       * Looks for a compass in the given {@link CapturedImage} by looking for the north-indicator.
+       * @param screen The image to search for a compass interface.
+       */
+      find(screen: CapturedImage): CapturedCompass {
+        const position = screen.find(anchor)[0]
+
+        if (position) {
+          const section = screen.getSubSection(
+            ScreenRectangle.move(position.relativeRectangle(),
+              CapturedCompass.origin_offset_from_anchor,
+              CapturedCompass.UI_SIZE),
+          )
+
+          return new CapturedCompass(section)
+        }
+
+        return null
+      }
+
+    }
+  })
+
   export const anchor = async_lazy(async () => await ImageDetect.imageDataFromUrl("alt1anchors/compassnorth.png"))
   export const origin_offset_from_anchor = {x: -78, y: -20}
   export const UI_SIZE = {x: 172, y: 259}

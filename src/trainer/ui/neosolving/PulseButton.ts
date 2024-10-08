@@ -1,11 +1,11 @@
 import LightButton from "../widgets/LightButton";
 import {Scans} from "../../../lib/runescape/clues/scans";
 import {TextRendering} from "../TextRendering";
+import {C} from "../../../lib/ui/constructors";
 import Widget from "../../../lib/ui/Widget";
 import Pulse = Scans.Pulse;
 import render_digspot = TextRendering.render_digspot;
 import simplify_with_context = Scans.Pulse.simplify_with_context;
-import {C} from "../../../lib/ui/constructors";
 import cls = C.cls;
 
 export class PulseIcon extends Widget {
@@ -39,7 +39,7 @@ export class PulseIcon extends Widget {
 
 export default class PulseButton extends LightButton {
   private constructor(value: { type: "pulse", value: Pulse, context: Pulse[] } | { type: "spot", value: number }) {
-    super("", value.type == "pulse" ? "round" : "round");
+    super("", "round");
 
     this.addClass("ctr-neosolving-pulsebutton")
 

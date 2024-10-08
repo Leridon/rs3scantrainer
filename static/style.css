@@ -1793,7 +1793,7 @@ input[type=checkbox] + span {
 }
 
 .ctr-neosolving-sidebar > *:not(:empty) {
-    margin-bottom: 5px;
+    margin-bottom: 3px;
     border-radius: 5px;
     background-color: rgba(10, 31, 41, 0.85);
     border: 1px solid rgba(5, 56, 66, 0.6);
@@ -1909,7 +1909,8 @@ input[type=checkbox] + span {
 
 .ctr-neosolving-nextscanstep {
     font-weight: bold;
-    font-size: 18px
+    font-size: 18px;
+    border-bottom: 1px solid gray;
 }
 
 .ctr-neosolving-scantreeline {
@@ -1917,6 +1918,10 @@ input[type=checkbox] + span {
     justify-content: left;
     margin-top: 3px;
     margin-left: 4px;
+}
+
+.ctr-neosolving-scantreeline.ctr-clickable:hover {
+    background-color: rgb(40, 89, 112);
 }
 
 .ctr-neosolving-scantreeline > * {
@@ -2392,7 +2397,7 @@ input[type=checkbox] + span {
 }
 
 .ctr-log-viewer-attachment-indicator {
-    width:20px;
+    width: 20px;
     text-align: center;
     min-width: 20px;
 }

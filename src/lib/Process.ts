@@ -116,21 +116,29 @@ export abstract class Process<Result = void> {
     }
   }
 
-  onFinished(f: (_: this) => void) : this {
+  onFinished(f: (_: this) => void): this {
     this.finished_event.on(f)
     return this
   }
 }
 
 export namespace Process {
-  export type ArcheType = {
-    type: "interval",
-    interval: number
-  } | {
-    type: "process",
-    interrupt: {
-      interval: number,
-      length: number
+
+  export abstract class Interval extends Process<void> {
+    constructor(interval: number) {
+      super();
+
+      this.asInterval(interval)
+    }
+
+    abstract tick(): void | Promise<void>
+
+    async implementation(): Promise<void> {
+      while (!this.should_stop) {
+        await this.tick()
+
+        await this.checkTime()
+      }
     }
   }
 }

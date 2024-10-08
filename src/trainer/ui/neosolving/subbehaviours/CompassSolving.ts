@@ -337,7 +337,8 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     })
 
     if (reader) {
-      this.process = new CompassReader.Service(this.reader.capture,
+      this.process = new CompassReader.Service(this.parent.app.capture_service,
+        this.reader.capture,
         this.settings.enable_status_overlay
       )
 
@@ -356,7 +357,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
             this.entries.forEach(e => e.widget.setPreviewAngle(is_state?.state == "normal" ? is_state.angle : null))
           }
         }
-      }, h => h.bindTo(this.handler_pool))
+      }, h => h.bindTo(this.lifetime_manager))
     }
   }
 
@@ -872,7 +873,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     this.layer = new CompassHandlingLayer(this)
     this.parent.layer.add(this.layer)
 
-    this.process.run()
+    this.process.start()
 
     this.parent.app.main_hotkey.subscribe(0, e => {
       if (e.text) {
@@ -886,7 +887,7 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
       } else {
         this.commit(undefined, true)
       }
-    }).bindTo(this.handler_pool)
+    }).bindTo(this.lifetime_manager)
 
     this.renderWidget()
 

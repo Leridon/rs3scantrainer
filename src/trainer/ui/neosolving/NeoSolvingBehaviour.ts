@@ -13,6 +13,7 @@ import {clue_data} from "../../../data/clues";
 import PreparedSearchIndex from "../../../lib/util/PreparedSearchIndex";
 import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 import * as lodash from "lodash";
+import {capitalize} from "lodash";
 import {Path} from "../../../lib/runescape/pathing";
 import {AugmentedMethod, MethodPackManager} from "../../model/MethodPackManager";
 import {SolvingMethods} from "../../model/methods";
@@ -42,6 +43,8 @@ import {LockboxSolving} from "./subbehaviours/LockboxSolving";
 import {TowersSolving} from "./subbehaviours/TowersSolving";
 import {Log} from "../../../lib/util/Log";
 import * as assert from "assert";
+import {CapturedScan} from "./cluereader/capture/CapturedScan";
+import {AbstractCaptureService, CapturedImage, CaptureInterval} from "../../../lib/alt1/capture";
 import span = C.span;
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import interactionMarker = RenderingUtility.interactionMarker;
@@ -58,7 +61,6 @@ import notification = Notification.notification;
 import activate = TileArea.activate;
 import ClueSpot = Clues.ClueSpot;
 import log = Log.log;
-import {capitalize} from "lodash";
 
 class NeoSolvingLayer extends GameLayer {
   public control_bar: NeoSolvingLayer.MainControlBar
@@ -89,10 +91,10 @@ class NeoSolvingLayer extends GameLayer {
       new NeoSolvingLayer.MainControlBar(behaviour),
       this.clue_container = c(),
       this.solution_container = c(),
-      this.scantree_container = c(),
       this.compass_container = c(),
-      this.path_container = c(),
       this.method_selection_container = c(),
+      this.scantree_container = c(),
+      this.path_container = c(),
     )
 
     this.scan_layer = new ScanEditLayer([]).addTo(this)
@@ -269,7 +271,7 @@ namespace NeoSolvingLayer {
             .setToggled(this.fullscreen_preference.get()),
           new MainControlButton({icon: "assets/icons/settings.png", centered: true})
             .tooltip("Open settings")
-            .onClick(() => new SettingsModal("info_panels").do())
+            .onClick(() => new SettingsModal("solving_general").do())
         ).css("flex-grow", "1"),
       )
 
@@ -306,7 +308,7 @@ namespace NeoSolvingLayer {
 class ClueSolvingReadingBehaviour extends Behaviour {
   reader: ClueReader
 
-  private activeInterval: number = null
+  private autoSolve: boolean = false
 
   constructor(private parent: NeoSolvingBehaviour) {
     super();
@@ -315,14 +317,21 @@ class ClueSolvingReadingBehaviour extends Behaviour {
   }
 
   protected begin() {
+    const interval = CaptureInterval.fromApproximateInterval(300)
+
+    this.lifetime_manager.bind(this.parent.app.capture_service.subscribe({
+      options: (time: AbstractCaptureService.CaptureTime) => ({interval: interval, area: null}),
+      paused: () => (!this.autoSolve || this.parent.active_behaviour.get()?.pausesClueReader()),
+      handle: (img) => this.solve(img.value, true)
+    }))
   }
 
   protected end() {
     this.setAutoSolve(false)
   }
 
-  private async solve(is_autosolve: boolean = false): Promise<ClueReader.Result> {
-    const res = await this.reader.readScreen()
+  private solve(img: CapturedImage, is_autosolve: boolean): ClueReader.Result {
+    const res = this.reader.read(img)
 
     if (res) {
       switch (res.type) {
@@ -348,23 +357,13 @@ class ClueSolvingReadingBehaviour extends Behaviour {
   }
 
   setAutoSolve(v: boolean) {
-    if (this.activeInterval != null) {
-      clearInterval(this.activeInterval)
-      this.activeInterval = null
-    }
-
-    if (this.parent.app.in_alt1 && v) {
-      // TODO: Adaptive timing to avoid running all the time?
-
-      this.activeInterval = window.setInterval(() => {
-        if (!this.parent.active_behaviour.get()?.pausesClueReader())
-          this.solve(true)
-      }, 300)
-    }
+    this.autoSolve = v
   }
 
   async solveManuallyTriggered() {
-    const found = await this.solve()
+    const img = await this.parent.app.capture_service.captureOnce({options: {area: null, interval: null}})
+
+    const found = await this.solve(img.value, false)
 
     if (!found) {
       notification("No clue found on screen.", "error").show()
@@ -719,6 +718,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
             let answer_span: Widget = null
 
             w.append(row = cls("ctr-neosolving-solution-row")
+              .toggleClass("ctr-clickable", challenge.answers.length > 1)
               .append(
                 hboxl(
                   inlineimg("assets/icons/activeclue.png"),
@@ -809,8 +809,10 @@ export default class NeoSolvingBehaviour extends Behaviour {
    * Builds the necessary ui elements and potentially zooms to the start point.
    *
    * @param method
+   * @param read_result
    */
-  setMethod(method: AugmentedMethod): void {
+  setMethod(method: AugmentedMethod, read_result: ClueReader.Result = null): void {
+    log().log(`Setting method ${method ? method.method.name : "null"}`)
 
     if (method) {
       log().log(`Setting method to ${method.method.name} (${method.method.id.substring(0, 8)})`, "Solving")
@@ -855,13 +857,23 @@ export default class NeoSolvingBehaviour extends Behaviour {
       this.active_method = method
 
       if (method.method.type == "scantree") {
+        const scan_interface: CapturedScan = (() => {
+          if (read_result) {
+            assert(read_result.type == "scan")
+
+            return read_result.scan_interface
+          } else return null
+        })()
+
         this.activateSubBehaviour(
-          new ScanTreeSolving(this, method as AugmentedMethod<ScanTreeMethod, Clues.Scan>)
+          new ScanTreeSolving(this, method as AugmentedMethod<ScanTreeMethod, Clues.Scan>, scan_interface)
         )
       } else if (method.method.type == "general_path") {
         this.path_control.setMethod(method as AugmentedMethod<GenericPathMethod>)
       }
-    } else if ((this.state.step?.clue?.step?.type != "compass") || (active_behaviour instanceof CompassSolving && active_behaviour.selected_spot.value())) {
+    }
+
+    if ((this.state.step?.clue?.step?.type != "compass") || (active_behaviour instanceof CompassSolving && active_behaviour.selected_spot.value())) {
 
       const clue: ClueSpot.Id = active_behaviour instanceof CompassSolving
         ? {clue: this.state.step.clue.step.id, spot: active_behaviour.selected_spot.value().spot}
@@ -892,7 +904,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
     let m = await this.getAutomaticMethod({clue: step.step.id})
 
     this.setClue(step, !m, read_result)
-    this.setMethod(m)
+    this.setMethod(m, read_result)
   }
 
   /**

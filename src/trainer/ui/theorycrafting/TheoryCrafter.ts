@@ -17,7 +17,7 @@ export default class TheoryCrafter extends Behaviour {
 
     MethodPackManager.instance().saved.on(async () => {
       await this.layer.filter_control.refreshFilterIndex()
-    }).bindTo(this.handler_pool)
+    }).bindTo(this.lifetime_manager)
 
     this.method_editor.behaviour.subscribe((b, old_b) => {
       if (b && !old_b) {

@@ -6,6 +6,7 @@ import {levenshteinEditDistance} from "levenshtein-edit-distance";
 import {mixColor, unmixColor} from "@alt1/base";
 import {Vector2} from "../math";
 
+
 export namespace util {
 
   export function natural_join(a: any[], connector: string = "and"): string {
@@ -261,6 +262,13 @@ export namespace util {
     return 1 - levenshteinEditDistance(string, reference, true) / reference.length
   }
 
+  export function scoreAll<T>(collection: T[], score_f: (_: T) => number): {
+    value: T,
+    score: number
+  }[] {
+    return collection.map(e => ({value: e, score: score_f(e)}))
+  }
+
   export function findBestMatch<T>(collection: T[], score_f: (_: T) => number, min_score: number = undefined, inverted: boolean = false): {
     value: T,
     score: number
@@ -366,6 +374,36 @@ export namespace util {
     const date = new Date(timestamp)
 
     return `${padInteger(date.getHours(), 2)}:${padInteger(date.getMinutes(), 2)}:${padInteger(date.getSeconds(), 2)}.${padInteger(date.getMilliseconds(), 4)}`
+  }
+
+  export class AsyncInitialization<T = any> {
+    private _is_initialized: boolean = false
+    private _value: T = undefined
+    private promise: Promise<T>
+
+    constructor(f: () => Promise<T>) {
+      this.promise = f().then(v => {
+        this._is_initialized = true
+        this._value = v
+        return v
+      })
+    }
+
+    isInitialized(): boolean {
+      return this._is_initialized
+    }
+
+    wait(): Promise<any> {
+      return this.promise
+    }
+
+    get(): T {
+      return this._value
+    }
+  }
+
+  export function async_init<T>(f: () => Promise<T>) {
+    return new AsyncInitialization(f)
   }
 
   export async function delay(t: number): Promise<void> {

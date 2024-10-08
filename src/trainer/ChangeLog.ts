@@ -17,6 +17,22 @@ export namespace Changelog {
   }
 
   export const log: LogEntry[] = lodash.sortBy<LogEntry>([{
+    version: 14,
+    date: new Date(Date.parse("2024-10-08")),
+    title: "Large internal change and small visible changes",
+    render: layout => {
+      layout
+        .row(new List()
+          .item("Large internal refactor of screen capturing to optimize for multiple captures being done in parallel.",
+            new List()
+              .item("This is a significant internal change that could potentially lead to unforeseen issues, despite extensive testing. Please let me know if you experience any issues.")
+          )
+          .item("Fixed a bug that caused lockbox optimization to reset down to 2 on reloading.")
+          .item("Separated the method selection dropdown into its own element instead of being embedded in the path list or the scan tree view.")
+          .item("On scans, the entire lines can now be clicked instead of just the small button containing the pulse icon.")
+        )
+    }
+  }, {
     version: 13,
     date: new Date(Date.parse("2024-10-03")),
     silent: true,

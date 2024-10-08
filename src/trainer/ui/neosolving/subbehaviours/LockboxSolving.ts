@@ -215,7 +215,7 @@ export namespace LockboxSolving {
       if (typeof settings.overlay_color != "number") settings.overlay_color = DEFAULT.overlay_color
       if (typeof settings.two_click_factor != "number") settings.two_click_factor = DEFAULT.two_click_factor
 
-      settings.two_click_factor = lodash.clamp(settings.two_click_factor, 1, 2)
+      settings.two_click_factor = lodash.clamp(settings.two_click_factor, 1, 5)
 
       return settings
     }

@@ -376,6 +376,12 @@ export namespace util {
     return `${padInteger(date.getHours(), 2)}:${padInteger(date.getMinutes(), 2)}:${padInteger(date.getSeconds(), 2)}.${padInteger(date.getMilliseconds(), 4)}`
   }
 
+  export function formatTimeWithoutMilliseconds(timestamp: number): string {
+    const date = new Date(timestamp)
+
+    return `${padInteger(date.getHours(), 2)}:${padInteger(date.getMinutes(), 2)}:${padInteger(date.getSeconds(), 2)}`
+  }
+
   export class AsyncInitialization<T = any> {
     private _is_initialized: boolean = false
     private _value: T = undefined

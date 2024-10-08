@@ -1,4 +1,4 @@
-import {initialize} from "./trainer/application";
+import {BroadcastReaderApp} from "./BroadcastReaderApp";
 
 document.addEventListener("DOMContentLoaded", (e) => {
   //check if we are running inside alt1 by checking if the alt1 global exists
@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
     alt1.identifyAppUrl("appconfig.json");
   }
 
-  initialize()
+  new BroadcastReaderApp().start()
 })
 
 

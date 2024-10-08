@@ -8,15 +8,17 @@ import {async_lazy} from "../../properties/Lazy";
 import {defaultcolors} from "alt1/chatbox";
 import * as a1lib from "alt1";
 import {Log} from "../../util/Log";
+import {ChatboxFinder} from "./chatreader/ChatboxFinder";
+import {ChatAnchors} from "./chatreader/ChatAnchors";
+import {CapturedChatbox} from "./chatreader/CapturedChatbox";
+import {MessageBuffer} from "./chatreader/ChatBuffer";
+import * as lodash from "lodash";
 import over = OverlayGeometry.over;
 import log = Log.log;
 import A1Color = util.A1Color;
 import AsyncInitialization = util.AsyncInitialization;
 import async_init = util.async_init;
-import {ChatboxFinder} from "./chatreader/ChatboxFinder";
-import {ChatAnchors} from "./chatreader/ChatAnchors";
-import {CapturedChatbox} from "./chatreader/CapturedChatbox";
-import {MessageBuffer} from "./chatreader/ChatBuffer";
+import Message = MessageBuffer.Message;
 
 /**
  * A service class to read chat messages. It will search for chat boxes periodically, so it will find the chat
@@ -48,7 +50,7 @@ export class ChatReader extends DerivedCaptureService {
     this.new_message.on(msg => {
       if (!this.debug_mode) return
 
-      console.log(msg.text)
+      console.log(Message.toString(msg))
     })
 
     this.initialization = async_init(async () => {
@@ -176,7 +178,7 @@ export namespace ChatReader {
       let scan_x = 0
       const baseline = this.chatbox.font.baseline_y
 
-      const read_string = (colors: ColortTriplet[] = defaultcolors as ColortTriplet[]): boolean => {
+      const read_string = (colors: ColortTriplet[] = ChatReader.all_colors as ColortTriplet[]): boolean => {
         const data = OCR.readLine(line_img, fodef, colors, scan_x, baseline, true, false);
 
         if (data.text) {
@@ -229,21 +231,43 @@ export namespace ChatReader {
 
       while (scan_x < this.chatbox.body.screen_rectangle.origin.x + this.chatbox.body.screen_rectangle.size.x - this.chatbox.font.def.width) {
         if (!read_icon()) break
-        if (!read_string()) break
+        if (!read_string(ChatReader.all_colors)) break
       }
 
       return fragments.join("")
     }
 
     private commit(message: string): boolean {
+      const now = Date.now()
+
       let m = message.match(/^\[(\d{2}):(\d{2}):(\d{2})]/);
 
       if (!m) return false // Reject messages without a timestamp
 
-      const timestamp = (+m[1]) * 60 * 60 + (+m[2]) * 60 + (+m[3]);
+      const hours = +m[1]
+      const minutes = +m[2]
+      const seconds = +m[3]
+
+      function addDays(date: Date, days: number): Date {
+        const new_date = new Date(date.valueOf());
+        new_date.setDate(new_date.getDate() + days);
+        return new_date;
+      }
+
+      const today = new Date(Date.now())
+
+      today.setHours(hours)
+      today.setMinutes(minutes)
+      today.setSeconds(seconds)
+
+      const date = lodash.minBy([today, addDays(today, -1), addDays(today, 1)], date => Math.abs(now - date.valueOf()))
 
       return this.buffer.add({
-        timestamp: timestamp,
+        local_timestamp: {
+          stamp: hours * 60 * 60 + minutes * 60 + seconds,
+          hours, minutes, seconds
+        },
+        timestamp: date.valueOf(),
         text: message.substring(11) // Strip timestamp from message itself
       })
     }
@@ -304,6 +328,8 @@ export namespace ChatReader {
     [164, 153, 125], //brownish gray friends/fc/cc list name
     [215, 195, 119], //interface preset color
     [45, 185, 20], // Green in "Completion time" for bosses
-    [254, 128, 0]
+    [254, 128, 0],
+    [223, 112, 0],
+    [51, 199, 20]
   ]
 }

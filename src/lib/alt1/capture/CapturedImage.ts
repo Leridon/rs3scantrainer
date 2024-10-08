@@ -2,7 +2,6 @@ import {ScreenRectangle} from "../ScreenRectangle";
 import {Vector2} from "../../math";
 import * as a1lib from "@alt1/base";
 import {ImgRef, ImgRefData} from "@alt1/base";
-import {findSubbuffer} from "@alt1/base/src/imagedetect";
 import {OverlayGeometry} from "../OverlayGeometry";
 import {NeedleImage} from "./NeedleImage";
 import {util} from "../../util/util";
@@ -103,7 +102,7 @@ export class CapturedImage {
       } else {
         // Fallback:
 
-        return findSubbuffer(this.getData(), needle.underlying,
+        return a1lib.ImageDetect.findSubbuffer(this.getData(), needle.underlying,
           this.screen_rectangle.origin.x, this.screen_rectangle.origin.y,
           this.screen_rectangle.size.x, this.screen_rectangle.size.y)
       }

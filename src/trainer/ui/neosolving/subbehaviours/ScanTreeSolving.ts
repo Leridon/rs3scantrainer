@@ -228,6 +228,7 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
           const resolvers = this.parent.app.template_resolver.with(...ScanTreeSolving.scan_tree_template_resolvers(child.value))
 
           cls("ctr-neosolving-scantreeline")
+            .addClass("ctr-clickable")
             .append(
               PulseButton.forPulse(child.key, node.children.map(c => c.key))
                 .onClick(() => {

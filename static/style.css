@@ -1920,9 +1920,8 @@ input[type=checkbox] + span {
     margin-left: 4px;
 }
 
-.ctr-neosolving-scantreeline:hover {
+.ctr-neosolving-scantreeline.ctr-clickable:hover {
     background-color: rgb(40, 89, 112);
-    cursor: pointer;
 }
 
 .ctr-neosolving-scantreeline > * {

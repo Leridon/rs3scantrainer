@@ -258,6 +258,7 @@ export namespace ChatReader {
       today.setHours(hours)
       today.setMinutes(minutes)
       today.setSeconds(seconds)
+      today.setMilliseconds(0)
 
       const date = lodash.minBy([today, addDays(today, -1), addDays(today, 1)], date => Math.abs(now - date.valueOf()))
 

@@ -259,7 +259,7 @@ export class BroadcastReaderApp extends Behaviour {
       // Discard messages outside the event time
       if (message.timestamp < this.buffer.user.event.date.from || message.timestamp > this.buffer.user.event.date.to) return
 
-      const match = message.text.match("News: [\u26AF\u{1F480}]?(.*) comp[il]eted a Treasure Trai[il] and received( a|(an))? (.*)!")
+      const match = message.text.match("\u2746News: [\u26AF\u{1F480}]?(.*) comp[il]eted a Treasure Trai[il] and received( a|(an))? (.*)!")
 
       // Discard messages not matching any
       if (!match) {

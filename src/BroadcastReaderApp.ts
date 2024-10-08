@@ -66,6 +66,7 @@ const item_mapping: {
 
 namespace Backend {
   const LOCAL_TEST_TOKEN = "testtoken"
+  const host = "https://api.cluetrainer.app"
 
   export async function verify_login(token: string): Promise<User> {
     if (token == LOCAL_TEST_TOKEN) return {
@@ -78,6 +79,21 @@ namespace Backend {
           to: 1828399531613
         }
       }
+    }
+    else {
+      const res = await fetch(`${host}/api/broadcastreader/verify_token`, {
+        method: "POST",
+        body: JSON.stringify({
+          token: token
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8"
+        }
+      });
+
+      if (!res.ok) return null
+
+      return (await res.json()) as User
     }
 
     return null

@@ -17,6 +17,17 @@ export namespace Changelog {
   }
 
   export const log: LogEntry[] = lodash.sortBy<LogEntry>([{
+    version: 15,
+    date: new Date(Date.parse("2024-10-10")),
+    silent: true,
+    title: "Solving Bugfix",
+    render: layout => {
+      layout
+        .row(new List()
+          .item("Fixed a bug that caused parts of the solving interface to not appear when reading a scan.")
+        )
+    }
+  }, {
     version: 14,
     date: new Date(Date.parse("2024-10-08")),
     title: "Large internal change and small visible changes",

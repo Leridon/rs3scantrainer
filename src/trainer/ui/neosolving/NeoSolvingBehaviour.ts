@@ -858,9 +858,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
       if (method.method.type == "scantree") {
         const scan_interface: CapturedScan = (() => {
-          if (read_result) {
-            assert(read_result.type == "scan")
-
+          if (read_result?.type == "scan") {
             return read_result.scan_interface
           } else return null
         })()

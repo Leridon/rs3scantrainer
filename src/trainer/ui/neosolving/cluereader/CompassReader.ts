@@ -1018,9 +1018,7 @@ export namespace CompassReader {
     private last_stationary_tick: number = -1
 
     tick(img: CapturedImage): void {
-      console.log(`Tick ${img.capture.timestamp % 10000}`)
-
-      if (!this.initialization.isInitialized()) return
+      if (!this.initialization.isInitialized() || !this.isActive()) return
 
       const finder = this.initialization.get().finder
 

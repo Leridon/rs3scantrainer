@@ -17,6 +17,17 @@ export namespace Changelog {
   }
 
   export const log: LogEntry[] = lodash.sortBy<LogEntry>([{
+    version: 16,
+    date: new Date(Date.parse("2024-10-10")),
+    silent: true,
+    title: "Compass Overlay Fix",
+    render: layout => {
+      layout
+        .row(new List()
+          .item("Fixed a timing issue that could cause the compass overlay to persist after the compass already ended.")
+        )
+    }
+  }, {
     version: 15,
     date: new Date(Date.parse("2024-10-10")),
     silent: true,

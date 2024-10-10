@@ -2,7 +2,6 @@ import {Process} from "../../Process";
 import {CapturedImage} from "./CapturedImage";
 import {ScreenRectangle} from "../ScreenRectangle";
 import {ewent} from "../../reactive";
-import {util} from "../../util/util";
 import {Log} from "../../util/Log";
 import * as lodash from "lodash";
 import {LifetimeManager} from "../../lifetime/LifetimeManager";
@@ -101,7 +100,7 @@ export abstract class AbstractCaptureService<
       this._currentInterest = {
         time: time,
         interests: this.interests
-          .filter(t => !t.isPaused())
+          .filter(t => !t.isPaused() && t.isAlive())
           .map(t => ({options: t.options(time), token: t}))
           .filter(t => t.options && t.options.interval.matches(time))
       }
@@ -148,6 +147,10 @@ export namespace AbstractCaptureService {
       return false
     }
 
+    isAlive(): boolean {
+      return this.alive
+    }
+
     revoke() {
       if (!this.alive) return
 
@@ -172,6 +175,8 @@ export namespace AbstractCaptureService {
     abstract options(time: CaptureTime): OptionsT | null
 
     notify(value: TimedValue<ValueT, OptionsT>): void {
+      if (!this.alive) return
+
       this._last_notification = value
 
       try {

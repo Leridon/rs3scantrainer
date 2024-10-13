@@ -157,12 +157,15 @@ class TowersSolvingProcess extends AbstractPuzzleProcess {
           }
 
           if (this.was_solved_data[y][x] && this.settings.show_overshot) {
-            this.solution_overlay.rect2(
-              {origin: Vector2.add(origin, {x: -1, y: -1}), size: Vector2.add(TowersReader.TILE_SIZE, {x: 3, y: 3})}, {
-                color: mixColor(255, 0, 0),
-                width: 2
-              }
-            )
+            if (!blocked(TR)) {
+
+              this.solution_overlay.rect2(
+                {origin: Vector2.add(origin, {x: -1, y: -1}), size: Vector2.add(TowersReader.TILE_SIZE, {x: 3, y: 3})}, {
+                  color: mixColor(255, 0, 0),
+                  width: 2
+                }
+              )
+            }
           }
         }
       }

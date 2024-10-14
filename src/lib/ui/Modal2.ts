@@ -71,21 +71,6 @@ export abstract class Modal2 {
     }
 
     this._container.appendTo(jquery(document.body))
-
-    this._modal.raw().addEventListener("hidden.bs.modal", () => {
-      this.hidden.trigger(this)
-
-      this.state.set("hidden")
-
-      Modal2.open_count--
-
-      if (Modal2.open_count == 0) {
-        const backdrops = document.getElementsByClassName("modal-backdrop")
-        for (let i = 0; i < backdrops.length; i++) {
-          backdrops[i].remove()
-        }
-      }
-    })
   }
 
   async show(): Promise<this> {

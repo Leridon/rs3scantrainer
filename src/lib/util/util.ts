@@ -415,4 +415,16 @@ export namespace util {
   export async function delay(t: number): Promise<void> {
     return new Promise(done => setTimeout(done, t));
   }
+
+  export function renderTimespan(milliseconds: number): string {
+    const SECOND =  1000
+    const MINUTE = 60 * SECOND
+    const HOUR = 60 * MINUTE
+    const DAY = 24 * HOUR
+
+    if (milliseconds > 2 * DAY) return plural(Math.floor(milliseconds / DAY), "day")
+    if (milliseconds > 3 * HOUR) return plural(Math.floor(milliseconds / HOUR), "hour")
+    if (milliseconds > 2 * MINUTE) return plural(Math.floor(milliseconds / MINUTE), "minute")
+    return plural(Math.floor(milliseconds / SECOND), "second")
+  }
 }

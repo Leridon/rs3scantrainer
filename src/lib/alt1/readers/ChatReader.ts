@@ -296,7 +296,7 @@ export namespace ChatReader {
           row++
         }
 
-        const line = component_lines.reverse().map(l => l.join("")).join(" ")
+        const line = component_lines.reverse().map(l => l.map(f => f.text).join("")).join(" ")
 
         if (!line.startsWith("[")) return
 

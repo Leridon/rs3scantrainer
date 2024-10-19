@@ -15,17 +15,20 @@ import {storage} from "./lib/util/storage";
 import * as lodash from "lodash";
 import {List} from "./lib/ui/List";
 import {ClickToCopy} from "./lib/ui/ClickToCopy";
+import {MessageBuffer} from "./lib/alt1/readers/chatreader/ChatBuffer";
+import {ExpandIcon} from "./trainer/ui/nisl";
+import {ExpansionBehaviour} from "./lib/ui/ExpansionBehaviour";
 import notification = Notification.notification;
 import findBestMatch = util.findBestMatch;
 import stringSimilarity = util.stringSimilarity;
 import formatTimeWithoutMilliseconds = util.formatTimeWithoutMilliseconds;
 import bold = C.bold;
 import span = C.span;
-import text_link = C.text_link;
 import inlineimg = C.inlineimg;
 import hbox = C.hbox;
-import {MessageBuffer} from "./lib/alt1/readers/chatreader/ChatBuffer";
 import Message = MessageBuffer.Message;
+import renderTimespan = util.renderTimespan;
+import spacer = C.spacer;
 
 const item_mapping: {
   item: string,
@@ -74,6 +77,7 @@ const item_mapping: {
 
 namespace Backend {
   export const LOCAL_TEST_TOKEN = "testtoken"
+  export const TEST_EVENT_TOKEN = "9deac295-16f6-4090-9775-3d33514efa2f"
   const host = "https://api.cluetrainer.app"
 
   export async function verify_login(token: string): Promise<User> {
@@ -181,7 +185,7 @@ class LoginWidget extends Widget {
     else this.user.set(user)
   }
 
-  render(user: User) {
+  render(user: User = this.user.value()) {
     this.empty()
 
     const layout = new Properties().appendTo(this)
@@ -195,6 +199,17 @@ class LoginWidget extends Widget {
       layout.row(new BigNisButton("Start tracking", "confirm").onClick(() => this.login(password_input.get())))
     } else {
       layout.row(`Logged in as '${user.name}' for '${user.event.name}'`)
+
+      const now = Date.now()
+
+      if (now < user.event.date.from) {
+        layout.row(`Event starts in ${renderTimespan(user.event.date.from - now)}.`)
+      } else if (now < user.event.date.to) {
+        layout.row(`Event ends in ${renderTimespan(user.event.date.to - now)}.`)
+      } else {
+        layout.row(`Event ended ${renderTimespan(now - user.event.date.to)} ago.`)
+      }
+
       layout.row(new BigNisButton("Stop Tracking", "cancel").onClick(() => {
         this.user.set(null)
       }))
@@ -222,6 +237,7 @@ namespace EventBuffer {
 }
 
 export class BroadcastReaderApp extends Behaviour {
+  login: LoginWidget
   capture_service: ScreenCaptureService = new ScreenCaptureService()
   chatreader: ChatReader
   storage = new KeyValueStore("broadcastreadercache")
@@ -236,6 +252,10 @@ export class BroadcastReaderApp extends Behaviour {
   protected begin() {
     NotificationBar.instance().appendTo(jquery("body"))
 
+    setInterval(() => {
+      this.login.render()
+    }, 1000)
+
     const container = c().css("width", "100%").css2({
       "overflow-y": "auto",
       "overflow-x": "hidden",
@@ -243,29 +263,42 @@ export class BroadcastReaderApp extends Behaviour {
 
     const layout = new Properties().css("width", "100%").appendTo(container)
 
-
-    layout.header("Clue Chasers broadcast reader for events - By Zyklop Marco")
+    layout.header("CC event broadcast reader")
 
     if (window.alt1) {
-      const login = new LoginWidget()
-
-      layout.row(login)
-
+      /*
       layout.header("Emergency")
 
       layout.paragraph(text_link("Click here", () => {}), " to access the emergency kill switch in case the backend behaves horribly wrong.")
 
       layout.row(new BigNisButton("Emergency Kill Switch", "cancel"))
 
-      layout.header("Instructions")
+       */
 
-      layout.row(new List()
+      const expand = new ExpandIcon().setExpanded(true)
+      const list = new List()
         .item("When you are on the dedicated world, login using the access token provided to you. The tracker will start immediately.")
         .item("If you hop to a different world at any time during the event, please stop the tracker by logging out.")
         .item("Make sure chat timestamps are turned on or the chat reader won't work.")
         .item("Make sure world broadcasts are using the ", span("standard broadcast color").css("color", "rgb(255, 140, 56)"), ".")
         .item("You can use the token ", new ClickToCopy(Backend.LOCAL_TEST_TOKEN), " to test the reader locally without submitting to the backend.")
-      )
+        .item("The token ", new ClickToCopy(Backend.TEST_EVENT_TOKEN), " logs you in as a generic test user for a testing event connected to the backend.")
+
+      layout.header(hbox(spacer().css("margin-right", "15px"), "Instructions", spacer(), expand))
+
+      ExpansionBehaviour.vertical({
+        target: list,
+        starts_collapsed: false
+      }).bindToClickable(expand)
+        .onChange(collapsed => expand.setExpanded(!collapsed))
+
+      layout.row(list)
+
+      layout.header("Login")
+
+      const login = this.login = new LoginWidget()
+
+      layout.row(login)
 
       layout.row(this.detection_table = c())
 
@@ -275,6 +308,8 @@ export class BroadcastReaderApp extends Behaviour {
 
           if (existing_buffer) {
             this.buffer = existing_buffer
+
+            Backend.submit(user, existing_buffer.detected)
           } else {
             this.buffer = {
               user: user,
@@ -288,9 +323,7 @@ export class BroadcastReaderApp extends Behaviour {
         this.renderDetections()
       })
 
-      this.chatreader = new ChatReader(this.capture_service).setDebugEnabled()
-
-      this.chatreader.subscribe({options: () => ({interval: CaptureInterval.fromApproximateInterval(100), paused: () => login.user.value() == null})})
+      this.chatreader = new ChatReader(this.capture_service)
 
       this.chatreader.new_message.on(message => {
         if (!this.buffer) return
@@ -298,7 +331,9 @@ export class BroadcastReaderApp extends Behaviour {
         // Discard messages outside the event time
         if (message.timestamp < this.buffer.user.event.date.from || message.timestamp > this.buffer.user.event.date.to) return
 
-        const match = message.text.match("\u2746News: [\u26AF\u{1F480}]?(.*) comp[il]eted a Treasure Trai[il] and received( a|(an))? (.*)!")
+        console.log(message.text)
+
+        const match = message.text.match(".*News: [\u26AF\u{1F480}]?(.*) comp[il]eted a Treasure Trai[il] and received( a|(an))? (.*)!")
 
         // Discard messages not matching any
         if (!match) {
@@ -308,8 +343,9 @@ export class BroadcastReaderApp extends Behaviour {
 
         const color = Message.color(message)
 
-        if(lodash.eq([255, 140, 56], color)) {
+        if (lodash.eq([255, 140, 56], color)) {
           console.log("Does not match color")
+          return
         }
 
         const player = match[1]
@@ -340,6 +376,8 @@ export class BroadcastReaderApp extends Behaviour {
           console.log(`Discarding because ${best.value.item} isn't new`)
         }
       })
+
+      this.chatreader.subscribe({options: () => ({interval: CaptureInterval.fromApproximateInterval(100), paused: () => login.user.value() == null})})
     } else {
       layout.row(
         c(`<a href='${this.addToAlt1Link()}'></a>`)

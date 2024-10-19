@@ -167,13 +167,13 @@ export namespace ChatReader {
 
     }
 
-    private readLine(i: number): string {
+    private readLine(i: number): Message.Fragment[] {
       const line = this.chatbox.line(i)
       const line_img = line.getData()
 
       const fodef = this.chatbox.font.def
 
-      const fragments: string[] = []
+      const fragments: Message.Fragment[] = []
 
       let scan_x = 0
       const baseline = this.chatbox.font.baseline_y
@@ -182,7 +182,13 @@ export namespace ChatReader {
         const data = OCR.readLine(line_img, fodef, colors, scan_x, baseline, true, false);
 
         if (data.text) {
-          fragments.push(data.text)
+          data.fragments.forEach(frag => {
+            fragments.push({
+              text: frag.text,
+              color: frag.color
+            })
+          })
+
 
           scan_x = index(data.fragments, -1).xend
 
@@ -203,9 +209,9 @@ export namespace ChatReader {
           )
 
           if (matched_icon) {
-            if (addspace) fragments.push(" ")
+            if (addspace) fragments.push({text: " ", color: null})
 
-            fragments.push(matched_icon.character)
+            fragments.push({text: matched_icon.character, color: null})
 
             scan_x = badgeleft + matched_icon.image.underlying.width
 
@@ -221,7 +227,7 @@ export namespace ChatReader {
       const has_timestamp = timestamp_open?.chr == "["
 
       if (has_timestamp) {
-        fragments.push("[")
+        fragments.push({text: "[", color: [255, 255, 255]})
 
         scan_x += timestamp_open.basechar.width
       }
@@ -234,13 +240,13 @@ export namespace ChatReader {
         if (!read_string(ChatReader.all_colors)) break
       }
 
-      return fragments.join("")
+      return fragments
     }
 
-    private commit(message: string): boolean {
+    private commit(message: { text: string, fragments: Message.Fragment[] }): boolean {
       const now = Date.now()
 
-      let m = message.match(/^\[(\d{2}):(\d{2}):(\d{2})]/);
+      let m = message.text.match(/^\[(\d{2}):(\d{2}):(\d{2})]/);
 
       if (!m) return false // Reject messages without a timestamp
 
@@ -268,8 +274,9 @@ export namespace ChatReader {
           stamp: hours * 60 * 60 + minutes * 60 + seconds,
           hours, minutes, seconds
         },
+        fragments: message.fragments,
         timestamp: date.valueOf(),
-        text: message.substring(11) // Strip timestamp from message itself
+        text: message.text.substring(11) // Strip timestamp from message itself
       })
     }
 
@@ -281,19 +288,19 @@ export namespace ChatReader {
       const max_rows = this.chatbox.visibleRows()
 
       while (row < max_rows) {
-        const components: string[] = []
+        const component_lines: Message.Fragment[][] = []
 
-        while (row < max_rows && !index(components, -1)?.startsWith("[")) {
-          components.push(this.readLine(row))
+        while (row < max_rows && !index(component_lines, -1)?.[0]?.text.startsWith("[")) {
+          component_lines.push(this.readLine(row))
 
           row++
         }
 
-        const line = components.reverse().join(" ")
+        const line = component_lines.reverse().map(l => l.join("")).join(" ")
 
         if (!line.startsWith("[")) return
 
-        const actually_new_message = this.commit(line)
+        const actually_new_message = this.commit({text: line, fragments: component_lines.flat()})
 
         if (!actually_new_message) break
       }

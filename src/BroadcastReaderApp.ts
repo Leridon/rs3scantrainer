@@ -185,6 +185,24 @@ class LoginWidget extends Widget {
     else this.user.set(user)
   }
 
+  updateTime() {
+    const user = this.user.value()
+
+    if (!user || !this.timeSpan) return
+
+    const now = Date.now()
+
+    if (now < this.user.value().event.date.from) {
+      this.timeSpan.text(`Event starts in ${renderTimespan(user.event.date.from - now)}.`)
+    } else if (now < user.event.date.to) {
+      this.timeSpan.text(`Event ends in ${renderTimespan(user.event.date.to - now)}.`)
+    } else {
+      this.timeSpan.text(`Event ended ${renderTimespan(now - user.event.date.to)} ago.`)
+    }
+  }
+
+  private timeSpan: Widget
+
   render(user: User = this.user.value()) {
     this.empty()
 
@@ -200,15 +218,9 @@ class LoginWidget extends Widget {
     } else {
       layout.row(`Logged in as '${user.name}' for '${user.event.name}'`)
 
-      const now = Date.now()
+      layout.row(this.timeSpan = span())
 
-      if (now < user.event.date.from) {
-        layout.row(`Event starts in ${renderTimespan(user.event.date.from - now)}.`)
-      } else if (now < user.event.date.to) {
-        layout.row(`Event ends in ${renderTimespan(user.event.date.to - now)}.`)
-      } else {
-        layout.row(`Event ended ${renderTimespan(now - user.event.date.to)} ago.`)
-      }
+      this.updateTime()
 
       layout.row(new BigNisButton("Stop Tracking", "cancel").onClick(() => {
         this.user.set(null)
@@ -253,7 +265,7 @@ export class BroadcastReaderApp extends Behaviour {
     NotificationBar.instance().appendTo(jquery("body"))
 
     setInterval(() => {
-      this.login.render()
+      this.login.updateTime()
     }, 1000)
 
     const container = c().css("width", "100%").css2({

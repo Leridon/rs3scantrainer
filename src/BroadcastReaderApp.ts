@@ -292,7 +292,9 @@ export class BroadcastReaderApp extends Behaviour {
         .item("When you are on the dedicated world, login using the access token provided to you. The tracker will start immediately.")
         .item("If you hop to a different world at any time during the event, please stop the tracker by logging out.")
         .item("Make sure chat timestamps are turned on or the chat reader won't work.")
+        .item("The chat reader works best with 12pt font size. 10pt and 22pt are known to cause issues.")
         .item("Make sure world broadcasts are using the ", span("standard broadcast color").css("color", "rgb(255, 140, 56)"), ".")
+        .item("Make sure no other broadcast types are using this color.")
         .item("You can use the token ", new ClickToCopy(Backend.LOCAL_TEST_TOKEN), " to test the reader locally without submitting to the backend.")
         .item("The token ", new ClickToCopy(Backend.TEST_EVENT_TOKEN), " logs you in as a generic test user for a testing event connected to the backend.")
 
@@ -345,7 +347,7 @@ export class BroadcastReaderApp extends Behaviour {
 
         console.log(message.text)
 
-        const match = message.text.match("\u2746News: [\u26AF\u{1F480}]?(.*) comp[il]eted a Treasure Trai[il] and received( a|(an))? (.*)!")
+        const match = message.text.match("\u2746News: [\u26AF\u{1F480}]?(.*) comp[il]eted a Treasure Trai[il] and received(( a)|( an))? (.*)!")
 
         // Discard messages not matching any
         if (!match) {
@@ -361,7 +363,7 @@ export class BroadcastReaderApp extends Behaviour {
         }
 
         const player = match[1]
-        const item = match[4]
+        const item = match[5]
 
         const best = findBestMatch(item_mapping, m => stringSimilarity(m.broadcast_text, item), 0.9)
 

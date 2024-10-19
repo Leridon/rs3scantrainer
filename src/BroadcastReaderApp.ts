@@ -13,11 +13,19 @@ import {util} from "./lib/util/util";
 import {C} from "./lib/ui/constructors";
 import {storage} from "./lib/util/storage";
 import * as lodash from "lodash";
+import {List} from "./lib/ui/List";
+import {ClickToCopy} from "./lib/ui/ClickToCopy";
 import notification = Notification.notification;
 import findBestMatch = util.findBestMatch;
 import stringSimilarity = util.stringSimilarity;
 import formatTimeWithoutMilliseconds = util.formatTimeWithoutMilliseconds;
 import bold = C.bold;
+import span = C.span;
+import text_link = C.text_link;
+import inlineimg = C.inlineimg;
+import hbox = C.hbox;
+import {MessageBuffer} from "./lib/alt1/readers/chatreader/ChatBuffer";
+import Message = MessageBuffer.Message;
 
 const item_mapping: {
   item: string,
@@ -65,7 +73,7 @@ const item_mapping: {
 ]
 
 namespace Backend {
-  const LOCAL_TEST_TOKEN = "testtoken"
+  export const LOCAL_TEST_TOKEN = "testtoken"
   const host = "https://api.cluetrainer.app"
 
   export async function verify_login(token: string): Promise<User> {
@@ -101,6 +109,19 @@ namespace Backend {
 
   export async function submit(user: User, broadcasts: DetectedBroadcast[]): Promise<boolean> {
     if (user.token == LOCAL_TEST_TOKEN) return true
+
+    const res = await fetch(`${host}/api/broadcastreader/broadcasts`, {
+      method: "POST",
+      body: JSON.stringify({
+        token: user.token,
+        broadcasts: broadcasts
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    });
+
+    return res.ok
   }
 }
 
@@ -165,20 +186,16 @@ class LoginWidget extends Widget {
 
     const layout = new Properties().appendTo(this)
 
-    layout.header("Clue Chasers broadcast reader for events - By Zyklop Marco")
-
     if (!user) {
       const password_input = new TextField(true)
         .onConfirm(token => this.login(token))
-
-      layout.paragraph("Enter the login token provided to you below. Only start the tracker when you are on the designated world.")
 
       layout.row(password_input)
 
       layout.row(new BigNisButton("Start tracking", "confirm").onClick(() => this.login(password_input.get())))
     } else {
       layout.row(`Logged in as '${user.name}' for '${user.event.name}'`)
-      layout.row(new BigNisButton("Logout", "cancel").onClick(() => {
+      layout.row(new BigNisButton("Stop Tracking", "cancel").onClick(() => {
         this.user.set(null)
       }))
     }
@@ -206,7 +223,7 @@ namespace EventBuffer {
 
 export class BroadcastReaderApp extends Behaviour {
   capture_service: ScreenCaptureService = new ScreenCaptureService()
-  chatreader: ChatReader = new ChatReader(this.capture_service).setDebugEnabled()
+  chatreader: ChatReader
   storage = new KeyValueStore("broadcastreadercache")
 
   detection_table: Widget
@@ -226,75 +243,121 @@ export class BroadcastReaderApp extends Behaviour {
 
     const layout = new Properties().css("width", "100%").appendTo(container)
 
-    const login = new LoginWidget()
 
-    layout.row(login)
+    layout.header("Clue Chasers broadcast reader for events - By Zyklop Marco")
 
-    layout.row(this.detection_table = c())
+    if (window.alt1) {
+      const login = new LoginWidget()
 
-    login.user.subscribe(async user => {
-      if (user) {
-        const existing_buffer = await this.storage.get<EventBuffer>(user.token)
+      layout.row(login)
 
-        if (existing_buffer) {
-          this.buffer = existing_buffer
-        } else {
-          this.buffer = {
-            user: user,
-            detected: []
+      layout.header("Emergency")
+
+      layout.paragraph(text_link("Click here", () => {}), " to access the emergency kill switch in case the backend behaves horribly wrong.")
+
+      layout.row(new BigNisButton("Emergency Kill Switch", "cancel"))
+
+      layout.header("Instructions")
+
+      layout.row(new List()
+        .item("When you are on the dedicated world, login using the access token provided to you. The tracker will start immediately.")
+        .item("If you hop to a different world at any time during the event, please stop the tracker by logging out.")
+        .item("Make sure chat timestamps are turned on or the chat reader won't work.")
+        .item("Make sure world broadcasts are using the ", span("standard broadcast color").css("color", "rgb(255, 140, 56)"), ".")
+        .item("You can use the token ", new ClickToCopy(Backend.LOCAL_TEST_TOKEN), " to test the reader locally without submitting to the backend.")
+      )
+
+      layout.row(this.detection_table = c())
+
+      login.user.subscribe(async user => {
+        if (user) {
+          const existing_buffer = await this.storage.get<EventBuffer>(user.token)
+
+          if (existing_buffer) {
+            this.buffer = existing_buffer
+          } else {
+            this.buffer = {
+              user: user,
+              detected: []
+            }
           }
+        } else {
+          this.buffer = null
         }
-      } else {
-        this.buffer = null
-      }
-
-      this.renderDetections()
-    })
-
-    this.chatreader.subscribe({options: () => ({interval: CaptureInterval.fromApproximateInterval(100), paused: () => login.user.value() == null})})
-
-    this.chatreader.new_message.on(message => {
-      if (!this.buffer) return
-
-      // Discard messages outside the event time
-      if (message.timestamp < this.buffer.user.event.date.from || message.timestamp > this.buffer.user.event.date.to) return
-
-      const match = message.text.match("\u2746News: [\u26AF\u{1F480}]?(.*) comp[il]eted a Treasure Trai[il] and received( a|(an))? (.*)!")
-
-      // Discard messages not matching any
-      if (!match) {
-        console.log("Does not match regex")
-        return
-      }
-
-      const player = match[1]
-      const item = match[4]
-
-      const best = findBestMatch(item_mapping, m => stringSimilarity(m.broadcast_text, item), 0.9)
-
-      // Discard if matching item could not be found
-      if (!best) {
-        console.log(`no matching item found for ${item}`)
-        return;
-      }
-
-      const is_new = EventBuffer.add(this.buffer, {
-        item: best.value.item,
-        player: player,
-        message_timestamp: message.timestamp
-      })
-
-      if (is_new) {
-        console.log(`Submitting ${best.value.item} for ${player}`)
-
-        Backend.submit(this.buffer.user, this.buffer.detected)
-        this.storage.set(this.buffer.user.token, this.buffer)
 
         this.renderDetections()
-      } else {
-        console.log(`Discarding because ${best.value.item} isn't new`)
-      }
-    })
+      })
+
+      this.chatreader = new ChatReader(this.capture_service).setDebugEnabled()
+
+      this.chatreader.subscribe({options: () => ({interval: CaptureInterval.fromApproximateInterval(100), paused: () => login.user.value() == null})})
+
+      this.chatreader.new_message.on(message => {
+        if (!this.buffer) return
+
+        // Discard messages outside the event time
+        if (message.timestamp < this.buffer.user.event.date.from || message.timestamp > this.buffer.user.event.date.to) return
+
+        const match = message.text.match("\u2746News: [\u26AF\u{1F480}]?(.*) comp[il]eted a Treasure Trai[il] and received( a|(an))? (.*)!")
+
+        // Discard messages not matching any
+        if (!match) {
+          console.log("Does not match regex")
+          return
+        }
+
+        const color = Message.color(message)
+
+        if(lodash.eq([255, 140, 56], color)) {
+          console.log("Does not match color")
+        }
+
+        const player = match[1]
+        const item = match[4]
+
+        const best = findBestMatch(item_mapping, m => stringSimilarity(m.broadcast_text, item), 0.9)
+
+        // Discard if matching item could not be found
+        if (!best) {
+          console.log(`no matching item found for ${item}`)
+          return;
+        }
+
+        const is_new = EventBuffer.add(this.buffer, {
+          item: best.value.item,
+          player: player,
+          message_timestamp: message.timestamp
+        })
+
+        if (is_new) {
+          console.log(`Submitting ${best.value.item} for ${player}`)
+
+          Backend.submit(this.buffer.user, this.buffer.detected)
+          this.storage.set(this.buffer.user.token, this.buffer)
+
+          this.renderDetections()
+        } else {
+          console.log(`Discarding because ${best.value.item} isn't new`)
+        }
+      })
+    } else {
+      layout.row(
+        c(`<a href='${this.addToAlt1Link()}'></a>`)
+          .append(new BigNisButton("", "confirm")
+            .setContent(hbox(
+              inlineimg("assets/icons/Alt1.png"),
+              "Add to Alt1 Toolkit"
+            )))
+      )
+
+      layout.paragraph("Alternatively, visit ",
+        new ClickToCopy(window.location.toString()),
+        " in Alt1's builtin browser to get an installation prompt.")
+    }
+  }
+
+  private addToAlt1Link(): string {
+    return `alt1://addapp/${window.location.protocol}//${window.location.host}${window.location.pathname.slice(0, window.location.pathname.lastIndexOf("/") + 1)}appconfig.json`
   }
 
   private renderDetections() {

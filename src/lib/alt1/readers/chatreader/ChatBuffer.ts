@@ -1,5 +1,7 @@
+import * as lodash from "lodash";
 import {ewent} from "../../../reactive";
 import {util} from "../../../util/util";
+import {OCR} from "../../OCR";
 
 export class MessageBuffer {
   new_message = ewent<MessageBuffer.Message>()
@@ -38,11 +40,17 @@ export namespace MessageBuffer {
       stamp: number,
       hours: number, minutes: number, seconds: number
     },
+    fragments: Message.Fragment[],
     timestamp: number,
     text: string
   }
 
   export namespace Message {
+    export type Fragment = {
+      text: string,
+      color: OCR.ColorTriplet
+    }
+
     import padInteger = util.padInteger;
 
     export function toString(msg: Message): string {
@@ -53,6 +61,10 @@ export namespace MessageBuffer {
       if (!a || !b) debugger
 
       return a.local_timestamp.stamp == b.local_timestamp.stamp && a.text == b.text
+    }
+
+    export function color(m: Message): OCR.ColorTriplet {
+      return lodash.findLast(m.fragments, f => f.color != null)?.color
     }
   }
 }

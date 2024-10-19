@@ -333,7 +333,7 @@ export class BroadcastReaderApp extends Behaviour {
 
         console.log(message.text)
 
-        const match = message.text.match(".*News: [\u26AF\u{1F480}]?(.*) comp[il]eted a Treasure Trai[il] and received( a|(an))? (.*)!")
+        const match = message.text.match("\u2746News: [\u26AF\u{1F480}]?(.*) comp[il]eted a Treasure Trai[il] and received( a|(an))? (.*)!")
 
         // Discard messages not matching any
         if (!match) {

@@ -343,8 +343,8 @@ export class BroadcastReaderApp extends Behaviour {
 
         const color = Message.color(message)
 
-        if (!lodash.eq([255, 140, 56], color)) {
-          console.log("Does not match color")
+        if (!lodash.isEqual([255, 140, 56], color)) {
+          console.log(`Does not match color: ${color.join(", ")}`)
           return
         }
 

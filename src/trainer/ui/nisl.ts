@@ -2,7 +2,7 @@ import Widget from "../../lib/ui/Widget";
 import {Observable, observe} from "../../lib/reactive";
 
 export class NislIcon extends Widget {
-  private img: Widget
+  protected img: Widget
   protected url = observe("")
 
   protected constructor() {
@@ -87,6 +87,29 @@ export class ArrowIcon extends NislIcon {
 
   setDirection(direction: ArrowIcon.direction): this {
     this.direction.set(direction)
+    return this
+  }
+}
+
+export class ExpandIcon extends NislIcon {
+  expanded: Observable<boolean>
+
+  constructor() {
+    super();
+
+    this.img.css("width", "15px")
+
+    this.expanded = observe(false)
+
+    this.expanded.subscribe(expanded => {
+
+      if (expanded) this.setSource(`assets/nis/minus.png`)
+      else this.setSource(`assets/nis/plus.png`)
+    }, true)
+  }
+
+  setExpanded(value: boolean): this {
+    this.expanded.set(value)
     return this
   }
 }

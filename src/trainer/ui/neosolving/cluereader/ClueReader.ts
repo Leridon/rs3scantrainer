@@ -1,10 +1,10 @@
 import {Clues} from "../../../../lib/runescape/clues";
-import * as a1lib from "@alt1/base";
+import * as a1lib from "alt1";
 import {Rectangle, Vector2} from "../../../../lib/math";
 import {util} from "../../../../lib/util/util";
 import * as oldlib from "../../../../skillbertssolver/cluesolver/oldlib";
 import {coldiff, comparetiledata} from "../../../../skillbertssolver/cluesolver/oldlib";
-import * as OCR from "@alt1/ocr";
+import * as OCR from "alt1/ocr";
 import ClueFont from "./ClueFont";
 import {clue_data} from "../../../../data/clues";
 import {SlideReader, SliderReader} from "./SliderReader";

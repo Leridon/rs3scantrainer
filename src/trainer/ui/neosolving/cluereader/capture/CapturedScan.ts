@@ -1,9 +1,9 @@
-import {CapturedImage, NeedleImage} from "../../../../../lib/alt1/capture";
+import {CapturedImage} from "../../../../../lib/alt1/capture";
 import {Vector2} from "../../../../../lib/math";
-import {ImageDetect} from "@alt1/base";
+import {ImageDetect} from "alt1";
 import {async_lazy, Lazy, lazy, LazyAsync} from "../../../../../lib/properties/Lazy";
 import {ScreenRectangle} from "../../../../../lib/alt1/ScreenRectangle";
-import * as OCR from "@alt1/ocr";
+import * as OCR from "alt1/ocr";
 import {util} from "../../../../../lib/util/util";
 import * as lodash from "lodash"
 import index = util.index;
@@ -21,9 +21,9 @@ export class CapturedScan {
      * This function is originally by skillbert as part of the ScanTextReader class
      */
 
-    const font = require("@alt1/ocr/fonts/aa_8px_new.js")
+    const font = require("alt1/fonts/aa_8px_mono.js")
 
-    //const font = require("@alt1/ocr/fonts/aa_8px_new.js");
+    //const font = require("alt1/fonts/aa_8px_new.js");
     const LINEHEIGHT = 12;
 
     let data = this.body.getData();

@@ -1,5 +1,5 @@
-import * as a1lib from "@alt1/base";
-import {ImageDetect} from "@alt1/base";
+import * as a1lib from "alt1";
+import {ImageDetect} from "alt1";
 
 export class NeedleImage {
   private _encoded: string

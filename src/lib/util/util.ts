@@ -3,7 +3,7 @@ import * as leaflet from "leaflet"
 import {v4 as uuidv4} from 'uuid';
 import * as lodash from "lodash";
 import {levenshteinEditDistance} from "levenshtein-edit-distance";
-import {mixColor, unmixColor} from "@alt1/base";
+import {mixColor, unmixColor} from "alt1";
 import {Vector2} from "../math";
 
 

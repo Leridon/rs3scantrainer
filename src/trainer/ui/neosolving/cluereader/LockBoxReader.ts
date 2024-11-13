@@ -2,7 +2,7 @@ import {CapturedImage} from "../../../../lib/alt1/capture";
 import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
 import {Lockboxes} from "../../../../lib/cluetheory/Lockboxes";
 import {ImageFingerprint} from "../../../../lib/util/ImageFingerprint";
-import {ImageDetect} from "@alt1/base";
+import {ImageDetect} from "alt1";
 import {async_lazy, LazyAsync} from "../../../../lib/properties/Lazy";
 import {Vector2} from "../../../../lib/math";
 import {util} from "../../../../lib/util/util";

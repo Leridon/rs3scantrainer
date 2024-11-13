@@ -1,5 +1,5 @@
-import * as a1lib from "@alt1/base";
-import {Alt1EventType} from "@alt1/base";
+import * as a1lib from "alt1";
+import {Alt1EventType} from "alt1";
 import {Vector2} from "../math";
 import {ewent, EwentHandler} from "../reactive";
 import {ScreenRectangle} from "./ScreenRectangle";

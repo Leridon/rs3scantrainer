@@ -1,5 +1,4 @@
-import * as a1lib from "@alt1/base";
-import {Alt1EventType} from "@alt1/base";
+import * as a1lib from "alt1";
 import * as lodash from "lodash";
 import {Vector2} from "../math";
 import {EwentHandler} from "../reactive";
@@ -58,7 +57,7 @@ export namespace Alt1MainHotkeyEvent {
     public readonly mouseScreen: Vector2
     public readonly text: string
 
-    constructor(private raw: Alt1EventType["alt1pressed"]) {
+    constructor(private raw: a1lib.Alt1EventType["alt1pressed"]) {
       this.mouse = raw.mouseRs
       this.mouseScreen = raw.mouseAbs
       this.text = raw.text.length > 0 ? raw.text : null

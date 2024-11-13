@@ -105,7 +105,7 @@ export namespace ShortcutViewLayer {
 
       data.subscribe(() => this.render())
 
-      if (data instanceof ObservableArray.ObservableArrayValue<any>) {
+      if (data instanceof ObservableArray.ObservableArrayValue) {
         data.removed.on(() => this.remove())
       }
 

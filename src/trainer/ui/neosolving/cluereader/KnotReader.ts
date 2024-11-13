@@ -2,7 +2,7 @@ import {CelticKnots} from "../../../../lib/cluetheory/CelticKnots";
 import {Rectangle, Vector2} from "../../../../lib/math";
 import {util} from "../../../../lib/util/util";
 import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
-import {ImageDetect, mixColor} from "@alt1/base";
+import {ImageDetect, mixColor} from "alt1";
 import {ImageFingerprint} from "../../../../lib/util/ImageFingerprint";
 import * as lodash from "lodash";
 import {identity} from "lodash";

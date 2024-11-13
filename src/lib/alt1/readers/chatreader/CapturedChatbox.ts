@@ -1,5 +1,5 @@
 import {CapturedImage} from "../../capture";
-import {FontDefinition} from "@alt1/ocr";
+import {FontDefinition} from "alt1/ocr";
 import {ChatAnchors} from "./ChatAnchors";
 
 export class CapturedChatbox {
@@ -73,18 +73,16 @@ export namespace CapturedChatbox {
   }
 
   export const fonts: Font[] = [
-    {fontsize: 12, lineheight: 16, icon_y: -9, baseline_y: 10, dy: -1, def: require("@alt1/ocr/fonts/chatbox/12pt.js")},
-    {fontsize: 14, lineheight: 18, icon_y: -10, baseline_y: 12, dy: -3, def: require("@alt1/ocr/fonts/chatbox/14pt.js")},
-    {fontsize: 10, lineheight: 14, icon_y: -8, baseline_y: 8, dy: 2, def: require("@alt1/ocr/fonts/chatbox/10pt.js")},
-    {fontsize: 16, lineheight: 21, icon_y: -10, baseline_y: 12, dy: -6, def: require("@alt1/ocr/fonts/chatbox/16pt.js")},
-    {fontsize: 18, lineheight: 23, icon_y: -11, baseline_y: 14, dy: -8, def: require("@alt1/ocr/fonts/chatbox/18pt.js")},
-    {fontsize: 20, lineheight: 25, icon_y: -11, baseline_y: 16, dy: -11, def: require("@alt1/ocr/fonts/chatbox/20pt.js")},
-    {fontsize: 22, lineheight: 27, icon_y: -12, baseline_y: 17, dy: -13, def: require("@alt1/ocr/fonts/chatbox/22pt.js")},
+    {fontsize: 12, lineheight: 16, icon_y: -9, baseline_y: 10, dy: -1, def: require("alt1/fonts/chatbox/12pt.js")},
+    {fontsize: 14, lineheight: 18, icon_y: -10, baseline_y: 12, dy: -3, def: require("alt1/fonts/chatbox/14pt.js")},
+    {fontsize: 10, lineheight: 14, icon_y: -8, baseline_y: 8, dy: 2, def: require("alt1/fonts/chatbox/10pt.js")},
+    {fontsize: 16, lineheight: 21, icon_y: -10, baseline_y: 12, dy: -6, def: require("alt1/fonts/chatbox/16pt.js")},
+    {fontsize: 18, lineheight: 23, icon_y: -11, baseline_y: 14, dy: -8, def: require("alt1/fonts/chatbox/18pt.js")},
+    {fontsize: 20, lineheight: 25, icon_y: -11, baseline_y: 16, dy: -11, def: require("alt1/fonts/chatbox/20pt.js")},
+    {fontsize: 22, lineheight: 27, icon_y: -12, baseline_y: 17, dy: -13, def: require("alt1/fonts/chatbox/22pt.js")},
   ]
 
   export function getFont(size: number): Font {
     return fonts.find(f => f.fontsize == size)
   }
-
-  export const chatfont = require("@alt1/ocr/fonts/chat_8px.js");
 }

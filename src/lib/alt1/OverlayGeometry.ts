@@ -1,6 +1,6 @@
 import {Rectangle, Transform, Vector2} from "../math";
 import {util} from "../util/util";
-import {mixColor} from "@alt1/base";
+import {mixColor} from "alt1";
 import * as lodash from "lodash";
 import {ScreenRectangle} from "./ScreenRectangle";
 import todo = util.todo;

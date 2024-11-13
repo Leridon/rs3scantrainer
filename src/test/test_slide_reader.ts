@@ -1,6 +1,6 @@
 import {Sliders} from "../lib/cluetheory/Sliders";
 import {SlideReader} from "../trainer/ui/neosolving/cluereader/SliderReader";
-import {ImageDetect} from "@alt1/base";
+import {ImageDetect} from "alt1";
 import {ScuffedTesting} from "./test_framework";
 import SliderState = Sliders.SliderState;
 import SliderPuzzle = Sliders.SliderPuzzle;

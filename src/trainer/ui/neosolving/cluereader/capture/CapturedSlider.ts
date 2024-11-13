@@ -1,5 +1,5 @@
 import {async_lazy, LazyAsync} from "../../../../../lib/properties/Lazy";
-import {ImageDetect} from "@alt1/base";
+import {ImageDetect} from "alt1";
 import {CapturedImage} from "../../../../../lib/alt1/capture";
 import {Vector2} from "../../../../../lib/math";
 import {ScreenRectangle} from "../../../../../lib/alt1/ScreenRectangle";

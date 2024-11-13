@@ -2,7 +2,7 @@ import {clamp, identity} from "lodash";
 import * as leaflet from "leaflet";
 import {Vector2} from "./Vector2";
 import {Transform} from "./Transform";
-import {RectLike} from "@alt1/base";
+import {RectLike} from "alt1";
 
 export type Rectangle = { topleft: Vector2, botright: Vector2 }
 

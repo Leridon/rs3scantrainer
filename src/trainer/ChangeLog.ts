@@ -17,6 +17,17 @@ export namespace Changelog {
   }
 
   export const log: LogEntry[] = lodash.sortBy<LogEntry>([{
+    version: 18,
+    date: new Date(Date.parse("2024-11-17")),
+    title: "Clue Reader Bugfix",
+    render: layout => {
+      layout
+        .row(new List()
+          .item("(Maybe) Fixed a newly introduced bug that prevented scans from being read.")
+          .item("Added a notification when the clue reader is not fully initialized when trying to solve a clue.")
+        )
+    }
+  }, {
     version: 17,
     date: new Date(Date.parse("2024-11-16")),
     title: "Scan Range Minimap Overlay",

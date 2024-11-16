@@ -21,7 +21,7 @@ export class CapturedScan {
      * This function is originally by skillbert as part of the ScanTextReader class
      */
 
-    const font = require("alt1/fonts/aa_8px_mono.js")
+    const font = require("alt1/fonts/aa_8px.js")
 
     //const font = require("alt1/fonts/aa_8px_new.js");
     const LINEHEIGHT = 12;

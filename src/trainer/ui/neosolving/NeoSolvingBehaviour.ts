@@ -362,9 +362,14 @@ class ClueSolvingReadingBehaviour extends Behaviour {
   }
 
   async solveManuallyTriggered() {
+    if (!this.reader.initialization.isInitialized()) {
+      notification("Clue reader is not fully initialized yet.", "error").show()
+      return
+    }
+
     const img = await this.parent.app.capture_service.captureOnce({options: {area: null, interval: null}})
 
-    const found = await this.solve(img.value, false)
+    const found = this.solve(img.value, false)
 
     if (!found) {
       notification("No clue found on screen.", "error").show()

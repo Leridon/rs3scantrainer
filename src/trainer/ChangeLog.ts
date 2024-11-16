@@ -17,6 +17,16 @@ export namespace Changelog {
   }
 
   export const log: LogEntry[] = lodash.sortBy<LogEntry>([{
+    version: 17,
+    date: new Date(Date.parse("2024-11-16")),
+    title: "Scan Range Minimap Overlay",
+    render: layout => {
+      layout
+        .row(new List()
+          .item("Added a scan range overlay for the minimap.", new List().item("This can be toggled on or off in the new settings page for scans."))
+        )
+    }
+  }, {
     version: 16,
     date: new Date(Date.parse("2024-10-10")),
     silent: true,

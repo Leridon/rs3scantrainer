@@ -6,9 +6,9 @@ import {ScreenRectangle} from "../../../../../lib/alt1/ScreenRectangle";
 import * as OCR from "alt1/ocr";
 import {util} from "../../../../../lib/util/util";
 import * as lodash from "lodash"
+import {Finder} from "../../../../../lib/alt1/capture/Finder";
 import index = util.index;
 import stringSimilarity = util.stringSimilarity;
-import {Finder} from "../../../../../lib/alt1/capture/Finder";
 
 export class CapturedScan {
 
@@ -74,7 +74,7 @@ export class CapturedScan {
     return similarity > 0.7
   })
 
-  private _meerkats_active = lazy((): boolean | "unknown" => {
+  private _meerkats_active = lazy((): boolean => {
     const last_line = index(this._lines.get(), -1)
 
     const similarity = stringSimilarity(last_line, "Your meerkats are increasing your scan range by")
@@ -98,7 +98,7 @@ export class CapturedScan {
     return this._lines.get()[0]
   }
 
-  hasMeerkats(): boolean | "unknown" {
+  hasMeerkats(): boolean {
     return this._meerkats_active.get()
   }
 

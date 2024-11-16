@@ -27,6 +27,7 @@ export namespace Changelog {
           .item("Fixed an internal error when manually selecting a compass clue via the search function.", new List().item(
             "With this fix, you can now use the 'Solve'-page to explore pathing for compass spots by clicking on their markers."
           ))
+          .item("Added a popup recommending to watch the tutorial when opening Clue Trainer for the first time after installation.")
         )
     }
   }, {

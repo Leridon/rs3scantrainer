@@ -792,6 +792,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
     if (clue.type == "compass") {
       const behaviour = new CompassSolving(this, clue, read_result?.type == "compass" ? read_result.reader : undefined)
 
+      if (!read_result) this.layer.fit(TileRectangle.from(...clue.spots))
+
       behaviour.selected_spot.subscribe(async spot => {
         if (spot) {
           const method = await this.getAutomaticMethod({clue: clue.id, spot: spot.spot})

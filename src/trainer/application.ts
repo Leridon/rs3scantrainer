@@ -547,7 +547,7 @@ export class Application extends Behaviour {
 
     const is_first_visit = this.startup_settings.value().last_loaded_version == null
 
-    if (true || is_first_visit && this.in_alt1) {
+    if (is_first_visit && this.in_alt1) {
       (new class extends NisModal {
 
         render() {

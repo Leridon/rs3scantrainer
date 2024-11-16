@@ -24,6 +24,9 @@ export namespace Changelog {
       layout
         .row(new List()
           .item("Added a scan range overlay for the minimap.", new List().item("This can be toggled on or off in the new settings page for scans."))
+          .item("Fixed an internal error when manually selecting a compass clue via the search function.", new List().item(
+            "With this fix, you can now use the 'Solve'-page to explore pathing for compass spots by clicking on their markers."
+          ))
         )
     }
   }, {

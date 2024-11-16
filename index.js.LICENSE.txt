@@ -1,0 +1,328 @@
+/* @preserve
+ * Leaflet 1.9.4, a JS library for interactive maps. https://leafletjs.com
+ * (c) 2010-2023 Vladimir Agafonkin, (c) 2010-2011 CloudMade
+ */
+
+/*!
+ * The buffer module from node.js, for the browser.
+ *
+ * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+ * @license  MIT
+ */
+
+/*!
+ * The buffer module from node.js, for the browser.
+ *
+ * @author   Feross Aboukhadijeh <https://feross.org>
+ * @license  MIT
+ */
+
+/*!
+ * jQuery JavaScript Library v3.7.1
+ * https://jquery.com/
+ *
+ * Copyright OpenJS Foundation and other contributors
+ * Released under the MIT license
+ * https://jquery.org/license
+ *
+ * Date: 2023-08-28T13:37Z
+ */
+
+/*! . */
+
+/*! ../fonts/aa_8px.fontmeta.json */
+
+/*! ../fonts/chatbox/10pt.fontmeta.json */
+
+/*! ../fonts/chatbox/12pt.fontmeta.json */
+
+/*! ../fonts/chatbox/14pt.fontmeta.json */
+
+/*! ../fonts/chatbox/16pt.fontmeta.json */
+
+/*! ../fonts/chatbox/18pt.fontmeta.json */
+
+/*! ../fonts/chatbox/20pt.fontmeta.json */
+
+/*! ../fonts/chatbox/22pt.fontmeta.json */
+
+/*! ./alt1api */
+
+/*! ./declarations */
+
+/*! ./imagedata-extensions */
+
+/*! ./imagedetect */
+
+/*! ./imgref */
+
+/*! ./imgs/badge_broadcast_bronze.data.png */
+
+/*! ./imgs/badge_broadcast_gold.data.png */
+
+/*! ./imgs/badge_broadcast_silver.data.png */
+
+/*! ./imgs/badgehcim.data.png */
+
+/*! ./imgs/badgeironman.data.png */
+
+/*! ./imgs/badgepmod.data.png */
+
+/*! ./imgs/badgepmodvip.data.png */
+
+/*! ./imgs/badgergim.data.png */
+
+/*! ./imgs/badgevip.data.png */
+
+/*! ./imgs/chatLegacyBorder.data.png */
+
+/*! ./imgs/chat_link.data.png */
+
+/*! ./imgs/chatbubble.data.png */
+
+/*! ./imgs/entertochat.data.png */
+
+/*! ./imgs/filterbutton.data.png */
+
+/*! ./imgs/gameall.data.png */
+
+/*! ./imgs/gamefilter.data.png */
+
+/*! ./imgs/gameoff.data.png */
+
+/*! ./imgs/legacyreport.data.png */
+
+/*! ./imgs/minusbutton.data.png */
+
+/*! ./imgs/plusbutton.data.png */
+
+/*! ./imgs/reportbutton.data.png */
+
+/*! ./index */
+
+/*! ./nodepolyfill */
+
+/*! ./pasteinput */
+
+/*! ./rect */
+
+/*! ./wrapper */
+
+/*! @license DOMPurify 3.2.0 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/3.2.0/LICENSE */
+
+/*! alt1/base */
+
+/*! alt1/ocr */
+
+/*! canvas */
+
+/*! electron/common */
+
+/*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
+
+/*! sharp */
+
+/*!************************!*\
+  !*** external "sharp" ***!
+  \************************/
+
+/*!*************************!*\
+  !*** external "canvas" ***!
+  \*************************/
+
+/*!**************************!*\
+  !*** ./src/base/rect.ts ***!
+  \**************************/
+
+/*!**************************!*\
+  !*** ./src/ocr/index.ts ***!
+  \**************************/
+
+/*!***************************!*\
+  !*** ./src/base/index.ts ***!
+  \***************************/
+
+/*!****************************!*\
+  !*** ./src/base/imgref.ts ***!
+  \****************************/
+
+/*!*****************************!*\
+  !*** ./src/base/alt1api.ts ***!
+  \*****************************/
+
+/*!*****************************!*\
+  !*** ./src/base/wrapper.ts ***!
+  \*****************************/
+
+/*!******************************!*\
+  !*** ./src/chatbox/index.ts ***!
+  \******************************/
+
+/*!********************************!*\
+  !*** ./src/base/pasteinput.ts ***!
+  \********************************/
+
+/*!*********************************!*\
+  !*** ./src/base/imagedetect.ts ***!
+  \*********************************/
+
+/*!**********************************!*\
+  !*** ./src/base/declarations.ts ***!
+  \**********************************/
+
+/*!**********************************!*\
+  !*** ./src/base/nodepolyfill.ts ***!
+  \**********************************/
+
+/*!**********************************!*\
+  !*** external "electron/common" ***!
+  \**********************************/
+
+/*!****************************************!*\
+  !*** ./src/fonts/aa_8px.fontmeta.json ***!
+  \****************************************/
+
+/*!******************************************!*\
+  !*** ./src/base/imagedata-extensions.ts ***!
+  \******************************************/
+
+/*!*******************************************!*\
+  !*** ./src/chatbox/imgs/gameall.data.png ***!
+  \*******************************************/
+
+/*!*******************************************!*\
+  !*** ./src/chatbox/imgs/gameoff.data.png ***!
+  \*******************************************/
+
+/*!********************************************!*\
+  !*** ./src/chatbox/imgs/badgevip.data.png ***!
+  \********************************************/
+
+/*!*********************************************!*\
+  !*** ./src/chatbox/imgs/badgehcim.data.png ***!
+  \*********************************************/
+
+/*!*********************************************!*\
+  !*** ./src/chatbox/imgs/badgepmod.data.png ***!
+  \*********************************************/
+
+/*!*********************************************!*\
+  !*** ./src/chatbox/imgs/badgergim.data.png ***!
+  \*********************************************/
+
+/*!*********************************************!*\
+  !*** ./src/chatbox/imgs/chat_link.data.png ***!
+  \*********************************************/
+
+/*!*********************************************!*\
+  !*** ./src/fonts/aa_8px_mono.fontmeta.json ***!
+  \*********************************************/
+
+/*!**********************************************!*\
+  !*** ./src/chatbox/imgs/chatbubble.data.png ***!
+  \**********************************************/
+
+/*!**********************************************!*\
+  !*** ./src/chatbox/imgs/gamefilter.data.png ***!
+  \**********************************************/
+
+/*!**********************************************!*\
+  !*** ./src/chatbox/imgs/plusbutton.data.png ***!
+  \**********************************************/
+
+/*!**********************************************!*\
+  !*** ./src/fonts/aa_10px_mono.fontmeta.json ***!
+  \**********************************************/
+
+/*!**********************************************!*\
+  !*** ./src/fonts/chatbox/10pt.fontmeta.json ***!
+  \**********************************************/
+
+/*!**********************************************!*\
+  !*** ./src/fonts/chatbox/12pt.fontmeta.json ***!
+  \**********************************************/
+
+/*!**********************************************!*\
+  !*** ./src/fonts/chatbox/14pt.fontmeta.json ***!
+  \**********************************************/
+
+/*!**********************************************!*\
+  !*** ./src/fonts/chatbox/16pt.fontmeta.json ***!
+  \**********************************************/
+
+/*!**********************************************!*\
+  !*** ./src/fonts/chatbox/18pt.fontmeta.json ***!
+  \**********************************************/
+
+/*!**********************************************!*\
+  !*** ./src/fonts/chatbox/20pt.fontmeta.json ***!
+  \**********************************************/
+
+/*!**********************************************!*\
+  !*** ./src/fonts/chatbox/22pt.fontmeta.json ***!
+  \**********************************************/
+
+/*!***********************************************!*\
+  !*** ./src/chatbox/imgs/entertochat.data.png ***!
+  \***********************************************/
+
+/*!***********************************************!*\
+  !*** ./src/chatbox/imgs/minusbutton.data.png ***!
+  \***********************************************/
+
+/*!************************************************!*\
+  !*** ./src/chatbox/imgs/badgeironman.data.png ***!
+  \************************************************/
+
+/*!************************************************!*\
+  !*** ./src/chatbox/imgs/badgepmodvip.data.png ***!
+  \************************************************/
+
+/*!************************************************!*\
+  !*** ./src/chatbox/imgs/filterbutton.data.png ***!
+  \************************************************/
+
+/*!************************************************!*\
+  !*** ./src/chatbox/imgs/legacyreport.data.png ***!
+  \************************************************/
+
+/*!************************************************!*\
+  !*** ./src/chatbox/imgs/reportbutton.data.png ***!
+  \************************************************/
+
+/*!****************************************************!*\
+  !*** ./src/chatbox/imgs/chatLegacyBorder.data.png ***!
+  \****************************************************/
+
+/*!*****************************************************!*\
+  !*** ./src/fonts/aa_9px_mono_allcaps.fontmeta.json ***!
+  \*****************************************************/
+
+/*!********************************************************!*\
+  !*** ./src/chatbox/imgs/badge_broadcast_gold.data.png ***!
+  \********************************************************/
+
+/*!**********************************************************!*\
+  !*** ./src/chatbox/imgs/badge_broadcast_bronze.data.png ***!
+  \**********************************************************/
+
+/*!**********************************************************!*\
+  !*** ./src/chatbox/imgs/badge_broadcast_silver.data.png ***!
+  \**********************************************************/
+
+/*!*********************************************************************************************!*\
+  !*** external {"root":"OCR","commonjs2":"alt1/ocr","commonjs":"alt1/ocr","amd":"alt1/ocr"} ***!
+  \*********************************************************************************************/
+
+/*!**************************************************************************************************!*\
+  !*** external {"root":"A1lib","commonjs2":"alt1/base","commonjs":"alt1/base","amd":"alt1/base"} ***!
+  \**************************************************************************************************/
+
+/**
+ * @license
+ * Lodash <https://lodash.com/>
+ * Copyright OpenJS Foundation and other contributors <https://openjsf.org/>
+ * Released under MIT license <https://lodash.com/license>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ */

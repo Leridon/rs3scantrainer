@@ -173,10 +173,11 @@ export default class MainTabControl extends Widget {
             placement: "right",
             hideOnClick: false
           }),
-      c(`<div style="font-size: 8pt" class='nisl-textlink'>About</div>`)
-        .on("click", () => {
+      new MenuButton("About", "assets/icons/ribbon_about.webp")
+        .setActive(true)
+        .onClick(() => [
           new AboutModal().show()
-        }),
+        ]),
       c().append(
         c(`<a href="https://github.com/Leridon/rs3scantrainer" target="_blank"> <img class="ctr-clickable" height="15px" style="padding: 0 2px" src="assets/icons/github-mark-white.png"></a>`),
         c(`<a href="https://ko-fi.com/I2I4XY829" target="_blank"><img class="ctr-clickable" height="15px" src="assets/icons/kofi.webp"></a>`),

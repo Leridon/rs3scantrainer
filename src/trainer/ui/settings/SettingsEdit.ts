@@ -1266,29 +1266,24 @@ class CompassSettingsEdit extends Widget {
 
 class DataManagementEdit extends Widget {
 
-  private layout = new Properties().appendTo(this)
+  private layout = new SettingsLayout().appendTo(this)
 
   constructor() {
     super();
 
-    this.layout.header("Export")
+    this.layout.section("Data Export and Import", "Exported data included all settings and preferences, as well as imported and local methods. Importing a data dump will replace all of your local data with the imported data.")
 
-    this.layout.paragraph("Exported data includes all settings and preferences, as well as imported and local methods.")
-
-    this.layout.row(new LightButton("Export", "rectangle")
-      .onClick(() => {
-        deps().app.data_dump.dump()
-      })
-    )
-
-    this.layout.header("Import")
-
-    this.layout.paragraph("Importing a data dump will replace all of your local data with the data from the data dump.")
-
-    this.layout.row(new LightButton("Import", "rectangle")
-      .onClick(() => {
-        deps().app.data_dump.restore()
-      })
+    this.layout.row(
+      hgrid(
+        new LightButton("Export", "rectangle")
+          .onClick(() => {
+            deps().app.data_dump.dump()
+          }),
+        new LightButton("Import", "rectangle")
+          .onClick(() => {
+            deps().app.data_dump.restore()
+          })
+      )
     )
   }
 }

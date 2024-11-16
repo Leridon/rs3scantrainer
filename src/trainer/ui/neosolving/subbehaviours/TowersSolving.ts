@@ -4,7 +4,7 @@ import {CapturedImage, ScreenCaptureService} from "../../../../lib/alt1/capture"
 import {CapturedModal} from "../cluereader/capture/CapturedModal";
 import {TowersReader} from "../cluereader/TowersReader";
 import {Towers} from "../../../../lib/cluetheory/Towers";
-import {mixColor} from "@alt1/base";
+import {mixColor} from "alt1";
 import {Vector2} from "../../../../lib/math";
 import {ScreenRectangle} from "../../../../lib/alt1/ScreenRectangle";
 import {AbstractPuzzleSolving} from "./AbstractPuzzleSolving";

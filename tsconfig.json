@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
-    "moduleResolution": "Node",
+    "moduleResolution": "bundler",
+    "resolvePackageJsonExports": true,
+    "module": "ESNext",
     "experimentalDecorators": true,
     "noImplicitThis": true,
     "target": "es6",

@@ -43,7 +43,7 @@ import {List} from "../lib/ui/List";
 import {ClickToCopy} from "../lib/ui/ClickToCopy";
 import {ChatReader} from "../lib/alt1/readers/ChatReader";
 import {MinimapReader} from "../lib/alt1/readers/MinimapReader";
-import {CaptureInterval, ScreenCaptureService} from "../lib/alt1/capture";
+import {ScreenCaptureService} from "../lib/alt1/capture";
 import {SectionMemory} from "./ui/neosolving/PathControl";
 import ActiveTeleportCustomization = Transportation.TeleportGroup.ActiveTeleportCustomization;
 import TeleportSettings = Settings.TeleportSettings;
@@ -546,6 +546,28 @@ export class Application extends Behaviour {
     }*/
 
     const is_first_visit = this.startup_settings.value().last_loaded_version == null
+
+    if (is_first_visit && this.in_alt1) {
+      (new class extends NisModal {
+
+        render() {
+          super.render();
+
+          this.title.set("Welcome to Clue Trainer")
+
+          const layout = new Properties().appendTo(this.body)
+          layout.paragraph("You have successfully installed Clue Trainer! If you want, check out the video tutorial made by <b>Ngis</b> embedded below. It teaches you how to setup Clue Trainer according to your preferences and how its solving features are used. For additional info, open the 'About' page linked in the left sidebar.")
+
+          layout.row(c("<iframe width=\"560\" height=\"315\" src=\"https://www.youtube-nocookie.com/embed/EGDHM4USIp8?si=YLcuCoqZnAUAjI8s\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"))
+        }
+
+        getButtons(): BigNisButton[] {
+          return [
+            new BigNisButton("Dismiss", "cancel").onClick(() => this.hide())
+          ]
+        }
+      }).show()
+    }
 
     if (!is_first_visit && this.startup_settings.value().last_loaded_version != Changelog.latest_patch.version) {
       const unseen_updates = Changelog.log.filter(e => e.version > this.startup_settings.value().last_loaded_version)

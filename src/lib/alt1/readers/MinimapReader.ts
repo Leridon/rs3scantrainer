@@ -116,8 +116,8 @@ export namespace MinimapReader {
       }).setName("Map")
 
       this.midpoint = body.getSubSection({
-        origin: {x: ~~(body.size.x / 2) - 8, y: ~~(body.size.y / 2)},
-        size: {x: 16, y: 1}
+        origin: {x: ~~(body.size.x / 2) - 8, y: ~~(body.size.y / 2) - 8},
+        size: {x: 16, y: 16}
       }).setName("Map")
     }
 
@@ -178,21 +178,38 @@ export namespace MinimapReader {
     public readonly scale = lazy(() => {
       const scan = this.midpoint.getData()
 
-      let count = 0
-
-      for (let x = ~~(scan.width / 2); x >= 0; x--) {
-        const pixel = (scan.getPixel(x, 0))
-
-        if (pixel[0] == 255 && pixel[1] == 255 && pixel[2] == 255) count++
-        else break
+      function isWhite(pixel: [number, number, number, number]): boolean {
+        return pixel[0] == 255 && pixel[1] == 255 && pixel[2] == 255
       }
 
-      for (let x = ~~(scan.width / 2) + 1; x < scan.width; x++) {
-        const pixel = (scan.getPixel(x, 0))
+      const square_width = (() => {
+        let counts = new Array(scan.width + 1).fill(0)
 
-        if (pixel[0] == 255 && pixel[1] == 255 && pixel[2] == 255) count++
-        else break
-      }
+        for (let y = 0; y < scan.height; y++) {
+          let max_count = 0
+          let count = 0
+
+          for (let x = 0; x < scan.width; x++) {
+            const pixel = (scan.getPixel(x, y))
+
+            if (isWhite(pixel)) count++
+            else {
+              max_count = Math.max(count, max_count)
+              count = 0
+            }
+          }
+
+          counts[max_count]++
+        }
+
+        let greater = 0
+
+        for (let i = counts.length - 1; i >= 0; i--) {
+          greater += counts[i]
+
+          if (greater >= i) return i
+        }
+      })()
 
       // Scaling is nonlinear.
       // Count = 10 -> 26 ppt   (scale = 6.5)
@@ -200,10 +217,10 @@ export namespace MinimapReader {
       // Count = 4 -> 5.5 ppt     (scale = 1.375)
       // Count = 3 -> 4 ppt     (scale = 1)
 
-      if (count >= 10) return count / 3 + (count - 3) * 0.75
+      if (square_width >= 10) return square_width / 3 + (square_width - 3) * 0.75
       else return [
         1, 1, 1, 1, 1.375, 2.25, 3, 3.875, 4.375, 5.25
-      ][count]
+      ][square_width]
     })
 
     pixelPerTile(): number {

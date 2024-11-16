@@ -1,6 +1,6 @@
 import {Sliders} from "../../../../lib/cluetheory/Sliders";
 import {Rectangle, Transform, Vector2} from "../../../../lib/math";
-import {mixColor} from "@alt1/base";
+import {mixColor} from "alt1";
 import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
 import {SlideReader} from "../cluereader/SliderReader";
 import {deps} from "../../../dependencies";

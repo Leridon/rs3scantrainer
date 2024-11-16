@@ -1,8 +1,8 @@
 import {ScreenRectangle} from "../../../../../lib/alt1/ScreenRectangle";
-import * as OCR from "@alt1/ocr";
+import * as OCR from "alt1/ocr";
 import {Vector2} from "../../../../../lib/math";
 import {async_lazy, LazyAsync} from "../../../../../lib/properties/Lazy";
-import {ImageDetect} from "@alt1/base";
+import {ImageDetect} from "alt1";
 import {CapturedImage} from "../../../../../lib/alt1/capture";
 import {Finder} from "../../../../../lib/alt1/capture/Finder";
 
@@ -91,7 +91,7 @@ export namespace CapturedModal {
     }
   })
 
-  export const title_font = require("@alt1/ocr/fonts/aa_9px_mono_allcaps.js");
+  export const title_font = require("alt1/fonts/aa_9px_mono_allcaps.js");
 
   type SkinAnchors = {
     isLegacy: boolean

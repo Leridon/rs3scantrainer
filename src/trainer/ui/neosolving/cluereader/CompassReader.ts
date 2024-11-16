@@ -1,5 +1,5 @@
 import {Compasses} from "../../../../lib/cluetheory/Compasses";
-import {mixColor} from "@alt1/base";
+import {mixColor} from "alt1";
 import {angleDifference, circularMean, degreesToRadians, normalizeAngle, radiansToDegrees, Rectangle, Vector2} from "../../../../lib/math";
 import * as lodash from "lodash";
 import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";

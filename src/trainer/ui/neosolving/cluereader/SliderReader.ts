@@ -1,4 +1,4 @@
-import {ImageDetect} from "@alt1/base";
+import {ImageDetect} from "alt1";
 import * as lodash from "lodash";
 import {Sliders} from "../../../../lib/cluetheory/Sliders";
 import {ImageFingerprint} from "../../../../lib/util/ImageFingerprint";

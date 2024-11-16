@@ -110,7 +110,7 @@ class CompassHandlingLayer extends GameLayer {
         this.solving.registerSpot(event.active_entity.teleport, false)
       } else if (event.active_entity instanceof KnownCompassSpot) {
 
-        if (this.solving.entries.some(e => e.information)) {
+        if (this.solving.entries.some(e => e.information) || !this.solving.reader) {
           this.solving.setSelectedSpot(event.active_entity.spot, true)
         } else {
           this.solving.registerSpot(activate(digSpotArea(event.active_entity.spot.spot)), true)
@@ -136,6 +136,8 @@ class KnownCompassSpot extends MapEntity {
       const layout = new Properties()
 
       layout.header(`Compass spot ${this.spot.spot_id + 1}`)
+
+      layout.paragraph("Click to select as solution and view pathing.")
 
       return layout
     })
@@ -621,6 +623,8 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
   setSelectedSpot(spot: CompassSolving.SpotData, set_as_solution: boolean) {
     this.selected_spot.set(spot)
 
+    console.log("Setting")
+
     if (set_as_solution && set_as_solution) {
       this.registerSolution(digSpotArea(spot.spot))
     }
@@ -873,25 +877,27 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
     this.layer = new CompassHandlingLayer(this)
     this.parent.layer.add(this.layer)
 
-    this.process.start()
+    if (this.reader) {
+      this.process?.start()
 
-    this.parent.app.main_hotkey.subscribe(0, e => {
-      if (e.text) {
-        const matched_teleport = CompassSolving.teleport_hovers.findBest(e.text)
+      this.parent.app.main_hotkey.subscribe(0, e => {
+        if (e.text) {
+          const matched_teleport = CompassSolving.teleport_hovers.findBest(e.text)
 
-        if (matched_teleport) {
-          const tele = TransportData.resolveTeleport(matched_teleport)
-          if (!tele) return
-          this.registerSpot(tele, false)
+          if (matched_teleport) {
+            const tele = TransportData.resolveTeleport(matched_teleport)
+            if (!tele) return
+            this.registerSpot(tele, false)
+          }
+        } else {
+          this.commit(undefined, true)
         }
-      } else {
-        this.commit(undefined, true)
-      }
-    }).bindTo(this.lifetime_manager)
+      }).bindTo(this.lifetime_manager)
 
-    this.renderWidget()
+      this.renderWidget()
 
-    await this.reset()
+      await this.reset()
+    }
   }
 
   protected end() {

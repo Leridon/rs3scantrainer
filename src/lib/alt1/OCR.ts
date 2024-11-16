@@ -4,7 +4,7 @@
  * */
 
 
-import {ImageData, Rect, RectLike} from "@alt1/base";
+import {ImageData, Rect, RectLike} from "alt1";
 import * as lodash from "lodash";
 import {util} from "../util/util";
 

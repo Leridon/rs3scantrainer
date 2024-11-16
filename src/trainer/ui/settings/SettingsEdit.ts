@@ -38,7 +38,7 @@ import TransportLayer from "../map/TransportLayer";
 import {KnotSolving} from "../neosolving/subbehaviours/KnotSolving";
 import {LockboxSolving} from "../neosolving/subbehaviours/LockboxSolving";
 import {TowersSolving} from "../neosolving/subbehaviours/TowersSolving";
-import {ExportImport} from "../../../lib/util/exportString";
+import {ScanSolving} from "../neosolving/subbehaviours/ScanSolving";
 import cls = C.cls;
 import PotaColor = Settings.PotaColor;
 import hbox = C.hbox;
@@ -457,6 +457,33 @@ class TeleportSettingsEdit extends Widget {
             this.render()
           }
         })
+    )
+  }
+}
+
+class ScanSettingsEdit extends Widget {
+  private layout: Properties
+
+  constructor(private value: ScanSolving.Settings) {
+    super()
+
+    this.layout = new Properties().appendTo(this)
+
+    this.render()
+  }
+
+  render() {
+    this.layout.empty()
+
+    this.layout.header("Show scan range overlay on minimap ...", "left")
+    this.layout.row(new Checkbox("... when using a scan tree")
+      .onCommit(v => this.value.show_minimap_overlay_scantree = v)
+      .setValue(this.value.show_minimap_overlay_scantree)
+    )
+
+    this.layout.row(new Checkbox("... when not using a scan tree")
+      .onCommit(v => this.value.show_minimap_overlay_simple = v)
+      .setValue(this.value.show_minimap_overlay_simple)
     )
   }
 }
@@ -1239,29 +1266,24 @@ class CompassSettingsEdit extends Widget {
 
 class DataManagementEdit extends Widget {
 
-  private layout = new Properties().appendTo(this)
+  private layout = new SettingsLayout().appendTo(this)
 
   constructor() {
     super();
 
-    this.layout.header("Export")
+    this.layout.section("Data Export and Import", "Exported data included all settings and preferences, as well as imported and local methods. Importing a data dump will replace all of your local data with the imported data.")
 
-    this.layout.paragraph("Exported data includes all settings and preferences, as well as imported and local methods.")
-
-    this.layout.row(new LightButton("Export", "rectangle")
-      .onClick(() => {
-        deps().app.data_dump.dump()
-      })
-    )
-
-    this.layout.header("Import")
-
-    this.layout.paragraph("Importing a data dump will replace all of your local data with the data from the data dump.")
-
-    this.layout.row(new LightButton("Import", "rectangle")
-      .onClick(() => {
-        deps().app.data_dump.restore()
-      })
+    this.layout.row(
+      hgrid(
+        new LightButton("Export", "rectangle")
+          .onClick(() => {
+            deps().app.data_dump.dump()
+          }),
+        new LightButton("Import", "rectangle")
+          .onClick(() => {
+            deps().app.data_dump.restore()
+          })
+      )
     )
   }
 }
@@ -1306,6 +1328,11 @@ export class SettingsEdit extends Widget {
           name: "Compass Solving",
           short_name: "Compass",
           renderer: () => new CompassSettingsEdit(this.value.solving.compass)
+        }, {
+          id: "scan",
+          name: "Scan Solving",
+          short_name: "Scans",
+          renderer: () => new ScanSettingsEdit(this.value.solving.scans)
         }
         ]
       }, {

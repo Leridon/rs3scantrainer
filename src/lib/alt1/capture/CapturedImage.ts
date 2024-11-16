@@ -1,7 +1,7 @@
 import {ScreenRectangle} from "../ScreenRectangle";
 import {Vector2} from "../../math";
-import * as a1lib from "@alt1/base";
-import {ImgRef, ImgRefData} from "@alt1/base";
+import * as a1lib from "alt1";
+import {ImgRef, ImgRefData} from "alt1";
 import {OverlayGeometry} from "../OverlayGeometry";
 import {NeedleImage} from "./NeedleImage";
 import {util} from "../../util/util";

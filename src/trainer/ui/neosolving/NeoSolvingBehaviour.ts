@@ -42,9 +42,10 @@ import {Alt1Modal} from "../../Alt1Modal";
 import {LockboxSolving} from "./subbehaviours/LockboxSolving";
 import {TowersSolving} from "./subbehaviours/TowersSolving";
 import {Log} from "../../../lib/util/Log";
-import * as assert from "assert";
 import {CapturedScan} from "./cluereader/capture/CapturedScan";
 import {AbstractCaptureService, CapturedImage, CaptureInterval} from "../../../lib/alt1/capture";
+import {SimpleScanSolving} from "./subbehaviours/SimpleScanSolving";
+import {ScanSolving} from "./subbehaviours/ScanSolving";
 import span = C.span;
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import interactionMarker = RenderingUtility.interactionMarker;
@@ -428,16 +429,21 @@ export default class NeoSolvingBehaviour extends Behaviour {
     })
   }
 
-  private pushState(state: NeoSolving.ActiveState["step"]): NeoSolving.ActiveState {
+  private pushState(state: NeoSolving.ActiveState["step"], read_result: ClueReader.Result | undefined): NeoSolving.ActiveState {
     const now = Date.now()
 
-    if (this.state && !this.state.end_time) {
-      this.state.end_time = now
+    if (this.state) {
+      this.state.read_result = undefined
+
+      if (!this.state.end_time) {
+        this.state.end_time = now
+      }
     }
 
     this.state = {
       step: state,
       start_time: now,
+      read_result: read_result,
       end_time: undefined,
       solution_area: undefined
     }
@@ -454,7 +460,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
     this.reset(this.state)
 
-    this.pushState({type: "puzzle", puzzle: puzzle})
+    this.pushState({type: "puzzle", puzzle: puzzle}, undefined)
 
     if (puzzle) {
       this.activateSubBehaviour((() => {
@@ -486,16 +492,15 @@ export default class NeoSolvingBehaviour extends Behaviour {
       return
     }
 
-    if (this.state?.step?.type == "clue" && this.state.step.clue.step.type == "compass" && step.step.type == "compass") {
+    if (this.state?.read_result && this.state?.step?.type == "clue" && this.state.step.clue.step.type == "compass" && step.step.type == "compass") {
       // This is a workaround fix for a rare issue where a master compass is reset and reloaded as an elite compass because of interface interference.
       // Changing from an active compass to another compass is disallowed.
       return
     }
 
-
     this.reset(this.state)
 
-    const state = this.pushState({type: "clue", clue: step})
+    this.pushState({type: "clue", clue: step}, read_result)
 
     const settings = this.app.settings.settings.solving
 
@@ -784,8 +789,10 @@ export default class NeoSolvingBehaviour extends Behaviour {
         this.app.settings.update(set => set.teleport_customization.active_preset = bound_preset)
     }
 
-    if (read_result?.type == "compass" && clue.type == "compass") {
-      const behaviour = new CompassSolving(this, clue, read_result.reader)
+    if (clue.type == "compass") {
+      const behaviour = new CompassSolving(this, clue, read_result?.type == "compass" ? read_result.reader : undefined)
+
+      if (!read_result) this.layer.fit(TileRectangle.from(...clue.spots))
 
       behaviour.selected_spot.subscribe(async spot => {
         if (spot) {
@@ -813,6 +820,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
    */
   setMethod(method: AugmentedMethod, read_result: ClueReader.Result = null): void {
     log().log(`Setting method ${method ? method.method.name : "null"}`)
+
+    if (!read_result && this.state?.read_result) read_result = this.state.read_result
 
     if (method) {
       log().log(`Setting method to ${method.method.name} (${method.method.id.substring(0, 8)})`, "Solving")
@@ -842,15 +851,12 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
     this.active_method = null
 
+    const clue = this.state.step.clue.step
+
     const active_behaviour = this.active_behaviour.get()
 
     if (active_behaviour?.type == "method") {
       active_behaviour.stop()
-    }
-
-    if (!method && active_behaviour instanceof ScanTreeSolving) {
-      assert(this.state.step.clue.step.type == "scan")
-      this.layer.fit(TileRectangle.from(...this.state.step.clue.step.spots))
     }
 
     if (method) {
@@ -868,6 +874,15 @@ export default class NeoSolvingBehaviour extends Behaviour {
         )
       } else if (method.method.type == "general_path") {
         this.path_control.setMethod(method as AugmentedMethod<GenericPathMethod>)
+      }
+    } else {
+      if (read_result?.type == "scan" && clue.type == "scan") {
+        // When deselecting the active scan tree, zoom to the spots
+        if (active_behaviour instanceof ScanTreeSolving) this.layer.fit(TileRectangle.from(...clue.spots))
+
+        const behaviour = new SimpleScanSolving(this, clue, read_result.scan_interface)
+
+        this.activateSubBehaviour(behaviour)
       }
     }
 
@@ -942,6 +957,7 @@ export namespace NeoSolving {
       type: "clue",
       clue: Clues.StepWithTextIndex
     },
+    read_result: ClueReader.Result,
     start_time: number,
     end_time: number,
     solution_area: TileArea,
@@ -973,7 +989,8 @@ export namespace NeoSolving {
   export type Settings = {
     info_panel: Settings.InfoPanel,
     puzzles: Settings.Puzzles,
-    compass: CompassSolving.Settings
+    compass: CompassSolving.Settings,
+    scans: ScanSolving.Settings,
   }
 
   export namespace Settings {
@@ -1097,7 +1114,8 @@ export namespace NeoSolving {
     export const DEFAULT: Settings = {
       info_panel: InfoPanel.REDUCED,
       puzzles: Puzzles.DEFAULT,
-      compass: CompassSolving.Settings.DEFAULT
+      compass: CompassSolving.Settings.DEFAULT,
+      scans: ScanSolving.Settings.DEFAULT
     }
 
     export function normalize(settings: Settings): Settings {
@@ -1106,6 +1124,7 @@ export namespace NeoSolving {
       settings.info_panel = InfoPanel.normalize(settings.info_panel)
       settings.puzzles = Puzzles.normalize(settings.puzzles)
       settings.compass = CompassSolving.Settings.normalize(settings.compass)
+      settings.scans = ScanSolving.Settings.normalize(settings.scans)
 
       return settings
     }

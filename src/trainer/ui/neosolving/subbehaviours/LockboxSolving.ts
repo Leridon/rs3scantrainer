@@ -4,7 +4,7 @@ import {Lockboxes} from "../../../../lib/cluetheory/Lockboxes";
 import {CapturedImage} from "../../../../lib/alt1/capture";
 import {LockBoxReader} from "../cluereader/LockBoxReader";
 import {Vector2} from "../../../../lib/math";
-import {mixColor} from "@alt1/base";
+import {mixColor} from "alt1";
 import * as lodash from "lodash";
 import {CapturedModal} from "../cluereader/capture/CapturedModal";
 import {AbstractPuzzleProcess} from "./AbstractPuzzleProcess";

@@ -4,7 +4,7 @@ import {CapturedImage} from "../../../../lib/alt1/capture";
 import {KnotReader} from "../cluereader/KnotReader";
 import {CelticKnots} from "../../../../lib/cluetheory/CelticKnots";
 import {Vector2} from "../../../../lib/math";
-import {mixColor} from "@alt1/base";
+import {mixColor} from "alt1";
 import {ScreenRectangle} from "../../../../lib/alt1/ScreenRectangle";
 import {CapturedModal} from "../cluereader/capture/CapturedModal";
 import {AbstractPuzzleProcess} from "./AbstractPuzzleProcess";

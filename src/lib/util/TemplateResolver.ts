@@ -1,4 +1,4 @@
-import * as DOMPurify from "dompurify";
+import DOMPurify from "dompurify";
 import * as lodash from "lodash";
 import {C} from "../ui/constructors";
 import Widget from "../ui/Widget";

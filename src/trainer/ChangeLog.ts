@@ -17,6 +17,20 @@ export namespace Changelog {
   }
 
   export const log: LogEntry[] = lodash.sortBy<LogEntry>([{
+    version: 17,
+    date: new Date(Date.parse("2024-11-16")),
+    title: "Scan Range Minimap Overlay",
+    render: layout => {
+      layout
+        .row(new List()
+          .item("Added a scan range overlay for the minimap.", new List().item("This can be toggled on or off in the new settings page for scans."))
+          .item("Fixed an internal error when manually selecting a compass clue via the search function.", new List().item(
+            "With this fix, you can now use the 'Solve'-page to explore pathing for compass spots by clicking on their markers."
+          ))
+          .item("Added a popup recommending to watch the tutorial when opening Clue Trainer for the first time after installation.")
+        )
+    }
+  }, {
     version: 16,
     date: new Date(Date.parse("2024-10-10")),
     silent: true,

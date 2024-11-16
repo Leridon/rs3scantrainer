@@ -1,14 +1,14 @@
-import {CapturedImage, NeedleImage} from "../../../../../lib/alt1/capture";
+import {CapturedImage} from "../../../../../lib/alt1/capture";
 import {Vector2} from "../../../../../lib/math";
-import {ImageDetect} from "@alt1/base";
+import {ImageDetect} from "alt1";
 import {async_lazy, Lazy, lazy, LazyAsync} from "../../../../../lib/properties/Lazy";
 import {ScreenRectangle} from "../../../../../lib/alt1/ScreenRectangle";
-import * as OCR from "@alt1/ocr";
+import * as OCR from "alt1/ocr";
 import {util} from "../../../../../lib/util/util";
 import * as lodash from "lodash"
+import {Finder} from "../../../../../lib/alt1/capture/Finder";
 import index = util.index;
 import stringSimilarity = util.stringSimilarity;
-import {Finder} from "../../../../../lib/alt1/capture/Finder";
 
 export class CapturedScan {
 
@@ -21,9 +21,9 @@ export class CapturedScan {
      * This function is originally by skillbert as part of the ScanTextReader class
      */
 
-    const font = require("@alt1/ocr/fonts/aa_8px_new.js")
+    const font = require("alt1/fonts/aa_8px_mono.js")
 
-    //const font = require("@alt1/ocr/fonts/aa_8px_new.js");
+    //const font = require("alt1/fonts/aa_8px_new.js");
     const LINEHEIGHT = 12;
 
     let data = this.body.getData();
@@ -74,7 +74,7 @@ export class CapturedScan {
     return similarity > 0.7
   })
 
-  private _meerkats_active = lazy((): boolean | "unknown" => {
+  private _meerkats_active = lazy((): boolean => {
     const last_line = index(this._lines.get(), -1)
 
     const similarity = stringSimilarity(last_line, "Your meerkats are increasing your scan range by")
@@ -98,7 +98,7 @@ export class CapturedScan {
     return this._lines.get()[0]
   }
 
-  hasMeerkats(): boolean | "unknown" {
+  hasMeerkats(): boolean {
     return this._meerkats_active.get()
   }
 

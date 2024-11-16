@@ -2,10 +2,10 @@ import {CapturedImage} from "../../../../lib/alt1/capture";
 import {Vector2} from "../../../../lib/math";
 import {CapturedModal} from "./capture/CapturedModal";
 import {Towers} from "../../../../lib/cluetheory/Towers";
-import * as OCR from "@alt1/ocr";
+import * as OCR from "alt1/ocr";
 import {util} from "../../../../lib/util/util";
 import {async_lazy, Lazy} from "../../../../lib/properties/Lazy";
-import {ImageDetect} from "@alt1/base";
+import {ImageDetect} from "alt1";
 import {ScreenRectangle} from "../../../../lib/alt1/ScreenRectangle";
 
 export class TowersReader {
@@ -38,7 +38,7 @@ export namespace TowersReader {
   const context_menu_anchor = new Lazy(() => ImageDetect.imageDataFromUrl("alt1anchors/contextborder.png"))
 
   import count = util.count;
-  const font: OCR.FontDefinition = require("@alt1/ocr/fonts/aa_10px_mono.js");
+  const font: OCR.FontDefinition = require("alt1/fonts/aa_10px_mono.js");
   const font_with_just_digits = {...font, chars: font.chars.filter(c => !isNaN(+c.chr))};
 
   export const TILE_SIZE = {x: 42, y: 42}

@@ -22,9 +22,10 @@ import {TextRendering} from "../../TextRendering";
 import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
 import * as assert from "assert";
 import {AbstractCaptureService, CapturedImage, DerivedCaptureService, InterestedToken, ScreenCaptureService} from "../../../../lib/alt1/capture";
-import {MinimapReader} from "../../../../lib/alt1/readers/MinimapReader";
 import {CapturedScan} from "../cluereader/capture/CapturedScan";
 import {Finder} from "../../../../lib/alt1/capture/Finder";
+import {deps} from "../../../dependencies";
+import {ScanSolving} from "./ScanSolving";
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import activate = TileArea.activate;
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
@@ -36,6 +37,7 @@ import over = OverlayGeometry.over;
 import index = util.index;
 import AsyncInitialization = util.AsyncInitialization;
 import async_init = util.async_init;
+import ScanMinimapOverlay = ScanSolving.ScanMinimapOverlay;
 
 class ScanCaptureService extends DerivedCaptureService<ScanCaptureService.Options, CapturedScan> {
   private capture_interest: AbstractCaptureService.InterestToken<ScreenCaptureService.Options, CapturedImage>
@@ -83,16 +85,17 @@ namespace ScanCaptureService {
 }
 
 export class ScanTreeSolving extends NeoSolvingSubBehaviour {
+  settings: ScanSolving.Settings
+
   node: ScanTree.Augmentation.AugmentedScanTreeNode = null
   augmented: ScanTree.Augmentation.AugmentedScanTree = null
   layer: leaflet.FeatureGroup = null
 
+  private minimap_overlay: ScanMinimapOverlay
+
   tree_widget: Widget
   private scan_interface_overlay = over()
 
-  private minimap_overlay: OverlayGeometry = over()
-
-  private minimap_interest: AbstractCaptureService.InterestToken<AbstractCaptureService.Options, MinimapReader.CapturedMinimap>
   private scan_capture_service: ScanCaptureService
   private scan_capture_interest: AbstractCaptureService.InterestToken<ScanCaptureService.Options, CapturedScan>
 
@@ -101,6 +104,12 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
               private original_interface_capture: CapturedScan
   ) {
     super(parent, "method")
+
+    this.settings = deps().app.settings.settings.solving.scans
+
+    if (this.settings.show_minimap_overlay_scantree) {
+      this.minimap_overlay = this.withSub(new ScanMinimapOverlay(this.parent.app.minimapreader).setRange(this.method.method.tree.assumed_range))
+    }
 
     this.augmented = ScanTree.Augmentation.basic_augmentation(method.method.tree, method.clue)
   }
@@ -271,46 +280,7 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
     this.tree_widget = c().appendTo(this.parent.layer.scantree_container)
     this.layer = leaflet.featureGroup().addTo(this.parent.layer.scan_layer)
 
-    const self = this
-
     this.lifetime_manager.bind(
-      /*this.minimap_interest = this.parent.app.minimapreader.subscribe({
-        options: (time: AbstractCaptureService.CaptureTime) => ({
-          interval: CaptureInterval.fromApproximateInterval(100),
-          refind_interval: CaptureInterval.fromApproximateInterval(10_000)
-        }),
-        handle: (value: AbstractCaptureService.TimedValue<MinimapReader.CapturedMinimap>) => {
-          const minimap = value.value
-
-          self.minimap_overlay.clear()
-
-          if (value.value) {
-
-            const scale = (self.method.method.tree.assumed_range * 2 + 1) * value.value.pixelPerTile() / 2
-
-            const transform =
-              Transform.chain(
-                Transform.translation(minimap.center()),
-                Transform.rotationRadians(-minimap.compassAngle.get()),
-                Transform.scale({x: scale, y: scale}),
-              )
-
-            const unit_square: Vector2[] = [
-              {x: 1, y: 1},
-              {x: 1, y: -1},
-              {x: -1, y: -1},
-              {x: -1, y: 1},
-            ]
-
-            self.minimap_overlay.polyline(
-              unit_square.map(v => Vector2.transform_point(v, transform)),
-              true
-            )
-          }
-
-          self.minimap_overlay.render()
-        }
-      }),
       /*this.scan_capture_service = new ScanCaptureService(this.parent.app.capture_service, this.original_interface_capture),
       this.scan_capture_interest = this.scan_capture_service.subscribe({
         options: () => ({interval: CaptureInterval.fromApproximateInterval(100)}),
@@ -370,9 +340,6 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
       this.layer.remove()
       this.layer = null
     }
-
-    this.minimap_overlay?.clear()
-    this.minimap_overlay?.render()
   }
 }
 

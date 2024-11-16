@@ -92,7 +92,7 @@ export class ChatboxFinder implements Finder<CapturedChatbox[]> {
         Vector2.add(pair.bubble.position, {x: -110, y: 15}),
       )).getData()
 
-      const nameread = OCR.readLine(nameline, CapturedChatbox.chatfont, [255, 255, 255], 110, 13, false, true);
+      const nameread = null // OCR.readLine(nameline, CapturedChatbox.chatfont, [255, 255, 255], 110, 13, false, true);
 
       function kind_by_name(name: string): { offset: number; type: CapturedChatbox.Type } {
         switch (name) {

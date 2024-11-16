@@ -2,8 +2,12 @@ import {TileCoordinates} from "../coordinates";
 import {util} from "../../util/util";
 import {Vector2} from "../../math";
 import * as assert from "assert";
+import {Clues} from "../clues";
 
 export namespace Scans {
+  export function range(clue: Clues.Scan, meerkats: boolean) {
+    return clue.range + (meerkats ? 5 : 0)
+  }
 
   export function get_pulse(spot: TileCoordinates, tile: TileCoordinates, range: number): Pulse {
     let d = distance(spot, tile)

@@ -1,4 +1,4 @@
-import * as a1base from "@alt1/base";
+import * as a1base from "alt1";
 import {keys} from "lodash";
 import {Rectangle, Vector2} from "../../lib/math";
 import Widget from "../../lib/ui/Widget";

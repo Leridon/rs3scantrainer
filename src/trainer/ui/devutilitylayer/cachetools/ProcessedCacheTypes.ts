@@ -112,9 +112,6 @@ export namespace ProcessedCacheTypes {
     }
   }
 
-  type FileA = Prototype[]
-  type FileB = GroupedInstanceData[]
-
   export class PrototypeInstance<T extends Prototype = Prototype> {
     public readonly box: TileArea
 
@@ -141,11 +138,12 @@ export namespace ProcessedCacheTypes {
     getTransform(): TileTransform {
       const rotation = Transform.rotation((4 - this.instance.rotation) % 4)
 
-      const rotated_box = Rectangle.from({x: 0, y: 0}, Vector2.transform(Vector2.sub(this.prototype.size, {x: -1, y: -1}), rotation))
+      const origin_correction =
+        Rectangle.bottomLeft(Rectangle.from({x: 0, y: 0}, Vector2.transform(Vector2.sub(this.prototype.size, {x: 1, y: 1}), rotation)))
 
       return TileTransform.chain(
         TileTransform.translation(
-          Vector2.sub(this.instance.position, Rectangle.bottomLeft(rotated_box)),
+          Vector2.add(this.instance.position, origin_correction),
           this.instance.position.level
         ),
         rotation,
@@ -155,13 +153,13 @@ export namespace ProcessedCacheTypes {
     getInverseTransform(): TileTransform {
       const rotation = Transform.rotation(this.instance.rotation % 4)
 
-      const rotated_box = Rectangle.from({x: 0, y: 0}, Vector2.transform(Vector2.sub(this.prototype.size, {x: -1, y: -1}),
-        Transform.rotation((4 - this.instance.rotation) % 4)))
+      const origin_correction =
+        Rectangle.bottomLeft(Rectangle.from({x: 0, y: 0}, Vector2.transform(Vector2.sub(this.prototype.size, {x: 1, y: 1}), Transform.rotation((4 - this.instance.rotation) % 4))))
 
       return TileTransform.chain(
         rotation,
         TileTransform.translation(
-          Vector2.sub(Rectangle.bottomLeft(rotated_box), this.instance.position),
+          Vector2.neg(Vector2.add(origin_correction, this.instance.position)),
           -this.instance.position.level
         ),
       )

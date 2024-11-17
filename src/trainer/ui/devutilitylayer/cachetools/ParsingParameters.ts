@@ -324,7 +324,7 @@ export namespace ParsingParameter {
     }
 
     export function translate(instance: PrototypeInstance, area: Area): TileArea {
-      if(!area) return null
+      if (!area) return null
 
       switch (area.type) {
         case "absolute":
@@ -369,7 +369,7 @@ export namespace ParsingParameter {
             this.update_render()
           }
 
-          private act(type: "offset" | "relativefixed" | "absolutefixed" | "originonly") {
+          private startAction(type: "offset" | "relativefixed" | "absolutefixed" | "originonly"): void {
             const editor = this
 
             if (type == "offset") {
@@ -462,7 +462,7 @@ export namespace ParsingParameter {
 
             this.control.empty().append(hboxl(
               this.wip_value
-                ? span(`${this.wip_value.tiles.length} tiles [${(this.wip_value.relative ? "rel" : "abs") + this.wip_value.origin_only ? ", org" : ""}]`)
+                ? span(`${this.wip_value.tiles.length} tiles [${(this.wip_value.relative ? "rel" : "abs") + (this.wip_value.origin_only ? ", org" : "")}]`)
                 : span(`+${offset.x} | ${offset.y} | ${offset.level}`),
               spacer(),
               this.interaction ?
@@ -486,13 +486,13 @@ export namespace ParsingParameter {
                 : new ButtonRow()
                   .buttons(
                     new LightButton("Off")
-                      .onClick(() => this.act("offset")),
+                      .onClick(() => this.startAction("offset")),
                     new LightButton("Rel")
-                      .onClick(() => this.act("relativefixed")),
+                      .onClick(() => this.startAction("relativefixed")),
                     new LightButton("Abs")
-                      .onClick(() => this.act("absolutefixed")),
+                      .onClick(() => this.startAction("absolutefixed")),
                     new LightButton("Ori")
-                      .onClick(() => this.act("originonly")),
+                      .onClick(() => this.startAction("originonly")),
 
                     new LightButton("")
                       .append(NislIcon.delete())

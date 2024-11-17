@@ -133,12 +133,12 @@ export namespace PathStepHeader {
         break;
       case "transport":
         let shortcut = step.internal
-        let action = shortcut.actions[0]
+        let action = shortcut.actions?.[0]
 
         icon.append(img(CursorType.meta(step.internal.actions[0].cursor).icon_url))
 
         content.append(
-          action.name, " ",
+          action.name ?? "", " ",
           entity(shortcut.entity)
         )
 

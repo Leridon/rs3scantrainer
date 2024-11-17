@@ -17,6 +17,19 @@ export namespace Changelog {
   }
 
   export const log: LogEntry[] = lodash.sortBy<LogEntry>([{
+    version: 19,
+    date: new Date(Date.parse("2024-11-17")),
+    silent: true,
+    title: "Internal Tooling Fixes",
+    render: layout => {
+      layout
+        .row(new List()
+          .item("Fixed a math bug causing tile transforms for entity instances to be broken.")
+          .item("Added a filter safeguard to remove entity transports with zero actions.")
+          .item("Updated the tile collision data.")
+        )
+    }
+  }, {
     version: 18,
     date: new Date(Date.parse("2024-11-17")),
     title: "Clue Reader Bugfix",

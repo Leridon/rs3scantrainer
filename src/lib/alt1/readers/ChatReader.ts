@@ -5,7 +5,6 @@ import {ScreenRectangle} from "../ScreenRectangle";
 import {OCR} from "../OCR";
 import {ColortTriplet} from "alt1/ocr";
 import {async_lazy} from "../../properties/Lazy";
-import {defaultcolors} from "alt1/chatbox";
 import * as a1lib from "alt1";
 import {Log} from "../../util/Log";
 import {ChatboxFinder} from "./chatreader/ChatboxFinder";
@@ -141,18 +140,25 @@ export namespace ChatReader {
     export const instance = async_lazy<ChatIcons>(async () => {
 
       return [
-        {image: await NeedleImage.fromURL("alt1anchors/chat/icons/badgevip.data.png"), character: "\u2730"}, //SHADOWED WHITE STAR
-        {image: await NeedleImage.fromURL("alt1anchors/chat/icons/badgepmod.data.png"), character: "\u2655"}, //WHITE CHESS QUEEN
-        {image: await NeedleImage.fromURL("alt1anchors/chat/icons/badgepmodvip.data.png"), character: "\u2655"}, //WHITE CHESS QUEEN
+        {image: await NeedleImage.fromURL("alt1anchors/chat/icons/badge_broadcast_bronze.data.png"), character: "\u2746"}, //HEAVY CHEVRON SNOWFLAKE
         {image: await NeedleImage.fromURL("alt1anchors/chat/icons/badge_broadcast_gold.data.png"), character: "\u2746"}, //HEAVY CHEVRON SNOWFLAKE
         {image: await NeedleImage.fromURL("alt1anchors/chat/icons/badge_broadcast_silver.data.png"), character: "\u2746"}, //HEAVY CHEVRON SNOWFLAKE
-        {image: await NeedleImage.fromURL("alt1anchors/chat/icons/badge_broadcast_bronze.data.png"), character: "\u2746"}, //HEAVY CHEVRON SNOWFLAKE
-        {image: await NeedleImage.fromURL("alt1anchors/chat/icons/badgeironman.data.png"), character: "\u26AF"}, //UNMARRIED PARTNERSHIP SYMBOL
-        {image: await NeedleImage.fromURL("alt1anchors/chat/icons/badgehcim.data.png"), character: "\u{1F480}"}, //SKULL
         {image: await NeedleImage.fromURL("alt1anchors/chat/icons/badge_hcimdeath.png"), character: "\u{1F480}"}, //SKULL
+        {image: await NeedleImage.fromURL("alt1anchors/chat/icons/badgegim.data.png"), character: "\u3289"}, //CIRCLED IDEOGRAPH TEN
+        {image: await NeedleImage.fromURL("alt1anchors/chat/icons/badgehcim.data.png"), character: "\u{1F480}"}, //SKULL
+        {image: await NeedleImage.fromURL("alt1anchors/chat/icons/badgeironman.data.png"), character: "\u26AF"}, //UNMARRIED PARTNERSHIP SYMBOL
+        {image: await NeedleImage.fromURL("alt1anchors/chat/icons/badgepmod.data.png"), character: "\u2655"}, //WHITE CHESS QUEEN
+        {image: await NeedleImage.fromURL("alt1anchors/chat/icons/badgepmodvip.data.png"), character: "\u2655"}, //WHITE CHESS QUEEN
+        {image: await NeedleImage.fromURL("alt1anchors/chat/icons/badgergim.data.png"), character: "\u328F"}, //CIRCLED IDEOGRAPH EARTH
+        {image: await NeedleImage.fromURL("alt1anchors/chat/icons/badgevip.data.png"), character: "\u2730"}, //SHADOWED WHITE STAR
         {image: await NeedleImage.fromURL("alt1anchors/chat/icons/chat_link.data.png"), character: "\u{1F517}"}, //LINK SYMBOL
+        {image: await NeedleImage.fromURL("alt1anchors/chat/chatbubble.png"), character: "\u{1F5E8}"}, // Left Speech Bubble
       ]
     })
+
+    export const ironman_icons = [
+      "\u{1F480}", "\u26AF", "\u3289", "\u328F"
+    ]
   }
 
   import index = util.index;
@@ -199,7 +205,6 @@ export namespace ChatReader {
       };
 
       const read_icon = (): boolean => {
-
         for (const addspace of [true, false]) {
           const badgeleft = scan_x + (addspace ? fodef.spacewidth : 0)
 

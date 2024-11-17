@@ -337,7 +337,7 @@ export class BroadcastReaderApp extends Behaviour {
         this.renderDetections()
       })
 
-      this.chatreader = new ChatReader(this.capture_service)
+      this.chatreader = new ChatReader(this.capture_service).setDebugEnabled()
 
       this.chatreader.new_message.on(message => {
         if (!this.buffer) return
@@ -347,11 +347,10 @@ export class BroadcastReaderApp extends Behaviour {
 
         console.log(message.text)
 
-        const match = message.text.match("\u2746News: [\u26AF\u{1F480}]?(.*) comp[il]eted a Treasure Trai[il] and received(( a)|( an))? (.*)!")
+        const match = message.text.match("\u2746News: [\u{1F480}\u26AF\u3289\u328F]?(.*) comp[il]eted a Treasure Trai[il] and received(( a)|( an))? (.*)!")
 
         // Discard messages not matching any
         if (!match) {
-          console.log("Does not match regex")
           return
         }
 

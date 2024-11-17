@@ -2,11 +2,12 @@ import {Finder} from "../../capture/Finder";
 import {CapturedImage} from "../../capture";
 import {ScreenRectangle} from "../../ScreenRectangle";
 import {Vector2} from "../../../math";
-import {OCR} from "../../OCR";
 import {async_lazy, lazy} from "../../../properties/Lazy";
 import * as lodash from "lodash";
 import {CapturedChatbox} from "./CapturedChatbox";
 import {ChatAnchors} from "./ChatAnchors";
+import {OverlayGeometry} from "../../OverlayGeometry";
+
 
 export class ChatboxFinder implements Finder<CapturedChatbox[]> {
 
@@ -16,7 +17,6 @@ export class ChatboxFinder implements Finder<CapturedChatbox[]> {
   }
 
   find(img: CapturedImage): CapturedChatbox[] {
-
     const trs: { capture: ScreenRectangle, expanded: boolean }[] = [
       ...img.findNeedle(this.needles.tr_minus).map(img => ({capture: img.screen_rectangle, expanded: true})),
       ...img.findNeedle(this.needles.tr_plus).map(img => ({capture: img.screen_rectangle, expanded: false})),
@@ -24,15 +24,19 @@ export class ChatboxFinder implements Finder<CapturedChatbox[]> {
 
     if (trs.length == 0) return []
 
+    const initial_bubbles = img.findNeedle(this.needles.chatbubble)
+
     const entertochat = this.needles.entertochat
 
-    const bubbles = img.findNeedle(this.needles.chatbubble)
+    const bubbles = initial_bubbles
       .map(b => b.screen_rectangle)
       .filter(loc => {
 
         const data = img.getSubSection(ScreenRectangle.move(
           loc, {x: 102, y: 1}, {x: 33, y: 10}
         )).getData()
+
+        
 
         for (let dy = 0; dy <= 1; dy++) {
           if (data.pixelCompare(entertochat.underlying, 0, dy) != Infinity // 102 click here to chat
@@ -56,7 +60,6 @@ export class ChatboxFinder implements Finder<CapturedChatbox[]> {
 
         return false
       })
-
 
     if (bubbles.length == 0) return []
 
@@ -84,13 +87,7 @@ export class ChatboxFinder implements Finder<CapturedChatbox[]> {
     }
 
     return viable_pairs.map(pair => {
-
       if (pair.bubble.taken || pair.top_right.taken) return []
-
-      const nameline = img.getSubSection(ScreenRectangle.fromPixels(
-        Vector2.add(pair.bubble.position, {x: 9, y: -5}),
-        Vector2.add(pair.bubble.position, {x: -110, y: 15}),
-      )).getData()
 
       const nameread = null // OCR.readLine(nameline, CapturedChatbox.chatfont, [255, 255, 255], 110, 13, false, true);
 

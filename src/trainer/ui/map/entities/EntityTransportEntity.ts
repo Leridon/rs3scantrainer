@@ -96,7 +96,7 @@ export class EntityTransportEntity extends MapEntity {
 
     return {
       type: "submenu",
-      icon: CursorType.meta(shortcut.actions[0].cursor ?? "generic").icon_url,
+      icon: CursorType.meta(shortcut.actions?.[0]?.cursor ?? "generic").icon_url,
       text: () => entity(shortcut.entity),
       children: []
     }

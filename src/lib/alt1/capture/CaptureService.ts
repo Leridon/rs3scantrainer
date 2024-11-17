@@ -338,7 +338,7 @@ export class ScreenCaptureService extends AbstractCaptureService<
       start_time: number = undefined
 
       async tick(): Promise<void> {
-        if (!alt1.rsLinked) return
+        if (!window.alt1?.rsLinked) return
 
         const now = Date.now()
 

@@ -52,7 +52,7 @@ export namespace Parsing {
             try {
               const res = await parser.apply(instance, {per_loc: loc_group.per_group_arg, per_instance: per_instance_arg})
 
-              results.push(...res)
+              results.push(...res.filter(r => r.type != "entity" || r.actions.length > 0))
             } catch (e) {
               console.error(`Parser ${loc_group.parser_id} has thrown an exception!`)
               console.log(e)

@@ -57,7 +57,17 @@ export class ChatReader extends DerivedCaptureService {
       const needles = await ChatAnchors.Needles.instance.get()
       const icons = await ChatReader.ChatIcons.instance.get()
 
-      this.capture_interest = this.addDataSource(capturing, () => null)
+      this.capture_interest = this.addDataSource(capturing, (time) => {
+        const should_refind = time.time - this.search_interval > this.last_search || this.chatboxes.length == 0
+
+        if (should_refind) return null
+
+        const area = ScreenRectangle.union(...this.chatboxes.map(c => c.chatbox.body.screen_rectangle))
+
+        if (area.origin.x > 3000) debugger
+
+        return {area: ScreenRectangle.union(...this.chatboxes.map(c => c.chatbox.body.screen_rectangle)), interval: null}
+      })
 
       return {
         needles: needles,
@@ -68,10 +78,13 @@ export class ChatReader extends DerivedCaptureService {
   }
 
   processNotifications(interested_tokens: InterestedToken<AbstractCaptureService.Options, null>[]): null {
-    const capture = this.capture_interest.lastNotification().value
+    const notification = this.capture_interest.lastNotification()
+    const capture = notification.value
 
     try {
-      if (Date.now() - this.search_interval > this.last_search) {
+      if (notification.time.time - this.search_interval > this.last_search || this.chatboxes.length == 0) {
+        this.last_search = notification.time.time
+
         const current_boxes = this.initialization.get().finder.find(capture)
 
         // Remove readers that weren't found anymore
@@ -343,6 +356,7 @@ export namespace ChatReader {
     [45, 185, 20], // Green in "Completion time" for bosses
     [254, 128, 0],
     [223, 112, 0],
-    [51, 199, 20]
+    [51, 199, 20],
+    [60, 183, 30]
   ]
 }

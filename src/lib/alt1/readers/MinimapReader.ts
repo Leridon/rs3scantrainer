@@ -183,10 +183,13 @@ export namespace MinimapReader {
       }
 
       const square_width = (() => {
-        let counts = new Array(scan.width + 1).fill(0)
+        // We record the maximum number of consecutive white pixels per row and the respective end x-coordinate.
+        // This array contains an array of end coordinates per possible length.
+        let counts: number[][] = new Array(scan.width + 1).fill(null).map(() => [])
 
         for (let y = 0; y < scan.height; y++) {
           let max_count = 0
+          let max_count_end = 0
           let count = 0
 
           for (let x = 0; x < scan.width; x++) {
@@ -194,22 +197,35 @@ export namespace MinimapReader {
 
             if (isWhite(pixel)) count++
             else {
-              max_count = Math.max(count, max_count)
+              if (count > max_count) {
+                max_count = count
+                max_count_end = x
+              }
+
               count = 0
             }
           }
 
-          counts[max_count]++
+          if (count > max_count) {
+            max_count = count
+            max_count_end = scan.width
+          }
+
+          counts[max_count].push(max_count_end)
         }
 
-        let greater = 0
+        // If there's any row that's completely white, this can't be a valid read and is discarded
+        if (counts[counts.length - 1].length > 0) return null
 
-        for (let i = counts.length - 1; i >= 0; i--) {
-          greater += counts[i]
-
-          if (greater >= i) return i
+        for (let i = 3; i <= 10; i++) {
+          if (counts[i].length == i && counts[i].every(e => e == counts[i][0])) return i
         }
+
+        return null
       })()
+
+      // Invalid reads are discarded
+      if (square_width == null || square_width > 11 || square_width < 3) return null
 
       // Scaling is nonlinear.
       // Count = 10 -> 26 ppt   (scale = 6.5)
@@ -224,7 +240,11 @@ export namespace MinimapReader {
     })
 
     pixelPerTile(): number {
-      return this.scale.get() * 4
+      const scale = this.scale.get()
+
+      if (scale == null) return null
+
+      return scale * 4
     }
   }
 

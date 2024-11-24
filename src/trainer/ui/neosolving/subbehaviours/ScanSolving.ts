@@ -18,6 +18,8 @@ export namespace ScanSolving {
     private minimap_overlay: OverlayGeometry = over()
     private range: number = 10
 
+    private last_known_ppt = null
+
     constructor(private minimapreader: MinimapReader) {
       super()
     }
@@ -34,8 +36,14 @@ export namespace ScanSolving {
 
             this.minimap_overlay.clear()
 
+
             if (value.value) {
-              const scale = (this.range * 2 + 1) * value.value.pixelPerTile() / 2
+              this.last_known_ppt = value.value.pixelPerTile() ?? this.last_known_ppt
+
+              // If there's no known pixels per tile value, abort
+              if(this.last_known_ppt == null) return
+
+              const scale = (this.range * 2 + 1) * this.last_known_ppt / 2
 
               const transform =
                 Transform.chain(

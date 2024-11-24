@@ -423,7 +423,6 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
   }
 
   tick(capture: CapturedImage): Promise<void> {
-    console.log(`tick${capture.capture.timestamp}`)
     const read_result = this.read(capture)
 
     if (read_result.result.match_score < SlideReader.DETECTION_THRESHOLD_SCORE) {
@@ -434,6 +433,10 @@ class SliderGuideProcess extends AbstractPuzzleProcess {
     const frame_state = read_result.state
 
     if (!this.active_solving_process && !this.solution) {
+
+      // Don't try to solve solved configurations - It's likely just the user hovering over 'Hint'
+      if (SliderState.equals(frame_state, SliderState.SOLVED)) return
+
       this.initial_state = frame_state
 
       this.active_solving_process = {

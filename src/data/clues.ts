@@ -3523,7 +3523,7 @@ export namespace clue_data {
       "type": "cryptic",
       "tier": "medium",
       "text": ["Don't skip here, it's too muddy. You'll feel like a star if you dig here, though."],
-      "solution": {"type": "dig", "spot": {"x": 3000, "y": 3110, "level": 0}, "description": "on top of the shellfish"}
+      "solution": {"type": "dig", "spot": {"x": 3000, "y": 3110, "level": 0}, "description": "on top of the starfish"}
     }, {
       "id": 205,
       "type": "cryptic",

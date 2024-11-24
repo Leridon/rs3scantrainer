@@ -26,6 +26,7 @@ export namespace Changelog {
         .row(new List()
           .item("Reduced erratic behaviour of the scan range minimap overlay in snowy areas.")
           .item("Fixed a bug that caused the slider solver to crash when hovering the 'Hint' button immediately after opening the puzzle.")
+          .item("Fixed a critical typo that confused two very distinct types of aquatic creatures in a medium clue.")
         )
     }
   }, {

@@ -17,6 +17,19 @@ export namespace Changelog {
   }
 
   export const log: LogEntry[] = lodash.sortBy<LogEntry>([{
+    version: 20,
+    date: new Date(Date.parse("2024-11-25")), // TODO: Add date
+    silent: true,
+    title: "Bugfixes",
+    render: layout => {
+      layout
+        .row(new List()
+          .item("Reduced erratic behaviour of the scan range minimap overlay in snowy areas.")
+          .item("Fixed a bug that caused the slider solver to crash when hovering the 'Hint' button immediately after opening the puzzle.")
+          .item("Fixed a critical typo that confused two very distinct types of aquatic creatures in a medium clue.")
+        )
+    }
+  }, {
     version: 19,
     date: new Date(Date.parse("2024-11-17")),
     silent: true,

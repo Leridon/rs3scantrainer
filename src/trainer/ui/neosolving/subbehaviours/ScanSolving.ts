@@ -7,6 +7,7 @@ import {MinimapReader} from "../../../../lib/alt1/readers/MinimapReader";
 import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
 import {Transform, Vector2} from "../../../../lib/math";
 import {util} from "../../../../lib/util/util";
+import {deps} from "../../../dependencies";
 
 export namespace ScanSolving {
 
@@ -24,6 +25,8 @@ export namespace ScanSolving {
     }
 
     protected begin() {
+      if (!deps().app.in_alt1) return
+
       this.lifetime_manager.bind(
         this.minimap_interest = this.minimapreader.subscribe({
           options: (time: AbstractCaptureService.CaptureTime) => ({
@@ -73,6 +76,8 @@ export namespace ScanSolving {
     }
 
     protected end() {
+      if (!deps().app.in_alt1) return
+      
       this.minimap_overlay?.clear()?.render()
     }
 

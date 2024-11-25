@@ -37,9 +37,7 @@ export abstract class NeoSolvingSubBehaviour<State extends NeoSolving.ActiveStat
       debugger
     }
 
-    log().log(`Setting clue solution to ${area.size?.x ?? 1}x${area.size?.y ?? 1} at ${TileCoordinates.toString(area.origin)}`, "Solving")
-
-    this._state.solution_area = area
+    this.parent.setSolutionArea(this._state, area)
   }
 
   /**

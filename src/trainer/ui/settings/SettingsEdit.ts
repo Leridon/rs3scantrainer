@@ -1247,7 +1247,7 @@ class CompassSettingsEdit extends Widget {
     this.layout.setting(new Checkbox("Use solution of previous step")
         .onCommit(v => this.value.use_previous_solution_as_start = v)
         .setValue(this.value.use_previous_solution_as_start),
-      "When active, the solution of the previous clue step is used as the first triangulation spot and the initially read compass angle is immediately committed. Only applies to elite compasses and only uses the solution of scans if you follow the scan tree to a point where the remaining spots are in a reasonably small rectangle."
+      "When active, the solution of the previous clue step is used as the first triangulation spot and the initially read compass angle is immediately committed. Only uses the solution of scans if you follow the scan tree to a point where the remaining spots are in a reasonably small rectangle."
     )
 
     this.layout.setting(new Checkbox("Invert preset sequence")

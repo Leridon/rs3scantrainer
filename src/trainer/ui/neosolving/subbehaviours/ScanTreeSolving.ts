@@ -196,7 +196,7 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
 
     this.registerSolution(
       TileArea.fromRect(
-        TileRectangle.from(...node.remaining_candidates)
+        TileRectangle.extend(TileRectangle.from(...node.remaining_candidates), 1)
       )
     )
 

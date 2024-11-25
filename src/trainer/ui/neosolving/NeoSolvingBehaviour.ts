@@ -62,6 +62,10 @@ import notification = Notification.notification;
 import activate = TileArea.activate;
 import ClueSpot = Clues.ClueSpot;
 import log = Log.log;
+import {Transportation} from "../../../lib/runescape/transportation";
+import defaultInteractiveArea = Transportation.EntityTransportation.defaultInteractiveArea;
+import default_interactive_area = Transportation.EntityTransportation.default_interactive_area;
+import digSpotArea = Clues.digSpotArea;
 
 class NeoSolvingLayer extends GameLayer {
   public control_bar: NeoSolvingLayer.MainControlBar
@@ -392,7 +396,6 @@ export default class NeoSolvingBehaviour extends Behaviour {
       log().log(`Activating subbehaviour: ${behaviour.constructor.name}`, "Solving")
     }
 
-
     this.active_behaviour.set(behaviour)
   }
 
@@ -445,7 +448,10 @@ export default class NeoSolvingBehaviour extends Behaviour {
       }
     }
 
+    const next_id = this.history.length > 0 ? this.history[this.history.length - 1].state_id + 1 : 0
+
     this.state = {
+      state_id: next_id,
       step: state,
       start_time: now,
       read_result: read_result,
@@ -453,7 +459,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
       solution_area: undefined
     }
 
-    log().log(`Changed state to ${NeoSolving.ActiveState.title(this.state)}`, "Solving")
+    log().log(`Changed state ${this.state.state_id} (${NeoSolving.ActiveState.title(this.state)})`, "Solving")
 
     this.history.push(this.state)
 
@@ -485,6 +491,14 @@ export default class NeoSolvingBehaviour extends Behaviour {
     return true
   }
 
+  setSolutionArea(state: NeoSolving.ActiveState, area: TileArea): void {
+    if (!state) return
+
+    log().log(`Setting clue solution (state ${state.state_id}) to ${area.size?.x ?? 1}x${area.size?.y ?? 1} at ${TileCoordinates.toString(area.origin)}`, "Solving")
+
+    state.solution_area = area
+  }
+
   /**
    * Sets the active clue. Builds the ui elements and moves the map view to the appropriate spot.
    *
@@ -505,7 +519,26 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
     this.reset(this.state)
 
-    this.pushState({type: "clue", clue: step}, read_result)
+    const state = this.pushState({type: "clue", clue: step}, read_result)
+
+    switch (step.step.solution?.type) {
+      case "search":
+        this.setSolutionArea(state, default_interactive_area(step.step.solution.spot))
+        break;
+      case "dig":
+        this.setSolutionArea(state, digSpotArea(step.step.solution.spot))
+        break;
+      case "talkto":
+        if (step.step.solution.spots.length == 1) {
+          this.setSolutionArea(state, step.step.solution.spots[0].range)
+        }
+        break;
+    }
+
+    if (step.step.type == "anagram") {
+      step.step.solution.spots
+    }
+
 
     const settings = this.app.settings.settings.solving
 
@@ -811,8 +844,6 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
       this.activateSubBehaviour(behaviour)
     }
-
-    this.setMethod(null)
   }
 
   /**
@@ -881,11 +912,11 @@ export default class NeoSolvingBehaviour extends Behaviour {
         this.path_control.setMethod(method as AugmentedMethod<GenericPathMethod>)
       }
     } else {
-      if (read_result?.type == "scan" && clue.type == "scan") {
+      if (clue.type == "scan") {
         // When deselecting the active scan tree, zoom to the spots
         if (active_behaviour instanceof ScanTreeSolving) this.layer.fit(TileRectangle.from(...clue.spots))
 
-        const behaviour = new SimpleScanSolving(this, clue, read_result.scan_interface)
+        const behaviour = new SimpleScanSolving(this, clue, read_result?.type == "scan" ? read_result.scan_interface : null)
 
         this.activateSubBehaviour(behaviour)
       }
@@ -955,6 +986,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
 export namespace NeoSolving {
   export type ActiveState = {
+    state_id: number,
     step: {
       type: "puzzle",
       puzzle: ClueReader.Result.Puzzle.Puzzle
@@ -985,7 +1017,7 @@ export namespace NeoSolving {
               return "Unknown Puzzle"
           }
         case "clue":
-          return `${capitalize(state.step.clue.step.type)} (${state.step.clue.step.id})`
+          return `${capitalize(state.step.clue.step.type)} id ${state.step.clue.step.id}`
 
       }
     }

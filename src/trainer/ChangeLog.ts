@@ -17,6 +17,19 @@ export namespace Changelog {
   }
 
   export const log: LogEntry[] = lodash.sortBy<LogEntry>([{
+    version: 22,
+    date: new Date(Date.parse("2024-11-25")),
+    title: "Fixes for the 'Use solution of previous step' option.",
+    render: layout => {
+      layout
+        .row(new List()
+          .item("Fixed that scans not using a scan tree method would not act as expected with regards to the 'Use solution of previous step' option for compasses.")
+          .item("Regular text clues will now also provide their solutions for the 'Use solution of previous step' option for compasses.", new List()
+            .item("This only really benefits the O EASTERN WISHES master clue."))
+          .item("Fixed a bug that could cause crashes when examining scan tree methods outside of Alt1.")
+        )
+    }
+  }, {
     version: 21,
     date: new Date(Date.parse("2024-11-25")),
     silent: true,

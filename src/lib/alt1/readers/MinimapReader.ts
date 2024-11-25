@@ -218,7 +218,9 @@ export namespace MinimapReader {
         if (counts[counts.length - 1].length > 0) return null
 
         for (let i = 3; i <= 10; i++) {
-          if (counts[i].length == i && counts[i].every(e => e == counts[i][0])) return i
+          const delta = counts[i].length - i
+
+          if ((delta == 0 || delta == 1) && counts[i].every(e => e == counts[i][0])) return counts[i].length
         }
 
         return null

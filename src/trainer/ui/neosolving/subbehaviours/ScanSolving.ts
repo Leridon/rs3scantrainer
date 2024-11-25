@@ -18,7 +18,6 @@ export namespace ScanSolving {
     private minimap_overlay: OverlayGeometry = over()
     private range: number = 10
 
-    private last_known_ppt = null
 
     constructor(private minimapreader: MinimapReader) {
       super()
@@ -38,12 +37,12 @@ export namespace ScanSolving {
 
 
             if (value.value) {
-              this.last_known_ppt = value.value.pixelPerTile() ?? this.last_known_ppt
+              ScanMinimapOverlay.last_known_ppt = value.value.pixelPerTile() ?? ScanMinimapOverlay.last_known_ppt
 
               // If there's no known pixels per tile value, abort
-              if(this.last_known_ppt == null) return
+              if (ScanMinimapOverlay.last_known_ppt == null) return
 
-              const scale = (this.range * 2 + 1) * this.last_known_ppt / 2
+              const scale = (this.range * 2 + 1) * ScanMinimapOverlay.last_known_ppt / 2
 
               const transform =
                 Transform.chain(
@@ -81,6 +80,11 @@ export namespace ScanSolving {
       this.range = range
       return this
     }
+  }
+
+  export namespace ScanMinimapOverlay {
+
+    export let last_known_ppt: number = 4 // Assume mimimum minimap zoom by default
   }
 
   export type Simple = SimpleScanSolving

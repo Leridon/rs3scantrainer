@@ -17,9 +17,19 @@ export namespace Changelog {
   }
 
   export const log: LogEntry[] = lodash.sortBy<LogEntry>([{
-    version: 20,
-    date: new Date(Date.parse("2024-11-25")), // TODO: Add date
+    version: 21,
+    date: new Date(Date.parse("2024-11-25")),
     silent: true,
+    title: "Fixing the Bugfix",
+    render: layout => {
+      layout
+        .row(new List()
+          .item("Added more error resilience to the minimap zoom detection, which caused the minimap overlay to not appear at all.")
+        )
+    }
+  }, {
+    version: 20,
+    date: new Date(Date.parse("2024-11-25")),
     title: "Bugfixes",
     render: layout => {
       layout

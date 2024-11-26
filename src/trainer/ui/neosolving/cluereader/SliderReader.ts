@@ -248,10 +248,10 @@ export namespace SlideReader {
 
   const reference_sliders: LazyAsync<Record<string, Sliders.SliderPuzzle>> = async_lazy<Record<string, SliderPuzzle>>(async () => {
     const themes = ["adventurer", "araxxor", "archers", "black_dragon", "bridge", "castle", "clan_citadel", "corporeal_beast", "drakan_bloodveld",
-      "elves", "general_graardor", "gregorovic", "helwyr", "ice_strykewyrm", "menaphos_pharaoh", "nomad", "nymora", "sword_of_edicts", "tree", "troll", "tuska", "v", "vanstrom_klause", "werewolf", "wizard", "wyvern"
+      "elves", "general_graardor", "gregorovic", "helwyr", "ice_strykewyrm", "menaphos_pharaoh", "nomad", "nymora", "seal", "sword_of_edicts", "tree", "troll", "tuska", "v", "vanstrom_klause", "werewolf", "wizard", "wyvern"
     ]
 
-    const unused_themes = ["seal"]
+    const unused_themes = []
 
     return Object.fromEntries(await Promise.all(themes.map(async theme => {
       return [theme, parseSliderImage(await ImageDetect.imageDataFromUrl(getThemeImageUrl(theme)),

@@ -17,6 +17,16 @@ export namespace Changelog {
   }
 
   export const log: LogEntry[] = lodash.sortBy<LogEntry>([{
+    version: 23, 
+    date: new Date(Date.parse("2024-11-26")),
+    title: "Seal Slider Fix", 
+    render: layout => {
+      layout
+      .row(new List() 
+        .item("Enabled support for the seal slider image used to free Mephisto in the Infernal Source.")
+      )
+    }
+  }, {
     version: 22,
     date: new Date(Date.parse("2024-11-25")),
     title: "Fixes for the 'Use solution of previous step' option.",

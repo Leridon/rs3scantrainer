@@ -462,12 +462,12 @@ class TeleportSettingsEdit extends Widget {
 }
 
 class ScanSettingsEdit extends Widget {
-  private layout: Properties
+  private layout: SettingsLayout
 
   constructor(private value: ScanSolving.Settings) {
     super()
 
-    this.layout = new Properties().appendTo(this)
+    this.layout = new SettingsLayout().appendTo(this)
 
     this.render()
   }
@@ -475,16 +475,46 @@ class ScanSettingsEdit extends Widget {
   render() {
     this.layout.empty()
 
-    this.layout.header("Show scan range overlay on minimap ...", "left")
-    this.layout.row(new Checkbox("... when using a scan tree")
+    this.layout.section("Minimap Scan Range Overlay", "The scan range overlay shows a square around the center of your minimap visualizing your current scan range. ")
+
+    this.layout.row(new Checkbox("Show when using a scan tree")
       .onCommit(v => this.value.show_minimap_overlay_scantree = v)
       .setValue(this.value.show_minimap_overlay_scantree)
     )
 
-    this.layout.row(new Checkbox("... when not using a scan tree")
+    this.layout.row(new Checkbox("Show when not using a scan tree")
       .onCommit(v => this.value.show_minimap_overlay_simple = v)
       .setValue(this.value.show_minimap_overlay_simple)
     )
+
+    this.layout.setting("Minimap Overlay Scaling", "Choose how to scale the scan range overlay to fit your minimap zoom.")
+
+    const automated_checkbox = new Checkbox("Automatic (Experimental)", "radio")
+    const manual_checkbox = new Checkbox("Manual", "radio")
+    const manual_slider = new NumberSlider(3, 30, 0.5)
+
+    const group = new Checkbox.Group([
+      {button: automated_checkbox, value: true},
+      {button: manual_checkbox, value: false},
+    ])
+      .onChange(v => {
+        this.value.minimap_overlay_automated_zoom_detection = v
+
+        manual_slider.setEnabled(!v)
+      })
+      .setValue(this.value.minimap_overlay_automated_zoom_detection)
+
+    this.layout.setting(automated_checkbox, "Tries to detect minimap zoom automatically. Has known issues in snowy areas and other edge cases causing the scale to behave inconsistently.")
+    this.layout.setting(manual_checkbox, "Manually select a scaling.")
+
+    this.layout.namedSetting("Value", manual_slider
+        .setEnabled(!this.value.minimap_overlay_automated_zoom_detection)
+        .onCommit(v => this.value.minimap_overlay_zoom_manual_ppt = v)
+        .setValue(this.value.minimap_overlay_zoom_manual_ppt),
+      "Select the appropriate pixels per tile for your device and minimap zoom level. May require some experimentation to get right. For fully zoomed out minimaps, the value is around 4."
+    )
+
+
   }
 }
 

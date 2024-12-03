@@ -176,6 +176,12 @@ export default class Widget<T extends HTMLElement = HTMLElement> {
 
     return this
   }
+
+  setProperty(name: string, value: boolean): this {
+    if (value) this._raw.setAttribute(name, "")
+    else this._raw.removeAttribute(name)
+    return this
+  }
 }
 
 declare global {

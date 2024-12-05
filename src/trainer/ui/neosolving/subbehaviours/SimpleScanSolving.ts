@@ -21,8 +21,8 @@ export class SimpleScanSolving extends NeoSolvingSubBehaviour {
 
     this.settings = deps().app.settings.settings.solving.scans
 
-    if (this.settings.show_minimap_overlay_simple && this.original_interface_capture) {
-      this.minimap_overlay = this.withSub(new ScanMinimapOverlay(this.parent.app.minimapreader).setRange(Scans.range(clue, this.original_interface_capture.hasMeerkats())))
+    if (this.original_interface_capture) {
+      this.minimap_overlay = this.withSub(new ScanMinimapOverlay(this.parent.app.minimapreader, parent.app.settings.observable_settings.map(s => s.solving.scans).structuralEquality(), "manual").setRange(Scans.range(clue, this.original_interface_capture.hasMeerkats())))
     }
   }
 

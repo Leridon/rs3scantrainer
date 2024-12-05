@@ -507,11 +507,11 @@ class ScanSettingsEdit extends Widget {
     this.layout.setting(automated_checkbox, "Tries to detect minimap zoom automatically. Has known issues in snowy areas and other edge cases causing the scale to behave inconsistently.")
     this.layout.setting(manual_checkbox, "Manually select a scaling.")
 
-    this.layout.namedSetting("Value", manual_slider
+    this.layout.namedSetting("Scale", manual_slider
         .setEnabled(!this.value.minimap_overlay_automated_zoom_detection)
         .onCommit(v => this.value.minimap_overlay_zoom_manual_ppt = v)
         .setValue(this.value.minimap_overlay_zoom_manual_ppt),
-      "Select the appropriate pixels per tile for your device and minimap zoom level. May require some experimentation to get right. For fully zoomed out minimaps, the value is around 4."
+      "Select the appropriate pixels per tile for your device and minimap zoom level. May require some experimentation to get right. For fully zoomed out minimaps, the value is around 4. Note that overlays sometimes undergo additional scaling by your operating system, so the actual visible pixels per tile may be higher than the value set here."
     )
 
 

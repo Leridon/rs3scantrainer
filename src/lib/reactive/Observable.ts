@@ -45,6 +45,11 @@ export namespace Observable {
       return this
     }
 
+    structuralEquality(): this {
+      this.equality(lodash.isEqual)
+      return this
+    }
+
     value(): T {
       return this._value;
     }

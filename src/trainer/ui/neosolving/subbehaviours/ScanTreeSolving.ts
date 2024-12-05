@@ -33,7 +33,7 @@ import cls = C.cls;
 import Order = util.Order;
 import span = C.span;
 import spotNumber = ScanTree.spotNumber;
-import over = OverlayGeometry.over;
+
 import index = util.index;
 import AsyncInitialization = util.AsyncInitialization;
 import async_init = util.async_init;
@@ -46,7 +46,6 @@ class ScanCaptureService extends DerivedCaptureService<ScanCaptureService.Option
 
   constructor(private capture_service: ScreenCaptureService, private original_captured_interface: CapturedScan | null) {
     super()
-
 
     this.capture_interest = this.addDataSource(capture_service, () => {
       return {
@@ -94,7 +93,6 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
   private minimap_overlay: ScanMinimapOverlay
 
   tree_widget: Widget
-  private scan_interface_overlay = over()
 
   private scan_capture_service: ScanCaptureService
   private scan_capture_interest: AbstractCaptureService.InterestToken<ScanCaptureService.Options, CapturedScan>
@@ -108,7 +106,7 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
     this.settings = deps().app.settings.settings.solving.scans
 
     if (this.settings.show_minimap_overlay_scantree) {
-      this.minimap_overlay = this.withSub(new ScanMinimapOverlay(this.parent.app.minimapreader).setRange(this.method.method.tree.assumed_range))
+      this.minimap_overlay = this.withSub(new ScanMinimapOverlay(this.parent.app.minimapreader, parent.app.settings.observable_settings.map(s => s.solving.scans).structuralEquality(), "scantree").setRange(this.method.method.tree.assumed_range))
     }
 
     this.augmented = ScanTree.Augmentation.basic_augmentation(method.method.tree, method.clue)

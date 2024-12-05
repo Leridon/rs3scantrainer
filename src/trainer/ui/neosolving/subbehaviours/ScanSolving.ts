@@ -8,6 +8,7 @@ import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
 import {Transform, Vector2} from "../../../../lib/math";
 import {util} from "../../../../lib/util/util";
 import {deps} from "../../../dependencies";
+import {Observable} from "../../../../lib/reactive";
 
 export namespace ScanSolving {
 
@@ -20,7 +21,9 @@ export namespace ScanSolving {
     private range: number = 10
 
 
-    constructor(private minimapreader: MinimapReader) {
+    constructor(private minimapreader: MinimapReader,
+                private settings: Observable<ScanSolving.Settings>,
+                private role: "scantree" | "manual") {
       super()
     }
 
@@ -36,11 +39,17 @@ export namespace ScanSolving {
           handle: (value: AbstractCaptureService.TimedValue<MinimapReader.CapturedMinimap>) => {
             const minimap = value.value
 
+            const settings = this.settings.value()
+
             this.minimap_overlay.clear()
 
-
-            if (value.value) {
-              ScanMinimapOverlay.last_known_ppt = value.value.pixelPerTile() ?? ScanMinimapOverlay.last_known_ppt
+            if (value.value
+              && ((this.role == "scantree" && settings.show_minimap_overlay_scantree) || (this.role == "manual" && settings.show_minimap_overlay_simple)
+              )) {
+              ScanMinimapOverlay.last_known_ppt =
+                settings.minimap_overlay_automated_zoom_detection
+                  ? value.value.pixelPerTile() ?? ScanMinimapOverlay.last_known_ppt
+                  : settings.minimap_overlay_zoom_manual_ppt
 
               // If there's no known pixels per tile value, abort
               if (ScanMinimapOverlay.last_known_ppt == null) return

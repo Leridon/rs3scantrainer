@@ -17,14 +17,30 @@ export namespace Changelog {
   }
 
   export const log: LogEntry[] = lodash.sortBy<LogEntry>([{
-    version: 23, 
-    date: new Date(Date.parse("2024-11-26")),
-    title: "Seal Slider Fix", 
+    version: 24,
+    date: new Date(Date.parse("2024-12-05")),
+    title: "Scan Overlay Updates",
     render: layout => {
       layout
-      .row(new List() 
-        .item("Enabled support for the seal slider image used to free Mephisto in the Infernal Source.")
-      )
+        .row(new List()
+          .item("Added a second minimap overlay for the double ping range in addition to the triple ping range on scans.")
+          .item("The double and triple ping range can be toggled on/off independently from each other.")
+          .item("Added an option to manually select the minimap scaling instead of trying to automatically detect it.", new List()
+            .item("This is the new default because automatic zoom detection has some serious flaws.")
+            .item("Automatic zoom detection will remain as an experimental feature.")
+          )
+        )
+        .paragraph("Next monday, the update to slider puzzles will release. To quickly evaluate the effects of this change, we need the appropriate crowd-sourced data. Crowdsourcing is powered by users of Clue Trainer that opt in for data collection available in the 'Crowdsourcing' section in the settings.")
+    }
+  }, {
+    version: 23,
+    date: new Date(Date.parse("2024-11-26")),
+    title: "Seal Slider Fix",
+    render: layout => {
+      layout
+        .row(new List()
+          .item("Enabled support for the seal slider image used to free Mephisto in the Infernal Source.")
+        )
     }
   }, {
     version: 22,

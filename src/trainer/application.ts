@@ -217,19 +217,23 @@ const DEBUG_SIMULATE_INALT1 = false
 export class SettingsManagement {
   public readonly storage = new storage.Variable<Settings.Settings>("preferences/settings", () => null)
 
+  settings: Settings.Settings
+  observable_settings: Observable.Simple<Settings.Settings> = observe<Settings.Settings>(null).equality(lodash.isEqual)
   active_teleport_customization: Observable<ActiveTeleportCustomization> = observe(null).equality(lodash.isEqual)
 
   constructor() {
+    this.observable_settings.subscribe(v => {
+      this.settings = v
+      this.storage.set(v)
+      this.active_teleport_customization.set(TeleportSettings.inferActiveCustomization(v.teleport_customization))
+    })
+
     // Normalize on first load to prevent migration issues
     this.set(Settings.normalize(this.storage.get()))
   }
 
   set(settings: Settings.Settings) {
-    this.settings = settings
-
-    this.storage.set(settings)
-
-    this.active_teleport_customization.set(TeleportSettings.inferActiveCustomization(settings.teleport_customization))
+    this.observable_settings.set(settings)
   }
 
   update(f: (_: Settings.Settings) => void) {
@@ -237,8 +241,6 @@ export class SettingsManagement {
     f(clone)
     this.set(clone)
   }
-
-  settings: Settings.Settings
 }
 
 class UpdateAlt1Modal extends FormModal<number> {

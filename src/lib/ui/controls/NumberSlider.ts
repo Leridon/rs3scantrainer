@@ -1,9 +1,12 @@
 import AbstractEditWidget from "../../../trainer/ui/widgets/AbstractEditWidget";
 import Widget from "../Widget";
+import {observe} from "../../reactive";
 
 export default class NumberSlider extends AbstractEditWidget<number> {
   private input: Widget
   private preview_container: Widget
+
+  enabled = observe(true)
 
   preview_function: (_: number) => string = v => v.toString()
 
@@ -12,7 +15,7 @@ export default class NumberSlider extends AbstractEditWidget<number> {
               private step: number = 1) {
     super();
 
-    this.css("display", "flex")
+    this.css("display", "flex").css("flex-grow", 1)
 
     this.append(
       this.input = c(`<input style="flex-grow: 1" type='range' min='${min}' max="${max}" step="${step}">`)
@@ -22,6 +25,14 @@ export default class NumberSlider extends AbstractEditWidget<number> {
         }),
       this.preview_container = c().css("min-width", "30px").css("margin-left", "3px")
     )
+
+    this.enabled.subscribe(v => this.input.setProperty("disabled", !v))
+  }
+
+  setEnabled(v: boolean): this {
+    this.enabled.set(v)
+
+    return this
   }
 
   withPreviewFunction(f: (_: number) => string): this {

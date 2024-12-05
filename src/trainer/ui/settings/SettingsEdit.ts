@@ -487,6 +487,16 @@ class ScanSettingsEdit extends Widget {
       .setValue(this.value.show_minimap_overlay_simple)
     )
 
+    this.layout.row(new Checkbox("Show Triple-Ping range")
+      .onCommit(v => this.value.show_triple_ping = v)
+      .setValue(this.value.show_triple_ping)
+    )
+
+    this.layout.row(new Checkbox("Show Double-Ping range")
+      .onCommit(v => this.value.show_double_ping = v)
+      .setValue(this.value.show_double_ping)
+    )
+
     this.layout.setting("Minimap Overlay Scaling", "Choose how to scale the scan range overlay to fit your minimap zoom.")
 
     const automated_checkbox = new Checkbox("Automatic (Experimental)", "radio")

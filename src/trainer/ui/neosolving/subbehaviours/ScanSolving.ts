@@ -54,15 +54,6 @@ export namespace ScanSolving {
               // If there's no known pixels per tile value, abort
               if (ScanMinimapOverlay.last_known_ppt == null) return
 
-              const scale = (this.range * 2 + 1) * ScanMinimapOverlay.last_known_ppt / 2
-
-              const transform =
-                Transform.chain(
-                  Transform.translation(minimap.center()),
-                  Transform.rotationRadians(-minimap.compassAngle.get()),
-                  Transform.scale({x: scale, y: scale}),
-                )
-
               const unit_square: Vector2[] = [
                 {x: 1, y: 1},
                 {x: 1, y: -1},
@@ -70,27 +61,40 @@ export namespace ScanSolving {
                 {x: -1, y: 1},
               ]
 
-              this.minimap_overlay.polyline(
-                unit_square.map(v => Vector2.transform_point(v, transform)),
-                true, {
-                  color: A1Color.fromHex("#FF0000")
-                }
-              )
+              if(settings.show_triple_ping) {
+                const scale = ((this.range * 2 + 1) / 2) * ScanMinimapOverlay.last_known_ppt
 
-              const scale2 = (this.range * 4 + 1) * ScanMinimapOverlay.last_known_ppt / 2
+                const transform =
+                  Transform.chain(
+                    Transform.translation(minimap.center()),
+                    Transform.rotationRadians(-minimap.compassAngle.get()),
+                    Transform.scale({x: scale, y: scale}),
+                  )
 
-              const transform2 = Transform.chain(
-                Transform.translation(minimap.center()),
-                Transform.rotationRadians(-minimap.compassAngle.get()),
-                Transform.scale({x: scale2, y: scale2}),
-              )
+                this.minimap_overlay.polyline(
+                  unit_square.map(v => Vector2.transform_point(v, transform)),
+                  true, {
+                    color: A1Color.fromHex("#FF0000")
+                  }
+                )
+              }
 
-              this.minimap_overlay.polyline(
-                unit_square.map(v => Vector2.transform_point(v, transform2)),
-                true, {
-                  color: A1Color.fromHex("#FFFF00")
-                }
-              )
+              if(settings.show_double_ping) {
+                const scale = ((this.range * 4 + 1) / 2) * ScanMinimapOverlay.last_known_ppt
+
+                const transform2 = Transform.chain(
+                  Transform.translation(minimap.center()),
+                  Transform.rotationRadians(-minimap.compassAngle.get()),
+                  Transform.scale({x: scale, y: scale}),
+                )
+
+                this.minimap_overlay.polyline(
+                  unit_square.map(v => Vector2.transform_point(v, transform2)),
+                  true, {
+                    color: A1Color.fromHex("#FFFF00")
+                  }
+                )
+              }
             }
 
             this.minimap_overlay.render()
@@ -123,7 +127,9 @@ export namespace ScanSolving {
     show_minimap_overlay_scantree: boolean,
     show_minimap_overlay_simple: boolean,
     minimap_overlay_automated_zoom_detection: boolean,
-    minimap_overlay_zoom_manual_ppt: number
+    minimap_overlay_zoom_manual_ppt: number,
+    show_triple_ping: boolean,
+    show_double_ping: boolean,
   }
 
   export namespace Settings {
@@ -131,7 +137,9 @@ export namespace ScanSolving {
       show_minimap_overlay_scantree: true,
       show_minimap_overlay_simple: true,
       minimap_overlay_automated_zoom_detection: false,
-      minimap_overlay_zoom_manual_ppt: 4
+      minimap_overlay_zoom_manual_ppt: 4,
+      show_double_ping: true,
+      show_triple_ping: true
     }
 
     export function normalize(settings: Settings): Settings {
@@ -141,6 +149,8 @@ export namespace ScanSolving {
       if (![true, false].includes(settings.show_minimap_overlay_simple)) settings.show_minimap_overlay_simple = DEFAULT.show_minimap_overlay_simple
       if (![true, false].includes(settings.minimap_overlay_automated_zoom_detection)) settings.minimap_overlay_automated_zoom_detection = DEFAULT.minimap_overlay_automated_zoom_detection
       if (typeof settings.minimap_overlay_zoom_manual_ppt != "number") settings.minimap_overlay_zoom_manual_ppt = DEFAULT.minimap_overlay_zoom_manual_ppt
+      if (![true, false].includes(settings.show_double_ping)) settings.show_double_ping = DEFAULT.show_double_ping
+      if (![true, false].includes(settings.show_triple_ping)) settings.show_triple_ping = DEFAULT.show_triple_ping
 
       return settings
     }

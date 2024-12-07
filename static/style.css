@@ -2409,3 +2409,8 @@ input[type=checkbox] + span {
 .ctr-log-viewer-message > *:not(:last-child) {
     margin-right: 6px;
 }
+
+.ctr-striked {
+    text-decoration: line-through;
+    color: gray;
+}

@@ -3446,7 +3446,7 @@ export namespace clue_data {
         "entity": "Drawers",
         "key": {
           "instructions": "The drawers are locked! A note on the top of the drawer reads: Wait till I get my hands on Penda; he's nicked the key again!",
-          "answer": "Pickpocket Penda in the hous north of Heroes's Guild.",
+          "answer": "Pickpocket Penda in the house north of Heroes's Guild.",
           "area": {"origin": {"x": 2912, "y": 3521, "level": 0}, "size": {"x": 5, "y": 6}}
         }
       }

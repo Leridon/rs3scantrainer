@@ -23,7 +23,7 @@ export namespace Changelog {
     render: layout => {
       layout
         .row(new List()
-          .item("Updates the crowdsourcing function to work with the updated slider shuffle.")
+          .item("Updated the crowdsourcing function to work with the updated slider shuffle.")
           .item("Updated the teleports of the Natures's Sentinel outfit.")
           .item("Reduced minimum solve time for sliders to 0.1 seconds down from 0.5 seconds.")
           .item("Updated collision data after today's game update.", new List()

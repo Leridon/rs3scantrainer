@@ -26,6 +26,8 @@ export namespace Changelog {
           .item("Updates the crowdsourcing function to work with the updated slider shuffle.")
           .item("Updated the teleports of the Natures's Sentinel outfit.")
           .item("Reduced minimum solve time for sliders to 0.1 seconds down from 0.5 seconds.")
+          .item("Updated collision data after today's game update.", new List()
+            .item("This is not reflected in the visuals yet, as they depend on the runeapps map update."))
         )
         .paragraph("Today's game update changed the shuffle algorithm for slider puzzles, making them significantly faster to solve. Preliminary testing suggests solution lengths in the range between 15 and 40 clicks.")
     }

@@ -17,6 +17,17 @@ export namespace Changelog {
   }
 
   export const log: LogEntry[] = lodash.sortBy<LogEntry>([{
+    version: 25,
+    date: new Date(Date.parse("2024-12-09")),
+    title: "Game Update Fixes",
+    render: layout => {
+      layout
+        .row(new List()
+          .item("Updates the crowdsourcing function to work with the updated slider shuffle.")
+        )
+        .paragraph("Today's game update changed the shuffle algorithm for slider puzzles, making them significantly faster to solve. Preliminary testing suggests solution lengths in the range between 15 and 40 clicks.")
+    }
+  }, {
     version: 24,
     date: new Date(Date.parse("2024-12-05")),
     title: "Scan Overlay Updates",

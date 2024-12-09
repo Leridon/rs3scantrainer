@@ -17,6 +17,21 @@ export namespace Changelog {
   }
 
   export const log: LogEntry[] = lodash.sortBy<LogEntry>([{
+    version: 25,
+    date: new Date(Date.parse("2024-12-09")),
+    title: "Game Update Fixes",
+    render: layout => {
+      layout
+        .row(new List()
+          .item("Updated the crowdsourcing function to work with the updated slider shuffle.")
+          .item("Updated the teleports of the Natures's Sentinel outfit.")
+          .item("Reduced minimum solve time for sliders to 0.1 seconds down from 0.5 seconds.")
+          .item("Updated collision data after today's game update.", new List()
+            .item("This is not reflected in the visuals yet, as they depend on the runeapps map update."))
+        )
+        .paragraph("Today's game update changed the shuffle algorithm for slider puzzles, making them significantly faster to solve. Preliminary testing suggests solution lengths in the range between 15 and 40 clicks.")
+    }
+  }, {
     version: 24,
     date: new Date(Date.parse("2024-12-05")),
     title: "Scan Overlay Updates",

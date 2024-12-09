@@ -2,9 +2,9 @@ import {Sliders} from "../lib/cluetheory/Sliders";
 import {Application} from "./application";
 import * as lodash from "lodash";
 import {storage} from "../lib/util/storage";
+import {Log} from "../lib/util/Log";
 import SliderPuzzle = Sliders.SliderPuzzle;
 import SliderState = Sliders.SliderState;
-import {Log} from "../lib/util/Log";
 import log = Log.log;
 
 export class CrowdSourcing {
@@ -36,8 +36,8 @@ export class CrowdSourcing {
 
       const state = SliderPuzzle.getState(slider)
 
-      // Sliders start with the blank in the bottom right. Reject if this isn't the case
-      if (state[24] != 24) return
+      // No longer the case! Sliders start with the blank in the bottom right. Reject if this isn't the case
+      // if (state[24] != 24) return
 
       this.last_slider_state.set({
         timestamp: timestamp,

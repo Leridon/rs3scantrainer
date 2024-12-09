@@ -906,7 +906,7 @@ export namespace SlideGuider {
       if (![true, false].includes(settings.improve_slider_matches_backtracking)) settings.improve_slider_matches_backtracking = DEFAULT.improve_slider_matches_backtracking
       if (![true, false].includes(settings.continue_solving_after_initial_solve)) settings.continue_solving_after_initial_solve = DEFAULT.continue_solving_after_initial_solve
 
-      settings.solve_time_ms = lodash.clamp(settings.solve_time_ms, 500, 5000)
+      settings.solve_time_ms = lodash.clamp(settings.solve_time_ms, 100, 5000)
 
       return settings
     }

@@ -25,6 +25,7 @@ export namespace Changelog {
         .row(new List()
           .item("Updates the crowdsourcing function to work with the updated slider shuffle.")
           .item("Updated the teleports of the Natures's Sentinel outfit.")
+          .item("Reduced minimum solve time for sliders to 0.1 seconds down from 0.5 seconds.")
         )
         .paragraph("Today's game update changed the shuffle algorithm for slider puzzles, making them significantly faster to solve. Preliminary testing suggests solution lengths in the range between 15 and 40 clicks.")
     }

@@ -607,7 +607,7 @@ class PuzzleSettingsEdit extends Widget {
 
     this.layout.header("Solve Time", "left", 1)
     this.layout.paragraph("How much time the solver should spend finding an optimal solution before the guide starts.")
-    this.layout.row(new NumberSlider(0.5, 5, 0.1)
+    this.layout.row(new NumberSlider(0.1, 5, 0.1)
       .withPreviewFunction(v => `${v.toFixed(1)}s`)
       .setValue(this.value.solve_time_ms / 1000)
       .onCommit(v => this.value.solve_time_ms = v * 1000)

@@ -17,6 +17,20 @@ export namespace Changelog {
   }
 
   export const log: LogEntry[] = lodash.sortBy<LogEntry>([{
+    version: 26,
+    date: new Date(Date.parse("2024-12-10")),
+    title: "URL Update",
+    silent: true,
+    render: layout => {
+      layout
+        .row(new List()
+          .item("The legacy url <a>https://leridon.github.io/rs3scantrainer</a> has been turned off as announced back in september.")
+          .item("Updated references to the GitHub repository to use the new URL <a>https://github.com/leridon/cluetrainer</a>.", new List().item(
+            "If you have a GitHub account and enjoy Clue Trainer, please head over to the repository and give it a star. "
+          ))
+        )
+    }
+  }, {
     version: 25,
     date: new Date(Date.parse("2024-12-09")),
     title: "Game Update Fixes",

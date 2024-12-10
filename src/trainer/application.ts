@@ -635,8 +635,6 @@ export class Application extends Behaviour {
         }
       }
     }
-
-    UpdateAlt1Modal.maybeRemind(this)
   }
 
   protected end() {

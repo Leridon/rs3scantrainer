@@ -23,7 +23,7 @@ export class AboutModal extends NisModal {
     layout.paragraph("Clue Trainer is a new generation clue solver for Alt1 developed by Zyklop Marco in the Clue Chasers discord. Originally intended to provide an interactive way to learn optimal scan routes, the scope has gradually increased and is now a fully-featured clue solver and a test bed for new ways to solve clues in RuneScape 3.")
 
     layout.paragraph("Visit Clue Trainer at",
-      " <a href='https://github.com/Leridon/rs3scantrainer' target=”_blank”><img class='inline-img' src='assets/icons/github-mark-white.png'> GitHub</a>",
+      " <a href='https://github.com/Leridon/cluetrainer' target=”_blank”><img class='inline-img' src='assets/icons/github-mark-white.png'> GitHub</a>",
       " or the <a href='https://discord.gg/cluechasers' target=”_blank”><img class='inline-img' src='assets/icons/cluechasers.png'> Clue Chasers </a>discord in the <a href='https://discord.com/channels/332595657363685377/1103737270114209825'>#clue-trainer</a> channel.")
 
     if (!deps().app.in_alt1) {

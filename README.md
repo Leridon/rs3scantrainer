@@ -29,7 +29,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <!--<a href="https://github.com/leridon/rs3scantrainer">
+  <!--<a href="https://github.com/leridon/cluetrainer">
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>-->
 
@@ -172,7 +172,7 @@ Contents of this project are partially distributed under the MIT License. See [L
 
 Zyklop Marco - [@zyklopmarco](https://twitter.com/zyklopmarco)
 
-Project Link: [https://github.com/leridon/rs3scantrainer](https://github.com/leridon/rs3scantrainer)
+Project Link: [https://github.com/leridon/cluetrainer](https://github.com/leridon/cluetrainer)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -189,16 +189,16 @@ I owe thanks to the following persons for making Clue Trainer possible.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/leridon/rs3scantrainer.svg?style=for-the-badge
-[contributors-url]: https://github.com/leridon/rs3scantrainer/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/leridon/rs3scantrainer.svg?style=for-the-badge
-[forks-url]: https://github.com/leridon/rs3scantrainer/network/members
-[stars-shield]: https://img.shields.io/github/stars/leridon/rs3scantrainer.svg?style=for-the-badge
-[stars-url]: https://github.com/leridon/rs3scantrainer/stargazers
-[issues-shield]: https://img.shields.io/github/issues/leridon/rs3scantrainer.svg?style=for-the-badge
-[issues-url]: https://github.com/leridon/rs3scantrainer/issues
-[license-shield]: https://img.shields.io/github/license/leridon/rs3scantrainer.svg?style=for-the-badge
-[license-url]: https://github.com/leridon/rs3scantrainer/blob/master/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/leridon/cluetrainer.svg?style=for-the-badge
+[contributors-url]: https://github.com/leridon/cluetrainer/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/leridon/cluetrainer.svg?style=for-the-badge
+[forks-url]: https://github.com/leridon/cluetrainer/network/members
+[stars-shield]: https://img.shields.io/github/stars/leridon/cluetrainer.svg?style=for-the-badge
+[stars-url]: https://github.com/leridon/cluetrainer/stargazers
+[issues-shield]: https://img.shields.io/github/issues/leridon/cluetrainer.svg?style=for-the-badge
+[issues-url]: https://github.com/leridon/cluetrainer/issues
+[license-shield]: https://img.shields.io/github/license/leridon/cluetrainer.svg?style=for-the-badge
+[license-url]: https://github.com/leridon/cluetrainer/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/linkedin_username
 [product-screenshot]: .github/readmeassets/intro_screenshot.png

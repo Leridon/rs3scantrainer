@@ -27,6 +27,9 @@ import span = C.span;
 import count = util.count;
 import vbox = C.vbox;
 import natural_order = util.Order.natural_order;
+import {BigNisButton} from "../trainer/ui/widgets/BigNisButton";
+import AsyncInitialization = util.AsyncInitialization;
+import async_init = util.async_init;
 
 export type SliderDataEntry = {
   id: number,
@@ -329,8 +332,57 @@ class BenchmarkProgressWidget extends Widget {
   }
 }
 
+class BenchmarkRunner extends NisModal {
+  private process: BenchmarkProcess
+
+  private constructor(private settings: BenchmarkSettings) {
+    super({size: "large"});
+
+    this.process = new BenchmarkProcess(this.settings)
+      .withTimeout(10000);
+
+    this.shown.on(() => this.process.run())
+    this.hidden.on(() => this.process.stop())
+  }
+
+
+  render() {
+    super.render();
+
+    this.setTitle("Running Benchmarks")
+
+    const layout = new Properties().appendTo(this.body)
+
+    const result_container = c()
+
+    layout.row(result_container)
+
+    this.process.onProgress(progress => {
+      result_container.empty()
+
+      new BenchmarkProgressWidget(this.settings, progress).appendTo(result_container)
+    })
+
+    const stop_button = new LightButton("Stop", "rectangle")
+      .onClick(() => {
+        this.process.stop()
+      })
+
+    this.process.onFinished(() => {
+      stop_button.remove()
+    })
+
+    layout.row(stop_button)
+  }
+
+  static async run(setup: BenchmarkSetup): Promise<BenchmarkRunner> {
+    return new BenchmarkRunner(await BenchmarkSetup.instantiate(setup)).show()
+
+  }
+}
+
 class BenchmarkConfigurator extends Widget {
-  private settings: BenchmarkSetup = {
+  public settings: BenchmarkSetup = {
     testcase_count: 20,
     metric: "mtm",
     testcase_type: ["crowdsourced", "crowdsourced2024", "osrsshuffle"],
@@ -470,45 +522,6 @@ class BenchmarkConfigurator extends Widget {
           new LightButton("Export"),
           new LightButton("Import"),
           new LightButton("Run").onClick(async () => {
-            const settings = await BenchmarkSetup.instantiate(this.settings);
-
-            debugger
-
-            const process = new BenchmarkProcess(settings)
-              .withTimeout(10000);
-
-            const modal = new class extends NisModal {
-              constructor() {super({size: "large"});}
-
-              render() {
-                super.render();
-
-                this.setTitle("Running Benchmarks")
-
-                const layout = new Properties().appendTo(this.body)
-
-                layout.row(new LightButton("Stop", "rectangle")
-                  .onClick(() => {
-                    process.stop()
-                  })
-                )
-
-                const result_container = c()
-
-                layout.row(result_container)
-
-                process.onProgress(progress => {
-                  result_container.empty()
-
-                  new BenchmarkProgressWidget(settings, progress).appendTo(result_container)
-                })
-              }
-            }
-
-            modal.hidden.on(() => process.stop())
-
-            modal.show()
-            process.run()
           }),
         )
     )
@@ -519,6 +532,8 @@ export class SliderBenchmarkModal extends NisModal {
   layout: Properties
   run_button: LightButton
 
+  private configuration: BenchmarkConfigurator
+
   constructor() {
     super();
 
@@ -528,6 +543,15 @@ export class SliderBenchmarkModal extends NisModal {
   render() {
     super.render()
 
-    new BenchmarkConfigurator().appendTo(this.body)
+    this.configuration = new BenchmarkConfigurator().appendTo(this.body)
+  }
+
+  getButtons(): BigNisButton[] {
+    return [
+      new BigNisButton("Run", "confirm")
+        .onClick(() => {
+          BenchmarkRunner.run(this.configuration.settings)
+        })
+    ]
   }
 }

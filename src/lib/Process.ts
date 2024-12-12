@@ -72,6 +72,8 @@ export abstract class Process<Result = void> {
     this.should_stop = false
     this.finished = true
 
+    this.finished_event.trigger(this)
+
     return result
   }
 

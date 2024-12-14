@@ -50,6 +50,10 @@ export class NislIcon extends Widget {
     return new NislIcon().setSource("assets/icons/delete.png")
   }
 
+  static plus(): NislIcon {
+    return new NislIcon().setSource("assets/nis/plus.png")
+  }
+
   static from(url: string) {
     return new NislIcon().setSource(url)
   }

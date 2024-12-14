@@ -326,6 +326,7 @@ export namespace Sliders {
     private update_event = ewent<this>()
     private better_solution_found = ewent<MoveList>()
     protected best_solution: MoveList = null
+    private use_first_solution: boolean = false
 
     private progress: number
 
@@ -353,6 +354,8 @@ export namespace Sliders {
       if (!this.best_solution || moves.length < this.best_solution.length) {
         this.best_solution = moves
         this.better_solution_found.trigger(moves)
+
+        if (this.use_first_solution) throw new SolvingProcess.SolutionFoundException()
       }
 
       return this
@@ -367,7 +370,9 @@ export namespace Sliders {
     protected abstract solve_implementation(): Promise<void>
 
     override async implementation(): Promise<Sliders.MoveList> {
-      await this.solve_implementation()
+      try {
+        await this.solve_implementation()
+      } catch (e) { }
 
       return this.getBest()
     }
@@ -388,6 +393,17 @@ export namespace Sliders {
 
     getBest(): MoveList {
       return this.best_solution
+    }
+
+    useFirstSolution(): this {
+      this.use_first_solution = true;
+      return this;
+    }
+  }
+
+  export namespace SolvingProcess {
+    export class SolutionFoundException extends Error {
+      constructor() {super();}
     }
   }
 }

@@ -24,7 +24,7 @@ export namespace Changelog {
     render: layout => {
       layout
         .row(new List()
-          .item("Added some additinal sanitation logic for crowdsourced slider data.")
+          .item("Added some additional sanitation logic for crowdsourced slider data.")
         )
     }
   }, {

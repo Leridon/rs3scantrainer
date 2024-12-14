@@ -39,6 +39,8 @@ export class CrowdSourcing {
       // No longer the case! Sliders start with the blank in the bottom right. Reject if this isn't the case
       // if (state[24] != 24) return
 
+      if (SliderState.equals(state, SliderState.SOLVED)) return
+
       this.last_slider_state.set({
         timestamp: timestamp,
         theme: slider.theme,

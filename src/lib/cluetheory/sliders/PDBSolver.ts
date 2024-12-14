@@ -151,9 +151,7 @@ export class PDBSolvingProcess extends Sliders.SolvingProcess {
   }
 }
 
-export class PDBSolver
-  extends Sliders
-    .Solver {
+export class PDBSolver extends Sliders.Solver {
   constructor(private chain: RegionGraph) {
     super();
   }
@@ -161,5 +159,4 @@ export class PDBSolver
   instantiate(state: Sliders.SliderState): Sliders.SolvingProcess {
     return new PDBSolvingProcess(state, this.chain);
   }
-
 }

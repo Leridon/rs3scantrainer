@@ -18,6 +18,17 @@ export namespace Changelog {
 
   export const log: LogEntry[] = lodash.sortBy<LogEntry>([{
     version: 26,
+    date: new Date(Date.parse("2024-12-14")),
+    silent: true,
+    title: "Crowdsourcing Data Sanitation",
+    render: layout => {
+      layout
+        .row(new List()
+          .item("Added some additinal sanitation logic for crowdsourced slider data.")
+        )
+    }
+  }, {
+    version: 26,
     date: new Date(Date.parse("2024-12-10")),
     title: "URL Update",
     silent: true,

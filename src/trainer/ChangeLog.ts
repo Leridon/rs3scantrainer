@@ -17,7 +17,18 @@ export namespace Changelog {
   }
 
   export const log: LogEntry[] = lodash.sortBy<LogEntry>([{
-    version: 26,
+    version: 28,
+    date: new Date(Date.parse("TODO")),
+    silent: true,
+    title: "TODO",
+    render: layout => {
+      layout
+        .row(new List()
+          .item("Fixed the image url for an easy map clue.")
+        )
+    }
+  }, {
+    version: 27,
     date: new Date(Date.parse("2024-12-14")),
     silent: true,
     title: "Crowdsourcing Data Sanitation",

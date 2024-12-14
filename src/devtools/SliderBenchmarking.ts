@@ -13,11 +13,13 @@ import {Process} from "../lib/Process";
 import {ewent} from "../lib/reactive";
 import {util} from "../lib/util/util";
 import Widget from "../lib/ui/Widget";
-import ButtonRow from "../lib/ui/ButtonRow";
 import {Checkbox} from "../lib/ui/controls/Checkbox";
 import {C} from "../lib/ui/constructors";
 import {async_lazy} from "../lib/properties/Lazy";
 import {DropdownSelection} from "../trainer/ui/widgets/DropdownSelection";
+import {BigNisButton} from "../trainer/ui/widgets/BigNisButton";
+import {NislIcon} from "../trainer/ui/nisl";
+import AbstractEditWidget from "../trainer/ui/widgets/AbstractEditWidget";
 import SliderState = Sliders.SliderState;
 import MoveList = Sliders.MoveList;
 import avg = util.avg;
@@ -27,9 +29,10 @@ import span = C.span;
 import count = util.count;
 import vbox = C.vbox;
 import natural_order = util.Order.natural_order;
-import {BigNisButton} from "../trainer/ui/widgets/BigNisButton";
-import AsyncInitialization = util.AsyncInitialization;
-import async_init = util.async_init;
+import hbox = C.hbox;
+import copyUpdate = util.copyUpdate;
+import hboxl = C.hboxl;
+import space = C.space;
 
 export type SliderDataEntry = {
   id: number,
@@ -98,8 +101,10 @@ function doStatistics(res: SimulationResult[number]["candidates"][number]): Stat
 
 type BenchmarkSetup = {
   metric: "stm" | "mtm",
-  testcase_count: number,
-  testcase_type: ("crowdsourced" | "trueshuffle" | "osrsshuffle" | "crowdsourced2024")[],
+  test_sets: {
+    type: "crowdsourced" | "trueshuffle" | "osrsshuffle" | "crowdsourced2024",
+    count: number,
+  }[],
   candidates: ({ timeout: number } &
     ({ type: "random" } |
       { type: "pdb", db: string, reflect: boolean }))[],
@@ -109,15 +114,61 @@ type BenchmarkSetup = {
   } | null
 }
 
+export type SliderSet = {
+  type: "crowdsourced" | "trueshuffle" | "osrsshuffle" | "crowdsourced2024",
+  count: number,
+}
+
+export class SliderSetEdit extends AbstractEditWidget<SliderSet> {
+  constructor(private max_count: number) {super(vbox());}
+
+  protected render() {
+    super.render();
+
+    this.empty()
+
+    const value = this.get()
+
+    new DropdownSelection<SliderSet["type"]>({
+      type_class: {
+        toHTML(v): C.Appendable {
+          switch (v) {
+            case "crowdsourced":
+              return "Crowdsourced (Old)";
+            case "trueshuffle":
+              return "True Shuffle"
+            case "osrsshuffle":
+              return "OSRS Shuffle"
+            case "crowdsourced2024":
+              return "Crowdsourced (2024)"
+          }
+          return v
+        }
+      }
+    }, ["crowdsourced", "crowdsourced2024", "osrsshuffle", "trueshuffle"])
+      .setValue(value.type)
+      .onSelection(t => {
+        this.commit(copyUpdate(value, v => v.type = t))
+      })
+      .appendTo(this)
+
+    new NumberSlider(1, 100, 1).setValue(value.count)
+      .onCommit(c => this.commit(copyUpdate(value, v => v.count = c)))
+      .appendTo(this)
+  }
+}
+
 namespace BenchmarkSetup {
+
+
   export async function instantiate(setup: BenchmarkSetup): Promise<BenchmarkSettings> {
     const testset: BenchmarkSettings["test_cases"] = []
 
-    for (const type of setup.testcase_type) {
+    for (const sett of setup.test_sets) {
       const set: SliderState[] = []
 
-      while (set.length < setup.testcase_count) {
-        switch (type) {
+      while (set.length < sett.count) {
+        switch (sett.type) {
           case "crowdsourced": {
             const data = await crowdsourcedSliderData.get()
 
@@ -142,7 +193,7 @@ namespace BenchmarkSetup {
         }
       }
 
-      const namemap: Record<BenchmarkSetup["testcase_type"][number], string> = {
+      const namemap: Record<SliderSet["type"], string> = {
         "trueshuffle": "True Shuffle",
         "osrsshuffle": "Suspected New Shuffle",
         "crowdsourced": "Old Shuffle (Crowdsourced)",
@@ -152,7 +203,7 @@ namespace BenchmarkSetup {
 
       testset.push({
         states: set,
-        name: namemap[type]
+        name: namemap[sett.type]
       })
     }
 
@@ -241,7 +292,10 @@ class BenchmarkProcess extends Process<SimulationResult> {
           const solver = candidate.solver.instantiate(test)
             .setCombineStraights(this.settings.setup.metric == "mtm")
 
-          let best = await solver.withTimeout(candidate.timeout).run()
+          if (candidate.timeout == 0) solver.withTimeout(100).useFirstSolution()
+          else solver.withTimeout(candidate.timeout)
+
+          let best = await solver.run()
 
           if (this.settings.setup.continuation_solving && best) {
             const TIME_PER_STEP = (2 / 3) * (this.settings.setup.continuation_solving.lookahead / this.settings.setup.continuation_solving.assumed_moves_per_second) * 1000
@@ -383,9 +437,8 @@ class BenchmarkRunner extends NisModal {
 
 class BenchmarkConfigurator extends Widget {
   public settings: BenchmarkSetup = {
-    testcase_count: 20,
     metric: "mtm",
-    testcase_type: ["crowdsourced", "crowdsourced2024", "osrsshuffle"],
+    test_sets: [{type: "crowdsourced", count: 100}, {type: "crowdsourced2024", count: 100}],
     candidates: [
       {type: "random", timeout: 2000},
       {type: "pdb", reflect: false, db: "mtm_huge", timeout: 500},
@@ -405,7 +458,6 @@ class BenchmarkConfigurator extends Widget {
   private async render() {
     this.empty()
 
-
     const layout = new Properties().appendTo(this)
 
     layout.named("Metric", hboxc(
@@ -416,28 +468,6 @@ class BenchmarkConfigurator extends Widget {
         .setValue(this.settings.metric)
         .onChange(m => this.settings.metric = m)
         .checkboxes()))
-
-    layout.header("Test cases")
-
-    layout.named("Count", new NumberSlider(1, 100, 1).setValue(this.settings.testcase_count)
-      .onCommit(c => this.settings.testcase_count = c)
-    )
-
-    const boxes: [string, BenchmarkSetup["testcase_type"][number]][] = [
-      ["Real (Old)", "crowdsourced"],
-      ["Real (2024)", "crowdsourced2024"],
-      ["Shuffle", "trueshuffle"],
-      ["Osrs", "osrsshuffle"],
-    ]
-
-    layout.named("Type", hboxc(
-      ...boxes.map(([name, id]) =>
-        new Checkbox(name).onChange(v => {
-          if (v && !this.settings.testcase_type.includes(id)) this.settings.testcase_type.push(id)
-          if (!v) this.settings.testcase_type = this.settings.testcase_type.filter(i => i != id)
-        })
-      )
-    ))
 
     layout.row(new Checkbox("Continuous solving", "checkbox")
       .setValue(!!this.settings.continuation_solving)
@@ -453,13 +483,36 @@ class BenchmarkConfigurator extends Widget {
       })
     )
 
-    layout.header("Candidates")
+    layout.header(hbox("Test Sets", space(), NislIcon.plus().addClass("ctr-clickable").on("click", () => {
+      this.settings.test_sets.push({type: "crowdsourced", count: 20})
+      this.render()
+    })))
+
+    for (let set_i = 0; set_i < this.settings.test_sets.length; set_i++) {
+      const set = this.settings.test_sets[set_i]
+
+      layout.named(hboxl(NislIcon.delete().addClass("ctr-clickable").on("click", () => {
+          this.settings.test_sets.splice(set_i, 1)
+          this.render()
+        }), `Set ${set_i + 1}`), new SliderSetEdit(100)
+          .setValue(set)
+          .onCommit(v => this.settings.test_sets[set_i] = v)
+      )
+    }
+
+    layout.header(hbox("Candidates", space(), NislIcon.plus().addClass("ctr-clickable").on("click", () => {
+      this.settings.candidates.push({type: "random", timeout: 1000})
+      this.render()
+    })))
 
     for (let i = 0; i < this.settings.candidates.length; i++) {
       const can = vbox()
       const candidate = this.settings.candidates[i]
 
-      layout.named(`Candidate ${i + 1}`, can)
+      layout.named(hbox(NislIcon.delete().addClass("ctr-clickable").on("click", () => {
+        this.settings.candidates.splice(i, 1)
+        this.render()
+      }), `Candidate ${i + 1}`), can)
 
       new DropdownSelection<BenchmarkSetup["candidates"][number]["type"]>({
         type_class: {
@@ -479,14 +532,20 @@ class BenchmarkConfigurator extends Widget {
         .onSelection(t => {
           switch (t) {
             case "random":
-              this.settings.candidates[i] = {type: "random", timeout: 2000};
+              this.settings.candidates[i] = {type: "random", timeout: candidate.timeout};
               break
             case "pdb":
-              this.settings.candidates[i] = {type: "pdb", reflect: true, db: "mtm_large", timeout: 500};
+              this.settings.candidates[i] = {type: "pdb", reflect: true, db: "mtm_huge", timeout: candidate.timeout};
               break
           }
           this.render()
         })
+        .appendTo(can)
+
+      new NumberSlider(0, 5000, 100)
+        .setValue(candidate.timeout)
+        .onCommit(v => candidate.timeout = v)
+        .withPreviewFunction(v => `${v}ms`)
         .appendTo(can)
 
       if (candidate.type == "pdb") {
@@ -510,21 +569,6 @@ class BenchmarkConfigurator extends Widget {
           .appendTo(can)
       }
     }
-
-    layout.row(new LightButton("Add Candidate", "rectangle").onClick(() => {
-      this.settings.candidates.push({type: "random", timeout: 1000})
-      this.render()
-    }))
-
-    layout.row(
-      new ButtonRow()
-        .buttons(
-          new LightButton("Export"),
-          new LightButton("Import"),
-          new LightButton("Run").onClick(async () => {
-          }),
-        )
-    )
   }
 }
 

@@ -18,6 +18,7 @@ import {PathGraphics} from "../../path_graphics";
 import {MapIcon} from "../MapIcon";
 import {CTRIcon} from "../../../CTRIcon";
 import {areaPolygon} from "../../polygon_helpers";
+import {GameMap} from "../../../../lib/gamemap/GameMap";
 import arrow = PathGraphics.arrow;
 import createX = PathGraphics.createX;
 import ArrowHeadOptions = PathGraphics.ArrowHeadOptions;
@@ -66,6 +67,7 @@ export class PathStepEntity extends MapEntity {
               opacity: opacity * 0.3,
               fillOpacity: opacity * 0.2,
               interactive: false,
+              pane: GameMap.pathTargetPane,
               className: cls,
             }).addTo(this)
           }
@@ -79,7 +81,8 @@ export class PathStepEntity extends MapEntity {
               weight: weight,
               interactive: true,
               className: cls,
-              opacity: opacity
+              opacity: opacity,
+              pane: GameMap.pathArrowPane,
             }).addTo(this)
 
           /*const marker = new MapIcon(Vector2.scale(1 / 2, Vector2.add(step.from, step.to)), {
@@ -100,6 +103,7 @@ export class PathStepEntity extends MapEntity {
               opacity: opacity * 0.6,
               fillOpacity: opacity * 0.2,
               className: cls,
+              pane: GameMap.pathTargetPane,
             }).addTo(this)
           }
 
@@ -110,6 +114,7 @@ export class PathStepEntity extends MapEntity {
               color: "#b4b4b4",
               weight: weight,
               className: cls,
+              pane: GameMap.pathArrowPane,
               opacity
             }
           ).addTo(this)
@@ -139,6 +144,7 @@ export class PathStepEntity extends MapEntity {
                 fillColor: "lightgreen",
                 color: "lightgreen",
                 stroke: true,
+                pane: GameMap.pathTargetPane,
                 opacity
               }).addTo(this)
           }
@@ -190,6 +196,7 @@ export class PathStepEntity extends MapEntity {
               weight: weight,
               dashArray: '10, 10',
               className: cls,
+              pane: GameMap.pathArrowPane,
               opacity
             }).addTo(this)
 
@@ -214,6 +221,7 @@ export class PathStepEntity extends MapEntity {
                 weight: weight,
                 dashArray: '10, 10',
                 className: cls,
+                pane: GameMap.pathArrowPane,
                 opacity
               }).addTo(this)
           }
@@ -244,6 +252,7 @@ export class PathStepEntity extends MapEntity {
                 opacity: opacity * 0.3,
                 fillOpacity: opacity * 0.2,
                 interactive: false,
+                pane: GameMap.pathTargetPane,
                 className: cls,
               }).addTo(this)
             }
@@ -254,6 +263,7 @@ export class PathStepEntity extends MapEntity {
                 weight: weight,
                 opacity: opacity * 0.6,
                 fillOpacity: opacity * 0.2,
+                pane: GameMap.pathArrowPane,
                 className: cls,
               }).addTo(this)
             }

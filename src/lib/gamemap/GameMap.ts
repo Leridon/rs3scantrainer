@@ -93,6 +93,21 @@ export class GameMap extends leaflet.Map {
 
     this.container = jquery(element)
 
+    {
+      // Setup custom panes for z layering
+      const overlay_pane = this.getPane("overlayPane")
+
+      const areaPane = this.createPane(GameMap.areaPane, overlay_pane);
+      const pathTargetPane = this.createPane(GameMap.pathTargetPane, overlay_pane);
+      const objectPane = this.createPane(GameMap.objectPane, overlay_pane);
+      const pathArrowPane = this.createPane(GameMap.pathArrowPane, overlay_pane);
+
+      areaPane.style.zIndex = "410"
+      pathTargetPane.style.zIndex = "420"
+      objectPane.style.zIndex = "430"
+      pathArrowPane.style.zIndex = "440"
+    }
+
     // Set up UI layers
     {
       this.ui_container = cls("gamemap-ui-container").appendTo(this.container)
@@ -381,6 +396,7 @@ export class GameMap extends leaflet.Map {
         attribution: SKILLBERT_ATTRIBUTION,
         tileSize: 512,
         maxNativeZoom: 3,
+        pane: GameMap.objectPane,
         minZoom: -5,
         bounds: GameMap.bounds()
       }),
@@ -449,6 +465,11 @@ export class GameMap extends leaflet.Map {
 }
 
 export namespace GameMap {
+  export const areaPane = "underlayAreaPane"
+  export const pathArrowPane = "pathArrowPane"
+  export const pathTargetPane = "pathAreaPane"
+  export const objectPane = "objectAreaPane"
+
   export const size = {
     chunks: {x: 100, y: 200},
     chunk_size: {x: 64, y: 64},

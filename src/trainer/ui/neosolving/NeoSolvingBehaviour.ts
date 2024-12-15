@@ -724,7 +724,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
         new ClueEntities.EmoteAreaEntity(clue).addTo(this.layer.generic_solution_layer)
 
         if (clue.hidey_hole) {
-          new ClueEntities.HideyHoleEntity(clue).addTo(this.layer.generic_solution_layer)
+          new ClueEntities.HideyHoleEntity(clue, false).addTo(this.layer.generic_solution_layer)
         }
 
         bounds.addArea(clue.area)

@@ -1,4 +1,4 @@
-import {Rectangle, Vector2} from "lib/math";
+import {Rectangle} from "lib/math";
 import {MapEntity} from "../../../lib/gamemap/MapEntity";
 import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
 import {areaPolygon, boxPolygon} from "../polygon_helpers";
@@ -9,7 +9,7 @@ import {FloorLevels} from "../../../lib/gamemap/ZoomLevels";
 import Properties from "../widgets/Properties";
 import {C} from "../../../lib/ui/constructors";
 import {Clues} from "../../../lib/runescape/clues";
-import * as leaflet from "leaflet"
+import {GameMap} from "../../../lib/gamemap/GameMap";
 
 export namespace ClueEntities {
 
@@ -65,7 +65,7 @@ export namespace ClueEntities {
 
     constructor(protected name: string,
                 protected box: TileRectangle,
-                protected cursor: CursorType) {
+                protected cursor: CursorType | undefined) {
       super();
 
       this.floor_sensitivity_layers = FloorLevels.special(box.level)
@@ -81,17 +81,23 @@ export namespace ClueEntities {
       const range = boxPolygon(this.box)
         .setStyle({
           color: "cyan",
-          interactive: false,
-          opacity: 0.5,
-          fillOpacity: 0.1
+          interactive: this.cursor == null,
+          weight: props.highlight ? 4.5 : 3,
+          opacity: 1,
+          fillOpacity: 0.1,
+          pane: GameMap.objectPane
         }).addTo(this)
 
-      const marker = interactionMarker(TileRectangle.center(this.box), this.cursor, props.highlight ? 1.5 : 1, true,
-        floor_group.value.correct_level ? undefined : "ctr-entity-wrong-level"
-      )
-        .addTo(this)
+      if (this.cursor) {
+        const marker = interactionMarker(TileRectangle.center(this.box), this.cursor, props.highlight ? 1.5 : 1, true,
+          floor_group.value.correct_level ? undefined : "ctr-entity-wrong-level"
+        )
+          .addTo(this)
 
-      return marker.getElement()
+        return marker.getElement()
+      }
+
+      return range.getElement()
     }
   }
 
@@ -255,38 +261,42 @@ export namespace ClueEntities {
     protected async render_implementation(props: MapEntity.RenderProps): Promise<Element> {
       const floor_group = this.floor_sensitivity_layers.get(props.floor_group_index)
 
-      const range = areaPolygon(this.clue.area)
-        .setStyle({
-          color: "green",
-          interactive: false,
-        }).addTo(this)
-
       const scale = props.highlight ? 1.5 : 1
 
-      const marker = leaflet.marker(Vector2.toLatLong(Rectangle.center(TileArea.toRect(this.clue.area))), {
+      const range = areaPolygon(this.clue.area)
+        .setStyle({
+          color: "#68327c",
+          weight: scale,
+          pane: GameMap.areaPane
+          //interactive: false,
+        })
+        .addTo(this)
+
+
+      /*const marker = leaflet.marker(Vector2.toLatLong(Rectangle.center(TileArea.toRect(this.clue.area))), {
         icon: leaflet.icon({
           iconUrl: "assets/icons/emotes.png",
           iconSize: [scale * 24, scale * 30],
           iconAnchor: [scale * 12, scale * 15],
           className: floor_group.value.correct_level ? "" : "ctr-entity-wrong-level"
         })
-      }).addTo(this)
+      }).addTo(this)*/
 
-      return marker.getElement()
+      return range.getElement()
     }
   }
 
   export class HideyHoleEntity extends ObjectEntity {
 
-    constructor(protected clue: Clues.Emote) {
-      super(clue.hidey_hole.name, clue.hidey_hole.location, "generic");
+    constructor(protected clue: Clues.Emote, with_cursor: boolean) {
+      super(clue.hidey_hole.name, clue.hidey_hole.location, with_cursor ? "equip" : undefined);
 
       this.setTooltip(() => {
         const layout = new Properties()
 
         layout.header(staticentity(this.clue.hidey_hole.name))
 
-        layout.paragraph("Hidey holes are used to store the items needed for an emote clue.")
+        layout.paragraph("Hidey-holes are used to store the items needed for an emote clue.")
 
         return layout
       })

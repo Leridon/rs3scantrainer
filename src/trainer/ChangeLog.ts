@@ -30,6 +30,8 @@ export namespace Changelog {
               .item("For example, the tile grid and collision overlay is now placed below walls."))
           .item("Reduced distracting icons from emote areas and hidey-holes.")
           .item("Changed the color for emote areas to match the purple of Uri and Double Agents.")
+          .item("Changed rendering of yellow target indicators for run steps to be polygon based instead of an image marker so it scales better and is less obstructive.")
+          .item("Removed redundant dive and run icons across all tiers.")
         )
     }
   }, {

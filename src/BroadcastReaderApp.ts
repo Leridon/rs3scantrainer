@@ -48,6 +48,7 @@ const item_mapping: {
   {item: "Third age kiteshield", broadcast_text: "Third Age kiteshield"},
   {item: "Third age ranger coif", broadcast_text: "Third Age ranger coif"},
   {item: "Third age ranger body", broadcast_text: "Third Age range top"},
+  {item: "Third age ranger body", broadcast_text: "Third Age ranger body"},
   {item: "Third age ranger chaps", broadcast_text: "Third Age ranger chaps"},
   {item: "Third age vambraces", broadcast_text: "Third Age vambraces"},
   {item: "Third age mage hat", broadcast_text: "Third Age mage hat"},
@@ -72,6 +73,7 @@ const item_mapping: {
   {item: "Second-Age robe bottom", broadcast_text: "Second Age robe bottoms"},
   {item: "Second-Age staff", broadcast_text: "Second Age staff"},
   {item: "Orlando Smith's hat", broadcast_text: "Orlando Smith's hat"},
+  {item: "Golden Compass", broadcast_text: "golden compass"},
 
 ]
 
@@ -324,6 +326,8 @@ export class BroadcastReaderApp extends Behaviour {
           if (existing_buffer) {
             this.buffer = existing_buffer
 
+            this.buffer.user = user
+
             Backend.submit(user, existing_buffer.detected)
           } else {
             this.buffer = {
@@ -348,7 +352,7 @@ export class BroadcastReaderApp extends Behaviour {
 
         console.log(message.text)
 
-        const match = message.text.match("\u2746News: [\u{1F480}\u26AF\u3289\u328F]?(.*) comp[il]eted a Treasure Trai[il] and received(( a)|( an))? (.*)!")
+        const match = message.text.match("\u2746News: [\u{1F480}\u26AF\u3289\u328F]?([^\u{1F480}\u26AF\u3289\u328F]*) comp[il]eted a Treasure Trai[il] and received(( a)|( an))? (.*)!")
 
         // Discard messages not matching any
         if (!match) {
@@ -356,14 +360,13 @@ export class BroadcastReaderApp extends Behaviour {
         }
 
         const color = Message.color(message)
+        const player = match[1]
+        const item = match[5]
 
-        if (!lodash.isEqual([255, 140, 56], color)) {
+        if (!lodash.isEqual([255, 140, 56], color) && !(lodash.isEqual([255, 0, 0], color) && item.includes("Orlando"))) {
           console.log(`Does not match color: ${color.join(", ")}`)
           return
         }
-
-        const player = match[1]
-        const item = match[5]
 
         const best = findBestMatch(item_mapping, m => stringSimilarity(m.broadcast_text, item), 0.9)
 

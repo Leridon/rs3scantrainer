@@ -32,6 +32,7 @@ export namespace Changelog {
           .item("Changed the color for emote areas to match the purple of Uri and Double Agents.")
           .item("Changed rendering of yellow target indicators for run steps to be polygon based instead of an image marker so it scales better and is less obstructive.")
           .item("Removed redundant dive and run icons across all tiers.")
+          .item("Fixed various wrong far/precise dive indicators.")
         )
     }
   }, {

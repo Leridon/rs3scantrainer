@@ -3,6 +3,7 @@ import * as leaflet from "leaflet";
 import {Vector2} from "../../math";
 import {tilePolygon} from "../../../trainer/ui/polygon_helpers";
 import {GameMapMouseEvent} from "../MapEvents";
+import {GameMap} from "../GameMap";
 
 export class TileHighlight extends leaflet.FeatureGroup {
   _polygon: leaflet.Polygon = null
@@ -32,7 +33,8 @@ export class TileHighlight extends leaflet.FeatureGroup {
       opacity: 0.8,
       color: "#F0780C",
       fillColor: "#F0780C",
-      interactive: false
+      interactive: false,
+      pane: GameMap.objectPane
     }).addTo(this)
   }
 }

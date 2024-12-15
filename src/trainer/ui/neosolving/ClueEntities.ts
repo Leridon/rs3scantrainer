@@ -261,12 +261,12 @@ export namespace ClueEntities {
     protected async render_implementation(props: MapEntity.RenderProps): Promise<Element> {
       const floor_group = this.floor_sensitivity_layers.get(props.floor_group_index)
 
-      const scale = props.highlight ? 1.5 : 1
+      const scale = props.highlight ? 2 : 1
 
       const range = areaPolygon(this.clue.area)
         .setStyle({
-          color: "#68327c",
-          weight: scale,
+          color: "#914183",
+          weight: scale * 2,
           pane: GameMap.areaPane
           //interactive: false,
         })

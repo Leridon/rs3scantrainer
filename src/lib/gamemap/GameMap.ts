@@ -377,7 +377,7 @@ export class GameMap extends leaflet.Map {
       ];
     }
 
-    let layers: leaflet.TileLayer[] = [
+    const layers: leaflet.TileLayer[] = [
       // Rendered Top Down Layer
       new BaseTileLayer([
         {urls: geturls(`topdown-${this.floor.value()}/{z}/{x}-{y}.webp`)}
@@ -413,12 +413,16 @@ export class GameMap extends leaflet.Map {
       })
     ]
 
-    let oldbase = this.baseLayers;
+    const oldbase = this.baseLayers;
     if (oldbase && oldbase.length > 0) {
       //prevent loading of new tiles on old layer
       oldbase.forEach(q => q.on("tileloadstart", e => e.target.src = ""));
-      layers[0].on("load", () => setTimeout(() => oldbase.forEach(q => q.remove()), 2000));
+
+      layers[0].on("load", () => oldbase.forEach(q => q.remove()));
     }
+
+    // Definitely remove old base layers after 500 ms in case the event doesn't trigger
+    setTimeout(() => oldbase.forEach(q => q.remove()), 500)
 
     this.baseLayers = layers
 

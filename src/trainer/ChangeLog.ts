@@ -25,6 +25,11 @@ export namespace Changelog {
       layout
         .row(new List()
           .item("Fixed the image url for an easy map clue.")
+          .item("Fixed various conflicts and inconsistencies with map parts overlaying each other in undesired ways.",
+            new List()
+              .item("For example, the tile grid and collision overlay is now placed below walls."))
+          .item("Reduced distracting icons from emote areas and hidey-holes.")
+          .item("Changed the color for emote areas to match the purple of Uri and Double Agents.")
         )
     }
   }, {

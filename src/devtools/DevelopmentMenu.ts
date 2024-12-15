@@ -12,6 +12,8 @@ import {LogViewer} from "./LogViewer";
 import {Log} from "../lib/util/Log";
 import {deps} from "../trainer/dependencies";
 import {SliderShuffleAnalysis} from "./SliderShuffleAnalysis";
+import {Notification} from "../trainer/ui/NotificationBar";
+import notification = Notification.notification;
 
 
 export class DevelopmentModal extends NisModal {
@@ -90,8 +92,10 @@ export class DevelopmentModal extends NisModal {
       })
     )
     layout.row(new LightButton("Run makeshift Main", "rectangle")
-      .onClick(() => {
-        makeshift_main()
+      .onClick(async () => {
+        await makeshift_main()
+
+        notification("Finished running makeshift main").show()
       })
     )
 

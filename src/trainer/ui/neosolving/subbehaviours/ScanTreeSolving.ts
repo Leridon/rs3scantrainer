@@ -173,7 +173,7 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
       PathStepEntity.renderPath(n.raw.path).eachEntity(e => e.setOpacity(0.5)).addTo(this.layer)
     })
 
-    // Children pathsare rendered with 0.5
+    // Children paths are rendered with 0.5
     node.children
       .filter(c => c.key.pulse != 3)
       .forEach(c => {

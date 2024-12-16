@@ -1,6 +1,6 @@
 import * as leaflet from "leaflet";
 import {TileCoordinates} from "../../../lib/runescape/coordinates/TileCoordinates";
-import {levelIcon} from "../../../lib/gamemap/GameMap";
+import {GameMap, levelIcon} from "../../../lib/gamemap/GameMap";
 import {ScanTree} from "../../../lib/cluetheory/scans/ScanTree";
 import {Constants} from "../../constants";
 import {TileMarker} from "../../../lib/gamemap/TileMarker";
@@ -11,7 +11,6 @@ import {GameMapContextMenuEvent, GameMapMouseEvent} from "../../../lib/gamemap/M
 import {Observable, observe} from "../../../lib/reactive";
 import {MapEntity} from "../../../lib/gamemap/MapEntity";
 import {Rectangle, Vector2} from "../../../lib/math";
-import Widget from "../../../lib/ui/Widget";
 import {Menu} from "../widgets/ContextMenu";
 import Properties from "../widgets/Properties";
 import ScanRegion = ScanTree.ScanRegion;
@@ -55,6 +54,7 @@ export class ScanRegionPolygon extends ActiveOpacityGroup {
         className: "area-name",
         offset: [0, 0],
         direction: "center",
+        pane: GameMap.objectPane,
         content: this._spot.name
       })
 
@@ -63,6 +63,7 @@ export class ScanRegionPolygon extends ActiveOpacityGroup {
           color: Constants.colors.scan_area,
           fillColor: Constants.colors.scan_area,
           interactive: false,
+          pane: GameMap.areaPane
         })
         .bindTooltip(this.label)
         .addTo(this)

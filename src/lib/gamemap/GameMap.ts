@@ -93,6 +93,21 @@ export class GameMap extends leaflet.Map {
 
     this.container = jquery(element)
 
+    {
+      // Setup custom panes for z layering
+      const overlay_pane = this.getPane("overlayPane")
+
+      const areaPane = this.createPane(GameMap.areaPane, overlay_pane);
+      const pathTargetPane = this.createPane(GameMap.pathTargetPane, overlay_pane);
+      const objectPane = this.createPane(GameMap.objectPane, overlay_pane);
+      const pathArrowPane = this.createPane(GameMap.pathArrowPane, overlay_pane);
+
+      areaPane.style.zIndex = "410"
+      pathTargetPane.style.zIndex = "420"
+      objectPane.style.zIndex = "430"
+      pathArrowPane.style.zIndex = "440"
+    }
+
     // Set up UI layers
     {
       this.ui_container = cls("gamemap-ui-container").appendTo(this.container)
@@ -308,7 +323,7 @@ export class GameMap extends leaflet.Map {
   }
 
   public fitView(view: TileRectangle, options: FitBoundsOptions = {}): this {
-    options.maxZoom ??= Math.max(this.getZoom(), 4)
+    options.maxZoom ??= 4
 
     this.invalidateSize()
 
@@ -362,7 +377,7 @@ export class GameMap extends leaflet.Map {
       ];
     }
 
-    let layers: leaflet.TileLayer[] = [
+    const layers: leaflet.TileLayer[] = [
       // Rendered Top Down Layer
       new BaseTileLayer([
         {urls: geturls(`topdown-${this.floor.value()}/{z}/{x}-{y}.webp`)}
@@ -381,6 +396,7 @@ export class GameMap extends leaflet.Map {
         attribution: SKILLBERT_ATTRIBUTION,
         tileSize: 512,
         maxNativeZoom: 3,
+        pane: GameMap.objectPane,
         minZoom: -5,
         bounds: GameMap.bounds()
       }),
@@ -397,11 +413,15 @@ export class GameMap extends leaflet.Map {
       })
     ]
 
-    let oldbase = this.baseLayers;
+    const oldbase = this.baseLayers;
     if (oldbase && oldbase.length > 0) {
       //prevent loading of new tiles on old layer
       oldbase.forEach(q => q.on("tileloadstart", e => e.target.src = ""));
-      layers[0].on("load", () => setTimeout(() => oldbase.forEach(q => q.remove()), 2000));
+
+      layers[0].on("load", () => oldbase.forEach(q => q.remove()));
+
+      // Definitely remove old base layers after 500 ms in case the event doesn't trigger
+      setTimeout(() => oldbase.forEach(q => q.remove()), 500)
     }
 
     this.baseLayers = layers
@@ -449,6 +469,11 @@ export class GameMap extends leaflet.Map {
 }
 
 export namespace GameMap {
+  export const areaPane = "underlayAreaPane"
+  export const pathArrowPane = "pathArrowPane"
+  export const pathTargetPane = "pathAreaPane"
+  export const objectPane = "objectAreaPane"
+
   export const size = {
     chunks: {x: 100, y: 200},
     chunk_size: {x: 64, y: 64},
@@ -487,8 +512,8 @@ export namespace GameMap {
 
     return {
       crs: getCRS(),
-      //zoomSnap: 0.75,
-      //zoomDelta: 0.75,
+      zoomSnap: 0.5,
+      zoomDelta: 0.5,
       minZoom: -5,
       maxZoom: 7,
       zoomControl: false,

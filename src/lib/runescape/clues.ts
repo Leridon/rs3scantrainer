@@ -190,25 +190,25 @@ export namespace Clues {
       else return Step.shortString(spot.clue, text_variant)
     }
 
-    export function targetArea(spot: Clues.ClueSpot): TileArea {
-      if (spot.spot) return digSpotArea(spot.spot)
+    export function targetArea(spot: Clues.ClueSpot): TileArea[] {
+      if (spot.spot) return [digSpotArea(spot.spot)]
 
       const sol = Clues.Step.solution(spot.clue)
 
       if (sol) {
         switch (sol.type) {
           case "search":
-            return default_interactive_area(sol.spot)
+            return [default_interactive_area(sol.spot)]
           case "dig":
-            return digSpotArea(sol.spot)
+            return [digSpotArea(sol.spot)]
           case "talkto":
-            return sol.spots[0].range
+            return sol.spots.map(s => s.range)
         }
       }
 
-      if (spot.clue.type == "emote") return spot.clue.area
+      if (spot.clue.type == "emote") return[ spot.clue.area]
 
-      if (spot.clue.type == "scan") return TileArea.fromRect(TileRectangle.from(...spot.clue.spots))
+      if (spot.clue.type == "scan") return [TileArea.fromRect(TileRectangle.from(...spot.clue.spots))]
     }
 
     export function toId(spot: ClueSpot): Id {

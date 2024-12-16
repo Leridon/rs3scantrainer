@@ -1,10 +1,9 @@
 import TextArea from "../../../../lib/ui/controls/TextArea";
 import {BigNisButton} from "../BigNisButton";
-import {deps} from "../../../dependencies";
 import {NisModal} from "../../../../lib/ui/NisModal";
 import {Notification} from "../../NotificationBar";
-import notification = Notification.notification;
 import {util} from "../../../../lib/util/util";
+import notification = Notification.notification;
 import download = util.downloadTextFile;
 
 export default class ExportStringModal extends NisModal {
@@ -20,7 +19,8 @@ export default class ExportStringModal extends NisModal {
   render() {
     super.render();
 
-    this.title.set("Export")
+    if (this.file_name) this.title.set(`Export ${this.file_name}`)
+    else this.title.set(`Export`)
 
     c("<p></p>").text(this.explanation).appendTo(this.body)
 

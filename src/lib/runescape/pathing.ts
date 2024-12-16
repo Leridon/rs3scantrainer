@@ -168,7 +168,7 @@ export namespace Path {
     raw: raw,
     steps: augmented_step[],
     issues: issue[],
-    target: TileArea.ActiveTileArea | null
+    target: TileArea.ActiveTileArea[] | null
   }
 
   export namespace augmented {
@@ -300,7 +300,7 @@ export namespace Path {
 
   export async function augment(path: Path.Step[],
                                 start_state: movement_state = movement_state.start({}),
-                                target: TileArea.ActiveTileArea = null): Promise<Path.augmented> {
+                                target: TileArea.ActiveTileArea[] = []): Promise<Path.augmented> {
 
     /** TODO:
      *   Regarding teleports:
@@ -673,7 +673,7 @@ export namespace Path {
     let post_state = index(augmented_steps, -1)?.post_state || start_state
     let path_issues: issue[] = []
 
-    if ((target && (!state.position.tile || !target.query(state.position.tile)))) {
+    if ((target && (!state.position.tile || !target.some(t => t.query(state.position.tile))))) {
       path_issues.push({level: 0, message: "Path does not end in target area"})
     }
 

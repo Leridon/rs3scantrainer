@@ -60,9 +60,11 @@ class AngularKeyframeFunction {
   }
 
   getCSV(): string {
-    return this.keyframes.map((keyframe) => {
+    const header = "Is,Delta,Base-Delta,Full-Delta,X,Y\n"
+
+    return header + this.keyframes.map((keyframe) => {
       return [keyframe.angle, keyframe.value, this.base_f(keyframe.angle), keyframe.value + this.base_f(keyframe.angle)]
-        .map(radiansToDegrees).join(",") + `,${keyframe.original?.x}|${keyframe.original?.y}`
+        .map(radiansToDegrees).join(",") + `,${keyframe.original?.x},${keyframe.original?.y}`
     }).join("\n")
   }
 

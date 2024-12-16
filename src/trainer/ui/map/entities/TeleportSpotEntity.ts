@@ -75,7 +75,7 @@ export class TeleportSpotEntity extends MapEntity {
 
     const scale = (options.highlight ? 1.5 : (this.zoom_sensitivity_layers.get(options.zoom_group_index).value.scale))
 
-    const marker = leaflet.marker(Vector2.toLatLong(this.teleport.centerOfTarget()), {
+    const marker = leaflet.marker(Vector2.toLatLong(this.teleport.spot.icon_position_override ?? this.teleport.centerOfTarget()), {
       icon: new TeleportSpotEntity.TeleportMapIcon(this.teleport, scale, w => {
         if (!floor_group.value.correct_level) w.css("filter", "grayscale(1) brightness(0.5)")
 

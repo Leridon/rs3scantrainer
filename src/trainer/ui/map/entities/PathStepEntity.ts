@@ -17,10 +17,15 @@ import {Transportation} from "../../../../lib/runescape/transportation";
 import {PathGraphics} from "../../path_graphics";
 import {MapIcon} from "../MapIcon";
 import {CTRIcon} from "../../../CTRIcon";
-import {areaPolygon} from "../../polygon_helpers";
+import {areaPolygon, tilePolygon} from "../../polygon_helpers";
+import {GameMap} from "../../../../lib/gamemap/GameMap";
 import arrow = PathGraphics.arrow;
 import createX = PathGraphics.createX;
 import ArrowHeadOptions = PathGraphics.ArrowHeadOptions;
+
+function offsetTowards(from: Vector2, to: Vector2, scale: number): Vector2 {
+  return Vector2.add(from, Vector2.scale(scale, Vector2.normalize(Vector2.sub(to, from))))
+}
 
 export class PathStepEntity extends MapEntity {
 
@@ -66,6 +71,7 @@ export class PathStepEntity extends MapEntity {
               opacity: opacity * 0.3,
               fillOpacity: opacity * 0.2,
               interactive: false,
+              pane: GameMap.pathTargetPane,
               className: cls,
             }).addTo(this)
           }
@@ -73,13 +79,14 @@ export class PathStepEntity extends MapEntity {
           //const head: ArrowHeadOptions = step.is_far_dive ? {type: "bar", arm_length: 0.5} : {type: "tip", arm_length: 0.5}
           const head: ArrowHeadOptions = (step.is_far_dive || step.ability != "dive") ? {type: "tip", arm_length: 0.5} : {type: "x", arm_length: 0.25}
 
-          const arro = arrow(step.from, step.to, head)
+          const arro = arrow(offsetTowards(step.from, step.to, 0.2), step.to, head)
             .setStyle({
               color: PathStepEntity.ability_rendering[step.ability].color,
               weight: weight,
               interactive: true,
               className: cls,
-              opacity: opacity
+              opacity: opacity,
+              pane: GameMap.pathArrowPane,
             }).addTo(this)
 
           /*const marker = new MapIcon(Vector2.scale(1 / 2, Vector2.add(step.from, step.to)), {
@@ -92,36 +99,62 @@ export class PathStepEntity extends MapEntity {
           return arro.getElement()
         }
         case "run": {
-          if (step.target_area) {
-            areaPolygon(step.target_area).setStyle({
-              color: PathStepEntity.run_rendering_area_color,
-              weight: scale * 1,
-              interactive: false,
-              opacity: opacity * 0.6,
-              fillOpacity: opacity * 0.2,
-              className: cls,
-            }).addTo(this)
+          if(step.target_area) {
+            (step.target_area
+              ? areaPolygon(step.target_area)
+              : tilePolygon(step.waypoints[step.waypoints.length - 1]))
+              .setStyle({
+                color: PathStepEntity.run_rendering_area_color,
+                weight: scale * 1,
+                interactive: false,
+                opacity: opacity * 0.6,
+                fillOpacity: opacity * 0.2,
+                className: cls,
+                pane: GameMap.pathTargetPane,
+              }).addTo(this)
           }
 
-          leaflet.polyline(
+          const line = leaflet.polyline(
             //lines.map((t) => .map(Vector2.toLatLong)),
-            step.waypoints.map(Vector2.toLatLong),
+            step.waypoints
+              .map((w, i) => i == 0 ? offsetTowards(w, step.waypoints[1], 0.2) : w)
+              .map(Vector2.toLatLong),
             {
               color: "#b4b4b4",
               weight: weight,
               className: cls,
+              pane: GameMap.pathArrowPane,
               opacity
             }
           ).addTo(this)
 
-          let marker = createX(step.waypoints[step.waypoints.length - 1],
+          const end = step.waypoints[step.waypoints.length - 1]
+          const L = scale * 0.1
+
+          leaflet.polyline([
+            [[end.y - L, end.x - L], [end.y + L, end.x + L]],
+            [[end.y - L, end.x + L], [end.y + L, end.x - L]],
+          ]).setStyle({
+            color: "#b0e019",
+            weight: scale * 5,
+            pane: GameMap.pathArrowPane
+          }).addTo(this)
+
+          /*leaflet.circle(Vector2.toLatLong(step.waypoints[step.waypoints.length - 1]), {
+            radius: 0.2,
+            fillOpacity: 1,
+            color: "#b0e019",
+            pane: GameMap.pathArrowPane
+          }).addTo(this)*/
+
+          /*let marker = createX(step.waypoints[step.waypoints.length - 1],
             "yellow",
             scale * 16,
             cls,
             opacity
-          ).addTo(this)
+          ).addTo(this)*/
 
-          return marker.getElement()
+          return line.getElement()
         }
         case "teleport": {
           let teleport = TransportData.resolveTeleport(step.id)
@@ -139,6 +172,7 @@ export class PathStepEntity extends MapEntity {
                 fillColor: "lightgreen",
                 color: "lightgreen",
                 stroke: true,
+                pane: GameMap.pathTargetPane,
                 opacity
               }).addTo(this)
           }
@@ -184,12 +218,15 @@ export class PathStepEntity extends MapEntity {
 
           const center_of_entity = TileRectangle.center(entity.clickable_area, false)
 
-          arrow(step.assumed_start, is_remote ? center_of_entity : ends_up)
+          const to = is_remote ? center_of_entity : ends_up
+
+          arrow(offsetTowards(step.assumed_start, to, 0.2), to)
             .setStyle({
               color: "#069334",
               weight: weight,
               dashArray: '10, 10',
               className: cls,
+              pane: GameMap.pathArrowPane,
               opacity
             }).addTo(this)
 
@@ -208,12 +245,13 @@ export class PathStepEntity extends MapEntity {
             : step.target
 
           if (step.assumed_start) {
-            arrow(step.assumed_start, step.target)
+            arrow(offsetTowards(step.assumed_start, step.target, 0.2), step.target)
               .setStyle({
                 color: "#069334",
                 weight: weight,
                 dashArray: '10, 10',
                 className: cls,
+                pane: GameMap.pathArrowPane,
                 opacity
               }).addTo(this)
           }
@@ -244,6 +282,7 @@ export class PathStepEntity extends MapEntity {
                 opacity: opacity * 0.3,
                 fillOpacity: opacity * 0.2,
                 interactive: false,
+                pane: GameMap.pathTargetPane,
                 className: cls,
               }).addTo(this)
             }
@@ -254,6 +293,7 @@ export class PathStepEntity extends MapEntity {
                 weight: weight,
                 opacity: opacity * 0.6,
                 fillOpacity: opacity * 0.2,
+                pane: GameMap.pathArrowPane,
                 className: cls,
               }).addTo(this)
             }

@@ -115,8 +115,6 @@ class LayerToggling extends GameMapControl {
       position: "top-right"
     }, c())
 
-    const load_now = this.view_storage.get() ?? []
-
     this.data = new Array(layers.length)
 
     this.data = layers.map((l, index) => {

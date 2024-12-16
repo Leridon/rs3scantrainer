@@ -20,7 +20,7 @@ export namespace TileRectangle {
     return TileCoordinates.lift(Rectangle.clampInto(pos, area), pos.level)
   }
 
-  export function extend(box: TileRectangle, padding: number): TileRectangle {
+  export function extend(box: TileRectangle, padding: number | [number, number]): TileRectangle {
     return lift(Rectangle.extend(box, padding), box.level)
   }
 

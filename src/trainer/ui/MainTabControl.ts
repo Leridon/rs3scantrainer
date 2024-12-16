@@ -238,8 +238,8 @@ export default class MainTabControl extends Widget {
   }
 
   setCollapsed(v: boolean) {
-    if (v) this.container.animate({"width": "hide"}, 300)
-    else this.container.animate({"width": "show"}, 300)
+    if (v) this.container.animate({"width": "hide"}, 0)
+    else this.container.animate({"width": "show"}, 0)
   }
 }
 

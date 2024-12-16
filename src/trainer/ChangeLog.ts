@@ -20,6 +20,7 @@ export namespace Changelog {
     version: 28,
     date: new Date(Date.parse("2024-12-16")),
     title: "Decluttering Path Displays and Zoom Fixes",
+    notification: "Check out changes to path rendering and zoom behaviour",
     render: layout => {
       layout
         .row(new List()

@@ -324,7 +324,7 @@ export class GenericPathMethodEditor extends MethodSubEditor {
 export namespace GenericPathMethodEditor {
   import ClueAssumptions = SolvingMethods.ClueAssumptions;
   export type SequenceSegment = {
-    path?: { section: "pre" | "post" | "main", target: TileArea.ActiveTileArea } | null,
+    path?: { section: "pre" | "post" | "main", target: TileArea.ActiveTileArea[] } | null,
     name: string,
     ticks?: number,
     edit?: SegmentEdit
@@ -355,12 +355,12 @@ export namespace GenericPathMethodEditor {
         if (hidey_hole_in_target) {
           sequence.push({
             name: `Path to Hidey Hole in Target Area`,
-            path: {section: "main", target: activate(default_interactive_area(clue.hidey_hole.location))}
+            path: {section: "main", target: [activate(default_interactive_area(clue.hidey_hole.location))]}
           })
         } else if (clue.hidey_hole) {
           sequence.push({
             name: `Path to Hidey Hole`,
-            path: {section: "pre", target: activate(default_interactive_area(clue.hidey_hole.location))}
+            path: {section: "pre", target: [activate(default_interactive_area(clue.hidey_hole.location))]}
           })
         }
 
@@ -370,7 +370,7 @@ export namespace GenericPathMethodEditor {
 
       if (assumptions.full_globetrotter || !hidey_hole_in_target) sequence.push({
         name: "Path to Emote Area",
-        path: {section: "main", target: activate(clue.area)}
+        path: {section: "main", target: [activate(clue.area)]}
       })
 
       sequence.push({name: "Summon Uri", ticks: 1})
@@ -380,14 +380,14 @@ export namespace GenericPathMethodEditor {
       if (clue.hidey_hole && !hidey_hole_in_target && !assumptions.full_globetrotter) {
         sequence.push({
           name: "Return to Hidey Hole",
-          path: {section: "post", target: activate(default_interactive_area(clue.hidey_hole.location))}
+          path: {section: "post", target: [activate(default_interactive_area(clue.hidey_hole.location))]}
         })
 
         sequence.push({name: "Return Items", ticks: 1})
       }
     } else {
       if (Clues.requiresKey(clue) && !assumptions.way_of_the_footshaped_key) {
-        sequence.push({name: "Path to Key", path: {section: "pre", target: activate(clue.solution.key.area)}})
+        sequence.push({name: "Path to Key", path: {section: "pre", target: [activate(clue.solution.key.area)]}})
 
         sequence.push({name: `Get Key (${clue.solution.key.instructions})`, ticks: 2})
       }
@@ -395,7 +395,7 @@ export namespace GenericPathMethodEditor {
       sequence.push({
         name: "To target", path: {
           section: "main",
-          target: activate(Clues.ClueSpot.targetArea({clue: clue, spot: spot.spot}))
+          target: Clues.ClueSpot.targetArea({clue: clue, spot: spot.spot}).map(activate)
         }
       })
     }

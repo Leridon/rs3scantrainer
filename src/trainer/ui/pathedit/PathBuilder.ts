@@ -24,7 +24,7 @@ export class PathBuilder {
   private path: Path = []
 
   constructor(private meta: {
-                target?: TileArea.ActiveTileArea,
+                target?: TileArea.ActiveTileArea[],
                 start_state?: movement_state
               } = {},
               initial_value: Path = []) {

@@ -1625,6 +1625,7 @@ const raw_data: Transportation.TeleportGroup[] = [
       {
         id: "legensguild",
         target: {"origin": {"x": 2726, "y": 3346, "level": 0}, "size": {"x": 5, "y": 4}},
+        icon_position_override: {"x": 2730, "y": 3349, "level": 0},
         code: "7",
         name: "Legends' Guild",
       },
@@ -4464,7 +4465,7 @@ name: "Entrana",
       {
         id: "lifealtar",
         target: {"origin": {"x": 1065, "y": 5544, "level": 0}},
-        name: "Return",
+        name: "Life Altar",
         animation_ticks: 4,
       },
     ],

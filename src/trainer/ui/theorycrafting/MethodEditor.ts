@@ -146,7 +146,7 @@ export default class MethodEditor extends Behaviour {
     const bounds = ClueSpot.targetArea({clue: this.method.clue, spot: this.method.method.for.spot})
 
     if (bounds) {
-      this.sub_editor.layer.getMap().fitView(TileArea.toRect(bounds))
+      this.sub_editor.layer.getMap().fitView(TileArea.toRect(bounds[0]))
     }
   }
 

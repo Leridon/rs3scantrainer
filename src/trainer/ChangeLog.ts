@@ -33,6 +33,8 @@ export namespace Changelog {
           .item("Changed rendering of yellow target indicators for run steps to be polygon based instead of an image marker so it scales better and is less obstructive.")
           .item("Removed redundant dive and run icons across all tiers.")
           .item("Fixed various wrong far/precise dive indicators.")
+          .item("Starting points for arrows in paths are now outset slightly so their start does not overlap with the arrow tip of the previous step.")
+          .item("Added an alternative method for the Paul Gower master step.")
         )
     }
   }, {

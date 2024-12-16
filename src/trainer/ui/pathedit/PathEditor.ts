@@ -55,6 +55,8 @@ import EntityAction = Transportation.EntityAction;
 import TeleportAccess = Transportation.TeleportGroup.TeleportAccess;
 import notification = Notification.notification;
 import arrow = PathGraphics.arrow;
+import {GameMap} from "../../../lib/gamemap/GameMap";
+import areaPane = GameMap.areaPane;
 
 function needRepairing(state: movement_state, shortcut: Path.step_transportation): boolean {
   return state.position.tile
@@ -402,7 +404,7 @@ export class PathEditor extends Behaviour {
     //const bounds = Rectangle.combine(Path.bounds(this.options.initial), Rectangle.from(this.options.start_state?.position?.tile), TileArea.toRect(this.options.target?.parent))
 
     if (this.options.target) {
-      areaPolygon(this.options.target.parent).addTo(this.handler_layer)
+      this.options.target.forEach(target => areaPolygon(target.parent).addTo(this.handler_layer))
     }
 
     //const level = this.options.target?.origin?.level ?? this.options.start_state?.position?.tile?.level ?? Math.min(...this.options.initial.map(Path.Step.level))
@@ -715,7 +717,7 @@ export namespace PathEditor {
     initial: Path.raw,
     commit_handler?: (p: Path.raw) => any,
     discard_handler?: () => any,
-    target?: TileArea.ActiveTileArea,
+    target?: TileArea.ActiveTileArea[],
     start_state?: movement_state
   }
 

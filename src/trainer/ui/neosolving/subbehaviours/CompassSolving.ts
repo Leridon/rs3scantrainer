@@ -666,7 +666,8 @@ export class CompassSolving extends NeoSolvingSubBehaviour {
 
     // Actually update rendering of the markers to reflect whether they are still possible and potentially add numbers
     possible.forEach((m, i) => {
-      m.marker?.setPossible(true, only_few_candidates_remain ? i + 1 : null)
+      //m.marker?.setPossible(true, only_few_candidates_remain ? i + 1 : null)
+      m.marker?.setPossible(true, null)
     })
 
     // Update the selected solution spot if necessary

@@ -73,6 +73,7 @@ export namespace Transportation {
     target: TileArea
     facing?: direction
     name: string
+    icon_position_override?: TileCoordinates
   } & TeleportProps
 
   export type TeleportAccess = TeleportProps & {

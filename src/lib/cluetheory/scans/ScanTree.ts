@@ -118,8 +118,8 @@ export namespace ScanTree {
         node.path = await Path.augment(node.raw.path,
           start_state,
           node.remaining_candidates.length == 1
-            ? activate(digSpotArea(node.remaining_candidates[0]))
-            : node.region?.area ? activate(node.region.area) : null)
+            ? [activate(digSpotArea(node.remaining_candidates[0]))]
+            : node.region?.area ? [activate(node.region.area)] : [])
 
         if (node.children.length > 0) {
           let cloned_state = lodash.cloneDeep(node.path.post_state)

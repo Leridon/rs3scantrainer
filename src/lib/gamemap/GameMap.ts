@@ -512,8 +512,8 @@ export namespace GameMap {
 
     return {
       crs: getCRS(),
-      //zoomSnap: 0.75,
-      //zoomDelta: 0.75,
+      zoomSnap: 0.5,
+      zoomDelta: 0.5,
       minZoom: -5,
       maxZoom: 7,
       zoomControl: false,

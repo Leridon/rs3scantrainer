@@ -99,18 +99,20 @@ export class PathStepEntity extends MapEntity {
           return arro.getElement()
         }
         case "run": {
-          (step.target_area
-            ? areaPolygon(step.target_area)
-            : tilePolygon(step.waypoints[step.waypoints.length - 1]))
-            .setStyle({
-              color: PathStepEntity.run_rendering_area_color,
-              weight: scale * 1,
-              interactive: false,
-              opacity: opacity * 0.6,
-              fillOpacity: opacity * 0.2,
-              className: cls,
-              pane: GameMap.pathTargetPane,
-            }).addTo(this)
+          if(step.target_area) {
+            (step.target_area
+              ? areaPolygon(step.target_area)
+              : tilePolygon(step.waypoints[step.waypoints.length - 1]))
+              .setStyle({
+                color: PathStepEntity.run_rendering_area_color,
+                weight: scale * 1,
+                interactive: false,
+                opacity: opacity * 0.6,
+                fillOpacity: opacity * 0.2,
+                className: cls,
+                pane: GameMap.pathTargetPane,
+              }).addTo(this)
+          }
 
           const line = leaflet.polyline(
             //lines.map((t) => .map(Vector2.toLatLong)),

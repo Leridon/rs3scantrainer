@@ -282,6 +282,7 @@ const raw_data: Transportation.TeleportGroup[] = [
       {
         id: "varrock-ge",
         target: {"origin": {"x": 3162, "y": 3462, "level": 0}, "size": {"x": 2, "y": 5}},
+        icon_position_override: {"x": 3162, "y": 3462, "level": 0},
         img: {url: "tele-var-ge.png"},
         name: "Varrock (Grand Exchange)",
       },
@@ -324,6 +325,7 @@ const raw_data: Transportation.TeleportGroup[] = [
       {
         id: "southfeldiphills",
         target: {"origin": {"x": 2411, "y": 2845, "level": 0}, "size": {"x": 5, "y": 5}, "data": "nP//AQ=="},
+        icon_position_override: {"x": 2411, "y": 2847, "level": 0},
         img: {url: "tele-mob.png"},
         name: "South Feldip Hills",
       },
@@ -2003,6 +2005,7 @@ name: "Harmony Island",
       {
         id: "warforge",
         target: {"origin": {"x": 2411, "y": 2845, "level": 0}, "size": {"x": 5, "y": 5}, "data": "nP//AQ=="},
+        icon_position_override: {"x": 2415, "y": 2847, "level": 0},
         code: "3",
         name: "The Warforge",
       },

@@ -5463,15 +5463,15 @@ export namespace clue_data {
       "solution": {
         "type": "talkto",
         "spots": [{
-          "id": "farm",
-          "note": "Before Gower Quest",
-          "range": {"origin": {"x": 3252, "y": 3353, "level": 0}, "size": {"x": 5, "y": 3}},
-          "description": "at the farm south of Varrock"
-        }, {
           "id": "life-altar",
           "note": "After Gower Quest",
           "range": {"origin": {"x": 1055, "y": 5549, "level": 1}, "size": {"x": 3, "y": 3}},
           "description": "at the Life Altar"
+        }, {
+          "id": "farm",
+          "note": "Before Gower Quest",
+          "range": {"origin": {"x": 3252, "y": 3353, "level": 0}, "size": {"x": 5, "y": 3}},
+          "description": "at the farm south of Varrock"
         }],
         "npc": "Paul Gower"
       },

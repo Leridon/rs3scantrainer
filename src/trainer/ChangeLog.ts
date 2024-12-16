@@ -18,25 +18,24 @@ export namespace Changelog {
 
   export const log: LogEntry[] = lodash.sortBy<LogEntry>([{
     version: 28,
-    date: new Date(Date.parse("TODO")),
-    silent: true,
-    title: "TODO",
+    date: new Date(Date.parse("2024-12-16")),
+    title: "Decluttering Path Displays and Zoom Fixes",
     render: layout => {
       layout
         .row(new List()
-          .item("Fixed the image url for an easy map clue.")
           .item("Fixed various conflicts and inconsistencies with map parts overlaying each other in undesired ways.",
             new List()
               .item("For example, the tile grid and collision overlay is now placed below walls."))
+          .item("Fixed zoom to make better use of the available screen real estate while not zooming in incredibly close.")
           .item("Reduced distracting icons from emote areas and hidey-holes.")
-          .item("Changed the color for emote areas to match the purple of Uri and Double Agents.")
-          .item("Changed rendering of yellow target indicators for run steps to be polygon based instead of an image marker so it scales better and is less obstructive.")
           .item("Removed redundant dive and run icons across all tiers.")
+          .item("Changed rendering of yellow target indicators for run steps to be polygon based instead of an image marker so it scales better and is less obstructive.")
           .item("Fixed various wrong far/precise dive indicators.")
+          .item("Changed the color for emote areas to match the purple of Uri and Double Agents.")
           .item("Starting points for arrows in paths are now outset slightly so their start does not overlap with the arrow tip of the previous step.")
           .item("Added an alternative method for the Paul Gower master step.")
-          .item("Fixed zoom to make better use of the available screen real estate while not zooming in incredibly close.")
           .item("Fixed scan region names hiding teleport icons.")
+          .item("Fixed the image url for an easy map clue.")
         )
     }
   }, {

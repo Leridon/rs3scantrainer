@@ -577,7 +577,7 @@ export class Application extends Behaviour {
       const notify_at_all = lodash.some(unseen_updates, e => !e.silent)
 
       if (notify_at_all) {
-        const notifyable_update = lodash.findLast(unseen_updates, e => !e.notification)
+        const notifyable_update = lodash.findLast(unseen_updates, e => !!e.notification)
 
         notification(notifyable_update?.notification ?? "There has been an update.")
           .setDuration(30000)

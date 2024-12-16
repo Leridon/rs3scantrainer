@@ -43,10 +43,19 @@ export namespace Rectangle {
       && box.botright.y <= tile.y
   }
 
-  export function extend(box: Rectangle, padding: number): Rectangle {
-    return {
-      topleft: Vector2.add(box.topleft, {x: -padding, y: padding}),
-      botright: Vector2.add(box.botright, {x: padding, y: -padding}),
+  export function extend(box: Rectangle, padding: number | [number, number]): Rectangle {
+    if (Array.isArray(padding)) {
+      const [padx, pady] = padding
+
+      return {
+        topleft: Vector2.add(box.topleft, {x: -padx, y: pady}),
+        botright: Vector2.add(box.botright, {x: padx, y: -pady}),
+      }
+    } else {
+      return {
+        topleft: Vector2.add(box.topleft, {x: -padding, y: padding}),
+        botright: Vector2.add(box.botright, {x: padding, y: -padding}),
+      }
     }
   }
 
@@ -197,5 +206,12 @@ export namespace Rectangle {
 
   export function union(...rects: Rectangle[]): Rectangle {
     return Rectangle.from(...rects.flatMap(r => [r.topleft, r.botright]))
+  }
+
+  export function size(rect: Rectangle): Vector2 {
+    return {
+      x: rect.botright.x - rect.topleft.x + 1,
+      y: rect.topleft.y - rect.botright.y + 1,
+    }
   }
 }

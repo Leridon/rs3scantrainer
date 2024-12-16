@@ -323,7 +323,7 @@ export class GameMap extends leaflet.Map {
   }
 
   public fitView(view: TileRectangle, options: FitBoundsOptions = {}): this {
-    options.maxZoom ??= Math.max(this.getZoom(), 4)
+    options.maxZoom ??= 4
 
     this.invalidateSize()
 

@@ -35,6 +35,7 @@ export namespace Changelog {
           .item("Fixed various wrong far/precise dive indicators.")
           .item("Starting points for arrows in paths are now outset slightly so their start does not overlap with the arrow tip of the previous step.")
           .item("Added an alternative method for the Paul Gower master step.")
+          .item("Fixed zoom to make better use of the available screen real estate while not zooming in incredibly close.")
         )
     }
   }, {

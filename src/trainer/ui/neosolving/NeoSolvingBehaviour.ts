@@ -46,6 +46,8 @@ import {CapturedScan} from "./cluereader/capture/CapturedScan";
 import {AbstractCaptureService, CapturedImage, CaptureInterval} from "../../../lib/alt1/capture";
 import {SimpleScanSolving} from "./subbehaviours/SimpleScanSolving";
 import {ScanSolving} from "./subbehaviours/ScanSolving";
+import {Transportation} from "../../../lib/runescape/transportation";
+import {Rectangle} from "../../../lib/math";
 import span = C.span;
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import interactionMarker = RenderingUtility.interactionMarker;
@@ -62,8 +64,6 @@ import notification = Notification.notification;
 import activate = TileArea.activate;
 import ClueSpot = Clues.ClueSpot;
 import log = Log.log;
-import {Transportation} from "../../../lib/runescape/transportation";
-import defaultInteractiveArea = Transportation.EntityTransportation.defaultInteractiveArea;
 import default_interactive_area = Transportation.EntityTransportation.default_interactive_area;
 import digSpotArea = Clues.digSpotArea;
 
@@ -128,19 +128,14 @@ class NeoSolvingLayer extends GameLayer {
       padding = [0, this.sidebar.content.raw().offsetHeight]
     }
 
-    /*
-    // Modify the rectangle to center the view on the space right of the sidebar.
-    {
-      const sidebar_w = this.sidebar.content.raw().clientWidth + 20
-      const total_w = this.getMap().container.get()[0].clientWidth
+    const min = 8
 
-      const f = sidebar_w / Math.max(sidebar_w, total_w - sidebar_w)
+    const size = Rectangle.size(copy)
 
-      copy.topleft.x -= f * Rectangle.width(view)
-    }*/
+    copy = TileRectangle.extend(copy, [Math.max(0, (min - size.x) / 2), Math.max(0, (min - size.y) / 2)])
 
     this.map.fitView(copy, {
-      maxZoom: lodash.clamp(this.getMap().getZoom(), 2, 4),
+      //maxZoom: lodash.clamp(this.getMap().getZoom(), 2, 4),
       paddingTopLeft: padding
     })
 

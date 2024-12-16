@@ -267,6 +267,8 @@ namespace NeoSolvingLayer {
             .onToggle(t => {
               deps().app.menu_bar.setCollapsed(t)
               this.fullscreen_preference.set(t)
+
+              this.parent.app.map.invalidateSize()
             })
             .setToggled(this.fullscreen_preference.get()),
           new MainControlButton({icon: "assets/icons/settings.png", centered: true})

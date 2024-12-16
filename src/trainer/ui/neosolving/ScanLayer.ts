@@ -54,6 +54,7 @@ export class ScanRegionPolygon extends ActiveOpacityGroup {
         className: "area-name",
         offset: [0, 0],
         direction: "center",
+        pane: GameMap.objectPane,
         content: this._spot.name
       })
 

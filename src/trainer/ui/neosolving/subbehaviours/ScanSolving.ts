@@ -20,7 +20,6 @@ export namespace ScanSolving {
     private minimap_overlay: OverlayGeometry = over()
     private range: number = 10
 
-
     constructor(private minimapreader: MinimapReader,
                 private settings: Observable<ScanSolving.Settings>,
                 private role: "scantree" | "manual") {
@@ -61,7 +60,7 @@ export namespace ScanSolving {
                 {x: -1, y: 1},
               ]
 
-              if(settings.show_triple_ping) {
+              if (settings.show_triple_ping) {
                 const scale = ((this.range * 2 + 1) / 2) * ScanMinimapOverlay.last_known_ppt
 
                 const transform =
@@ -79,7 +78,7 @@ export namespace ScanSolving {
                 )
               }
 
-              if(settings.show_double_ping) {
+              if (settings.show_double_ping) {
                 const scale = ((this.range * 4 + 1) / 2) * ScanMinimapOverlay.last_known_ppt
 
                 const transform2 = Transform.chain(
@@ -116,7 +115,6 @@ export namespace ScanSolving {
   }
 
   export namespace ScanMinimapOverlay {
-
     export let last_known_ppt: number = 4 // Assume mimimum minimap zoom by default
   }
 
@@ -130,6 +128,10 @@ export namespace ScanSolving {
     minimap_overlay_zoom_manual_ppt: number,
     show_triple_ping: boolean,
     show_double_ping: boolean,
+
+    zoom_behaviour_include_triples: boolean
+    zoom_behaviour_include_doubles: boolean
+    zoom_behaviour_include_singles: boolean
   }
 
   export namespace Settings {

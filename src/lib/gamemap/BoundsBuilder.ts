@@ -6,11 +6,28 @@ export default class BoundsBuilder {
   private bounds: Rectangle = null
   private level: floor_t = null
 
+  private limit_distance_center: Vector2 = null
+  private distance_limit: number = null
+
   constructor() {}
 
+  setDistanceLimit(limit: number): this {
+    if (limit != null) {
+      this.distance_limit = limit
+      this.limit_distance_center = Rectangle.center(this.bounds)
+    } else {
+      this.distance_limit = null
+      this.limit_distance_center = null
+    }
+
+    return this
+  }
+
   addTile(...tiles: (TileCoordinates | Vector2)[]): void {
+
     for (let tile of tiles) {
       if (!tile) continue
+      if (this.distance_limit != null && tiles.some(tile => Vector2.lengthSquared(Vector2.sub(this.limit_distance_center, tile)) > this.distance_limit * this.distance_limit)) continue
 
       if (!this.bounds) {
         this.bounds = {topleft: tile, botright: tile}

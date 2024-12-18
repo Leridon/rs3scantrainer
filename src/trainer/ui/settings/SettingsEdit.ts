@@ -524,7 +524,12 @@ class ScanSettingsEdit extends Widget {
       "Select the appropriate pixels per tile for your device and minimap zoom level. May require some experimentation to get right. For fully zoomed out minimaps, the value is around 4. Note that overlays sometimes undergo additional scaling by your operating system, so the actual visible pixels per tile may be higher than the value set here."
     )
 
+    this.layout.section("Scan Tree Zoom Behaviour", "Set up how zoom should behave when using a scan tree.")
 
+    this.layout.setting(new Checkbox("Path to next spot"))
+    this.layout.setting(new Checkbox("Spots within triple pulse range."))
+    this.layout.setting(new Checkbox("Spots within double pulse range."))
+    this.layout.setting(new Checkbox("All possible remaining spots."))
   }
 }
 

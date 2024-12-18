@@ -19,8 +19,6 @@ import {SolvingMethods} from "../../../model/methods";
 import {NeoSolvingSubBehaviour} from "../NeoSolvingSubBehaviour";
 import {C} from "../../../../lib/ui/constructors";
 import {TextRendering} from "../../TextRendering";
-import {OverlayGeometry} from "../../../../lib/alt1/OverlayGeometry";
-import * as assert from "assert";
 import {AbstractCaptureService, CapturedImage, DerivedCaptureService, InterestedToken, ScreenCaptureService} from "../../../../lib/alt1/capture";
 import {CapturedScan} from "../cluereader/capture/CapturedScan";
 import {Finder} from "../../../../lib/alt1/capture/Finder";
@@ -33,8 +31,6 @@ import cls = C.cls;
 import Order = util.Order;
 import span = C.span;
 import spotNumber = ScanTree.spotNumber;
-
-import index = util.index;
 import AsyncInitialization = util.AsyncInitialization;
 import async_init = util.async_init;
 import ScanMinimapOverlay = ScanSolving.ScanMinimapOverlay;
@@ -112,10 +108,10 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
     this.augmented = ScanTree.Augmentation.basic_augmentation(method.method.tree, method.clue)
   }
 
-  private fit() {
-    let node = this.node
+  private fit(active_path_section: Path.raw) {
+    const node = this.node
 
-    let bounds = new BoundsBuilder()
+    const bounds = new BoundsBuilder()
 
     //1. If no children: All Candidates
     if (node.children.length == 0)
@@ -123,14 +119,18 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
 
     // 2. The path
     if (node.raw.path.length > 0) {
-      const last_section = index(Path.Section.split_into_sections(node.raw.path).children, -1)
+      // TODO: There needs to be a way to remember the preferred section
+      /*
+            const last_section = index(Path.Section.split_into_sections(node.raw.path).children, -1)
 
-      assert(last_section.type == "inner")
+            assert(last_section.type == "inner")
 
-      const path = last_section.children.map(c => {
-        assert(c.type == "leaf")
-        return c.value
-      })
+            const path = last_section.children.map(c => {
+              assert(c.type == "leaf")
+              return c.value
+            })*/
+
+      const path = active_path_section
 
       bounds.addRectangle(Path.bounds(path, true))
     } else {
@@ -186,10 +186,6 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
     this.node = node
 
     this.tree_widget.empty()
-
-    this.parent.path_control.reset().setPath(node.raw.path)
-
-    this.renderLayer()
 
     this.registerSolution(
       TileArea.fromRect(
@@ -268,7 +264,13 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
       }
     }
 
-    this.fit()
+    this.renderLayer()
+
+    // Setting the path in the path control will in turn trigger the section selected event.
+    // This in turn triggers fitting the map, so we do not need to do that here explicitly.
+    this.parent.path_control.reset().setPath(node.raw.path, {method: this.method, node})
+
+    // this.fit()
   }
 
   protected begin() {
@@ -339,6 +341,10 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
       this.layer.remove()
       this.layer = null
     }
+  }
+
+  onSectionSelectedInPathControl(path: Path.raw) {
+    this.fit(path)
   }
 }
 

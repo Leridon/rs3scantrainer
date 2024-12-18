@@ -17,13 +17,14 @@ export namespace Changelog {
   }
 
   export const log: LogEntry[] = lodash.sortBy<LogEntry>([{
-    version: 28,
+    version: 29,
     date: new Date(Date.parse("TODO")),
     title: "TODO",
     render: layout => {
       layout
         .row(new List()
           .item("Fixed a bug where parts of a path were hidden behind the ui after zooming in.")
+          .item("Selected path sections will now be remembered even within scan trees.")
         )
     }
   }, {
@@ -47,6 +48,7 @@ export namespace Changelog {
           .item("Added an alternative method for the Paul Gower master step.")
           .item("Fixed scan region names hiding teleport icons.")
           .item("Fixed the image url for an easy map clue.")
+          .item("Removed number displays from compass spots.")
         )
     }
   }, {

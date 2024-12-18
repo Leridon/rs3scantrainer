@@ -430,7 +430,11 @@ export default class NeoSolvingBehaviour extends Behaviour {
     super();
 
     this.path_control.section_selected.on(p => {
-      if (this.active_method?.method?.type != "scantree") setTimeout(() => this.layer.fit(Path.bounds(p)), 20)
+      if (this.active_method?.method?.type != "scantree") this.layer.fit(Path.bounds(p))
+      else {
+        const behaviour = this.active_behaviour.get()
+        if (behaviour instanceof ScanTreeSolving) behaviour.onSectionSelectedInPathControl(p)
+      }
     })
   }
 

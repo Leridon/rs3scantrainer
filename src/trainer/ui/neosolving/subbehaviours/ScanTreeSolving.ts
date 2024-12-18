@@ -189,7 +189,6 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
 
     this.parent.path_control.reset().setPath(node.raw.path)
 
-    this.fit()
     this.renderLayer()
 
     this.registerSolution(
@@ -268,6 +267,8 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
           ).appendTo(content)
       }
     }
+
+    this.fit()
   }
 
   protected begin() {

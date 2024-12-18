@@ -18,6 +18,16 @@ export namespace Changelog {
 
   export const log: LogEntry[] = lodash.sortBy<LogEntry>([{
     version: 28,
+    date: new Date(Date.parse("TODO")),
+    title: "TODO",
+    render: layout => {
+      layout
+        .row(new List()
+          .item("Fixed a bug where parts of a path were hidden behind the ui after zooming in.")
+        )
+    }
+  }, {
+    version: 28,
     date: new Date(Date.parse("2024-12-16")),
     title: "Decluttering Path Displays and Zoom Fixes",
     notification: "Check out changes to path rendering and zoom behaviour",

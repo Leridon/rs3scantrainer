@@ -130,6 +130,7 @@ class NeoSolvingLayer extends GameLayer {
       padding = [0, this.sidebar.content.raw().offsetHeight]
     }
 
+    // Minimum size the fit bounds should have, expand if necessary.
     const min = 8
 
     const size = Rectangle.size(copy)
@@ -137,7 +138,7 @@ class NeoSolvingLayer extends GameLayer {
     copy = TileRectangle.extend(copy, [Math.max(0, (min - size.x) / 2), Math.max(0, (min - size.y) / 2)])
 
     this.map.fitView(copy, {
-      //maxZoom: lodash.clamp(this.getMap().getZoom(), 2, 4),
+      maxZoom: 20,
       paddingTopLeft: padding
     })
 
@@ -1155,7 +1156,8 @@ export namespace NeoSolving {
 
     export type GeneralSettings = {
       global_max_zoom_method: number,
-      global_max_zoom_no_method: number
+      global_max_zoom_no_method: number,
+      minimum_view_size: number,
     }
 
     export namespace GeneralSettings {

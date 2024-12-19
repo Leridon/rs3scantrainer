@@ -335,7 +335,7 @@ export class GameMap extends leaflet.Map {
 
     this.fitBounds(finalbounds, options)
 
-    if(this.debug_show_fit_area) {
+    if (this.debug_show_fit_area) {
       this.fitArea?.remove()
 
       this.fitArea = leaflet.polygon([finalbounds.getNorthEast(), finalbounds.getNorthWest(), finalbounds.getSouthWest(), finalbounds.getSouthEast()]).setStyle({

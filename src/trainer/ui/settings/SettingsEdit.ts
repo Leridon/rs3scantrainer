@@ -526,15 +526,17 @@ class ScanSettingsEdit extends Widget {
 
     this.layout.section("Scan Tree Zoom Behaviour", "Set up how zoom should behave when using a scan tree.")
 
-    this.layout.setting(new Checkbox("Spots within triple pulse range.")
+    this.layout.paragraph("Ensure the following things are visible when the map view moves:")
+
+    this.layout.setting(new Checkbox("Spots within triple pulse range")
       .setValue(this.value.zoom_behaviour_include_triples)
       .onCommit(v => this.value.zoom_behaviour_include_triples = v)
     )
-    this.layout.setting(new Checkbox("Spots within double pulse range.")
+    this.layout.setting(new Checkbox("Spots within double pulse range")
       .setValue(this.value.zoom_behaviour_include_doubles)
       .onCommit(v => this.value.zoom_behaviour_include_doubles = v)
     )
-    this.layout.setting(new Checkbox("Spots within single pulse range.")
+    this.layout.setting(new Checkbox("Spots within single pulse range")
       .setValue(this.value.zoom_behaviour_include_singles)
       .onCommit(v => this.value.zoom_behaviour_include_singles = v)
     )
@@ -787,7 +789,7 @@ class TowersSettingsEdit extends Widget {
 class GeneralSolvingSettingsEdit extends Widget {
   private layout: SettingsLayout
 
-  constructor(private value: NeoSolving.Settings.InfoPanel) {
+  constructor(private value: NeoSolving.Settings.GeneralSettings) {
     super()
 
     this.layout = new SettingsLayout().appendTo(this)
@@ -800,7 +802,7 @@ class GeneralSolvingSettingsEdit extends Widget {
 
     this.layout.section("Interface")
 
-    
+
   }
 }
 
@@ -819,9 +821,7 @@ class InterfaceSettingsEdit extends Widget {
   render() {
     this.layout.empty()
 
-    this.layout.section("Interface")
-
-    this.layout.paragraph("Choose what data about a clue step and its solution is displayed on the interface while solving.")
+    this.layout.section("Interface", "Choose what data about a clue step and its solution is displayed on the interface while solving.")
 
     this.layout.namedSetting("Clue Text", hgrid(
         ...new Checkbox.Group([
@@ -931,14 +931,20 @@ class InterfaceSettingsEdit extends Widget {
         .checkboxes()
     ), "A list containing short descriptions for the steps that make up a path if one is active for the current clue step.")
 
-    this.layout.namedSetting("Puzzles", hgrid(
-      ...new Checkbox.Group([
-        {button: new Checkbox("Show"), value: "show" as const},
-        {button: new Checkbox("Hide"), value: "hide" as const},
-        {button: new Checkbox("Hide for Scans/Compasses"), value: "hideforscansandcompasses" as const},
-      ]).onChange(v => this.value.puzzle = v)
-        .setValue(this.value.puzzle)
-        .checkboxes()
+    const hide = new Checkbox("Hide")
+    const show = new Checkbox("Show")
+    const hide_for_scans_compasses = new Checkbox("Hide for Scans/Compasses")
+
+    new Checkbox.Group([
+      {button: show, value: "show" as const},
+      {button: hide, value: "hide" as const},
+      {button: hide_for_scans_compasses, value: "hideforscansandcompasses" as const},
+    ]).onChange(v => this.value.puzzle = v)
+      .setValue(this.value.puzzle)
+
+    this.layout.namedSetting("Puzzles", vbox(
+      hgrid(show, hide),
+      hgrid(hide_for_scans_compasses),
     ), "Shows what puzzle (if any) is given on completion of this clue step.")
 
     this.layout.namedSetting("Challenge", hgrid(
@@ -1375,7 +1381,7 @@ export class SettingsEdit extends Widget {
           id: "general",
           name: "General",
           short_name: "General",
-          renderer: () => new InterfaceSettingsEdit(this.value.solving.info_panel)
+          renderer: () => new GeneralSolvingSettingsEdit(this.value.solving.general)
         }, {
           id: "solving_interface",
           name: "Interface",

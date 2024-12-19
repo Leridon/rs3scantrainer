@@ -66,9 +66,11 @@ import ClueSpot = Clues.ClueSpot;
 import log = Log.log;
 import default_interactive_area = Transportation.EntityTransportation.default_interactive_area;
 import digSpotArea = Clues.digSpotArea;
+import {SettingsNormalization} from "../../../lib/util/SettingsNormalization";
+import {Polygon} from "leaflet";
+import {boxPolygon} from "../polygon_helpers";
 
 class NeoSolvingLayer extends GameLayer {
-  public control_bar: NeoSolvingLayer.MainControlBar
   public clue_container: Widget
   public solution_container: Widget
   public method_selection_container: Widget
@@ -907,7 +909,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
         })()
 
         this.activateSubBehaviour(
-          new ScanTreeSolving(this, method as AugmentedMethod<ScanTreeMethod, Clues.Scan>, scan_interface)
+          new ScanTreeSolving(this, method as AugmentedMethod<ScanTreeMethod, Clues.Scan>, scan_interface, this.app.settings.observable.scans)
         )
       } else if (method.method.type == "general_path") {
         this.path_control.setMethod(method as AugmentedMethod<GenericPathMethod>)
@@ -1025,6 +1027,7 @@ export namespace NeoSolving {
   }
 
   export type Settings = {
+    general: Settings.GeneralSettings,
     info_panel: Settings.InfoPanel,
     puzzles: Settings.Puzzles,
     compass: CompassSolving.Settings,
@@ -1032,6 +1035,7 @@ export namespace NeoSolving {
   }
 
   export namespace Settings {
+    import NormalizationFunction = SettingsNormalization.NormalizationFunction;
     export type Puzzles = {
       sliders: SlideGuider.Settings,
       knots: KnotSolving.Settings,
@@ -1149,22 +1153,24 @@ export namespace NeoSolving {
       }
     }
 
-    export const DEFAULT: Settings = {
-      info_panel: InfoPanel.REDUCED,
-      puzzles: Puzzles.DEFAULT,
-      compass: CompassSolving.Settings.DEFAULT,
-      scans: ScanSolving.Settings.DEFAULT
+    export type GeneralSettings = {
+      global_max_zoom_method: number,
+      global_max_zoom_no_method: number
     }
 
-    export function normalize(settings: Settings): Settings {
-      if (!settings) settings = lodash.cloneDeep(DEFAULT)
-
-      settings.info_panel = InfoPanel.normalize(settings.info_panel)
-      settings.puzzles = Puzzles.normalize(settings.puzzles)
-      settings.compass = CompassSolving.Settings.normalize(settings.compass)
-      settings.scans = ScanSolving.Settings.normalize(settings.scans)
-
-      return settings
+    export namespace GeneralSettings {
+      export const normalize: SettingsNormalization.NormalizationFunction<GeneralSettings> = SettingsNormalization.normaliz({
+        global_max_zoom_method: SettingsNormalization.number(20),
+        global_max_zoom_no_method: SettingsNormalization.number(20),
+      })
     }
+
+    export const normalize: NormalizationFunction<Settings> = SettingsNormalization.normaliz<Settings>({
+      general: GeneralSettings.normalize,
+      info_panel: InfoPanel.normalize,
+      puzzles: Puzzles.normalize,
+      compass: CompassSolving.Settings.normalize,
+      scans: ScanSolving.Settings.normalize
+    })
   }
 }

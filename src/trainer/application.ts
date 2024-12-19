@@ -221,7 +221,7 @@ export class SettingsManagement {
   observable_settings: Observable.Simple<Settings.Settings> = observe<Settings.Settings>(null).equality(lodash.isEqual)
 
   observable = {
-    scans: this.observable_settings.map(s => s.solving.scans).structuralEquality()
+    scans: this.observable_settings.map(s => s?.solving?.scans).structuralEquality()
   }
 
   active_teleport_customization: Observable<ActiveTeleportCustomization> = observe(null).equality(lodash.isEqual)
@@ -238,6 +238,7 @@ export class SettingsManagement {
   }
 
   set(settings: Settings.Settings) {
+    debugger
     this.observable_settings.set(settings)
   }
 

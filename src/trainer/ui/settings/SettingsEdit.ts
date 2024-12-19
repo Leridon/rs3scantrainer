@@ -526,10 +526,18 @@ class ScanSettingsEdit extends Widget {
 
     this.layout.section("Scan Tree Zoom Behaviour", "Set up how zoom should behave when using a scan tree.")
 
-    this.layout.setting(new Checkbox("Path to next spot"))
-    this.layout.setting(new Checkbox("Spots within triple pulse range."))
-    this.layout.setting(new Checkbox("Spots within double pulse range."))
-    this.layout.setting(new Checkbox("All possible remaining spots."))
+    this.layout.setting(new Checkbox("Spots within triple pulse range.")
+      .setValue(this.value.zoom_behaviour_include_triples)
+      .onCommit(v => this.value.zoom_behaviour_include_triples = v)
+    )
+    this.layout.setting(new Checkbox("Spots within double pulse range.")
+      .setValue(this.value.zoom_behaviour_include_doubles)
+      .onCommit(v => this.value.zoom_behaviour_include_doubles = v)
+    )
+    this.layout.setting(new Checkbox("Spots within single pulse range.")
+      .setValue(this.value.zoom_behaviour_include_singles)
+      .onCommit(v => this.value.zoom_behaviour_include_singles = v)
+    )
   }
 }
 
@@ -776,7 +784,27 @@ class TowersSettingsEdit extends Widget {
   }
 }
 
-class SolvingSettingsEdit extends Widget {
+class GeneralSolvingSettingsEdit extends Widget {
+  private layout: SettingsLayout
+
+  constructor(private value: NeoSolving.Settings.InfoPanel) {
+    super()
+
+    this.layout = new SettingsLayout().appendTo(this)
+
+    this.render()
+  }
+
+  render() {
+    this.layout.empty()
+
+    this.layout.section("Interface")
+
+    
+  }
+}
+
+class InterfaceSettingsEdit extends Widget {
 
   private layout: SettingsLayout
 
@@ -1344,10 +1372,15 @@ export class SettingsEdit extends Widget {
     new SectionControl<SettingsEdit.section_id>([
       {
         name: "Solving", entries: [{
-          id: "solving_general",
-          name: "Solving",
+          id: "general",
+          name: "General",
           short_name: "General",
-          renderer: () => new SolvingSettingsEdit(this.value.solving.info_panel)
+          renderer: () => new InterfaceSettingsEdit(this.value.solving.info_panel)
+        }, {
+          id: "solving_interface",
+          name: "Interface",
+          short_name: "Interface",
+          renderer: () => new InterfaceSettingsEdit(this.value.solving.info_panel)
         }, {
           id: "sliders",
           name: "Slider Puzzle Solving",

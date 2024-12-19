@@ -144,6 +144,19 @@ export class ScanTreeSolving extends NeoSolvingSubBehaviour {
         .forEach(s => bounds.addTile(s))
     }
 
+    if (this.settings.value().zoom_behaviour_include_doubles) {
+      // Add triple spots
+      node.children.filter(c => c.key.pulse == 2).flatMap(c => c.value.remaining_candidates)
+        .forEach(s => bounds.addTile(s))
+    }
+
+    if (this.settings.value().zoom_behaviour_include_singles) {
+      // Add triple spots
+      node.children.filter(c => c.key.pulse == 1).flatMap(c => c.value.remaining_candidates)
+        .forEach(s => bounds.addTile(s))
+    }
+
+    console.log(bounds.get())
 
     this.parent.layer.fit(bounds.get())
   }
